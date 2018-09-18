@@ -13,8 +13,6 @@ import { SecureComponent } from './secure.component';
 import { EmployersSelectdModule } from "./employers-select2/employers-select2-module";
 import { MonthpickerComponentModule } from "./MonthPicker/monthpicker.component-module";
 
-
-
 @NgModule({
   imports: [
     CommonModule,
