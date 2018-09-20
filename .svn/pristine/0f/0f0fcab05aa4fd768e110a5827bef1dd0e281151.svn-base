@@ -1,7 +1,0 @@
-.account-number {
-  display: inline-block;
-  width: 75px;
-}
-.background3 {
-    color: #acaaac !important;
-  }

@@ -1,3 +1,0 @@
-<p class="h1">עריכת הערה</p>
-<textarea name="comment" placeholder="ערוך הערה" id="comment" [(ngModel)]="remark"></textarea>
-<button type="submit" class="btn btn-default" (click)="submit()">אישור</button>

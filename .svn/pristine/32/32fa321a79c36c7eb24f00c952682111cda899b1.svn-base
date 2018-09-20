@@ -1,3 +1,0 @@
-<p class="h1"> הערה</p>
-<textarea name="comment" id="comment" [ngModel]="Data.Comments" [disabled]="Data.IsDisabled"></textarea>
-

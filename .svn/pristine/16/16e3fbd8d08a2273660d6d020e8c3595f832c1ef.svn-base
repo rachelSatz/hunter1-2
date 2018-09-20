@@ -1,3 +1,0 @@
-<header>
-  <button (click)="openLogin()" class="btn btn-primary">התחברות</button>
-</header>

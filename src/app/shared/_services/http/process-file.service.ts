@@ -42,7 +42,7 @@ export class ProcessFileService extends BaseHttpService {
   }
 
   downloadProcessFile(processID: number): Promise<any> {
-    return this.http.get(this.endPoint + '/' + processID + '/file', this.getBlobOptionstext())
+    return this.http.get(this.endPoint + '/' + processID + '/file', this.getBlobOptions())
       .toPromise()
       .then(response =>
         response as any);

@@ -1,4 +1,0 @@
-<div >
-  <canvas *ngIf="chartDataReady" baseChart [datasets]="chartData" (chartClick)="chartClicked($event)" [labels]="chartLabels" [options]="chartOptions" 
-  [legend]="true" [colors]="chartColors" [chartType]="'bar'"></canvas>
-</div>
