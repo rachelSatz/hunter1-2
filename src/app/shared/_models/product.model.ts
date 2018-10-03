@@ -1,59 +1,16 @@
-import {Manufacturer} from './manufacturer.model';
+import { Company } from './company.model';
 
 
 export class Product {
   id: number;
   name: string;
-  manufacturer: Manufacturer;
-  productType: Type;
-  labels = {
-    types: {
-      Keren_Pensia: 'קרן פנסיה', Kupat_Gemel: 'קופת גמל', Bituah_Menahalim: 'ביטוח מנהלים',
-      Bituah_Briut: 'ביטוח בריאות', Pure_savings_policy: 'פוליסת חיסכון טהור', Pure_risk_policy: 'פוליסת סיכון טהור',
-      UNKNOWN: 'אחר'
-    },
-    subTypes: {
-      Kranot_Hadashot: 'קרנות חדשות',
-      Kranot_Klaliot: 'קרנות כלליות',
-      Kranot_Vatikot: 'קרנות ותיקות',
-      Tagmulim_Lepitzuim: 'תגמולים לפיצוים',
-      Kranot_Hishtalmut: 'קרנות השתלמות',
-      Merkazit_Lepitzuim: 'מרכזית לפיצוים',
-      Other_Porpuse: 'מטרה אחרת',
-      Polisot2004: 'פוליסות שהונפקו משנת 2004 ואילך',
-      Polisot90_91: 'פוליסות שהונפקו בשנים 1992-2003',
-      Polisot92_03: 'פוליסות שהונפקו בשנים 1990-1991n'
-    }
-  };
-
-  constructor()
-  {
-    this.manufacturer = new Manufacturer();
-  }
+  manufacturer: Company;
+  type: string;
 }
 
-
-
-enum Type {
-  Keren_Pensia = 1,
-  Kupat_Gemel = 2,
-  Bituah_Menahalim = 3,
-  Bituah_Briut = 4,
-  Pure_savings_policy = 5,
-  Pure_risk_policy = 6,
-  UNKNOWN = 0,
-}
-
-enum ProductSubType {
-  Kranot_Hadashot = 1,
-  Kranot_Klaliot = 2,
-  Kranot_Vatikot = 3,
-  Tagmulim_Lepitzuim = 4,
-  Kranot_Hishtalmut = 5,
-  Merkazit_Lepitzuim = 6,
-  Other_Porpuse = 7,
-  Polisot2004 = 8,
-  Polisot92_03 = 9,
-  Polisot90_91 = 10,
-  UNKNOWN = 0
+export enum ProductType {
+  pension = 'פנסיה',
+  provident = 'קופת גמל',
+  study = 'קרן השתלמות',
+  executive = 'ביטוח מנהלים'
 }

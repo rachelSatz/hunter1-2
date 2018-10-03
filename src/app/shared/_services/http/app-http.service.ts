@@ -20,14 +20,4 @@ export class AppHttpService extends BaseHttpService {
     .then(response => console.log(response))
     .catch(response => console.log(response));
   }
-
-  upload(file: Blob): Promise<any> {
-    const formData = new FormData;
-    formData.append('file1', file);
-
-    return this.http.post(this.apiUrl + '/login', formData)
-    .toPromise()
-    .then(response => console.log(response))
-    .catch(response => console.log(response));
-  }
 }

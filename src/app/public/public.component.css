@@ -1,4 +1,16 @@
 header {
-  padding: 8px;
-  background: #eee;
+  width: 90%;
+  margin: 0 auto;
+  border-bottom: 2px solid #cecece;
+  border-radius: 8px 8px 0 0;
+}
+
+#content {
+  width: 25%;
+  margin: 50px auto;
+}
+
+::ng-deep form {
+  padding: 20px 14px;
+  box-shadow: #e1e1e1 3px 3px;
 }

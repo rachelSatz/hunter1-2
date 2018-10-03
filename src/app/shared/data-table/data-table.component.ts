@@ -18,7 +18,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	headers: DataTableHeader[] = [];
 
 	items = [];
- 
+
 	paginatedItems: any[];
 	paginationData = new PaginationData();
 	isSearching = false;
@@ -42,19 +42,17 @@ export class DataTableComponent implements OnInit, OnDestroy {
 			sessionStorage.removeItem('saved-item');
 		}
 
-		this.pageSubscription = this.route.queryParams.subscribe((message) => {	
-			  console.log("DataTableComponent-page");
-		  if (this.items.length > 0) {
-			 this.setCurrentPage(+message['page']);
-		  }
-		});
+		// this.pageSubscription = this.route.queryParams.subscribe((message) => {
+		// 	  console.log("DataTableComponent-page");
+		//   if (this.items.length > 0) {
+		// 	 this.setCurrentPage(+message['page']);
+		//   }
+		// });
 
 		this.fetchItems();
 	}
 
 	setItems(items: any[]): void {
-		debugger;
-		
 		this.isSearching = false;
 
 		this.items = items;
@@ -70,7 +68,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	}
 
 	protected setCurrentPage(page?: number): void {
-		
+
 		if (!page) {
 			this.currentPage = (this.route.snapshot.queryParams['page']) ? +this.route.snapshot.queryParams['page'] : 1;
 		} else {
@@ -84,7 +82,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 		this.paginationData.currentPage = this.currentPage;
 
 		const data = this.paginationData;
-		
+
 		this.paginatedItems = this.items ? this.items.slice((data.currentPage - 1) * data.limit, data.currentPage * data.limit) : [];
 
 		this.isPaginated = true;

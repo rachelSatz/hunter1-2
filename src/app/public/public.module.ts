@@ -1,24 +1,35 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { MatDialogModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { RouterModule, Routes } from '@angular/router';
+import { MatFormFieldModule, MatInputModule, MatButtonModule } from '@angular/material';
 
 import { PublicComponent } from './public.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
-import { AppHttpService } from '../shared/_services/http/app-http.service';
-import { CanActivateAuthGuard } from '../shared/_services/auth-guard.service';
+import { AppHttpService } from 'app/shared/_services/http/app-http.service';
+
+import { GuestGuard } from 'app/shared/_guards/guest.guard';
+
+const routes: Routes = [
+  {
+    path: '', component: PublicComponent, canActivate: [GuestGuard], children: [
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent }
+    ]
+  }
+];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
     FormsModule,
-    MatDialogModule, MatFormFieldModule, MatInputModule
+    RouterModule.forChild(routes),
+    MatFormFieldModule, MatInputModule, MatButtonModule
   ],
-  entryComponents: [LoginComponent],
-  declarations: [LoginComponent, PublicComponent],
-  providers: [CanActivateAuthGuard, AppHttpService]
+  declarations: [PublicComponent, LoginComponent, RegisterComponent],
+  providers: [GuestGuard, AppHttpService]
 })
 export class PublicModule {}

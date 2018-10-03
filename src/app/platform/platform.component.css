@@ -1,0 +1,39 @@
+.container-fluid {
+  width: 95%;
+  margin: 0 auto;
+}
+
+header {
+  margin-bottom: 50px;
+  padding-top: 25px;
+  border-bottom: 2px solid #cecece;
+  border-radius: 8px 8px 0 0;
+}
+
+.navbar {
+  padding: 15px 0 0 0;
+}
+
+.nav-item {
+  width: 120px;
+  margin-bottom: -2px;
+  text-align: center;
+  border-bottom: 2px solid transparent;
+}
+
+.active.nav-item {
+  border-color: #00adee;
+}
+
+.menu-link {
+  color: #000;
+}
+
+.active .menu-link {
+  color: #00adee;
+}
+
+.menu-link > figure {
+  height: 63px;
+  margin: 0;
+}

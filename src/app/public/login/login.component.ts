@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialogRef } from '@angular/material';
+import { NgForm } from '@angular/forms';
 
-import { UserSessionService } from '../../shared/_services/user-session.service';
-import { AppHttpService } from '../../shared/_services/http/app-http.service';
+import { AppHttpService } from 'app/shared/_services/http/app-http.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 
 @Component({
   selector: 'app-login',
@@ -11,38 +11,14 @@ import { AppHttpService } from '../../shared/_services/http/app-http.service';
 })
 export class LoginComponent {
 
-  username: string;
-  password: string;
-  loginErrorMsg: string;
-  loginErrors = false;
+  constructor(private router: Router, private appHttp: AppHttpService,
+              private userSession: UserSessionService) {}
 
-  constructor(private router: Router, private dialog: MatDialogRef<LoginComponent>,
-              private userSession: UserSessionService, private appHttp: AppHttpService) {}
-
-  makeLogin(isValid: boolean): void {
-    this.loginErrors = false;
-    if (isValid) {
-      this.appHttp.login(this.username, this.password).then(response => this.handleLogin(response));
+  login(form: NgForm): void {
+    if (form.valid) {
+      this.userSession.login({ username: 'f'} );
+      this.router.navigate(['/platform']);
+      //this.appHttp.login(form.value.username, form.value.password).then(response => response);
     }
-  }
-
- private handleLogin(response: any): void {
-    
-
-
-    try{
-      if (response['access_token']) {
-        console.log("response.access_token",response.access_token);
-      sessionStorage.setItem('userToken',response.access_token);
-      this.dialog.close();
-      this.router.navigate(['/dashboard']);
-      }
-    }
-  catch(Error){
-      this.loginErrors=true;
-      this.loginErrorMsg = "שם משתמש וסיסמא לא נכונים !";
-    }
-   
- 
   }
 }

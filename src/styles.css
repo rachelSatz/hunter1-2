@@ -1,13 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
-
 @font-face {
-  src: url('./assets/fonts/Heebo-Regular.ttf');
-  font-family: Heebo;
-}
-
-@font-face {
-  src: url('./assets/fonts/Heebo-Medium.ttf');
-  font-family: HeeboMedium;
+  src: url('assets/fonts/OpenSansHebrew.ttf');
+  font-family: OpenSans;
 }
 
 html, body {
@@ -20,7 +13,7 @@ body {
 }
 
 * {
-  font-family: Heebo;
+  font-family: OpenSans;
 }
 
 a:focus {
@@ -50,12 +43,7 @@ label {
   margin: 0;
 }
 
-a {
-  color: #0275d8 !important;
-  text-decoration: none;
-}
-
-a:hover{
+a:hover {
   text-decoration: none;
   cursor: pointer;
 }
@@ -92,7 +80,7 @@ a:hover{
 
 .title {
   font-size: 34px;
-  color: #356cb3;
+  color: #00adee;
   text-align: center;
 }
 
@@ -101,7 +89,7 @@ a:hover{
 }
 
 .blue-color {
-  color: #356cb3;
+  color: #00adee;
 }
 
 .yellow-color {
@@ -114,6 +102,12 @@ a:hover{
 
 .light-grey-color {
   color: #c4c4c4;
+}
+
+.blue-btn {
+  width: 300px;
+  background-color: #00adee;
+  color: #fff;
 }
 
 .sub-title-container {
@@ -183,6 +177,11 @@ a:hover{
 
 .link {
   color: #0275d8;
+}
+
+.logo {
+  height: auto;
+  width: 150px;
 }
 
 .icon-lg {
