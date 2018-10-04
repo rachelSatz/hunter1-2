@@ -1,9 +1,57 @@
-<p class="h4">מעקב יתרות לפיצוים</p>
-<div>
-  <!--<bd-select [items]="employees" placeholder="עובד" class="w-25"></bd-select>-->
-  <!--<bd-select [items]="companies" placeholder="חברה מנהלת" class="w-25"></bd-select>-->
-  <!--<bd-select [items]="productTypes" placeholder="סוג מוצר" class="w-25"></bd-select>-->
+<p class="h4 mb-4">מעקב יתרות לפיצוים</p>
+<div class="w-50">
+  <bd-select [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event.id)"></bd-select>
 </div>
-<table>
-  <td>fsdfds</td>
+<div class="d-flex my-3">
+  <bd-select [items]="employees" placeholder="עובד"></bd-select>
+  <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3"></bd-select>
+  <bd-select [items]="productTypes" placeholder="סוג מוצר"></bd-select>
+</div>
+<div class="d-flex justify-content-between mt-4">
+  <button class="btn blue-btn" (click)="openFormDialog()">בקשה חדשה</button>
+  <button class="btn blue-btn">שדר בקשה</button>
+</div>
+<table class="table table-bordered table-hover mt-3 data-table">
+  <thead>
+  <tr class="table-headers">
+    <th *ngIf="items.length > 0">
+      <mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>
+    </th>
+    <th *ngFor="let header of headers" (click)="sort(header)">
+      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
+      <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngIf="!isSearching">
+    <tr *ngFor="let item of paginatedItems; let index = index" class="pointer">
+      <td class="check-column">
+        <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
+      </td>
+      <td>{{ item.createdAt }}</td>
+      <td>{{ item.user }}</td>
+      <td>{{ item.employer }}</td>
+      <td>{{ item.department }}</td>
+      <td>{{ item.employee }}</td>
+      <td>{{ item.personalID }}</td>
+      <td>{{ item.company }}</td>
+      <td>{{ item.productType }}</td>
+      <td>{{ item.sentTo }}</td>
+      <td>{{ item.validityDate }}</td>
+      <td>{{ item.status }}</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </ng-container>
+  <tr *ngIf="!isSearching && items.length === 0">
+    <td colspan="18" class="text-center bold">טבלת הבקשות ריקה.</td>
+  </tr>
+  </tbody>
 </table>
+<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
+

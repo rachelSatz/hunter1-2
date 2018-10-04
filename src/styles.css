@@ -105,9 +105,16 @@ a:hover {
 }
 
 .blue-btn {
-  width: 300px;
   background-color: #00adee;
   color: #fff;
+}
+
+.btn {
+  width: 150px;
+}
+
+.btn-lg {
+  width: 300px;
 }
 
 .sub-title-container {
@@ -209,37 +216,6 @@ a:hover {
   box-shadow: 0 3px 11px 4px #999;
 }
 
-/*--- Select 2 ---*/
-
-.select2-container, select2-selection__rendered {
-  text-align: right;
-}
-
-.select2-container {
-  min-width: 250px !important;
-}
-
-.select2-selection__rendered {
-  color: #949494 !important;
-}
-
-.select2-container--default .select2-selection--single {
-  margin-top: 2px;
-  border: none !important;
-  border-bottom: 1px solid #949494 !important;
-  border-radius: 0 !important;
-  background-color: transparent !important;
-  outline: 0;
-}
-
-.select2-search--dropdown {
-  direction: rtl;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-  left: 0;
-}
-
 /*--- Bootstrap RTL ---*/
 
 .input-group .form-control:not(:last-child) {
@@ -256,7 +232,6 @@ a:hover {
   text-align: right;
 }
 
-
 /*--- Material RTL ---*/
 
 .mat-form-field, .mat-select-panel .mat-optgroup-label, .mat-select-panel .mat-option {
@@ -269,6 +244,16 @@ a:hover {
 
 .mat-dialog-container {
   direction: rtl;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+}
+
+.dialog-header > * {
+  flex-grow: 1;
+  font-weight: bold;
 }
 
 .mat-dialog-title {

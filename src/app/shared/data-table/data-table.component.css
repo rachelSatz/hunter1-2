@@ -32,11 +32,10 @@
 .data-table th {
   vertical-align: middle;
   text-align: center !important;
-}
-
-.headers th {
-  font-weight: bold;
+  background-color: #808080;
+  color: #fff;
   cursor: pointer;
+  font-weight: normal;
 }
 
 .headers th > i {
@@ -71,10 +70,6 @@
   font-size: 14px;
 }
 
-.data-table td .badge {
-    padding: 8px;
-}
-
 .data-table .row-actions {
   width: 150px;
 }
@@ -88,8 +83,4 @@
   cursor: pointer;
   color: #356cb3;
   font-size: 18px;
-}
-
-.data-table ::ng-deep .search-input-container {
-  width: 200px;
 }

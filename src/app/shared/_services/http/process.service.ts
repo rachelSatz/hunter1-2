@@ -10,10 +10,9 @@ import { ProcessDetails } from '../../_models/process-details.model';
 import { ProductPayment } from '../../_models/product-payment.model';
 import { DataTableOrderCriteria } from '../../data-table/classes/data-table-order-criteria';
 import { TransmissionData } from '../../_models/transmission-data.model';
-import { EmployeePayment } from '../../_models/employee-payment.model';
-import { SendFile } from "../../_models/send-file.model";
-import { BankBranch } from "../../_models/bank-branch.model";
-import { Manufacturer } from "../../_models/manufacturer.model";
+import { SendFile } from '../../_models/send-file.model';
+import { BankBranch } from '../../_models/bank-branch.model';
+import { Manufacturer } from '../../_models/manufacturer.model';
 
 @Injectable()
 export class ProcessService extends BaseHttpService {
@@ -25,7 +24,7 @@ export class ProcessService extends BaseHttpService {
   }
 
   getProcess(processID: number): Promise<Process> {
-    
+
     return this.http.get(this.endPoint + '/' + processID, this.getTokenHeader())
       .toPromise()
       .then(response => response as Process);
@@ -182,7 +181,7 @@ debugger;
   }
 
   postTransition(payment: any, checklist?: any,Singature?:string): Promise<any> {
-  
+
     let monthsPaysIds;
     if(checklist==null){
      monthsPaysIds=[];

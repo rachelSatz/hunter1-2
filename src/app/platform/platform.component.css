@@ -16,7 +16,7 @@ header {
 
 .nav-item {
   width: 120px;
-  margin-bottom: -2px;
+  margin-bottom: -6px;
   text-align: center;
   border-bottom: 2px solid transparent;
 }
@@ -36,4 +36,8 @@ header {
 .menu-link > figure {
   height: 63px;
   margin: 0;
+}
+
+.menu-link > figure > img {
+  width: 40%;
 }

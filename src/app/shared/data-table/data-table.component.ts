@@ -10,8 +10,7 @@ declare let swal: any;
 
 @Component({
 	selector: 'app-data-table',
-	template: '',
-	styleUrls: ['./data-table.component.css']
+	template: ''
 })
 export class DataTableComponent implements OnInit, OnDestroy {
 

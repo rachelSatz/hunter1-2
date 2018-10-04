@@ -1,6 +1,5 @@
 import { Company } from './company.model';
 
-
 export class Product {
   id: number;
   name: string;

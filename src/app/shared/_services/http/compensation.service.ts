@@ -10,7 +10,7 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 @Injectable()
 export class CompensationService extends BaseHttpService {
 
-  readonly endPoint = this.apiUrl + '/compensation';
+  readonly endPoint = this.apiUrl + '/compensations';
 
   constructor(userSession: UserSessionService, private http: HttpClient) {
     super(userSession);
