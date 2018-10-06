@@ -22,4 +22,11 @@ export class CompensationService extends BaseHttpService {
     .then(response => response as Compensation[])
     .catch(() => []);
   }
+
+  newCompensation(values: Object): Promise<boolean> {
+    return this.http.post(this.endPoint, values, this.getTokenHeader())
+      .toPromise()
+      .then(response => true)
+      .catch(() => false);
+  }
 }

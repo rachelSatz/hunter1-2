@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
+import { NotificationService } from '../_services/notification.service';
+
 import { DataTableHeader } from './classes/data-table-header';
 import { DataTableOrderCriteria } from './classes/data-table-order-criteria';
 import { PaginationData } from './classes/pagination-data';
-
-declare let swal: any;
 
 @Component({
 	selector: 'app-data-table',
@@ -33,20 +33,13 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	isCheckAll: boolean;
 	checkedItems: any[] = [];
 
-	constructor(protected route: ActivatedRoute) {}
+	constructor(protected route: ActivatedRoute, protected notificationService?: NotificationService) {}
 
 	ngOnInit() {
 		if (sessionStorage.getItem('saved-item')) {
 			this.savedItem = sessionStorage.getItem('saved-item');
 			sessionStorage.removeItem('saved-item');
 		}
-
-		// this.pageSubscription = this.route.queryParams.subscribe((message) => {
-		// 	  console.log("DataTableComponent-page");
-		//   if (this.items.length > 0) {
-		// 	 this.setCurrentPage(+message['page']);
-		//   }
-		// });
 
 		this.fetchItems();
 	}
@@ -110,32 +103,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
 		this.paginateItems();
 	}
 
-	confirmDelete(): Promise<boolean> {
-		return swal({
-			title: 'מחיקה',
-			text: 'האם אתה בטוח?',
-			type: 'warning',
-			showCancelButton: true,
-			confirmButtonText: 'אישור',
-			cancelButtonText: 'ביטול'
-		}).then((result) => result);
-	}
-
-	showDeleteSuccess(): void {
-		swal({
-			title: '',
-			text: 'המחיקה בוצעה בהצלחה',
-			type: 'success',
-			confirmButtonText: 'אישור'
-		});
-	}
-
-	setNewItem(item: any): void {
-		debugger;
-		this.items.unshift(item);
-		this.paginateItems();
-	}
-
 	checkAll(isChecked: boolean): void {
 		if (isChecked) {
 			this.checkedItems = Object.assign([], this.paginatedItems);
@@ -160,12 +127,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	}
 
 	setNoneCheckedWarning(): void {
-		swal({
-			title: 'לא נבחרו רשומות',
-			text: 'יש לסמן רשומות מהטבלה',
-			type: 'warning',
-			confirmButtonText: 'המשך'
-		});
+	  this.notificationService.error('לא נבחרו רשומות', 'יש לסמן רשומות מהטבלה');
 	}
 
 	getHeaderIconClass(): 'fa fa-chevron-down' | 'fa fa-chevron-up' {
