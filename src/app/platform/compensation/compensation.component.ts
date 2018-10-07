@@ -135,7 +135,7 @@ export class CompensationComponent extends DataTableComponent implements OnInit,
   openInquiriesDialog(compensationID: number): void {
     this.dialog.open(InquiriesComponent, {
       data: compensationID,
-      width: '500px'
+      width: '800px'
     });
   }
 

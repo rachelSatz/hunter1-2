@@ -267,6 +267,12 @@ a:hover {
   font-weight: bold;
 }
 
+.dialog-table th {
+  font-size: 14px;
+  color: #666;
+  border: none;
+}
+
 .mat-dialog-title {
   border-bottom: 1px solid #ccc;
 }
