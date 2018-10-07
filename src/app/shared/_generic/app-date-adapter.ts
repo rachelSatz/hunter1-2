@@ -15,7 +15,7 @@ export class AppDateAdapter extends NativeDateAdapter {
 
 		const year = date.getFullYear();
 
-		return day + '/' + month + '/' + year;
+    return day + '/' + month + '/' + year;
 	}
 
 	createDate(year: number, month: number, date: number): Date {
@@ -24,6 +24,6 @@ export class AppDateAdapter extends NativeDateAdapter {
 		dateObj.setUTCMonth(month);
 		dateObj.setUTCDate(date);
 
-		return dateObj;
+    return dateObj;
 	}
 }

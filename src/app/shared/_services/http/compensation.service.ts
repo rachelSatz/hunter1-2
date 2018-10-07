@@ -16,17 +16,49 @@ export class CompensationService extends BaseHttpService {
     super(userSession);
   }
 
-  getCompensations(): Promise<Compensation[]> {
-    return this.http.get(this.endPoint)
+  getCompensations(searchCriteria?: Object): Promise<Compensation[]> {
+    const request = this.getTokenHeader();
+
+    if (searchCriteria) {
+      request['params'] = searchCriteria;
+    }
+
+    return this.http.get(this.endPoint, request)
     .toPromise()
     .then(response => response as Compensation[])
     .catch(() => []);
   }
 
-  newCompensation(values: Object): Promise<boolean> {
-    return this.http.post(this.endPoint, values, this.getTokenHeader())
-      .toPromise()
-      .then(response => true)
-      .catch(() => false);
+  newCompensation(compensation: Compensation): Promise<boolean> {
+    return this.http.post(this.endPoint, compensation, this.getTokenHeader())
+    .toPromise()
+    .then(() => true)
+    .catch(() => false);
+  }
+
+  updateCompensation(compensation: Compensation): Promise<boolean> {
+    const values = {
+      projected_balance: compensation.projected_balance,
+      reported_balance: compensation.reported_balance
+    };
+
+    return this.http.put(this.endPoint + '/' + compensation.id, values, this.getTokenHeader())
+    .toPromise()
+    .then(() => true)
+    .catch(() => false);
+  }
+
+  updateComments(compensation_id: number, comments: string): Promise<boolean> {
+    return this.http.put(this.endPoint + '/' + compensation_id + '/comments', { comments: comments }, this.getTokenHeader())
+    .toPromise()
+    .then(() => true)
+    .catch(() => false);
+  }
+
+  getInquiries(compensationID: number): Promise<Object[]> {
+    return this.http.get(this.endPoint + '/' + compensationID + '/inquiries', this.getTokenHeader())
+    .toPromise()
+    .then(response => response as Object[])
+    .catch(() => []);
   }
 }

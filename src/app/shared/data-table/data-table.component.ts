@@ -17,12 +17,14 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	headers: DataTableHeader[] = [];
 
 	items = [];
-
 	paginatedItems: any[];
+
 	paginationData = new PaginationData();
-	isSearching = false;
-	isPaginated = false;
-	searchCriteria ={};
+
+	isSearching: boolean;
+	isPaginated: boolean;
+
+	searchCriteria = {};
 	orderCriteria = new DataTableOrderCriteria();
 
 	savedItem: string;
@@ -89,6 +91,15 @@ export class DataTableComponent implements OnInit, OnDestroy {
 		this.isSearching = true;
 		setTimeout(() => this.fetchItems(), 1000);
 	}
+
+  resetSearch(): void {
+	  this.searchCriteria = {};
+	  this.search();
+  }
+
+  isSearchActive(): boolean {
+	  return Object.keys(this.searchCriteria).length > 0;
+  }
 
 	sort(column: string): void {
 		this.orderCriteria.orderBy = column;

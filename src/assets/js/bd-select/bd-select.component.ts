@@ -17,7 +17,7 @@ import { isArray } from 'rxjs/util/isArray';
 	templateUrl: './bd-select.component.html',
 	styleUrls: ['./bd-select.component.css'],
 	animations: [
-		trigger('slideToggle', [
+		trigger('BDslideToggle', [
 			state('inactive', style({
 				display: 'none',
 				height: '0',
@@ -144,8 +144,8 @@ export class BdSelectComponent implements ControlValueAccessor {
 			}
 		}
 
-		this.propagateChange(this.selectedItem);
-		this.onSelect.emit(this.selectedItem);
+		this.propagateChange(this.selectedItem.id);
+		this.onSelect.emit(this.selectedItem.id);
 	}
 
 	openDropdown(): void {

@@ -1,0 +1,20 @@
+<div class="dialog-header">
+  <i class="fa fa-close"></i>
+  <span>פרטי הפניות</span>
+</div>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>תאריך</th>
+      <th>נמענים</th>
+      <th>תוכן</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let inquiry of inquiries">
+      <td>{{ inquiry.reminder_date | date: 'h:i:s dd/MM/YY' }}</td>
+      <td>{{ inquiry.receivers }}</td>
+      <td>{{ inquiry.content }}</td>
+    </tr>
+  </tbody>
+</table>

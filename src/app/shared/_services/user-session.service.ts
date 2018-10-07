@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class UserSessionService {
@@ -10,7 +10,7 @@ export class UserSessionService {
     return !!sessionStorage.getItem('user');
   }
 
-  login(user?: string): void {
+  login(user?: Object): void {
     sessionStorage.setItem('user', JSON.stringify(user));
     this.loginStatus.next(true);
   }

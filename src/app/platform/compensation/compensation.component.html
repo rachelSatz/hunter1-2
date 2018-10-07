@@ -1,11 +1,19 @@
 <p class="h4 mb-4">מעקב יתרות לפיצוים</p>
 <div class="w-50">
-  <bd-select [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event.id)"></bd-select>
+  <bd-select [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event)"></bd-select>
 </div>
 <div class="d-flex my-3">
-  <bd-select [items]="employees" placeholder="עובד"></bd-select>
-  <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3"></bd-select>
-  <bd-select [items]="productTypes" placeholder="סוג מוצר"></bd-select>
+  <bd-select [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
+  <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
+  <button class="btn blue-btn" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
+</div>
+<div [@slideToggle]="extraSearchCriteria" class="d-flex mb-3">
+  <bd-select [items]="selectStatuses" placeholder="סטטוס" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" class="ml-3"></bd-select>
+  <bd-select [items]="sourceTypes" placeholder="מקור המידע" [(ngModel)]="searchCriteria['source_type']" (onSelect)="search()" class="ml-3"></bd-select>
+  <bd-select [items]="users" placeholder="יוצר בקשה" [(ngModel)]="searchCriteria['username']" (onSelect)="search()"></bd-select>
+</div>
+<div (click)="toggleExtraSearch()">
+  <span class="bold blue-color pointer">{{ extraSearchCriteria === 'active' ? 'הצג פחות >' : 'חיפוש מורחב >' }}</span>
 </div>
 <div class="d-flex justify-content-between mt-4">
   <button class="btn blue-btn" (click)="openFormDialog()">בקשה חדשה</button>
@@ -29,23 +37,36 @@
       <td class="check-column">
         <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
       </td>
-      <td>{{ item.createdAt }}</td>
-      <td>{{ item.user }}</td>
-      <td>{{ item.employer }}</td>
-      <td>{{ item.department }}</td>
-      <td>{{ item.employee }}</td>
-      <td>{{ item.personalID }}</td>
-      <td>{{ item.company }}</td>
-      <td>{{ item.productType }}</td>
-      <td>{{ item.sentTo }}</td>
-      <td>{{ item.validityDate }}</td>
-      <td>{{ item.status }}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>{{ item.created_at | date: 'dd/MM/yy' }}</td>
+      <td>{{ item.username }}</td>
+      <td>{{ item.employer_name }}</td>
+      <td>{{ item.department_name }}</td>
+      <td>{{ item.employee_name }}</td>
+      <td>{{ item.personal_id }}</td>
+      <td>{{ item.company_name }}</td>
+      <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
+      <td>{{ item.sent_to ? item.sent_to : '-----' }}</td>
+      <td>{{ getStatus(item.status) }}</td>
+      <td>
+        <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
+      </td>
+      <td>
+        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
+      </td>
+      <td>
+        <span *ngIf="item.status !== 'V'">טרם</span>
+        <img src="/assets/img/icons/download.png" *ngIf="item.status === 'V'">
+      </td>
+      <td>
+        <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
+      </td>
+      <td>
+        <span class="grey-circle" (click)="openInquiriesDialog(item.id)">{{ item.inquiry_count }}</span>
+      </td>
+      <td>
+        <span *ngIf="item.status === 'O' || item.status === 'S'">טרם</span>
+        <img [src]="getValidityImage(item)" class="row-image" *ngIf="item.status === 'V' || item.status === 'E'">
+      </td>
     </tr>
   </ng-container>
   <tr *ngIf="!isSearching && items.length === 0">

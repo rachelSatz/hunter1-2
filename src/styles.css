@@ -97,7 +97,7 @@ a:hover {
 }
 
 .grey-color {
-  color: #a4a4a3;
+  color: #b3b3b3;
 }
 
 .light-grey-color {
@@ -135,19 +135,19 @@ a:hover {
 }
 
 .file-label {
-  display: flex;
-  border: 1px solid #e1dde1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  padding: 8px 4px;
+  border: 1px solid #b3b3b3;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .file-label-text {
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  padding-right: 8px;
-}
-
-.file-label-button {
-  color: #fff;
+  margin-right: 8px;
+  direction: ltr;
 }
 
 .table-action-button {
@@ -232,6 +232,17 @@ a:hover {
   text-align: right;
 }
 
+.grey-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background-color: #b3b3b3;
+  border-radius: 50%;
+  color: #fff;
+}
+
 /*--- Material RTL ---*/
 
 .mat-form-field, .mat-select-panel .mat-optgroup-label, .mat-select-panel .mat-option {
@@ -279,6 +290,10 @@ a:hover {
 .mat-slide-toggle-content, .mat-checkbox-layout .mat-checkbox-label {
   margin-right: 8px;
   font-size: 16px;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background: #00adee !important;
 }
 
 @media (min-width: 992px) {

@@ -16,9 +16,8 @@ export class LoginComponent {
 
   login(form: NgForm): void {
     if (form.valid) {
-      this.userSession.login({ username: 'f'} );
+      this.userSession.login({ username: 'f', token: 'aaa' });
       this.router.navigate(['/platform']);
-      //this.appHttp.login(form.value.username, form.value.password).then(response => response);
     }
   }
 }

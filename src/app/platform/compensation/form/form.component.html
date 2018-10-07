@@ -3,33 +3,42 @@
   <span>בקשה חדשה</span>
 </div>
 <form #form="ngForm">
-  <div class="mt-3">
+  <div class="mt-5">
     <bd-select [items]="data.departments" placeholder="בחר מחלקה" (onSelect)="loadEmployees($event.id)"></bd-select>
   </div>
-  <div class="d-flex mt-3">
-    <bd-select [items]="employees" placeholder="בחר עובד" class="ml-3" name="employee"></bd-select>
-    <bd-select [items]="data.companies" placeholder="חברה מנהלת" name="company"></bd-select>
+  <div class="d-flex mt-4">
+    <div class="ml-3">
+      <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted && employeesModel.errors ? 'active' : 'inactive'">יש לבחור עובד.</p>
+    </div>
+    <div>
+      <bd-select [items]="data.companies" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel" ngModel required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted && companyModel.errors ? 'active' : 'inactive'">יש לבחור חברה מנהלת.</p>
+    </div>
   </div>
   <mat-form-field class="w-50 my-3">
-    <input matInput class="pointer" (click)="datePicker.open()" [matDatepicker]="datePicker" placeholder="תאריך נכונות" name="validityDate" readonly>
+    <input matInput class="pointer" (click)="datePicker.open()" [matDatepicker]="datePicker" placeholder="תאריך נכונות*" name="validity_date" ngModel readonly>
     <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
     <mat-datepicker #datePicker></mat-datepicker>
+    <mat-error>שדה חובה.</mat-error>
   </mat-form-field>
   <div class="d-flex">
     <mat-form-field class="w-50 ml-3">
-      <input type="email" matInput placeholder="מייל לשליחה" name="sendEmail">
+      <input type="email" matInput placeholder="מייל לשליחה" name="send_email" ngModel>
     </mat-form-field>
     <mat-form-field class="w-50">
-      <input type="number" matInput placeholder="יתרה צפויה" name="projectedBalance">
+      <input type="number" matInput placeholder="יתרה צפויה" name="projected_balance" ngModel required>
+      <mat-error>שדה חובה.</mat-error>
     </mat-form-field>
   </div>
   <mat-form-field class="w-100">
-    <input type="text" matInput placeholder="הערות" name="comments">
+    <textarea matInput placeholder="הערות" name="comments" ngModel></textarea>
   </mat-form-field>
   <div class="mb-3">
-    <mat-checkbox name="hasDepositReport">כלול דו"ח הפקדות</mat-checkbox>
+    <mat-checkbox name="has_deposit_report" ngModel>כלול דו"ח הפקדות</mat-checkbox>
   </div>
 </form>
+<p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
 <div mat-dialog-actions class="justify-content-center">
   <button class="btn blue-btn" (click)="submit(form)">שמור</button>
 </div>
