@@ -2,8 +2,9 @@ import { Company } from './company.model';
 
 export class Product {
   id: number;
+  company: Company;
   name: string;
-  manufacturer: Company;
+  code: number;
   type: string;
 }
 

@@ -14,9 +14,11 @@ import { InquiriesComponent } from './inquiries/inquiries.component';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { CompensationStatus, CompensationSourceTypes } from 'app/shared/_models/compensation.model';
+import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_models/compensation.model';
+import { ProductType } from 'app/shared/_models/product.model';
 
 @Component({
   selector: 'app-compensation',
@@ -48,13 +50,19 @@ export class CompensationComponent extends DataTableComponent implements OnInit,
 
   extraSearchCriteria = 'inactive';
 
+  productTypes = ProductType;
+  selectProductTypes = Object.keys(ProductType).map(function(e) {
+    return { id: e, name: ProductType[e] };
+  });
+
   statuses = CompensationStatus;
   selectStatuses = Object.keys(CompensationStatus).map(function(e) {
     return { id: e, name: CompensationStatus[e] };
   });
 
-  sourceTypes = Object.keys(CompensationSourceTypes).map(function(e) {
-    return { id: e, name: CompensationSourceTypes[e] };
+  sendingMethods = CompensationSendingMethods;
+  selectSendingMethods = Object.keys(CompensationSendingMethods).map(function(e) {
+    return { id: e, name: CompensationSendingMethods[e] };
   });
 
   employees = [];
@@ -66,17 +74,18 @@ export class CompensationComponent extends DataTableComponent implements OnInit,
     { column: 'created_at', label: 'תאריך יצירת בקשה' }, { column: 'username', label: 'יוצר הבקשה' },
     { column: 'employer_name', label: 'מעסיק' }, { column: 'department_name', label: 'מחלקה' },
     { column: 'employee_name', label: 'עובד' }, { column: 'personal_id', label: 'ת"ז' },
-    { column: 'company_name', label: 'חברה מנהלת' }, { column: 'validity_date', label: 'תאריך נכונות' },
-    { column: 'sent_to', label: 'מקור המידע' }, { column: 'status', label: 'סטטוס' },
-    { column: null, label: 'העבר לטיפול' }, { column: null, label: 'הערות' },
-    { column: null, label: 'הורדה' }, { column: null, label: 'פרטים' },
-    { column: null, label: 'פניות' }, { column: 'validity_status', label: 'תקינות' }
+    { column: 'company_name', label: 'חברה מנהלת' }, { column: 'product_type', label: 'סוג מוצר' },
+    { column: 'validity_date', label: 'תאריך נכונות' }, { column: 'sent_to', label: 'מקור המידע' },
+    { column: 'status', label: 'סטטוס' }, { column: null, label: 'העבר לטיפול' },
+    { column: null, label: 'הערות' }, { column: null, label: 'הורדה' },
+    { column: null, label: 'פרטים' }, { column: null, label: 'פניות' },
+    { column: 'validity_status', label: 'תקינות' }
   ];
 
   constructor(protected route: ActivatedRoute, private compensationService: CompensationService,
               private dialog: MatDialog, private departmentService: DepartmentService,
-              private productService: ProductService) {
-    super(route);
+              private productService: ProductService, protected notificationService: NotificationService) {
+    super(route, notificationService);
   }
 
   ngOnInit() {
@@ -91,6 +100,19 @@ export class CompensationComponent extends DataTableComponent implements OnInit,
 
   loadEmployees(departmentID: number): void {
     this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
+  }
+
+  sendCompensations(): void {
+    if (this.checkedItems.length === 0) {
+      this.setNoneCheckedWarning();
+      return;
+    }
+
+    this.compensationService.sendCompensations(this.checkedItems.map(item => item.id)).then(response => {
+      if (response) {
+        this.notificationService.success('הבקשות נשלחו בהצלחה.');
+      }
+    });
   }
 
   openFormDialog(): void {
@@ -132,15 +154,15 @@ export class CompensationComponent extends DataTableComponent implements OnInit,
     });
   }
 
-  openInquiriesDialog(compensationID: number): void {
+  openInquiriesDialog(compensation: Object): void {
+    if (compensation['inquiry_count'] === 0) {
+      return;
+    }
+
     this.dialog.open(InquiriesComponent, {
-      data: compensationID,
+      data: compensation['id'],
       width: '800px'
     });
-  }
-
-  getStatus(status: string): string {
-    return this.statuses[status] ? this.statuses[status] : 'פתוח';
   }
 
   getValidityImage(item: Object): string {

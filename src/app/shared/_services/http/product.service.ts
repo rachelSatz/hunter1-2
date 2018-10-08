@@ -6,6 +6,7 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Company } from 'app/shared/_models/company.model';
+import { Product } from 'app/shared/_models/product.model';
 
 @Injectable()
 export class ProductService extends BaseHttpService {
@@ -20,6 +21,13 @@ export class ProductService extends BaseHttpService {
     return this.http.get(this.endPoint + '/companies')
     .toPromise()
     .then(response => response as Company[])
+    .catch(() => []);
+  }
+
+  getProductTypesByCompany(companyID: number): Promise<string[]> {
+    return this.http.get(this.endPoint + '/companyTypes/' + companyID)
+    .toPromise()
+    .then(response => response as string[])
     .catch(() => []);
   }
 }

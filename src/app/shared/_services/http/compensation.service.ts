@@ -48,6 +48,13 @@ export class CompensationService extends BaseHttpService {
     .catch(() => false);
   }
 
+  sendCompensations(compensation_ids: number[]): Promise<boolean> {
+    return this.http.post(this.endPoint + '/send', { compensation_ids: compensation_ids }, this.getTokenHeader())
+    .toPromise()
+    .then(() => true)
+    .catch(() => false);
+  }
+
   updateComments(compensation_id: number, comments: string): Promise<boolean> {
     return this.http.put(this.endPoint + '/' + compensation_id + '/comments', { comments: comments }, this.getTokenHeader())
     .toPromise()

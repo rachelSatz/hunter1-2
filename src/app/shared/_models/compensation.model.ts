@@ -8,13 +8,13 @@ export class Compensation {
 }
 
 export enum CompensationStatus {
-  'V' = 'תקין',
-  'E' = 'שגוי',
-  'O' = 'פתוח',
-  'S' = 'נשלח'
+  'valid' = 'תקין',
+  'invalid' = 'שגוי',
+  'open' = 'פתוח',
+  'sent' = 'נשלח'
 }
 
-export enum CompensationSourceTypes {
-  'M' = 'ידני',
-  'A' = 'אוטומטי'
+export enum CompensationSendingMethods {
+  'email' = 'מייל',
+  'safebox' = 'כספת'
 }

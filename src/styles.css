@@ -277,6 +277,14 @@ a:hover {
   border-bottom: 1px solid #ccc;
 }
 
+button[mat-dialog-close] {
+  background: #fff;
+  border: none;
+  outline: 0;
+  cursor: pointer;
+  text-align: right;
+}
+
 .mat-dialog-actions {
   border-top: 1px solid #ccc;
 }

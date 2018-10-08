@@ -17,7 +17,7 @@
 </div>
 <div class="d-flex justify-content-between mt-4">
   <button class="btn blue-btn" (click)="openFormDialog()">בקשה חדשה</button>
-  <button class="btn blue-btn">שדר בקשה</button>
+  <button class="btn blue-btn" (click)="sendCompensations()">שדר בקשה</button>
 </div>
 <table class="table table-bordered table-hover mt-3 data-table">
   <thead>
@@ -44,9 +44,10 @@
       <td>{{ item.employee_name }}</td>
       <td>{{ item.personal_id }}</td>
       <td>{{ item.company_name }}</td>
+      <td>{{ productTypes[item.product_type] }}</td>
       <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
-      <td>{{ item.sent_to ? item.sent_to : '-----' }}</td>
-      <td>{{ getStatus(item.status) }}</td>
+      <td>{{ sendingMethods[item.sending_method] }}</td>
+      <td>{{ statuses[item.status] }}</td>
       <td>
         <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
       </td>
@@ -61,7 +62,7 @@
         <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
       </td>
       <td>
-        <span class="grey-circle" (click)="openInquiriesDialog(item.id)">{{ item.inquiry_count }}</span>
+        <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiry_count }}</span>
       </td>
       <td>
         <span *ngIf="item.status === 'O' || item.status === 'S'">טרם</span>
@@ -70,7 +71,7 @@
     </tr>
   </ng-container>
   <tr *ngIf="!isSearching && items.length === 0">
-    <td colspan="18" class="text-center bold">טבלת הבקשות ריקה.</td>
+    <td colspan="19" class="text-center bold">טבלת הבקשות ריקה.</td>
   </tr>
   </tbody>
 </table>

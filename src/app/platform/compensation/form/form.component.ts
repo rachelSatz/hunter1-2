@@ -5,6 +5,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
+import { ProductService } from 'app/shared/_services/http/product.service';
+
+import { ProductType } from 'app/shared/_models/product.model';
 
 @Component({
   selector: 'app-form',
@@ -27,13 +30,29 @@ import { CompensationService } from 'app/shared/_services/http/compensation.serv
 export class FormComponent {
 
   employees = [];
+  productTypes = [];
+  productTypeLabels = ProductType;
+
   hasServerError: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<FormComponent>,
-              private departmentService: DepartmentService, private compensationService: CompensationService) {}
+              private departmentService: DepartmentService, private compensationService: CompensationService,
+              private productService: ProductService) {}
 
   loadEmployees(departmentID: number): void {
     this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
+  }
+
+  loadProducts(companyID: number): void {
+    this.productTypes = [];
+
+    this.productService.getProductTypesByCompany(companyID).then(types => {
+      for (const i in types) {
+        if (types[i] !== 'study') {
+          this.productTypes.push({ id: types[i], name: this.productTypeLabels[types[i]] });
+        }
+      }
+    });
   }
 
   submit(form: NgForm): void {
