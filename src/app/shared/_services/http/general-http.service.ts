@@ -10,7 +10,7 @@ import { BankBranch } from '../../_models/bank-branch.model';
 import { Manufacturer } from '../../_models/manufacturer.model';
 import { Product } from '../../_models/product.model';
 import { Application } from "../../_models/Application.model";
-import { Agent } from "../../_models/Agent.model";
+import { Agent } from "../../_models/agent.model";
 
 @Injectable()
 export class GeneralHttpService extends BaseHttpService {
@@ -101,7 +101,7 @@ getApplication(Applicationid:number,employee?:Boolean): Promise<Application> {
     .then(response => response as {Key: string, Value: number}[]);
   }
 
-  
+
   getFilesByEmployer(employerId: Number): Promise<any> {
     return this.http.get(this.apiUrl + '/employer/' + employerId + '/folders', this.getTokenHeader())
     .toPromise()

@@ -15,26 +15,25 @@ export class PlatformComponent implements OnInit {
   readonly menuLinks = [
     { url: 'dashboard', label: 'דף הבית' },
     { url: 'compensations', label: 'יתרות לפיצויים' },
-    // { url: 'process', label: 'תהליכים', subMenuLinks: [
-    //   { url: 'new', label: 'צור תהליך חדש' },
-    //   { url: 'table', label: 'תהליכים' }
-    // ]},
-    // { url: 'feedback', label: 'היזונים חוזרים', subMenuLinks: [
-    //   { url: 'graph', label: 'גרף' },
-    //   { url: 'table/employees', label: 'טבלת עובדים'},
-    //   { url: 'table/files', label: 'טבלת קבצים'}
-    // ]},
-    // { url: 'rejected', label: 'מעקב שגויים', subMenuLinks: [
-    //   { url: 'employees', label: 'לפי עובד' },
-    //   { url: 'files', label: 'לפי קובץ'},
-    // ]},
-    // { url: 'settings', label: 'הגדרות', subMenuLinks: [
-    //   { url: 'employees', label: 'עובדים' },
-    //   { url: 'employers', label: 'מעסיקים'},
-    //   { url: 'agents', label: 'סוכנים'},
-    //   { url: 'contacts', label: 'אנשי קשר'},
-    //
-    // ]},
+    { url: 'process', label: 'תהליכים', subMenuLinks: [
+      { url: 'new', label: 'צור תהליך חדש' },
+      { url: 'table', label: 'תהליכים' }
+    ]},
+    { url: 'feedback', label: 'היזונים חוזרים', subMenuLinks: [
+      { url: 'graph', label: 'גרף' },
+      { url: 'table/employees', label: 'טבלת עובדים' },
+      { url: 'table/files', label: 'טבלת קבצים' }
+    ]},
+    { url: 'rejected', label: 'מעקב שגויים', subMenuLinks: [
+      { url: 'employees', label: 'לפי עובד' },
+      { url: 'files', label: 'לפי קובץ' }
+    ]},
+    { url: 'settings', label: 'הגדרות', subMenuLinks: [
+      { url: 'employees', label: 'עובדים' },
+      { url: 'employers', label: 'מעסיקים' },
+      { url: 'agents', label: 'סוכנים' },
+      { url: 'contacts', label: 'אנשי קשר' }
+    ]},
   ];
 
   constructor(private router: Router, private userSession: UserSessionService) {}
@@ -55,6 +54,12 @@ export class PlatformComponent implements OnInit {
     } else {
       this.activeUrl = url.substr(10);
     }
+  }
+
+  getImage(link: Object): string {
+    const image = link['image'] ? link['image'] : link['url'];
+    const color = link['url'] === this.activeUrl ? 'blue' : 'gray';
+    return '/assets/img/menu/' + image + '-' + color + '.svg';
   }
 
   logout(): void {

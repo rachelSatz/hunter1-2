@@ -1,19 +1,16 @@
 export class Contact {
   id: number;
-  entityTypeId: number;
-  nameEntity: string;
-  entityType: EntityTypes;
-  firstName: string;
-  lastName: string;
+  entity_name: string;
+  type: EntityTypes;
+  first_name: string;
+  last_name: string;
   phone: string;
   mobile: string;
   email: string;
   role: string;
-  selectOption:number[];
 }
 
 export enum EntityTypes {
-  Employer = 0,
-  Agent = 1,
-  Manufacturer = 3
+  agent = 'סוכן',
+  company = 'חברה מנהלת'
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 
@@ -8,7 +9,21 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 
 @Component({
   selector: 'app-send-to',
-  templateUrl: './send-to.component.html'
+  templateUrl: './send-to.component.html',
+  animations: [
+    trigger('fade', [
+      state('inactive', style({
+        display: 'none',
+        opacity: '0',
+      })),
+      state('active', style({
+        display: '*',
+        opacity: '1',
+      })),
+      transition('active => inactive', animate('200ms')),
+      transition('inactive => active', animate('200ms'))
+    ])
+  ]
 })
 export class SendToComponent implements OnInit {
 

@@ -1,0 +1,41 @@
+<form #form="ngForm" (ngSubmit)="submit(form)" class="col-12 col-lg-6 p-0">
+  <p class="h4 mb-4">{{ contact.id ? (contact.first_name + ' ' + contact.last_name) : 'איש קשר חדש' }}</p>
+  <div class="row">
+    <div class="col-12 col-lg-4">
+      <bd-select class="w-100" [items]="entityTypes" name="type" #typeSelect="ngModel" [(ngModel)]="contact.type" (onSelect)="loadEntities($event)" placeholder="סוג גורם" required></bd-select>
+      <p class="alert alert-danger" [@fade]="typeSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+    </div>
+    <div class="col-12 col-lg-4">
+      <bd-select class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel" [(ngModel)]="contact.entity_id" placeholder="שם גורם" required></bd-select>
+      <p class="alert alert-danger" [@fade]="entityIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <mat-form-field class="col-12 col-lg-4">
+      <input matInput placeholder="שם פרטי" name="first_name" [ngModel]="contact.first_name" required>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-12 col-lg-4">
+      <input matInput placeholder="שם משפחה" name="last_name" [ngModel]="contact.last_name" required>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-12 col-lg-4">
+      <input matInput placeholder="תפקיד" name="role" [ngModel]="contact.role">
+    </mat-form-field>
+  </div>
+  <div class="row my-3">
+    <mat-form-field class="col-12 col-lg-4">
+      <input matInput placeholder="טלפון" name="phone" [ngModel]="contact.phone">
+    </mat-form-field>
+    <mat-form-field class="col-12 col-lg-4">
+      <input matInput placeholder="נייד" name="mobile" [ngModel]="contact.mobile">
+    </mat-form-field>
+    <mat-form-field class="col-12 col-lg-4">
+      <input matInput placeholder="כתובת מייל" name="email" [ngModel]="contact.email">
+    </mat-form-field>
+  </div>
+  <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
+  <div>
+    <button class="btn blue-btn" type="submit">שלח</button>
+  </div>
+</form>

@@ -11,7 +11,8 @@ const routes: Routes = [
   {
     path: '', component: PlatformComponent, canActivate: [IsAuthenticatedGuard], children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'compensations', loadChildren: 'app/platform/compensation/compensation.module#CompensationModule' }
+      { path: 'compensations', loadChildren: 'app/platform/compensation/compensation.module#CompensationModule' },
+      { path: 'settings/contacts', loadChildren: 'app/platform/settings/contacts/contacts.module#ContactsModule' }
     ]
   }
 ];

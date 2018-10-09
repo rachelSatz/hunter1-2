@@ -8,14 +8,26 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav">
-            <li class="nav-item" *ngFor="let link of menuLinks" [ngClass]="{ 'active': link.url === activeUrl }">
-              <a class="menu-link" [routerLink]="['/platform', link.url]">
+            <ng-container *ngFor="let link of menuLinks">
+              <li class="nav-item" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="!link.subMenuLinks">
+                <a class="menu-link" [routerLink]="['/platform', link.url]">
+                  <figure>
+                    <img [src]="getImage(link)" [attr.alt]="link.label">
+                  </figure>
+                  <p>{{ link.label }}</p>
+                </a>
+              </li>
+              <li [matMenuTriggerFor]="subMenu" class="nav-item pointer" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="link.subMenuLinks">
                 <figure>
-                  <img [src]="'/assets/img/menu/' + link.url + '.png'" [attr.alt]="link.label">
+                  <img [src]="getImage(link)" [attr.alt]="link.label">
                 </figure>
-                <p>{{ link.label }}</p>
-              </a>
-            </li>
+                <span>{{ link.label }}</span>
+                <mat-menu #subMenu yPosition="above" [overlapTrigger]="false">
+                  <button mat-menu-item class="dropdown-item" *ngFor="let subLink of link.subMenuLinks"
+                          [routerLink]="'/platform/' + link.url + '/' + subLink.url" >{{ subLink.label }}</button>
+                </mat-menu>
+              </li>
+            </ng-container>
           </ul>
         </div>
         <a class="navbar-brand" (click)="logout()">

@@ -33,11 +33,11 @@ header {
   color: #00adee;
 }
 
-.menu-link > figure {
+.navbar-nav figure {
   height: 63px;
   margin: 0;
 }
 
-.menu-link > figure > img {
+.navbar-nav img {
   width: 40%;
 }
