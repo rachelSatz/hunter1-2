@@ -44,6 +44,7 @@ export class ContactFormComponent implements OnInit {
 
   ngOnInit() {
     this.contact = this.route.snapshot.data.contact;
+    this.loadEntities(this.contact.type);
   }
 
   loadEntities(type: string): void {

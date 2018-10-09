@@ -1,12 +1,12 @@
 import {
-	Component,
-	ElementRef,
-	EventEmitter,
-	HostBinding,
-	HostListener,
-	Input,
-	Output,
-	ViewChild
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Input, OnChanges,
+  Output,
+  ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -36,7 +36,7 @@ import { isArray } from 'rxjs/util/isArray';
 		{ provide: NG_VALUE_ACCESSOR, useExisting: BdSelectComponent, multi: true }
 	]
 })
-export class BdSelectComponent implements ControlValueAccessor {
+export class BdSelectComponent implements ControlValueAccessor, OnChanges {
 
 	@Input() multiple = false;
 	@Input() value = 'id';
@@ -173,6 +173,13 @@ export class BdSelectComponent implements ControlValueAccessor {
 		return isSelected;
 	}
 
+	ngOnChanges() {
+    console.log(this.items.length + ':' + this.selectedItem)
+    if (this.selectedItem && this.selectedItem !== 'object') {
+      this.setSelectedItemObject(this.selectedItem);
+    }
+  }
+
 	getLabel(item: string): string {
 		if (!isArray(this.label)) {
 			return item[this.label];
@@ -186,16 +193,30 @@ export class BdSelectComponent implements ControlValueAccessor {
 		return labels.slice(0, -3);
 	}
 
-	writeValue(item: Object | Object[]): void {
-		this.selectedItem = item;
+  private setSelectedItemObject(value: any): boolean {
+	  return this.items.some(item => {
+      if (value.toString() === item[this.value].toString()) {
+        this.selectedItem = item;
+        return true;
+      }
+    });
+  }
+
+	writeValue(value: any): void {
+    if (value && value !== 'object') {
+      if (!this.setSelectedItemObject(value)) {
+        this.selectedItem = value;
+      }
+    } else {
+      this.selectedItem = value;
+    }
 	}
 
 	registerOnChange(fn: any) {
 		this.propagateChange = fn;
-	}
+  }
 
 	registerOnTouched(fn: any): void {
-
 	}
 
 	setDisabledState(isDisabled: boolean): void {
