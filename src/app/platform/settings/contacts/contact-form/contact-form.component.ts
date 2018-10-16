@@ -43,8 +43,13 @@ export class ContactFormComponent implements OnInit {
               private productService: ProductService) {}
 
   ngOnInit() {
-    this.contact = this.route.snapshot.data.contact;
-    this.loadEntities(this.contact.type);
+    if (this.route.snapshot.data.contact) {
+      this.contact = this.route.snapshot.data.contact;
+    }
+
+    if (this.contact.id) {
+      this.loadEntities(this.contact.type);
+    }
   }
 
   loadEntities(type: string): void {
@@ -62,7 +67,7 @@ export class ContactFormComponent implements OnInit {
 
     if (form.valid) {
       if (this.contact.id) {
-        this.contactService.updateContact(form.value).then(response => this.handleResponse(response));
+        this.contactService.updateContact(form.value, this.contact.id).then(response => this.handleResponse(response));
       } else {
         this.contactService.newContact(form.value).then(response => this.handleResponse(response));
       }

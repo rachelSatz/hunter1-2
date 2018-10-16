@@ -6,6 +6,7 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
+import { EntityTypes } from 'app/shared/_models/contact.model';
 
 @Component({
   selector: 'app-contacts',
@@ -13,6 +14,8 @@ import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header
   styleUrls: ['../../../shared/data-table/data-table.component.css']
 })
 export class ContactsComponent extends DataTableComponent {
+
+  types = EntityTypes;
 
   readonly headers: DataTableHeader[] =  [
     { column: 'entity_name', label: 'שם גורם' }, { column: 'type', label: 'סוג גורם' },

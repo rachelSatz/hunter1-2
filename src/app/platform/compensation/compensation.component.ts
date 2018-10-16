@@ -40,6 +40,18 @@ import { ProductType } from 'app/shared/_models/product.model';
       })),
       transition('active => inactive', animate('200ms')),
       transition('inactive => active', animate('200ms'))
+    ]),
+    trigger('placeholder', [
+      state('inactive', style({
+        fontSize: '*',
+        top: '*'
+      })),
+      state('active', style({
+        fontSize: '10px',
+        top: '-10px'
+      })),
+      transition('active => inactive', animate('300ms ease-in')),
+      transition('inactive => active', animate('300ms ease-in'))
     ])
   ]
 })

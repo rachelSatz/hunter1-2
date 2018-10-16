@@ -1,19 +1,19 @@
-<div id="placeholder" (click)="openDropdown()">
-	<span *ngIf="!selectedItem || (!multiple && !getLabel(selectedItem))">{{ placeholder }}</span>
-	<div id="multiplePlaceholder" *ngIf="selectedItem && multiple">
-		<span *ngFor="let item of selectedItem; let last = last">{{ last ? getLabel(item) : getLabel(item) + ',' }}</span>
-	</div>
-	<span *ngIf="selectedItem && getLabel(selectedItem) && !multiple">{{ getLabel(selectedItem) }}</span>
-	<i class="fa fa-chevron-down"></i>
+<div id="selectedItem" (click)="openDropdown()">
+  <span id="placeholder" [@placeholder]="selectedItem ? 'active' : 'inactive'">{{ placeholder }}</span>
+  <div id="multipleSelectedItems" *ngIf="selectedItem && multiple">
+    <span *ngFor="let item of selectedItem; let last = last">{{ last ? getLabel(item) : getLabel(item) + ',' }}</span>
+  </div>
+  <span *ngIf="selectedItem && getLabel(selectedItem) && !multiple">{{ getLabel(selectedItem) }}</span>
+  <i class="fa fa-chevron-down"></i>
 </div>
-<div id="dropdown" [@BDslideToggle]="isSelectOpened ? 'active' : 'inactive'">
-	<div id="filterInput">
-		<input (keyup)="filter()" [placeholder]="searchPlaceholder" [(ngModel)]="filterValue" class="w-100" #filterValueEle>
-		<i class="fa fa-search"></i>
-	</div>
-	<ul id="options">
-		<li *ngFor="let item of items" [value]="item[value]" class="option selectable" [ngClass]="{ 'selected': checkIsSelected(item) }"
-		 (click)="selectOption(item)">{{ getLabel(item) }}</li>
-		<li *ngIf="items && items.length === 0" class="option">לא נמצאו תוצאות.</li>
-	</ul>
+<div id="dropdown" [@slideToggle]="isSelectOpened ? 'active' : 'inactive'">
+  <div id="filterInput">
+    <input (keyup)="filter()" [placeholder]="searchPlaceholder" [(ngModel)]="filterValue" class="w-100" #filterValueEle>
+    <i class="fa fa-search"></i>
+  </div>
+  <ul id="options">
+    <li *ngFor="let item of items" [value]="item[value]" class="option selectable" [ngClass]="{ 'selected': checkIsSelected(item) }"
+        (click)="selectOption(item)">{{ getLabel(item) }}</li>
+    <li *ngIf="items && items.length === 0" class="option">לא נמצאו תוצאות.</li>
+  </ul>
 </div>

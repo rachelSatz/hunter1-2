@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 
 import { UserSessionService } from './shared/_services/user-session.service';
+import { HelpersService } from './shared/_services/helpers.service';
 
 const routes = [
   { path: '', loadChildren: 'app/public/public.module#PublicModule' },
@@ -20,7 +21,7 @@ const routes = [
     HttpClientModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserSessionService],
+  providers: [UserSessionService, HelpersService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
