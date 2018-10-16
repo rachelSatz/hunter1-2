@@ -1,76 +1,88 @@
 :host {
-	display: inline-block;
-	position: relative;
-	width: 300px;
+  display: block;
+  position: relative;
+  min-width: 200px;
 }
 
-#placeholder {
-	height: 35px;
-	width: 100%;
-	border: 1px solid rgba(0, 0, 0, .15);
+#selectedItem {
+  position: relative;
+  height: 35px;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, .15);
 }
 
-#placeholder > * {
-	margin: 0 5px;
-	line-height: 1;
+#selectedItem > * {
+  margin: 0 5px;
+  line-height: 1;
 }
 
-#multiplePlaceholder {
-	height: 30px;
-	overflow: hidden;
+#selectedItem > span, #selectedItem > div {
+  position: absolute;
+  right: 0;
 }
 
-#multiplePlaceholder > span {
-	display: inline-flex;
-	align-items: center;
-	height: 100%;
-	margin-left: 3px;
+#selectedItem > i {
+  position: absolute;
+  left: 0;
+  font-size: 12px;
 }
 
-#placeholder, #filterInput {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	cursor: pointer;
+#multipleSelectedItems {
+  height: 30px;
+  overflow: hidden;
+}
+
+#multipleSelectedItems > span {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  margin-left: 3px;
+}
+
+#selectedItem, #filterInput {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
 }
 
 #dropdown {
-	position: absolute;
-	top: 37px;
-	width: 100%;
-	border: 1px solid rgba(0, 0, 0, .15);
-	border-top: none;
-	background-color: #fff;
-	z-index: 999999999;
+  position: absolute;
+  top: 37px;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-top: none;
+  background-color: #fff;
+  z-index: 999999999;
 }
 
 #filterInput > input {
-	padding: 8px 4px;
-	flex-grow: 1;
-	border: none;
-	outline: none;
-	font-size: 18px;
+  padding: 8px 4px;
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  font-size: 18px;
 }
 
 #filterInput > i {
-	margin-left: 6px;
+  margin-left: 6px;
 }
 
 #options {
-	max-height: 280px;
-	overflow: auto;
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
+  max-height: 280px;
+  overflow: auto;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 .option {
-	padding: 8px;
-	font-size: 16px;
-	cursor: pointer;
+  padding: 8px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .option.selectable:hover, .option.selectable.selected {
-	background-color: #5897fb;
-	color: #fff;
+  background-color: #5897fb;
+  color: #fff;
 }

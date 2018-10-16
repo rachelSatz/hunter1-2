@@ -43,8 +43,8 @@ export class ContactService extends BaseHttpService {
     .catch(() => false);
   }
 
-  updateContact(contact: Contact): Promise<boolean> {
-    return this.http.put(this.endPoint + '/' + contact.id, contact, this.getTokenHeader())
+  updateContact(contact: Contact, contactID: number): Promise<boolean> {
+    return this.http.put(this.endPoint + '/' + contactID, contact, this.getTokenHeader())
     .toPromise()
     .then(() => true)
     .catch(() => false);
