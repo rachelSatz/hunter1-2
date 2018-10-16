@@ -111,6 +111,8 @@ export class CompensationComponent extends DataTableComponent implements OnInit,
     this.compensationService.sendCompensations(this.checkedItems.map(item => item.id)).then(response => {
       if (response) {
         this.notificationService.success('הבקשות נשלחו בהצלחה.');
+        this.checkedItems = [];
+        this.isCheckAll = false;
       }
     });
   }

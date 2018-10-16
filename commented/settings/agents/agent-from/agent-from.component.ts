@@ -24,7 +24,6 @@ export class AgentFromComponent implements OnInit, OnDestroy{
   ngOnInit() {
     
      this.paramSubscription = this.route.params.subscribe(message => {
-       debugger;
       if (message['id']) {
           this.agentIdUpdateMode = +message['id'];
           this.generalHttp.getAgent(+message['id']).then(response => {
@@ -38,7 +37,6 @@ export class AgentFromComponent implements OnInit, OnDestroy{
      });
   }
   submit(isValid: boolean): void {
-debugger;
     if (isValid) {
       if ( this.agentIdUpdateMode === -1) {
       this.isSubmitting = true;

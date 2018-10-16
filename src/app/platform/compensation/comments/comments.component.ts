@@ -34,7 +34,7 @@ export class CommentsComponent {
   submit(): void {
     this.hasServerError = false;
 
-    this.compensationService.updateComments(this.compensation.id, this.compensation.comments).then(response => {
+    this.compensationService.newComment(this.compensation.id, this.compensation.comments).then(response => {
       if (response) {
         this.dialogRef.close(this.compensation.comments);
       } else {

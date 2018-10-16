@@ -76,7 +76,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
  
     console.log('date', this.date);
-    debugger;
     this.employers = this.route.snapshot.data['employers'];
     this.GetemployerID();
     
@@ -100,7 +99,6 @@ export class DashboardComponent implements OnInit {
           }
   }
   fetchData(): void {
-    debugger;
     this.searchCriteria['employerId'] = this.selectedEmployer.id;
     this.searchCriteria['month'] = this.date.value.month() + 1;
     this.searchCriteria['year'] = this.date.value.year();
@@ -163,8 +161,6 @@ export class DashboardComponent implements OnInit {
 
   }
   setEmployer(employer: Employer): void {
-
-     debugger;
     this.selectedEmployer = employer;
     this.fetchData();
     console.log('setEmployer', employer.id);

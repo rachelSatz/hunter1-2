@@ -52,7 +52,6 @@ export class ContactsComponent extends DataTableComponent implements OnInit {
   return "";
  }
   openFormDialog(item?: Contact): void {
-    debugger;
     const contact = item ? item : new Contact;
 
     const dialogRef = this.dialog.open(ContactFormComponent, {
@@ -75,7 +74,6 @@ export class ContactsComponent extends DataTableComponent implements OnInit {
   }
 
   setEntityType(): void {
-    debugger;
     switch (this.searchCriteria['entityType']) {
       case 0:
         this.employerService.getEmployers().then(response => this.typeEntities = response);

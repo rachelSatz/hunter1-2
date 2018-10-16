@@ -47,8 +47,7 @@ export class FeedbackService extends BaseHttpService {
     .then(response => response as FileFeedback[]);
   }
   storeComment(fileFeedback: FileFeedback, remark: string): Promise<any[]>  {
-    debugger;
- const formData = new FormData;
+  const formData = new FormData;
     formData.append('feedback', JSON.stringify(fileFeedback));
     formData.append('remark', JSON.stringify(remark));
     const options = this.getTokenHeader();

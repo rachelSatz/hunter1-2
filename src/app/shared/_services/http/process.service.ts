@@ -166,7 +166,6 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]>{
 
 
   storeComment(payment: any, remark: string): Promise<any[]> {
-debugger;
     const body = {
       processId: payment.process.id,
       remarkManualId: payment.file.id,

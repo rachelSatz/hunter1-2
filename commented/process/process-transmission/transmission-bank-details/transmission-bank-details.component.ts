@@ -33,7 +33,6 @@ export class TransmissionBankDetailsComponent implements OnInit {
   ngOnInit() {
     let getSend = sessionStorage.getItem('Send'+ this.payment.process.id);
     console.log("getSendTransmissionBankDetailsComponent", getSend);
-   debugger;
     if (getSend && getSend == "true") {
       this.Send = true;
     }
@@ -131,7 +130,6 @@ export class TransmissionBankDetailsComponent implements OnInit {
   }
   selectionClickBankNumber(): void {
  
-    debugger;
     this.processService.postBankBranchNumbers(this.payment, this.bankNumber, this.checkboxValue)
       .then(response => this.bankBranchNumbers = this.getParseInt(response));
   }

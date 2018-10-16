@@ -45,7 +45,6 @@ export class FormComponent {
 
   loadProducts(companyID: number): void {
     this.productTypes = [];
-
     this.productService.getProductTypesByCompany(companyID).then(types => {
       for (const i in types) {
         if (types[i] !== 'study') {

@@ -6,6 +6,7 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Contact } from 'app/shared/_models/contact.model';
+import {Compensation} from '../../_models/compensation.model';
 
 @Injectable()
 export class ContactService extends BaseHttpService {
@@ -48,5 +49,12 @@ export class ContactService extends BaseHttpService {
     .toPromise()
     .then(() => true)
     .catch(() => false);
+  }
+
+  getEmployerContact(compensation: Compensation): Promise<string[]> {
+    return this.http.post(this.endPoint + '/employerContacts/', { company_id: compensation.company_id, employer_id: compensation.employer_id} , this.getTokenHeader())
+      .toPromise()
+      .then(response => response as string[])
+      .catch(() => []);
   }
 }

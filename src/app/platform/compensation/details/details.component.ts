@@ -29,24 +29,19 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 })
 export class DetailsComponent {
 
+  uploadedFile: File;
+
   hasServerError: boolean;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation, private dialog: MatDialog,
+  constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation,
               private dialogRef: MatDialogRef<DetailsComponent>, private compensationService: CompensationService) {}
 
 
-  openAddFileDialog(): void {
-    this.dialogRef.close();
-    this.dialog.open(AddFileComponent, {
-      width: '600px'
-    });
-  }
-
   submit(form: NgForm): void {
     if (form.valid) {
-      this.hasServerError = false;
 
-      this.compensationService.updateCompensation(this.compensation).then(response => {
+      this.hasServerError = false;
+      this.compensationService.updateCompensation(this.compensation, this.uploadedFile).then(response => {
         if (response) {
           this.dialogRef.close(this.compensation);
         } else {

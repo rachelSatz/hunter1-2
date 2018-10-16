@@ -18,7 +18,7 @@ export class DepartmentService extends BaseHttpService {
   }
 
   getDepartments(): Promise<Department[]> {
-    return this.http.get(this.endPoint)
+    return this.http.get(this.endPoint,this.getTokenHeader())
       .toPromise()
       .then(response => response as Department[])
       .catch(() => []);

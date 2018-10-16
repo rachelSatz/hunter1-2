@@ -173,7 +173,6 @@ export class ProcessUploadComponent implements OnInit, OnDestroy {
   }
  
 GetFileFromDrop(event){
-  debugger;
     console.log(event);
     this.files = event.files;
     if (this.files == null || this.files.length === 0) {
@@ -193,7 +192,6 @@ GetFileFromDrop(event){
 
   
   setFile(file: File) {
-    debugger;
     if (this.paymentsFile) {
       return;
     }

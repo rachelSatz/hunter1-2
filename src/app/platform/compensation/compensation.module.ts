@@ -21,6 +21,7 @@ import { CompensationService } from 'app/shared/_services/http/compensation.serv
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import {ContactService} from '../../shared/_services/http/contact.service';
 
 const routes: Routes = [
   { path: '', component: CompensationComponent }
@@ -46,7 +47,7 @@ const routes: Routes = [
     SendToComponent,
     InquiriesComponent
   ],
-  providers: [CompensationService, DepartmentService, ProductService, NotificationService],
+  providers: [CompensationService, DepartmentService, ProductService, NotificationService, ContactService],
   entryComponents: [
     FormComponent,
     CommentsComponent,

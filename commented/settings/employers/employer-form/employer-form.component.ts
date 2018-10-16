@@ -85,7 +85,6 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   }
 
   submit(isValid: boolean): void {
-  debugger;
     if (isValid) {
       if ( this.employerIdUpdateMode === -1) {
       this.isSubmitting = true;

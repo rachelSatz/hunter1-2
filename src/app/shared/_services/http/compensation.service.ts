@@ -6,6 +6,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Compensation } from 'app/shared/_models/compensation.model';
+import {UploadFile} from 'ngx-file-drop';
+
 
 @Injectable()
 export class CompensationService extends BaseHttpService {
@@ -36,13 +38,20 @@ export class CompensationService extends BaseHttpService {
     .catch(() => false);
   }
 
-  updateCompensation(compensation: Compensation): Promise<boolean> {
+  updateCompensation(compensation: Compensation, uploadedFile?: File): Promise<boolean> {
     const values = {
       projected_balance: compensation.projected_balance,
       reported_balance: compensation.reported_balance
     };
 
-    return this.http.put(this.endPoint + '/' + compensation.id, values, this.getTokenHeader())
+    const formData = new FormData();
+    formData.append('values', JSON.stringify(values));
+
+    if (uploadedFile) {
+      formData.append('file', uploadedFile);
+    }
+
+    return this.http.post(this.endPoint + '/update/' + compensation.id, formData, this.getTokenHeader())
     .toPromise()
     .then(() => true)
     .catch(() => false);
@@ -55,8 +64,8 @@ export class CompensationService extends BaseHttpService {
     .catch(() => false);
   }
 
-  updateComments(compensation_id: number, comments: string): Promise<boolean> {
-    return this.http.put(this.endPoint + '/' + compensation_id + '/comments', { comments: comments }, this.getTokenHeader())
+  newComment(compensation_id: number, content: string): Promise<boolean> {
+    return this.http.post(this.endPoint + '/' + compensation_id + '/comment', { content: content }, this.getTokenHeader())
     .toPromise()
     .then(() => true)
     .catch(() => false);

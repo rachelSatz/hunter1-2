@@ -25,7 +25,6 @@ export class ContactFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
     if (this.contact.id>0) {
       this.setEntityType();
       console.log("entityID",this.contact.entityTypeId);
@@ -47,7 +46,6 @@ export class ContactFormComponent implements OnInit {
   }
 
   submit(isValid: boolean): void {
-debugger;
     if (isValid) {
       this.isSubmitting = true;
       this.contact.selectOption = this.selectedContactIds;
@@ -75,13 +73,11 @@ GetOptions(entityType:number){
 }
    
 getSelectedOptionText(Identity: string) :void{
-  debugger;
-    this.contact.nameEntity= this.typeEntities.filter(n=> n.id === Identity)[0].name;                          
+    this.contact.nameEntity= this.typeEntities.filter(n=> n.id === Identity)[0].name;
 }
 
   setEntityType(): void {
     console.log("setEntityType",this.contact.entityType);
-    debugger;
     this.myOptions = this.GetOptions(this.contact.entityType);
     switch (this.contact.entityType) {
       case 0:

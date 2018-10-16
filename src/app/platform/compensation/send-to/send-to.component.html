@@ -6,7 +6,7 @@
 </div>
 <form #form="ngForm" class="py-4">
   <div>
-    <bd-select [items]="contacts" placeholder="בחר אנשי קשר" name="contacts" ngModel  multiple></bd-select>
+    <bd-select [items]="contacts" placeholder="בחר אנשי קשר" name="contacts" ngModel (click)="loadContacts($event)" multiple></bd-select>
   </div>
   <mat-form-field class="w-50">
     <input type="text" matInput placeholder="הוסף כתובת מייל" name="email" ngModel>
