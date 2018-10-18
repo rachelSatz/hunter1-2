@@ -95,8 +95,6 @@ export class ProcessUploadComponent implements OnInit, OnDestroy {
     this.employersselect2 = this.setSelect2Data(this.employers, 'בחר מעסיק')
 
     if (year && employer && month && Neg) {
-      console.log("employer", employer);
-
       this.process.year = +year;
       this.process.month = +month;
       this.Neg = Neg;
@@ -241,8 +239,6 @@ GetFileFromDrop(event){
       this.paymentDialogSubscription = dialog.afterClosed().subscribe((message) => {
 
         this.spin = true;
-        console.log("this.spin", this.spin);
-        console.log("message", message);
         this.process.pay = message;
         this.isPaymentTransferred = message;
         this.processFileService.uploadFile(this.process, this.paymentsFile).then(response => {
@@ -291,10 +287,6 @@ GetFileFromDrop(event){
       }, 10000);
     });
     const url = (this.process.pay || this.process.NegativeProcess || this.process.NegativeProcess) ? 'transmission' : 'payment';
-
-    console.log("url", url);
-    console.log("this.process.NegativeProcess", this.process.NegativeProcess);
-    console.log("this.process.id", this.process.id);
     checkStatus.then(() => this.router.navigate(['..', this.process.id, url], { relativeTo: this.route }));
 
 

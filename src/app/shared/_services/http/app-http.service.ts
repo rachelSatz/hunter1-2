@@ -12,7 +12,6 @@ export class AppHttpService extends BaseHttpService {
   }
 
   login(username: string, password: string): Promise<any> {
-
     const data = { username: username, password: password };
 
     return this.http.post(this.apiUrl + '/login', data)

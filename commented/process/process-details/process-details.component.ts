@@ -30,8 +30,7 @@ export class ProcessDetailsComponent implements OnInit {
     });
   }
   public clickOpenBankAccountEmployerDialog(){
-
-       const payDetails: { process: Process, EmployerBankAccount: BankBranch } = { process: this.process , EmployerBankAccount: this.Employerbank };
+    const payDetails: { process: Process, EmployerBankAccount: BankBranch } = { process: this.process , EmployerBankAccount: this.Employerbank };
     const dialog = this.dialog.open(BankAccountEmployerComponent, {
 
       width: '1000px',
