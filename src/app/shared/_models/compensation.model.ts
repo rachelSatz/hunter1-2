@@ -5,8 +5,8 @@ export class Compensation {
   comments: string;
   closed_at: string;
   created_at: string;
-  // company_id: string;
-  // employer_id: string;
+  company_id: string;
+  employer_id: string;
 }
 
 export enum CompensationStatus {
