@@ -21,7 +21,7 @@ import { CompensationService } from 'app/shared/_services/http/compensation.serv
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import {ContactService} from '../../shared/_services/http/contact.service';
+import { ContactService } from 'app/shared/_services/http/contact.service';
 
 const routes: Routes = [
   { path: '', component: CompensationComponent }
