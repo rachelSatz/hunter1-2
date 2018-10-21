@@ -7,6 +7,7 @@ export class Compensation {
   created_at: string;
   company_id: string;
   employer_id: string;
+  portal_balance: number;
 }
 
 export enum CompensationStatus {

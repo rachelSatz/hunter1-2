@@ -15,7 +15,7 @@ export class EmployerService extends BaseHttpService {
     super(userSession);
   }
  
-  readonly endPoint = this.apiUrl + '/employer';
+  readonly endPoint = this.apiUrl + '/employers';
 
   getEmployer(id: number): Promise<Employer> {
     return this.http.get(this.endPoint + '/' + id, this.getTokenHeader())
