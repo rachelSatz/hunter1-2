@@ -5,6 +5,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Employer } from '../../_models/employer.model';
+import {Company} from '../../_models/company.model';
+import { Bank } from 'app/shared/_models/bank.model';
 
 @Injectable()
 export class EmployerService extends BaseHttpService {
@@ -44,5 +46,19 @@ export class EmployerService extends BaseHttpService {
     return this.http.delete(this.endPoint, this.getTokenHeader())
     .toPromise()
     .then(response => response as { responseCode: number });
+  }
+
+  getBanks(): Promise<Bank[]> {
+    return this.http.get(this.endPoint + '/banks')
+      .toPromise()
+      .then(response => response as Bank[])
+      .catch(() => []);
+  }
+
+  getBankBranches(bankID: number): Promise<string[]> {
+    return this.http.get(this.endPoint + '/bankBranches/' + bankID)
+      .toPromise()
+      .then(response => response as string[])
+      .catch(() => []);
   }
 }
