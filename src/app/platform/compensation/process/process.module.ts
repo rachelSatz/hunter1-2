@@ -21,9 +21,9 @@ import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_mode
 import { ProductType } from 'app/shared/_models/product.model';
 
 @Component({
-  selector: 'app-compensation',
-  templateUrl: './compensation.component.html',
-  styleUrls: ['../../shared/data-table/data-table.component.css'],
+  selector: 'app-process',
+  templateUrl: './process.component.html',
+  styleUrls: ['../../../shared/data-table/data-table.component.css'],
   animations: [
     trigger('slideToggle', [
       state('inactive', style({
@@ -55,7 +55,7 @@ import { ProductType } from 'app/shared/_models/product.model';
     ])
   ]
 })
-export class CompensationComponent extends DataTableComponent implements OnInit, OnDestroy {
+export class ProcessModule extends DataTableComponent implements OnInit, OnDestroy {
 
   formSubscription: Subscription;
   commentsSubscription: Subscription;
