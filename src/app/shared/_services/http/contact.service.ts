@@ -51,11 +51,12 @@ export class ContactService extends BaseHttpService {
     .catch(() => false);
   }
 
+
   getEmployerContact(compensation: Compensation): Promise<string[]> {
     return this.http.post(this.endPoint + '/employerContacts/', { company_id: compensation.company_id,
       employer_id: compensation.employer_id} , this.getTokenHeader())
       .toPromise()
-      .then(response => response as string[])
+      .then(response => response as any)
       .catch(() => []);
   }
 }

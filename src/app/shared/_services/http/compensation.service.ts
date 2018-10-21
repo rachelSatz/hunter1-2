@@ -77,4 +77,12 @@ export class CompensationService extends BaseHttpService {
     .then(response => response as Object[])
     .catch(() => []);
   }
+
+  newInquiry(compensation_id: number, content: string, emails_list: string[], contact_list: number[]): Promise<boolean> {
+    return this.http.post(this.endPoint + '/' + compensation_id + '/newInquiry',
+      { content: content, emails_list: emails_list, contact_list: contact_list }, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
 }
