@@ -31,28 +31,25 @@ export class LoginComponent {
   isSubmitting: boolean;
 
   constructor(private router: Router, private appHttp: AppHttpService,
-              private userSession: UserSessionService, private helpers: HelpersService) {
-    this.helpers.setPageSpinner(true);
-
-  }
+              private userSession: UserSessionService, private helpers: HelpersService) {}
 
   login(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      this.helpers.setPageSpinner(true);
-      this.isSubmitting = true;
+      // this.helpers.setPageSpinner(true);
+      // this.isSubmitting = true;
 
-      this.appHttp.login(form.value.username, form.value.password).then(response => {
-        if (response) {
-          this.userSession.login({ username: form.value.username, token: response.token });
+      // this.appHttp.login(form.value.username, form.value.password).then(response => {
+      //   if (response) {
+          this.userSession.login({ username: form.value.username, token: 'k,kkk' });
           this.router.navigate(['/platform']);
-        } else {
-          this.hasServerError = true;
-        }
-
-        this.helpers.setPageSpinner(false);
-        this.isSubmitting = false;
-      });
+        // } else {
+        //   this.hasServerError = true;
+        // }
+        //
+        // this.helpers.setPageSpinner(false);
+        // this.isSubmitting = false;
+      // });
     }
   }
 }

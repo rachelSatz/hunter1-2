@@ -3,9 +3,9 @@ import { BankBranch } from './bank-branch.model';
 export class Employer {
   id: number;
   name: string;
-  businessNumber: string;
-  instituteCode5: string; // קוד מוסד - 5
-  instituteCode8: string; // קוד מוסד - 8
+  business_number: string;
+  institution_code_5: string; // instituteCode5: string; // קוד מוסד - 5
+  institution_code_8: string; // instituteCode8: string; // קוד מוסד - 8
   deductionNumber: string; // מספר תיק ניכויים
   email: string; // דוא"ל אישי
   phone: string;
@@ -26,3 +26,4 @@ export class Employer {
     this.bankBranch = new BankBranch;
   }
 }
+

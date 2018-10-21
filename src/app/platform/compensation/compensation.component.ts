@@ -164,7 +164,7 @@ export class CompensationComponent extends DataTableComponent implements OnInit,
   openDetailsDialog(item: Object): void {
     this.dialog.open(DetailsComponent, {
       data: item,
-      width: '500px'
+      width: '600px'
     });
   }
 
