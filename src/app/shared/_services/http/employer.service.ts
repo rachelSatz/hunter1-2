@@ -36,9 +36,15 @@ export class EmployerService extends BaseHttpService {
     .toPromise()
     .then(response => response as Employer);
   }
+  saveNewEmployer(employer: Employer): Promise<boolean> {
+    return this.http.post(this.endPoint, employer, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
 
   updateEmployer(employer: Employer, id: number): Promise<boolean> {
-    return this.http.put(this.endPoint  + '/' + id, employer, this.getTokenHeader())
+    return this.http.post(this.endPoint  + '/update/' + id, employer, this.getTokenHeader())
     .toPromise()
     .then(response => response as boolean);
   }

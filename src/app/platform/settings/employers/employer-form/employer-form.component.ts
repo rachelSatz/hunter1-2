@@ -28,26 +28,24 @@ import {NgForm} from '@angular/forms';
   ]
 })
 export class EmployerFormComponent implements OnInit {
+  hasServerError: boolean;
 
-  isSubmitting: boolean;
-  isSuccessful: boolean;
-
-  employerIdUpdateMode = -1;
   employer = new Employer();
-  typeSentOptions: {Key: string , Value: number}[];
 
   bankBranches = [];
-  bankBranchSelected = '-1';
-
+  bankSelected = -1;
   banks = [];
-  bankSelected = '-1';
 
   constructor(private route: ActivatedRoute, private router: Router, private employerService: EmployerService) {}
 
   ngOnInit() {
-    // if (this.route.snapshot.data.employer) {
-    //   this.employer = this.route.snapshot.data.employer;
-    // }
+    if (this.route.snapshot.data.employer) {
+      this.employer = this.route.snapshot.data.employer;
+      // if (this.employer.bankBranch.bank.id !== 0) {
+      //   this.bankSelected =  this.employer.bankBranch.bank.id;
+      //   this.loadBankBranches(this.employer.bankBranch.bank);
+      //   }
+      }
     this.loadBanks();
   }
   loadBanks(): void {
@@ -71,17 +69,24 @@ export class EmployerFormComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
-    // this.hasServerError = false;
-    //
-    // if (form.valid) {
-    //   if (this.employer.id) {
-    //     this.employerService.updateContact(form.value, this.contact.id).then(response => this.handleResponse(response));
-    //   } else {
-    //     this.employerService.newContact(form.value).then(response => this.handleResponse(response));
-    //   }
-    // }
+    this.hasServerError = false;
+
+    if (form.valid) {
+      if (this.employer.id) {
+        this.employerService.updateEmployer(form.value, this.employer.id).then(response => this.handleResponse(response));
+      } else {
+        this.employerService.saveNewEmployer(form.value).then(response => this.handleResponse(response));
+      }
+    }
   }
 
+  private handleResponse(isSaved: boolean): void {
+    if (isSaved) {
+      this.router.navigate(['platform', 'settings', 'employers']);
+    } else {
+      this.hasServerError = true;
+    }
+  }
   // if (this.employer.bankBranch.id !== 0) {
   // this.bankBranchSelected = String(this.employer.bankBranch.id);
   // }
