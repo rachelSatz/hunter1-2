@@ -7,6 +7,7 @@ import { UserSessionService } from '../user-session.service';
 import { Employer } from '../../_models/employer.model';
 import {Company} from '../../_models/company.model';
 import { Bank } from 'app/shared/_models/bank.model';
+import {BankBranch} from '../../_models/bank-branch.model';
 
 @Injectable()
 export class EmployerService extends BaseHttpService {
@@ -55,10 +56,10 @@ export class EmployerService extends BaseHttpService {
       .catch(() => []);
   }
 
-  getBankBranches(bankID: number): Promise<string[]> {
+  getBankBranches(bankID: number): Promise<BankBranch[]> {
     return this.http.get(this.endPoint + '/bankBranches/' + bankID)
       .toPromise()
-      .then(response => response as string[])
+      .then(response => response as BankBranch[])
       .catch(() => []);
   }
 }

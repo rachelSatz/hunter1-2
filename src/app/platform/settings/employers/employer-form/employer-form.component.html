@@ -1,25 +1,25 @@
 <form #form="ngForm" (ngSubmit)="submit(form)" class="col-12 col-lg-6 p-0">
   <p class="h4 mb-4">{{ employer.id ? (employer.first_name + ' ' + employer.last_name) : 'מעסיק חדש' }}</p>
   <div class="row">
-    <mat-form-field class="col-md-3">
+    <mat-form-field class="col-12 col-lg-4">
       <input matInput type="text" [(ngModel)]="employer.name" #name="ngModel" placeholder="שם מעסיק" name="name" required>
-      <mat-error *ngIf="name.errors && f.submitted">שדה חובה.</mat-error>
+      <!--<mat-error *ngIf="name.errors && f.submitted">שדה חובה.</mat-error>-->
     </mat-form-field>
-    <mat-form-field class="col-md-3">
-      <input matInput type="text" [(ngModel)]="employer.businessNumber" #businessNumber="ngModel" placeholder="ח.פ" name="businessNumber" required pattern="^\d{9}$">
-      <mat-error *ngIf="businessNumber.errors && f.submitted && businessNumber.value === ''">שדה חובה.</mat-error>
-      <mat-error *ngIf="businessNumber.errors && f.submitted && businessNumber.value !== ''">ח.פ אינו תקין.</mat-error>
+    <mat-form-field class="col-12 col-lg-4">
+      <input matInput type="text" [(ngModel)]="employer.business_number" #businessNumber="ngModel" placeholder="ח.פ" name="businessNumber" required pattern="^\d{9}$">
+      <!--<mat-error *ngIf="businessNumber.errors && f.submitted && businessNumber.value === ''">שדה חובה.</mat-error>-->
+      <!--<mat-error *ngIf="businessNumber.errors && f.submitted && businessNumber.value !== ''">ח.פ אינו תקין.</mat-error>-->
     </mat-form-field>
-    <mat-form-field class="col-md-3">
-      <input matInput type="text" [(ngModel)]="employer.instituteCode5" #instituteCode5="ngModel" placeholder="קוד מוסד - 5" name="instituteCode5" pattern="^\d{5}$">
-      <mat-error *ngIf="instituteCode5.errors && instituteCode5.touched">קוד מוסד לא תקין.</mat-error>
+    <mat-form-field class="col-12 col-lg-4">
+      <input matInput type="text" [(ngModel)]="employer.institution_code_5" #instituteCode5="ngModel" placeholder="קוד מוסד - 5" name="instituteCode5" pattern="^\d{5}$">
+      <!--<mat-error *ngIf="instituteCode5.errors && instituteCode5.touched">קוד מוסד לא תקין.</mat-error>-->
     </mat-form-field>
-    <mat-form-field class="col-md-3">
-      <input matInput type="text" [(ngModel)]="employer.instituteCode8" #instituteCode8="ngModel" placeholder="קוד מוסד - 8" name="instituteCode8" pattern="^\d{8}$">
-      <mat-error *ngIf="instituteCode8.errors && instituteCode8.touched">קוד מוסד לא תקין.</mat-error>
+    <mat-form-field class="col-12 col-lg-4">
+      <input matInput type="text" [(ngModel)]="employer.institution_code_8" #instituteCode8="ngModel" placeholder="קוד מוסד - 8" name="instituteCode8" pattern="^\d{8}$">
+      <!--<mat-error *ngIf="instituteCode8.errors && instituteCode8.touched">קוד מוסד לא תקין.</mat-error>-->
     </mat-form-field>
   </div>
-  <div class="row my-3">
+  <div class="row mt-3">
     <mat-form-field class="col-12 col-lg-4">
       <input matInput placeholder="מס' טלפון" name="phone" type="text" [(ngModel)]="employer.phone">
     </mat-form-field>
@@ -43,13 +43,17 @@
       <div class="horizontal-line"></div>
     </div>
     <div class="col-12 col-lg-4">
-      <bd-select class="w-100" [items]="banks" #bankSelect="ngModel" (onSelect)="loadBankBranches($event)" placeholder="בחר בנק" required></bd-select>
-      <p class="alert alert-danger" [@fade]="bankSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+      <bd-select class="w-100" [items]="banks" (onSelect)="loadBankBranches($event)" placeholder="בחר בנק" required></bd-select>
+      <div class="w-50">
+        <bd-select [items]="bankBranches" placeholder="בחר סניף" name="bank_branch_id" #bankBranchIDModel="ngModel" ngModel required></bd-select>
+        <p class="alert alert-danger" [@fade]="form.submitted && bankBranchIDModel.errors ? 'active' : 'inactive'">יש לבחור סניף.</p>
+      </div>
+      <!--<p class="alert alert-danger" [@fade]="bankSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>-->
     </div>
-    <div class="col-12 col-lg-4">
-      <bd-select class="w-100" [items]="banksBranches" name="bank_branch_id" #bankBranchIDSelect="ngModel" ngModel placeholder="בחר סניף" required></bd-select>
-      <p class="alert alert-danger" [@fade]="bankBranchIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
-    </div>
+    <!--<div class="col-12 col-lg-4">-->
+    <!--<bd-select class="w-100" [items]="bankBranches" name="bank_branch_id" #bankBranchIDSelect="ngModel" ngModel placeholder="בחר סניף" required></bd-select>-->
+    <!--<p class="alert alert-danger" [@fade]="bankBranchIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>-->
+    <!--</div>-->
     <mat-form-field class="col-12 col-lg-4">
       <input matInput type="number" [(ngModel)]="employer.bankAccountNumber"  placeholder="מס' חשבון" name="bankAccountNumber" >
     </mat-form-field>

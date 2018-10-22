@@ -39,10 +39,9 @@ export class LoginComponent {
       // this.helpers.setPageSpinner(true);
       // this.isSubmitting = true;
 
-<<<<<<< HEAD
-      // this.appHttp.login(form.value.username, form.value.password).then(response => {
+      this.appHttp.login(form.value.username, form.value.password).then(response => {
       //   if (response) {
-          this.userSession.login({ username: form.value.username, token: 'k,kkk' });
+          this.userSession.login({ username: form.value.username, token: '4444' });
           this.router.navigate(['/platform']);
         // } else {
         //   this.hasServerError = true;
@@ -51,24 +50,22 @@ export class LoginComponent {
         // this.helpers.setPageSpinner(false);
         // this.isSubmitting = false;
       // });
-=======
-      this.appHttp.login(form.value.username, form.value.password).then(response => {
+      // this.appHttp.login(form.value.username, form.value.password).then(response => {
         // if (response) {
         //  this.userSession.login({ username: form.value.username, token: response.token });
         //   this.router.navigate(['/platform']);
         // } else {
         //   this.hasServerError = true;
         // }
-        this.userSession.login({ username: 'ruth', token: '1234' });
+        // this.userSession.login({ username: 'ruth', token: '1234' });
         // sessionStorage.setItem('user', JSON.stringify('ruth'));
         // sessionStorage.setItem('token', JSON.stringify('1234'));
 
-        this.router.navigate(['/platform']);
+        // this.router.navigate(['/platform']);
 
         this.helpers.setPageSpinner(false);
         this.isSubmitting = false;
       });
->>>>>>> c270d137e43ab3553e6034d76ca53a410e01ae0c
     }
   }
 }
