@@ -45,8 +45,8 @@
       <!--<div class="horizontal-line"></div>-->
     <!--</div>-->
     <div class="row col-12">
-      <bd-select style="padding-bottom: 30px" [items]="banks" (onSelect)="loadBankBranches($event)" name="bank"  #bank="ngModel" ngModel placeholder="בחר בנק" required></bd-select>
-      <p class="alert alert-danger" [@fade]="form.submitted  && bank.errors ? 'active' : 'inactive'">שדה חובה.</p>
+      <bd-select style="padding-bottom: 30px" [items]="banks" (onSelect)="loadBankBranches($event)" name="bank_id"  #bankIDSelect="ngModel" [ngModel]="employer.bank_id" placeholder="בחר בנק" required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted  && bankIDSelect.errors ? 'active' : 'inactive'">שדה חובה.</p>
     </div>
     <div class="row col-12">
       <bd-select  style="padding-bottom: 20px" [items]="bankBranches" placeholder="בחר סניף" name="bank_branch_id" #bankBranchIDModel="ngModel" ngModel required></bd-select>
@@ -57,7 +57,11 @@
     </mat-form-field>
   </div>
   </div>
-
+  <div class="row">
+    <mat-form-field class="col-6 w-100p">
+      <input type="text" matInput placeholder="הערות" [ngModel]="employer.comments" name="comments">
+    </mat-form-field>
+  </div>
   <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
   <div style="padding-right: 1400px">
     <button class="btn blue-btn" type="submit">שלח</button>

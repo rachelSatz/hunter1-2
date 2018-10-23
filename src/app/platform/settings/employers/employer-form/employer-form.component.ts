@@ -31,25 +31,29 @@ export class EmployerFormComponent implements OnInit {
   hasServerError: boolean;
 
   employer = new Employer();
-
   bankBranches = [];
+
   bankSelected = -1;
   banks = [];
 
   constructor(private route: ActivatedRoute, private router: Router, private employerService: EmployerService) {}
 
   ngOnInit() {
+    this.loadBanks();
     if (this.route.snapshot.data.employer) {
       this.employer = this.route.snapshot.data.employer;
+      // this.employer['bank_id'] = 4;
       // if (this.employer.bankBranch.bank.id !== 0) {
       //   this.bankSelected =  this.employer.bankBranch.bank.id;
       //   this.loadBankBranches(this.employer.bankBranch.bank);
       //   }
       }
-    this.loadBanks();
+
   }
   loadBanks(): void {
+
     this.employerService.getBanks().then(types => {
+
       for (const i in types) {
         if (types[i] !== null) {
           this.banks.push({id: types[i].id, name: types[i].name});
@@ -59,6 +63,7 @@ export class EmployerFormComponent implements OnInit {
   }
 
   loadBankBranches(bank: Bank): void {
+    this.bankBranches = [];
     this.employerService.getBankBranches(bank.id).then(types => {
       for (const i in types) {
         if (types[i] !== null) {
