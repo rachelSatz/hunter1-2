@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
+import { ExcelComponent } from './excel/excel.component';
 import { CommentsComponent } from './comments/comments.component';
 import { DetailsComponent } from './details/details.component';
 import { SendToComponent } from './send-to/send-to.component';
@@ -15,15 +16,16 @@ import { CompensationService } from 'app/shared/_services/http/compensation.serv
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { FilterItemsPipe } from '../../../shared/_pipes/filter-items.pipe';
 
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_models/compensation.model';
 import { ProductType } from 'app/shared/_models/product.model';
 
 @Component({
-  selector: 'app-compensation',
-  templateUrl: './compensation.component.html',
-  styleUrls: ['../../shared/data-table/data-table.component.css'],
+  selector: 'app-process',
+  templateUrl: './process.component.html',
+  styleUrls: ['../../../shared/data-table/data-table.component.css'],
   animations: [
     trigger('slideToggle', [
       state('inactive', style({
@@ -55,10 +57,11 @@ import { ProductType } from 'app/shared/_models/product.model';
     ])
   ]
 })
-export class CompensationComponent extends DataTableComponent implements OnInit, OnDestroy {
+export class ProcessComponent extends DataTableComponent implements OnInit, OnDestroy {
 
   formSubscription: Subscription;
   commentsSubscription: Subscription;
+  // excelSubscription: Subscription;
 
   extraSearchCriteria = 'inactive';
 
@@ -96,14 +99,15 @@ export class CompensationComponent extends DataTableComponent implements OnInit,
 
   constructor(protected route: ActivatedRoute, private compensationService: CompensationService,
               private dialog: MatDialog, private departmentService: DepartmentService,
-              private productService: ProductService, protected notificationService: NotificationService) {
-    super(route, notificationService);
+              private productService: ProductService, protected notificationService: NotificationService
+              , private filterItemsPipe: FilterItemsPipe) {
+    super(route, filterItemsPipe, notificationService);
   }
 
   ngOnInit() {
     this.departmentService.getDepartments().then(response => this.departments = response);
     this.productService.getCompanies().then(response => this.companies = response);
-    super.ngOnInit();
+    this.fetchItems();
   }
 
   fetchItems(): void {
@@ -138,6 +142,12 @@ export class CompensationComponent extends DataTableComponent implements OnInit,
       if (created) {
         this.fetchItems();
       }
+    });
+  }
+
+  openExcelDialog(): void {
+    const dialog = this.dialog.open(ExcelComponent, {
+      width: '450px'
     });
   }
 

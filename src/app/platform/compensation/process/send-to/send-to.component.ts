@@ -47,7 +47,7 @@ export class SendToComponent implements OnInit {
     this.contactService.getEmployerContacts(this.compensation).then(types => {
       for (const i in types) {
         if (types[i] != null) {
-          this.contacts.push({ id: types[i].id, name: [types[i].name] });
+          this.contacts.push({ id: types[i], name: [types[i]] });
         }
       }
 

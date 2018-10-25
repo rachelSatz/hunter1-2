@@ -21,3 +21,5 @@ export enum CompensationSendingMethods {
   'email' = 'מייל',
   'safebox' = 'כספת'
 }
+
+

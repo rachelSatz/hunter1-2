@@ -1,3 +1,69 @@
-<p>
-  employer-form works!
-</p>
+<form #form="ngForm" (ngSubmit)="submit(form)">
+  <p class="h4 mb-4">{{ employer.id ? (employer.name) : 'מעסיק חדש' }}</p>
+  <div class="row col-12">
+  <div class="col-4">
+    <mat-form-field class="row col-12">
+      <input matInput type="text" [ngModel]="employer.name" #name="ngModel" placeholder="שם מעסיק" name="name" required>
+      <!--<mat-error *ngIf="name.errors && f.submitted">שדה חובה.</mat-error>-->
+    </mat-form-field >
+    <mat-form-field class="row col-12">
+      <input matInput type="text" [ngModel]="employer.business_number" #businessNumber="ngModel" placeholder="ח.פ" name="businessNumber" required pattern="^\d{9}$">
+      <!--<mat-error *ngIf="businessNumber.errors && f.submitted && businessNumber.value === ''">שדה חובה.</mat-error>-->
+      <!--<mat-error *ngIf="businessNumber.errors && f.submitted && businessNumber.value !== ''">ח.פ אינו תקין.</mat-error>-->
+    </mat-form-field>
+    <mat-form-field class="row col-12">
+      <input matInput type="text" [(ngModel)]="employer.institution_code_5" #instituteCode5="ngModel" placeholder="קוד מוסד - 5" name="instituteCode5" pattern="^\d{5}$">
+      <mat-error *ngIf="instituteCode5.errors && instituteCode5.touched">קוד מוסד לא תקין.</mat-error>
+    </mat-form-field>
+    <mat-form-field class="row col-12">
+      <input matInput type="text" [ngModel]="employer.institution_code_8" #instituteCode8="ngModel" placeholder="קוד מוסד - 8" name="instituteCode8" pattern="^\d{8}$">
+      <mat-error *ngIf="instituteCode8.errors && instituteCode8.touched">קוד מוסד לא תקין.</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="col-4">
+    <mat-form-field class="row col-12">
+      <input matInput placeholder="מס' טלפון" name="phone" type="text" [ngModel]="employer.phone">
+    </mat-form-field>
+    <mat-form-field class="row col-12">
+      <input matInput  placeholder="מס' נייד" name="mobile" type="text" [ngModel]="employer.mobile">
+    </mat-form-field>
+    <mat-form-field class="row col-12">
+      <input matInput placeholder="כתובת מייל" name="email" type="email" [ngModel]="employer.email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+    </mat-form-field>
+    <mat-form-field class="row col-12">
+      <input matInput placeholder="פקס" name="fax" type="text" [ngModel]="employer.fax">
+    </mat-form-field>
+    <mat-form-field class="row col-12">
+      <input matInput type="text" [ngModel]="employer.address" placeholder="כתובת" name="address">
+    </mat-form-field>
+  </div>
+  <div class="col-4">
+    <p  style="padding-bottom: 3px; padding-top: 20px" class="h4 mb-4">חשבון בנק</p>
+    <!--<div class="sub-title-container">-->
+      <!--<div class="horizontal-line"></div>-->
+      <!--<p class="h6 sub-title blue">חשבון בנק</p>-->
+      <!--<div class="horizontal-line"></div>-->
+    <!--</div>-->
+    <div class="row col-12">
+      <bd-select style="padding-bottom: 30px" [items]="banks" (onSelect)="loadBankBranches($event)" name="bank_id"  #bankIDSelect="ngModel" [ngModel]="employer.bank_id" placeholder="בחר בנק" required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted  && bankIDSelect.errors ? 'active' : 'inactive'">שדה חובה.</p>
+    </div>
+    <div class="row col-12">
+      <bd-select  style="padding-bottom: 20px" [items]="bankBranches" placeholder="בחר סניף" name="bank_branch_id" #bankBranchIDModel="ngModel" ngModel required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted && bankBranchIDModel.errors ? 'active' : 'inactive'">יש לבחור סניף.</p>
+    </div>
+    <mat-form-field class="row col-12">
+      <input matInput type="number" [ngModel]="employer.bankAccountNumber"  placeholder="מס' חשבון" name="bankAccountNumber" >
+    </mat-form-field>
+  </div>
+  </div>
+  <div class="row">
+    <mat-form-field class="col-6 w-100p">
+      <input type="text" matInput placeholder="הערות" [ngModel]="employer.comments" name="comments">
+    </mat-form-field>
+  </div>
+  <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
+  <div style="padding-right: 1400px">
+    <button class="btn blue-btn" type="submit">שלח</button>
+  </div>
+</form>
