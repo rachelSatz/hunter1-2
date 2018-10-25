@@ -39,26 +39,30 @@ export class LoginComponent {
       // this.helpers.setPageSpinner(true);
       // this.isSubmitting = true;
 
-      // this.appHttp.login(form.value.username, form.value.password).then(response => {
-      //   if (response) {
-          this.userSession.login({ username: form.value.username, token: 'k,kkk' });
-          this.router.navigate(['/platform']);
+
+      this.appHttp.login(form.value.username, form.value.password).then(response => {
+        //   if (response) {
+        this.userSession.login({username: form.value.username, token: '4444'});
+        this.router.navigate(['/platform']);
         // } else {
         //   this.hasServerError = true;
         // }
         //
         // this.helpers.setPageSpinner(false);
         // this.isSubmitting = false;
-      // });
-        // if (response) {
-        //  this.userSession.login({ username: form.value.username, token: response.token });
-        //   this.router.navigate(['/platform']);
-        // } else {
-        //   this.hasServerError = true;
-        // }
-        this.helpers.setPageSpinner(false);
-        this.isSubmitting = false;
-      }
+        // });
+
+      });
+      // this.userSession.login({ username: 'ruth', token: '1234' });
+      // sessionStorage.setItem('user', JSON.stringify('ruth'));
+      // sessionStorage.setItem('token', JSON.stringify('1234'));
+
+      // this.router.navigate(['/platform']);
+
+      // this.helpers.setPageSpinner(false);
+      // this.isSubmitting = false;
+
     }
   }
+}
 

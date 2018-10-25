@@ -6,6 +6,7 @@ export class BankBranch {
   number: string;
   bank: Bank;
   differentAccounts: boolean=false;
+  name: string;
   constructor() {
     this.bank = new Bank;
   }

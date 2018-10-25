@@ -7,7 +7,7 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { FilterItemsPipe } from '../../../shared/_pipes/filter-items.pipe';
-// import { EntityTypes } from 'app/shared/_models/employer.model';
+import { FormComponent } from '../../compensation/process/form/form.component';
 
 
 @Component({
@@ -17,7 +17,7 @@ import { FilterItemsPipe } from '../../../shared/_pipes/filter-items.pipe';
 })
 export class EmployersComponent extends DataTableComponent {
 
-  // types = EntityTypes;
+   // types = EntityTypes;
 
   readonly headers: DataTableHeader[] =  [
     { column: 'entity_name', label: 'שם מלא' }, { column: 'entity_number', label: 'ח.פ' },
@@ -32,5 +32,6 @@ export class EmployersComponent extends DataTableComponent {
   fetchItems(): void {
    this.employerService.getEmployers().then(response => this.setItems(response));
   }
+
 
 }
