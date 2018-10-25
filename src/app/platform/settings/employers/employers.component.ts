@@ -6,6 +6,7 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
+import { FilterItemsPipe } from '../../../shared/_pipes/filter-items.pipe';
 // import { EntityTypes } from 'app/shared/_models/employer.model';
 
 
@@ -24,8 +25,8 @@ export class EmployersComponent extends DataTableComponent {
     { column: 'code5', label: 'קוד מוסד 5' }, { column: 'code8', label: 'קוד מוסד 8' }
   ];
 
-  constructor(route: ActivatedRoute, private employerService: EmployerService) {
-    super(route);
+  constructor(route: ActivatedRoute, private employerService: EmployerService, private filterItemsPipe: FilterItemsPipe) {
+    super(route, filterItemsPipe);
   }
 
   fetchItems(): void {

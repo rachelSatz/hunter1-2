@@ -161,8 +161,8 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
       }
     }
 
-    this.propagateChange(this.selectedItem);
-    this.onSelect.emit(this.selectedItem);
+    this.propagateChange(this.selectedItem[this.value]);
+    this.onSelect.emit(this.selectedItem[this.value]);
   }
 
   openDropdown(): void {
