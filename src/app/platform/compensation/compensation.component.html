@@ -55,8 +55,8 @@
         <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
       </td>
       <td>
-        <span *ngIf="item.status !== 'V'">טרם</span>
-        <img src="/assets/img/icons/download.png" *ngIf="item.status === 'V'">
+        <span *ngIf="item.status !== 'closed'">טרם</span>
+        <img src="/assets/img/icons/download.png" *ngIf="item.status === 'closed'" (click)="downloadPdfFile(item.id)">
       </td>
       <td>
         <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">

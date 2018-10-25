@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
+import * as FileSaver from 'file-saver';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
@@ -19,6 +20,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_models/compensation.model';
 import { ProductType } from 'app/shared/_models/product.model';
+
 
 @Component({
   selector: 'app-compensation',
@@ -81,6 +83,9 @@ export class CompensationComponent extends DataTableComponent implements OnInit,
   departments = [];
   companies = [];
   users = [];
+
+  spin: boolean;
+
 
   readonly headers: DataTableHeader[] =  [
     { column: 'created_at', label: 'תאריך יצירת בקשה' }, { column: 'username', label: 'יוצר הבקשה' },
@@ -187,6 +192,35 @@ export class CompensationComponent extends DataTableComponent implements OnInit,
 
   toggleExtraSearch(): void {
     this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
+  }
+
+  // downloadPdfFile(rowId: number): void {
+  //   this.compensationService.downloadPdfFile(rowId).then(response => {
+  //       console.log('downloadPdfFile', response);
+  //       // this.saveToFileSystem(response);
+  //     }
+  //   )
+  //     .catch(() =>
+  //       this.notificationService.showResult('הקובץ אינו קיים במערכת', NotificationType.error)
+  //     );
+  // }
+
+
+  downloadPdfFile(rowId: number): void {
+    this.spin = true;
+    this.compensationService.downloadPdfFile(rowId)
+      .then(response => {
+        const byteCharacters = atob(response);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (var i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/pdf'});
+        FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
+
+        this.spin = false;
+      });
   }
 
   ngOnDestroy() {

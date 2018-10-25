@@ -85,4 +85,12 @@ export class CompensationService extends BaseHttpService {
       .then(() => true)
       .catch(() => false);
   }
+
+  downloadPdfFile(rowID: number): Promise<string> {
+    return this.http.get(this.endPoint + '/' + rowID + '/downloadPdfFile', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+
+  }
 }
