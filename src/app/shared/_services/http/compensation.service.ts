@@ -100,14 +100,13 @@ export class CompensationService extends BaseHttpService {
       .catch(() => false);
   }
 
-<<<<<<< HEAD
   downloadPdfFile(rowID: number): Promise<string> {
     return this.http.get(this.endPoint + '/' + rowID + '/downloadPdfFile', this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);
+  }
 
-=======
   getFollow(searchCriteria?: Object): Promise<Object> {
     const request = this.getTokenHeader();
 
@@ -119,6 +118,5 @@ export class CompensationService extends BaseHttpService {
       .toPromise()
       .then(response => response as Object)
       .catch(() => []);
->>>>>>> 8799abfc78add608c375963ebde7784b8736da7b
   }
 }
