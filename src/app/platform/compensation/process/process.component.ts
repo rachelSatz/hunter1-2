@@ -91,7 +91,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
 
   readonly headers: DataTableHeader[] =  [
-    { column: 'created_at', label: 'תאריך יצירת בקשה' }, { column: 'username', label: 'יוצר הבקשה' },
+    { column: 'created_at', label: 'תאריך יצירת בקשה' }, { column: 'updated_at', label: 'תאריך עדכון בקשה' },
+    { column: 'username', label: 'יוצר הבקשה' },
     { column: 'employer_name', label: 'מעסיק' }, { column: 'department_name', label: 'מחלקה' },
     { column: 'employee_name', label: 'עובד' }, { column: 'personal_id', label: 'ת"ז' },
     { column: 'company_name', label: 'חברה מנהלת' }, { column: 'product_type', label: 'סוג מוצר' },
@@ -155,6 +156,22 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
       width: '450px'
     });
   }
+
+  manualChangingStatus(): void {
+    if (this.checkedItems.length === 0) {
+      this.setNoneCheckedWarning();
+      return;
+    }
+
+    this.compensationService.manualChangingStatus(this.checkedItems.map(item => item.id)).then(response => {
+      if (response) {
+        this.notificationService.success('הבקשות נשלחו בהצלחה.');
+        this.checkedItems = [];
+        this.isCheckAll = false;
+      }
+    });
+  }
+
 
   openCommentsDialog(item: Object): void {
     const dialog = this.dialog.open(CommentsComponent, {

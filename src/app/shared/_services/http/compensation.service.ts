@@ -119,4 +119,11 @@ export class CompensationService extends BaseHttpService {
       .then(response => response as Object)
       .catch(() => []);
   }
+
+  manualChangingStatus(compensation_ids: number[]): Promise<boolean> {
+    return this.http.post(this.endPoint + '/updateSentStatus', { compensation_ids: compensation_ids }, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
 }

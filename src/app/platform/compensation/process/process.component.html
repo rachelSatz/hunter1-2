@@ -19,6 +19,8 @@
 <div class="row mt-4 mr-1">
   <button class="btn blue-btn" (click)="openFormDialog()">בקשה חדשה</button>
   <button class="btn blue-btn mr-2" (click)="openExcelDialog()">העלאת אקסל</button>
+  <button class="btn blue-btn mr-2" (click)="manualChangingStatus()">שינוי סטטוס</button>
+
   <div class="ml-3 d-flex mr-auto" >
   <button class="btn blue-btn " (click)="sendCompensations()">שדר בקשה</button>
   </div>
@@ -42,6 +44,7 @@
         <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
       </td>
       <td>{{ item.created_at | date: 'dd/MM/yy' }}</td>
+      <td>{{ item.updated_at | date: 'dd/MM/yy' }}</td>
       <td>{{ item.username }}</td>
       <td>{{ item.employer_name }}</td>
       <td>{{ item.department_name }}</td>
@@ -69,7 +72,7 @@
         <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiry_count }}</span>
       </td>
       <td>
-        <span *ngIf="item.status === 'O' || item.status === 'S'">טרם</span>
+        <span *ngIf="item.status === 'Open' || item.status === 'Sent'">טרם</span>
         <img [src]="getValidityImage(item)" class="row-image" *ngIf="item.status === 'V' || item.status === 'E'">
       </td>
     </tr>
