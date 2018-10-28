@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
 import { ContactService } from 'app/shared/_services/http/contact.service';
-
+import { FilterItemsPipe } from '../../../shared/_pipes/filter-items.pipe';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { EntityTypes } from 'app/shared/_models/contact.model';
 
@@ -24,8 +24,8 @@ export class ContactsComponent extends DataTableComponent {
     { column: 'email', label: 'כתובת מייל' }, { column: 'role', label: 'תפקיד' }
   ];
 
-  constructor(route: ActivatedRoute, private contactService: ContactService) {
-    super(route);
+  constructor(route: ActivatedRoute, private contactService: ContactService, private  filterItemsPipe: FilterItemsPipe) {
+    super(route, filterItemsPipe);
   }
 
   fetchItems(): void {

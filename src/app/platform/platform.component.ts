@@ -14,7 +14,10 @@ export class PlatformComponent implements OnInit {
 
   readonly menuLinks = [
     { url: 'dashboard', label: 'דף הבית' },
-    { url: 'compensations', label: 'יתרות לפיצויים' },
+    { url: 'compensations', label: 'יתרות לפיצויים', subMenuLinks: [
+        { url: 'process', label: 'מעקב יתרות לפיצויים' },
+        { url: 'dashboard', label: 'מצג סטטוסים' }
+      ]},
     { url: 'process', label: 'תהליכים', subMenuLinks: [
       { url: 'new', label: 'צור תהליך חדש' },
       { url: 'table', label: 'תהליכים' }

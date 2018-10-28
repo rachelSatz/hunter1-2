@@ -51,10 +51,24 @@ export class CompensationService extends BaseHttpService {
       formData.append('file', uploadedFile);
     }
 
+
     return this.http.post(this.endPoint + '/update/' + compensation.id, formData, this.getTokenHeader())
     .toPromise()
     .then(() => true)
     .catch(() => false);
+  }
+
+  uploadCompensation(uploadedFile?: File): Promise<Object> {
+    if (uploadedFile) {
+      const formData = new FormData();
+      formData.append('file', uploadedFile);
+
+
+    return this.http.post(this.endPoint + '/upload_excel', formData, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Object)
+      .catch(() => []);
+    }
   }
 
   sendCompensations(compensation_ids: number[]): Promise<boolean> {
@@ -86,11 +100,25 @@ export class CompensationService extends BaseHttpService {
       .catch(() => false);
   }
 
+<<<<<<< HEAD
   downloadPdfFile(rowID: number): Promise<string> {
     return this.http.get(this.endPoint + '/' + rowID + '/downloadPdfFile', this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);
 
+=======
+  getFollow(searchCriteria?: Object): Promise<Object> {
+    const request = this.getTokenHeader();
+
+    if (searchCriteria) {
+      request['params'] = searchCriteria;
+    }
+
+    return this.http.get(this.endPoint + '/stats', request)
+      .toPromise()
+      .then(response => response as Object)
+      .catch(() => []);
+>>>>>>> 8799abfc78add608c375963ebde7784b8736da7b
   }
 }

@@ -9,22 +9,25 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 
-import { CompensationComponent } from './compensation.component';
+import { ProcessComponent } from './process.component';
 import { FormComponent } from './form/form.component';
 import { CommentsComponent } from './comments/comments.component';
 import { DetailsComponent } from './details/details.component';
 import { AddFileComponent } from './add-file/add-file.component';
+import { ExcelComponent } from './excel/excel.component';
 import { SendToComponent } from './send-to/send-to.component';
 import { InquiriesComponent } from './inquiries/inquiries.component';
 
+import { FilterItemsPipe } from '../../../shared/_pipes/filter-items.pipe';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 
+
 const routes: Routes = [
-  { path: '', component: CompensationComponent }
+  { path: '', component: ProcessComponent }
 ];
 
 @NgModule({
@@ -39,22 +42,24 @@ const routes: Routes = [
     DataTableModule
   ],
   declarations: [
-    CompensationComponent,
+    ProcessComponent,
     FormComponent,
     CommentsComponent,
     DetailsComponent,
     AddFileComponent,
     SendToComponent,
-    InquiriesComponent
+    InquiriesComponent,
+    ExcelComponent
   ],
-  providers: [CompensationService, DepartmentService, ProductService, NotificationService, ContactService],
+  providers: [FilterItemsPipe, CompensationService, DepartmentService, ProductService, NotificationService, ContactService],
   entryComponents: [
     FormComponent,
     CommentsComponent,
     DetailsComponent,
     AddFileComponent,
     SendToComponent,
+    ExcelComponent,
     InquiriesComponent
   ]
 })
-export class CompensationModule {}
+export class ProcessModule {}

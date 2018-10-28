@@ -5,7 +5,8 @@
 <div class="d-flex my-3">
   <bd-select [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
   <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
-  <button class="btn blue-btn" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
+  <button class="btn blue-btn"  (click)="resetSearch()">אפס חיפוש</button>
+  <!--*ngIf="isSearchActive()"-->
 </div>
 <div [@slideToggle]="extraSearchCriteria" class="d-flex mb-3">
   <bd-select [items]="selectStatuses" placeholder="סטטוס" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" class="ml-3"></bd-select>
@@ -15,9 +16,12 @@
 <div (click)="toggleExtraSearch()">
   <span class="bold blue-color pointer">{{ extraSearchCriteria === 'active' ? 'הצג פחות >' : 'חיפוש מורחב >' }}</span>
 </div>
-<div class="d-flex justify-content-between mt-4">
+<div class="row mt-4 mr-1">
   <button class="btn blue-btn" (click)="openFormDialog()">בקשה חדשה</button>
-  <button class="btn blue-btn" (click)="sendCompensations()">שדר בקשה</button>
+  <button class="btn blue-btn mr-2" (click)="openExcelDialog()">העלאת אקסל</button>
+  <div class="ml-3 d-flex mr-auto" >
+  <button class="btn blue-btn " (click)="sendCompensations()">שדר בקשה</button>
+  </div>
 </div>
 <table class="table table-bordered table-hover mt-3 data-table">
   <thead>
