@@ -63,7 +63,7 @@
       </td>
       <td>
         <span *ngIf="item.status !== 'closed'">טרם</span>
-        <img src="/assets/img/icons/download.png" *ngIf="item.status === 'closed'" (click)="downloadPdfFile(item.id)">
+        <img src="/assets/img/icons/download.png" *ngIf="item.status === 'closed' && sendingMethods[item.sending_method]  === 'כספת'" (click)="downloadPdfFile(item.id)">
       </td>
       <td>
         <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">

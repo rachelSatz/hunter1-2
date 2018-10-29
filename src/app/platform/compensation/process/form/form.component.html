@@ -23,7 +23,7 @@
     </div>
   </div>
   <mat-form-field class="w-50 my-3">
-    <input matInput class="pointer" (click)="datePicker.open()" [matDatepicker]="datePicker" placeholder="תאריך נכונות*" name="validity_date" ngModel readonly>
+    <input matInput class="pointer" (click)="datePicker.open()" [matDatepicker]="datePicker" placeholder="תאריך נכונות (שכר)*" name="validity_date" ngModel readonly>
     <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
     <mat-datepicker #datePicker></mat-datepicker>
     <mat-error>שדה חובה.</mat-error>

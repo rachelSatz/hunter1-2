@@ -15,7 +15,8 @@ export enum CompensationStatus {
   'valid' = 'תקין',
   'invalid' = 'שגוי',
   'open' = 'פתוח',
-  'sent' = 'נשלח'
+  'sent' = 'נשלח',
+  'closed' = 'סגור'
 }
 
 export enum CompensationSendingMethods {

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
@@ -25,11 +25,15 @@ import { Compensation } from 'app/shared/_models/compensation.model';
   ]
 })
 export class CommentsComponent {
-
+  comments = [];
   hasServerError: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation, private dialogRef: MatDialogRef<CommentsComponent>,
               private compensationService: CompensationService) {}
+
+    ngOnInit() {
+      this.compensationService.getComments(this.compensation.id).then(response => this.comments = response);
+    }
 
   submit(): void {
     this.hasServerError = false;
