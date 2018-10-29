@@ -93,12 +93,19 @@ export class CompensationService extends BaseHttpService {
     .catch(() => []);
   }
 
-  newInquiry(compensation_id: number, content: string, emails_list: string[], contact_list: number[]): Promise<boolean> {
+  newInquiry(compensation_id: number, content: string, emails_list: any[], contact_list: any[]): Promise<boolean> {
     return this.http.post(this.endPoint + '/' + compensation_id + '/newInquiry',
       { content: content, emails_list: emails_list, contact_list: contact_list }, this.getTokenHeader())
       .toPromise()
       .then(() => true)
       .catch(() => false);
+  }
+
+  downloadPdfFile(rowID: number): Promise<string> {
+    return this.http.get(this.endPoint + '/' + rowID + '/downloadPdfFile', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
   }
 
   getFollow(searchCriteria?: Object): Promise<Object> {
@@ -112,5 +119,12 @@ export class CompensationService extends BaseHttpService {
       .toPromise()
       .then(response => response as Object)
       .catch(() => []);
+  }
+
+  manualChangingStatus(compensation_ids: number[]): Promise<boolean> {
+    return this.http.post(this.endPoint + '/updateSentStatus', { compensation_ids: compensation_ids }, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
   }
 }

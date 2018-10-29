@@ -22,10 +22,10 @@
   </div>
   <div class="col-4">
     <mat-form-field class="row col-12">
-      <input matInput placeholder="מס' טלפון" name="phone" type="text" [ngModel]="employer.phone">
+      <input matInput placeholder="מס' טלפון" name="phone" type="text" [ngModel]="employer.phone" value="">
     </mat-form-field>
     <mat-form-field class="row col-12">
-      <input matInput  placeholder="מס' נייד" name="mobile" type="text" [ngModel]="employer.mobile">
+      <input matInput  placeholder="מס' נייד" name="mobile" type="text" [ngModel]="employer.mobile" value="">
     </mat-form-field>
     <mat-form-field class="row col-12">
       <input matInput placeholder="כתובת מייל" name="email" type="email" [ngModel]="employer.email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
@@ -53,7 +53,7 @@
       <p class="alert alert-danger" [@fade]="form.submitted && bankBranchIDModel.errors ? 'active' : 'inactive'">יש לבחור סניף.</p>
     </div>
     <mat-form-field class="row col-12">
-      <input matInput type="number" [ngModel]="employer.bankAccountNumber"  placeholder="מס' חשבון" name="bankAccountNumber" >
+      <input matInput type="number" [ngModel]="employer.bank_account_number"  placeholder="מס' חשבון" name="bank_account_number" required>
     </mat-form-field>
   </div>
   </div>

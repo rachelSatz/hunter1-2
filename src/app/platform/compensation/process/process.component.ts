@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
+import * as FileSaver from 'file-saver';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
 import { ExcelComponent } from './excel/excel.component';
@@ -20,6 +21,7 @@ import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header
 import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_models/compensation.model';
 import { ProductType } from 'app/shared/_models/product.model';
 import {formatDate} from '@angular/common';
+
 
 @Component({
   selector: 'app-process',
@@ -85,8 +87,12 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   sourceTypes = [{id: 'safebox', name: 'כספת'}, {id: 'email', name: 'מייל'}];
   responseTimes = [{id: 2, name: '0-2'}, {id: 4, name: '2-4'}, {id: 5, name: '5+'}];
 
+  spin: boolean;
+
+
   readonly headers: DataTableHeader[] =  [
-    { column: 'created_at', label: 'תאריך יצירת בקשה' }, { column: 'username', label: 'יוצר הבקשה' },
+    { column: 'created_at', label: 'תאריך יצירת בקשה' }, { column: 'updated_at', label: 'תאריך עדכון בקשה' },
+    { column: 'username', label: 'יוצר הבקשה' },
     { column: 'employer_name', label: 'מעסיק' }, { column: 'department_name', label: 'מחלקה' },
     { column: 'employee_name', label: 'עובד' }, { column: 'personal_id', label: 'ת"ז' },
     { column: 'company_name', label: 'חברה מנהלת' }, { column: 'product_type', label: 'סוג מוצר' },
@@ -160,6 +166,22 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     });
   }
 
+  manualChangingStatus(): void {
+    if (this.checkedItems.length === 0) {
+      this.setNoneCheckedWarning();
+      return;
+    }
+
+    this.compensationService.manualChangingStatus(this.checkedItems.map(item => item.id)).then(response => {
+      if (response) {
+        this.notificationService.success('הבקשות נשלחו בהצלחה.');
+        this.checkedItems = [];
+        this.isCheckAll = false;
+      }
+    });
+  }
+
+
   openCommentsDialog(item: Object): void {
     const dialog = this.dialog.open(CommentsComponent, {
       data: item,
@@ -206,6 +228,35 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   toggleExtraSearch(): void {
     this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
+  }
+
+  // downloadPdfFile(rowId: number): void {
+  //   this.compensationService.downloadPdfFile(rowId).then(response => {
+  //       console.log('downloadPdfFile', response);
+  //       // this.saveToFileSystem(response);
+  //     }
+  //   )
+  //     .catch(() =>
+  //       this.notificationService.showResult('הקובץ אינו קיים במערכת', NotificationType.error)
+  //     );
+  // }
+
+
+  downloadPdfFile(rowId: number): void {
+    this.spin = true;
+    this.compensationService.downloadPdfFile(rowId)
+      .then(response => {
+        const byteCharacters = atob(response);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (var i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/pdf'});
+        FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
+
+        this.spin = false;
+      });
   }
 
   ngOnDestroy() {

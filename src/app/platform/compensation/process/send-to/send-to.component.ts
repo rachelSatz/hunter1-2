@@ -14,7 +14,10 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
-
+export interface Contact {
+  id: number;
+  name: string;
+}
 export interface Email {
   name: string;
 }
@@ -39,28 +42,24 @@ export interface Email {
 })
 
 export class SendToComponent implements OnInit {
-  contacts = [];
-
   hasServerError: boolean;
 
   selectablecontact = true;
   removablecontact = true;
   addOnBlurContact = true;
   contactCtrl = new FormControl();
-  filteredContacts: Observable<string[]>;
-  contacts1: string[] = [];
-  allContacts: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-
+  filteredContacts: Observable<Contact[]>;
+  contactsAdd: Contact[] = [];
+  comments = '';
   selectable = true;
   removable = true;
   addOnBlur = true;
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  Emails: Email[] = [
+  Emails: Email[] = [];
+  contacts: Contact[] = [];
 
-  ];
-
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('contactInput') contactInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation, private dialog: MatDialog,
@@ -68,7 +67,7 @@ export class SendToComponent implements OnInit {
               private contactService: ContactService, private helpers: HelpersService) {
     this.filteredContacts = this.contactCtrl.valueChanges.pipe(
       startWith(null),
-      map((contact: string | null) => contact ? this._filter(contact) : this.allContacts.slice()));
+      map((contact: string | null) => contact ? this._filter(contact) : this.contacts.slice()));
 
   }
 
@@ -80,13 +79,7 @@ export class SendToComponent implements OnInit {
 
   loadContacts(): void {
     this.contactService.getEmployerContacts(this.compensation).then(types => {
-      for (const i in types) {
-        if (types[i] != null) {
-          this.contacts.push({ id: types[i], name: [types[i]] });
-          this.allContacts.push(types[i]);
-        }
-      }
-
+      this.contacts = types;
       this.helpers.setPageSpinner(false);
     });
 
@@ -96,21 +89,13 @@ export class SendToComponent implements OnInit {
     if (form.valid) {
       this.hasServerError = false;
 
-      this.compensationService.newInquiry(this.compensation.id, 'dfsd', ['ruthw@smarti.co.il'], [3, 4]).then(response => {
+      this.compensationService.newInquiry(this.compensation.id, this.comments, this.Emails, this.contactsAdd).then(response => {
       if (response) {
             this.dialogRef.close(this.compensation);
           } else {
             this.hasServerError = true;
           }
         });
-      // should be func call to compensation inquiry
-      // this.compensationService.updateCompensation(this.compensation).then(response => {
-      //   if (response) {
-      //     this.dialogRef.close(this.compensation);
-      //   } else {
-      //     this.hasServerError = true;
-      //   }
-      // });
     }
   }
 
@@ -140,45 +125,28 @@ export class SendToComponent implements OnInit {
     }
   }
 
-
-  addContact(event: MatChipInputEvent): void {
-    // Add fruit only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
-    if (!this.matAutocomplete.isOpen) {
-      const input = event.input;
-      const value = event.value;
-
-      // Add our fruit
-      if ((value || '').trim()) {
-        this.contacts1.push(value.trim());
-      }
-
-      // Reset the input value
-      if (input) {
-        input.value = '';
-      }
-
-      this.contactCtrl.setValue(null);
-    }
-  }
-
-  removeContact(fruit: string): void {
-    const index = this.contacts1.indexOf(fruit);
+  removeContact(contact: Contact): void {
+    const index = this.contactsAdd.indexOf(contact);
 
     if (index >= 0) {
-      this.contacts1.splice(index, 1);
+      this.contactsAdd.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.contacts1.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
+    // this.contactsAdd.push(event.option.viewValue);
+    this.contactInput.nativeElement.value = '';
     this.contactCtrl.setValue(null);
+    if (this.contactsAdd.indexOf(event.option.value) === -1) {
+      this.contactsAdd.push(event.option.value);
+    }
+
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  private _filter(value: string): Contact[] {
+    console.log(value)
+    const filterValue =  value['name'] === undefined ? value.toLowerCase() : value['name'].toLowerCase();
 
-    return this.allContacts.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+    return this.contacts.filter(contact => contact.name.toLowerCase().indexOf(filterValue) === 0);
   }
 }

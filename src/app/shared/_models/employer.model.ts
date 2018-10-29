@@ -17,10 +17,11 @@ export class Employer {
   address: string;
   employeeCount: number;
   bankBranch: BankBranch;
-  bankAccountNumber: string;
+  bank_account_number: string;
   typeSent: number; // סוג מזהה לשליחה
   employerCodeSent: string; // מספר מזהה לשליחה
   comments: string;
+  bank_id: number;
 
   constructor() {
     this.bankBranch = new BankBranch;
