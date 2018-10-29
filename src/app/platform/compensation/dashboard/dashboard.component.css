@@ -1,0 +1,25 @@
+.rounded {
+  border-radius: 1.25rem !important;
+}
+.shadow-lg {
+  box-shadow: 0 0rem 1rem rgba(0, 0, 0, 0.275) !important;
+}
+
+.colorblue
+{
+  color:#00adee;
+}
+
+.heightdiv400
+{
+  height: 400px;
+}
+
+.heightdiv300
+{
+  height: 300px;
+}
+.marginTop
+{
+margin-top: 0.65rem !important;
+}

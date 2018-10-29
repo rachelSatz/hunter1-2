@@ -1,0 +1,7 @@
+.mat-form-field-infix
+{
+  position: unset !important;
+}
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  bottom: 2.3em !important;
+}

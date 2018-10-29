@@ -7,7 +7,7 @@ import { MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule,
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
-import { PipesModule } from 'app/shared/_pipes/pipes.module';
+import { ChipsModule } from 'app/../assets/js/chips/chips.module';
 
 import { ProcessComponent } from './process.component';
 import { FormComponent } from './form/form.component';
@@ -18,7 +18,6 @@ import { ExcelComponent } from './excel/excel.component';
 import { SendToComponent } from './send-to/send-to.component';
 import { InquiriesComponent } from './inquiries/inquiries.component';
 
-import { FilterItemsPipe } from '../../../shared/_pipes/filter-items.pipe';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
@@ -36,10 +35,10 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule, MatSelectModule,
-    PipesModule,
     DatePickerModule,
     BdSelectModule,
-    DataTableModule
+    DataTableModule,
+    ChipsModule
   ],
   declarations: [
     ProcessComponent,
@@ -51,7 +50,7 @@ const routes: Routes = [
     InquiriesComponent,
     ExcelComponent
   ],
-  providers: [FilterItemsPipe, CompensationService, DepartmentService, ProductService, NotificationService, ContactService],
+  providers: [ CompensationService, DepartmentService, ProductService, NotificationService, ContactService],
   entryComponents: [
     FormComponent,
     CommentsComponent,

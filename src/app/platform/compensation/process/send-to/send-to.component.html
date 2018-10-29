@@ -12,7 +12,7 @@
     <input type="text" matInput placeholder="הוסף כתובת מייל" name="email" ngModel>
   </mat-form-field>
   <mat-form-field class="w-100">
-    <input type="text" matInput placeholder="תוכן" name="comments" required>
+    <textarea matInput placeholder="תוכן" name="comments" required maxlength="500"></textarea>
   </mat-form-field>
 </form>
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>

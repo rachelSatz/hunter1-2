@@ -31,17 +31,18 @@ export class CompensationService extends BaseHttpService {
     .catch(() => []);
   }
 
-  newCompensation(compensation: Compensation): Promise<boolean> {
+  newCompensation(compensation: Compensation): Promise<Object> {
     return this.http.post(this.endPoint, compensation, this.getTokenHeader())
     .toPromise()
-    .then(() => true)
-    .catch(() => false);
+    .then(response => response as Object[])
+      .catch(() => []);
   }
 
   updateCompensation(compensation: Compensation, uploadedFile?: File): Promise<boolean> {
     const values = {
       projected_balance: compensation.projected_balance,
-      reported_balance: compensation.reported_balance
+      reported_balance: compensation.reported_balance,
+      has_by_safebox: compensation.has_by_safebox
     };
 
     const formData = new FormData();
@@ -79,7 +80,7 @@ export class CompensationService extends BaseHttpService {
   }
 
   newComment(compensation_id: number, content: string): Promise<boolean> {
-    return this.http.post(this.endPoint + '/' + compensation_id + '/comment', { content: content }, this.getTokenHeader())
+    return this.http.post(this.endPoint + '/' + compensation_id + '/comment', { 'content': content }, this.getTokenHeader())
     .toPromise()
     .then(() => true)
     .catch(() => false);

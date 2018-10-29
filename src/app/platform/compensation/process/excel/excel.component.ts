@@ -45,6 +45,9 @@ export class ExcelComponent implements OnInit {
       this.compensationService.uploadCompensation(this.uploadedFile).then(response => {
           this.message = response['message'];
           if (this.message  !== 'הצליח') {
+            if (this.message === undefined) {
+              this.message = 'שגיאה';
+            }
             this.hasServerError = true;
           }else {
             this.dialogRef.close();

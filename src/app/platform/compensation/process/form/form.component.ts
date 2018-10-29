@@ -32,7 +32,7 @@ export class FormComponent {
   employees = [];
   productTypes = [];
   productTypeLabels = ProductType;
-
+  message: string;
   hasServerError: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<FormComponent>,
@@ -59,11 +59,13 @@ export class FormComponent {
       this.hasServerError = false;
 
       this.compensationService.newCompensation(form.value).then(response => {
-       if (response) {
-         this.dialogRef.close(true);
-       } else {
-         this.hasServerError = true;
-       }
+        this.message = response['message'];
+        if (this.message === 'success') {
+          this.dialogRef.close(true);
+        } else {
+          this.hasServerError = true;
+          this.message  = 'קימת בקשה לעובד זה.';
+        }
       });
     }
   }

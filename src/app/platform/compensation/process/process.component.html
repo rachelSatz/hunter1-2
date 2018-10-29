@@ -1,17 +1,27 @@
 <p class="h4 mb-4">מעקב יתרות לפיצוים</p>
-<div class="w-50">
+<div class="w-25">
   <bd-select [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event)"></bd-select>
 </div>
 <div class="d-flex my-3">
-  <bd-select [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
-  <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
+  <bd-select class="w-25" [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
+  <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3 w-25" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
   <button class="btn blue-btn"  (click)="resetSearch()">אפס חיפוש</button>
   <!--*ngIf="isSearchActive()"-->
 </div>
 <div [@slideToggle]="extraSearchCriteria" class="d-flex mb-3">
   <bd-select [items]="selectStatuses" placeholder="סטטוס" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" class="ml-3"></bd-select>
   <bd-select [items]="sourceTypes" placeholder="מקור המידע" [(ngModel)]="searchCriteria['source_type']" (onSelect)="search()" class="ml-3"></bd-select>
-  <bd-select [items]="users" placeholder="יוצר בקשה" [(ngModel)]="searchCriteria['username']" (onSelect)="search()"></bd-select>
+  <bd-select [items]="users" placeholder="יוצר בקשה" [(ngModel)]="searchCriteria['username']" (onSelect)="search()" class="ml-3"></bd-select>
+
+
+  <bd-select [items]="responseTimes" placeholder="ימי טיפול" [(ngModel)]="searchCriteria['response_time']" (onSelect)="search()"></bd-select>
+
+  <mat-form-field class="col-2">
+    <input matInput class="pointer" (click)="datePickerRequest.open()" [matDatepicker]="datePickerRequest" placeholder=" תאריך יצירת בקשה" name="dateRequest"  [(ngModel)]="searchCriteria['date_request']" (dateChange)="valueDateChange($event.value)" readonly>
+    <mat-datepicker-toggle matSuffix [for]="datePickerRequest"></mat-datepicker-toggle>
+    <mat-datepicker #datePickerRequest></mat-datepicker>
+    <mat-error>שדה חובה.</mat-error>
+  </mat-form-field>
 </div>
 <div (click)="toggleExtraSearch()">
   <span class="bold blue-color pointer">{{ extraSearchCriteria === 'active' ? 'הצג פחות >' : 'חיפוש מורחב >' }}</span>
@@ -56,6 +66,9 @@
         <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
       </td>
       <td>
+        <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiry_count }}</span>
+      </td>
+      <td>
         <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
       </td>
       <td>
@@ -64,9 +77,6 @@
       </td>
       <td>
         <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
-      </td>
-      <td>
-        <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiry_count }}</span>
       </td>
       <td>
         <span *ngIf="item.status === 'O' || item.status === 'S'">טרם</span>
