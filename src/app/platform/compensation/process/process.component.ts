@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
-
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
 import { ExcelComponent } from './excel/excel.component';
@@ -62,7 +61,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   formSubscription: Subscription;
   commentsSubscription: Subscription;
   // excelSubscription: Subscription;
-
   extraSearchCriteria = 'inactive';
 
   productTypes = ProductType;

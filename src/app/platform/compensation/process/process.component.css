@@ -5,3 +5,6 @@
 .mat-form-field-appearance-legacy .mat-form-field-underline {
   bottom: 2.3em !important;
 }
+.example-chip-list {
+  width: 100%;
+}
