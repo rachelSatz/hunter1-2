@@ -9,6 +9,7 @@ export class Compensation {
   company_id: string;
   employer_id: string;
   portal_balance: number;
+  has_by_safebox: boolean;
 }
 
 export enum CompensationStatus {

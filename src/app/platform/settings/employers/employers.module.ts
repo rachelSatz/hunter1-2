@@ -20,6 +20,6 @@ const routes: Routes = [
     DataTableModule
   ],
   declarations: [EmployersComponent],
-  providers: [EmployerService]
+  providers: [EmployerService ]
 })
 export class EmployersModule { }

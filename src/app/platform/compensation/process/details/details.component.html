@@ -19,11 +19,15 @@
       <mat-error>שדה חובה.</mat-error>
     </mat-form-field>
   </div>
+  <div class="mb-3">
+    <mat-checkbox name="has_by_safebox" [(ngModel)]="compensation.has_by_safebox" required>פער ע"פ כספת</mat-checkbox>
+  </div>
   <div class="d-flex align-items-center">
     <mat-form-field class="w-50 ml-3">
-      <input type="text" class="ltr" matInput placeholder="פער" [value]="compensation.reported_balance > compensation.portal_balance ?
-      (compensation.projected_balance - compensation.reported_balance) :
-      (compensation.projected_balance - compensation.portal_balance)" readonly>
+      <input type="text" class="ltr" matInput placeholder="פער"
+             [value]="compensation.has_by_safebox || compensation.portal_balance <= 0 ?
+             (compensation.reported_balance - compensation.projected_balance) :
+             (compensation.portal_balance - compensation.projected_balance)" readonly>
     </mat-form-field>
     <mat-form-field class="w-50">
       <input type="text" matInput placeholder="תאריך סגירת בקשה" name="closed_at" [ngModel]="compensation.closed_at" readonly>

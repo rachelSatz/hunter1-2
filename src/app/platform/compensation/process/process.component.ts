@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 import * as FileSaver from 'file-saver';
-
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
 import { ExcelComponent } from './excel/excel.component';
@@ -17,17 +16,17 @@ import { CompensationService } from 'app/shared/_services/http/compensation.serv
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { FilterItemsPipe } from '../../../shared/_pipes/filter-items.pipe';
 
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_models/compensation.model';
 import { ProductType } from 'app/shared/_models/product.model';
+import {formatDate} from '@angular/common';
 
 
 @Component({
   selector: 'app-process',
   templateUrl: './process.component.html',
-  styleUrls: ['../../../shared/data-table/data-table.component.css'],
+  styleUrls: ['../../../shared/data-table/data-table.component.css', './process.component.css'],
   animations: [
     trigger('slideToggle', [
       state('inactive', style({
@@ -64,7 +63,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   formSubscription: Subscription;
   commentsSubscription: Subscription;
   // excelSubscription: Subscription;
-
   extraSearchCriteria = 'inactive';
 
   productTypes = ProductType;
@@ -86,6 +84,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   departments = [];
   companies = [];
   users = [];
+  sourceTypes = [{id: 'safebox', name: 'כספת'}, {id: 'email', name: 'מייל'}];
+  responseTimes = [{id: 2, name: '0-2'}, {id: 4, name: '2-4'}, {id: 5, name: '5+'}];
 
   spin: boolean;
 
@@ -98,16 +98,18 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     { column: 'company_name', label: 'חברה מנהלת' }, { column: 'product_type', label: 'סוג מוצר' },
     { column: 'validity_date', label: 'תאריך נכונות' }, { column: 'sent_to', label: 'מקור המידע' },
     { column: 'status', label: 'סטטוס' }, { column: null, label: 'העבר לטיפול' },
-    { column: null, label: 'הערות' }, { column: null, label: 'הורדה' },
-    { column: null, label: 'פרטים' }, { column: null, label: 'פניות' },
+    { column: null, label: 'פניות' }, { column: null, label: 'הערות' },
+    { column: null, label: 'הורדה' }, { column: null, label: 'פרטים' },
     { column: 'validity_status', label: 'תקינות' }
   ];
+
+
 
   constructor(protected route: ActivatedRoute, private compensationService: CompensationService,
               private dialog: MatDialog, private departmentService: DepartmentService,
               private productService: ProductService, protected notificationService: NotificationService
-              , private filterItemsPipe: FilterItemsPipe) {
-    super(route, filterItemsPipe, notificationService);
+              ) {
+    super(route, notificationService);
   }
 
   ngOnInit() {
@@ -118,10 +120,17 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   fetchItems(): void {
     this.compensationService.getCompensations(this.searchCriteria).then(response => this.setItems(response));
+
   }
 
   loadEmployees(departmentID: number): void {
     this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
+  }
+
+  valueDateChange(keyCode: Date): void {
+    this.searchCriteria['date_request'] =
+      formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
+    this.search();
   }
 
   sendCompensations(): void {

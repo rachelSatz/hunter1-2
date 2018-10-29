@@ -1,13 +1,14 @@
-import { NgModule } from '@angular/core';
+import { NgModule  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule, MatSelectModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule,
+  MatSelectModule, MatIconModule, MatAutocompleteModule } from '@angular/material';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
-import { PipesModule } from 'app/shared/_pipes/pipes.module';
 
 import { ProcessComponent } from './process.component';
 import { FormComponent } from './form/form.component';
@@ -18,7 +19,6 @@ import { ExcelComponent } from './excel/excel.component';
 import { SendToComponent } from './send-to/send-to.component';
 import { InquiriesComponent } from './inquiries/inquiries.component';
 
-import { FilterItemsPipe } from '../../../shared/_pipes/filter-items.pipe';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
@@ -34,9 +34,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes),
-    MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule, MatSelectModule,
-    PipesModule,
+    MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule, MatSelectModule, MatChipsModule, MatIconModule,
+    MatAutocompleteModule,
     DatePickerModule,
     BdSelectModule,
     DataTableModule
@@ -51,7 +52,7 @@ const routes: Routes = [
     InquiriesComponent,
     ExcelComponent
   ],
-  providers: [FilterItemsPipe, CompensationService, DepartmentService, ProductService, NotificationService, ContactService],
+  providers: [ CompensationService, DepartmentService, ProductService, NotificationService, ContactService],
   entryComponents: [
     FormComponent,
     CommentsComponent,

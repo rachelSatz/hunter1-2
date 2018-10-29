@@ -5,14 +5,50 @@
   <span>העבר לטיפול</span>
 </div>
 <form #form="ngForm" class="py-4">
-  <div>
-    <bd-select [items]="contacts" placeholder="בחר אנשי קשר" name="contacts" ngModel multiple></bd-select>
+  <div class="mb-4">
+    <mat-form-field class="w-100">
+      <mat-chip-list #chipContactList>
+        <mat-chip
+          *ngFor="let contact of contactsAdd"
+          [selectable]="selectablecontact"
+          [removable]="removablecontact"
+          (removed)="removeContact(contact)">
+          {{contact.name}}
+          <mat-icon matChipRemove *ngIf="removablecontact">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="הוספת אנשי קשר"
+          #contactInput
+          [formControl]="contactCtrl"
+          [matAutocomplete]="autoContact"
+          [matChipInputFor]="chipContactList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlurContact"
+        >
+      </mat-chip-list>
+      <mat-autocomplete #autoContact="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let contact of filteredContacts | async" [value]="contact">
+          {{contact.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
   </div>
-  <mat-form-field class="w-50">
-    <input type="text" matInput placeholder="הוסף כתובת מייל" name="email" ngModel>
+  <mat-form-field class="w-100">
+    <mat-chip-list #chipList>
+      <mat-chip *ngFor="let email of Emails" [selectable]="selectable"
+                [removable]="removable" (removed)="remove(email)">
+        {{email.name}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="הוספת כתובת מייל"
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
   </mat-form-field>
   <mat-form-field class="w-100">
-    <textarea name="comments" matInput placeholder="תוכן" required></textarea>
+    <textarea name="comments" matInput placeholder="תוכן" required [(ngModel)]="comments"></textarea>
   </mat-form-field>
 </form>
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
