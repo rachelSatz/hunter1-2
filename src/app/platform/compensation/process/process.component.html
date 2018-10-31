@@ -5,7 +5,7 @@
 <div class="d-flex my-3">
   <bd-select class="w-25" [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
   <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3 w-25" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
-  <button class="btn blue-btn"  (click)="resetSearch()">אפס חיפוש</button>
+  <button class="btn blue-btn" *ngIf="isSearchActive()  (click)="resetSearch()>אפס חיפוש</button>
   <!--*ngIf="isSearchActive()"-->
 </div>
 <div [@slideToggle]="extraSearchCriteria" class="d-flex mb-3">

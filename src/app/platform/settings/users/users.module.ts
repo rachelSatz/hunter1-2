@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsersComponent } from './users.component';
 import {RouterModule, Routes} from '@angular/router';
+
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
+import { UsersComponent } from './users.component';
+
 import {DataTableModule} from '../../../shared/data-table/data-table.module';
 import { UserService } from '../../../shared/_services/http/user.service';
-
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 
 const routes: Routes = [
   { path: '', component: UsersComponent },
@@ -16,11 +19,12 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    BdSelectModule,
     RouterModule.forChild(routes),
-    DataTableModule
+    DataTableModule,
   ],
   declarations: [UsersComponent],
-  providers: [UserService ]
+  providers: [UserService, EmployerService ]
 })
 
 export class UsersModule { }

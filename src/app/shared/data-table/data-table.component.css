@@ -1,59 +1,91 @@
-.table-header {
-	color: #34a7df !important;
+.data-table-actions {
+  margin-bottom: 20px;
 }
 
-.data-table-actions {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+.data-table-action {
+  padding: 8px 12px;
+  background: #356cb3;
+  border: 1px solid #356cb3;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #fff !important;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.data-table-actions ::ng-deep .mat-form-field {
+  width: 270px;
 }
 
 .saved-message > i {
-	font-size: 22px;
+    font-size: 22px;
 }
 
 .saved-message > span {
-	vertical-align: top;
+    vertical-align: top;
+}
+
+.check-all-container {
+  padding-top: 20px;
 }
 
 .data-table th {
-	padding: 0.4rem !important;
-	background-color: rgba(0,0,0,.075);
-	border: 1px solid #ddd;
-	color: #000;
-  	vertical-align: middle;
-  	text-align: center !important;
+  vertical-align: middle;
+  text-align: center !important;
+  background-color: #808080;
+  color: #fff;
+  cursor: pointer;
+  font-weight: normal;
 }
 
-.data-table tr.checked > td {
-	background-color: rgba(0,0,0,.075);
+.headers th > i {
+  margin-top: 4px;
+}
+
+.search-input-container > * {
+  font-size: 12px;
+}
+
+.search-select-container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.data-table tr.checked {
+  background-color: #356cb3;
+}
+
+.data-table tr.checked * {
+  color: #fff;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #fff;
 }
 
 .data-table td {
-	padding: 0.5rem;
-	border: 1px solid #ddd;
-	text-align: center !important;
-	font-size: 14px;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  text-align: center !important;
+  font-size: 14px;
 }
 
-.data-table .search-row {
-	background-color: #fff;
+.data-table .row-actions {
+  width: 150px;
 }
 
 .data-table .row-actions > a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .data-table .row-actions i, .data-table .row-icon {
-	margin-left: 4px;
-	cursor: pointer;
-	color: #34a7df;
-	font-size: 22px;
-	vertical-align: middle;
+  margin-left: 4px;
+  cursor: pointer;
+  color: #356cb3;
+  font-size: 18px;
 }
 
-.data-table .row-actions > img {
-	height: 25px;
-	width: 25px;
-	cursor: pointer;
+.data-table .row-image {
+  width: 30px;
+  height: auto;
 }

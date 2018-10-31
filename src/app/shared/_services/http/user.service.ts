@@ -21,8 +21,14 @@ export class UserService extends BaseHttpService {
     .then(response => response as Employer[]);
   }
 
-  getUsers(): Promise<User[]> {
-    return this.http.get(this.endPoint, this.getTokenHeader())
+  getUsers(searchCriteria?: Object): Promise<User[]> {
+    const request = this.getTokenHeader();
+
+    if (searchCriteria) {
+      request['params'] = searchCriteria;
+    }
+
+    return this.http.get(this.endPoint, request)
       .toPromise()
       .then(response => response as User[]);
   }
