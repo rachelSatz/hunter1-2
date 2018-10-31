@@ -120,12 +120,16 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   fetchItems(): void {
     this.compensationService.getCompensations(this.searchCriteria).then(response => {
-      this.users  = response.map(item => ({id: item['user_id'], name: item['username']}));
-        this.users =  this.users.filter((x) => this.users.indexOf(x) === 0);
-        this.setItems(response);
+         this.setResponse(response) ;
       }
     );
 
+  }
+
+  setResponse(response: any[]): void {
+    this.users  = response.map(item => ({id: item['user_id'], name: item['username']}));
+    this.users =  this.users.filter((x) => this.users.indexOf(x) === 0);
+    this.setItems(response);
   }
 
   loadEmployees(departmentID: number): void {
@@ -177,12 +181,13 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
       return;
     }
 
-    this.compensationService.manualChangingStatus(this.checkedItems.map(item => item.id)).then(response => {
-      if (response) {
-        this.notificationService.success('הבקשות נשלחו בהצלחה.');
+    this.compensationService.manualChangingStatus(this.checkedItems.map(item => item.id), this.searchCriteria).then(response => {
+      // if (response) {
+      //   this.notificationService.success('הבקשות נשלחו בהצלחה.');
         this.checkedItems = [];
         this.isCheckAll = false;
-      }
+        this.setResponse(response);
+       // }
     });
   }
 
