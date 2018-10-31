@@ -119,7 +119,12 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   fetchItems(): void {
-    this.compensationService.getCompensations(this.searchCriteria).then(response => this.setItems(response));
+    this.compensationService.getCompensations(this.searchCriteria).then(response => {
+      this.users  = response.map(item => ({id: item['user_id'], name: item['username']}));
+        this.users =  this.users.filter((x) => this.users.indexOf(x) === 0);
+        this.setItems(response);
+      }
+    );
 
   }
 
@@ -230,25 +235,13 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
   }
 
-  // downloadPdfFile(rowId: number): void {
-  //   this.compensationService.downloadPdfFile(rowId).then(response => {
-  //       console.log('downloadPdfFile', response);
-  //       // this.saveToFileSystem(response);
-  //     }
-  //   )
-  //     .catch(() =>
-  //       this.notificationService.showResult('הקובץ אינו קיים במערכת', NotificationType.error)
-  //     );
-  // }
-
-
   downloadPdfFile(rowId: number): void {
     this.spin = true;
     this.compensationService.downloadPdfFile(rowId)
       .then(response => {
         const byteCharacters = atob(response);
         const byteNumbers = new Array(byteCharacters.length);
-        for (var i = 0; i < byteCharacters.length; i++) {
+        for (let i = 0; i < byteCharacters.length; i++) {
           byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
         const byteArray = new Uint8Array(byteNumbers);

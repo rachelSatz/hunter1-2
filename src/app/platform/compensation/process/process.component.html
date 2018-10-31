@@ -11,7 +11,7 @@
 <div [@slideToggle]="extraSearchCriteria" class="d-flex mb-3">
   <bd-select [items]="selectStatuses" placeholder="סטטוס" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" class="ml-3"></bd-select>
   <bd-select [items]="sourceTypes" placeholder="מקור המידע" [(ngModel)]="searchCriteria['source_type']" (onSelect)="search()" class="ml-3"></bd-select>
-  <bd-select [items]="users" placeholder="יוצר בקשה" [(ngModel)]="searchCriteria['username']" (onSelect)="search()" class="ml-3"></bd-select>
+  <bd-select [items]="users" placeholder="יוצר בקשה" [(ngModel)]="searchCriteria['user_id']" (onSelect)="search()" class="ml-3"></bd-select>
 
 
   <bd-select [items]="responseTimes" placeholder="ימי טיפול" [(ngModel)]="searchCriteria['response_time']" (onSelect)="search()"></bd-select>

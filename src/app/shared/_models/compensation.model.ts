@@ -13,10 +13,10 @@ export class Compensation {
 }
 
 export enum CompensationStatus {
-  'valid' = 'תקין',
-  'invalid' = 'שגוי',
   'open' = 'פתוח',
   'sent' = 'נשלח',
+  'feedback_a' = 'התקבל פידבק א',
+  'feedback_b' = 'התקבל פידבק ב',
   'closed' = 'סגור'
 }
 
