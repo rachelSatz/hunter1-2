@@ -26,7 +26,7 @@ export class DepartmentService extends BaseHttpService {
   }
 
   getEmployees(departmentID: number): Promise<Employee[]> {
-    return this.http.get(this.endPoint + '/' + departmentID + '/employees')
+    return this.http.get(this.endPoint + '/' + departmentID + '/employees', this.getTokenHeader())
       .toPromise()
       .then(response => response as Employee[])
       .catch(() => []);
