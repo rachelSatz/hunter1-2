@@ -86,6 +86,13 @@ export class CompensationService extends BaseHttpService {
     .catch(() => false);
   }
 
+  getComments(compensationID: number): Promise<Object[]> {
+    return this.http.get(this.endPoint + '/' + compensationID + '/getComments', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Object[])
+      .catch(() => []);
+  }
+
   getInquiries(compensationID: number): Promise<Object[]> {
     return this.http.get(this.endPoint + '/' + compensationID + '/inquiries', this.getTokenHeader())
     .toPromise()

@@ -18,6 +18,7 @@ export class DepartmentService extends BaseHttpService {
   }
 
   getDepartments(): Promise<Department[]> {
+    const header = this.getTokenHeader();
     return this.http.get(this.endPoint, this.getTokenHeader())
       .toPromise()
       .then(response => response as Department[])
