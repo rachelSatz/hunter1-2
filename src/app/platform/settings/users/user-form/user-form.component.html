@@ -1,45 +1,59 @@
 <form #form="ngForm" (ngSubmit)="submit(form)">
-  <p class="h4 mb-4">'יצירת משתמש חדש'</p>
-  <div class="row col-12">
-    <div class="col-4">
-      <mat-form-field class="row col-12">
+  <p class="h4 mb-4">יצירת משתמש חדש</p>
+  <div class="row col-12 mb-4">
+      <mat-form-field class="row col-4">
         <input matInput type="text" [ngModel]="" #name="ngModel" placeholder="שם משתמש" name="username" required>
       </mat-form-field >
-      <mat-form-field class="row col-12">
-        <input matInput type="text" [ngModel]="" #businessNumber="ngModel" placeholder="שם פרטי" name="businessNumber" required pattern="^\d{9}$">
+      <div class="row col-12 " style="padding-right:0px">
+      <mat-form-field class="col-4">
+        <input matInput type="text" [ngModel]="" #businessNumber="ngModel" placeholder="שם פרטי" name="first_name" required pattern="^\d{9}$">
       </mat-form-field>
-      <mat-form-field class="row col-12">
+        <mat-form-field class="col-4">
+          <input matInput  placeholder="שם משפחה" name="last_name" type="text"  value="">
+        </mat-form-field>
+      </div>
+      <mat-form-field class="row col-4">
         <input matInput placeholder="כתובת מייל" name="email" type="email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
       </mat-form-field>
-      <p  style="padding-bottom: 3px; padding-top: 20px" class="h4 mb-4">בחר סוג משתמש ראשי</p>
-      <mat-form-field class="row col-12">
-        <input matInput type="text" [ngModel]="" #instituteCode8="ngModel" placeholder="סוג משתמש" name="instituteCode8" pattern="^\d{8}$">
-      </mat-form-field>
-      <mat-checkbox class = "onoffswitch-checkbox"  name="onoffswitch"  [(ngModel)] = "checkboxValue" >
+  </div>
+  <div class="col-4 mb-4" style="padding-right:0px">
+    <p class="bold h6">בחר סוג משתמש ראשי</p>
+    <bd-select [items]="role" placeholder="סוג משתמש"  name="role"></bd-select>
 
-    </div>
-    <div class="col-4">
-      <mat-form-field class="row col-12">
-        <input matInput  placeholder="שם משפחה" name="mobile" type="text"  value="">
-      </mat-form-field>
-      <mat-form-field class="row col-12">
-        <input matInput placeholder="כתובת מייל" name="email" type="email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
-      </mat-form-field>
-      <mat-form-field class="row col-12">
-        <input matInput placeholder="פקס" name="fax" type="text" >
-      </mat-form-field>
-      <mat-form-field class="row col-12">
-        <input matInput type="text"  placeholder="כתובת" name="address">
-      </mat-form-field>
-    </div>
   </div>
-  <div class="row">
-    <mat-form-field class="col-6 w-100p">
-      <input type="text" matInput placeholder="הערות" name="comments">
+
+  <p class="bold h6">בחר הרשאות</p>
+  <div class="d-flex mb-4 w-25">
+  <mat-radio-group>
+    <mat-radio-button class="ml-4" value="1">צפייה בלבד</mat-radio-button>
+    <mat-radio-button class="ml-4" value="2">צפייה ועריכה</mat-radio-button>
+    <mat-radio-button  value="3">כל ההרשאות</mat-radio-button>
+  </mat-radio-group>
+  </div>
+
+  <p class="bold h6">בחר מודלים</p>
+  <div class="d-flex  mb-4 w-25 ">
+    <mat-checkbox class="flex-grow-1">משתמשים</mat-checkbox>
+    <mat-checkbox class="flex-grow-1">פיננסי</mat-checkbox>
+    <mat-checkbox >סליקה ויתרות לפיצויים</mat-checkbox>
+  </div>
+  <p class="bold h6">בחר ישויות</p>
+  <div class=" w-50 d-flex my-3">
+
+    <bd-select  class="ml-3" name="organization" [items]="organizations" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
+    <bd-select  class="ml-3" name="employer"  [items]="employers" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
+
+    <mat-form-field>
+      <mat-select placeholder="Toppings" [formControl]="toppings" multiple name="departments">
+        <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+      </mat-select>
     </mat-form-field>
+
+    <bd-select  class="ml-3" name="departments" [items]="departments" placeholder="מחלקות" ></bd-select>
   </div>
-  <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
-  <div style="padding-right: 1400px">
+
+  <!--<p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>-->
+  <div>
     <button class="btn blue-btn" type="submit">שלח</button>
   </div>
 </form>

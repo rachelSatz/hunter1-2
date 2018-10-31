@@ -11,7 +11,7 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 
 const routes: Routes = [
   { path: '', component: UsersComponent },
-  { path: 'form', loadChildren: 'app/platform/settings/users/user-form/user-form.module#UsersFormModule' }
+  { path: 'form', loadChildren: 'app/platform/settings/users/user-form/user-form.module#UserFormModule' }
 ];
 
 

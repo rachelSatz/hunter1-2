@@ -33,4 +33,10 @@ export class UserService extends BaseHttpService {
       .then(response => response as User[]);
   }
 
+  getUser(id: number): Promise<User> {
+    return this.http.get(this.endPoint + '/' + id, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as User);
+  }
+
 }

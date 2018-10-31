@@ -56,7 +56,7 @@ export class EmployerFormComponent implements OnInit {
 
       for (const i in types) {
         if (types[i] !== null) {
-          this.banks.push({id: types[i].id, name: types[i].name});
+          this.banks.push({id: types[i].id, name: types[i]['name']});
         }
       }
     });
@@ -67,7 +67,7 @@ export class EmployerFormComponent implements OnInit {
     this.employerService.getBankBranches(bank.id).then(types => {
       for (const i in types) {
         if (types[i] !== null) {
-          this.bankBranches.push({ id: types[i].id, name: types[i].name });
+          this.bankBranches.push({ id: types[i].id, name: types[i]['name'] });
         }
       }
     });

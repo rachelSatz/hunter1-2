@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataTableHeader} from '../../../shared/data-table/classes/data-table-header';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { UserService } from '../../../shared/_services/http/user.service';
 import {DataTableComponent} from '../../../shared/data-table/data-table.component';
