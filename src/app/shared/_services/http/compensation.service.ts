@@ -128,10 +128,17 @@ export class CompensationService extends BaseHttpService {
       .catch(() => []);
   }
 
-  manualChangingStatus(compensation_ids: number[]): Promise<boolean> {
-    return this.http.post(this.endPoint + '/updateSentStatus', { compensation_ids: compensation_ids }, this.getTokenHeader())
+  manualChangingStatus(compensation_ids: number[], searchCriteria?: Object):  Promise<Compensation[]> {
+    return this.http.post(this.endPoint + '/updateSentStatus',
+      { compensation_ids: compensation_ids,
+        searchCriteria: searchCriteria
+      }
+    , this.getTokenHeader())
       .toPromise()
-      .then(() => true)
-      .catch(() => false);
+      .then(response => response as Compensation[])
+      .catch(() => []);
   }
 }
+
+
+
