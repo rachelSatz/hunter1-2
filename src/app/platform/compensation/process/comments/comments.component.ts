@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
@@ -24,7 +24,7 @@ import { Compensation } from 'app/shared/_models/compensation.model';
     ])
   ]
 })
-export class CommentsComponent {
+export class CommentsComponent implements OnInit {
   comments = [];
   hasServerError: boolean;
 

@@ -24,6 +24,7 @@ import { DepartmentService } from 'app/shared/_services/http/department.service'
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
+import {PipesModule} from '../../../shared/_pipes/pipes.module';
 
 
 const routes: Routes = [
@@ -40,7 +41,8 @@ const routes: Routes = [
     MatAutocompleteModule,
     DatePickerModule,
     BdSelectModule,
-    DataTableModule
+    DataTableModule,
+    PipesModule
   ],
   declarations: [
     ProcessComponent,
