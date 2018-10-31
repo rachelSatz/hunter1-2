@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { EmployersComponent } from './employers.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
-import { FilterItemsPipe } from '../../../shared/_pipes/filter-items.pipe';
 
 const routes: Routes = [
   { path: '', component: EmployersComponent },

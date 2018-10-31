@@ -1,3 +1,33 @@
-<p>
-  users works!
-</p>
+<p class="h4 mb-4">מעסיקים</p>
+<div class="d-flex justify-content-end mt-4">
+  <button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת מעסיקים</button>
+</div>
+<table class="table table-bordered table-hover mt-3 data-table">
+  <thead>
+  <tr class="table-headers">
+    <th *ngFor="let header of headers" (click)="sort(header)">
+      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
+      <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
+    </th>
+    <th>פעולות</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngIf="!isSearching">
+    <tr *ngFor="let item of paginatedItems" class="pointer">
+      <td>{{ item.username }}</td>
+      <td>{{ item.role }}</td>
+      <td>{{ item.first_name + ' ' + item.last_name}}</td>
+      <td>{{ item.email }}</td>
+      <td>
+        <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+      </td>
+    </tr>
+  </ng-container>
+  <tr *ngIf="!isSearching && items.length === 0">
+    <td colspan="9" class="text-center bold">טבלת משתמשים ריקה.</td>
+  </tr>
+  </tbody>
+</table>
+<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
+
