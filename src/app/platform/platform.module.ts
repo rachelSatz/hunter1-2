@@ -15,7 +15,8 @@ const routes: Routes = [
       { path: 'compensations/process', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
       { path: 'compensations/dashboard', loadChildren: 'app/platform/compensation/dashboard/dashboard.module#DashboardModule' },
       { path: 'settings/contacts', loadChildren: 'app/platform/settings/contacts/contacts.module#ContactsModule' },
-      { path: 'settings/employers', loadChildren: 'app/platform/settings/employers/employers.module#EmployersModule' }
+      { path: 'settings/employers', loadChildren: 'app/platform/settings/employers/employers.module#EmployersModule' },
+      { path: 'settings/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' }
     ]
   }
 ];

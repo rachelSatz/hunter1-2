@@ -35,8 +35,9 @@ export class PlatformComponent implements OnInit {
       { url: 'employees', label: 'עובדים' },
       { url: 'employers', label: 'מעסיקים' },
       { url: 'agents', label: 'סוכנים' },
-      { url: 'contacts', label: 'אנשי קשר' }
-    ]},
+      { url: 'contacts', label: 'אנשי קשר' },
+      { url: 'users', label: 'משתמשים' }
+      ]},
   ];
 
   constructor(private router: Router, private userSession: UserSessionService) {}
