@@ -42,7 +42,6 @@ export class EmployerFormComponent implements OnInit {
     this.loadBanks();
     if (this.route.snapshot.data.employer) {
       this.employer = this.route.snapshot.data.employer;
-      // this.employer['bank_id'] = 4;
       // if (this.employer.bankBranch.bank.id !== 0) {
       //   this.bankSelected =  this.employer.bankBranch.bank.id;
       //   this.loadBankBranches(this.employer.bankBranch.bank);
@@ -53,12 +52,7 @@ export class EmployerFormComponent implements OnInit {
   loadBanks(): void {
 
     this.employerService.getBanks().then(types => {
-
-      for (const i in types) {
-        if (types[i] !== null) {
-          this.banks.push({id: types[i].id, name: types[i]['name']});
-        }
-      }
+      this.banks = types;
     });
   }
 

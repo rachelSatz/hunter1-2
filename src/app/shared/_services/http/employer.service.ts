@@ -58,14 +58,14 @@ export class EmployerService extends BaseHttpService {
   }
 
   getBanks(): Promise<Bank[]> {
-    return this.http.get(this.endPoint + '/banks')
+    return this.http.get(this.endPoint + '/banks', this.getTokenHeader())
       .toPromise()
       .then(response => response as Bank[])
       .catch(() => []);
   }
 
   getBankBranches(bankID: number): Promise<BankBranch[]> {
-    return this.http.get(this.endPoint + '/bankBranches/' + bankID)
+    return this.http.get(this.endPoint + '/bankBranches/' + bankID, this.getTokenHeader())
       .toPromise()
       .then(response => response as BankBranch[])
       .catch(() => []);

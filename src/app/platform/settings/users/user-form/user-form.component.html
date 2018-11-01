@@ -27,7 +27,7 @@
         <input matInput placeholder="כתובת מייל" #email="ngModel" [ngModel]="user.email" name="email" type="email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
       </mat-form-field>
   </div>
-  <div class="col-4 mb-4" style="padding-right:0px">
+  <div class="col-4 mb-4" style="padding-right:0">
     <p class="bold h6">בחר סוג משתמש ראשי</p>
     <bd-select [items]="role" placeholder="סוג משתמש" #roleSelect="ngModel"  name="role" [ngModel]="user.role" required></bd-select>
 

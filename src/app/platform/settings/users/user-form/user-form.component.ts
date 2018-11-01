@@ -18,7 +18,7 @@ export class UserFormComponent implements OnInit {
   organizations = [];
   departments = [];
   employers = [];
-  role = [{'id': 1, 'name': 'מנהל'}, {'id': 2, 'name': 'מתפעל'}, {'id': 3, 'name': 'מעסיק'}];
+  role = [{'id': 'admin', 'name': 'מנהל'}, {'id': 'operator', 'name': 'מתפעל'}, {'id': 'employer', 'name': 'מעסיק'}];
   constructor(private route: ActivatedRoute, private employerService: EmployerService, private userService: UserService
     , private organizationService: OrganizationService
   ) { }
@@ -27,6 +27,7 @@ export class UserFormComponent implements OnInit {
     this.organizationService.getOrganization().then(response => this.organizations = response);
     if (this.route.snapshot.data.user) {
       this.user = this.route.snapshot.data.user;
+      console.log(this.user);
     }
   }
 
