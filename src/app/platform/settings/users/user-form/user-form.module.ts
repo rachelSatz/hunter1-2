@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule ,MatIconModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule
+  , MatIconModule } from '@angular/material';
+
 
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 
@@ -13,6 +15,7 @@ import { OrganizationService } from 'app/shared/_services/http/organization.serv
 import { UserService } from 'app/shared/_services/http/user.service';
 
 import { UsersResolve } from 'app/shared/_resolves/users.resolve';
+
 
 const routes: Routes = [
   { path: '', component: UserFormComponent },

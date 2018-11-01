@@ -44,17 +44,33 @@
 
   <p class="bold h6">בחר מודלים</p>
   <div class="d-flex  mb-4 w-25 ">
-    <mat-checkbox class="flex-grow-1">משתמשים</mat-checkbox>
-    <mat-checkbox class="flex-grow-1">פיננסי</mat-checkbox>
-    <mat-checkbox >סליקה ויתרות לפיצויים</mat-checkbox>
+    <mat-radio-group>
+      <mat-radio-button class="ml-4" value="1">משתמשים</mat-radio-button>
+      <mat-radio-button class="ml-4" value="2">פיננסי</mat-radio-button>
+      <mat-radio-button value="3">סליקה ויתרות לפיצויים</mat-radio-button>
+    </mat-radio-group>
   </div>
   <p class="bold h6">בחר ישויות</p>
-  <div class=" w-50 d-flex my-3">
 
-    <bd-select  class="ml-3" name="organization" [ngModel]="user.organization" [items]="organizations" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
-    <bd-select  class="ml-3" name="employer" [ngModel]="user.employers" [items]="employers" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
-    <bd-select  class="ml-3" name="departments" [ngModel]="user.departments" [items]="departments" placeholder="מחלקות" ></bd-select>
+  <div class=" w-50 d-flex my-3" *ngFor="let row of entityRows; let last = last; let index = index">
+    <button mat-icon-button (click)="deleteEntityRow(index)" *ngIf="index > 0">
+      <mat-icon>highlight_off</mat-icon>
+    </button>
+    <bd-select  class="ml-3" name="organization" [items]="organizations" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
+    <bd-select  class="ml-3" name="employer"  [items]="employers" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
+    <!--<mat-form-field>-->
+      <!--<mat-select placeholder="Toppings" [formControl]="toppings" multiple name="departments">-->
+        <!--<mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>-->
+      <!--</mat-select>-->
+    <!--</mat-form-field>-->
+    <bd-select  class="ml-3" name="departments" [items]="departments" placeholder="מחלקות" ></bd-select>
+    <button mat-icon-button (click)="addEntityRow()" *ngIf="last">
+      <mat-icon>add_circle</mat-icon>
+    </button>
   </div>
+
+
+  <!--<img src="/assets/img/icons/baseline-add_circle-24px.png" (click)="openSendToDialog(item)">-->
 
   <!--<p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>-->
   <div>

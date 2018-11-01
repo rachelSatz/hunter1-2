@@ -13,8 +13,10 @@ import {User} from 'app/shared/_models/user.model';
   templateUrl: './user-form.component.html',
 })
 export class UserFormComponent implements OnInit {
+
   user = new User();
   hasServerError: boolean;
+  entityRows = [{}];
   organizations = [];
   departments = [];
   employers = [];
@@ -51,4 +53,11 @@ export class UserFormComponent implements OnInit {
   }
   }
 
+  addEntityRow(): void {
+    this.entityRows.push({});
+  }
+
+  deleteEntityRow(index: number): void {
+    this.entityRows.splice(index, 1);
+  }
 }
