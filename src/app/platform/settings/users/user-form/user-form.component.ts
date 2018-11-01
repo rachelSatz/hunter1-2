@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 
+
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
 })
 export class UserFormComponent implements OnInit {
 
+  entityRows = [{}];
   organizations = [];
   departments = [];
   employers = [];
@@ -27,5 +29,15 @@ export class UserFormComponent implements OnInit {
   loadDepartments(employerID: number): void {
     this.employerService.getDepartments(employerID).then(response => this.departments = response);
   }
+
+  addEntityRow(): void {
+    this.entityRows.push({});
+  }
+
+  deleteEntityRow(index: number): void {
+    this.entityRows.splice(index, 1);
+  }
+
+
 
 }
