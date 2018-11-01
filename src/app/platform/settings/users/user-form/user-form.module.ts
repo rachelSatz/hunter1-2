@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule
   , MatIconModule } from '@angular/material';
 
@@ -28,7 +28,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
-    BdSelectModule
+    BdSelectModule,
+    ReactiveFormsModule
   ],
   declarations: [UserFormComponent],
   providers: [UserService, EmployerService, OrganizationService, UsersResolve]
