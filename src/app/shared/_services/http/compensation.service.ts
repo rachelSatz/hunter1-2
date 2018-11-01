@@ -138,6 +138,19 @@ export class CompensationService extends BaseHttpService {
       .then(response => response as Compensation[])
       .catch(() => []);
   }
+
+  uploadExcelEmployees(uploadedFile?: File, departmentId?: number): Promise<Object> {
+    if (uploadedFile) {
+      const formData = new FormData();
+      formData.append('file', uploadedFile);
+      formData.append('department_id',  JSON.stringify(departmentId));
+
+      return this.http.post(this.endPoint + '/uploadExcelEmployees', formData, this.getTokenHeader())
+        .toPromise()
+        .then(response => response as Object)
+        .catch(() => []);
+    }
+  }
 }
 
 

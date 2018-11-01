@@ -2,11 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+
 import { Subscription } from 'rxjs/Subscription';
 import * as FileSaver from 'file-saver';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
-import { ExcelComponent } from './excel/excel.component';
+import { ExcelComponent } from './excel/compensation/compensation.component';
+import { EmployeesComponent } from './excel/employees/employees.component';
+
 import { CommentsComponent } from './comments/comments.component';
 import { DetailsComponent } from './details/details.component';
 import { SendToComponent } from './send-to/send-to.component';
@@ -170,8 +173,16 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   openExcelDialog(): void {
-    const dialog = this.dialog.open(ExcelComponent, {
+     this.dialog.open(ExcelComponent, {
       width: '450px'
+    });
+  }
+
+  openExcelEmployeesDialog(): void {
+    this.dialog.open(EmployeesComponent, {
+      data: {  departments: this.departments },
+      width: '450px',
+      panelClass: 'excel-employees-dialog'
     });
   }
 

@@ -15,7 +15,7 @@ import { FormComponent } from './form/form.component';
 import { CommentsComponent } from './comments/comments.component';
 import { DetailsComponent } from './details/details.component';
 import { AddFileComponent } from './add-file/add-file.component';
-import { ExcelComponent } from './excel/excel.component';
+import { ExcelComponent } from './excel/compensation/compensation.component';
 import { SendToComponent } from './send-to/send-to.component';
 import { InquiriesComponent } from './inquiries/inquiries.component';
 
@@ -25,6 +25,7 @@ import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import {PipesModule} from '../../../shared/_pipes/pipes.module';
+import { EmployeesComponent } from './excel/employees/employees.component';
 
 
 const routes: Routes = [
@@ -52,7 +53,8 @@ const routes: Routes = [
     AddFileComponent,
     SendToComponent,
     InquiriesComponent,
-    ExcelComponent
+    ExcelComponent,
+    EmployeesComponent,
   ],
   providers: [ CompensationService, DepartmentService, ProductService, NotificationService, ContactService],
   entryComponents: [
@@ -62,6 +64,7 @@ const routes: Routes = [
     AddFileComponent,
     SendToComponent,
     ExcelComponent,
+    EmployeesComponent,
     InquiriesComponent
   ]
 })

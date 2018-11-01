@@ -8,3 +8,7 @@
 .example-chip-list {
   width: 100%;
 }
+
+::ng-deep .excel-employees-dialog .mat-dialog-container {
+  overflow: visible;
+}

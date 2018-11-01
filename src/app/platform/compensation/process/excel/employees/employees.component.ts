@@ -2,13 +2,14 @@ import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { CompensationService } from 'app/shared/_services/http/compensation.service';;
-import {Compensation} from '../../../../shared/_models/compensation.model';
+import { CompensationService } from '../../../../../shared/_services/http/compensation.service';
+
+import { Department } from 'app/shared/_models/department.model';
 
 
 @Component({
-  selector: 'app-excel',
-  templateUrl: './excel.component.html',
+  selector: 'app-employees',
+  templateUrl: './employees.component.html',
   animations: [
     trigger('fade', [
       state('inactive', style({
@@ -24,16 +25,16 @@ import {Compensation} from '../../../../shared/_models/compensation.model';
     ])
   ]
 })
-export class ExcelComponent implements OnInit {
+export class EmployeesComponent implements OnInit {
 
   uploadedFile: File;
   files = [];
   typeDoc: string;
   message: string;
   hasServerError: boolean;
-
-  constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation,
-              private compensationService: CompensationService, private dialogRef: MatDialogRef<ExcelComponent>) { }
+  departmentId: number;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<EmployeesComponent>,
+              private compensationService: CompensationService) { }
 
   ngOnInit() {
     this.typeDoc = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel';
@@ -41,19 +42,17 @@ export class ExcelComponent implements OnInit {
 
   submit(): void {
     if (this.uploadedFile !== undefined ) {
-
-      this.compensationService.uploadCompensation(this.uploadedFile).then(response => {
-          this.message = response['message'];
-          if (this.message  !== 'הצליח') {
-            if (this.message === undefined) {
-              this.message = 'שגיאה';
-            }
-            this.hasServerError = true;
-          }else {
-            this.dialogRef.close();
+      this.compensationService.uploadExcelEmployees(this.uploadedFile, this.departmentId).then(response => {
+        this.message = response['message'];
+        if (this.message  !== 'הצליח') {
+          if (this.message === undefined) {
+            this.message = 'שגיאה';
           }
+          this.hasServerError = true;
+        }else {
+          this.dialogRef.close();
+        }
       });
-
     }else {
       this.message = 'בחר קובץ';
     }
