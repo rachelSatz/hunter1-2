@@ -57,8 +57,13 @@ export class EmployerService extends BaseHttpService {
     .then(response => response as { responseCode: number });
   }
 
-  getBanks(): Promise<Bank[]> {
-    return this.http.get(this.endPoint + '/banks', this.getTokenHeader())
+  getBanks(withBranches?: boolean): Promise<Bank[]> {
+    const request = this.getTokenHeader();
+    if (withBranches) {
+      request['params'] = { withBranches: 1 };
+    }
+
+    return this.http.get(this.endPoint + '/banks', request )
       .toPromise()
       .then(response => response as Bank[])
       .catch(() => []);
@@ -76,6 +81,13 @@ export class EmployerService extends BaseHttpService {
     return this.http.get(this.endPoint + '/' + employerID + '/departments', this.getTokenHeader())
       .toPromise()
       .then(response => response as Department[])
+      .catch(() => []);
+  }
+
+  getBanksWithBranches(): Promise<Bank[]> {
+    return this.http.get(this.endPoint + '/' +  + '/departments', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Bank[])
       .catch(() => []);
   }
 }
