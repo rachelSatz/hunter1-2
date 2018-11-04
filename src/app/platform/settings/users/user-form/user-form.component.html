@@ -24,19 +24,20 @@
 
   <p class="bold h6">בחר הרשאות</p>
   <div class="d-flex mb-4 w-25">
-  <mat-radio-group [(ngModel)]="user.permission_type" [value]="user.permission_type" name="permission_type">
-    <mat-radio-button class="ml-4" [value]="1">צפייה בלבד</mat-radio-button>
-    <mat-radio-button class="ml-4" [value]="2">צפייה ועריכה</mat-radio-button>
-    <mat-radio-button  [value]="3">כל ההרשאות</mat-radio-button>
+  <mat-radio-group [(ngModel)]="user.permission_type"  [value]="user.permission_type" name="permission_type">
+    <mat-radio-button class="ml-4" value="read">צפייה בלבד</mat-radio-button>
+    <mat-radio-button class="ml-4" value="write">צפייה ועריכה</mat-radio-button>
+    <mat-radio-button  value="all">כל ההרשאות</mat-radio-button>
   </mat-radio-group>
   </div>
 
   <p class="bold h6">בחר מודלים</p>
   <div class="d-flex  mb-4 w-25 ">
     <mat-radio-group [(ngModel)]="user.module" [value]="user.module" name="module">
-      <mat-radio-button class="ml-4" [value]="1">משתמשים</mat-radio-button>
-      <mat-radio-button class="ml-4" [value]="2">פיננסי</mat-radio-button>
-      <mat-radio-button [value]="3">סליקה ויתרות לפיצויים</mat-radio-button>
+      <mat-radio-button class="ml-4" value="user_management">משתמשים</mat-radio-button>
+      <mat-radio-button class="ml-4" value="finance">פיננסי</mat-radio-button>
+      <mat-radio-button class="ml-4" value="operations">סליקה</mat-radio-button>
+      <mat-radio-button value="compensation">יתרות לפיצויים</mat-radio-button>
     </mat-radio-group>
   </div>
   <p class="bold h6">בחר ישויות</p>

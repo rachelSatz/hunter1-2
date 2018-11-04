@@ -32,9 +32,10 @@ export class PlatformComponent implements OnInit {
       { url: 'files', label: 'לפי קובץ' }
     ]},
     { url: 'settings', label: 'הגדרות', subMenuLinks: [
-      { url: 'employees', label: 'עובדים' },
+      // { url: 'employees', label: 'עובדים' },
+      { url: 'organizations', label: 'ארגונים' },
       { url: 'employers', label: 'מעסיקים' },
-      { url: 'agents', label: 'סוכנים' },
+      // { url: 'agents', label: 'סוכנים' },
       { url: 'contacts', label: 'אנשי קשר' },
       { url: 'users', label: 'משתמשים' }
       ]},

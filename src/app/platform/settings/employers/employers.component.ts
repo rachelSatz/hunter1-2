@@ -6,7 +6,6 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { FormComponent } from '../../compensation/process/form/form.component';
 
 
 @Component({
