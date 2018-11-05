@@ -23,9 +23,10 @@ export class Employer {
   employerCodeSent: string; // מספר מזהה לשליחה
   comments: string;
   // bank_id: number;
-  bank_accounts: EmployerBankAccount[];
+  bank_accounts: EmployerBankAccount[] = [];
 
   constructor() {
+    this.bank_accounts.push(new EmployerBankAccount());
     this.bankBranch = new BankBranch;
   }
 }

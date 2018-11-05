@@ -5,7 +5,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Employer} from '../../../../shared/_models/employer.model';
 import {Bank} from '../../../../shared/_models/bank.model';
 import {BankBranch} from '../../../../shared/_models/bank-branch.model';
-import {NgForm} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
+import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
 
 
 
@@ -33,48 +34,98 @@ export class EmployerFormComponent implements OnInit {
   entityRows = [{}];
 
   banks = [];
+  bankBranches = [];
 
-  bankAccounts = [];
+  employerForm: FormGroup;
 
-
-  constructor(private route: ActivatedRoute, private router: Router, private employerService: EmployerService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private employerService: EmployerService
+              , private generalService: GeneralHttpService, private fb: FormBuilder) {}
 
   ngOnInit() {
     this.loadBanks();
-    if (this.route.snapshot.data.employer) {
-      this.employer = this.route.snapshot.data.employer;
-      this.bankAccounts = this.employer.bank_accounts;
+    this.employer = this.route.snapshot.data.employer ?  this.route.snapshot.data.employer : new Employer;
 
-      // for (const item in this.bankAccounts) {
-      //   if (this.bankAccounts[item] !== null) {
-      //     this.bankBranches.push({ bank_id: this.bankAccounts[item].bank_id, branch_id: this.bankAccounts[item].branch_id });
-      //   }
-      // }
-      }
-
+    this.initForm();
   }
-  loadBanks(): void {
 
-    this.employerService.getBanks(true).then(types => {this.banks = types; });
+  private initForm(): void {
+    this.employerForm = this.fb.group({
+      'name': [null, Validators.required],
+      'business_number': [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
+      'institute_code_5': [null, [Validators.pattern('^\\d{5}$'), Validators.required]],
+      'institute_code_8': [null, [Validators.pattern('^\\d{8}$'), Validators.required]],
+      'bank_accounts': this.fb.array([]),
+    });
+
+    if (this.employer.id) {
+      this.loadEmployerValues();
+    } else {
+      this.addBank();
+    }
+  }
+
+  loadEmployerValues(): void {
+    this.employerForm.patchValue(this.employer);
+    this.employer.bank_accounts.forEach(account => {
+      this.addBank(account);
+    });
+    // this.employerForm.get('bank_accounts').patchValue(this.employer.bank_accounts);
+  }
+
+  addBank(account?: Object): void {
+    const bankControl = {
+      'bank_id': [account['bank_id'] ? account['bank_id'] : null, Validators.required],
+      'branch_id': [account['branch_id'] ? account['branch_id'] : null, Validators.required],
+      'number': [account['number'] ? account['number'] : null, Validators.pattern('^\\d{5}$'), Validators.required],
+    };
+
+    const bankGroup = (<FormArray>this.employerForm.get('bank_accounts')).controls;
+    bankGroup.push(this.fb.group(bankControl));
+  }
+
+  remove(index: number): void {
+    const bankGroup = (<FormArray>this.employerForm.get('bank_accounts'));
+    bankGroup.removeAt(index);
+  }
+
+  loadBanks(): void {
+    this.generalService.getBanks(true).then(banks => {
+      this.banks = banks;
+      // this.bankBranches.push(this.banks.find(x => x.id == account.bank_id).bank_branches);
+      //
+      // this.bankBranches = banks[3].bank_branches;
+    });
+  }
+
+  selectedBankBranch(bankId: number): void {
+    console.log(bankId);
+    if (!bankId) {
+      return;
+    }
+    const selectedBank = this.banks.find(bank => {
+      return +bank.id === +bankId;
+    });
+
+    return selectedBank ? selectedBank.bank_branches : [];
   }
 
   // loadBankBranches(bank: Bank): void {
   //   this.bankBranches = [];
-  //   this.employerService.getBankBranches(bank.id).then(types => {this.bankBranches = types; });
+  //   this.generalService.getBankBranches(bank.id).then(types => {this.bankBranches = types; });
   // }
 
-  getBanksWithBranches(): void {
-    this.employerService.getBanksWithBranches().then(banks => this.banks = banks );
+  getArrControls(): any[] {
+    return (<FormArray>this.employerForm.get('bank_accounts')).controls;
   }
 
-  submit(form: NgForm): void {
+  submit(isValid: boolean): void {
     this.hasServerError = false;
 
-    if (form.valid) {
+    if (isValid) {
       if (this.employer.id) {
-        this.employerService.updateEmployer(form.value, this.employer.id).then(response => this.handleResponse(response));
+        this.employerService.updateEmployer(this.employerForm.value, this.employer.id).then(response => this.handleResponse(response));
       } else {
-        this.employerService.saveNewEmployer(form.value).then(response => this.handleResponse(response));
+        this.employerService.saveNewEmployer(this.employerForm.value).then(response => this.handleResponse(response));
       }
     }
   }
@@ -95,4 +146,25 @@ export class EmployerFormComponent implements OnInit {
     this.entityRows.splice(index, 1);
   }
 
+  hasError(inputName: string, errorType: string, form?: NgForm, arrayIndex?: number): boolean {
+    let isInvalid = false;
+    if (!arrayIndex && +arrayIndex !== 0) {
+      isInvalid = this.employerForm.get(inputName).errors && this.employerForm.get(inputName).errors[errorType];
+    } else {
+      isInvalid = this.employerForm.get('bank_accounts')['controls'][arrayIndex].errors
+        && this.employerForm.get('bank_accounts')['controls'][arrayIndex].errors[errorType];
+      if (inputName === 'bank_id') console.log(this.employerForm.get('bank_accounts')['controls'][arrayIndex]['controls'][inputName]);
+    }
+
+
+    let trigger = false;
+    if (errorType === 'required') {
+      trigger = form.submitted;
+    } else {
+      const control = this.employerForm.get(inputName);
+      trigger = control ? control.touched : this.employerForm.get('bank_accounts')['controls'][arrayIndex].touched;
+    }
+
+    return (isInvalid && trigger);
+  }
 }
