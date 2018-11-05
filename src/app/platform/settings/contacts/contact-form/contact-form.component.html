@@ -25,13 +25,13 @@
   </div>
   <div class="row my-3">
     <mat-form-field class="col-12 col-lg-4">
-      <input matInput placeholder="טלפון" name="phone" [ngModel]="contact.phone">
+      <input matInput placeholder="טלפון" type="number" name="phone" [ngModel]="contact.phone">
     </mat-form-field>
     <mat-form-field class="col-12 col-lg-4">
-      <input matInput placeholder="נייד" name="mobile" [ngModel]="contact.mobile">
+      <input matInput placeholder="נייד" name="mobile" type="number" [ngModel]="contact.mobile">
     </mat-form-field>
     <mat-form-field class="col-12 col-lg-4">
-      <input matInput placeholder="כתובת מייל" name="email" [ngModel]="contact.email">
+      <input matInput placeholder="כתובת מייל" type="email" name="email" [ngModel]="contact.email">
     </mat-form-field>
   </div>
   <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>

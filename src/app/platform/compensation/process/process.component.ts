@@ -23,7 +23,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_models/compensation.model';
 import { ProductType } from 'app/shared/_models/product.model';
-import {formatDate} from '@angular/common';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -87,7 +87,9 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   departments = [];
   companies = [];
   users = [];
-  sourceTypes = [{id: 'safebox', name: 'כספת'}, {id: 'email', name: 'מייל'}];
+  sourceTypes = Object.keys(CompensationSendingMethods).map(function(e) {
+    return { id: e, name: CompensationSendingMethods[e] };
+  });
   responseTimes = [{id: 2, name: '0-2'}, {id: 4, name: '2-4'}, {id: 5, name: '5+'}];
 
   spin: boolean;

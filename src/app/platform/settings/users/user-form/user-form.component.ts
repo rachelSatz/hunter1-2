@@ -6,7 +6,8 @@ import { UserService } from 'app/shared/_services/http/user.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 
-import {User} from 'app/shared/_models/user.model';
+import { User } from 'app/shared/_models/user.model';
+import {EntityRoles} from 'app/shared/_models/user.model';
 
 @Component({
   selector: 'app-user-form',
@@ -20,16 +21,18 @@ export class UserFormComponent implements OnInit {
   organizations = [];
   departments = [];
   employers = [];
-  role = [{'id': 'admin', 'name': 'מנהל'}, {'id': 'operator', 'name': 'מתפעל'}, {'id': 'employer', 'name': 'מעסיק'}];
+  role = Object.keys(EntityRoles).map(function(e) {
+    return { id: e, name: EntityRoles[e] };
+  });
+
   constructor(private route: ActivatedRoute, private employerService: EmployerService, private userService: UserService
     , private organizationService: OrganizationService
   ) { }
 
   ngOnInit() {
-    this.organizationService.getOrganization().then(response => this.organizations = response);
+    this.organizationService.getOrganizations().then(response => this.organizations = response);
     if (this.route.snapshot.data.user) {
       this.user = this.route.snapshot.data.user;
-      console.log(this.user);
     }
   }
 
