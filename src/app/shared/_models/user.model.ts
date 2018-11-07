@@ -1,3 +1,4 @@
+import { UserUnitPermission } from './user-unit-permission.model';
 
 export class User {
   id: number;
@@ -10,11 +11,16 @@ export class User {
   email: string;
   module: number;
   permission_type: number;
+  unit_permissions: UserUnitPermission[] = [];
 
+  constructor() {
+    this.unit_permissions.push(new UserUnitPermission());
+  }
 }
+
 
 export enum EntityRoles {
   admin =  'מנהל',
   operator = 'מתפעל',
-  employer = 'חברה מעסיק',
+  employer =  'מעסיק',
 }

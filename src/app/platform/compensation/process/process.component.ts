@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { formatDate } from '@angular/common';
 
 import { Subscription } from 'rxjs/Subscription';
 import * as FileSaver from 'file-saver';
@@ -14,16 +15,20 @@ import { CommentsComponent } from './comments/comments.component';
 import { DetailsComponent } from './details/details.component';
 import { SendToComponent } from './send-to/send-to.component';
 import { InquiriesComponent } from './inquiries/inquiries.component';
+import { Compensation } from 'app/shared/_models/compensation.model';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_models/compensation.model';
+import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 'app/shared/_models/compensation.model';
 import { ProductType } from 'app/shared/_models/product.model';
-import { formatDate } from '@angular/common';
+import { Employer } from 'app/shared/_models/employer.model';
+import {until} from 'selenium-webdriver';
+import elementIsSelected = until.elementIsSelected;
 
 
 @Component({
@@ -82,7 +87,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   selectSendingMethods = Object.keys(CompensationSendingMethods).map(function(e) {
     return { id: e, name: CompensationSendingMethods[e] };
   });
-
+  employers = [];
   employees = [];
   departments = [];
   companies = [];
@@ -91,7 +96,12 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     return { id: e, name: CompensationSendingMethods[e] };
   });
   responseTimes = [{id: 2, name: '0-2'}, {id: 4, name: '2-4'}, {id: 5, name: '5+'}];
-
+  // responseTimes = Object.keys(ResponseTimesMethods).map(function(e) {
+  //   return { id: e, name: ResponseTimesMethods[e] };
+  // });
+  validity = Object.keys(ValidityMethods).map(function(e) {
+    return { id: e, name: ValidityMethods[e] };
+  });
   spin: boolean;
 
 
@@ -112,7 +122,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   constructor(protected route: ActivatedRoute, private compensationService: CompensationService,
               private dialog: MatDialog, private departmentService: DepartmentService,
-              private productService: ProductService, protected notificationService: NotificationService
+              private productService: ProductService, private employerService: EmployerService,
+              protected notificationService: NotificationService
               ) {
     super(route, notificationService);
   }
@@ -120,6 +131,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   ngOnInit() {
     this.departmentService.getDepartments().then(response => this.departments = response);
     this.productService.getCompanies().then(response => this.companies = response);
+    this.employerService.getEmployers().then(response => this.employers = response);
     this.fetchItems();
   }
 
@@ -195,8 +207,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     }
 
     this.compensationService.manualChangingStatus(this.checkedItems.map(item => item.id), this.searchCriteria).then(response => {
-      // if (response) {
-      //   this.notificationService.success('הבקשות נשלחו בהצלחה.');
         this.checkedItems = [];
         this.isCheckAll = false;
         this.setResponse(response);
@@ -243,9 +253,16 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     });
   }
 
-  getValidityImage(item: Object): string {
+  getValidityImage(item: Compensation): string {
+    let val = false;
+      if (item.has_by_safebox || item.portal_balance <= 0) {
+        val = (item.reported_balance - item.projected_balance) === 0 ? true : false;
+      }else {
+        val = (item.portal_balance - item.projected_balance) === 0 ? true : false;
+      }
+
     let path = '/assets/img/icons/';
-    path += item['projected_balance'] === ['item.projected_report_balance'] ? 'check' : 'times';
+    path += val ? 'check' : 'times';
     return path + '.svg';
   }
 
@@ -255,8 +272,22 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   downloadPdfFile(rowId: number): void {
     this.spin = true;
-    this.compensationService.downloadPdfFile(rowId)
-      .then(response => {
+   this.compensationService.downloadPdfFile(rowId).then(response => {
+     const byteCharacters = atob(response);
+     const byteNumbers = new Array(byteCharacters.length);
+     for (let i = 0; i < byteCharacters.length; i++) {
+       byteNumbers[i] = byteCharacters.charCodeAt(i);
+     }
+     const byteArray = new Uint8Array(byteNumbers);
+     const blob = new Blob([byteArray], {type: 'application/pdf'});
+     FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
+     this.spin = false;
+   });
+  }
+
+  showPdfFile(rowId: number): any {
+       this.spin = true;
+      this.compensationService.downloadPdfFile(rowId).then(response => {
         const byteCharacters = atob(response);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
@@ -264,9 +295,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
         }
         const byteArray = new Uint8Array(byteNumbers);
         const blob = new Blob([byteArray], {type: 'application/pdf'});
-        FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
-
-        this.spin = false;
+        const fileURL = URL.createObjectURL(blob);
+        window.open(fileURL);
       });
   }
 

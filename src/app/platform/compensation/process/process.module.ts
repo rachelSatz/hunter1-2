@@ -20,6 +20,7 @@ import { SendToComponent } from './send-to/send-to.component';
 import { InquiriesComponent } from './inquiries/inquiries.component';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
@@ -56,7 +57,7 @@ const routes: Routes = [
     ExcelComponent,
     EmployeesComponent,
   ],
-  providers: [ CompensationService, DepartmentService, ProductService, NotificationService, ContactService],
+  providers: [ CompensationService, DepartmentService, ProductService, NotificationService, ContactService, EmployerService],
   entryComponents: [
     FormComponent,
     CommentsComponent,

@@ -38,7 +38,7 @@ export class CompensationService extends BaseHttpService {
       .catch(() => []);
   }
 
-  updateCompensation(compensation: Compensation, uploadedFile?: File): Promise<boolean> {
+  updateCompensation(compensation: Compensation, uploadedFile?: File[], file_count?: string[]): Promise<boolean> {
     const values = {
       projected_balance: compensation.projected_balance,
       reported_balance: compensation.reported_balance,
@@ -49,9 +49,12 @@ export class CompensationService extends BaseHttpService {
     formData.append('values', JSON.stringify(values));
 
     if (uploadedFile) {
-      formData.append('file', uploadedFile);
+        for (let i = 0; i <= uploadedFile.length - 1 ; i++) {
+          formData.append('file' + i, uploadedFile[i]);
+          file_count.push('file' + i);
+      }
+      formData.append('file_count', JSON.stringify(file_count));
     }
-
 
     return this.http.post(this.endPoint + '/update/' + compensation.id, formData, this.getTokenHeader())
     .toPromise()
@@ -100,9 +103,27 @@ export class CompensationService extends BaseHttpService {
     .catch(() => []);
   }
 
-  newInquiry(compensation_id: number, content: string, emails_list: any[], contact_list: any[]): Promise<boolean> {
-    return this.http.post(this.endPoint + '/' + compensation_id + '/newInquiry',
-      { content: content, emails_list: emails_list, contact_list: contact_list }, this.getTokenHeader())
+  newInquiry(compensation_id: number, content: string, emails_list: any[], contact_list: any[],
+             uploadedFile?: File[], file_count?: string[]): Promise<boolean> {
+    const values = {
+      content: content,
+      emails_list: emails_list,
+      contact_list: contact_list
+    }
+
+    const formData = new FormData();
+    formData.append('values', JSON.stringify(values));
+
+    if (uploadedFile) {
+      for (let i = 0; i <= uploadedFile.length - 1 ; i++) {
+        formData.append('file' + i, uploadedFile[i]);
+        file_count.push('file' + i);
+      }
+      formData.append('file_count', JSON.stringify(file_count));
+    }
+
+    return this.http.post(this.endPoint + '/' + compensation_id + '/newInquiry', formData
+      , this.getTokenHeader())
       .toPromise()
       .then(() => true)
       .catch(() => false);
@@ -114,6 +135,38 @@ export class CompensationService extends BaseHttpService {
       .then(response => response)
       .catch(() => null);
   }
+
+  downloadFilesInquirie(rowID: number): Promise<any[]> {
+    return this.http.get(this.endPoint + '/' + rowID + '/downloadFilesInquirie', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+
+  downloadFile(rowID: number, filename: string): Promise<string> {
+
+    return this.http.post(this.endPoint + '/' + rowID + '/downloadFile', { filename: filename},
+      this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  deleteFile(rowID: number, filename: string): Promise<any> {
+    return this.http.post(this.endPoint + '/' + rowID + '/deleteFile', { filename: filename}
+      , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  // downloadPdfFile(rowID: number): any {
+  //   return this.http.get(this.endPoint + '/' + rowID + '/downloadPdfFile', this.getTokenHeader())
+  //     .toPromise()
+  //     .then(response => response)
+  //     .catch(() => null);
+  // }
 
   getFollow(searchCriteria?: Object): Promise<Object> {
     const request = this.getTokenHeader();

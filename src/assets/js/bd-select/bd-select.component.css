@@ -2,6 +2,7 @@
   display: block;
   position: relative;
   min-width: 200px;
+  height: 43px;
 }
 
 #selectedItem {
