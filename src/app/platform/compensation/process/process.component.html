@@ -1,24 +1,37 @@
 <p class="h4 mb-4">מעקב יתרות לפיצוים</p>
-<div class="w-50">
-  <bd-select [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event)"></bd-select>
+
+<div class="row">
+  <!--<bd-select  class="w-25" [items]="employers" placeholder="בית עסק" (onSelect)="loadDepartments($event)"></bd-select>-->
+  <bd-select  class="w-25 mx-3" [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event)"></bd-select>
 </div>
-<div class="d-flex my-3">
-  <bd-select [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
-  <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
-  <button class="btn blue-btn"  (click)="resetSearch()">אפס חיפוש</button>
-  <!--*ngIf="isSearchActive()"-->
+<div class="row my-3">
+  <bd-select class="w-25 mx-3" [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
+  <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3 w-25" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
+  <button class="btn blue-btn" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
 </div>
-<div [@slideToggle]="extraSearchCriteria" class="d-flex mb-3">
+<div [@slideToggle]="extraSearchCriteria" class="d-flex mb-3 ">
   <bd-select [items]="selectStatuses" placeholder="סטטוס" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" class="ml-3"></bd-select>
   <bd-select [items]="sourceTypes" placeholder="מקור המידע" [(ngModel)]="searchCriteria['source_type']" (onSelect)="search()" class="ml-3"></bd-select>
-  <bd-select [items]="users" placeholder="יוצר בקשה" [(ngModel)]="searchCriteria['username']" (onSelect)="search()"></bd-select>
+  <bd-select [items]="users" placeholder="יוצר בקשה" [(ngModel)]="searchCriteria['user_id']" (onSelect)="search()" class="ml-3"></bd-select>
+  <bd-select [items]="validity" placeholder="תקינות" [(ngModel)]="searchCriteria['validity']" (onSelect)="search()"></bd-select>
+
+  <bd-select [items]="responseTimes" placeholder="ימי טיפול" [(ngModel)]="searchCriteria['response_time']" (onSelect)="search()"></bd-select>
+
+  <mat-form-field class="col-2">
+    <input matInput class="pointer" (click)="datePickerRequest.open()" [matDatepicker]="datePickerRequest" placeholder=" תאריך יצירת בקשה" name="dateRequest"  [(ngModel)]="searchCriteria['date_request']" (dateChange)="valueDateChange($event.value)" readonly>
+    <mat-datepicker-toggle matSuffix [for]="datePickerRequest"></mat-datepicker-toggle>
+    <mat-datepicker #datePickerRequest></mat-datepicker>
+    <mat-error>שדה חובה.</mat-error>
+  </mat-form-field>
 </div>
 <div (click)="toggleExtraSearch()">
   <span class="bold blue-color pointer">{{ extraSearchCriteria === 'active' ? 'הצג פחות >' : 'חיפוש מורחב >' }}</span>
 </div>
 <div class="row mt-4 mr-1">
   <button class="btn blue-btn" (click)="openFormDialog()">בקשה חדשה</button>
-  <button class="btn blue-btn mr-2" (click)="openExcelDialog()">העלאת אקסל</button>
+  <button class="btn blue-btn mr-2" (click)="openExcelDialog()">העלאת קובץ בקשות</button>
+  <button class="btn blue-btn mr-2" (click)="manualChangingStatus()">שינוי סטטוס</button>
+  <button class="btn blue-btn mr-2" (click)="openExcelEmployeesDialog()">העלאת קובץ עובדים</button>
   <div class="ml-3 d-flex mr-auto" >
   <button class="btn blue-btn " (click)="sendCompensations()">שדר בקשה</button>
   </div>
@@ -42,6 +55,7 @@
         <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
       </td>
       <td>{{ item.created_at | date: 'dd/MM/yy' }}</td>
+      <td>{{ item.updated_at | date: 'dd/MM/yy' }}</td>
       <td>{{ item.username }}</td>
       <td>{{ item.employer_name }}</td>
       <td>{{ item.department_name }}</td>
@@ -56,22 +70,23 @@
         <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
       </td>
       <td>
+        <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiry_count }}</span>
+      </td>
+      <td>
         <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
       </td>
       <td>
-        <span *ngIf="item.status !== 'V'">טרם</span>
-        <img src="/assets/img/icons/download.png" *ngIf="item.status === 'V'">
+        <span *ngIf="item.status !== 'closed'">טרם</span>
+        <i class="fa fa-download fa-lg ml-2" (click)="downloadPdfFile(item.id)" *ngIf="item.status === 'closed'"></i>
+        <i class="fa fa-eye fa-lg" (click)="showPdfFile(item.id)" *ngIf="item.status === 'closed'"></i>
       </td>
       <td>
         <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
       </td>
       <td>
-        <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiry_count }}</span>
+        <img [src]="getValidityImage(item)" class="row-image" >
       </td>
-      <td>
-        <span *ngIf="item.status === 'O' || item.status === 'S'">טרם</span>
-        <img [src]="getValidityImage(item)" class="row-image" *ngIf="item.status === 'V' || item.status === 'E'">
-      </td>
+
     </tr>
   </ng-container>
   <tr *ngIf="!isSearching && items.length === 0">

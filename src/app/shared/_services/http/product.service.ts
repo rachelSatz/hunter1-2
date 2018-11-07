@@ -18,14 +18,14 @@ export class ProductService extends BaseHttpService {
   }
 
   getCompanies(): Promise<Company[]> {
-    return this.http.get(this.endPoint + '/companies')
+    return this.http.get(this.endPoint + '/companies', this.getTokenHeader())
     .toPromise()
     .then(response => response as Company[])
     .catch(() => []);
   }
 
   getProductTypesByCompany(companyID: number): Promise<string[]> {
-    return this.http.get(this.endPoint + '/companyTypes/' + companyID)
+    return this.http.get(this.endPoint + '/companyTypes/' + companyID, this.getTokenHeader())
     .toPromise()
     .then(response => response as string[])
     .catch(() => []);

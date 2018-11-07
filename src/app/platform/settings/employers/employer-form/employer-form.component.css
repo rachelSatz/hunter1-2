@@ -1,0 +1,13 @@
+#accounts {
+  direction: ltr;
+  height: 200px;
+  overflow-y: auto;
+}
+
+#accounts > * {
+  direction: rtl;
+}
+
+.remove-account-icon {
+  height: 34px
+}

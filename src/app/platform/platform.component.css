@@ -4,8 +4,7 @@
 }
 
 header {
-  margin-bottom: 50px;
-  padding-top: 25px;
+  margin-bottom: 20px;
   border-bottom: 2px solid #cecece;
   border-radius: 8px 8px 0 0;
 }
@@ -40,4 +39,16 @@ header {
 
 .navbar-nav img {
   width: 40%;
+}
+
+/deep/ .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: #0c0c0c;
+}
+/deep/ .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #0c0c0c;
+}
+
+/deep/ .mt12
+{
+  margin-top: 12px;
 }

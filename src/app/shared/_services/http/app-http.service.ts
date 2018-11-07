@@ -16,7 +16,7 @@ export class AppHttpService extends BaseHttpService {
 
     return this.http.post(this.apiUrl + '/login', data)
     .toPromise()
-    .then(response => console.log(response))
-    .catch(response => console.log(response));
+    .then(response => response as any)
+    .catch(response => response as any);
   }
 }

@@ -12,6 +12,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { isArray } from 'rxjs/util/isArray';
+import {EntityTypes} from '../../../app/shared/_models/contact.model';
 
 @Component({
   selector: 'bd-select',
@@ -133,10 +134,17 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   }
 
   selectOption(item: Object | Object[]): void {
+
+    let output;
+
     if (!this.multiple) {
-      this.isSelectOpened = false;
       this.selectedItem = item;
-    } else {
+      this.isSelectOpened = false;
+
+      output = this.selectedItem[this.value];
+    }
+
+    if (this.multiple) {
       if (!this.selectedItem) {
         this.selectedItem = [];
       }
@@ -147,7 +155,6 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
           isSelect = false;
 
           this.selectedItem.splice(index, 1);
-
           if (this.selectedItem.length === 0) {
             this.selectedItem = null;
           }
@@ -159,10 +166,14 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
       if (isSelect) {
         this.selectedItem.push(item);
       }
+
+      output = this.selectedItem.map(outputItem => {
+        return outputItem[this.value];
+      });
     }
 
-    this.propagateChange(this.selectedItem[this.value]);
-    this.onSelect.emit(this.selectedItem[this.value]);
+    this.propagateChange(output);
+    this.onSelect.emit(output);
   }
 
   openDropdown(): void {

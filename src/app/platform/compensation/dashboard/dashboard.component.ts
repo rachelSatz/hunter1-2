@@ -4,11 +4,13 @@ import {formatDate } from '@angular/common';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { UserService } from 'app/shared/_services/http/user.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
+import {CompensationSendingMethods} from 'app/shared/_models/compensation.model';
 
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
 
@@ -18,7 +20,9 @@ export class DashboardComponent implements OnInit {
   isSearching: boolean;
   employers = [];
   users = [];
-  sourceType = [{id: 'safebox', name: 'כספת'}, {id: 'email', name: 'מייל'}];
+  sourceType = Object.keys(CompensationSendingMethods).map(function(e) {
+    return { id: e, name: CompensationSendingMethods[e] };
+  });
   searchCriteria = {};
 
   response_time = {};

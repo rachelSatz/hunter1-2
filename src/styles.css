@@ -96,6 +96,10 @@ a:hover {
   color: #ebc372;
 }
 
+.red-color {
+  color: #f00;
+}
+
 .grey-color {
   color: #b3b3b3;
 }
@@ -190,6 +194,10 @@ a:hover {
   text-align: center;
   font-weight: bold;
   cursor: pointer;
+}
+
+.bd-select-container {
+  height: 44px;
 }
 
 .link {

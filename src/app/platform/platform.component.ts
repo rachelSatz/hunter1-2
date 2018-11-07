@@ -18,25 +18,27 @@ export class PlatformComponent implements OnInit {
         { url: 'process', label: 'מעקב יתרות לפיצויים' },
         { url: 'dashboard', label: 'מצג סטטוסים' }
       ]},
-    { url: 'process', label: 'תהליכים', subMenuLinks: [
-      { url: 'new', label: 'צור תהליך חדש' },
-      { url: 'table', label: 'תהליכים' }
-    ]},
-    { url: 'feedback', label: 'היזונים חוזרים', subMenuLinks: [
-      { url: 'graph', label: 'גרף' },
-      { url: 'table/employees', label: 'טבלת עובדים' },
-      { url: 'table/files', label: 'טבלת קבצים' }
-    ]},
-    { url: 'rejected', label: 'מעקב שגויים', subMenuLinks: [
-      { url: 'employees', label: 'לפי עובד' },
-      { url: 'files', label: 'לפי קובץ' }
-    ]},
+    // { url: 'process', label: 'תהליכים', subMenuLinks: [
+    //   { url: 'new', label: 'צור תהליך חדש' },
+    //   { url: 'table', label: 'תהליכים' }
+    // ]},
+    // { url: 'feedback', label: 'היזונים חוזרים', subMenuLinks: [
+    //   { url: 'graph', label: 'גרף' },
+    //   { url: 'table/employees', label: 'טבלת עובדים' },
+    //   { url: 'table/files', label: 'טבלת קבצים' }
+    // ]},
+    // { url: 'rejected', label: 'מעקב שגויים', subMenuLinks: [
+    //   { url: 'employees', label: 'לפי עובד' },
+    //   { url: 'files', label: 'לפי קובץ' }
+    // ]},
     { url: 'settings', label: 'הגדרות', subMenuLinks: [
-      { url: 'employees', label: 'עובדים' },
+      // { url: 'employees', label: 'עובדים' },
+      { url: 'organizations', label: 'ארגונים' },
       { url: 'employers', label: 'מעסיקים' },
-      { url: 'agents', label: 'סוכנים' },
-      { url: 'contacts', label: 'אנשי קשר' }
-    ]},
+      // { url: 'agents', label: 'סוכנים' },
+      { url: 'contacts', label: 'אנשי קשר' },
+      { url: 'users', label: 'משתמשים' }
+      ]},
   ];
 
   constructor(private router: Router, private userSession: UserSessionService) {}

@@ -2,11 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployerFormComponent } from './employer-form.component';
 import {RouterModule, Routes } from '@angular/router';
-import {FormsModule} from '@angular/forms';
-import {MatFormFieldModule, MatInputModule} from '@angular/material';
-import {BdSelectModule} from '../../../../../assets/js/bd-select/bd-select.module';
-import {EmployersResolve} from '../../../../shared/_resolves/employers.resolve';
-import {EmployerService} from '../../../../shared/_services/http/employer.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {
+  MatButtonModule,
+  MatCheckboxModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatRadioModule,
+  MatSelectModule
+} from '@angular/material';
+import {BdSelectModule} from 'app/../assets/js/bd-select/bd-select.module';
+import {EmployersResolve} from 'app/shared/_resolves/employers.resolve';
+import {EmployerService} from 'app/shared/_services/http/employer.service';
+import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
 
 const routes: Routes = [
   { path: '', component: EmployerFormComponent },
@@ -18,11 +27,12 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
-    MatFormFieldModule, MatInputModule,
+    ReactiveFormsModule,
+    MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
     BdSelectModule
   ],
   declarations: [EmployerFormComponent],
-  providers: [EmployerService, EmployersResolve]
+  providers: [EmployerService, EmployersResolve, GeneralHttpService]
 
 })
 export class EmployerFormModule { }

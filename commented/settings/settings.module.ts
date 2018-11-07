@@ -12,6 +12,7 @@ import { EmployeesComponent } from './employees/employees.component';
 import { EmployeeFormComponent } from './employees/employee-form/employee-form.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { ContactFormComponent } from './contacts/contact-form/contact-form.component';
+import { UserFormComponent } from './user-form.component';
 
 import { UserSessionService } from '../../shared/_services/user-session.service';
 import { GeneralHttpService } from '../../shared/_services/http/general-http.service';
@@ -36,7 +37,7 @@ import { AgentFromComponent } from "./agents/agent-from/agent-from.component";
   ],
   declarations: [
     EmployerFormComponent, ContactsComponent, EmployeesComponent,
-    EmployersComponent, EmployeeFormComponent, IDValidatorDirective, ContactFormComponent, AgentComponent, AgentFromComponent
+    EmployersComponent, EmployeeFormComponent, IDValidatorDirective, ContactFormComponent, AgentComponent, AgentFromComponent, UserFormComponent
   ],
   providers: [UserSessionService, GeneralHttpService, EmployeeService, EmployerService, ContactService],
   entryComponents: [EmployeeFormComponent, ContactFormComponent,AgentFromComponent]
