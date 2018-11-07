@@ -26,6 +26,7 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 })
 export class CommentsComponent implements OnInit {
   comments = [];
+  comment: string;
   hasServerError: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation, private dialogRef: MatDialogRef<CommentsComponent>,
@@ -38,9 +39,9 @@ export class CommentsComponent implements OnInit {
   submit(): void {
     this.hasServerError = false;
 
-    this.compensationService.newComment(this.compensation.id, this.compensation.comments).then(response => {
+    this.compensationService.newComment(this.compensation.id, this.comment).then(response => {
       if (response) {
-        this.dialogRef.close(this.compensation.comments);
+        this.dialogRef.close(this.comment);
       } else {
         this.hasServerError = true;
       }

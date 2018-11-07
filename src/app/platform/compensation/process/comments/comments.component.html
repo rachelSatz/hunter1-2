@@ -18,7 +18,7 @@
 </div>
 <div class="py-4">
   <mat-form-field class="w-100">
-    <textarea matInput placeholder="הערות"  maxlength="200"></textarea>
+    <textarea matInput placeholder="הערות" [(ngModel)]="comment" maxlength="200"></textarea>
     <mat-hint>(עד 200 תווים)</mat-hint>
   </mat-form-field>
 </div>
