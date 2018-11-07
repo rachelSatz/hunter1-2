@@ -22,10 +22,10 @@
   </div>
   <div class="col-4">
     <mat-form-field class="row col-12">
-      <input matInput placeholder="מס' טלפון" name="phone" type="text" [ngModel]="employer.phone">
+      <input matInput placeholder="מס' טלפון" name="phone" type="text" [ngModel]="employer.phone" value="">
     </mat-form-field>
     <mat-form-field class="row col-12">
-      <input matInput  placeholder="מס' נייד" name="mobile" type="text" [ngModel]="employer.mobile">
+      <input matInput  placeholder="מס' נייד" name="mobile" type="text" [ngModel]="employer.mobile" value="">
     </mat-form-field>
     <mat-form-field class="row col-12">
       <input matInput placeholder="כתובת מייל" name="email" type="email" [ngModel]="employer.email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
@@ -37,26 +37,46 @@
       <input matInput type="text" [ngModel]="employer.address" placeholder="כתובת" name="address">
     </mat-form-field>
   </div>
-  <div class="col-4">
-    <p  style="padding-bottom: 3px; padding-top: 20px" class="h4 mb-4">חשבון בנק</p>
-    <!--<div class="sub-title-container">-->
-      <!--<div class="horizontal-line"></div>-->
-      <!--<p class="h6 sub-title blue">חשבון בנק</p>-->
-      <!--<div class="horizontal-line"></div>-->
+  <!--<div class="col-4">-->
+    <!--<p  style="padding-bottom: 3px; padding-top: 20px" class="h4 mb-4">חשבון בנק</p>-->
+    <!--&lt;!&ndash;<div class="sub-title-container">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="horizontal-line"></div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<p class="h6 sub-title blue">חשבון בנק</p>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="horizontal-line"></div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--<div class="row col-12">-->
+      <!--<bd-select style="padding-bottom: 30px" [items]="banks" (onSelect)="loadBankBranches($event)" name="bank_id"  #bankIDSelect="ngModel" [ngModel]="employer.bank_id" placeholder="בחר בנק" required></bd-select>-->
+      <!--<p class="alert alert-danger" [@fade]="form.submitted  && bankIDSelect.errors ? 'active' : 'inactive'">שדה חובה.</p>-->
     <!--</div>-->
-    <div class="row col-12">
-      <bd-select style="padding-bottom: 30px" [items]="banks" (onSelect)="loadBankBranches($event)" name="bank_id"  #bankIDSelect="ngModel" [ngModel]="employer.bank_id" placeholder="בחר בנק" required></bd-select>
+    <!--<div class="row col-12">-->
+      <!--<bd-select  style="padding-bottom: 20px" [items]="bankBranches" placeholder="בחר סניף" name="bank_branch_id" #bankBranchIDModel="ngModel" ngModel required></bd-select>-->
+      <!--<p class="alert alert-danger" [@fade]="form.submitted && bankBranchIDModel.errors ? 'active' : 'inactive'">יש לבחור סניף.</p>-->
+    <!--</div>-->
+    <!--<mat-form-field class="row col-12">-->
+      <!--<input matInput type="number" [ngModel]="employer.bank_account_number"  placeholder="מס' חשבון" name="bank_account_number" required>-->
+    <!--</mat-form-field>-->
+  <!--</div>-->
+  </div>
+  <p class="bold h6">חשבונות בנק</p>
+
+  <div class=" w-50 d-flex" *ngFor="let account of bankAccounts; let index = index">
+    <!--<button mat-icon-button (click)="deleteEntityRow(index)" *ngIf="index > 0">-->
+      <!--<mat-icon>highlight_off</mat-icon>-->
+    <!--</button>-->
+    <!--<mat-checkbox class = "onoffswitch-checkbox"  name="is_primary" #isPrimarySelect="ngModel" [ngModel] = "ba.is_primary" >-->
+    <div>
+      <bd-select  class="ml-3 mt12" [name]="'bank_id' + index" #bankIDSelect="ngModel" [ngModel]="account.bank_id" [items]="banks" placeholder="בחר בנק" (onSelect)="loadBankBranches($event)"></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted  && bankIDSelect.errors ? 'active' : 'inactive'">שדה חובה.</p>
     </div>
-    <div class="row col-12">
-      <bd-select  style="padding-bottom: 20px" [items]="bankBranches" placeholder="בחר סניף" name="bank_branch_id" #bankBranchIDModel="ngModel" ngModel required></bd-select>
-      <p class="alert alert-danger" [@fade]="form.submitted && bankBranchIDModel.errors ? 'active' : 'inactive'">יש לבחור סניף.</p>
-    </div>
-    <mat-form-field class="row col-12">
-      <input matInput type="number" [ngModel]="employer.bankAccountNumber"  placeholder="מס' חשבון" name="bankAccountNumber" >
+    <bd-select  class="ml-3 mt12" [name]="'branch_id' + index" #branchIDSelect="ngModel" [ngModel]="account.branch_id"  [items]="bankBranches" placeholder="בחר סניף"></bd-select>
+    <mat-form-field>
+      <input matInput type="text" [name]="'account_number' + index" #accountNumberSelect="ngModel" [ngModel]="account.number" placeholder="מס' חשבון" required>
     </mat-form-field>
+    <!--<button mat-icon-button (click)="addEntityRow()" *ngIf="last">-->
+      <!--<mat-icon>add_circle</mat-icon>-->
+    <!--</button>-->
   </div>
-  </div>
+
   <div class="row">
     <mat-form-field class="col-6 w-100p">
       <input type="text" matInput placeholder="הערות" [ngModel]="employer.comments" name="comments">

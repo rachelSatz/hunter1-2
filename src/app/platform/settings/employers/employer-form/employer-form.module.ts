@@ -4,9 +4,9 @@ import { EmployerFormComponent } from './employer-form.component';
 import {RouterModule, Routes } from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {MatFormFieldModule, MatInputModule} from '@angular/material';
-import {BdSelectModule} from '../../../../../assets/js/bd-select/bd-select.module';
-import {EmployersResolve} from '../../../../shared/_resolves/employers.resolve';
-import {EmployerService} from '../../../../shared/_services/http/employer.service';
+import {BdSelectModule} from 'app/../assets/js/bd-select/bd-select.module';
+import {EmployersResolve} from 'app/shared/_resolves/employers.resolve';
+import {EmployerService} from 'app/shared/_services/http/employer.service';
 
 const routes: Routes = [
   { path: '', component: EmployerFormComponent },

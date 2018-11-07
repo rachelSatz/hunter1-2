@@ -53,9 +53,10 @@ export class ContactFormComponent implements OnInit {
   }
 
   loadEntities(type: string): void {
-    // if (type === 'agent') {
-    //   this.agentService.getEmployerAgents();
-    // }
+    if (type === 'agent') {
+      // this.agentService.getEmployerAgents();
+      this.entities = [];
+    }
 
     if (type === 'company') {
       this.productService.getCompanies().then(response => this.entities = response);

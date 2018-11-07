@@ -3,9 +3,23 @@
     <i class="fa fa-close"></i>
   </button>  <span>הערות</span>
 </div>
+<div class="pre-scrollable">
+  <table>
+    <tbody>
+    <tr *ngFor="let comment of comments">
+      <td class="w-50">{{ comment.updated_at | date: 'HH:mm dd/MM/yy' }}</td>
+      <td class="w-25">{{ comment.user_name + ':'}}</td>
+      <td class="w-50" title={{comment.content}}>{{ comment.content | truncate: 10 }} </td>
+      <!--matTooltip="לתצוגת פירוט התשלומים לפי קופות" matTooltipPosition="below"-->
+      <!--[matTooltipClass]="'mytooltip'"-->
+    </tr>
+    </tbody>
+  </table>
+</div>
 <div class="py-4">
   <mat-form-field class="w-100">
-    <textarea matInput placeholder="הערות" [(ngModel)]="compensation.comments"></textarea>
+    <textarea matInput placeholder="הערות" [(ngModel)]="comment" maxlength="200"></textarea>
+    <mat-hint>(עד 200 תווים)</mat-hint>
   </mat-form-field>
 </div>
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>

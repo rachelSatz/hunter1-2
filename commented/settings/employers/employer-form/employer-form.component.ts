@@ -38,7 +38,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.generalHttp.getBanks().then(response => {
-      this.banks = response.map( x => <Select2OptionData>{id: String(x.id), text : String(x.id)+' - '+x.text});
+      this.banks = response.map( x => <Select2OptionData>{id: String(x.id), text : String(x.id) + ' - ' + x.text});
       this.banks.unshift({id: '-1', text : 'בחר בנק'});
       this.bankSelected = '-1';
     });

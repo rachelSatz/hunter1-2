@@ -8,6 +8,8 @@ import { Employer } from '../../_models/employer.model';
 import {Company} from '../../_models/company.model';
 import { Bank } from 'app/shared/_models/bank.model';
 import {BankBranch} from '../../_models/bank-branch.model';
+import {Employee} from '../../_models/employee.model';
+import {Department} from '../../_models/department.model';
 
 @Injectable()
 export class EmployerService extends BaseHttpService {
@@ -55,17 +57,37 @@ export class EmployerService extends BaseHttpService {
     .then(response => response as { responseCode: number });
   }
 
-  getBanks(): Promise<Bank[]> {
-    return this.http.get(this.endPoint + '/banks')
+  getBanks(withBranches?: boolean): Promise<Bank[]> {
+    const request = this.getTokenHeader();
+    if (withBranches) {
+      request['params'] = { withBranches: 1 };
+    }
+
+    return this.http.get(this.endPoint + '/banks', request )
       .toPromise()
       .then(response => response as Bank[])
       .catch(() => []);
   }
 
   getBankBranches(bankID: number): Promise<BankBranch[]> {
-    return this.http.get(this.endPoint + '/bankBranches/' + bankID)
+    return this.http.get(this.endPoint + '/bankBranches/' + bankID, this.getTokenHeader())
       .toPromise()
       .then(response => response as BankBranch[])
+      .catch(() => []);
+  }
+
+
+  getDepartments(employerID: number): Promise<Department[]> {
+    return this.http.get(this.endPoint + '/' + employerID + '/departments', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Department[])
+      .catch(() => []);
+  }
+
+  getBanksWithBranches(): Promise<Bank[]> {
+    return this.http.get(this.endPoint + '/' +  + '/departments', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Bank[])
       .catch(() => []);
   }
 }
