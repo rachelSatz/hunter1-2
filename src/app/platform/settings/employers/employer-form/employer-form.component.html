@@ -22,57 +22,61 @@
       <!--<mat-error *ngIf="instituteCode8.errors && instituteCode8.touched">קוד מוסד לא תקין.</mat-error>-->
     </mat-form-field>
   </div>
-  <!--<div class="col-4">-->
-    <!--<mat-form-field class="row col-12">-->
-      <!--<input matInput placeholder="מס' טלפון" name="phone" type="text" [ngModel]="employer.phone" value="">-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field class="row col-12">-->
-      <!--<input matInput  placeholder="מס' נייד" name="mobile" type="text" [ngModel]="employer.mobile" value="">-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field class="row col-12">-->
-      <!--<input matInput placeholder="כתובת מייל" name="email" type="email" [ngModel]="employer.email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field class="row col-12">-->
-      <!--<input matInput placeholder="פקס" name="fax" type="text" [ngModel]="employer.fax">-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field class="row col-12">-->
-      <!--<input matInput type="text" [ngModel]="employer.address" placeholder="כתובת" name="address">-->
-    <!--</mat-form-field>-->
-  <!--</div>-->
-
+  <div class="col-4">
+    <mat-form-field class="row col-12">
+      <input matInput placeholder="מס' טלפון" formControlName="phone" type="text">
+    </mat-form-field>
+    <mat-form-field class="row col-12">
+      <input matInput  placeholder="מס' נייד" formControlName="mobile" type="text">
+    </mat-form-field>
+    <mat-form-field class="row col-12">
+      <input matInput placeholder="כתובת מייל" formControlName="email" type="email">
+    </mat-form-field>
+    <mat-form-field class="row col-12">
+      <input matInput placeholder="פקס" formControlName="fax" type="text">
+    </mat-form-field>
+    <mat-form-field class="row col-12">
+      <input matInput type="text" placeholder="כתובת" formControlName="address">
+    </mat-form-field>
+  </div>
   </div>
   <p class="bold h6">חשבונות בנק</p>
-
   <div formArrayName="bank_accounts">
     <div class="w-50 d-flex" *ngFor="let account of getArrControls(); let index = index; let last = last" [formGroupName]="index">
-      <button mat-icon-button (click)="remove(index)" *ngIf="index > 0">
-        <mat-icon>highlight_off</mat-icon>
-      </button>
-      <!--<mat-checkbox class = "onoffswitch-checkbox"  name="is_primary" #isPrimarySelect="ngModel" [ngModel] = "ba.is_primary" >-->
-      <div>
-        <bd-select class="ml-3 mt12" formControlName="bank_id" [items]="banks" placeholder="בחר בנק"></bd-select>
-        <mat-error *ngIf="hasError('bank_id', 'required', employerForm, index)">שדה חובה.</mat-error>
-        <mat-error *ngIf="hasError('bank_id', 'pattern', employerForm, index)">שדה חובה.</mat-error>
-      </div>
-      <bd-select class="ml-3 mt12" formControlName="branch_id" [items]="selectedBankBranch(employerForm.get('bank_accounts').value[index].bank_id)" placeholder="בחר סניף"></bd-select>
-      <mat-form-field>
-        <input matInput type="text" formControlName="number" placeholder="מס' חשבון">
-        <mat-error *ngIf="">שדה חובה.</mat-error>
-        <mat-error *ngIf="hasError('number', 'pattern', employerForm, index)">יש להקיש 5 ספרות</mat-error>
-      </mat-form-field>
-      <button mat-icon-button (click)="addBank()" *ngIf="last">
-        <mat-icon>add_circle</mat-icon>
-      </button>
+        <button mat-icon-button (click)="remove(index)" *ngIf="index > 0">
+          <mat-icon>highlight_off</mat-icon>
+        </button>
+        <div>
+          <input type="hidden" formControlName="id">
+          <mat-checkbox formControlName="is_primary"></mat-checkbox>
+        </div>
+        <div>
+          <bd-select class="ml-3 mt12" formControlName="bank_id" [items]="banks"  placeholder="בחר בנק"></bd-select>
+          <mat-error *ngIf="hasError('bank_id', 'required', employerForm, index)">שדה חובה.</mat-error>
+          <mat-error *ngIf="hasError('bank_id', 'pattern', employerForm, index)">שדה חובה.</mat-error>
+        </div>
+        <div>
+          <bd-select class="ml-3 mt12" formControlName="branch_id" [items]="selectedBankBranch(index)" placeholder="בחר סניף"></bd-select>
+          <mat-error *ngIf="hasError('branch_id', 'required', employerForm, index)">שדה חובה.</mat-error>
+        </div>
+        <mat-form-field>
+          <input matInput type="text" formControlName="number" placeholder="מס' חשבון" (change)="abc()">
+          <mat-error *ngIf="hasError('number', 'required', employerForm, index)">שדה חובה.</mat-error>
+          <mat-error *ngIf="hasError('number', 'pattern', employerForm, index)">יש להקיש 5 ספרות</mat-error>
+        </mat-form-field>
+        <button mat-icon-button (click)="addBank()" *ngIf="last">
+          <mat-icon>add_circle</mat-icon>
+        </button>
     </div>
   </div>
 
-  <!--<div class="row">-->
-    <!--<mat-form-field class="col-6 w-100p">-->
-      <!--<input type="text" matInput placeholder="הערות" [ngModel]="employer.comments" name="comments">-->
-    <!--</mat-form-field>-->
-  <!--</div>-->
-  <!--<p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>-->
-  <!--<div style="padding-right: 1400px">-->
-    <!--<button class="btn blue-btn" type="submit">שלח</button>-->
-  <!--</div>-->
+  <div class="row">
+    <mat-form-field class="col-6 w-100p">
+      <input type="text" matInput placeholder="הערות" formControlName="comments">
+    </mat-form-field>
+  </div>
+  <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
+  <div style="padding-right: 1400px">
+    <button class="btn blue-btn" type="submit">שלח</button>
+  </div>
 </form>
