@@ -1,24 +1,19 @@
 <div class="dialog-header">
   <button mat-dialog-close>
     <i class="fa fa-close"></i>
-  </button>  <span>הערות</span>
+  </button>
+  <span>הערות</span>
 </div>
-<div class="pre-scrollable">
-  <table>
-    <tbody>
-    <tr *ngFor="let comment of comments">
-      <td class="w-50">{{ comment.updated_at | date: 'HH:mm dd/MM/yy' }}</td>
-      <td class="w-25">{{ comment.user_name + ':'}}</td>
-      <td class="w-50" title={{comment.content}}>{{ comment.content | truncate: 10 }} </td>
-      <!--matTooltip="לתצוגת פירוט התשלומים לפי קופות" matTooltipPosition="below"-->
-      <!--[matTooltipClass]="'mytooltip'"-->
-    </tr>
-    </tbody>
-  </table>
-</div>
+<ul id="commentsTable" class="pt-4">
+  <li *ngFor="let comment of comments" class="d-flex">
+    <span>{{ comment.updated_at | date: 'HH:mm dd/MM/yy' }}</span>
+    <span class="mr-3 ml-1 bold">{{ comment.user_name + ':'}}</span>
+    <span [title]=comment.content>{{ comment.content | truncate: 10 }}</span>
+  </li>
+</ul>
 <div class="py-4">
   <mat-form-field class="w-100">
-    <textarea matInput placeholder="הערות"  maxlength="200"></textarea>
+    <textarea matInput placeholder="הערות" [(ngModel)]="compensation.comments" maxlength="200"></textarea>
     <mat-hint>(עד 200 תווים)</mat-hint>
   </mat-form-field>
 </div>
