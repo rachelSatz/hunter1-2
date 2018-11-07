@@ -1,18 +1,18 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { isNumber } from 'util';
+
 import { EmployerService } from 'app/shared/_services/http/employer.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Employer} from '../../../../shared/_models/employer.model';
-import {Bank} from '../../../../shared/_models/bank.model';
-import {BankBranch} from '../../../../shared/_models/bank-branch.model';
-import {FormArray, FormBuilder,FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 
-
+import { Employer } from 'app/shared/_models/employer.model';
 
 @Component({
   selector: 'app-employer-form',
   templateUrl: './employer-form.component.html',
+  styleUrls: ['./employer-form.component.css'],
   animations: [
     trigger('fade', [
       state('inactive', style({
@@ -31,14 +31,13 @@ import {GeneralHttpService} from '../../../../shared/_services/http/general-http
 export class EmployerFormComponent implements OnInit {
   hasServerError: boolean;
   employer = new Employer();
-  entityRows = [{}];
 
   banks = [];
   bankBranches = [];
 
   employerForm: FormGroup;
 
-  isSubmitted: boolean;
+  @ViewChild('form') form: NgForm;
 
   constructor(private route: ActivatedRoute, private router: Router, private employerService: EmployerService
               , private generalService: GeneralHttpService, private fb: FormBuilder) {}
@@ -74,20 +73,24 @@ export class EmployerFormComponent implements OnInit {
   }
 
   loadEmployerValues(): void {
+    this.employerForm.patchValue(this.employer);
 
-    console.log(this.employer);
+    if (this.employer.bank_accounts.length === 0) {
+      this.addBank();
+    } else {
+      this.employer.bank_accounts.forEach(account => {
+        this.addBank(account);
+      });
+    }
 
-    // this.employerForm.patchValue(this.employer);
-    this.employer.bank_accounts.forEach(account => {
-      this.addBank(account);
-    });
+
     // this.employerForm.get('bank_accounts').patchValue(this.employer.bank_accounts);
   }
 
   addBank(account?: Object): void {
     const bankControl = {
       'id': [account  ? account['id'] : null],
-      'is_primary': [account  ? account['is_primary'] : null],
+      'is_primary': [account  ? +account['is_primary'] : false],
       'bank_id': [account  ? account['bank_id'] : null, Validators.required],
       'branch_id': [account ? account['branch_id'] : null, Validators.required],
       'number': [account ? account['number'] : null,  [Validators.pattern('^\\d{5}$'), Validators.required]]
@@ -123,15 +126,25 @@ export class EmployerFormComponent implements OnInit {
     return selectedBank ? selectedBank.bank_branches : [];
   }
 
+  primaryBankChecked(index: number, isChecked: boolean): void {
+    if (!isChecked) {
+      return;
+    }
+
+    (<FormArray>this.employerForm.get('bank_accounts')).controls.forEach((account, controlIndex) => {
+      if (controlIndex !== index) {
+        account['controls']['is_primary'].reset();
+      }
+    });
+
+
+    console.log(this.employerForm.value);
+  }
+
   // loadBankBranches(bank: Bank): void {
   //   this.bankBranches = [];
   //   this.generalService.getBankBranches(bank.id).then(types => {this.bankBranches = types; });
   // }
-
-  abc() {
-    this.employerForm.updateValueAndValidity();
-    console.log(this.employerForm)
-  }
 
   getArrControls(): any[] {
     return (<FormArray>this.employerForm.get('bank_accounts')).controls;
@@ -140,14 +153,12 @@ export class EmployerFormComponent implements OnInit {
   submit(isValid: boolean): void {
     this.hasServerError = false;
 
-    if (true) {
-      this.isSubmitted = true;
+    if (isValid) {
       if (this.employer.id) {
         this.employerService.updateEmployer(this.employerForm.value, this.employer.id).then(response => this.handleResponse(response));
       } else {
         this.employerService.saveNewEmployer(this.employerForm.value).then(response => this.handleResponse(response));
       }
-      this.isSubmitted = false;
     }
   }
 
@@ -160,28 +171,26 @@ export class EmployerFormComponent implements OnInit {
   }
 
 
-  hasError(inputName: string, errorType: string, form?: NgForm, arrayIndex?: number): boolean {
-    let isInvalid = false;
-    if (this.employerForm.get(inputName)) {
-      isInvalid = this.employerForm.get(inputName).errors && this.employerForm.get(inputName).errors[errorType];
-    } else {
-      const bankControl = <FormArray>this.employerForm.controls.bank_accounts;
-      isInvalid = bankControl.controls[arrayIndex].get(inputName).errors &&
-        bankControl.controls[arrayIndex].get(inputName).errors[errorType];
+  hasErrors(controlName: string, options?: {
+    touch?: boolean, specificError?: string, arrayPosition?: number, formArrayName?: string
+  }): boolean {
+
+    let control = this.employerForm.get(controlName);
+    if (options && options.formArrayName && isNumber(options.arrayPosition)) {
+      const formArray = <FormArray>this.employerForm.get(options.formArrayName);
+      control = formArray.controls[options.arrayPosition].get(controlName);
     }
 
+    let hasErrors = !!control.errors;
+    if (options && options.specificError) {
+      hasErrors = hasErrors && control.errors[options.specificError];
+    }
 
-    let trigger = false;
-    // if (errorType === 'required') {
-    //   trigger = this.isSubmitted;
-    // } else {
-    //   const control = this.employerForm.get(inputName);
-    //   trigger = control ? control.touched : (<FormArray>this.employerForm.get('bank_accounts')).controls[arrayIndex].touched;
-    // }
+    let isTriggered = this.form.submitted;
+    if (!options || options.touch !== false) {
+      isTriggered = (isTriggered || control.touched);
+    }
 
-    const control = this.employerForm.get(inputName);
-    trigger = control ? control.touched : (<FormArray>this.employerForm.get('bank_accounts')).controls[arrayIndex].touched;
-
-    return (isInvalid && trigger);
+    return (hasErrors && isTriggered);
   }
 }

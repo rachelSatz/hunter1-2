@@ -1,82 +1,69 @@
 <form #form="ngForm" (ngSubmit)="submit(form.valid)"  [formGroup]="employerForm">
-  <p class="h4 mb-4">{{ employer.id ? (employer.name) : 'מעסיק חדש' }}</p>
-  <div class="row col-12">
-  <div class="col-4">
-    <mat-form-field class="row col-12">
-      <input matInput type="text" placeholder="שם מעסיק" formControlName="name">
-      <mat-error *ngIf="hasError('name', 'required', employerForm)">שדה חובה.</mat-error>
-    </mat-form-field >
-    <mat-form-field class="row col-12">
-      <input matInput type="text" placeholder="ח.פ" formControlName="business_number">
-      <mat-error *ngIf="hasError('business_number', 'required', employerForm)">שדה חובה.</mat-error>
-      <mat-error *ngIf="hasError('business_number', 'pattern', employerForm)">ח.פ אינו תקין.</mat-error>
-      <!--<mat-error *ngIf="businessNumber.errors && f.submitted && businessNumber.value === ''">שדה חובה.</mat-error>-->
-      <!--<mat-error *ngIf="businessNumber.errors && f.submitted && businessNumber.value !== ''">ח.פ אינו תקין.</mat-error>-->
-    </mat-form-field>
-    <mat-form-field class="row col-12">
-      <input matInput type="text" placeholder="קוד מוסד - 5" formControlName="institute_code_5">
-      <!--<mat-error *ngIf="instituteCode5.errors && instituteCode5.touched">קוד מוסד לא תקין.</mat-error>-->
-    </mat-form-field>
-    <mat-form-field class="row col-12">
-      <input matInput type="text" placeholder="קוד מוסד - 8" formControlName="institute_code_8">
-      <!--<mat-error *ngIf="instituteCode8.errors && instituteCode8.touched">קוד מוסד לא תקין.</mat-error>-->
-    </mat-form-field>
-  </div>
-  <div class="col-4">
-    <mat-form-field class="row col-12">
-      <input matInput placeholder="מס' טלפון" formControlName="phone" type="text">
-    </mat-form-field>
-    <mat-form-field class="row col-12">
-      <input matInput  placeholder="מס' נייד" formControlName="mobile" type="text">
-    </mat-form-field>
-    <mat-form-field class="row col-12">
-      <input matInput placeholder="כתובת מייל" formControlName="email" type="email">
-    </mat-form-field>
-    <mat-form-field class="row col-12">
-      <input matInput placeholder="פקס" formControlName="fax" type="text">
-    </mat-form-field>
-    <mat-form-field class="row col-12">
-      <input matInput type="text" placeholder="כתובת" formControlName="address">
-    </mat-form-field>
-  </div>
-  </div>
-  <p class="bold h6">חשבונות בנק</p>
-  <div formArrayName="bank_accounts">
-    <div class="w-50 d-flex" *ngFor="let account of getArrControls(); let index = index; let last = last" [formGroupName]="index">
-        <button mat-icon-button (click)="remove(index)" *ngIf="index > 0">
-          <mat-icon>highlight_off</mat-icon>
-        </button>
-        <div>
-          <input type="hidden" formControlName="id">
-          <mat-checkbox formControlName="is_primary"></mat-checkbox>
-        </div>
-        <div>
-          <bd-select class="ml-3 mt12" formControlName="bank_id" [items]="banks"  placeholder="בחר בנק"></bd-select>
-          <mat-error *ngIf="hasError('bank_id', 'required', employerForm, index)">שדה חובה.</mat-error>
-          <mat-error *ngIf="hasError('bank_id', 'pattern', employerForm, index)">שדה חובה.</mat-error>
-        </div>
-        <div>
-          <bd-select class="ml-3 mt12" formControlName="branch_id" [items]="selectedBankBranch(index)" placeholder="בחר סניף"></bd-select>
-          <mat-error *ngIf="hasError('branch_id', 'required', employerForm, index)">שדה חובה.</mat-error>
-        </div>
-        <mat-form-field>
-          <input matInput type="text" formControlName="number" placeholder="מס' חשבון" (change)="abc()">
-          <mat-error *ngIf="hasError('number', 'required', employerForm, index)">שדה חובה.</mat-error>
-          <mat-error *ngIf="hasError('number', 'pattern', employerForm, index)">יש להקיש 5 ספרות</mat-error>
-        </mat-form-field>
-        <button mat-icon-button (click)="addBank()" *ngIf="last">
-          <mat-icon>add_circle</mat-icon>
-        </button>
+  <p class="h4 mb-4">{{ employer.id ? employer.name : 'מעסיק חדש' }}</p>
+  <div class="d-flex w-50">
+    <div class="ml-5 flex-grow-1">
+      <mat-form-field class="w-100">
+        <input matInput type="text" placeholder="שם מעסיק" formControlName="name">
+        <mat-error *ngIf="hasErrors('name')">שדה חובה.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <input matInput type="text" placeholder="ח.פ" formControlName="business_number">
+        <mat-error *ngIf="hasErrors('business_number', { specificError: 'required' })">שדה חובה.</mat-error>
+        <mat-error *ngIf="hasErrors('business_number', { specificError: 'pattern', touched: true })">ח.פ אינו תקין.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <input matInput type="text" placeholder="קוד מוסד - 5" formControlName="institute_code_5">
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <input matInput type="text" placeholder="קוד מוסד - 8" formControlName="institute_code_8">
+      </mat-form-field>
+    </div>
+    <div class="flex-grow-1">
+      <mat-form-field class="w-100">
+        <input matInput placeholder="מס' טלפון" formControlName="phone" type="text">
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <input matInput  placeholder="מס' נייד" formControlName="mobile" type="text">
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <input matInput placeholder="כתובת מייל" formControlName="email" type="email">
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <input matInput placeholder="פקס" formControlName="fax" type="text">
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <input matInput type="text" placeholder="כתובת" formControlName="address">
+      </mat-form-field>
     </div>
   </div>
-
-  <div class="row">
-    <mat-form-field class="col-6 w-100p">
-      <input type="text" matInput placeholder="הערות" formControlName="comments">
-    </mat-form-field>
+  <p class="bold h6">חשבונות בנק</p>
+  <div id="accounts" formArrayName="bank_accounts">
+    <div *ngFor="let account of getArrControls(); let index = index; let last = last" [formGroupName]="index">
+      <div class="d-flex align-items-center">
+        <mat-icon (click)="remove(index)" *ngIf="index > 0 || !last" class="ml-3 pointer remove-account-icon">highlight_off</mat-icon>
+        <div class="bd-select-container">
+          <bd-select formControlName="bank_id" [items]="banks"  placeholder="בחר בנק"></bd-select>
+          <mat-error *ngIf="hasErrors('bank_id', { arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
+        </div>
+        <div class="mx-3 bd-select-container">
+          <bd-select formControlName="branch_id" [items]="selectedBankBranch(index)" placeholder="בחר סניף"></bd-select>
+          <mat-error *ngIf="hasErrors('branch_id', { arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
+        </div>
+        <mat-form-field>
+          <input matInput type="text" formControlName="number" placeholder="מס' חשבון">
+          <mat-error *ngIf="hasErrors('number', { specificError: 'required', arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
+          <mat-error *ngIf="hasErrors('number', { specificError: 'pattern', touch: true, arrayPosition: index, formArrayName: 'bank_accounts' })">יש להקיש 5 ספרות</mat-error>
+        </mat-form-field>
+        <mat-checkbox formControlName="is_primary" class="mx-3" (change)="primaryBankChecked(index, $event.checked)">בנק ראשי</mat-checkbox>
+        <mat-icon (click)="addBank()" *ngIf="last" class="pointer">add_circle</mat-icon>
+      </div>
+    </div>
   </div>
+  <mat-form-field class="w-50 mt-3">
+    <input type="text" matInput placeholder="הערות" formControlName="comments">
+  </mat-form-field>
   <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
-  <div style="padding-right: 1400px">
+  <div class="text-left">
     <button class="btn blue-btn" type="submit">שלח</button>
   </div>
 </form>

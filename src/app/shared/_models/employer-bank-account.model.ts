@@ -6,5 +6,5 @@ export class EmployerBankAccount {
   number: string;
   bank: Bank;
   branch: BankBranch;
-  is_primary: number;
+  is_primary: boolean;
 }

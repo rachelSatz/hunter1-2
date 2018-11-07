@@ -46,8 +46,8 @@
     <button mat-icon-button (click)="deleteEntityRow(index)" *ngIf="index > 0">
       <mat-icon>highlight_off</mat-icon>
     </button>
-    <bd-select  class="ml-3 mt12" name="organization"   [items]="organizations" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
-    <bd-select  class="ml-3 mt12" name="employer"   [items]="employers" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
+    <bd-select class="ml-3 mt12" name="organization"   [items]="organizations" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
+    <bd-select class="ml-3 mt12" name="employer"   [items]="employers" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
 
     <mat-form-field>
       <mat-select placeholder="מחלקות" [formControl]="department" multiple>
