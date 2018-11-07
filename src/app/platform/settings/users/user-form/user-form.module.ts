@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule
-  , MatIconModule } from '@angular/material';
-
+import { MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule,
+          MatButtonModule } from '@angular/material';
 
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 
@@ -16,7 +15,6 @@ import { UserService } from 'app/shared/_services/http/user.service';
 
 import { UsersResolve } from 'app/shared/_resolves/users.resolve';
 
-
 const routes: Routes = [
   { path: '', component: UserFormComponent },
   { path: ':id', component: UserFormComponent, resolve: { user: UsersResolve } }
@@ -27,7 +25,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
-    MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
+    MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule,
     BdSelectModule,
     ReactiveFormsModule
   ],

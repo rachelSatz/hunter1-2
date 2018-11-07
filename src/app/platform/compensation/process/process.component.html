@@ -1,8 +1,10 @@
 <p class="h4 mb-4">מעקב יתרות לפיצוים</p>
-<div class="w-25">
-  <bd-select [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event)"></bd-select>
+
+<div class="row">
+  <!--<bd-select  class="w-25" [items]="employers" placeholder="בית עסק" (onSelect)="loadDepartments($event)"></bd-select>-->
+  <bd-select  class="w-25 mx-3" [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event)"></bd-select>
 </div>
-<div class="d-flex my-3">
+<div class="row my-3">
   <bd-select class="w-25" [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
   <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3 w-25" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
   <button class="btn blue-btn" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
@@ -11,7 +13,7 @@
   <bd-select [items]="selectStatuses" placeholder="סטטוס" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" class="ml-3"></bd-select>
   <bd-select [items]="sourceTypes" placeholder="מקור המידע" [(ngModel)]="searchCriteria['source_type']" (onSelect)="search()" class="ml-3"></bd-select>
   <bd-select [items]="users" placeholder="יוצר בקשה" [(ngModel)]="searchCriteria['user_id']" (onSelect)="search()" class="ml-3"></bd-select>
-
+  <bd-select [items]="validity" placeholder="תקינות" [(ngModel)]="searchCriteria['validity']" (onSelect)="search()"></bd-select>
 
   <bd-select [items]="responseTimes" placeholder="ימי טיפול" [(ngModel)]="searchCriteria['response_time']" (onSelect)="search()"></bd-select>
 
@@ -27,9 +29,9 @@
 </div>
 <div class="row mt-4 mr-1">
   <button class="btn blue-btn" (click)="openFormDialog()">בקשה חדשה</button>
-  <button class="btn blue-btn mr-2" (click)="openExcelDialog()">העלאת אקסל</button>
+  <button class="btn blue-btn mr-2" (click)="openExcelDialog()">העלאת קובץ בקשות</button>
   <button class="btn blue-btn mr-2" (click)="manualChangingStatus()">שינוי סטטוס</button>
-  <button class="btn blue-btn mr-2" (click)="openExcelEmployeesDialog()">העלאת אקסל עובדים</button>
+  <button class="btn blue-btn mr-2" (click)="openExcelEmployeesDialog()">העלאת קובץ עובדים</button>
   <div class="ml-3 d-flex mr-auto" >
   <button class="btn blue-btn " (click)="sendCompensations()">שדר בקשה</button>
   </div>
@@ -75,15 +77,16 @@
       </td>
       <td>
         <span *ngIf="item.status !== 'closed'">טרם</span>
-        <img src="/assets/img/icons/download.png" *ngIf="item.status === 'closed' && sendingMethods[item.sending_method]  === 'כספת'" (click)="downloadPdfFile(item.id)">
+        <i class="fa fa-download fa-lg ml-2" (click)="downloadPdfFile(item.id)" *ngIf="item.status === 'closed'"></i>
+        <i class="fa fa-eye fa-lg" (click)="showPdfFile(item.id)" *ngIf="item.status === 'closed'"></i>
       </td>
       <td>
         <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
       </td>
       <td>
-        <span *ngIf="item.status === 'Open' || item.status === 'Sent'">טרם</span>
-        <img [src]="getValidityImage(item)" class="row-image" *ngIf="item.status === 'V' || item.status === 'E'">
+        <img [src]="getValidityImage(item)" class="row-image" >
       </td>
+
     </tr>
   </ng-container>
   <tr *ngIf="!isSearching && items.length === 0">

@@ -6,32 +6,7 @@
 </div>
 <form #form="ngForm" class="py-4">
   <div class="mb-4">
-    <mat-form-field class="w-100">
-      <mat-chip-list #chipContactList>
-        <mat-chip
-          *ngFor="let contact of contactsAdd"
-          [selectable]="selectablecontact"
-          [removable]="removablecontact"
-          (removed)="removeContact(contact)">
-          {{contact.name}}
-          <mat-icon matChipRemove *ngIf="removablecontact">cancel</mat-icon>
-        </mat-chip>
-        <input
-          placeholder="הוספת אנשי קשר"
-          #contactInput
-          [formControl]="contactCtrl"
-          [matAutocomplete]="autoContact"
-          [matChipInputFor]="chipContactList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="addOnBlurContact"
-        >
-      </mat-chip-list>
-      <mat-autocomplete #autoContact="matAutocomplete" (optionSelected)="selected($event)">
-        <mat-option *ngFor="let contact of filteredContacts | async" [value]="contact">
-          {{contact.name}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <bd-select class="ml-4" [name]="contactsAdd"  [items]="contacts" placeholder="אנשי קשר"  [multiple]="true" [(ngModel)]="contactsAdd"></bd-select>
   </div>
   <mat-form-field class="w-100">
     <mat-chip-list #chipList>
@@ -47,9 +22,20 @@
              (matChipInputTokenEnd)="add($event)">
     </mat-chip-list>
   </mat-form-field>
-  <mat-form-field class="w-100">
-    <textarea name="comments" matInput placeholder="תוכן" required [(ngModel)]="comments"></textarea>
-  </mat-form-field>
+  <div class="form-group">
+    <label for="comment">תוכן:</label>
+    <textarea class="form-control" rows="5" id="comment" name="comments"  required [(ngModel)]="comments"></textarea>
+  </div>
+  <div class="mt-3 pointer">
+    <label class="file-label">
+      <img src="/assets/img/icons/circle_arrow_up.png">
+      <span class="file-label-text">{{ uploadedFile ? (uploadedFile[0].name | truncate: 25) : 'העלאת קובץ חדש' }}</span>
+      <input type="file" (change)="uploadedFile = $event.target.files" multiple>
+    </label>
+  </div>
+  <!--<mat-form-field class="w-100">-->
+    <!--<textarea  name="comments" matInput placeholder="תוכן" required [(ngModel)]="comments"></textarea>-->
+  <!--</mat-form-field>-->
 </form>
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
 <div mat-dialog-actions class="justify-content-center">

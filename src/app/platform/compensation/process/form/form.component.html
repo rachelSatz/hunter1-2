@@ -37,9 +37,13 @@
       <mat-error>שדה חובה.</mat-error>
     </mat-form-field>
   </div>
-  <mat-form-field class="w-100">
-    <textarea matInput placeholder="הערות" name="contents" ngModel></textarea>
-  </mat-form-field>
+  <div class="form-group">
+    <label for="comment">הערות:</label>
+    <textarea class="form-control" rows="5" id="comment" name="comments"  ngModel></textarea>
+  </div>
+  <!--<mat-form-field class="w-100">-->
+    <!--<textarea matInput placeholder="הערות" name="contents" ngModel></textarea>-->
+  <!--</mat-form-field>-->
   <div class="mb-3">
     <mat-checkbox name="has_deposit_report" ngModel>כלול דו"ח הפקדות</mat-checkbox>
   </div>

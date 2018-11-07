@@ -11,6 +11,7 @@
       <th>תאריך</th>
       <th>נמענים</th>
       <th>תוכן</th>
+      <th>הורדה</th>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +21,7 @@
         <ng-container *ngFor="let receiver of inquiry.receivers; let last = last">{{ receiver.email | truncate: 30 }} </ng-container>
       </td>
       <td class="w-50">{{ inquiry.content }}</td>
+      <td class="w-50"> <i *ngIf="inquiry.has_file_inquiry" class="fa fa-download fa-lg ml-2" (click)="downloadFilesInquirie(inquiry.id)" ></i></td>
     </tr>
   </tbody>
 </table>

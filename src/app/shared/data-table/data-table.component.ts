@@ -50,7 +50,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
 		this.isSearching = false;
 
 		this.items = items;
-		console.log(this.items)
 		this.paginationData.totalItems = this.items.length;
 		this.paginateItems();
 	}
