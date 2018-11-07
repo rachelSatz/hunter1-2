@@ -5,11 +5,11 @@
   <bd-select  class="w-25 mx-3" [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event)"></bd-select>
 </div>
 <div class="row my-3">
-  <bd-select class="w-25" [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
+  <bd-select class="w-25 mx-3" [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
   <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3 w-25" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
   <button class="btn blue-btn" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
 </div>
-<div [@slideToggle]="extraSearchCriteria" class="d-flex mb-3">
+<div [@slideToggle]="extraSearchCriteria" class="d-flex mb-3 ">
   <bd-select [items]="selectStatuses" placeholder="סטטוס" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" class="ml-3"></bd-select>
   <bd-select [items]="sourceTypes" placeholder="מקור המידע" [(ngModel)]="searchCriteria['source_type']" (onSelect)="search()" class="ml-3"></bd-select>
   <bd-select [items]="users" placeholder="יוצר בקשה" [(ngModel)]="searchCriteria['user_id']" (onSelect)="search()" class="ml-3"></bd-select>

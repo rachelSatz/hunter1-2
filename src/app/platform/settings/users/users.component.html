@@ -1,7 +1,7 @@
 <p class="h4 mb-4">משתמשים</p>
-<div class="w-25">
-  <bd-select [items]="employers" placeholder="מעסיק" [(ngModel)]="searchCriteria['employer']" (onSelect)="search()"></bd-select>
-</div>
+<!--<div class="w-25">-->
+  <!--<bd-select [items]="employers" placeholder="מעסיק" [(ngModel)]="searchCriteria['employer']" (onSelect)="search()"></bd-select>-->
+<!--</div>-->
 <div class="d-flex my-3">
   <bd-select class="w-25" [items]="user" label="username" placeholder="שם משתמש" [(ngModel)]="searchCriteria['user_id']" (onSelect)="search()"></bd-select>
   <bd-select [items]="role" placeholder="סוג משתמש" class="mx-3 w-25" [(ngModel)]="searchCriteria['role_id']" (onSelect)="search()"></bd-select>

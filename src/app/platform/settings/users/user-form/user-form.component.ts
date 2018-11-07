@@ -40,12 +40,12 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  loadEmployers(organizationID: number, index: number): void {
+  loadEmployers(organizationID: number): void {
     this.organizationService.getEmployers(organizationID).then(response => this.employers = response);
 
   }
 
-  loadDepartments(employerID: number, index: number): void {
+  loadDepartments(employerID: number): void {
     this.employerService.getDepartments(employerID).then(response => this.departments = response);
   }
 
