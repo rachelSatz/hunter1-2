@@ -18,22 +18,22 @@ export class GeneralHttpService extends BaseHttpService {
     super(userSession);
   }
 
-  getBanks(): Promise<Bank[]> {
-    return this.http.get(this.apiUrl  + '/bank', this.getTokenHeader())
-    .toPromise()
-    .then(response => response as Bank[]);
-  }
+  // getBanks(): Promise<Bank[]> {
+  //   return this.http.get(this.apiUrl  + '/bank', this.getTokenHeader())
+  //   .toPromise()
+  //   .then(response => response as Bank[]);
+  // }
 
   getEmployerBankBranch(Employerid: number,Processid:number): Promise<BankBranch> {
     return this.http.get(this.apiUrl  + '/Employerbank/' + Employerid+'/Process/'+ Processid, this.getTokenHeader())
     .toPromise()
     .then(response => response as BankBranch);
   }
-  getBankBranches(bankID: number): Promise<BankBranch[]> {
-    return this.http.get(this.apiUrl  + '/bank/' + +bankID + '/branch', this.getTokenHeader())
-    .toPromise()
-    .then(response => response as BankBranch[]);
-  }
+  // getBankBranches(bankID: number): Promise<BankBranch[]> {
+  //   return this.http.get(this.apiUrl  + '/bank/' + +bankID + '/branch', this.getTokenHeader())
+  //   .toPromise()
+  //   .then(response => response as BankBranch[]);
+  // }
  newAgent(agent:Agent): Promise<Agent> {
     return this.http.post(this.apiUrl+'/agent/', agent, this.getTokenHeader())
     .toPromise()
@@ -101,7 +101,6 @@ getApplication(Applicationid:number,employee?:Boolean): Promise<Application> {
     .then(response => response as {Key: string, Value: number}[]);
   }
 
-
   getFilesByEmployer(employerId: Number): Promise<any> {
     return this.http.get(this.apiUrl + '/employer/' + employerId + '/folders', this.getTokenHeader())
     .toPromise()
@@ -132,4 +131,24 @@ getApplication(Applicationid:number,employee?:Boolean): Promise<Application> {
     .toPromise()
     .then(response => response);
   }
+
+  getBanks(withBranches?: boolean): Promise<Bank[]> {
+    const request = this.getTokenHeader();
+    if (withBranches) {
+      request['params'] = { withBranches: 1 };
+    }
+
+    return this.http.post(this.apiUrl + '/generals' + '/banks', request )
+      .toPromise()
+      .then(response => response as Bank[])
+      .catch(() => []);
+  }
+
+  getBankBranches(bankID: number): Promise<BankBranch[]> {
+    return this.http.get(this.apiUrl + '/generals' + '/bankBranches/' + bankID, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as BankBranch[])
+      .catch(() => []);
+  }
+
 }

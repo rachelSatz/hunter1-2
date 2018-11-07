@@ -196,6 +196,10 @@ a:hover {
   cursor: pointer;
 }
 
+.bd-select-container {
+  height: 44px;
+}
+
 .link {
   color: #0275d8;
 }

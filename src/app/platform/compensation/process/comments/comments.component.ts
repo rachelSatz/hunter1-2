@@ -9,6 +9,7 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
+  styles: ['#commentsTable { height: 200px; overflow-y: auto; padding-top: 20px }'],
   animations: [
     trigger('fade', [
       state('inactive', style({
@@ -29,12 +30,12 @@ export class CommentsComponent implements OnInit {
   comment: string;
   hasServerError: boolean;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation, private dialogRef: MatDialogRef<CommentsComponent>,
-              private compensationService: CompensationService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation,
+              private dialogRef: MatDialogRef<CommentsComponent>, private compensationService: CompensationService) {}
 
-    ngOnInit() {
-      this.compensationService.getComments(this.compensation.id).then(response => this.comments = response);
-    }
+  ngOnInit() {
+    this.compensationService.getComments(this.compensation.id).then(response => this.comments = response);
+  }
 
   submit(): void {
     this.hasServerError = false;
