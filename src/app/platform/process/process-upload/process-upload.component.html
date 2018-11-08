@@ -1,15 +1,19 @@
 
-<div class="narrow-width" *ngIf="activeUploadStep === 2">
+
+<div>
+  <h5>העלאת תהליך שלילי</h5>
+  <p class="text-muted">לבקשת החזרים כספיים מהקופות יש להעלות קובץ בפורמט xml שלילי, אשר מונפק מתכנת השכר</p>
+  <p class="text-muted">קובץ זה יועבר לקופות על מנת להשיב את הכספים אל החשבון המוגדר.</p>
+</div>
+<div  *ngIf="activeUploadStep === 2">
   <mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>
   <file-drop class="selectFileContainer" [ngClass]="{ 'uploaded': paymentsFile }" ng2FileDrop (onFileDrop)="GetFileFromDrop($event)">
-
-
 
     <span id="removeUploadedFile" (click)="removeFile()" *ngIf="paymentsFile">
       <i class="fa fa-times"></i>
   </span>
     <label class="pointer" *ngIf="!paymentsFile" (change)="setFile($event.target.files[0])" >
-      <img src="/assets/img/icons/cloud-backup.svg" class="mb-1 icon-lg">
+      <img src="../../../../assets/img/icons/cloud-backup.svg" class="mb-1 icon-lg">
       <p class="h5 grey-color">בחר קובץ להעלאה</p>
       <p class="h6 grey-color">או גרור קבצים לכאן</p>
       <input type="file">
@@ -21,50 +25,6 @@
   </file-drop>
   <p class="alert alert-danger" *ngIf="fileTypeError">יש להעלות קבצי XML בלבד.</p>
   <p class="alert alert-danger" *ngIf="noFileError">יש להעלות קובץ.</p>
-  <!-- <p class="bold text-center mt-3">
-    <span class="grey-color">ליצירת תהליך ידני</span>
-    <span class="link">לחץ כאן</span>
-  </p> -->
 </div>
-
-<!--<div class="center">-->
-  <!--<file-drop  ng2FileDrop (onFileDrop)="GetFileFromDrop($event)" >-->
-    <!--<p class="h5 grey-color">בחר קובץ להעלאה</p>-->
-    <!--<p class="h6 grey-color">או גרור קבצים לכאן</p>-->
-  <!--</file-drop>-->
-
-  <!--&lt;!&ndash;<div class="upload-table">&ndash;&gt;-->
-    <!--&lt;!&ndash;<table class="table">&ndash;&gt;-->
-      <!--&lt;!&ndash;<thead>&ndash;&gt;-->
-      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-        <!--&lt;!&ndash;<th>Name</th>&ndash;&gt;-->
-      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-      <!--&lt;!&ndash;</thead>&ndash;&gt;-->
-      <!--&lt;!&ndash;<tbody class="upload-name-style">&ndash;&gt;-->
-      <!--&lt;!&ndash;<tr *ngFor="let item of files; let i=index">&ndash;&gt;-->
-        <!--&lt;!&ndash;<td><strong>{{ item.relativePath }}</strong></td>&ndash;&gt;-->
-      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-      <!--&lt;!&ndash;</tbody>&ndash;&gt;-->
-    <!--&lt;!&ndash;</table>&ndash;&gt;-->
-  <!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--</div>-->
-<!--&lt;!&ndash;<div class="align-items-center  upload-step-title">&ndash;&gt;-->
-
-
-  <!--<ng-container *ngIf="Neg&&activeUploadStep==2; then thenBlock; else elseBlock"></ng-container>-->
-  <!--<ng-template #thenBlock>-->
-    <!--<div class="row">-->
-      <!--<p class="h3 NegTitle">העלאת תהליך שלילי</p>-->
-    <!--</div>-->
-    <!--<p class="SumHeader">לבקשת החזרים כספייםמהקופות יש להעלות קובץ בפורמט XML שלילי אשר מופק מתוכנת השכר.-->
-    <!--</p>-->
-    <!--<p class="SumHeader">קובץ זה יועבר לקופות על מנת להשיב את הכספים לחשבונכם.-->
-  <!--</ng-template>-->
-  <!--<ng-template #elseBlock>-->
-    <!--&lt;!&ndash;<p class="h3" [ngClass]="{ 'text-center': activeUploadStep !== 2 }">{{ getTitle() }}</p>&ndash;&gt;-->
-    <!--<p class="SumHeader" *ngIf="activeUploadStep==2">במסך זה הינך נדרש לבצע טעינת נתונים מתוך קובץ XML</p>-->
-  <!--</ng-template>-->
-<!--</div>-->
-
 
 
