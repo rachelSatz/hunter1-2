@@ -6,14 +6,9 @@ import { MatDatepickerModule, MatFormFieldModule, MatSelectModule } from '@angul
 import { ProcessComponent } from './process.component';
 
 const routes: Routes = [
-<<<<<<< HEAD
   { path: '', component: ProcessComponent }
   ];
 
-=======
-  { path: '', component: ProcessComponent },
-];
->>>>>>> 65109f01326dcf3cf94905901194188257388d9d
 
 @NgModule({
   imports: [

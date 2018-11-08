@@ -12,7 +12,6 @@ import { MONTHS } from '../../../shared/_const/months';
 })
 export class ProcessUploadComponent implements OnInit {
   public files: any[] = [];
-<<<<<<< HEAD
   // HaveNegativeProcess: boolean;
   // contacts: any[];
   // process: any;
@@ -20,7 +19,7 @@ export class ProcessUploadComponent implements OnInit {
   // readonly months = MONTHS;
   // readonly currentYear = new Date().getFullYear();
   // employers: any[];
-  paymentsFile: File;
+  // paymentsFile: File;
   // selectedUploadMethod: 'xml' | 'manual';
   // public spin = false;
   // fileTypeError = false;
@@ -30,12 +29,10 @@ export class ProcessUploadComponent implements OnInit {
   // isPaymentTransferred: boolean;
   //
   // paymentDialogSubscription: Subscription;
-=======
   spin: false ;
   paymentsFile: File;
   fileTypeError = false;
   noFileError = false;
->>>>>>> 65109f01326dcf3cf94905901194188257388d9d
   activeUploadStep: number;
 
   constructor() { }

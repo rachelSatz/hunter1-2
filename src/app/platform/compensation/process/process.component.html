@@ -1,7 +1,7 @@
 <p class="h4 mb-4">מעקב יתרות לפיצוים</p>
 
 <div class="row">
-  <!--<bd-select  class="w-25" [items]="employers" placeholder="בית עסק" (onSelect)="loadDepartments($event)"></bd-select>-->
+  <bd-select  class="w-25" [items]="employers" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
   <bd-select  class="w-25 mx-3" [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event)"></bd-select>
 </div>
 <div class="row my-3">
@@ -24,9 +24,12 @@
     <mat-error>שדה חובה.</mat-error>
   </mat-form-field>
 </div>
-<div (click)="toggleExtraSearch()">
-  <span class="bold blue-color pointer">{{ extraSearchCriteria === 'active' ? 'הצג פחות >' : 'חיפוש מורחב >' }}</span>
+<div class="d-flex justify-content-between">
+  <div class="p-2" (click)="toggleExtraSearch()">
+    <span class="bold blue-color pointer">{{ extraSearchCriteria === 'active' ? 'הצג פחות >' : 'חיפוש מורחב >' }}</span>
+  </div>
 </div>
+
 <div class="row mt-4 mr-1">
   <button class="btn blue-btn" (click)="openFormDialog()">בקשה חדשה</button>
   <button class="btn blue-btn mr-2" (click)="openExcelDialog()">העלאת קובץ בקשות</button>

@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD
 <!--<div class="align-items-center  upload-step-title">-->
 
 
@@ -20,7 +19,6 @@
 <div class="narrow-width" *ngIf="activeUploadStep === 2">
   <mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>
   <file-drop class="selectFileContainer" [ngClass]="{ 'uploaded': paymentsFile }" ng2FileDrop (onFileDrop)="GetFileFromDrop($event)">
-=======
 
 <div>
   <h5>העלאת תהליך שלילי</h5>
@@ -31,7 +29,6 @@
   <mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>
   <file-drop class="selectFileContainer" [ngClass]="{ 'uploaded': paymentsFile }" ng2FileDrop (onFileDrop)="GetFileFromDrop($event)">
 
->>>>>>> 65109f01326dcf3cf94905901194188257388d9d
     <span id="removeUploadedFile" (click)="removeFile()" *ngIf="paymentsFile">
       <i class="fa fa-times"></i>
   </span>
