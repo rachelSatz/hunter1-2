@@ -18,7 +18,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
+    RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule,
     MatProgressBarModule, MatTooltipModule ,
      MatProgressSpinnerModule , FileDropModule

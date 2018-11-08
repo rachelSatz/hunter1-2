@@ -12,7 +12,7 @@
     <p class="SumHeader">קובץ זה יועבר לקופות על מנת להשיב את הכספים לחשבונכם.
   </ng-template>
   <ng-template #elseBlock>
-    <p class="h3" [ngClass]="{ 'text-center': activeUploadStep !== 2 }">{{ getTitle() }}</p>
+    <!--<p class="h3" [ngClass]="{ 'text-center': activeUploadStep !== 2 }">{{ getTitle() }}</p>-->
     <p class="SumHeader" *ngIf="activeUploadStep==2">במסך זה הינך נדרש לבצע טעינת נתונים מתוך קובץ XML</p>
   </ng-template>
 </div>
@@ -20,11 +20,11 @@
 
 
 <div class="narrow-width" *ngIf="activeUploadStep === 2">
-  <!--<mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>-->
+  <mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>
   <file-drop class="selectFileContainer" [ngClass]="{ 'uploaded': paymentsFile }" ng2FileDrop (onFileDrop)="GetFileFromDrop($event)">
 
-    
-  
+
+
     <span id="removeUploadedFile" (click)="removeFile()" *ngIf="paymentsFile">
       <i class="fa fa-times"></i>
   </span>
