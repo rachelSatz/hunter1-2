@@ -21,6 +21,7 @@ export class Employer {
   typeSent: number; // סוג מזהה לשליחה
   employerCodeSent: string; // מספר מזהה לשליחה
   comments: string;
+  bank_id: number;
 
   constructor() {
     this.bankBranch = new BankBranch;
