@@ -20,7 +20,7 @@
 
 
 <div class="narrow-width" *ngIf="activeUploadStep === 2">
-  <mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>
+  <!--<mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>-->
   <file-drop class="selectFileContainer" [ngClass]="{ 'uploaded': paymentsFile }" ng2FileDrop (onFileDrop)="GetFileFromDrop($event)">
 
     
