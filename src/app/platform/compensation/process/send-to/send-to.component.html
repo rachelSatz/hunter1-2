@@ -6,7 +6,7 @@
 </div>
 <form #form="ngForm" class="py-4">
   <div class="mb-4">
-    <bd-select class="ml-4" [name]="contactsAdd"  [items]="contacts" placeholder="אנשי קשר"  [multiple]="true" [(ngModel)]="contactsAdd"></bd-select>
+    <bd-select class="ml-4" name="contactsAdd"  [items]="contacts" placeholder="אנשי קשר"  [multiple]="true" (ngModel)="contactsAdd"></bd-select>
   </div>
   <mat-form-field class="w-100">
     <mat-chip-list #chipList>

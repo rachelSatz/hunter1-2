@@ -87,7 +87,7 @@ export class SendToComponent implements OnInit {
     if (form.valid) {
       this.hasServerError = false;
 
-      this.compensationService.newInquiry(this.compensation.id, this.comments, this.Emails, this.contactsAdd, this.uploadedFile,
+      this.compensationService.newInquiry(this.compensation.id, this.comments, this.Emails, form.value['contactsAdd'], this.uploadedFile,
         this.file_count).then(response => {
       if (response) {
             this.dialogRef.close(this.compensation);
