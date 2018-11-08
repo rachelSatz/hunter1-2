@@ -17,7 +17,8 @@ const routes: Routes = [
       { path: 'settings/contacts', loadChildren: 'app/platform/settings/contacts/contacts.module#ContactsModule' },
       { path: 'settings/employers', loadChildren: 'app/platform/settings/employers/employers.module#EmployersModule' },
       { path: 'settings/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
-      { path: 'settings/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' }
+      { path: 'settings/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
+      { path: 'process/new', loadChildren: 'app/platform/process/process-upload.module#ProcessUploadModule' }
     ]
   }
 ];

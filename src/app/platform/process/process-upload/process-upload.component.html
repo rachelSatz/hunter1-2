@@ -1,0 +1,48 @@
+
+<div class="align-items-center  upload-step-title">
+
+
+  <ng-container *ngIf="Neg&&activeUploadStep==2; then thenBlock; else elseBlock"></ng-container>
+  <ng-template #thenBlock>
+    <div class="row">
+      <p class="h3 NegTitle">העלאת תהליך שלילי</p>
+    </div>
+    <p class="SumHeader">לבקשת החזרים כספייםמהקופות יש להעלות קובץ בפורמט XML שלילי אשר מופק מתוכנת השכר.
+    </p>
+    <p class="SumHeader">קובץ זה יועבר לקופות על מנת להשיב את הכספים לחשבונכם.
+  </ng-template>
+  <ng-template #elseBlock>
+    <p class="h3" [ngClass]="{ 'text-center': activeUploadStep !== 2 }">{{ getTitle() }}</p>
+    <p class="SumHeader" *ngIf="activeUploadStep==2">במסך זה הינך נדרש לבצע טעינת נתונים מתוך קובץ XML</p>
+  </ng-template>
+</div>
+
+
+
+<div class="narrow-width" *ngIf="activeUploadStep === 2">
+  <mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>
+  <file-drop class="selectFileContainer" [ngClass]="{ 'uploaded': paymentsFile }" ng2FileDrop (onFileDrop)="GetFileFromDrop($event)">
+
+    
+  
+    <span id="removeUploadedFile" (click)="removeFile()" *ngIf="paymentsFile">
+      <i class="fa fa-times"></i>
+  </span>
+    <label class="pointer" *ngIf="!paymentsFile" (change)="setFile($event.target.files[0])" >
+      <img src="/assets/img/icons/cloud-backup.svg" class="mb-1 icon-lg">
+      <p class="h5 grey-color">בחר קובץ להעלאה</p>
+      <p class="h6 grey-color">או גרור קבצים לכאן</p>
+      <input type="file">
+    </label>
+    <div id="fileUploadedContainer" class="text-center" *ngIf="paymentsFile">
+      <i class="fa fa-check-circle-o fa-4x"></i>
+      <p *ngIf="paymentsFile" class="bold word-break w-75 mx-auto">{{ paymentsFile.name }}</p>
+    </div>
+  </file-drop>
+  <p class="alert alert-danger" *ngIf="fileTypeError">יש להעלות קבצי XML בלבד.</p>
+  <p class="alert alert-danger" *ngIf="noFileError">יש להעלות קובץ.</p>
+  <!-- <p class="bold text-center mt-3">
+    <span class="grey-color">ליצירת תהליך ידני</span>
+    <span class="link">לחץ כאן</span>
+  </p> -->
+</div>

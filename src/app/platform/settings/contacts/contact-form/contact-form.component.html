@@ -6,7 +6,7 @@
       <p class="alert alert-danger" [@fade]="typeSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
     </div>
     <div class="col-12 col-lg-4">
-      <bd-select class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel" [ngModel]="contact.entity_id" placeholder="שם גורם" required></bd-select>
+      <bd-select class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel" [ngModel]="contact.entity_name" placeholder="שם גורם" required></bd-select>
       <p class="alert alert-danger" [@fade]="entityIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
     </div>
   </div>

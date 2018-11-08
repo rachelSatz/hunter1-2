@@ -1,0 +1,17 @@
+<div class="container d-flex align-items-center justify-content-center mb-3 node-list">
+  <div class="node" [ngClass]="{ 'active': activeStep >= 1 }">
+    <div class="node-inner">1</div>
+    <p>טעינת קובץ שלילי</p>
+  </div>
+  <div class="horizontal-line"></div>
+  <div class="node" [ngClass]="{ 'active': activeStep >= 2 }">
+    <div class="node-inner">2</div>
+    <p>פירוט החזרים</p>
+  </div>
+  <div class="horizontal-line"></div>
+  <div class="node" [ngClass]="{ 'active': activeStep === 3 }">
+    <div class="node-inner">3</div>
+    <p>שידור נתונים</p>
+  </div>
+</div>
+<router-outlet></router-outlet>

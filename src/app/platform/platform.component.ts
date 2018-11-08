@@ -18,10 +18,10 @@ export class PlatformComponent implements OnInit {
         { url: 'process', label: 'מעקב יתרות לפיצויים' },
         { url: 'dashboard', label: 'מצג סטטוסים' }
       ]},
-    // { url: 'process', label: 'תהליכים', subMenuLinks: [
-    //   { url: 'new', label: 'צור תהליך חדש' },
-    //   { url: 'table', label: 'תהליכים' }
-    // ]},
+    { url: 'process', label: 'תהליכים', subMenuLinks: [
+      { url: 'new', label: 'צור תהליך חדש' },
+      { url: 'table', label: 'תהליכים' }
+    ]},
     // { url: 'feedback', label: 'היזונים חוזרים', subMenuLinks: [
     //   { url: 'graph', label: 'גרף' },
     //   { url: 'table/employees', label: 'טבלת עובדים' },

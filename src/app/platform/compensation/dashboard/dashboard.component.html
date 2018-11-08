@@ -31,7 +31,7 @@
 
 <div  class="offset-1 row col-12 mt-lg-5" >
 
-  <div class="col-3 ml-5 border border-light shadow-lg  p-5 mb-5 bg-white rounded heightdiv300">
+  <div class="col-3 ml-5 border border-light shadow-lg  p-5 mb-5 bg-white rounded height300">
     <p class="h6 font-weight-bold colorblue mb-3"> בקשות</p>
     <p>
       <span>סך הכל: </span>
@@ -53,15 +53,17 @@
       <span class="m-1 font-weight-bold">{{request_company['request_inq_treat']}}</span>
     </p>
   </div>
-  <div class="col-3 ml-5 border border-light shadow-lg p-5 mb-5 bg-white rounded heightdiv300">
+
+  <div class="col-3 ml-5 border border-light shadow-lg p-5 mb-5 bg-white rounded height300">
         <p class="h6 font-weight-bold colorblue mb-3"> בקשות פתוחות -<span class="font-weight-normal"> חברות מנהלות </span></p>
-   <div class ="pre-scrollable heightdiv200" >
+   <div class ="height200 overflowDiv" >
     <p *ngFor="let key  of objectKeys(request)">
       <span  >{{key}}</span>:
       <span class="m-1 font-weight-bold">{{request[key] }}</span>
     </p></div>
   </div>
-  <div  class="col-3 border border-light shadow-lg p-5 mb-5 bg-white rounded heightdiv300">
+
+  <div  class="col-3 border border-light shadow-lg p-5 mb-5 bg-white rounded height300">
     <p   class="h6 font-weight-bold colorblue mb-3"  >ימי טיפול</p>
     <p>
       <span>0-2 ימי טיפול:</span>

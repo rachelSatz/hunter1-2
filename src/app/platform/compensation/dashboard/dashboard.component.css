@@ -10,16 +10,21 @@
   color:#00adee;
 }
 
-.heightdiv300
+.height300
 {
   height: 300px;
 }
 
-.heightdiv200
+.height200
 {
   height: 200px;
 }
 .marginTop
 {
 margin-top: 0.65rem !important;
+}
+
+.overflowDiv
+{
+   overflow-y: auto; padding-top: 20px
 }
