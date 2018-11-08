@@ -7,7 +7,8 @@ import { ProcessComponent } from './process.component';
 
 const routes: Routes = [
   { path: '', component: ProcessComponent }
-];
+  ];
+
 
 @NgModule({
   imports: [
