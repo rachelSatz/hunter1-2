@@ -1,6 +1,7 @@
 .mat-form-field-infix
 {
   position: unset !important;
+  border-top: 0px!important;
 }
 .mat-form-field-appearance-legacy .mat-form-field-underline {
   bottom: 2.3em !important;
@@ -12,4 +13,3 @@
 ::ng-deep .excel-employees-dialog .mat-dialog-container {
   overflow: visible;
 }
-

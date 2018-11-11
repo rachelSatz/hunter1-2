@@ -1,28 +1,34 @@
 <p class="h4 mb-4">מעקב יתרות לפיצוים</p>
 
-<div class="row">
-  <bd-select  class="w-25" [items]="employers" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
+<div class="row col-md-8">
+  <bd-select  class="w-25" [items]="employers" placeholder="מעסיק" (onSelect)="loadDepartmentsAndEmployees($event)"></bd-select>
   <bd-select  class="w-25 mx-3" [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event)"></bd-select>
+
 </div>
-<div class="row my-3">
-  <bd-select class="w-25 mx-3" [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
-  <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3 w-25" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
+<div class="row col-md-8">
+  <bd-select class="w-25" [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
+  <bd-select [items]="companies" placeholder="חברה מנהלת" class="w-25 mx-3" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
   <button class="btn blue-btn" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
 </div>
 <div [@slideToggle]="extraSearchCriteria" class="d-flex mb-3 ">
   <bd-select [items]="selectStatuses" placeholder="סטטוס" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" class="ml-3"></bd-select>
   <bd-select [items]="sourceTypes" placeholder="מקור המידע" [(ngModel)]="searchCriteria['source_type']" (onSelect)="search()" class="ml-3"></bd-select>
   <bd-select [items]="users" placeholder="יוצר בקשה" [(ngModel)]="searchCriteria['user_id']" (onSelect)="search()" class="ml-3"></bd-select>
-  <bd-select [items]="validity" placeholder="תקינות" [(ngModel)]="searchCriteria['validity']" (onSelect)="search()"></bd-select>
+  <bd-select [items]="validity" placeholder="תקינות" [(ngModel)]="searchCriteria['validity']" (onSelect)="search()" class="ml-3"></bd-select>
 
-  <bd-select [items]="responseTimes" placeholder="ימי טיפול" [(ngModel)]="searchCriteria['response_time']" (onSelect)="search()"></bd-select>
-
+  <bd-select [items]="responseTimes" placeholder="ימי טיפול" [(ngModel)]="searchCriteria['response_time']" (onSelect)="search()" class="ml-3"></bd-select>
   <mat-form-field class="col-2">
     <input matInput class="pointer" (click)="datePickerRequest.open()" [matDatepicker]="datePickerRequest" placeholder=" תאריך יצירת בקשה" name="dateRequest"  [(ngModel)]="searchCriteria['date_request']" (dateChange)="valueDateChange($event.value)" readonly>
     <mat-datepicker-toggle matSuffix [for]="datePickerRequest"></mat-datepicker-toggle>
     <mat-datepicker #datePickerRequest></mat-datepicker>
     <mat-error>שדה חובה.</mat-error>
   </mat-form-field>
+  <!--<mat-form-field class="col-2">-->
+    <!--<input matInput class="pointer" (click)="datePickerRequest2.open()" [matDatepicker]="datePickerRequest2" placeholder=" תאריך יצירת בקשה" name="dateRequest2"  [(ngModel)]="searchCriteria['date_request2']" (dateChange)="valueDateChange2($event.value)" readonly>-->
+    <!--<mat-datepicker-toggle matSuffix [for]="datePickerRequest2"></mat-datepicker-toggle>-->
+    <!--<mat-datepicker #datePickerRequest2></mat-datepicker>-->
+    <!--<mat-error>שדה חובה.</mat-error>-->
+  <!--</mat-form-field>-->
 </div>
 <div class="d-flex justify-content-between">
   <div class="p-2" (click)="toggleExtraSearch()">

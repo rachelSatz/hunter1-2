@@ -67,4 +67,10 @@ export class EmployerService extends BaseHttpService {
       .catch(() => []);
   }
 
+  getDepartmentsAndEmployees(employerID: number): Promise<Object> {
+    return this.http.get(this.endPoint + '/' + employerID + '/departmentsAndEmployees', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Object)
+      .catch(() => []);
+  }
 }

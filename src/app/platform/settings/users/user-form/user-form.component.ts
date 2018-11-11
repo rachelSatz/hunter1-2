@@ -23,6 +23,7 @@ export class UserFormComponent implements OnInit {
   organizations = [];
   departments = [];
   employers = [];
+  employees = [];
 
   role = Object.keys(EntityRoles).map(function(e) {
     return { id: e, name: EntityRoles[e] };

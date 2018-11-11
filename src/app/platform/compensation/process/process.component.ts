@@ -132,6 +132,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     this.departmentService.getDepartments().then(response => this.departments = response);
     this.productService.getCompanies().then(response => this.companies = response);
     this.employerService.getEmployers().then(response => this.employers = response);
+
     this.fetchItems();
   }
 
@@ -153,12 +154,23 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
   }
 
+  loadDepartmentsAndEmployees(employerID: number): void {
+    this.employerService.getDepartmentsAndEmployees(employerID).then(response => {
+      this.departments = response['departments'];
+      this.employees = response['employees'];
+    });
+  }
   valueDateChange(keyCode: Date): void {
     this.searchCriteria['date_request'] =
       formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
     this.search();
   }
 
+  valueDateChange2(keyCode: Date): void {
+    this.searchCriteria['date_request2'] =
+      formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
+    this.search();
+  }
   sendCompensations(): void {
     if (this.checkedItems.length === 0) {
       this.setNoneCheckedWarning();
