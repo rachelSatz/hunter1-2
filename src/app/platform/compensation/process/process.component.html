@@ -74,7 +74,8 @@
       <td>{{ productTypes[item.product_type] }}</td>
       <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
       <td>{{ sendingMethods[item.sending_method] }}</td>
-      <td>{{ statuses[item.status] }}</td>
+      <td>{{ statuses[item.status] }}<img src="/assets/img/icons/details_grey.png" (click)="openErrorMessageDialog(item)">
+      </td>
       <td>
         <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
       </td>

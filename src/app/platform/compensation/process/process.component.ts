@@ -29,6 +29,7 @@ import { ProductType } from 'app/shared/_models/product.model';
 import { Employer } from 'app/shared/_models/employer.model';
 import {until} from 'selenium-webdriver';
 import elementIsSelected = until.elementIsSelected;
+import {ErrorMessageComponent} from './error-message/error-message.component';
 
 
 @Component({
@@ -249,6 +250,13 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   openDetailsDialog(item: Object): void {
     this.dialog.open(DetailsComponent, {
+      data: item,
+      width: '600px'
+    });
+  }
+
+  openErrorMessageDialog(item: Object): void {
+    this.dialog.open(ErrorMessageComponent, {
       data: item,
       width: '600px'
     });

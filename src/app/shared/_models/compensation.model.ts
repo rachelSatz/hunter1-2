@@ -14,6 +14,8 @@ export class Compensation {
   has_by_safebox: boolean;
   has_file_inquiry: boolean;
   files: File[] = [];
+  code_error: string;
+  detail_error: string;
 
   constructor() {
     this.files.push(new File());

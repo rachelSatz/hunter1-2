@@ -211,6 +211,13 @@ export class CompensationService extends BaseHttpService {
         .catch(() => []);
     }
   }
+
+  getErrorMessage(compensationID: number): Promise<Compensation> {
+    return this.http.get(this.endPoint + '/' + compensationID + '/getErrorMessage', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Compensation)
+      .catch(() => null);
+  }
 }
 
 
