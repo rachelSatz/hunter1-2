@@ -2,16 +2,13 @@
   <button mat-dialog-close>
     <i class="fa fa-close"></i>
   </button>
-  <span>הערות</span>
+  <span>פרוט שגיאה</span>
 </div>
-<ul id="errorMessageTable" class="pt-4">
-  הערות
-</ul>
+<table id="errorMessageTable" class="mt-5">
+    <td class="mr-3 ml-3 bold">{{ code_error + ':'}}</td>
+    <td  class="mr-3 ml-3">{{ detail_error}}</td>
+</table>
 <div class="py-4">
-  <mat-form-field class="w-100">
-    <!--<textarea matInput placeholder="הערות" [(ngModel)]="comment" maxlength="200"></textarea>-->
-    <mat-hint>(עד 200 תווים)</mat-hint>
-  </mat-form-field>
 </div>
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
 <div mat-dialog-actions class="justify-content-center">

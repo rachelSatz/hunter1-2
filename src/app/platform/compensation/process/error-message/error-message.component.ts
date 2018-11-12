@@ -27,8 +27,6 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 })
 export class ErrorMessageComponent implements OnInit {
 
-  uploadedFile: File;
-  files = [];
   hasServerError: boolean;
   code_error: string;
   detail_error: string;
