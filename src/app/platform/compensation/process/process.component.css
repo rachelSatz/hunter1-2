@@ -1,15 +1,3 @@
-.mat-form-field-infix
-{
-  position: unset !important;
-  border-top: 0px!important;
-}
-.mat-form-field-appearance-legacy .mat-form-field-underline {
-  bottom: 2.3em !important;
-}
-.example-chip-list {
-  width: 100%;
-}
-
-::ng-deep .excel-employees-dialog .mat-dialog-container {
-  overflow: visible;
+.filter-row bd-select, .filter-row .mat-form-field {
+  width: 300px !important;
 }
