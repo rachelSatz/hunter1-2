@@ -31,6 +31,10 @@ export class PlatformComponent implements OnInit {
     //   { url: 'employees', label: 'לפי עובד' },
     //   { url: 'files', label: 'לפי קובץ' }
     // ]},
+    { url: 'finance', label: 'פיננסים', subMenuLinks: [
+      { url: 'invoices', label: 'חשבונות חייבים' },
+      { url: 'errors', label: 'שגיאות' }
+    ]},
     { url: 'settings', label: 'הגדרות', subMenuLinks: [
       // { url: 'employees', label: 'עובדים' },
       { url: 'organizations', label: 'ארגונים' },

@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-
+import * as FileSaver from 'file-saver';
 import { CompensationService } from '../../../../../shared/_services/http/compensation.service';
 
 import { Department } from 'app/shared/_models/department.model';
@@ -33,6 +33,10 @@ export class EmployeesComponent implements OnInit {
   message: string;
   hasServerError: boolean;
   departmentId: number;
+  spin: boolean;
+  exampleFileType = 'xlsx';
+  exampleFileName = 'employeesExample.xlsx';
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<EmployeesComponent>,
               private compensationService: CompensationService) { }
 
@@ -56,5 +60,20 @@ export class EmployeesComponent implements OnInit {
     }else {
       this.message = 'בחר קובץ';
     }
+  }
+
+  downloadExampleFile(fileName: string, type: string): void {
+    this.spin = true;
+    this.compensationService.downloadExampleFile(fileName).then(response => {
+      const byteCharacters = atob(response);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], {type: 'application/' + type});
+      FileSaver.saveAs(blob, fileName);
+      this.spin = false;
+    });
   }
 }

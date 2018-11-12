@@ -14,6 +14,8 @@ export class Compensation {
   has_by_safebox: boolean;
   has_file_inquiry: boolean;
   files: File[] = [];
+  code_error: string;
+  detail_error: string;
 
   constructor() {
     this.files.push(new File());
@@ -31,7 +33,9 @@ export enum CompensationStatus {
   'sent' = 'נשלח',
   'feedback_a' = 'התקבל פידבק א',
   'feedback_b' = 'התקבל פידבק ב',
-  'closed' = 'סגור'
+  'closed' = 'סגור',
+  'error_feedback_a' = 'שגיאה פידבק א',
+  'error_feedback_b' = 'שגיאה פידבק ב'
 }
 
 export enum CompensationSendingMethods {

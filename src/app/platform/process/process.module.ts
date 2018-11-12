@@ -6,8 +6,9 @@ import { MatDatepickerModule, MatFormFieldModule, MatSelectModule } from '@angul
 import { ProcessComponent } from './process.component';
 
 const routes: Routes = [
-  { path: '', loadChildren: ProcessComponent },
-];
+  { path: '', component: ProcessComponent }
+  ];
+
 
 @NgModule({
   imports: [

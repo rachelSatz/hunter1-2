@@ -18,7 +18,12 @@ const routes: Routes = [
       { path: 'settings/employers', loadChildren: 'app/platform/settings/employers/employers.module#EmployersModule' },
       { path: 'settings/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
       { path: 'settings/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
-      { path: 'process/new', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' }
+      { path: 'process/new', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
+      { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
+      { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' }
+      // { path: 'finance/errors', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule'},
+
+
     ]
   }
 ];

@@ -29,6 +29,10 @@ export class ProcessUploadComponent implements OnInit {
   // isPaymentTransferred: boolean;
   //
   // paymentDialogSubscription: Subscription;
+  spin: false ;
+  paymentsFile: File;
+  fileTypeError = false;
+  noFileError = false;
   activeUploadStep: number;
 
   constructor() { }
@@ -36,23 +40,6 @@ export class ProcessUploadComponent implements OnInit {
   ngOnInit() {
     this.activeUploadStep = 2;
   }
-
-  // getTitle(): string {
-  //   switch (this.activeUploadStep) {
-  //     case 1:
-  //       if (this.Neg) {
-  //         return 'נתוני החזר כספי';
-  //       } else {
-  //         return 'נתוני תהליך';
-  //       }
-  //
-  //     case 2:
-  //       return 'טעינת נתונים';
-  //     case 3:
-  //       return 'הקובץ בטעינה';
-  //   }
-  // }
-
 
   removeFile(): void {
     this.paymentsFile = null;
@@ -77,25 +64,7 @@ export class ProcessUploadComponent implements OnInit {
   }
 
   setFile(file: File) {
-    // if (this.paymentsFile) {
-    //   return;
-    // }
-    // this.process.NegativeProcess = file.name.indexOf('EMPNEG') > -1;
-    // const ext = file.name.substr(file.name.indexOf('.') + 1);
-    // if (['xml', 'XML', 'dat', 'DAT'].indexOf(ext) === -1) {
-    //   this.fileTypeError = true;
-    //   return;
-    // }
-    //
-    // if (this.fileTypeError) {
-    //   this.fileTypeError = false;
-    // }
-    //
-    // if (this.noFileError) {
-    //   this.noFileError = false;
-    // }
-    //
-    // this.paymentsFile = file;
+
   }
 
 }

@@ -52,15 +52,7 @@
 }
 
 .data-table tr.checked {
-  background-color: #356cb3;
-}
-
-.data-table tr.checked * {
-  color: #fff;
-}
-
-.data-table tr:nth-child(even) {
-  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0.075);
 }
 
 .data-table td {
@@ -68,6 +60,7 @@
   border: 1px solid #ddd;
   text-align: center !important;
   font-size: 14px;
+  vertical-align: middle;
 }
 
 .data-table .row-actions {
