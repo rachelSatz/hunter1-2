@@ -1,30 +1,24 @@
-
-
-<div>
-  <h5>העלאת תהליך שלילי</h5>
-  <p class="text-muted">לבקשת החזרים כספיים מהקופות יש להעלות קובץ בפורמט xml שלילי, אשר מונפק מתכנת השכר</p>
-  <p class="text-muted">קובץ זה יועבר לקופות על מנת להשיב את הכספים אל החשבון המוגדר.</p>
-</div>
-<div  *ngIf="activeUploadStep === 2">
-  <mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>
-  <file-drop class="selectFileContainer" [ngClass]="{ 'uploaded': paymentsFile }" ng2FileDrop (onFileDrop)="GetFileFromDrop($event)">
-
-    <span id="removeUploadedFile" (click)="removeFile()" *ngIf="paymentsFile">
-      <i class="fa fa-times"></i>
-  </span>
-    <label class="pointer" *ngIf="!paymentsFile" (change)="setFile($event.target.files[0])" >
-      <img src="../../../../assets/img/icons/cloud-backup.svg" class="mb-1 icon-lg">
-      <p class="h5 grey-color">בחר קובץ להעלאה</p>
-      <p class="h6 grey-color">או גרור קבצים לכאן</p>
-      <input type="file">
-    </label>
-    <div id="fileUploadedContainer" class="text-center" *ngIf="paymentsFile">
-      <i class="fa fa-check-circle-o fa-4x"></i>
-      <p *ngIf="paymentsFile" class="bold word-break w-75 mx-auto">{{ paymentsFile.name }}</p>
+<div class="container">
+  <div class="d-flex justify-content-center my-5">
+    <div class="step-title active" (click)="activeUploadStep = 1">
+      <span class="flex-grow-1">טעינת קובץ שלילי</span>
+      <div class="triangles">
+        <div [ngClass]="{ 'blue': activeUploadStep > 1 }"></div>
+        <div></div>
+      </div>
     </div>
-  </file-drop>
-  <p class="alert alert-danger" *ngIf="fileTypeError">יש להעלות קבצי XML בלבד.</p>
-  <p class="alert alert-danger" *ngIf="noFileError">יש להעלות קובץ.</p>
+    <div class="step-title" (click)="activeUploadStep = 2" [ngClass]="{ 'active': activeUploadStep > 1 }">
+      <span class="flex-grow-1">פירוט החזרים</span>
+      <div class="triangles">
+        <div [ngClass]="{ 'blue': activeUploadStep === 3 }"></div>
+        <div></div>
+      </div>
+    </div>
+    <div class="step-title" (click)="activeUploadStep = 3" [ngClass]="{ 'active': activeUploadStep === 3 }">
+      <span>שידור נתונים</span>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
 </div>
 
 

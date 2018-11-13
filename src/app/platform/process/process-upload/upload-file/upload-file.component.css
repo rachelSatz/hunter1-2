@@ -1,0 +1,16 @@
+
+/deep/ .drop-zone[_ngcontent-c5] {
+  border: 1px dashed #8c8b8b !important;
+  border-radius: 0px !important;
+  mso-border-between-style:baby-rattle;
+  height: 150px !important;
+}
+
+/deep/ .content[_ngcontent-c5]
+{
+  height: 150px !important;
+}
+
+.uploaded > /deep/ .drop-zone[_ngcontent-c5] {
+  border-style: solid !important;
+}

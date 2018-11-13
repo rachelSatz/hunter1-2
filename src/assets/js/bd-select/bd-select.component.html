@@ -8,7 +8,7 @@
 </div>
 <div id="dropdown" [@slideToggle]="isSelectOpened ? 'active' : 'inactive'">
   <div id="filterInput">
-    <input (keyup)="filter()" [placeholder]="searchPlaceholder" [(ngModel)]="filterValue" class="w-100" #filterValueEle>
+    <input (keyup)="filter()" [placeholder]="searchPlaceholder" [(ngModel)]="filterValue"  class="w-100" #filterValueEle>
     <i class="fa fa-search"></i>
   </div>
   <ul id="options">

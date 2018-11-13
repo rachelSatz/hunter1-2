@@ -36,7 +36,6 @@ export class UserFormComponent implements OnInit {
     this.organizationService.getOrganizations().then(response => this.organizations = response);
     if (this.route.snapshot.data.user) {
       this.user = this.route.snapshot.data.user;
-      console.log(this.user);
     }
   }
 
@@ -75,5 +74,9 @@ export class UserFormComponent implements OnInit {
     } else {
       this.hasServerError = true;
     }
+  }
+
+  onChange(e: any) {
+    alert('jhkljkl');
   }
 }

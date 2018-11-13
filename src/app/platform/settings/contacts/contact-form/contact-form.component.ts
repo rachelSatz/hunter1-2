@@ -45,6 +45,7 @@ export class ContactFormComponent implements OnInit {
   ngOnInit() {
     if (this.route.snapshot.data.contact) {
       this.contact = this.route.snapshot.data.contact;
+      console.log(this.contact)
     }
 
     if (this.contact.id) {

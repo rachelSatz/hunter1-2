@@ -1,5 +1,6 @@
 export class Contact {
   id: number;
+  entity_id: number;
   entity_name: string;
   type: EntityTypes;
   first_name: string;
