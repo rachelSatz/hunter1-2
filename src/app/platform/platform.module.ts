@@ -22,7 +22,8 @@ const routes: Routes = [
       { path: 'settings/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
       { path: 'process/new', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
       { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
-      { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' }
+      { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
+      // { path: 'dashboard', loadChildren: 'app/platform/dashboard/dashboard.module#DashboardModule' }
       // { path: 'finance/errors', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule'},
 
 
