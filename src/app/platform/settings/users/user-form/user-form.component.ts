@@ -23,6 +23,7 @@ export class UserFormComponent implements OnInit {
   organizations = [];
   departments = [];
   employers = [];
+  employees = [];
 
   role = Object.keys(EntityRoles).map(function(e) {
     return { id: e, name: EntityRoles[e] };
@@ -41,7 +42,6 @@ export class UserFormComponent implements OnInit {
 
   loadEmployers(organizationID: number): void {
     this.organizationService.getEmployers(organizationID).then(response => this.employers = response);
-
   }
 
   loadDepartments(employerID: number): void {
@@ -74,9 +74,5 @@ export class UserFormComponent implements OnInit {
     } else {
       this.hasServerError = true;
     }
-  }
-
-  onChange(e: any) {
-    alert('jhkljkl');
   }
 }

@@ -1,7 +1,7 @@
 <div class="dialog-header">
   <button mat-dialog-close>
     <i class="fa fa-close"></i>
-  </button>  <span>העלאת קבוץ אקסל עובדים</span>
+  </button>  <span>העלאת קובץ אקסל עובדים</span>
 </div>
 <div class="d-flex mt-4 w-75">
   <bd-select [items]="data.departments" [(ngModel)]="departmentId" placeholder="בחר מחלקה"></bd-select>
@@ -17,6 +17,10 @@
        this.typeDoc.indexOf($event.target.files[0].type) !== -1? $event.target.files[0] : ''">
     </label>
   </div>
+</div>
+<div>
+  <span class="mx-3">הורדת קובץ לדוגמא</span>
+  <i class="fa fa-download fa-lg ml-2" (click)="downloadExampleFile(exampleFileName, exampleFileType)" ></i>
 </div>
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">{{message}}</p>
 <div mat-dialog-actions class="justify-content-center">

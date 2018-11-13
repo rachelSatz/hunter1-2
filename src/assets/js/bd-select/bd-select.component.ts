@@ -204,7 +204,13 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   }
 
   getLabel(item: string): string {
+
     if (!isArray(this.label)) {
+      console.log(this.items.find(i => i === item));
+      if (this.items.find(i => i === item) === undefined) {
+        this.selectedItem = '';
+        return;
+      }
       return item[this.label];
     }
 

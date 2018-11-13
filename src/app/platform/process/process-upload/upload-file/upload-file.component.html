@@ -1,12 +1,11 @@
 <div>
-  <h5>העלאת תהליך שלילי</h5>
-  <p class="text-muted">לבקשת החזרים כספיים מהקופות יש להעלות קובץ בפורמט xml שלילי, אשר מונפק מתכנת השכר</p>
-  <p class="text-muted">קובץ זה יועבר לקופות על מנת להשיב את הכספים אל החשבון המוגדר.</p>
+  <h4>העלאת תהליך שלילי</h4>
+  <p class="colorText">לבקשת החזרים כספיים מהקופות יש להעלות קובץ בפורמט xml שלילי, אשר מונפק מתכנת השכר
+    <br/>קובץ זה יועבר לקופות על מנת להשיב את הכספים אל החשבון המוגדר.</p>
 </div>
 <div class="mb-5">
 <mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>
 <file-drop  [ngClass]="{ 'uploaded': processFile }" ng2FileDrop (onFileDrop)="GetFileFromDrop($event)">
-
 
 <label class="pointer" *ngIf="!processFile" (change)="setFile($event.target.files[0])" >
 <img style="width: 35px;" src="/assets/img/icons/cloud-backup.svg" class="mb-1">
@@ -26,3 +25,4 @@
 <div class="text-left">
   <button class="btn blue-btn" >המשך</button>
 </div>
+

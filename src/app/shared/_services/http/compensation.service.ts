@@ -145,8 +145,15 @@ export class CompensationService extends BaseHttpService {
 
 
   downloadFile(rowID: number, filename: string): Promise<string> {
-
     return this.http.post(this.endPoint + '/' + rowID + '/downloadFile', { filename: filename},
+      this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  downloadExampleFile(filename: string): Promise<string> {
+    return this.http.post(this.endPoint + '/downloadExampleFile', { filename: filename},
       this.getTokenHeader())
       .toPromise()
       .then(response => response)
@@ -203,6 +210,13 @@ export class CompensationService extends BaseHttpService {
         .then(response => response as Object)
         .catch(() => []);
     }
+  }
+
+  getErrorMessage(compensationID: number): Promise<Compensation> {
+    return this.http.get(this.endPoint + '/' + compensationID + '/getErrorMessage', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Compensation)
+      .catch(() => null);
   }
 }
 

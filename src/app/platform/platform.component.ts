@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 
 import { UserSessionService } from '../shared/_services/user-session.service';
+import { OrganizationService } from 'app/shared/_services/http/organization.service';
 
 @Component({
   selector: 'app-platform',
@@ -11,6 +12,8 @@ import { UserSessionService } from '../shared/_services/user-session.service';
 export class PlatformComponent implements OnInit {
 
   activeUrl: string;
+  organizations = [];
+  employers = [];
 
   readonly menuLinks = [
     { url: 'dashboard', label: 'דף הבית' },
@@ -31,6 +34,10 @@ export class PlatformComponent implements OnInit {
     //   { url: 'employees', label: 'לפי עובד' },
     //   { url: 'files', label: 'לפי קובץ' }
     // ]},
+    // { url: 'finance', label: 'פיננסים', subMenuLinks: [
+    //   { url: 'invoices', label: 'חשבונות חייבים' },
+    //   { url: 'errors', label: 'שגיאות' }
+    // ]},
     { url: 'settings', label: 'הגדרות', subMenuLinks: [
       // { url: 'employees', label: 'עובדים' },
       { url: 'organizations', label: 'ארגונים' },
@@ -41,9 +48,11 @@ export class PlatformComponent implements OnInit {
       ]},
   ];
 
-  constructor(private router: Router, private userSession: UserSessionService) {}
+  constructor(private router: Router, private userSession: UserSessionService, private organizationService: OrganizationService) {}
 
   ngOnInit() {
+    this.organizationService.getOrganizations().then(response => this.organizations = response);
+
     this.setActiveUrl(this.router.url);
 
     this.router.events.forEach((event) => {
@@ -70,5 +79,9 @@ export class PlatformComponent implements OnInit {
   logout(): void {
     this.userSession.logout();
     this.router.navigate(['/']);
+  }
+
+  loadEmployers(organizationID: number): void {
+    this.organizationService.getEmployers(organizationID).then(response =>  this.employers = response);
   }
 }

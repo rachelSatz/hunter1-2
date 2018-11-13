@@ -126,9 +126,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
 	checkItem(item: any, isChecked: boolean): void {
 		if (isChecked) {
+		  item['isChecked'] = true;
 			this.checkedItems.push(item);
 		} else {
-			for (const index in this.checkedItems) {
+      item['isChecked'] = false;
+
+      for (const index in this.checkedItems) {
 				if (this.checkedItems[index].id === item.id) {
 					this.checkedItems.splice(+index, 1);
 					return;

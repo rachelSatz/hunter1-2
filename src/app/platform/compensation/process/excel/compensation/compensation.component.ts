@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import * as FileSaver from 'file-saver';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';;
 import {Compensation} from 'app/shared/_models/compensation.model';
@@ -31,6 +32,9 @@ export class ExcelComponent implements OnInit {
   typeDoc: string;
   message: string;
   hasServerError: boolean;
+  spin: boolean;
+  exampleFileType = 'xlsx';
+  exampleFileName = 'compensationExample.xlsx';
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation,
               private compensationService: CompensationService, private dialogRef: MatDialogRef<ExcelComponent>) { }
@@ -57,5 +61,21 @@ export class ExcelComponent implements OnInit {
     }else {
       this.message = 'בחר קובץ';
     }
+  }
+
+
+  downloadExampleFile(fileName: string, type: string): void {
+    this.spin = true;
+    this.compensationService.downloadExampleFile(fileName).then(response => {
+      const byteCharacters = atob(response);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], {type: 'application/' + type});
+      FileSaver.saveAs(blob, fileName);
+      this.spin = false;
+    });
   }
 }

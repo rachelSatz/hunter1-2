@@ -14,6 +14,11 @@
        this.typeDoc.indexOf($event.target.files[0].type) !== -1? $event.target.files[0] : ''">
     </label>
   </div>
+
+</div>
+<div>
+  <span class="mx-3">הורדת קובץ לדוגמא</span>
+  <i class="fa fa-download fa-lg ml-2" (click)="downloadExampleFile(exampleFileName, exampleFileType)" ></i>
 </div>
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">{{message}}</p>
 <div mat-dialog-actions class="justify-content-center">

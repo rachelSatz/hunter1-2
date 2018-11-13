@@ -25,8 +25,9 @@ import { DepartmentService } from 'app/shared/_services/http/department.service'
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
-import {PipesModule} from '../../../shared/_pipes/pipes.module';
+import { PipesModule } from '../../../shared/_pipes/pipes.module';
 import { EmployeesComponent } from './excel/employees/employees.component';
+import { ErrorMessageComponent } from './error-message/error-message.component';
 
 
 const routes: Routes = [
@@ -56,6 +57,7 @@ const routes: Routes = [
     InquiriesComponent,
     ExcelComponent,
     EmployeesComponent,
+    ErrorMessageComponent,
   ],
   providers: [ CompensationService, DepartmentService, ProductService, NotificationService, ContactService, EmployerService],
   entryComponents: [
@@ -66,7 +68,9 @@ const routes: Routes = [
     SendToComponent,
     ExcelComponent,
     EmployeesComponent,
-    InquiriesComponent
+    InquiriesComponent,
+    CommentsComponent,
+    ErrorMessageComponent
   ]
 })
 export class ProcessModule {}

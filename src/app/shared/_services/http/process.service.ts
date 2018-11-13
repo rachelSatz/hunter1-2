@@ -13,6 +13,7 @@ import { TransmissionData } from '../../_models/transmission-data.model';
 import { SendFile } from '../../_models/send-file.model';
 import { BankBranch } from '../../_models/bank-branch.model';
 import { Manufacturer } from '../../_models/manufacturer.model';
+import {Employer} from '../../_models/employer.model';
 
 @Injectable()
 export class ProcessService extends BaseHttpService {
@@ -29,15 +30,19 @@ export class ProcessService extends BaseHttpService {
       .toPromise()
       .then(response => response as Process);
   }
-
-  getProcesses(searchCriteria?: Object, orderCriteria?: DataTableOrderCriteria): Promise<Process[]> {
-    const options = this.getTokenHeader();
-    options['params'] = Object.assign(searchCriteria, orderCriteria);
-
-    return this.http.get(this.apiUrl + '/process', options)
+  getProcesses(): Promise<Process[]> {
+    return this.http.get(this.endPoint, this.getTokenHeader())
       .toPromise()
       .then(response => response as Process[]);
   }
+  // getProcesses(searchCriteria?: Object, orderCriteria?: DataTableOrderCriteria): Promise<Process[]> {
+  //   const options = this.getTokenHeader();
+  //   options['params'] = Object.assign(searchCriteria, orderCriteria);
+  //
+  //   return this.http.get(this.apiUrl + '/process', options)
+  //     .toPromise()
+  //     .then(response => response as Process[]);
+  // }
 
   getProcessDetail(processID: number): Promise<ProcessDetails> {
     return this.http.get(this.endPoint + '/' + processID + '/details', this.getTokenHeader())
