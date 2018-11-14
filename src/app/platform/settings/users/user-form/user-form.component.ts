@@ -37,13 +37,11 @@ export class UserFormComponent implements OnInit {
     this.organizationService.getOrganizations().then(response => this.organizations = response);
     if (this.route.snapshot.data.user) {
       this.user = this.route.snapshot.data.user;
-      console.log(this.user);
     }
   }
 
   loadEmployers(organizationID: number): void {
     this.organizationService.getEmployers(organizationID).then(response => this.employers = response);
-
   }
 
   loadDepartments(employerID: number): void {

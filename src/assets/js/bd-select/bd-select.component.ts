@@ -7,7 +7,7 @@ import {
   Input,
   Output,
   ViewChild,
-  OnChanges
+  OnChanges,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -204,7 +204,12 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   }
 
   getLabel(item: string): string {
+
     if (!isArray(this.label)) {
+      if (this.items.find(i => i === item) === undefined) {
+        this.selectedItem = '';
+        return;
+      }
       return item[this.label];
     }
 
@@ -220,6 +225,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
     return this.items.some(item => {
       if (value.toString() === item[this.value].toString()) {
         this.selectedItem = item;
+        this.onSelect.emit(item[this.value]);
         return true;
       }
     });
