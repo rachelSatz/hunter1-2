@@ -39,8 +39,7 @@
     "rxjs-compat": "^6.3.3",
     "signature_pad": "^2.3.2",
     "sweetalert2": "^7.28.12",
-    "zone.js": "^0.8.26",
-    "ngx-file-drop": "latest"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",

@@ -16,12 +16,12 @@ export class BaseHttpService {
   }
 
   getTokenHeaders(): HttpHeaders {
-    return new HttpHeaders({ 'Authorization': this.userSession.getToken() });
+    return new HttpHeaders({ 'token': this.userSession.getToken() });
   }
 
   getBlobOptions(): { headers: HttpHeaders, responseType: 'blob' } {
     return {
-      headers: new HttpHeaders({ 'Authorization': this.userSession.getToken() }),
+      headers: new HttpHeaders({ 'token': this.userSession.getToken() }),
       responseType: 'blob'
     };
   }
