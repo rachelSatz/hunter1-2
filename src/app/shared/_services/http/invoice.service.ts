@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
+import {Invoice} from 'app/shared/_models/invoice.model';
 
 
 @Injectable()
@@ -12,6 +13,12 @@ export class InvoiceService  extends BaseHttpService {
     super(userSession);
   }
 
-  readonly endPoint = this.apiUrl + '/invoice';
+  readonly endPoint = this.apiUrl + '/invoices';
 
+  getInvoices(): Promise<Invoice[]> {
+    return this.http.get(this.endPoint, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Invoice[])
+      .catch(() => []);
+  }
 }

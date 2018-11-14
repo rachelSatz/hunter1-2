@@ -6,6 +6,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import {InvoiceService} from '../../../shared/_services/http/invoice.service';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 export class InvoicesComponent extends DataTableComponent implements OnInit {
   employers = [];
   departments = [];
-
+  invoices = [];
   readonly headers: DataTableHeader[] =  [
     { column: 'employer_name', label: 'שם מעסיק' },
     { column: 'green_invoice_number', label: 'מספר חשבונית בירוקה' },
@@ -30,9 +31,12 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
     { column: 'options', label: 'אפשרויות' }
   ];
 
-  constructor(route: ActivatedRoute) {super(route); }
+  constructor(route: ActivatedRoute, private invoiceService: InvoiceService,
+              private dialog: MatDialog) {super(route); }
 
   ngOnInit() {
+    this.invoiceService.getInvoices().then(response => this.invoices = response);
+
   }
 
   valueDateChange(keyCode: Date): void {

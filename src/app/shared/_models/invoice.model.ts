@@ -1,7 +1,7 @@
 export class Invoice {
   employer_name: number;
   green_invoice_number: string;
-  amount: string;
+  total_amount: string;
   amount_ids: string;
   for_month: string;
   created_at: string;

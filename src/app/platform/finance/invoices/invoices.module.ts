@@ -9,6 +9,7 @@ import { MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule,
   MatSelectModule, MatIconModule, MatAutocompleteModule } from '@angular/material';
 import { DatePickerModule } from '../../../shared/app-date-picker/app-date-picker.module';
 import { PipesModule } from '../../../shared/_pipes/pipes.module';
+import {InvoiceService} from '../../../shared/_services/http/invoice.service';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
@@ -27,6 +28,7 @@ const routes: Routes = [
     PipesModule
 
   ],
-  declarations: [InvoicesComponent]
+  declarations: [InvoicesComponent],
+  providers: [InvoiceService]
 })
 export class InvoicesModule { }
