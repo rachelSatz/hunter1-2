@@ -24,7 +24,6 @@ const routes: Routes = [
       { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
       { path: 'finance/errors', loadChildren: 'app/platform/finance/invoices-error/invoices-error.module#InvoicesErrorModule'}
-      { path: 'dashboard', loadChildren: 'app/platform/dashboard/dashboard.module#DashboardModule' }
     ]
   }
 ];
