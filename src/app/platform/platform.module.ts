@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: '', component: PlatformComponent, canActivate: [IsAuthenticatedGuard], children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      // { path: 'compensations', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
+      { path: 'dashboard', loadChildren: 'app/platform/dashboard/dashboard.module#DashboardModule' },
       { path: 'compensations/process', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
       { path: 'compensations/dashboard', loadChildren: 'app/platform/compensation/dashboard/dashboard.module#DashboardModule' },
       { path: 'settings/contacts', loadChildren: 'app/platform/settings/contacts/contacts.module#ContactsModule' },
@@ -23,10 +23,6 @@ const routes: Routes = [
       { path: 'process/new', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
       { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
-      // { path: 'dashboard', loadChildren: 'app/platform/dashboard/dashboard.module#DashboardModule' }
-      // { path: 'finance/errors', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule'},
-
-
     ]
   }
 ];

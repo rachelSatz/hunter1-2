@@ -6,8 +6,6 @@ import { IDValidatorDirective } from './id-validator.directive';
   declarations: [IDValidatorDirective],
   exports: [IDValidatorDirective]
 })
-<<<<<<< HEAD
+
 export class IDValidatorModule {}
-=======
-export class IdValidatorModule {}
->>>>>>> feature/dashboard
+
