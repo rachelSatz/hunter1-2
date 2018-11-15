@@ -22,8 +22,12 @@ export class Employer {
   typeSent: number; // סוג מזהה לשליחה
   employerCodeSent: string; // מספר מזהה לשליחה
   comments: string;
+<<<<<<< HEAD
   // bank_id: number;
   bank_accounts: EmployerBankAccount[] = [];
+=======
+  bank_id: number;
+>>>>>>> feature/dashboard
 
   constructor() {
     this.bank_accounts.push(new EmployerBankAccount());

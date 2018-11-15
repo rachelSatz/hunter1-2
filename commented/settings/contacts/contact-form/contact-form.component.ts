@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { EmployerService } from '../../../../shared/_services/http/employer.service';
 import { ContactService } from '../../../../shared/_services/http/contact.service';
 
-import { Contact } from '../../../../shared/_models/contact.model';
+import { Contact } from 'app/shared/_models/contact.model';
 import { GeneralHttpService } from "../../../../shared/_services/http/general-http.service";
 import { selectItem } from "../../../../shared/_models/selectItem.model";
 
@@ -38,9 +38,9 @@ export class ContactFormComponent implements OnInit {
         console.log("typeEntities",this.typeEntities);
           console.log("contact",this.contact);
      }
-      
-      
-    
+
+
+
    }
 
   }
@@ -71,7 +71,7 @@ GetOptions(entityType:number){
       }
     return  this.myOptions;
 }
-   
+
 getSelectedOptionText(Identity: string) :void{
     this.contact.nameEntity= this.typeEntities.filter(n=> n.id === Identity)[0].name;
 }
