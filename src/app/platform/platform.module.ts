@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { PlatformComponent } from './platform.component';
 
 import { IsAuthenticatedGuard } from '../shared/_guards/is-authenticated.guard';
+
+import { OrganizationService } from 'app/shared/_services/http/organization.service';
 
 const routes: Routes = [
   {
@@ -20,7 +22,8 @@ const routes: Routes = [
       { path: 'settings/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
       { path: 'process/new', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
       { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
-      { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' }
+      { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
+      // { path: 'dashboard', loadChildren: 'app/platform/dashboard/dashboard.module#DashboardModule' }
       // { path: 'finance/errors', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule'},
 
 
@@ -31,10 +34,11 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    BdSelectModule,
     RouterModule.forChild(routes),
     MatMenuModule,
   ],
   declarations: [PlatformComponent],
-  providers: [IsAuthenticatedGuard]
+  providers: [IsAuthenticatedGuard, OrganizationService]
 })
 export class PlatformModule {}

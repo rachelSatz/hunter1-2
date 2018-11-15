@@ -1,12 +1,12 @@
 <p class="h4 mb-4">מעקב יתרות לפיצוים</p>
-<div class="d-flex filter-row">
+<div class="d-flex filter-row mb-1">
   <bd-select [items]="employers" class="ml-3"  placeholder="מעסיק" (onSelect)="loadDepartmentsAndEmployees($event)"></bd-select>
   <bd-select [items]="departments" placeholder="מחלקה" (onSelect)="loadEmployees($event)"></bd-select>
 </div>
-<div class="d-flex filter-row">
+<div class="d-flex filter-row mb-1">
   <bd-select [items]="employees" placeholder="עובד" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
   <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
-  <button class="btn blue-btn" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
+  <button class="btn blue-btn h-75" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
 </div>
 <div [@slideToggle]="extraSearchCriteria" class="d-flex align-items-center flex-wrap mb-3 filter-row">
   <bd-select [items]="selectStatuses" placeholder="סטטוס" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" class="ml-3"></bd-select>

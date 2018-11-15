@@ -73,4 +73,20 @@ export class EmployerService extends BaseHttpService {
       .then(response => response as Object)
       .catch(() => []);
   }
+
+
+  uploadExcelEmployers(uploadedFile?: File, organizationId?: number): Promise<Object> {
+    if (uploadedFile) {
+      const formData = new FormData();
+      formData.append('file', uploadedFile);
+      formData.append('organization_id',  JSON.stringify(organizationId));
+
+      return this.http.post(this.endPoint + '/uploadExcelEmployers', formData, this.getTokenHeader())
+        .toPromise()
+        .then(response => response as Object)
+        .catch(() => []);
+    }
+  }
+
+
 }

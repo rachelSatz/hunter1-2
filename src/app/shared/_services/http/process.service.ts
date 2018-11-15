@@ -153,7 +153,8 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]>{
       .then(response => response as any[]);
   }
 
-  postNewBankDetails(payment: any, bankNumber: number, branchNumber: number, accountNumber: number, select: number, manual: Boolean = false): Promise<any[]> {
+  postNewBankDetails(payment: any, bankNumber: number, branchNumber: number,
+                     accountNumber: number, select: number, manual: Boolean = false): Promise<any[]> {
 
     const body = {
       AutoId: payment.file.employer.id,
@@ -240,7 +241,7 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]>{
       .toPromise()
       .then(response => response);
   }
-  UpdateEmployerBankBranchProcess(bankBranch:BankBranch, process: number): Promise<any[]> {
+  UpdateEmployerBankBranchProcess(bankBranch: BankBranch, process: number): Promise<any[]> {
     const body = {
       bankBranch: bankBranch,
     };
@@ -249,5 +250,20 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]>{
     .then(response => response  as any[]);
   }
 
+
+
+  uploadProcess(file?: File): Promise<boolean> {
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+
+      return this.http.post(this.endPoint + '/uploadProcess', formData, this.getTokenHeader())
+        .toPromise()
+        .then(() => true)
+        .catch(() => false);
+    }
+  }
+
 }
-1
+

@@ -42,9 +42,9 @@ export class LoginComponent {
 
       this.appHttp.login(form.value.username, form.value.password).then(response => {
         //   if (response) {
-        console.log(response['token'])
+       // console.log(response['token']);
         this.userSession.login({username: form.value.username, token: response['token']});
-        console.log(response['token'])
+        // console.log(response['token']);
         this.router.navigate(['/platform']);
         // } else {
         //   this.hasServerError = true;

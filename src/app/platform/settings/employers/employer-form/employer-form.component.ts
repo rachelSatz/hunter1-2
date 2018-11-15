@@ -91,8 +91,8 @@ export class EmployerFormComponent implements OnInit {
     const bankControl = {
       'id': [account  ? account['id'] : null],
       'is_primary': [account  ? +account['is_primary'] : false],
-      'bank_id': [account  ? account['bank_id'] : null, Validators.required],
-      'branch_id': [account ? account['branch_id'] : null, Validators.required],
+      'bank_id': [account  ? account['bank_id'] : null, Validators.required ],
+      'branch_id': [account ? account['branch_id'] : null, Validators.required ],
       'number': [account ? account['number'] : null,  [Validators.pattern('^\\d{5}$'), Validators.required]]
     };
 

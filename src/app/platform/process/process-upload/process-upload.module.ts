@@ -1,28 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { MatFormFieldModule, MatInputModule, MatDialogModule,
-  MatProgressBarModule, MatSelectModule, MatTooltipModule, MatProgressSpinnerModule } from '@angular/material';
-import { FileDropModule } from 'ngx-file-drop';
-
-import {Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ProcessUploadComponent } from './process-upload.component';
 
 const routes: Routes = [
-  { path: '', component: ProcessUploadComponent }
+  { path: '', component: ProcessUploadComponent, children: [
+      { path: '', loadChildren: './upload-file/upload-file.module#UploadFileModule' }
+  ]}
 ];
-
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     RouterModule.forChild(routes),
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule,
-    MatProgressBarModule, MatTooltipModule ,
-     MatProgressSpinnerModule , FileDropModule
+
   ],
-  declarations: [ProcessUploadComponent]
+  declarations: [ProcessUploadComponent],
+  providers: [ProcessService]
 })
-export class ProcessUploadModule { }
+export class ProcessUploadModule {}
