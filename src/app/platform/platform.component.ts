@@ -85,7 +85,11 @@ export class PlatformComponent implements OnInit {
   }
 
   loadEmployers(organizationID: number): void {
-    this.organizationService.getEmployers(organizationID).then(response =>  this.employers = response);
+    this.organizationService.getEmployers(organizationID).then(response => {
+      this.employers = response;
+      this.employers.push({'id': 0 , 'name': 'כלל המעסיקים'});
+      this.employers.sort((a, b) => a.id - b.id);
+    });
     this.selectUnit.changeOrganization(organizationID);
   }
 

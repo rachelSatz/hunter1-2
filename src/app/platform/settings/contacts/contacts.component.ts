@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
@@ -12,7 +12,7 @@ import { EntityTypes } from 'app/shared/_models/contact.model';
   templateUrl: './contacts.component.html',
   styleUrls: ['../../../shared/data-table/data-table.component.css']
 })
-export class ContactsComponent extends DataTableComponent {
+export class ContactsComponent extends DataTableComponent implements OnInit, OnDestroy  {
 
   types = EntityTypes;
 

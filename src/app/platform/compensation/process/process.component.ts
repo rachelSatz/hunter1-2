@@ -68,6 +68,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   formSubscription: Subscription;
   commentsSubscription: Subscription;
+  selectUnitSubscription: Subscription;
+
   extraSearchCriteria = 'inactive';
 
   productTypes = ProductType;
@@ -127,15 +129,29 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   ngOnInit() {
     this.departmentService.getDepartments().then(response => this.departments = response);
     this.productService.getCompanies().then(response => this.companies = response);
-    this.employerService.getEmployers( this.selectUnit.currentOrganizationID ).then(response => this.employers = response);
+
+    this.globalFunc();
+
+    this.selectUnitSubscription = this.selectUnit.unitSubject.subscribe(() => this.globalFunc());
+  }
+
+  private globalFunc(): void {
+
+    if (this.selectUnit.currentEmployerID) {
+      this.searchCriteria['employer'] = this.selectUnit.currentEmployerID;
+    }
+    this.searchCriteria['organization'] = this.selectUnit.currentOrganizationID;
 
     this.employerService.getDepartmentsAndEmployees(this.selectUnit.currentEmployerID, this.selectUnit.currentOrganizationID)
       .then(response => {
-      this.departments = response['departments'];
-      this.employees = response['employees'];
+        this.departments = response['departments'];
+        this.employees = response['employees'];
+      });
+
+    this.compensationService.getCompensations(this.searchCriteria).then(response => {
+      this.setResponse(response) ;
     });
 
-    this.fetchItems();
   }
 
   fetchItems(): void {
@@ -320,5 +336,10 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     if (this.commentsSubscription) {
       this.commentsSubscription.unsubscribe();
     }
+
+    if (this.selectUnitSubscription) {
+      this.selectUnitSubscription.unsubscribe();
+    }
+
   }
 }

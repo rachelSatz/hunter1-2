@@ -45,7 +45,6 @@ export class ContactFormComponent implements OnInit {
   ngOnInit() {
     if (this.route.snapshot.data.contact) {
       this.contact = this.route.snapshot.data.contact;
-      console.log(this.contact)
     }
 
     if (this.contact.id) {
@@ -55,7 +54,6 @@ export class ContactFormComponent implements OnInit {
 
   loadEntities(type: string): void {
     if (type === 'agent') {
-      // this.agentService.getEmployerAgents();
       this.entities = [];
     }
 
