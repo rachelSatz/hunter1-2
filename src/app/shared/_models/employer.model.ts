@@ -24,6 +24,7 @@ export class Employer {
   comments: string;
   // bank_id: number;
   bank_accounts: EmployerBankAccount[] = [];
+  organization_id: number;
 
 
   constructor() {

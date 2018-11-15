@@ -18,7 +18,6 @@ export class DashboardComponent implements OnInit {
               private compensationService: CompensationService) {}
 
   isSearching: boolean;
-  employers = [];
   users = [];
   sourceType = Object.keys(CompensationSendingMethods).map(function(e) {
     return { id: e, name: CompensationSendingMethods[e] };
@@ -32,7 +31,6 @@ export class DashboardComponent implements OnInit {
   date: Date;
 
   ngOnInit() {
-    this.employerService.getEmployers().then(response => this.employers = response);
     this.userService.getUsers().then(response => this.users = response);
     this.getDefaultDate();
     this.fetchItems();

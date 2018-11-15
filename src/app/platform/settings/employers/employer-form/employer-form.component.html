@@ -50,7 +50,7 @@
           <mat-error *ngIf="hasErrors('branch_id', { arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
         </div>
         <mat-form-field>
-          <input matInput type="text" formControlName="number" placeholder="מס' חשבון">
+          <input matInput type="text" formControlName="number" placeholder="מס' חשבון" maxlength="5">
           <mat-error *ngIf="hasErrors('number', { specificError: 'required', arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
           <mat-error *ngIf="hasErrors('number', { specificError: 'pattern', touch: true, arrayPosition: index, formArrayName: 'bank_accounts' })">יש להקיש 5 ספרות</mat-error>
         </mat-form-field>

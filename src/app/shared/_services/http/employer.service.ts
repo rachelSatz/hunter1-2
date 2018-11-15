@@ -10,6 +10,7 @@ import { Bank } from 'app/shared/_models/bank.model';
 import {BankBranch} from '../../_models/bank-branch.model';
 import {Employee} from '../../_models/employee.model';
 import {Department} from '../../_models/department.model';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class EmployerService extends BaseHttpService {
@@ -26,8 +27,12 @@ export class EmployerService extends BaseHttpService {
     .then(response => response as Employer);
   }
 
-  getEmployers(): Promise<Employer[]> {
-    return this.http.get(this.endPoint, this.getTokenHeader())
+  getEmployers(organizationId: number): Promise<Employer[]> {
+    const request = this.getTokenHeader();
+
+    request['params'] = {organizationId: organizationId};
+
+    return this.http.get(this.endPoint , request)
     .toPromise()
     .then(response => response as Employer[]);
   }
@@ -38,7 +43,8 @@ export class EmployerService extends BaseHttpService {
     .toPromise()
     .then(response => response as Employer);
   }
-  saveNewEmployer(employer: Employer): Promise<boolean> {
+  saveNewEmployer(employer: Employer, organizationID: number): Promise<boolean> {
+    employer.organization_id = organizationID;
     return this.http.post(this.endPoint, employer, this.getTokenHeader())
       .toPromise()
       .then(() => true)
@@ -67,8 +73,11 @@ export class EmployerService extends BaseHttpService {
       .catch(() => []);
   }
 
-  getDepartmentsAndEmployees(employerID: number): Promise<Object> {
-    return this.http.get(this.endPoint + '/' + employerID + '/departmentsAndEmployees', this.getTokenHeader())
+  getDepartmentsAndEmployees(employerID: number, organizationId: number): Promise<Object> {
+    const request = this.getTokenHeader();
+    request['params'] = {organizationId: organizationId};
+
+    return this.http.get(this.endPoint + '/' + (employerID ? employerID : 0) + '/departmentsAndEmployees', request)
       .toPromise()
       .then(response => response as Object)
       .catch(() => []);

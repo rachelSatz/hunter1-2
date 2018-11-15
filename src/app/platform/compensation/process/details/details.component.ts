@@ -34,7 +34,6 @@ import {ActivatedRoute} from '@angular/router';
 export class DetailsComponent  extends DataTableComponent implements OnInit, OnDestroy {
 
   uploadedFile: File [];
-  file_count: string[] = [];
   spin: boolean;
   hasServerError: boolean;
 
@@ -57,8 +56,7 @@ export class DetailsComponent  extends DataTableComponent implements OnInit, OnD
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      this.file_count = []
-      this.compensationService.updateCompensation(this.compensation, this.uploadedFile, this.file_count).then(response => {
+      this.compensationService.updateCompensation(this.compensation, this.uploadedFile).then(response => {
         if (response) {
           this.dialogRef.close(this.compensation);
         } else {

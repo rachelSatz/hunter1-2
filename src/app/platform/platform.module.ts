@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { PlatformComponent } from './platform.component';
 
 import { IsAuthenticatedGuard } from '../shared/_guards/is-authenticated.guard';
-
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 
 const routes: Routes = [
@@ -32,6 +32,7 @@ const routes: Routes = [
     CommonModule,
     BdSelectModule,
     RouterModule.forChild(routes),
+    FormsModule,
     MatMenuModule,
   ],
   declarations: [PlatformComponent],

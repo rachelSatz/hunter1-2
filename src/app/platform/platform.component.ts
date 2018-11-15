@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-
 import { UserSessionService } from '../shared/_services/user-session.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-platform',
@@ -14,6 +14,8 @@ export class PlatformComponent implements OnInit {
   activeUrl: string;
   organizations = [];
   employers = [];
+  organizationId: number;
+  employerId: number;
 
   readonly menuLinks = [
     { url: 'dashboard', label: 'דף הבית' },
@@ -48,11 +50,12 @@ export class PlatformComponent implements OnInit {
       ]},
   ];
 
-  constructor(private router: Router, private userSession: UserSessionService, private organizationService: OrganizationService) {}
+  constructor(private router: Router, private userSession: UserSessionService,
+              private organizationService: OrganizationService, private selectUnit: SelectUnitService) {}
 
   ngOnInit() {
     this.organizationService.getOrganizations().then(response => this.organizations = response);
-
+    this.organizationId = 1;
     this.setActiveUrl(this.router.url);
 
     this.router.events.forEach((event) => {
@@ -83,5 +86,10 @@ export class PlatformComponent implements OnInit {
 
   loadEmployers(organizationID: number): void {
     this.organizationService.getEmployers(organizationID).then(response =>  this.employers = response);
+    this.selectUnit.changeOrganization(organizationID);
+  }
+
+  selectEmployer(employerID: number): void {
+    this.selectUnit.changeEmployer(employerID);
   }
 }

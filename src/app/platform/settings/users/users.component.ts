@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../shared/_services/http/user.service';
 import {DataTableComponent} from '../../../shared/data-table/data-table.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-users',
@@ -22,12 +23,13 @@ export class UsersComponent extends DataTableComponent  implements OnInit, OnDes
     { column: 'name', label: 'שם מלא' }, { column: 'email', label: 'מייל' }
   ];
 
-  constructor(route: ActivatedRoute, private userService: UserService, private employerService: EmployerService) {
+  constructor(route: ActivatedRoute, private userService: UserService, private employerService: EmployerService,
+              private selectUnit: SelectUnitService) {
     super(route);
   }
 
   ngOnInit() {
-    this.employerService.getEmployers().then(response => this.employers = response);
+    this.employerService.getEmployers( this.selectUnit.currentOrganizationID ).then(response => this.employers = response);
     this.fetchItems();
   }
 

@@ -43,7 +43,6 @@ export interface Email {
 
 export class SendToComponent implements OnInit {
   hasServerError: boolean;
-  file_count: string[] = [];
   uploadedFile: File [];
   contactCtrl = new FormControl();
   filteredContacts: Observable<Contact[]>;
@@ -87,8 +86,7 @@ export class SendToComponent implements OnInit {
     if (form.valid) {
       this.hasServerError = false;
 
-      this.compensationService.newInquiry(this.compensation.id, this.comments, this.Emails, form.value['contactsAdd'], this.uploadedFile,
-        this.file_count).then(response => {
+      this.compensationService.newInquiry(this.compensation.id, this.comments, this.Emails, form.value['contactsAdd'], this.uploadedFile).then(response => {
       if (response) {
             this.dialogRef.close(this.compensation);
           } else {

@@ -6,7 +6,7 @@ import { isNumber } from 'util';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { Employer } from 'app/shared/_models/employer.model';
 
 @Component({
@@ -40,7 +40,7 @@ export class EmployerFormComponent implements OnInit {
   @ViewChild('form') form: NgForm;
 
   constructor(private route: ActivatedRoute, private router: Router, private employerService: EmployerService
-              , private generalService: GeneralHttpService, private fb: FormBuilder) {}
+              , private generalService: GeneralHttpService, private fb: FormBuilder, private selectUnit: SelectUnitService) {}
 
   ngOnInit() {
     this.loadBanks();
@@ -82,9 +82,6 @@ export class EmployerFormComponent implements OnInit {
         this.addBank(account);
       });
     }
-
-
-    // this.employerForm.get('bank_accounts').patchValue(this.employer.bank_accounts);
   }
 
   addBank(account?: Object): void {
@@ -108,9 +105,6 @@ export class EmployerFormComponent implements OnInit {
   loadBanks(): void {
     this.generalService.getBanks(true).then(banks => {
       this.banks = banks;
-      // this.bankBranches.push(this.banks.find(x => x.id == account.bank_id).bank_branches);
-      //
-      // this.bankBranches = banks[3].bank_branches;
     });
   }
 
@@ -141,11 +135,6 @@ export class EmployerFormComponent implements OnInit {
     console.log(this.employerForm.value);
   }
 
-  // loadBankBranches(bank: Bank): void {
-  //   this.bankBranches = [];
-  //   this.generalService.getBankBranches(bank.id).then(types => {this.bankBranches = types; });
-  // }
-
   getArrControls(): any[] {
     return (<FormArray>this.employerForm.get('bank_accounts')).controls;
   }
@@ -157,7 +146,8 @@ export class EmployerFormComponent implements OnInit {
       if (this.employer.id) {
         this.employerService.updateEmployer(this.employerForm.value, this.employer.id).then(response => this.handleResponse(response));
       } else {
-        this.employerService.saveNewEmployer(this.employerForm.value).then(response => this.handleResponse(response));
+          this.employerService.saveNewEmployer(this.employerForm.value, this.selectUnit.currentOrganizationID)
+            .then(response => this.handleResponse(response));
       }
     }
   }

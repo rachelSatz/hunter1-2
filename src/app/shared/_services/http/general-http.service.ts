@@ -9,8 +9,8 @@ import { Bank } from '../../_models/bank.model';
 import { BankBranch } from '../../_models/bank-branch.model';
 import { Manufacturer } from '../../_models/manufacturer.model';
 import { Product } from '../../_models/product.model';
-import { Application } from "../../_models/Application.model";
-import { Agent } from "../../_models/agent.model";
+// import { Application } from "../../_models/Application.model";
+// import { Agent } from "../../_models/agent.model";
 
 @Injectable()
 export class GeneralHttpService extends BaseHttpService {
@@ -24,8 +24,8 @@ export class GeneralHttpService extends BaseHttpService {
   //   .then(response => response as Bank[]);
   // }
 
-  getEmployerBankBranch(Employerid: number,Processid:number): Promise<BankBranch> {
-    return this.http.get(this.apiUrl  + '/Employerbank/' + Employerid+'/Process/'+ Processid, this.getTokenHeader())
+  getEmployerBankBranch(Employerid: number, Processid: number): Promise<BankBranch> {
+    return this.http.get(this.apiUrl  + '/Employerbank/' + Employerid + '/Process/' + Processid, this.getTokenHeader())
     .toPromise()
     .then(response => response as BankBranch);
   }
@@ -34,37 +34,40 @@ export class GeneralHttpService extends BaseHttpService {
   //   .toPromise()
   //   .then(response => response as BankBranch[]);
   // }
- newAgent(agent:Agent): Promise<Agent> {
-    return this.http.post(this.apiUrl+'/agent/', agent, this.getTokenHeader())
-    .toPromise()
-    .then(response => response as Agent);
-  }
+ // newAgent(agent:Agent): Promise<Agent> {
+ //    return this.http.post(this.apiUrl + '/agent/' , agent, this.getTokenHeader())
+ //    .toPromise()
+ //    .then(response => response as Agent);
+ //  }
+ //
+ //  updateAgent(agent:Agent, id: number): Promise<boolean> {
+ //    return this.http.put(this.apiUrl + '/agent/' + id, agent, this.getTokenHeader())
+ //    .toPromise()
+ //    .then(response => response as boolean);
+ //  }
+ //   getAgent(AgentID: number): Promise<Agent> {
+ //    return this.http.get(this.apiUrl  + '/agent/' + AgentID, this.getTokenHeader())
+ //    .toPromise()
+ //    .then(response => response as Agent);
+ //  }
+ //  getAgents(): Promise<Agent[]> {
+ //    return this.http.get(this.apiUrl  + '/agent', this.getTokenHeader())
+ //    .toPromise()
+ //    .then(response => response as Agent[]);
+ //  }
 
-  updateAgent(agent:Agent, id: number): Promise<boolean> {
-    return this.http.put(this.apiUrl + '/agent/' + id, agent, this.getTokenHeader())
-    .toPromise()
-    .then(response => response as boolean);
-  }
-   getAgent(AgentID: number): Promise<Agent> {
-    return this.http.get(this.apiUrl  + '/agent/'+AgentID, this.getTokenHeader())
-    .toPromise()
-    .then(response => response as Agent);
-  }
-  getAgents(): Promise<Agent[]> {
-    return this.http.get(this.apiUrl  + '/agent', this.getTokenHeader())
-    .toPromise()
-    .then(response => response as Agent[]);
-  }
   getManufacturers(): Promise<Manufacturer[]> {
     return this.http.get(this.apiUrl  + '/manufacturer', this.getTokenHeader())
     .toPromise()
     .then(response => response as Manufacturer[]);
   }
-getApplication(Applicationid:number,employee?:Boolean): Promise<Application> {
-    return this.http.get(this.apiUrl  + '/Application/'+Applicationid+"/"+employee, this.getTokenHeader())
-    .toPromise()
-    .then(response => response as Application);
-  }
+
+// getApplication(Applicationid: number , employee?: Boolean): Promise<Application> {
+//     return this.http.get(this.apiUrl  + '/Application/' + Applicationid + "/" + employee, this.getTokenHeader())
+//     .toPromise()
+//     .then(response => response as Application);
+//   }
+
   getProducts(): Promise<Product[]> {
     return this.http.get(this.apiUrl  + '/product', this.getTokenHeader())
     .toPromise()
@@ -123,7 +126,6 @@ getApplication(Applicationid:number,employee?:Boolean): Promise<Application> {
   }
 
   getBarChartData(searchCriteria: Object): Promise<any> {
-                console.log("searchCriteria",searchCriteria);
     const options = this.getTokenHeader();
     options['params'] = searchCriteria;
 
@@ -138,7 +140,7 @@ getApplication(Applicationid:number,employee?:Boolean): Promise<Application> {
       request['params'] = { withBranches: 1 };
     }
 
-    return this.http.post(this.apiUrl + '/generals' + '/banks', request )
+    return this.http.get(this.apiUrl + '/generals' + '/banks', request )
       .toPromise()
       .then(response => response as Bank[])
       .catch(() => []);
