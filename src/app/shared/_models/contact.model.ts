@@ -9,6 +9,7 @@ export class Contact {
   mobile: string;
   email: string;
   role: string;
+  employer_id : number;
 }
 
 export enum EntityTypes {

@@ -55,6 +55,8 @@ export class PlatformComponent implements OnInit {
 
   ngOnInit() {
     this.organizationService.getOrganizations().then(response => this.organizations = response);
+    console.log('kk');
+    console.log(this.organizations);
     this.organizationId = 1;
     this.setActiveUrl(this.router.url);
 

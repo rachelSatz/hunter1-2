@@ -44,7 +44,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private globalFunc(): void {
     if (this.selectUnit.currentEmployerID) {
       this.searchCriteria['employer'] = this.selectUnit.currentEmployerID;
+    }else {
+      const index = Object.keys(this.searchCriteria).findIndex(e =>  {
+        return e === 'employer';
+      });
+      if (index > 0) {
+        this.searchCriteria = Object.keys(this.searchCriteria).slice(index, 1);
+      }
     }
+
     this.searchCriteria['organization'] = this.selectUnit.currentOrganizationID;
 
     this.getDefaultDate();
