@@ -68,6 +68,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   formSubscription: Subscription;
   commentsSubscription: Subscription;
+  selectUnitSubscription: Subscription;
+
   extraSearchCriteria = 'inactive';
 
   productTypes = ProductType;
@@ -127,15 +129,37 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   ngOnInit() {
     this.departmentService.getDepartments().then(response => this.departments = response);
     this.productService.getCompanies().then(response => this.companies = response);
-    this.employerService.getEmployers( this.selectUnit.currentOrganizationID ).then(response => this.employers = response);
+
+    this.globalFunc();
+
+    this.selectUnitSubscription = this.selectUnit.unitSubject.subscribe(() => this.globalFunc());
+  }
+
+  private globalFunc(): void {
+
+    if (this.selectUnit.currentEmployerID) {
+      this.searchCriteria['employer'] = this.selectUnit.currentEmployerID;
+    }else {
+      const index = Object.keys(this.searchCriteria).findIndex(e =>  {
+        return e === 'employer';
+      });
+      if (index > 0) {
+        this.searchCriteria = Object.keys(this.searchCriteria).slice(index, 1);
+      }
+    }
+
+    this.searchCriteria['organization'] = this.selectUnit.currentOrganizationID;
 
     this.employerService.getDepartmentsAndEmployees(this.selectUnit.currentEmployerID, this.selectUnit.currentOrganizationID)
       .then(response => {
-      this.departments = response['departments'];
-      this.employees = response['employees'];
+        this.departments = response['departments'];
+        this.employees = response['employees'];
+      });
+
+    this.compensationService.getCompensations(this.searchCriteria).then(response => {
+      this.setResponse(response) ;
     });
 
-    this.fetchItems();
   }
 
   fetchItems(): void {
@@ -320,5 +344,10 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     if (this.commentsSubscription) {
       this.commentsSubscription.unsubscribe();
     }
+
+    if (this.selectUnitSubscription) {
+      this.selectUnitSubscription.unsubscribe();
+    }
+
   }
 }

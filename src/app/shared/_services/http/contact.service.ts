@@ -17,11 +17,13 @@ export class ContactService extends BaseHttpService {
     super(userSession);
   }
 
-  getContacts(searchCriteria?: Object): Promise<Contact[]> {
+  getContacts(organizationId: number, employerId: number): Promise<Contact[]> {
     const options = this.getTokenHeader();
 
-    if (searchCriteria) {
-      options['params'] = searchCriteria;
+    if (employerId) {
+      options['params'] = {employerId: employerId};
+    }else {
+      options['params'] = {organizationId : organizationId};
     }
 
     return this.http.get(this.endPoint, options)
@@ -37,7 +39,8 @@ export class ContactService extends BaseHttpService {
     .catch(() => null);
   }
 
-  newContact(contact: Contact): Promise<boolean> {
+  newContact(contact: Contact, employerId: number): Promise<boolean> {
+    contact.employer_id = employerId;
     return this.http.post(this.endPoint, contact, this.getTokenHeader())
     .toPromise()
     .then(() => true)

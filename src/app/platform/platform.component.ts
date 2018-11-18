@@ -55,6 +55,8 @@ export class PlatformComponent implements OnInit {
 
   ngOnInit() {
     this.organizationService.getOrganizations().then(response => this.organizations = response);
+    console.log('kk');
+    console.log(this.organizations);
     this.organizationId = 1;
     this.setActiveUrl(this.router.url);
 
@@ -85,7 +87,11 @@ export class PlatformComponent implements OnInit {
   }
 
   loadEmployers(organizationID: number): void {
-    this.organizationService.getEmployers(organizationID).then(response =>  this.employers = response);
+    this.organizationService.getEmployers(organizationID).then(response => {
+      this.employers = response;
+      this.employers.push({'id': 0 , 'name': 'כלל המעסיקים'});
+      this.employers.sort((a, b) => a.id - b.id);
+    });
     this.selectUnit.changeOrganization(organizationID);
   }
 
