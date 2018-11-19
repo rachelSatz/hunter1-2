@@ -66,3 +66,4 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
   }
 
 }
+// file_count', JSON.stringify(file_count)
