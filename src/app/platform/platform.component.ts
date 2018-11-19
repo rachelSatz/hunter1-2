@@ -54,10 +54,10 @@ export class PlatformComponent implements OnInit {
               private organizationService: OrganizationService, private selectUnit: SelectUnitService) {}
 
   ngOnInit() {
-    this.organizationService.getOrganizations().then(response => this.organizations = response);
-    console.log('kk');
-    console.log(this.organizations);
-    this.organizationId = 1;
+    this.organizationService.getOrganizations().then(response => {this.organizations = response
+
+    this.organizationId = this.organizations.length > 0 ?  this.organizations[0].id : 0;
+    });
     this.setActiveUrl(this.router.url);
 
     this.router.events.forEach((event) => {
@@ -89,8 +89,11 @@ export class PlatformComponent implements OnInit {
   loadEmployers(organizationID: number): void {
     this.organizationService.getEmployers(organizationID).then(response => {
       this.employers = response;
-      this.employers.push({'id': 0 , 'name': 'כלל המעסיקים'});
-      this.employers.sort((a, b) => a.id - b.id);
+      if (this.employers.length > 0) {
+        this.employers.push({'id': 0, 'name': 'כלל המעסיקים'});
+        this.employers.sort((a, b) => a.id - b.id);
+        this.employerId = this.employers.length > 0 ?  this.employers[0] : 0;
+      }
     });
     this.selectUnit.changeOrganization(organizationID);
   }

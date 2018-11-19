@@ -5,7 +5,7 @@ import * as FileSaver from 'file-saver';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import { OrganizationService } from 'app/shared/_services/http/organization.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-excel-employers-dialog',
@@ -39,22 +39,19 @@ export class ExcelEmployersComponent implements OnInit {
   organizations = [];
 
   constructor(private dialogRef: MatDialogRef<ExcelEmployersComponent>,
-              private employerService: EmployerService, private compensationService: CompensationService,
-              private  organizationService: OrganizationService) { }
+              private employerService: EmployerService,
+              private compensationService: CompensationService,
+              private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
-    this.organizationService.getOrganizations().then(response => this.organizations = response);
     this.typeDoc = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel';
   }
 
   submit(): void {
     if (this.uploadedFile !== undefined ) {
-      this.employerService.uploadExcelEmployers(this.uploadedFile, this.organizationId).then(response => {
+      this.employerService.uploadExcelEmployers(this.uploadedFile, this.selectUnit.currentOrganizationID).then(response => {
         this.message = response['message'];
         if (this.message  !== 'הצליח') {
-          if (this.message === undefined) {
-            this.message = 'שגיאה';
-          }
           this.hasServerError = true;
         }else {
           this.dialogRef.close();
