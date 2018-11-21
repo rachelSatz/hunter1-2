@@ -10,9 +10,12 @@ import { MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule,
 import { DatePickerModule } from '../../../shared/app-date-picker/app-date-picker.module';
 import { PipesModule } from '../../../shared/_pipes/pipes.module';
 import {InvoiceService} from '../../../shared/_services/http/invoice.service';
+import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
+import {EmployerService} from '../../../shared/_services/http/employer.service';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
+
 ];
 
 @NgModule({
@@ -28,7 +31,8 @@ const routes: Routes = [
     PipesModule
 
   ],
-  declarations: [InvoicesComponent],
-  providers: [InvoiceService]
+  declarations: [InvoicesComponent, ProactiveInvoiceFormComponent],
+  providers: [InvoiceService, EmployerService],
+  entryComponents: [ProactiveInvoiceFormComponent]
 })
 export class InvoicesModule { }

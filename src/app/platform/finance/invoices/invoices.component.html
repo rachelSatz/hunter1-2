@@ -20,10 +20,10 @@
   <input class="ml-3" placeholder="מספר חשבונית">
   <button class="btn blue-btn" (click)="openManualInvoice()">חשבון ידני</button>
   <button class="btn blue-btn mr-2" (click)="openProactiveInvoice()">חשבון יזום</button>
-  <button class="btn blue-btn mr-2" (click)="manualChangingStatus()">שגיאות</button>
+  <button class="btn blue-btn mr-2" [routerLink]="['./', 'invoices-error']">שגיאות</button>
   <button class="btn blue-btn mr-2 big-btn" (click)="sendToGreenInvoice()">שליחה לחשבונית ירוקה</button>
-  <i matPrefix class="fa fa-user"></i>
-  <i matPrefix class="fa fa-file-excel"></i>
+  <!--<i matPrefix class="fa fa-user"></i>-->
+  <!--<i matPrefix class="fa fa-file-excel"></i>-->
 
 </div>
 <table  class="table table-bordered table-hover mt-3 data-table">
@@ -40,14 +40,14 @@
   </thead>
   <tbody>
   <ng-container *ngIf="!isSearching">
-    <tr *ngFor="let item of paginatedItems" class="pointer" [ngClass]="{ 'checked': item.isChecked }">
+    <tr *ngFor="let item of invoices" class="pointer" [ngClass]="{ 'checked': item.isChecked }">
       <td class="check-column">
         <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
       </td>
       <td></td>
       <td></td>
       <td>{{ item.total_amount }}</td>
-      <td>{{ item.amount_ids }}</td>
+      <td>{{ item.ids_count }}</td>
       <td>{{ item.for_month }}</td>
       <td>{{ item.created_at }}</td>
       <td>{{ item.last_payment_date }}</td>

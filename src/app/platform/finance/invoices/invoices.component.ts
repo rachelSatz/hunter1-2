@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import {InvoiceService} from '../../../shared/_services/http/invoice.service';
+import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
 
 
 @Component({
@@ -49,5 +51,11 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
     this.searchCriteria['date_request2'] =
       formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
     this.search();
+  }
+
+  openProactiveInvoice(): void {
+    this.dialog.open(ProactiveInvoiceFormComponent, {
+      width: '450px'
+    });
   }
 }

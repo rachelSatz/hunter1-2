@@ -1,0 +1,14 @@
+<div class="dialog-header">
+  <button mat-dialog-close>
+    <i class="fa fa-close"></i>
+  </button>
+  <span>צור חשבון עסקה יזום</span>
+</div>
+<div id="styleFormat" class="d-flex">
+  <div class="w-100">
+    <bd-select [items]="employers" placeholder="הכל" name="employers" #companyModel="ngModel" ngModel></bd-select>
+  </div>
+  <div class="w-100">
+    <bd-select [items]="productTypes" placeholder="בגין חודש" name="product_type" #productModel="ngModel" ngModel required></bd-select>
+  </div>
+</div>
