@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import {InvoiceService} from '../../../shared/_services/http/invoice.service';
 import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
+import {ERROR_STATUS, InvoiceTypes, STATUS} from '../../../shared/_models/invoice.model';
 
 
 @Component({
@@ -20,6 +21,13 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
   employers = [];
   departments = [];
   invoices = [];
+  invoiceTypes = InvoiceTypes;
+  invoice_status = STATUS;
+  error_status = ERROR_STATUS;
+  readonly statusSelectOptions = [];
+
+
+
   readonly headers: DataTableHeader[] =  [
     { column: 'employer_name', label: 'שם מעסיק' },
     { column: 'green_invoice_number', label: 'מספר חשבונית בירוקה' },
@@ -28,8 +36,8 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
     { column: 'for_month', label: 'בגין חודש' },
     { column: 'created_at', label: 'ת.יצירה' },
     { column: 'last_payment_date', label: 'לתשלום עד' },
-    { column: 'type', label: 'סוג חשבונית' },
-    { column: 'status', label: 'סטטוס' },
+    { column: 'kind', label: 'סוג חשבונית' },
+    { column: 'status',  label: 'סטטוס', searchOptions: { labels: this.invoice_status } },
     { column: 'options', label: 'אפשרויות' }
   ];
 
@@ -37,8 +45,12 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
               private dialog: MatDialog) {super(route); }
 
   ngOnInit() {
-    this.invoiceService.getInvoices().then(response => this.invoices = response);
-
+    this.invoiceService.getInvoices().then(response => {
+      this.setItems(response);
+    });
+    for (const status in this.invoice_status) {
+      this.statusSelectOptions.push({ value: status, label: this.invoice_status[status] });
+    }
   }
 
   valueDateChange(keyCode: Date): void {

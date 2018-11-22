@@ -14,7 +14,9 @@ import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-
 import {EmployerService} from '../../../shared/_services/http/employer.service';
 
 const routes: Routes = [
-  { path: '', component: InvoicesComponent }
+  { path: '', component: InvoicesComponent },
+  { path: 'errors', loadChildren: 'app/platform/finance/invoices-error/invoices-error.module#InvoicesErrorModule'}
+
 
 ];
 
