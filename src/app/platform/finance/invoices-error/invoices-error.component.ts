@@ -3,6 +3,9 @@ import {DataTableComponent} from '../../../shared/data-table/data-table.componen
 import {ActivatedRoute} from '@angular/router';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { formatDate } from '@angular/common';
+import {InvoiceService} from '../../../shared/_services/http/invoice.service';
+import {MatDialog} from '@angular/material';
+import {ERROR_STATUS} from '../../../shared/_models/invoice.model';
 
 @Component({
   selector: 'app-invoices-error',
@@ -10,6 +13,7 @@ import { formatDate } from '@angular/common';
   styleUrls: ['../../../shared/data-table/data-table.component.css', './invoices-error.component.css']
 })
 export class InvoicesErrorComponent extends DataTableComponent implements OnInit {
+  error_status = ERROR_STATUS;
 
   readonly headers: DataTableHeader[] =  [
     { column: 'employer_name', label: 'מספר חשבונית' },
@@ -23,9 +27,12 @@ export class InvoicesErrorComponent extends DataTableComponent implements OnInit
     { column: 'options', label: 'אפשרויות' }
   ];
 
-  constructor(route: ActivatedRoute) {super(route); }
+  constructor(route: ActivatedRoute, private invoiceService: InvoiceService,
+              private dialog: MatDialog) {super(route); }
 
   ngOnInit() {
+    this.invoiceService.getInvoicesError().then(response => {
+      this.setItems(response);
+    });
   }
-
 }

@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import {InvoiceService} from '../../../shared/_services/http/invoice.service';
 import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
-import {ERROR_STATUS, InvoiceTypes, STATUS} from '../../../shared/_models/invoice.model';
+import {INVOICE_TYPES, STATUS, ALL_STATUS} from '../../../shared/_models/invoice.model';
 
 
 @Component({
@@ -21,9 +21,9 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
   employers = [];
   departments = [];
   invoices = [];
-  invoiceTypes = InvoiceTypes;
+  invoiceTypes = INVOICE_TYPES;
   invoice_status = STATUS;
-  error_status = ERROR_STATUS;
+  invoice_all_status = ALL_STATUS;
   readonly statusSelectOptions = [];
 
 

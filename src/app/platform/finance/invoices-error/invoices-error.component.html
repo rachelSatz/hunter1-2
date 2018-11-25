@@ -1,4 +1,4 @@
-<p class="h4 mb-4">חשבונות חייבים</p>
+<p class="h4 mb-4">שגיאות</p>
 <div class="d-flex filter-row">
   <bd-select [items]="employers" class="ml-3"  placeholder="מעסיק"></bd-select>
   <bd-select [items]="departments" placeholder="מחלקה"></bd-select>
@@ -34,4 +34,25 @@
     </th>
   </tr>
   </thead>
+  <tbody>
+  <ng-container *ngIf="!isSearching">
+    <tr *ngFor="let item of paginatedItems" class="pointer" [ngClass]="{ 'checked': item.isChecked }">
+      <td class="check-column">
+        <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
+      </td>
+      <td>{{ item.id }}</td>
+      <td>{{ item.employer_financial_details.employer.name}}</td>
+      <td>{{ item.total_amount }}</td>
+      <td>{{ item.ids_count }}</td>
+      <td>{{ item.for_month  | date: 'MM/yy' }}</td>
+      <td>{{ item.created_at  | date: 'dd/MM/yy' }}</td>
+      <td>חשבון עסקה</td>
+      <td>{{ error_status[item.status]}}</td>
+      <td></td>
+    </tr>
+  </ng-container>
+  <tr *ngIf="!isSearching && items.length === 0">
+    <td colspan="19" class="text-center bold">טבלת הבקשות ריקה.</td>
+  </tr>
+  </tbody>
 </table>

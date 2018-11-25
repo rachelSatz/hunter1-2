@@ -21,4 +21,11 @@ export class InvoiceService  extends BaseHttpService {
       .then(response => response as Invoice[])
       .catch(() => []);
   }
+
+  getInvoicesError(): Promise<Invoice[]> {
+    return this.http.get(this.endPoint + '/errors_list', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Invoice[])
+      .catch(() => []);
+  }
 }
