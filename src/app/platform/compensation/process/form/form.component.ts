@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -27,7 +27,7 @@ import { ProductType } from 'app/shared/_models/product.model';
     ])
   ]
 })
-export class FormComponent {
+export class FormComponent implements OnInit {
 
   employees = [];
   productTypes = [];
@@ -38,6 +38,10 @@ export class FormComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<FormComponent>,
               private departmentService: DepartmentService, private compensationService: CompensationService,
               private productService: ProductService) {}
+
+  ngOnInit() {
+
+  }
 
   loadEmployees(departmentID: number): void {
     this.departmentService.getEmployees(departmentID).then(response => this.employees = response);

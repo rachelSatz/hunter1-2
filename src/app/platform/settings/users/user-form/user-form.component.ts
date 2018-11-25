@@ -14,6 +14,7 @@ import { EntityRoles } from 'app/shared/_models/user.model';
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
+  styleUrls: ['./user-form.component.css']
 })
 export class UserFormComponent implements OnInit {
 
@@ -41,7 +42,7 @@ export class UserFormComponent implements OnInit {
   }
 
   loadEmployers(organizationID: number): void {
-    this.organizationService.getEmployers(organizationID).then(response => this.employers = response);
+    this.employerService.getEmployers(organizationID).then(response => this.employers = response);
   }
 
   loadDepartments(employerID: number): void {

@@ -60,11 +60,11 @@ export class CompensationService extends BaseHttpService {
     .catch(() => false);
   }
 
-  uploadCompensation(uploadedFile?: File): Promise<Object> {
+  uploadCompensation(uploadedFile?: File, employerId?: number): Promise<Object> {
     if (uploadedFile) {
       const formData = new FormData();
       formData.append('file', uploadedFile);
-
+      formData.append('employerId' , employerId.toString());
 
     return this.http.post(this.endPoint + '/upload_excel', formData, this.getTokenHeader())
       .toPromise()
@@ -107,7 +107,7 @@ export class CompensationService extends BaseHttpService {
       content: content,
       emails_list: emails_list,
       contact_list: contact_list
-    }
+    };
 
     const formData = new FormData();
     formData.append('values', JSON.stringify(values));

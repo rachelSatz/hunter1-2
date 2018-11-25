@@ -29,6 +29,7 @@ export class UsersComponent extends DataTableComponent  implements OnInit, OnDes
   }
 
   ngOnInit() {
+    console.log(this.selectUnit.currentOrganizationID)
     this.employerService.getEmployers( this.selectUnit.currentOrganizationID ).then(response => this.employers = response);
     this.fetchItems();
   }

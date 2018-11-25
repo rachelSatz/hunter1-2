@@ -137,18 +137,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   private globalFunc(): void {
 
-    if (this.selectUnit.currentEmployerID) {
-      this.searchCriteria['employer'] = this.selectUnit.currentEmployerID;
-    }else {
-      const index = Object.keys(this.searchCriteria).findIndex(e =>  {
-        return e === 'employer';
-      });
-      if (index > 0) {
-        this.searchCriteria = Object.keys(this.searchCriteria).slice(index, 1);
-      }
-    }
-
-    this.searchCriteria['organization'] = this.selectUnit.currentOrganizationID;
+    this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
+    this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
 
     this.employerService.getDepartmentsAndEmployees(this.selectUnit.currentEmployerID, this.selectUnit.currentOrganizationID)
       .then(response => {
@@ -215,9 +205,13 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   openExcelDialog(): void {
-     this.dialog.open(ExcelComponent, {
-      width: '450px'
-    });
+    if (this.selectUnit.currentEmployerID > 0) {
+      this.dialog.open(ExcelComponent, {
+        width: '450px'
+      });
+    }else {
+      this.notificationService.error('לא נבחר מעסיק', 'יש לבחור מעסיק');
+    }
   }
 
   openExcelEmployeesDialog(): void {

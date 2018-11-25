@@ -3,6 +3,7 @@ import { Router, NavigationStart } from '@angular/router';
 import { UserSessionService } from '../shared/_services/user-session.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-platform',
@@ -51,10 +52,11 @@ export class PlatformComponent implements OnInit {
   ];
 
   constructor(private router: Router, private userSession: UserSessionService,
-              private organizationService: OrganizationService, private selectUnit: SelectUnitService) {}
+              private organizationService: OrganizationService, private selectUnit: SelectUnitService,
+              private employerService: EmployerService) {}
 
   ngOnInit() {
-    this.organizationService.getOrganizations().then(response => {this.organizations = response
+    this.organizationService.getOrganizations().then(response => {this.organizations = response;
 
     this.organizationId = this.organizations.length > 0 ?  this.organizations[0].id : 0;
     });
@@ -87,15 +89,17 @@ export class PlatformComponent implements OnInit {
   }
 
   loadEmployers(organizationID: number): void {
-    this.organizationService.getEmployers(organizationID).then(response => {
+    this.employerService.getEmployers(organizationID).then(response => {
       this.employers = response;
       if (this.employers.length > 0) {
-        this.employers.push({'id': 0, 'name': 'כלל המעסיקים'});
+        if (this.employers.length > 1) {
+          this.employers.push({'id': 0, 'name': 'כלל המעסיקים'});
+        }
         this.employers.sort((a, b) => a.id - b.id);
         this.employerId = this.employers.length > 0 ?  this.employers[0] : 0;
+        this.selectUnit.changeOrganizationEmployer(organizationID, this.employerId['id']);
       }
     });
-    this.selectUnit.changeOrganization(organizationID);
   }
 
   selectEmployer(employerID: number): void {

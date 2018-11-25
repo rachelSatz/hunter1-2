@@ -21,6 +21,13 @@ export class SelectUnitService {
     this.unitSubject.next(id);
   }
 
+  changeOrganizationEmployer(organizationId: number, employerId: number): void {
+    this.currentEmployerID = employerId;
+    this.currentOrganizationID = organizationId;
+    this.unitSubject.next(organizationId);
+    this.unitSubject.next(employerId);
+  }
+
 }
 
 

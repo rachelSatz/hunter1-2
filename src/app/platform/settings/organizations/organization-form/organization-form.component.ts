@@ -21,7 +21,8 @@ export class OrganizationFormComponent implements OnInit {
 
     if (this.route.snapshot.data.organization) {
       this.organization = this.route.snapshot.data.organization;
-      console.log(this.organization);
+    }else {
+      this.handleResponse(true);
     }
   }
 
@@ -30,7 +31,8 @@ export class OrganizationFormComponent implements OnInit {
 
     if (form.valid) {
       if (this.organization.id) {
-        this.organizationService.updateOrganization(form.value, this.organization.id).then(response => this.handleResponse(response));
+        this.organizationService.updateOrganization(form.value, this.organization.id).
+        then(response => this.handleResponse(response));
       } else {
         this.organizationService.saveNewOrganization(form.value).then(response => this.handleResponse(response));
       }

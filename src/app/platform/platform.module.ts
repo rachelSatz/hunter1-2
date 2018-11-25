@@ -8,6 +8,7 @@ import { PlatformComponent } from './platform.component';
 
 import { IsAuthenticatedGuard } from '../shared/_guards/is-authenticated.guard';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 
 const routes: Routes = [
   {
@@ -36,6 +37,6 @@ const routes: Routes = [
     MatMenuModule,
   ],
   declarations: [PlatformComponent],
-  providers: [IsAuthenticatedGuard, OrganizationService]
+  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService]
 })
 export class PlatformModule {}

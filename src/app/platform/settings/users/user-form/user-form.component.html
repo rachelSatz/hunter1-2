@@ -20,12 +20,13 @@
     <p class="bold h6">בחר סוג משתמש ראשי</p>
     <bd-select [items]="role" placeholder="סוג משתמש" #roleSelect="ngModel"  name="role" [(ngModel)]="user.role" required></bd-select>
   </div>
+
   <p class="bold h6">בחר הרשאות</p>
   <div class="d-flex mb-4 w-25">
-  <mat-radio-group [(ngModel)]="user.permission_type"  [value]="user.permission_type" name="permission_type">
+  <mat-radio-group [(ngModel)]="user.permission_type"  [value]="user.permission_type" name="permission_type" [disabled]="user.role === 'admin'">
     <mat-radio-button class="ml-4" value="read">צפייה בלבד</mat-radio-button>
     <mat-radio-button class="ml-4" value="write">צפייה ועריכה</mat-radio-button>
-    <mat-radio-button  value="all">כל ההרשאות</mat-radio-button>
+    <mat-radio-button  value="all" [checked]="user.role === 'admin'">כל ההרשאות</mat-radio-button>
   </mat-radio-group>
   </div>
 
@@ -38,6 +39,8 @@
       <mat-radio-button value="compensation">יתרות לפיצויים</mat-radio-button>
     </mat-radio-group>
   </div>
+
+  <div [ngClass]="{ 'undisplay': user.role === 'admin' }">
   <p class="bold h6">בחר ישויות</p>
   <div class="w-50 d-flex align-items-center" *ngFor="let permission of user.unit_permissions; let last = last; let index = index">
     <i class="fa fa-times fa-2x pointer red-color" (click)="removeUnitPermissionRow(index)" *ngIf="index > 0"></i>
@@ -46,9 +49,7 @@
     <bd-select class="ml-4" [name]="'department' + index" [items]="departments" placeholder="מחלקות"  [multiple]="true" [(ngModel)]="permission.departments"></bd-select>
     <i class="fa fa-plus-circle fa-2x pointer blue-color" (click)="addUnitPermissionRow()" *ngIf="last"></i>
   </div>
-  <!--<img src="/assets/img/icons/baseline-add_circle-24px.png" (click)="openSendToDialog(item)">-->
-
-  <!--<p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>-->
+  </div>
   <div>
     <button class="btn blue-btn" type="submit">שלח</button>
   </div>

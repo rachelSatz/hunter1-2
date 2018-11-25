@@ -44,7 +44,7 @@ export class EmployerService extends BaseHttpService {
     .then(response => response as Employer);
   }
   saveNewEmployer(employer: Employer, organizationID: number): Promise<boolean> {
-    employer.organization_id = organizationID;
+    employer.organizationId = organizationID;
     return this.http.post(this.endPoint, employer, this.getTokenHeader())
       .toPromise()
       .then(() => true)
@@ -88,7 +88,7 @@ export class EmployerService extends BaseHttpService {
     if (uploadedFile) {
       const formData = new FormData();
       formData.append('file', uploadedFile);
-      formData.append('organization_id',  JSON.stringify(organizationId));
+      formData.append('organizationId',  JSON.stringify(organizationId));
 
       return this.http.post(this.endPoint + '/uploadExcelEmployers', formData, this.getTokenHeader())
         .toPromise()
