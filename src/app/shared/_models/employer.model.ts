@@ -24,6 +24,8 @@ export class Employer {
   comments: string;
   // bank_id: number;
   bank_accounts: EmployerBankAccount[] = [];
+  organizationId: number;
+
 
   constructor() {
     this.bank_accounts.push(new EmployerBankAccount());

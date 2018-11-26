@@ -22,15 +22,12 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 'app/shared/_models/compensation.model';
 import { ProductType } from 'app/shared/_models/product.model';
-import { Employer } from 'app/shared/_models/employer.model';
-import {until} from 'selenium-webdriver';
-import elementIsSelected = until.elementIsSelected;
 import {ErrorMessageComponent} from './error-message/error-message.component';
-
 
 @Component({
   selector: 'app-process',
@@ -71,7 +68,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   formSubscription: Subscription;
   commentsSubscription: Subscription;
-  // excelSubscription: Subscription;
+  selectUnitSubscription: Subscription;
+
   extraSearchCriteria = 'inactive';
 
   productTypes = ProductType;
@@ -97,9 +95,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     return { id: e, name: CompensationSendingMethods[e] };
   });
   responseTimes = [{id: 2, name: '0-2'}, {id: 4, name: '2-4'}, {id: 5, name: '5+'}];
-  // responseTimes = Object.keys(ResponseTimesMethods).map(function(e) {
-  //   return { id: e, name: ResponseTimesMethods[e] };
-  // });
+
   validity = Object.keys(ValidityMethods).map(function(e) {
     return { id: e, name: ValidityMethods[e] };
   });
@@ -124,7 +120,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   constructor(protected route: ActivatedRoute, private compensationService: CompensationService,
               private dialog: MatDialog, private departmentService: DepartmentService,
               private productService: ProductService, private employerService: EmployerService,
-              protected notificationService: NotificationService
+              protected notificationService: NotificationService,
+              private selectUnit: SelectUnitService
               ) {
     super(route, notificationService);
   }
@@ -132,9 +129,27 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   ngOnInit() {
     this.departmentService.getDepartments().then(response => this.departments = response);
     this.productService.getCompanies().then(response => this.companies = response);
-    this.employerService.getEmployers().then(response => this.employers = response);
 
-    this.fetchItems();
+    this.globalFunc();
+
+    this.selectUnitSubscription = this.selectUnit.unitSubject.subscribe(() => this.globalFunc());
+  }
+
+  private globalFunc(): void {
+
+    this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
+    this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
+
+    this.employerService.getDepartmentsAndEmployees(this.selectUnit.currentEmployerID, this.selectUnit.currentOrganizationID)
+      .then(response => {
+        this.departments = response['departments'];
+        this.employees = response['employees'];
+      });
+
+    this.compensationService.getCompensations(this.searchCriteria).then(response => {
+      this.setResponse(response) ;
+    });
+
   }
 
   fetchItems(): void {
@@ -155,23 +170,13 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
   }
 
-  loadDepartmentsAndEmployees(employerID: number): void {
-    this.employerService.getDepartmentsAndEmployees(employerID).then(response => {
-      this.departments = response['departments'];
-      this.employees = response['employees'];
-    });
-  }
+
   valueDateChange(keyCode: Date): void {
     this.searchCriteria['date_request'] =
       formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
     this.search();
   }
 
-  valueDateChange2(keyCode: Date): void {
-    this.searchCriteria['date_request2'] =
-      formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
-    this.search();
-  }
   sendCompensations(): void {
     if (this.checkedItems.length === 0) {
       this.setNoneCheckedWarning();
@@ -200,9 +205,13 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   openExcelDialog(): void {
-     this.dialog.open(ExcelComponent, {
-      width: '450px'
-    });
+    if (this.selectUnit.currentEmployerID > 0) {
+      this.dialog.open(ExcelComponent, {
+        width: '450px'
+      });
+    }else {
+      this.notificationService.error('לא נבחר מעסיק', 'יש לבחור מעסיק');
+    }
   }
 
   openExcelEmployeesDialog(): void {
@@ -223,7 +232,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
         this.checkedItems = [];
         this.isCheckAll = false;
         this.setResponse(response);
-       // }
     });
   }
 
@@ -330,5 +338,10 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     if (this.commentsSubscription) {
       this.commentsSubscription.unsubscribe();
     }
+
+    if (this.selectUnitSubscription) {
+      this.selectUnitSubscription.unsubscribe();
+    }
+
   }
 }

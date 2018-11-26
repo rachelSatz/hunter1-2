@@ -18,18 +18,9 @@ export class OrganizationService extends BaseHttpService {
 
 
   getOrganizations(): Promise<Organization[]> {
-    console.log(this.endPoint);
-    console.log(this.getTokenHeader());
     return this.http.get(this.endPoint, this.getTokenHeader())
       .toPromise()
       .then(response => response as Organization[])
-      .catch(() => []);
-  }
-
-  getEmployers(organizationID: number): Promise<Employer[]> {
-    return this.http.get(this.endPoint + '/' + organizationID + '/' + 'employers' , this.getTokenHeader())
-      .toPromise()
-      .then(response => response as Employer[])
       .catch(() => []);
   }
 

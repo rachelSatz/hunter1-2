@@ -12,5 +12,5 @@ header {
 
 ::ng-deep form {
   padding: 20px 14px;
-  box-shadow: #e1e1e1 3px 3px;
+  /*box-shadow: #e1e1e1 3px 3px;*/
 }

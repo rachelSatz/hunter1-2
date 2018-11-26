@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { PlatformComponent } from './platform.component';
 
 import { IsAuthenticatedGuard } from '../shared/_guards/is-authenticated.guard';
-
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 
 const routes: Routes = [
   {
     path: '', component: PlatformComponent, canActivate: [IsAuthenticatedGuard], children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      // { path: 'compensations', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
+      { path: 'dashboard', loadChildren: 'app/platform/dashboard/dashboard.module#DashboardModule' },
       { path: 'compensations/process', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
       { path: 'compensations/dashboard', loadChildren: 'app/platform/compensation/dashboard/dashboard.module#DashboardModule' },
       { path: 'settings/contacts', loadChildren: 'app/platform/settings/contacts/contacts.module#ContactsModule' },
@@ -33,9 +34,10 @@ const routes: Routes = [
     CommonModule,
     BdSelectModule,
     RouterModule.forChild(routes),
+    FormsModule,
     MatMenuModule,
   ],
   declarations: [PlatformComponent],
-  providers: [IsAuthenticatedGuard, OrganizationService]
+  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService]
 })
 export class PlatformModule {}

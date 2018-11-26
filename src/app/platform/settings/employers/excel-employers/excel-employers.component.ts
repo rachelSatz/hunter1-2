@@ -3,14 +3,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import * as FileSaver from 'file-saver';
 
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import {Compensation} from 'app/shared/_models/compensation.model';
-import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
-
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 @Component({
-  selector: 'app-excel',
-  templateUrl: './compensation.component.html',
+  selector: 'app-excel-employers-dialog',
+  templateUrl: './excel-employers.component.html',
   animations: [
     trigger('fade', [
       state('inactive', style({
@@ -26,23 +25,23 @@ import {SelectUnitService} from '../../../../../shared/_services/select-unit.ser
     ])
   ]
 })
-export class ExcelComponent implements OnInit {
+export class ExcelEmployersComponent implements OnInit {
 
   uploadedFile: File;
   files = [];
   typeDoc: string;
   message: string;
   hasServerError: boolean;
+  organizationId: number;
   spin: boolean;
   exampleFileType = 'xlsx';
-  exampleFileName = 'compensationExample.xlsx';
+  exampleFileName = 'employersExample.xlsx';
+  organizations = [];
 
-
-  constructor(@Inject(MAT_DIALOG_DATA)  public compensation: Compensation,
-              private compensationService: CompensationService, private dialogRef: MatDialogRef<ExcelComponent>,
-              private selectUnit: SelectUnitService) {
-
-  }
+  constructor(private dialogRef: MatDialogRef<ExcelEmployersComponent>,
+              private employerService: EmployerService,
+              private compensationService: CompensationService,
+              private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
     this.typeDoc = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel';
@@ -50,24 +49,18 @@ export class ExcelComponent implements OnInit {
 
   submit(): void {
     if (this.uploadedFile !== undefined ) {
-
-      this.compensationService.uploadCompensation(this.uploadedFile, this.selectUnit.currentEmployerID).then(response => {
+      this.employerService.uploadExcelEmployers(this.uploadedFile, this.selectUnit.currentOrganizationID).then(response => {
         this.message = response['message'];
         if (this.message  !== 'הצליח') {
-          if (this.message === undefined) {
-            this.message = 'שגיאה';
-          }
           this.hasServerError = true;
         }else {
           this.dialogRef.close();
         }
       });
-
     }else {
       this.message = 'בחר קובץ';
     }
   }
-
 
   downloadExampleFile(fileName: string, type: string): void {
     this.spin = true;
@@ -83,4 +76,5 @@ export class ExcelComponent implements OnInit {
       this.spin = false;
     });
   }
+
 }

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {formatDate } from '@angular/common';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { UserService } from 'app/shared/_services/http/user.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import {CompensationSendingMethods} from 'app/shared/_models/compensation.model';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -12,13 +14,14 @@ import {CompensationSendingMethods} from 'app/shared/_models/compensation.model'
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(private employerService: EmployerService, private  userService: UserService,
-              private compensationService: CompensationService) {}
+              private compensationService: CompensationService,
+              private selectUnit: SelectUnitService) {}
 
+  selectUnitSubscription: Subscription;
   isSearching: boolean;
-  employers = [];
   users = [];
   sourceType = Object.keys(CompensationSendingMethods).map(function(e) {
     return { id: e, name: CompensationSendingMethods[e] };
@@ -32,8 +35,16 @@ export class DashboardComponent implements OnInit {
   date: Date;
 
   ngOnInit() {
-    this.employerService.getEmployers().then(response => this.employers = response);
     this.userService.getUsers().then(response => this.users = response);
+    this.globalFunc();
+    this.selectUnitSubscription = this.selectUnit.unitSubject.subscribe(() => this.globalFunc());
+
+  }
+
+  private globalFunc(): void {
+    this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
+    this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
+
     this.getDefaultDate();
     this.fetchItems();
   }
@@ -82,5 +93,11 @@ export class DashboardComponent implements OnInit {
 
     this.isSearching = true;
     setTimeout(() => this.fetchItems(), 1000);
+  }
+
+  ngOnDestroy() {
+    if (this.selectUnitSubscription) {
+      this.selectUnitSubscription.unsubscribe();
+    }
   }
 }

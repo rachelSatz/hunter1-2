@@ -1,9 +1,4 @@
 <p class="h4 mb-4">מעקב יתרות לפיצוים</p>
-<div class="row col-12 mb-3">
-  <div class="col-2">
-  <bd-select  [items]="employers" placeholder="מעסיק" [(ngModel)]="searchCriteria['employee']" (onSelect)="search()"></bd-select>
-  </div>
-</div>
 <div class="row col-12">
 <div  class="col-2 marginTop">
   <bd-select  [items]="sourceType" placeholder="מקור המידע" [(ngModel)]="searchCriteria['source_type']" (onSelect)="search()" >

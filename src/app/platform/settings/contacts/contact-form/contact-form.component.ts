@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { AgentService } from 'app/shared/_services/http/agent.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
@@ -39,13 +40,14 @@ export class ContactFormComponent implements OnInit {
   });
 
   constructor(private route: ActivatedRoute, private router: Router,
-              private contactService: ContactService, private agentService: AgentService,
-              private productService: ProductService) {}
+              private contactService: ContactService,
+              private agentService: AgentService,
+              private productService: ProductService,
+              private selectUnit: SelectUnitService) {}
 
   ngOnInit() {
     if (this.route.snapshot.data.contact) {
       this.contact = this.route.snapshot.data.contact;
-      console.log(this.contact)
     }
 
     if (this.contact.id) {
@@ -55,7 +57,6 @@ export class ContactFormComponent implements OnInit {
 
   loadEntities(type: string): void {
     if (type === 'agent') {
-      // this.agentService.getEmployerAgents();
       this.entities = [];
     }
 
@@ -66,12 +67,15 @@ export class ContactFormComponent implements OnInit {
 
   submit(form: NgForm): void {
     this.hasServerError = false;
-
     if (form.valid) {
       if (this.contact.id) {
         this.contactService.updateContact(form.value, this.contact.id).then(response => this.handleResponse(response));
       } else {
-        this.contactService.newContact(form.value).then(response => this.handleResponse(response));
+        if (this.selectUnit.currentEmployerID) {
+          this.contactService.newContact(form.value, this.selectUnit.currentEmployerID).then(response => this.handleResponse(response));
+        }else {
+          alert('יש לבחור מעסיק');
+        }
       }
     }
   }

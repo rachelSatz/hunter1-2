@@ -12,10 +12,10 @@
         <mat-error *ngIf="hasErrors('business_number', { specificError: 'pattern', touched: true })">ח.פ אינו תקין.</mat-error>
       </mat-form-field>
       <mat-form-field class="w-100">
-        <input matInput type="text" placeholder="קוד מוסד - 5" formControlName="institute_code_5">
+        <input matInput type="text" placeholder="קוד מוסד - 5" formControlName="institution_code_5">
       </mat-form-field>
       <mat-form-field class="w-100">
-        <input matInput type="text" placeholder="קוד מוסד - 8" formControlName="institute_code_8">
+        <input matInput type="text" placeholder="קוד מוסד - 8" formControlName="institution_code_8">
       </mat-form-field>
     </div>
     <div class="flex-grow-1">
@@ -42,15 +42,15 @@
       <div class="d-flex align-items-center">
         <mat-icon (click)="remove(index)" *ngIf="index > 0 || !last" class="ml-3 pointer remove-account-icon">highlight_off</mat-icon>
         <div class="bd-select-container">
-          <bd-select formControlName="bank_id" [items]="banks"  placeholder="בחר בנק"></bd-select>
+          <bd-select formControlName="bank_id" value="number" [items]="banks"  placeholder="בחר בנק"></bd-select>
           <mat-error *ngIf="hasErrors('bank_id', { arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
         </div>
         <div class="mx-3 bd-select-container">
-          <bd-select formControlName="branch_id" [items]="selectedBankBranch(index)" placeholder="בחר סניף"></bd-select>
+          <bd-select formControlName="branch_id" value="number" [items]="selectedBankBranch(index)" placeholder="בחר סניף"></bd-select>
           <mat-error *ngIf="hasErrors('branch_id', { arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
         </div>
         <mat-form-field>
-          <input matInput type="text" formControlName="number" placeholder="מס' חשבון">
+          <input matInput type="text" formControlName="number" placeholder="מס' חשבון" maxlength="5">
           <mat-error *ngIf="hasErrors('number', { specificError: 'required', arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
           <mat-error *ngIf="hasErrors('number', { specificError: 'pattern', touch: true, arrayPosition: index, formArrayName: 'bank_accounts' })">יש להקיש 5 ספרות</mat-error>
         </mat-form-field>

@@ -38,7 +38,7 @@ export class CompensationService extends BaseHttpService {
       .catch(() => []);
   }
 
-  updateCompensation(compensation: Compensation, uploadedFile?: File[], file_count?: string[]): Promise<boolean> {
+  updateCompensation(compensation: Compensation, uploadedFile?: File[]): Promise<boolean> {
     const values = {
       projected_balance: compensation.projected_balance,
       reported_balance: compensation.reported_balance,
@@ -51,9 +51,7 @@ export class CompensationService extends BaseHttpService {
     if (uploadedFile) {
         for (let i = 0; i <= uploadedFile.length - 1 ; i++) {
           formData.append('file' + i, uploadedFile[i]);
-          file_count.push('file' + i);
       }
-      formData.append('file_count', JSON.stringify(file_count));
     }
 
     return this.http.post(this.endPoint + '/update/' + compensation.id, formData, this.getTokenHeader())
@@ -62,11 +60,11 @@ export class CompensationService extends BaseHttpService {
     .catch(() => false);
   }
 
-  uploadCompensation(uploadedFile?: File): Promise<Object> {
+  uploadCompensation(uploadedFile?: File, employerId?: number): Promise<Object> {
     if (uploadedFile) {
       const formData = new FormData();
       formData.append('file', uploadedFile);
-
+      formData.append('employerId' , employerId.toString());
 
     return this.http.post(this.endPoint + '/upload_excel', formData, this.getTokenHeader())
       .toPromise()
@@ -104,12 +102,12 @@ export class CompensationService extends BaseHttpService {
   }
 
   newInquiry(compensation_id: number, content: string, emails_list: any[], contact_list: any[],
-             uploadedFile?: File[], file_count?: string[]): Promise<boolean> {
+             uploadedFile?: File[]): Promise<boolean> {
     const values = {
       content: content,
       emails_list: emails_list,
       contact_list: contact_list
-    }
+    };
 
     const formData = new FormData();
     formData.append('values', JSON.stringify(values));
@@ -117,9 +115,7 @@ export class CompensationService extends BaseHttpService {
     if (uploadedFile) {
       for (let i = 0; i <= uploadedFile.length - 1 ; i++) {
         formData.append('file' + i, uploadedFile[i]);
-        file_count.push('file' + i);
       }
-      formData.append('file_count', JSON.stringify(file_count));
     }
 
     return this.http.post(this.endPoint + '/' + compensation_id + '/newInquiry', formData
