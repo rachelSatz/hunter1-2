@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {EmployerService} from '../../../../shared/_services/http/employer.service';
+import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-proactive-invoice-form',
@@ -28,10 +29,11 @@ import {EmployerService} from '../../../../shared/_services/http/employer.servic
 export class ProactiveInvoiceFormComponent implements OnInit {
   employers = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private employerService: EmployerService) { }
+  constructor(private route: ActivatedRoute, private router: Router,
+              private employerService: EmployerService,  private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
-    this.employerService.getEmployers().then(response => this.employers = response);
+    this.employerService.getEmployers(this.selectUnit.currentOrganizationID).then(response => this.employers = response);
 
   }
 
