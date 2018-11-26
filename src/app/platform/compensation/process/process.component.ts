@@ -185,9 +185,16 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
     this.compensationService.sendCompensations(this.checkedItems.map(item => item.id)).then(response => {
       if (response) {
-        this.notificationService.success('הבקשות נשלחו בהצלחה.');
-        this.checkedItems = [];
-        this.isCheckAll = false;
+        if (response['list_exceptions'].length > 0) {
+          this.notificationService.error(' הבקשות נכשלו. ' + response['list_exceptions'], 'הבקשות נכשלו.');
+        }else {
+          this.notificationService.success('הבקשות נשלחו בהצלחה.');
+          this.checkedItems = [];
+          this.isCheckAll = false;
+          this.fetchItems();
+        }
+      }else {
+        this.notificationService.error(' הבקשות נכשלו. ', 'הבקשות נכשלו.');
       }
     });
   }
