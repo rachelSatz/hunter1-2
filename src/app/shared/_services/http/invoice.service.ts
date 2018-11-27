@@ -22,8 +22,8 @@ export class InvoiceService  extends BaseHttpService {
       .catch(() => []);
   }
 
-  getInvoicesError(): Promise<Invoice[]> {
-    return this.http.get(this.endPoint + '/errors_list', this.getTokenHeader())
+  createInvoice(content: string): Promise<Invoice[]> {
+    return this.http.post(this.endPoint + '/create_invoice', content, this.getTokenHeader())
       .toPromise()
       .then(response => response as Invoice[])
       .catch(() => []);

@@ -4,12 +4,16 @@
   </button>
   <span>צור חשבון עסקה יזום</span>
 </div>
+<form #form="ngForm">
 <div id="styleFormat" class="d-flex">
   <div class="w-100">
     <bd-select [items]="employers" placeholder="הכל" name="employers" #companyModel="ngModel" ngModel></bd-select>
   </div>
   <div class="w-100">
-
-    <!--<bd-select [items]="productTypes" placeholder="בגין חודש" name="product_type" #productModel="ngModel" ngModel required></bd-select>-->
+    <bd-select placeholder="בגין חודש" name="for_month" ngModel required></bd-select>
   </div>
+</div>
+</form>
+<div mat-dialog-actions class="justify-content-center">
+  <button class="btn blue-btn" (click)="submit(form)">שמור</button>
 </div>
