@@ -11,11 +11,12 @@ import { User } from 'app/shared/_models/user.model';
 import { UserUnitPermission } from 'app/shared/_models/user-unit-permission.model';
 import { EntityRoles } from 'app/shared/_models/user.model';
 import { ModuleTypes, UserModule } from 'app/shared/_models/user-module.model';
+import {Employer} from '../../../../shared/_models/employer.model';
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  styles: [`.check-module { width: 140px; }`],
+  styles: [`.check-module { width: 140px; }` ],
   animations: [
     trigger('fade', [
       state('inactive', style({
@@ -57,17 +58,40 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  loadEmployers(organizationID: number): void {
-    this.employerService.getEmployers(organizationID).then(response => this.employers = response);
-  }
-
   loadDepartments(employerID: number): void {
     this.employerService.getDepartments(employerID).then(response => this.departments = response);
   }
 
+ selectedEmployer(organizationID: number): Employer[] {
+   const selectedOrganization = this.organizations.find(o => {
+     return +o.id === +organizationID;
+   });
+   return selectedOrganization ? selectedOrganization.employer : [];
+ }
+
+  // loadEmployers(organizationID: number): void {
+  //   this.employerService.getEmployers(organizationID).then(response => this.employers = response);
+  // }
+
+
+   selectedDepartment(organizationID: number, employerID: number, d: number): any {
+      const selectedEmployer = this.selectedEmployer(organizationID);
+      if (selectedEmployer) {
+        const selectedDepartment  = (<Employer[]>selectedEmployer).find(e => {
+        return +e.id === +employerID;
+      });
+       if (selectedDepartment) {
+         return selectedDepartment.department;
+       }
+      }
+      return [];
+   }
+
+
+
   submit(form: NgForm): void {
     this.hasServerError = false;
-
+    // this.user.modules = this.user.modules.filter(n => n.isEnabled);
     if (form.valid) {
       if (this.user.id) {
         this.userService.updateUser(this.user, this.user.id).then(response => this.handleResponse(response));
