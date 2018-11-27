@@ -56,9 +56,7 @@ export class PlatformComponent implements OnInit {
               private employerService: EmployerService) {}
 
   ngOnInit() {
-    this.organizationService.getOrganizations().then(response => {this.organizations = response;
-      this.organizationId = this.organizations.length > 0 ?  this.organizations[0].id : 0;
-    });
+    this.getOrganizations(false);
     this.setActiveUrl(this.router.url);
 
     this.router.events.forEach((event) => {
@@ -68,10 +66,12 @@ export class PlatformComponent implements OnInit {
     });
   }
 
-  getOrganizations(): void {
+  getOrganizations(is_loadEmployer: boolean): void {
     this.organizationService.getOrganizations().then(response => {this.organizations = response;
       this.organizationId = this.organizations.length > 0 ?  this.organizations[0].id : 0;
-      this.loadEmployers(this.organizationId);
+      if (is_loadEmployer) {
+        this.loadEmployers(this.organizationId);
+      }
     });
   }
 

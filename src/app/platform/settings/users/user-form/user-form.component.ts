@@ -13,6 +13,7 @@ import { EntityRoles } from 'app/shared/_models/user.model';
 import { ModuleTypes, UserModule } from 'app/shared/_models/user-module.model';
 import {Employer} from '../../../../shared/_models/employer.model';
 
+
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
@@ -49,12 +50,14 @@ export class UserFormComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private employerService: EmployerService,
               private router: Router,
-              private userService: UserService, private organizationService: OrganizationService) {}
+              private userService: UserService, private organizationService: OrganizationService
+              ) {}
 
   ngOnInit() {
     this.organizationService.getOrganizations().then(response => this.organizations = response);
     if (this.route.snapshot.data.user) {
       this.user = new User(this.route.snapshot.data.user);
+      console.log(this.user);
     }
   }
 

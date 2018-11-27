@@ -150,7 +150,7 @@ export class EmployerFormComponent implements OnInit {
         this.employerService.updateEmployer(this.employerForm.value, this.employer.id).then(response => this.handleResponse(response));
       } else {
           this.employerService.saveNewEmployer(this.employerForm.value, this.selectUnit.currentOrganizationID)
-            .then(response => { this.platformComponent.getOrganizations(); this.handleResponse(response); });
+            .then(response => { this.platformComponent.getOrganizations(true); this.handleResponse(response); });
       }
     }
   }
