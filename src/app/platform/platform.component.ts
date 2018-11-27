@@ -57,7 +57,7 @@ export class PlatformComponent implements OnInit {
 
   ngOnInit() {
     this.organizationService.getOrganizations().then(response => {this.organizations = response;
-    this.organizationId = this.organizations.length > 0 ?  this.organizations[0].id : 0;
+      this.organizationId = this.organizations.length > 0 ?  this.organizations[0].id : 0;
     });
     this.setActiveUrl(this.router.url);
 
@@ -65,6 +65,13 @@ export class PlatformComponent implements OnInit {
       if (event instanceof NavigationStart) {
         this.setActiveUrl(event.url);
       }
+    });
+  }
+
+  getOrganizations(): void {
+    this.organizationService.getOrganizations().then(response => {this.organizations = response;
+      this.organizationId = this.organizations.length > 0 ?  this.organizations[0].id : 0;
+      this.loadEmployers(this.organizationId);
     });
   }
 
@@ -90,7 +97,9 @@ export class PlatformComponent implements OnInit {
   loadEmployers(organizationID: number): void {
     this.employers = this.organizations.find(o => o.id === organizationID).employer;
     if (this.employers.length > 1) {
-      this.employers.push({'id': 0, 'name': 'כלל המעסיקים'});
+      if (!this.employers.some(e => e.id === 0)) {
+        this.employers.push({'id': 0, 'name': 'כלל המעסיקים'});
+      }
     }
     this.employers.sort((a, b) => a.id - b.id);
     this.employerId = this.employers.length > 0 ?  this.employers[0] : 0;

@@ -14,7 +14,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { isArray } from 'rxjs/util/isArray';
 
 @Component({
-  selector: 'bd-select',
+  selector: 'bd-select' ,
   templateUrl: './bd-select.component.html',
   styleUrls: ['./bd-select.component.css'],
   animations: [
