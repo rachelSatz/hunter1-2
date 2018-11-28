@@ -10,6 +10,7 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployersComponent } from './employers.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { ExcelEmployersComponent } from './excel-employers/excel-employers.component';
+import {PlatformComponent} from 'app/platform/platform.component';
 
 const routes: Routes = [
   { path: '', component: EmployersComponent },
@@ -27,7 +28,7 @@ const routes: Routes = [
     BdSelectModule
   ],
   declarations: [EmployersComponent, ExcelEmployersComponent],
-  providers: [EmployerService, CompensationService, OrganizationService],
+  providers: [EmployerService, CompensationService, OrganizationService, PlatformComponent],
   entryComponents: [ExcelEmployersComponent]
 })
 export class EmployersModule { }
