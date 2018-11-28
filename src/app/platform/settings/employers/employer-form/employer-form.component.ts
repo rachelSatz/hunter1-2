@@ -41,8 +41,12 @@ export class EmployerFormComponent implements OnInit {
 
   @ViewChild('form') form: NgForm;
 
-  constructor(private route: ActivatedRoute, private router: Router, private employerService: EmployerService
-              , private generalService: GeneralHttpService, private fb: FormBuilder, private selectUnit: SelectUnitService,
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private employerService: EmployerService,
+              private generalService: GeneralHttpService,
+              private fb: FormBuilder,
+              private selectUnit: SelectUnitService,
               private  platformComponent: PlatformComponent) {}
 
   ngOnInit() {

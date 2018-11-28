@@ -7,8 +7,8 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { AgentService } from 'app/shared/_services/http/agent.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
-
 import { Contact, EntityTypes } from 'app/shared/_models/contact.model';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -39,11 +39,14 @@ export class ContactFormComponent implements OnInit {
     return { id: e, name: EntityTypes[e] };
   });
 
+
+
   constructor(private route: ActivatedRoute, private router: Router,
               private contactService: ContactService,
               private agentService: AgentService,
               private productService: ProductService,
-              private selectUnit: SelectUnitService) {}
+              private selectUnit: SelectUnitService,
+              protected notificationService: NotificationService) {}
 
   ngOnInit() {
     if (this.route.snapshot.data.contact) {
@@ -74,7 +77,7 @@ export class ContactFormComponent implements OnInit {
         if (this.selectUnit.currentEmployerID) {
           this.contactService.newContact(form.value, this.selectUnit.currentEmployerID).then(response => this.handleResponse(response));
         }else {
-          alert('יש לבחור מעסיק');
+          this.notificationService.error('יש לבחור מעסיק.', 'יש לבחור מעסיק');
         }
       }
     }

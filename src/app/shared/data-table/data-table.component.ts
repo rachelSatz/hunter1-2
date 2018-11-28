@@ -43,6 +43,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
 			sessionStorage.removeItem('saved-item');
 		}
 
+    this.pageSubscription = this.route.queryParams.subscribe(message => {
+      if (this.items.length > 0) {
+        this.setCurrentPage(+message['page']);
+      }
+    });
+
 		this.fetchItems();
 	}
 

@@ -19,7 +19,7 @@ import {Subscription} from 'rxjs';
 })
 export class EmployersComponent extends DataTableComponent implements OnInit, OnDestroy {
 
-  selectUnitSubscription: Subscription;
+  sub = new Subscription;
 
   readonly headers: DataTableHeader[] =  [
     { column: 'entity_name', label: 'שם מלא' }, { column: 'entity_number', label: 'ח.פ' },
@@ -33,11 +33,15 @@ export class EmployersComponent extends DataTableComponent implements OnInit, On
   }
 
   ngOnInit() {
-    console.log(this.selectUnit.currentOrganizationID)
-    this.employerService.getEmployers(this.selectUnit.currentOrganizationID).then(response => this.setItems(response));
-    this.selectUnitSubscription = this.selectUnit.unitSubject.subscribe(() => {
-      this.employerService.getEmployers(this.selectUnit.currentOrganizationID).then(response => this.setItems(response));
+    this.sub = this.selectUnit.unitSubject.subscribe(() => {
+      this.fetchItems();
     });
+
+    super.ngOnInit();
+  }
+
+  fetchItems(): void {
+    this.employerService.getEmployers(this.selectUnit.currentOrganizationID).then(response => this.setItems(response));
   }
 
   openExcelEmployersDialog(): void {
@@ -48,8 +52,6 @@ export class EmployersComponent extends DataTableComponent implements OnInit, On
   }
 
   ngOnDestroy() {
-    if (this.selectUnitSubscription) {
-      this.selectUnitSubscription.unsubscribe();
-    }
+    this.sub.unsubscribe();
   }
 }

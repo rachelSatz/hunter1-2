@@ -30,13 +30,14 @@ export class ContactsComponent extends DataTableComponent implements OnInit, OnD
     super(route);
   }
 
+  ngOnInit() {
+    this.selectUnitSubscription = this.selectUnit.unitSubject.subscribe(() => this.fetchItems());
+    super.ngOnInit();
+  }
+
   fetchItems(): void {
     this.contactService.getContacts(this.selectUnit.currentOrganizationID, this.selectUnit.currentEmployerID)
       .then(response => this.setItems(response));
-    this.selectUnitSubscription = this.selectUnit.unitSubject.subscribe(() =>
-      this.contactService.getContacts(this.selectUnit.currentOrganizationID, this.selectUnit.currentEmployerID)
-        .then(response => this.setItems(response))
-    );
   }
 
   ngOnDestroy() {

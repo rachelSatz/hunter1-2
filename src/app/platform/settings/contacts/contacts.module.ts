@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DataTableModule } from 'app/shared/data-table/data-table.module';
-
 import { ContactsComponent } from './contacts.component';
-
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { NotificationService } from 'app/shared/_services/notification.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 
 const routes: Routes = [
@@ -20,6 +19,6 @@ const routes: Routes = [
     DataTableModule
   ],
   declarations: [ContactsComponent],
-  providers: [ContactService]
+  providers: [ContactService, NotificationService]
 })
 export class ContactsModule {}

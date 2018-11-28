@@ -3,19 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { formatDate } from '@angular/common';
-
 import { Subscription } from 'rxjs/Subscription';
 import * as FileSaver from 'file-saver';
+
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
 import { ExcelComponent } from './excel/compensation/compensation.component';
 import { EmployeesComponent } from './excel/employees/employees.component';
-
 import { CommentsComponent } from './comments/comments.component';
 import { DetailsComponent } from './details/details.component';
 import { SendToComponent } from './send-to/send-to.component';
 import { InquiriesComponent } from './inquiries/inquiries.component';
-import { Compensation } from 'app/shared/_models/compensation.model';
+import { ErrorMessageComponent } from './error-message/error-message.component';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -24,13 +23,13 @@ import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
+import { Compensation } from 'app/shared/_models/compensation.model';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 'app/shared/_models/compensation.model';
 import { ProductType } from 'app/shared/_models/product.model';
-import {ErrorMessageComponent} from './error-message/error-message.component';
 
 @Component({
-  selector: 'app-process',
+selector: 'app-process',
   templateUrl: './process.component.html',
   styleUrls: ['../../../shared/data-table/data-table.component.css', './process.component.css'],
   animations: [
@@ -66,9 +65,7 @@ import {ErrorMessageComponent} from './error-message/error-message.component';
 })
 export class ProcessComponent extends DataTableComponent implements OnInit, OnDestroy {
 
-  formSubscription: Subscription;
-  commentsSubscription: Subscription;
-  selectUnitSubscription: Subscription;
+  sub = new Subscription;
 
   extraSearchCriteria = 'inactive';
 
@@ -99,8 +96,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   validity = Object.keys(ValidityMethods).map(function(e) {
     return { id: e, name: ValidityMethods[e] };
   });
-  spin: boolean;
-
 
   readonly headers: DataTableHeader[] =  [
     { column: 'created_at', label: 'תאריך יצירת בקשה' }, { column: 'updated_at', label: 'תאריך עדכון בקשה' },
@@ -115,8 +110,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     { column: 'validity_status', label: 'תקינות' }
   ];
 
-
-
   constructor(protected route: ActivatedRoute, private compensationService: CompensationService,
               private dialog: MatDialog, private departmentService: DepartmentService,
               private productService: ProductService, private employerService: EmployerService,
@@ -130,13 +123,12 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     this.departmentService.getDepartments().then(response => this.departments = response);
     this.productService.getCompanies().then(response => this.companies = response);
 
-    this.globalFunc();
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
 
-    this.selectUnitSubscription = this.selectUnit.unitSubject.subscribe(() => this.globalFunc());
+    super.ngOnInit();
   }
 
-  private globalFunc(): void {
-
+  fetchItems(): void {
     this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
     this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
 
@@ -149,14 +141,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     this.compensationService.getCompensations(this.searchCriteria).then(response => {
       this.setResponse(response) ;
     });
-
-  }
-
-  fetchItems(): void {
-    this.compensationService.getCompensations(this.searchCriteria).then(response => {
-         this.setResponse(response) ;
-      }
-    );
 
   }
 
@@ -204,11 +188,11 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
       data: { companies: this.companies, departments: this.departments }
     });
 
-    this.formSubscription = dialog.afterClosed().subscribe(created => {
+    this.sub.add(dialog.afterClosed().subscribe(created => {
       if (created) {
         this.fetchItems();
       }
-    });
+    }));
   }
 
   openExcelDialog(): void {
@@ -249,11 +233,11 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
       width: '450px'
     });
 
-    this.commentsSubscription = dialog.afterClosed().subscribe(comments => {
+    this.sub.add(dialog.afterClosed().subscribe(comments => {
       if (comments) {
         item['comments'] = comments;
       }
-    });
+    }));
   }
 
   openSendToDialog(item: Object): void {
@@ -306,7 +290,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   downloadPdfFile(rowId: number): void {
-    this.spin = true;
    this.compensationService.downloadPdfFile(rowId).then(response => {
      const byteCharacters = atob(response);
      const byteNumbers = new Array(byteCharacters.length);
@@ -316,12 +299,10 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
      const byteArray = new Uint8Array(byteNumbers);
      const blob = new Blob([byteArray], {type: 'application/pdf'});
      FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
-     this.spin = false;
    });
   }
 
   showPdfFile(rowId: number): any {
-       this.spin = true;
       this.compensationService.downloadPdfFile(rowId).then(response => {
         const byteCharacters = atob(response);
         const byteNumbers = new Array(byteCharacters.length);
@@ -337,18 +318,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   ngOnDestroy() {
     super.ngOnDestroy();
-
-    if (this.formSubscription) {
-      this.formSubscription.unsubscribe();
-    }
-
-    if (this.commentsSubscription) {
-      this.commentsSubscription.unsubscribe();
-    }
-
-    if (this.selectUnitSubscription) {
-      this.selectUnitSubscription.unsubscribe();
-    }
-
+    this.sub.unsubscribe();
   }
 }

@@ -23,6 +23,7 @@ export class OrganizationsComponent extends DataTableComponent  implements OnIni
 
   ngOnInit() {
     this.fetchItems();
+    super.ngOnInit();
   }
 
   fetchItems(): void {
