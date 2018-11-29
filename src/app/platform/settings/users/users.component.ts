@@ -1,19 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DataTableHeader} from '../../../shared/data-table/classes/data-table-header';
+import { Component, OnInit } from '@angular/core';
+import { DataTableHeader } from '../../../shared/data-table/classes/data-table-header';
 import { ActivatedRoute } from '@angular/router';
 
 import { UserService } from '../../../shared/_services/http/user.service';
-import {DataTableComponent} from '../../../shared/data-table/data-table.component';
+import { DataTableComponent } from '../../../shared/data-table/data-table.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import {EntityRoles} from '../../../shared/_models/user.model';
+import { EntityRoles } from '../../../shared/_models/user.model';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['../../../shared/data-table/data-table.component.css']
 })
-export class UsersComponent extends DataTableComponent  implements OnInit, OnDestroy {
+export class UsersComponent extends DataTableComponent  implements OnInit {
 
   employers = [];
   user = [];

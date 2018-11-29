@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
               private compensationService: CompensationService,
               private selectUnit: SelectUnitService) {}
 
-  selectUnitSubscription: Subscription;
+  sub = new Subscription;
   isSearching: boolean;
   users = [];
   sourceType = Object.keys(CompensationSendingMethods).map(function(e) {
@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userService.getUsers().then(response => this.users = response);
     this.globalFunc();
-    this.selectUnitSubscription = this.selectUnit.unitSubject.subscribe(() => this.globalFunc());
+    this.sub = this.selectUnit.unitSubject.subscribe(() => this.globalFunc());
 
   }
 
@@ -96,8 +96,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.selectUnitSubscription) {
-      this.selectUnitSubscription.unsubscribe();
-    }
+    this.sub.unsubscribe();
   }
 }

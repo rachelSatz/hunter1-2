@@ -10,9 +10,9 @@ import { OrganizationService } from 'app/shared/_services/http/organization.serv
 import { User } from 'app/shared/_models/user.model';
 import { UserUnitPermission } from 'app/shared/_models/user-unit-permission.model';
 import { EntityRoles } from 'app/shared/_models/user.model';
-import { ModuleTypes, UserModule } from 'app/shared/_models/user-module.model';
-import {Employer} from '../../../../shared/_models/employer.model';
-
+import { ModuleTypes } from 'app/shared/_models/user-module.model';
+import { Employer } from 'app/shared/_models/employer.model';
+import { Department } from 'app/shared/_models/department.model';
 
 @Component({
   selector: 'app-user-form',
@@ -57,12 +57,7 @@ export class UserFormComponent implements OnInit {
     this.organizationService.getOrganizations().then(response => this.organizations = response);
     if (this.route.snapshot.data.user) {
       this.user = new User(this.route.snapshot.data.user);
-      console.log(this.user);
     }
-  }
-
-  loadDepartments(employerID: number): void {
-    this.employerService.getDepartments(employerID).then(response => this.departments = response);
   }
 
  selectedEmployer(organizationID: number): Employer[] {
@@ -72,18 +67,15 @@ export class UserFormComponent implements OnInit {
    return selectedOrganization ? selectedOrganization.employer : [];
  }
 
-  // loadEmployers(organizationID: number): void {
-  //   this.employerService.getEmployers(organizationID).then(response => this.employers = response);
-  // }
-
-
-   selectedDepartment(organizationID: number, employerID: number, d: number): any {
+   selectedDepartment(organizationID: number, employerID: number): Department[] {
       const selectedEmployer = this.selectedEmployer(organizationID);
       if (selectedEmployer) {
         const selectedDepartment  = (<Employer[]>selectedEmployer).find(e => {
         return +e.id === +employerID;
       });
+
        if (selectedDepartment) {
+         console.log(selectedDepartment.department)
          return selectedDepartment.department;
        }
       }
@@ -94,7 +86,6 @@ export class UserFormComponent implements OnInit {
 
   submit(form: NgForm): void {
     this.hasServerError = false;
-    // this.user.modules = this.user.modules.filter(n => n.isEnabled);
     if (form.valid) {
       if (this.user.id) {
         this.userService.updateUser(this.user, this.user.id).then(response => this.handleResponse(response));

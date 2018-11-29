@@ -10,18 +10,18 @@ import { Subscription } from 'rxjs/Subscription';
 export class ProcessComponent implements OnInit, OnDestroy {
 
   activeStep: number;
-  routeSubscription: Subscription;
+  sub = new Subscription;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.activeStep = this.route.snapshot.firstChild.data['step'];
-    this.routeSubscription = this.route.url.subscribe(() => {
+    this.sub = this.route.url.subscribe(() => {
       this.activeStep = this.route.snapshot.firstChild.data['step'];
     });
   }
 
   ngOnDestroy() {
-    this.routeSubscription.unsubscribe();
+    this.sub.unsubscribe();
   }
 }

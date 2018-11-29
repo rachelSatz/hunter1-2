@@ -17,7 +17,7 @@ import {Subscription} from 'rxjs';
 export class ContactsComponent extends DataTableComponent implements OnInit, OnDestroy  {
 
   types = EntityTypes;
-  selectUnitSubscription: Subscription;
+  sub = new Subscription;
 
   readonly headers: DataTableHeader[] =  [
     { column: 'entity_name', label: 'שם גורם' }, { column: 'type', label: 'סוג גורם' },
@@ -31,7 +31,7 @@ export class ContactsComponent extends DataTableComponent implements OnInit, OnD
   }
 
   ngOnInit() {
-    this.selectUnitSubscription = this.selectUnit.unitSubject.subscribe(() => this.fetchItems());
+    this.sub = this.selectUnit.unitSubject.subscribe(() => this.fetchItems());
     super.ngOnInit();
   }
 
@@ -41,9 +41,6 @@ export class ContactsComponent extends DataTableComponent implements OnInit, OnD
   }
 
   ngOnDestroy() {
-
-    if (this.selectUnitSubscription) {
-      this.selectUnitSubscription.unsubscribe();
-    }
+    this.sub.unsubscribe();
   }
 }

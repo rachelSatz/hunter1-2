@@ -317,7 +317,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
+   // super.ngOnDestroy();
     this.sub.unsubscribe();
   }
 }
