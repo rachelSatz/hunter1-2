@@ -5,6 +5,7 @@ import * as FileSaver from 'file-saver';
 
 import { HelpersService} from 'app/shared/_services/helpers.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
+import { Department } from 'app/shared/_models/department.model';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class EmployeesComponent implements OnInit {
   exampleFileType = 'xlsx';
   exampleFileName = 'employeesExample.xlsx';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Department[],
               private dialogRef: MatDialogRef<EmployeesComponent>,
               private compensationService: CompensationService,
               private  helpers: HelpersService) { }
@@ -52,13 +53,9 @@ export class EmployeesComponent implements OnInit {
         this.helpers.setPageSpinner(false);
         this.message = response['message'];
         if (this.message  !== 'הצליח') {
-          if (this.message) {
-            this.message = 'שגיאה';
-          }
+          if (this.message) { this.message = 'שגיאה'; }
           this.hasServerError = true;
-        }else {
-          this.dialogRef.close();
-        }
+        }else { this.dialogRef.close(); }
       });
     }else {
       this.hasServerError = true;

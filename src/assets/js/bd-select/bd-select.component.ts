@@ -199,10 +199,6 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   ngOnChanges() {
     if (this.selectedItem && typeof this.selectedItem !== 'object') {
         this.setSelectedItemObject(this.selectedItem);
-    }else {
-      if (!this.multiple) {
-        this.selectedItem = '';
-      }
     }
   }
 

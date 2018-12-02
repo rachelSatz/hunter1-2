@@ -31,7 +31,7 @@ export class ContactsComponent extends DataTableComponent implements OnInit, OnD
   }
 
   ngOnInit() {
-    this.sub = this.selectUnit.unitSubject.subscribe(() => this.fetchItems());
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
     super.ngOnInit();
   }
 

@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import {FormControl} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 import * as FileSaver from 'file-saver';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
@@ -22,11 +25,14 @@ import { DepartmentService } from 'app/shared/_services/http/department.service'
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 import { Compensation } from 'app/shared/_models/compensation.model';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 'app/shared/_models/compensation.model';
 import { ProductType } from 'app/shared/_models/product.model';
+import { Employee } from '../../../shared/_models/employee.model';
+
 
 @Component({
 selector: 'app-process',
@@ -64,7 +70,7 @@ selector: 'app-process',
   ]
 })
 export class ProcessComponent extends DataTableComponent implements OnInit, OnDestroy {
-
+  myControl = new FormControl();
   sub = new Subscription;
 
   extraSearchCriteria = 'inactive';
@@ -96,7 +102,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   validity = Object.keys(ValidityMethods).map(function(e) {
     return { id: e, name: ValidityMethods[e] };
   });
-
+  filteredOptions: Observable<string[]>;
   readonly headers: DataTableHeader[] =  [
     { column: 'created_at', label: 'תאריך יצירת בקשה' }, { column: 'updated_at', label: 'תאריך עדכון בקשה' },
     { column: 'username', label: 'יוצר הבקשה' },
@@ -114,34 +120,52 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
               private dialog: MatDialog, private departmentService: DepartmentService,
               private productService: ProductService, private employerService: EmployerService,
               protected notificationService: NotificationService,
-              private selectUnit: SelectUnitService
+              private selectUnit: SelectUnitService,
+              private helpers: HelpersService
               ) {
     super(route, notificationService);
   }
 
   ngOnInit() {
-    this.departmentService.getDepartments().then(response => this.departments = response);
     this.productService.getCompanies().then(response => this.companies = response);
-
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
 
     super.ngOnInit();
   }
 
+
   fetchItems(): void {
-    this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
-    this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
 
-    this.employerService.getDepartmentsAndEmployees(this.selectUnit.currentEmployerID, this.selectUnit.currentOrganizationID)
-      .then(response => {
-        this.departments = response['departments'];
-        this.employees = response['employees'];
+    const organizationId = this.selectUnit.currentOrganizationID;
+    const employerId = this.selectUnit.currentEmployerID;
+    console.log(organizationId);
+    if (organizationId) {
+      this.searchCriteria['employerId'] = employerId;
+      this.searchCriteria['organizationId'] = organizationId;
+      this.compensationService.getCompensations(this.searchCriteria).then(response => {
+        this.setResponse(response);
       });
+      if (this.selectUnit.currentEmployerID) {
+        this.departments = this.helpers.organizations.find(o => o.id === organizationId).
+        employer.find( e => e.id === employerId).department;
 
-    this.compensationService.getCompensations(this.searchCriteria).then(response => {
-      this.setResponse(response) ;
-    });
+      } else {
+        this.departments = [];
+        this.helpers.organizations.find(o => o.id === organizationId)
+          .employer.forEach( e => {
+          if (e && e.id !== 0) {
+            e.department.forEach(d => {
+              if (d) { this.departments.push(d); }
+            });
+          }});
 
+         this.departments.forEach( d => {
+          if (d.employees) { d.employees.forEach( e =>   {
+            this.employees.push(e.name);
+          }); }
+        });
+      }
+    }
   }
 
   setResponse(response: any[]): void {
@@ -150,8 +174,12 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     this.setItems(response);
   }
 
-  loadEmployees(departmentID: number): void {
-    this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
+  // loadEmployees(departmentID: number): void {
+   // this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
+  // }
+
+  searchEmployee(): void {
+      alert('gjhg');
   }
 
 
@@ -226,7 +254,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     });
   }
 
-
   openCommentsDialog(item: Object): void {
     const dialog = this.dialog.open(CommentsComponent, {
       data: item,
@@ -273,15 +300,10 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   getValidityImage(item: Compensation): string {
-    let val = false;
-      if (item.has_by_safebox || item.portal_balance <= 0) {
-        val = (item.reported_balance - item.projected_balance) === 0 ? true : false;
-      }else {
-        val = (item.portal_balance - item.projected_balance) === 0 ? true : false;
-      }
+    const balance = item.has_by_safebox || item.portal_balance <= 0 ? 'reported_balance' : 'portal_balance';
 
     let path = '/assets/img/icons/';
-    path += val ? 'check' : 'times';
+    path += (item[balance] - item.projected_balance === 0) ? 'check' : 'times';
     return path + '.svg';
   }
 
@@ -317,7 +339,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   ngOnDestroy() {
-   // super.ngOnDestroy();
+    super.ngOnDestroy();
     this.sub.unsubscribe();
   }
 }

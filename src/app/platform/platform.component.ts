@@ -3,7 +3,7 @@ import { Router, NavigationStart } from '@angular/router';
 import { UserSessionService } from '../shared/_services/user-session.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-platform',
@@ -51,9 +51,11 @@ export class PlatformComponent implements OnInit {
       ]},
   ];
 
-  constructor(private router: Router, private userSession: UserSessionService,
-              private organizationService: OrganizationService, private selectUnit: SelectUnitService,
-              private employerService: EmployerService) {}
+  constructor(private router: Router,
+              private userSession: UserSessionService,
+              private organizationService: OrganizationService,
+              private selectUnit: SelectUnitService,
+              private helpers: HelpersService) {}
 
   ngOnInit() {
     this.getOrganizations(false);
@@ -67,20 +69,17 @@ export class PlatformComponent implements OnInit {
   }
 
   getOrganizations(is_loadEmployer: boolean): void {
-    this.organizationService.getOrganizations().then(response => {this.organizations = response;
-      this.organizationId = this.organizations.length > 0 ?  this.organizations[0].id : 0;
-      if (is_loadEmployer) {
-        this.loadEmployers(this.organizationId);
-      }
+    this.organizationService.getOrganizations().then(response => {
+      this.helpers.organizations = response;
+      this.organizationId = this.helpers.organizations.length > 0 ?  this.helpers.organizations[0].id : 0;
+      if (is_loadEmployer) { this.loadEmployers(this.organizationId); }
     });
   }
 
   private setActiveUrl(url: string): void {
-    if (url.substr(10).indexOf('/') !== -1) {
-      this.activeUrl = url.substr(10, url.substr(10).indexOf('/'));
-    } else {
-      this.activeUrl = url.substr(10);
-    }
+      this.activeUrl = url.substr(10).indexOf('/') !== -1 ? url.substr(10, url.substr(10).indexOf('/')) :
+        this.activeUrl = url.substr(10);
+
   }
 
   getImage(link: Object): string {
@@ -95,7 +94,7 @@ export class PlatformComponent implements OnInit {
   }
 
   loadEmployers(organizationID: number): void {
-    this.employers = this.organizations.find(o => o.id === organizationID).employer;
+    this.employers = this.helpers.organizations.find(o => o.id === organizationID).employer;
     if (this.employers.length > 1) {
       if (!this.employers.some(e => e.id === 0)) {
         this.employers.push({'id': 0, 'name': 'כלל המעסיקים'});
