@@ -49,7 +49,7 @@
   <tbody>
   <ng-container *ngIf="!isSearching">
     <tr *ngFor="let item of paginatedItems" class="pointer" [ngClass]="{ 'checked': item.isChecked }">
-      <td class="check-column">
+      <td>
         <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
       </td>
       <td>{{ item.created_at | date: 'dd/MM/yy' }}</td>

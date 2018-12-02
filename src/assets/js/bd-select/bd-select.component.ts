@@ -12,10 +12,9 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { isArray } from 'rxjs/util/isArray';
-import {EntityTypes} from '../../../app/shared/_models/contact.model';
 
 @Component({
-  selector: 'bd-select',
+  selector: 'bd-select' ,
   templateUrl: './bd-select.component.html',
   styleUrls: ['./bd-select.component.css'],
   animations: [
@@ -199,19 +198,17 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
 
   ngOnChanges() {
     if (this.selectedItem && typeof this.selectedItem !== 'object') {
-      this.setSelectedItemObject(this.selectedItem);
+        this.setSelectedItemObject(this.selectedItem);
+    }else {
+      if (!this.multiple) {
+        this.selectedItem = '';
+      }
     }
   }
 
   getLabel(item: string): string {
 
     if (!isArray(this.label)) {
-      // if (!this.multiple) {
-      //   if (this.items.find(i => i === item) === undefined) {
-      //     this.selectedItem = '';
-      //     return;
-      //   }
-      // }
       return item[this.label];
     }
 
@@ -236,7 +233,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   writeValue(value: any): void {
     if (value && typeof value !== 'object') {
       if (!this.setSelectedItemObject(value)) {
-        this.selectedItem = value;
+         this.selectedItem = value;
       }
     } else {
       this.selectedItem = value;

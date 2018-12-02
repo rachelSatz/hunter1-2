@@ -8,6 +8,8 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { Employer } from 'app/shared/_models/employer.model';
+import { PlatformComponent } from 'app/platform/platform.component';
+
 
 @Component({
   selector: 'app-employer-form',
@@ -39,8 +41,13 @@ export class EmployerFormComponent implements OnInit {
 
   @ViewChild('form') form: NgForm;
 
-  constructor(private route: ActivatedRoute, private router: Router, private employerService: EmployerService
-              , private generalService: GeneralHttpService, private fb: FormBuilder, private selectUnit: SelectUnitService) {}
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private employerService: EmployerService,
+              private generalService: GeneralHttpService,
+              private fb: FormBuilder,
+              private selectUnit: SelectUnitService,
+              private  platformComponent: PlatformComponent) {}
 
   ngOnInit() {
     this.loadBanks();
@@ -147,7 +154,7 @@ export class EmployerFormComponent implements OnInit {
         this.employerService.updateEmployer(this.employerForm.value, this.employer.id).then(response => this.handleResponse(response));
       } else {
           this.employerService.saveNewEmployer(this.employerForm.value, this.selectUnit.currentOrganizationID)
-            .then(response => this.handleResponse(response));
+            .then(response => { this.platformComponent.getOrganizations(true); this.handleResponse(response); });
       }
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataTableHeader } from '../../../shared/data-table/classes/data-table-header';
 
@@ -10,7 +10,7 @@ import { OrganizationService } from 'app/shared/_services/http/organization.serv
   templateUrl: './organizations.component.html',
   styleUrls: ['../../../shared/data-table/data-table.component.css']
 })
-export class OrganizationsComponent extends DataTableComponent  implements OnInit, OnDestroy {
+export class OrganizationsComponent extends DataTableComponent  implements OnInit {
 
 
   readonly headers: DataTableHeader[] =  [
@@ -23,6 +23,7 @@ export class OrganizationsComponent extends DataTableComponent  implements OnIni
 
   ngOnInit() {
     this.fetchItems();
+    super.ngOnInit();
   }
 
   fetchItems(): void {

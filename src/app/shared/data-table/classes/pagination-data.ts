@@ -6,7 +6,7 @@ export class PaginationData {
   url: string | false;
 
   constructor(limit?: number, currentPage?: number) {
-    this.limit = limit ? limit : 30;
+    this.limit = limit ? limit : 15;
     this.currentPage = currentPage ? currentPage : 1;
   }
 }

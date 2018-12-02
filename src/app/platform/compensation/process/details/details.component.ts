@@ -1,16 +1,15 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
+import {  MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import * as FileSaver from 'file-saver';
-import { AddFileComponent } from '../add-file/add-file.component';
+
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-
 import { Compensation } from 'app/shared/_models/compensation.model';
-import {DataTableHeader} from 'app/shared/data-table/classes/data-table-header';
-import {DataTableComponent} from 'app/shared/data-table/data-table.component';
-import {ActivatedRoute} from '@angular/router';
+import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
 @Component({
   selector: 'app-details',
@@ -31,7 +30,7 @@ import {ActivatedRoute} from '@angular/router';
     ])
   ]
 })
-export class DetailsComponent  extends DataTableComponent implements OnInit, OnDestroy {
+export class DetailsComponent  extends DataTableComponent implements OnInit {
 
   uploadedFile: File [];
   spin: boolean;

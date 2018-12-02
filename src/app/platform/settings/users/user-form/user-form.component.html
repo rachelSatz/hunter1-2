@@ -1,57 +1,52 @@
 <form #form="ngForm" (ngSubmit)="submit(form)">
   <p class="h4 mb-4">יצירת משתמש חדש</p>
-  <div class="row col-12 mb-4">
-      <mat-form-field class="row col-4">
-        <input matInput type="text" [(ngModel)]="user.username"  placeholder="שם משתמש" name="username" required>
-      </mat-form-field >
-      <div class="row col-12 " style="padding-right:0px">
-      <mat-form-field class="col-4">
-        <input matInput type="text" [(ngModel)]="user.first_name"  placeholder="שם פרטי" name="first_name" required >
-      </mat-form-field>
-        <mat-form-field class="col-4">
-          <input matInput  placeholder="שם משפחה"  [(ngModel)]="user.last_name"  name="last_name" type="text"  required>
-        </mat-form-field>
-      </div>
-      <mat-form-field class="row col-4">
-        <input matInput placeholder="כתובת מייל"  [(ngModel)]="user.email" name="email" type="email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
-      </mat-form-field>
+  <div class="row">
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput type="text" [(ngModel)]="user.username" placeholder="שם משתמש" name="username" required>
+    </mat-form-field>
   </div>
-  <div class="col-4 mb-4" style="padding-right:0">
-    <p class="bold h6">בחר סוג משתמש ראשי</p>
-    <bd-select [items]="role" placeholder="סוג משתמש" #roleSelect="ngModel"  name="role" [(ngModel)]="user.role" required></bd-select>
+  <div class="row">
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput type="text" [(ngModel)]="user.first_name" placeholder="שם פרטי" name="first_name" required>
+    </mat-form-field>
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput type="text" [(ngModel)]="user.last_name" placeholder="שם משפחה" name="last_name" required>
+    </mat-form-field>
   </div>
-
-  <p class="bold h6">בחר הרשאות</p>
-  <div class="d-flex mb-4 w-25">
-  <mat-radio-group [(ngModel)]="user.permission_type"  [value]="user.permission_type" name="permission_type" [disabled]="user.role === 'admin'">
-    <mat-radio-button class="ml-4" value="read">צפייה בלבד</mat-radio-button>
-    <mat-radio-button class="ml-4" value="write">צפייה ועריכה</mat-radio-button>
-    <mat-radio-button  value="all" [checked]="user.role === 'admin'">כל ההרשאות</mat-radio-button>
-  </mat-radio-group>
+  <div class="row">
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput placeholder="כתובת מייל" [(ngModel)]="user.email" name="email" type="email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+    </mat-form-field>
   </div>
-
-  <p class="bold h6">בחר מודלים</p>
-  <div class="d-flex  mb-4 w-25 ">
-    <mat-radio-group [(ngModel)]="user.module" [value]="user.module" name="module">
-      <mat-radio-button class="ml-4" value="user_management">משתמשים</mat-radio-button>
-      <mat-radio-button class="ml-4" value="finance">פיננסי</mat-radio-button>
-      <mat-radio-button class="ml-4" value="operations">סליקה</mat-radio-button>
-      <mat-radio-button value="compensation">יתרות לפיצויים</mat-radio-button>
-    </mat-radio-group>
-  </div>
-
-  <div [ngClass]="{ 'undisplay': user.role === 'admin' }">
-  <p class="bold h6">בחר ישויות</p>
-  <div class="w-50 d-flex align-items-center" *ngFor="let permission of user.unit_permissions; let last = last; let index = index">
-    <i class="fa fa-times fa-2x pointer red-color" (click)="removeUnitPermissionRow(index)" *ngIf="index > 0"></i>
-    <bd-select class="ml-4" [name]="'organization' + index" [items]="organizations" placeholder="ארגון" [(ngModel)]="permission.organizationID" (onSelect)="loadEmployers($event)" ></bd-select>
-    <bd-select class="ml-4" [name]="'employer' + index" [items]="employers" placeholder="מעסיק" (onSelect)="loadDepartments($event,index)"  [(ngModel)]="permission.employerID"></bd-select>
-    <bd-select class="ml-4" [name]="'department' + index" [items]="departments" placeholder="מחלקות"  [multiple]="true" [(ngModel)]="permission.departments"></bd-select>
-    <i class="fa fa-plus-circle fa-2x pointer blue-color" (click)="addUnitPermissionRow()" *ngIf="last"></i>
-  </div>
+  <div class="row mb-4">
+    <div class="col-6 col-lg-3">
+      <bd-select [items]="roles" placeholder="סוג משתמש" #roleSelect="ngModel" name="role" [(ngModel)]="user.role" required></bd-select>
+    </div>
   </div>
   <div>
-    <button class="btn blue-btn" type="submit">שלח</button>
+    <p class="bold h6">בחר מודולים</p>
+    <div *ngFor="let module of user.modules; let i = index" class="d-flex mb-2">
+      <mat-checkbox class="check-module" [(ngModel)]="module.isEnabled" [name]="'module_' + i">{{ moduleTypes[module.name] }}</mat-checkbox>
+      <mat-radio-group [(ngModel)]="module.permission_type" [name]="'permission_type_' + i" [@fade]="module.isEnabled ? 'active' : 'inactive'">
+        <mat-radio-button class="ml-4" value="read">צפייה בלבד</mat-radio-button>
+        <mat-radio-button class="ml-4" value="write">צפייה ועריכה</mat-radio-button>
+        <mat-radio-button value="all">כל ההרשאות</mat-radio-button>
+      </mat-radio-group>
+    </div>
   </div>
 
+
+  <div class="unit" [@fade]="user.role !== 'admin' ? 'active' : 'inactive'">
+    <p class="bold h6">בחר ישויות</p>
+    <div class="w-50 d-flex align-items-center mb-2" *ngFor="let permission of user.units; let last = last; let index = index">
+      <i class="fa fa-times fa-2x pointer red-color" (click)="removeUnitPermissionRow(index)" *ngIf="index > 0"></i>
+      <bd-select class="ml-4" [name]="'organization' + index" [items]="organizations" placeholder="ארגון" [(ngModel)]="permission.organizationID"  ></bd-select>
+      <bd-select class="ml-4" [name]="'employer' + index" [items]="selectedEmployer(permission.organizationID)" placeholder="מעסיק"   [(ngModel)]="permission.employerID"></bd-select>
+      <bd-select [name]="'department' + index" [items]="selectedDepartment(permission.organizationID, permission.employerID)" placeholder="מחלקות"  [multiple]="true" [(ngModel)]="permission.departments"></bd-select>
+      <i class="fa fa-plus-circle fa-2x pointer blue-color" (click)="addUnitPermissionRow()" *ngIf="last"></i>
+    </div>
+  </div>
+  <div class="mt-3">
+    <button class="btn blue-btn" type="submit">שלח</button>
+  </div>
 </form>

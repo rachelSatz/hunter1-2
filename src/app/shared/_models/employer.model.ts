@@ -1,5 +1,6 @@
 import { BankBranch } from './bank-branch.model';
 import { EmployerBankAccount } from './employer-bank-account.model';
+import { Department } from './department.model';
 
 export class Employer {
   id: number;
@@ -18,13 +19,12 @@ export class Employer {
   address: string;
   employeeCount: number;
   bankBranch: BankBranch;
-  // bank_account_number: string;
   typeSent: number; // סוג מזהה לשליחה
   employerCodeSent: string; // מספר מזהה לשליחה
   comments: string;
-  // bank_id: number;
   bank_accounts: EmployerBankAccount[] = [];
   organizationId: number;
+  department: Department[];
 
 
   constructor() {

@@ -328,6 +328,14 @@ button[mat-dialog-close] {
   background: #00adee !important;
 }
 
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: #00adee !important;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #00adee !important;
+}
+
 @media (min-width: 992px) {
   .navbar-toggler {
     display: none;

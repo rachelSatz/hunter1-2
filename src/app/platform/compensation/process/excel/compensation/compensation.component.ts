@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import * as FileSaver from 'file-saver';
 
+import { HelpersService } from 'app/shared/_services/helpers.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import {Compensation} from 'app/shared/_models/compensation.model';
-import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
+import {SelectUnitService} from 'app/shared/_services/select-unit.service';
 
 
 @Component({
@@ -33,14 +34,15 @@ export class ExcelComponent implements OnInit {
   typeDoc: string;
   message: string;
   hasServerError: boolean;
-  spin: boolean;
   exampleFileType = 'xlsx';
   exampleFileName = 'compensationExample.xlsx';
 
 
   constructor(@Inject(MAT_DIALOG_DATA)  public compensation: Compensation,
-              private compensationService: CompensationService, private dialogRef: MatDialogRef<ExcelComponent>,
-              private selectUnit: SelectUnitService) {
+              private compensationService: CompensationService,
+              private dialogRef: MatDialogRef<ExcelComponent>,
+              private selectUnit: SelectUnitService,
+              private  helpers: HelpersService) {
 
   }
 
@@ -49,12 +51,13 @@ export class ExcelComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.uploadedFile !== undefined ) {
-
+    if (this.uploadedFile) {
+      this.helpers.setPageSpinner(true);
       this.compensationService.uploadCompensation(this.uploadedFile, this.selectUnit.currentEmployerID).then(response => {
+        this.helpers.setPageSpinner(false);
         this.message = response['message'];
         if (this.message  !== 'הצליח') {
-          if (this.message === undefined) {
+          if (this.message) {
             this.message = 'שגיאה';
           }
           this.hasServerError = true;
@@ -64,13 +67,13 @@ export class ExcelComponent implements OnInit {
       });
 
     }else {
+      this.hasServerError = true;
       this.message = 'בחר קובץ';
     }
   }
 
 
   downloadExampleFile(fileName: string, type: string): void {
-    this.spin = true;
     this.compensationService.downloadExampleFile(fileName).then(response => {
       const byteCharacters = atob(response);
       const byteNumbers = new Array(byteCharacters.length);
@@ -80,7 +83,6 @@ export class ExcelComponent implements OnInit {
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], {type: 'application/' + type});
       FileSaver.saveAs(blob, fileName);
-      this.spin = false;
     });
   }
 }
