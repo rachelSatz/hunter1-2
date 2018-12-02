@@ -15,7 +15,13 @@ export class InvoiceService  extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/invoices';
 
-  getInvoices(): Promise<Invoice[]> {
+  getInvoices(searchCriteria?: Object): Promise<Invoice[]> {
+    const request = this.getTokenHeader();
+
+    if (searchCriteria) {
+      request['params'] = searchCriteria;
+    }
+
     return this.http.get(this.endPoint, this.getTokenHeader())
       .toPromise()
       .then(response => response as Invoice[])

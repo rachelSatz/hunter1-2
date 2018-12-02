@@ -10,6 +10,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import {InvoiceService} from '../../../shared/_services/http/invoice.service';
 import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
 import {INVOICE_TYPES, STATUS, ALL_STATUS} from '../../../shared/_models/invoice.model';
+import {SelectUnitService} from '../../../shared/_services/select-unit.service';
 
 
 @Component({
@@ -38,21 +39,39 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
     { column: 'last_payment_date', label: 'לתשלום עד' },
     { column: 'kind', label: 'סוג חשבונית' },
     { column: 'status',  label: 'סטטוס', searchOptions: { labels: this.invoice_status } },
+    { column: 'remark', label: 'הערות' },
     { column: 'options', label: 'אפשרויות' }
   ];
 
-  constructor(route: ActivatedRoute, private invoiceService: InvoiceService,
+  constructor(route: ActivatedRoute, private invoiceService: InvoiceService, private selectUnit: SelectUnitService,
               private dialog: MatDialog) {super(route); }
 
   ngOnInit() {
-    this.invoiceService.getInvoices().then(response => {
-      this.setItems(response);
-    });
-    for (const status in this.invoice_status) {
-      this.statusSelectOptions.push({ value: status, label: this.invoice_status[status] });
-    }
+    // this.invoiceService.getInvoices().then(response => {
+    //   this.setItems(response);
+    // });
+    // for (const status in this.invoice_status) {
+    //   this.statusSelectOptions.push({ value: status, label: this.invoice_status[status] });
+    // }
   }
+  fetchItems(): void {
+    this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
+    this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
 
+    this.employerService.getDepartmentsAndEmployees(this.selectUnit.currentEmployerID, this.selectUnit.currentOrganizationID)
+      .then(response => {
+        this.departments = response['departments'];
+        this.employees = response['employees'];
+      });
+
+    this.invoiceService.getInvoices(this.searchCriteria).then(response => {
+      this.setResponse(response) ;
+    });
+
+  }
+  setResponse(response: any[]): void {
+    this.setItems(response);
+  }
   valueDateChange(keyCode: Date): void {
     this.searchCriteria['date_request'] =
       formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
