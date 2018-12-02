@@ -37,7 +37,7 @@ export class EmployeesComponent implements OnInit {
   exampleFileType = 'xlsx';
   exampleFileName = 'employeesExample.xlsx';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Department[],
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<EmployeesComponent>,
               private compensationService: CompensationService,
               private  helpers: HelpersService) { }

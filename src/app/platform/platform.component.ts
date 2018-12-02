@@ -55,7 +55,7 @@ export class PlatformComponent implements OnInit {
               private userSession: UserSessionService,
               private organizationService: OrganizationService,
               private selectUnit: SelectUnitService,
-              private helpers: HelpersService) {}
+              public helpers: HelpersService) {}
 
   ngOnInit() {
     this.getOrganizations(false);
