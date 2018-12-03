@@ -6,7 +6,6 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { AppHttpService } from 'app/shared/_services/http/app-http.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { HelpersService} from 'app/shared/_services/helpers.service';
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +31,7 @@ export class LoginComponent {
   isSubmitting: boolean;
 
   constructor(private router: Router, private appHttp: AppHttpService,
-              private userSession: UserSessionService, private helpers: HelpersService, private selectUnit: SelectUnitService) {}
+              private userSession: UserSessionService, private helpers: HelpersService) {}
 
   login(form: NgForm): void {
     if (form.valid) {

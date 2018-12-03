@@ -5,6 +5,7 @@ import * as FileSaver from 'file-saver';
 
 import { HelpersService} from 'app/shared/_services/helpers.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
+import { Department } from 'app/shared/_models/department.model';
 
 
 @Component({
@@ -52,13 +53,9 @@ export class EmployeesComponent implements OnInit {
         this.helpers.setPageSpinner(false);
         this.message = response['message'];
         if (this.message  !== 'הצליח') {
-          if (this.message) {
-            this.message = 'שגיאה';
-          }
+          if (this.message) { this.message = 'שגיאה'; }
           this.hasServerError = true;
-        }else {
-          this.dialogRef.close();
-        }
+        }else { this.dialogRef.close(); }
       });
     }else {
       this.hasServerError = true;

@@ -33,15 +33,17 @@ export class EmployersComponent extends DataTableComponent implements OnInit, On
   }
 
   ngOnInit() {
-    this.sub = this.selectUnit.unitSubject.subscribe(() => {
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
       this.fetchItems();
-    });
+    }));
 
     super.ngOnInit();
   }
 
   fetchItems(): void {
-    this.employerService.getEmployers(this.selectUnit.currentOrganizationID).then(response => this.setItems(response));
+    if (this.selectUnit.currentOrganizationID) {
+      this.employerService.getEmployers(this.selectUnit.currentOrganizationID).then(response => this.setItems(response));
+    }
   }
 
   openExcelEmployersDialog(): void {

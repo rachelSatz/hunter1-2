@@ -16,9 +16,9 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.activeStep = this.route.snapshot.firstChild.data['step'];
-    this.sub = this.route.url.subscribe(() => {
+    this.sub.add(this.route.url.subscribe(() => {
       this.activeStep = this.route.snapshot.firstChild.data['step'];
-    });
+    }));
   }
 
   ngOnDestroy() {

@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userService.getUsers().then(response => this.users = response);
     this.globalFunc();
-    this.sub = this.selectUnit.unitSubject.subscribe(() => this.globalFunc());
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.globalFunc()));
 
   }
 

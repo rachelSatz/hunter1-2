@@ -75,7 +75,6 @@ export class UserFormComponent implements OnInit {
       });
 
        if (selectedDepartment) {
-         console.log(selectedDepartment.department)
          return selectedDepartment.department;
        }
       }

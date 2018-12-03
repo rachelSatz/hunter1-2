@@ -58,11 +58,11 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
     this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
     this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
 
-    this.employerService.getDepartmentsAndEmployees(this.selectUnit.currentEmployerID, this.selectUnit.currentOrganizationID)
-      .then(response => {
-        this.departments = response['departments'];
-        this.employees = response['employees'];
-      });
+    // this.employerService.getDepartmentsAndEmployees(this.selectUnit.currentEmployerID, this.selectUnit.currentOrganizationID)
+    //   .then(response => {
+    //     this.departments = response['departments'];
+    //     this.employees = response['employees'];
+    //   });
 
     this.invoiceService.getInvoices(this.searchCriteria).then(response => {
       this.setResponse(response) ;
