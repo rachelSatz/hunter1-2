@@ -194,8 +194,9 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
       this.setNoneCheckedWarning();
       return;
     }
-
+    this.helpers.setPageSpinner(true);
     this.compensationService.sendCompensations(this.checkedItems.map(item => item.id)).then(response => {
+      this.helpers.setPageSpinner(false);
       if (response) {
         if (response['list_exceptions'].length > 0) {
           this.notificationService.error(' הבקשות נכשלו. ' + response['list_exceptions'], 'הבקשות נכשלו.');
