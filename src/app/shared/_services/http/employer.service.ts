@@ -43,18 +43,18 @@ export class EmployerService extends BaseHttpService {
     .toPromise()
     .then(response => response as Employer);
   }
-  saveNewEmployer(employer: Employer, organizationID: number): Promise<boolean> {
+  saveNewEmployer(employer: Employer, organizationID: number): Promise<any> {
     employer.organizationId = organizationID;
     return this.http.post(this.endPoint, employer, this.getTokenHeader())
       .toPromise()
-      .then(() => true)
-      .catch(() => false);
+      .then(response => response)
+      .catch(response => response);
   }
 
-  updateEmployer(employer: Employer, id: number): Promise<boolean> {
+  updateEmployer(employer: Employer, id: number): Promise<any> {
     return this.http.post(this.endPoint  + '/update/' + id, employer, this.getTokenHeader())
     .toPromise()
-    .then(response => response as boolean);
+    .then(response => response);
   }
 
   deleteEmployer(id: number): Promise<{ responseCode: number }> {

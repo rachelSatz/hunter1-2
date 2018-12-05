@@ -135,21 +135,22 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
 
   fetchItems(): void {
-
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
-    console.log(organizationId);
+
     if (organizationId) {
       this.searchCriteria['employerId'] = employerId;
       this.searchCriteria['organizationId'] = organizationId;
+
       this.compensationService.getCompensations(this.searchCriteria).then(response => {
         this.setResponse(response);
       });
+
       if (this.selectUnit.currentEmployerID) {
         this.departments = this.helpers.organizations.find(o => o.id === organizationId).
         employer.find( e => e.id === employerId).department;
-
       } else {
+
         this.departments = [];
         this.helpers.organizations.find(o => o.id === organizationId)
           .employer.forEach( e => {
@@ -178,10 +179,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
    // this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
   // }
 
-  searchEmployee(): void {
-      alert('gjhg');
-  }
-
 
   valueDateChange(keyCode: Date): void {
     this.searchCriteria['date_request'] =
@@ -199,6 +196,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
       this.helpers.setPageSpinner(false);
       if (response) {
         if (response['list_exceptions'].length > 0) {
+          console.log();
           this.notificationService.error(' הבקשות נכשלו. ' + response['list_exceptions'], 'הבקשות נכשלו.');
         }else {
           this.notificationService.success('הבקשות נשלחו בהצלחה.');
@@ -226,9 +224,14 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   openExcelDialog(): void {
     if (this.selectUnit.currentEmployerID > 0) {
-      this.dialog.open(ExcelComponent, {
+      const dialog = this.dialog.open(ExcelComponent, {
         width: '450px'
       });
+
+      this.sub.add(dialog.afterClosed().subscribe(() => {
+        this.fetchItems();
+      }));
+
     }else {
       this.notificationService.error('לא נבחר מעסיק', 'יש לבחור מעסיק');
     }

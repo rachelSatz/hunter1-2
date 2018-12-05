@@ -57,6 +57,8 @@ export class UserFormComponent implements OnInit {
     this.organizationService.getOrganizations().then(response => this.organizations = response);
     if (this.route.snapshot.data.user) {
       this.user = new User(this.route.snapshot.data.user);
+      // this.user.units[0].departments = [ '2' ];
+       console.log(this.user);
     }
   }
 
@@ -69,11 +71,11 @@ export class UserFormComponent implements OnInit {
 
    selectedDepartment(organizationID: number, employerID: number): Department[] {
       const selectedEmployer = this.selectedEmployer(organizationID);
+
       if (selectedEmployer) {
         const selectedDepartment  = (<Employer[]>selectedEmployer).find(e => {
         return +e.id === +employerID;
       });
-
        if (selectedDepartment) {
          return selectedDepartment.department;
        }

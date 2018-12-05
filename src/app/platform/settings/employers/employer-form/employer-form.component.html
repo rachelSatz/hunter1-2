@@ -46,13 +46,13 @@
           <mat-error *ngIf="hasErrors('bank_id', { arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
         </div>
         <div class="mx-3 bd-select-container">
-          <bd-select formControlName="branch_id" value="number" [items]="selectedBankBranch(index)" placeholder="בחר סניף"></bd-select>
+          <bd-select formControlName="branch_id"  [items]="selectedBankBranch(index)" placeholder="בחר סניף"></bd-select>
           <mat-error *ngIf="hasErrors('branch_id', { arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
         </div>
         <mat-form-field>
-          <input matInput type="text" formControlName="number" placeholder="מס' חשבון" maxlength="5">
+          <input matInput type="text" formControlName="number" placeholder="מס' חשבון" maxlength="8">
           <mat-error *ngIf="hasErrors('number', { specificError: 'required', arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
-          <mat-error *ngIf="hasErrors('number', { specificError: 'pattern', touch: true, arrayPosition: index, formArrayName: 'bank_accounts' })">יש להקיש 5 ספרות</mat-error>
+          <mat-error *ngIf="hasErrors('number', { specificError: 'pattern', touch: true, arrayPosition: index, formArrayName: 'bank_accounts' })">יש להקיש מעל 5 ספרות</mat-error>
         </mat-form-field>
         <mat-checkbox formControlName="is_primary" class="mx-3" (change)="primaryBankChecked(index, $event.checked)">בנק ראשי</mat-checkbox>
         <mat-icon (click)="addBank()" *ngIf="last" class="pointer">add_circle</mat-icon>
@@ -62,7 +62,7 @@
   <mat-form-field class="w-50 mt-3">
     <input type="text" matInput placeholder="הערות" formControlName="comments">
   </mat-form-field>
-  <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
+  <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">{{ message }}</p>
   <div class="text-left">
     <button class="btn blue-btn" type="submit">שלח</button>
   </div>

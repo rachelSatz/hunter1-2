@@ -47,13 +47,16 @@ export class EmployeesComponent implements OnInit {
   }
 
   submit(): void {
+    this.hasServerError = false;
     if (this.uploadedFile) {
       this.helpers.setPageSpinner(true);
       this.compensationService.uploadExcelEmployees(this.uploadedFile, this.departmentId).then(response => {
         this.helpers.setPageSpinner(false);
         this.message = response['message'];
         if (this.message  !== 'הצליח') {
-          if (this.message) { this.message = 'שגיאה'; }
+          if (this.message === undefined) {
+            this.message = 'שגיאה';
+          }
           this.hasServerError = true;
         }else { this.dialogRef.close(); }
       });
