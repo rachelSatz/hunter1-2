@@ -1,20 +1,20 @@
 <p class="h4 mb-4">חשבונות חייבים</p>
-<div class="d-flex align-items-center flex-wrap mb-3 filter-row">
-  <bd-select [items]="departments" placeholder="מחלקה" class="ml-3"></bd-select>
-  <bd-select [items]="invoice_status" placeholder="סטטוס" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" class="ml-3"></bd-select>
-  <mat-form-field class="col-2">
-  <input matInput class="pointer" (click)="datePickerRequest2.open()" [matDatepicker]="datePickerRequest2" placeholder="בגין חודש" name="dateRequest2"  [(ngModel)]="searchCriteria['date_request2']" (dateChange)="valueDateChange2($event.value)" readonly>
-  <mat-datepicker-toggle matSuffix [for]="datePickerRequest2"></mat-datepicker-toggle>
-  <mat-datepicker #datePickerRequest2></mat-datepicker>
-  <mat-error>שדה חובה.</mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput class="pointer" (click)="datePickerRequest.open()" [matDatepicker]="datePickerRequest" placeholder=" תאריך יצירת בקשה" name="dateRequest"  [(ngModel)]="searchCriteria['date_request']" (dateChange)="valueDateChange($event.value)" readonly>
-    <mat-datepicker-toggle matSuffix [for]="datePickerRequest"></mat-datepicker-toggle>
-    <mat-datepicker #datePickerRequest></mat-datepicker>
-    <mat-error>שדה חובה.</mat-error>
-  </mat-form-field>
-</div>
+<!--<div class="d-flex align-items-center flex-wrap mb-3 filter-row">-->
+  <!--<bd-select [items]="departments" placeholder="מחלקה" class="ml-3"></bd-select>-->
+  <!--<bd-select [items]="invoice_status" placeholder="סטטוס" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" class="ml-3"></bd-select>-->
+  <!--<mat-form-field class="col-2">-->
+  <!--<input matInput class="pointer" (click)="datePickerRequest2.open()" [matDatepicker]="datePickerRequest2" placeholder="בגין חודש" name="dateRequest2"  [(ngModel)]="searchCriteria['date_request2']" (dateChange)="valueDateChange2($event.value)" readonly>-->
+  <!--<mat-datepicker-toggle matSuffix [for]="datePickerRequest2"></mat-datepicker-toggle>-->
+  <!--<mat-datepicker #datePickerRequest2></mat-datepicker>-->
+  <!--<mat-error>שדה חובה.</mat-error>-->
+  <!--</mat-form-field>-->
+  <!--<mat-form-field>-->
+    <!--<input matInput class="pointer" (click)="datePickerRequest.open()" [matDatepicker]="datePickerRequest" placeholder=" תאריך יצירת בקשה" name="dateRequest"  [(ngModel)]="searchCriteria['date_request']" (dateChange)="valueDateChange($event.value)" readonly>-->
+    <!--<mat-datepicker-toggle matSuffix [for]="datePickerRequest"></mat-datepicker-toggle>-->
+    <!--<mat-datepicker #datePickerRequest></mat-datepicker>-->
+    <!--<mat-error>שדה חובה.</mat-error>-->
+  <!--</mat-form-field>-->
+<!--</div>-->
 <div class="d-flex filter-row">
   <input class="ml-3" placeholder="סכום">
   <input class="ml-3" placeholder="מספר חשבונית">
@@ -53,7 +53,7 @@
       <td>{{ item.last_payment_date  | date: 'dd/MM/yy'  }}</td>
       <td>חשבון עסקה</td>
       <td>{{ invoice_all_status[item.status] }}</td>
-      <td></td>
+      <td><i class="fa fa-eye fa-lg" (click)="ShowRemarks(item.id)"></i></td>
       <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item.id)" *ngIf="item.status === 'closed'"></i>
       <td></td>
     </tr>

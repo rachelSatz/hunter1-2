@@ -11,6 +11,8 @@ import {InvoiceService} from '../../../shared/_services/http/invoice.service';
 import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
 import {INVOICE_TYPES, STATUS, ALL_STATUS} from '../../../shared/_models/invoice.model';
 import {SelectUnitService} from '../../../shared/_services/select-unit.service';
+import {Subscription} from 'rxjs';
+import {HelpersService} from '../../../shared/_services/helpers.service';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
   invoice_status = STATUS;
   invoice_all_status = ALL_STATUS;
   readonly statusSelectOptions = [];
+  sub = new Subscription;
 
 
 
@@ -44,19 +47,56 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
   ];
 
   constructor(route: ActivatedRoute, private invoiceService: InvoiceService, private selectUnit: SelectUnitService,
+              private helpers: HelpersService,
               private dialog: MatDialog) {super(route); }
 
   ngOnInit() {
-    // this.invoiceService.getInvoices().then(response => {
-    //   this.setItems(response);
-    // });
+    this.invoiceService.getInvoices().then(response => {
+      this.setItems(response);
+    });
     // for (const status in this.invoice_status) {
     //   this.statusSelectOptions.push({ value: status, label: this.invoice_status[status] });
     // }
   }
   fetchItems(): void {
+    const organizationId = this.selectUnit.currentOrganizationID;
+    const employerId = this.selectUnit.currentEmployerID;
+
     this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
     this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
+
+    if (organizationId) {
+      this.searchCriteria['employerId'] = employerId;
+      this.searchCriteria['organizationId'] = organizationId;
+
+      this.invoiceService.getInvoices(this.searchCriteria).then(response => {
+          this.setResponse(response) ;
+        });
+
+      if (this.selectUnit.currentEmployerID) {
+        this.departments = this.helpers.organizations.find(o => o.id === organizationId).
+        employer.find( e => e.id === employerId).department;
+      } else {
+
+        this.departments = [];
+        this.helpers.organizations.find(o => o.id === organizationId)
+          .employer.forEach( e => {
+          if (e && e.id !== 0) {
+            e.department.forEach(d => {
+              if (d) { this.departments.push(d); }
+            });
+          }});
+
+        // this.departments.forEach( d => {
+        //   if (d.employees) { d.employees.forEach( e =>   {
+        //     this.employees.push(e.name);
+        //   }); }
+        // });
+      }
+    }
+
+
+
 
     // this.employerService.getDepartmentsAndEmployees(this.selectUnit.currentEmployerID, this.selectUnit.currentOrganizationID)
     //   .then(response => {
@@ -64,9 +104,9 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
     //     this.employees = response['employees'];
     //   });
 
-    this.invoiceService.getInvoices(this.searchCriteria).then(response => {
-      this.setResponse(response) ;
-    });
+    // this.invoiceService.getInvoices(this.searchCriteria).then(response => {
+    //   this.setResponse(response) ;
+    // });
 
   }
   setResponse(response: any[]): void {
@@ -83,7 +123,9 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
       formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
     this.search();
   }
+  ShowRemarks(id: number): void {
 
+  }
   openProactiveInvoice(): void {
     this.dialog.open(ProactiveInvoiceFormComponent, {
       width: '450px'

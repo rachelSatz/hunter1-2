@@ -12,6 +12,7 @@ export class Invoice {
   kind: string;
   type: string;
   status: string;
+  remark: string;
 }
 
 export enum INVOICE_TYPES {
@@ -20,29 +21,29 @@ export enum INVOICE_TYPES {
     Retainer= 'ריטנייר',
 }
 export enum ALL_STATUS {
-  WaitingForPayment = 'ממתין לתשלום',
-  Paid = 'שולם',
-  Canceled = 'בוטל',
-  GreenInvoiceStatus = 'נשלח לחשבונית ירוקה',
-  GreenInvoiceErrorStatus = 'לא נשלח לחשבונית ירוקה',
-  NumEmployeesMax = 'מספר עובדים גבוה',
-  NumEmployeeMin = 'מספר עובדים נמוך',
-  NoPayment = 'אין פרטי תשלום',
-  PartialPayment = 'פרטי תשלום חלקיים',
+  waiting_for_payment = 'ממתין לתשלום',
+  paid = 'שולם',
+  canceled = 'בוטל',
+  green_invoice_valid = 'נשלח לחשבונית ירוקה',
+  green_invoice_error = 'לא נשלח לחשבונית ירוקה',
+  num_employees_max = 'מספר עובדים גבוה',
+  num_employee_min = 'מספר עובדים נמוך',
+  no_payment = 'אין פרטי תשלום',
+  partial_payment = 'פרטי תשלום חלקיים',
 }
 export enum STATUS {
-  WaitingForPayment = 'ממתין לתשלום',
-  Paid = 'שולם',
-  Canceled = 'בוטל',
-  GreenInvoiceStatus = 'נשלח לחשבונית ירוקה',
-  GreenInvoiceErrorStatus = 'לא נשלח לחשבונית ירוקה',
+  waiting_for_payment = 'ממתין לתשלום',
+  paid = 'שולם',
+  canceled = 'בוטל',
+  green_invoice_valid = 'נשלח לחשבונית ירוקה',
+  green_invoice_error = 'לא נשלח לחשבונית ירוקה',
 }
 
 export enum ERROR_STATUS {
-  NumEmployeesMax = 'מספר עובדים גבוה',
-  NumEmployeeMin = 'מספר עובדים נמוך',
-  NoPayment = 'אין פרטי תשלום',
-  PartialPayment = 'פרטי תשלום חלקיים',
+  num_employees_max = 'מספר עובדים גבוה',
+  num_employee_min = 'מספר עובדים נמוך',
+  no_payment = 'אין פרטי תשלום',
+  partial_payment = 'פרטי תשלום חלקיים',
 }
 
 
