@@ -40,9 +40,9 @@
     <p class="bold h6">בחר ישויות</p>
     <div class="w-50 d-flex align-items-center mb-2" *ngFor="let permission of user.units; let last = last; let index = index">
       <i class="fa fa-times fa-2x pointer red-color" (click)="removeUnitPermissionRow(index)" *ngIf="index > 0"></i>
-      <bd-select class="ml-4" [name]="'organization' + index" [items]="organizations" placeholder="ארגון" [(ngModel)]="permission.organizationID"  ></bd-select>
-      <bd-select class="ml-4" [name]="'employer' + index" [items]="selectedEmployer(permission.organizationID)" placeholder="מעסיק"   [(ngModel)]="permission.employerID"></bd-select>
-      <bd-select [name]="'department' + index" [items]="selectedDepartment(permission.organizationID, permission.employerID)" placeholder="מחלקות"  [multiple]="true" [(ngModel)]="permission.departments"></bd-select>
+      <bd-select class="ml-4" [name]="'organization' + index" [items]="organizations" placeholder="ארגון" [(ngModel)]="permission.organizationID" ></bd-select>
+      <bd-select class="ml-4" [name]="'employer' + index" [items]="selectedEmployer(permission.organizationID)" placeholder="מעסיק" [(ngModel)]="permission.employerID"></bd-select>
+      <bd-select [name]="'department' + index" [items]="selectedDepartment(permission.organizationID, permission.employerID)" placeholder="מחלקות"   [(ngModel)]="permission.departments" [multiple]="true"></bd-select>
       <i class="fa fa-plus-circle fa-2x pointer blue-color" (click)="addUnitPermissionRow()" *ngIf="last"></i>
     </div>
   </div>

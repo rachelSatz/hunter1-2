@@ -5,7 +5,7 @@
 </div>
 <div class="mb-5">
 <mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>
-<file-drop  [ngClass]="{ 'uploaded': processFile }" ng2FileDrop (onFileDrop)="GetFileFromDrop($event)">
+<file-drop  [ngClass]="{ 'uploaded': processFile }" ng2FileDrop (onFileDrop)="getFileFromDrop($event)">
 
 <label class="pointer" *ngIf="!processFile" (change)="setFile($event.target.files[0])" >
 <img style="width: 35px;" src="/assets/img/icons/cloud-backup.svg" class="mb-1">
@@ -23,6 +23,6 @@
 <p class="text-danger" *ngIf="fileTypeError">יש להעלות קבצי XML בלבד.</p>
 </div>
 <div class="text-left">
-  <button class="btn blue-btn" >המשך</button>
+  <button class="btn blue-btn" onclick="uploadFile()" >המשך</button>
 </div>
 

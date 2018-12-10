@@ -18,7 +18,7 @@ export class UploadFileComponent implements OnInit {
   }
 
 
-  GetFileFromDrop(event) {
+  getFileFromDrop(event) {
     if (event.files != null && event.files.length > 0) {
       for (const droppedFile of event.files) {
         if (droppedFile['fileEntry'].isFile) {
@@ -44,9 +44,9 @@ export class UploadFileComponent implements OnInit {
     this.processFile = file;
   }
 
-  uploadFile(file: File) {
+  uploadFile() {
     this.spin = true;
-    this.processService.uploadProcess(file).then(response => {
+    this.processService.uploadProcess(this.processFile).then(response => {
       console.log(response);
     });
   }

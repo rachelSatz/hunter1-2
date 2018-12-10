@@ -167,7 +167,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
       }
 
       output = this.selectedItem.map(outputItem => {
-        return outputItem[this.value];
+        return outputItem[this.value] ? outputItem[this.value] : outputItem;
       });
     }
 
@@ -197,8 +197,8 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   }
 
   ngOnChanges() {
-    if (this.selectedItem && typeof this.selectedItem !== 'object') {
-        this.setSelectedItemObject(this.selectedItem);
+    if (this.selectedItem) {
+      this.setSelectedItem(this.selectedItem);
     }
   }
 
@@ -216,23 +216,46 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
     return labels.slice(0, -3);
   }
 
-  private setSelectedItemObject(value: any): boolean {
-    return this.items.some(item => {
-      if (value.toString() === item[this.value].toString()) {
-        this.selectedItem = item;
-        this.onSelect.emit(item[this.value]);
-        return true;
+  private setSelectedItem(value: any): boolean {
+    if (this.multiple) {
+       this.setSelectedItemMultiple(value);
+       return true;
+    } else {
+      return this.items.some(item => {
+        if (value.toString() === item[this.value].toString()) {
+          this.selectedItem = item;
+          this.onSelect.emit(item[this.value]);
+          return true;
+        }
+      });
+    }
+  }
+
+  setSelectedItemMultiple(values: any[]): void {
+    const items = [];
+    this.items.forEach(item => {
+      const iteratedItem = item[this.value].toString();
+      if (values.indexOf(iteratedItem) !== -1) {
+         items.push(iteratedItem);
+        this.selectedItem = this.selectedItem.filter(outputItem => {
+          if (outputItem[this.value]) {
+            return outputItem[this.value];
+          }
+        });
+         this.selectedItem.push(item);
       }
     });
+
+     this.onSelect.emit(items);
   }
 
   writeValue(value: any): void {
     if (value && typeof value !== 'object') {
-      if (!this.setSelectedItemObject(value)) {
+      if (!this.setSelectedItem(value)) {
          this.selectedItem = value;
       }
     } else {
-      this.selectedItem = value;
+        this.selectedItem = value;
     }
   }
 

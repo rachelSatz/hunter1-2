@@ -58,7 +58,7 @@ export class ProcessService extends BaseHttpService {
       .toPromise()
       .then(response => response as Object[]);
   }
-getManufacturerByprocess(processID: number): Promise<Manufacturer[]>{
+getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
   const options = this.getTokenHeader();
     return this.http.get(this.endPoint + '/' + processID + '/Manufacturer', options)
       .toPromise()
@@ -185,27 +185,26 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]>{
       .then(response => response as any[]);
   }
 
-  postTransition(payment: any, checklist?: any,Singature?:string): Promise<any> {
+   postTransition(payment: any, checklist?: any, Singature?: string): Promise<any> {
 
-    let monthsPaysIds;
-    if(checklist==null){
-     monthsPaysIds=[];
-    }
-    else{
-      monthsPaysIds=checklist.map(item => item.fileId);
-    }
-    const body = {
-      processId: payment.id,
-      employerId: payment.employer.id,
-      monthsPaysIds: monthsPaysIds,
-      signature:Singature,
-    };
+     let monthsPaysIds;
+     if (checklist == null) {
+      monthsPaysIds = [];
+     } else {
+       monthsPaysIds = checklist.map(item => item.fileId);
+     }
+     const body = {
+       processId: payment.id,
+       employerId: payment.employer.id,
+       monthsPaysIds: monthsPaysIds,
+       signature: Singature,
+     };
 
-    return this.http.post(this.endPoint + '/' + payment.id + '/transmission/transmit', body,
-      this.getTokenHeader())
-      .toPromise()
-      .then(response => response as any);
-  }
+     return this.http.post(this.endPoint + '/' + payment.id + '/transmission/transmit', body,
+       this.getTokenHeader())
+       .toPromise()
+       .then(response => response as any);
+   }
 
   postNewDateDetails(payment: any, date: string): Promise<any[]> {
 
@@ -245,7 +244,7 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]>{
     const body = {
       bankBranch: bankBranch,
     };
-    return this.http.put(this.apiUrl + '/EmployerBankBranchProcess/' + process,bankBranch, this.getTokenHeader())
+    return this.http.put(this.apiUrl + '/EmployerBankBranchProcess/' + process, bankBranch, this.getTokenHeader())
     .toPromise()
     .then(response => response  as any[]);
   }
@@ -264,6 +263,5 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]>{
         .catch(() => false);
     }
   }
-
 }
 

@@ -38,6 +38,7 @@ export class EmployerFormComponent implements OnInit {
   bankBranches = [];
 
   employerForm: FormGroup;
+  message: string;
 
   @ViewChild('form') form: NgForm;
 
@@ -92,12 +93,13 @@ export class EmployerFormComponent implements OnInit {
   }
 
   addBank(account?: Object): void {
+    console.log(account);
     const bankControl = {
       'id': [account  ? account['id'] : null],
       'is_primary': [account  ? +account['is_primary'] : false],
       'bank_id': [account  ? account['bank_id'] : null],
       'branch_id': [account ? account['branch_id'] : null ],
-      'number': [account ? account['number'] : null,  [Validators.pattern('^\\d{5}$')]]
+      'number': [account ? account['number'] : null,  [Validators.pattern('^\\d{5,8}$')]]
     };
 
     const bankGroup = (<FormArray>this.employerForm.get('bank_accounts'));
@@ -151,11 +153,23 @@ export class EmployerFormComponent implements OnInit {
 
     if (isValid) {
       if (this.employer.id) {
-        this.employerService.updateEmployer(this.employerForm.value, this.employer.id).then(response => this.handleResponse(response));
+        this.employerService.updateEmployer(this.employerForm.value, this.employer.id).then(
+          response => this.messageResponse(response) );
       } else {
           this.employerService.saveNewEmployer(this.employerForm.value, this.selectUnit.currentOrganizationID)
-            .then(response => { this.platformComponent.getOrganizations(true); this.handleResponse(response); });
+            .then(response =>  this.messageResponse(response));
       }
+    }
+  }
+
+  private  messageResponse(response: any): void {
+    const message = response['message'];
+    if (message) {
+      this.platformComponent.getOrganizations(true);
+      this.handleResponse(response);
+    }else {
+      this.message = 'ח.פ קיים לארגון זה.' ;
+      this.hasServerError = true;
     }
   }
 
@@ -163,6 +177,7 @@ export class EmployerFormComponent implements OnInit {
     if (isSaved) {
       this.router.navigate(['platform', 'settings', 'employers']);
     } else {
+      this.message = 'שגיאת שרת, נסה שנית או צור קשר.' ;
       this.hasServerError = true;
     }
   }

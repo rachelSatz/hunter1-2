@@ -2,16 +2,17 @@ import { Employer } from './employer.model';
 import { ProcessDetails } from './process-details.model';
 
 export class Process {
+  name: string;
   id: number;
   addToProcessName?: string;
   employer: Employer;
   month: number;
   year: number;
   totalPaymentFile?: number;
-  codeFile:number ;
+  codeFile: number ;
   details: ProcessDetails;
   stepStatus: StepStatus;
-  validityStatus : ValidityStatus;
+  validityStatus: ValidityStatus;
   fileName: string;
   processKind: number;
   errorMessage: string;
@@ -22,8 +23,8 @@ export class Process {
   NegativeProcess:boolean=false;
   labels = {
     stepStatus: {
-      error:'שגיאה בטעינת נתונים',
-      transmitted:'שודר',
+      error:'שגיאה בטעינת נתונים' ,
+      transmitted:'שודר' ,
       partiallyTransmitted:'שודר חלקית',
       notTransmitted: 'לא שודר',
       Loading:'בטעינה',

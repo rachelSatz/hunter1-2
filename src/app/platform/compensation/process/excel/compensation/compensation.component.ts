@@ -57,7 +57,7 @@ export class ExcelComponent implements OnInit {
         this.helpers.setPageSpinner(false);
         this.message = response['message'];
         if (this.message  !== 'הצליח') {
-          if (this.message) {
+          if (this.message === undefined) {
             this.message = 'שגיאה';
           }
           this.hasServerError = true;
