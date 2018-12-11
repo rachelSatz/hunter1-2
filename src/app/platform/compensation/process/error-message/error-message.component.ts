@@ -28,18 +28,12 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 export class ErrorMessageComponent implements OnInit {
 
   hasServerError: boolean;
-  code_error: string;
-  detail_error: string;
-
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation,
               private dialogRef: MatDialogRef<ErrorMessageComponent>, private compensationService: CompensationService) {}
 
   ngOnInit() {
-    this.compensationService.getErrorMessage(this.compensation.id).then(response => {
-      this.code_error = response['code_error'];
-      this.detail_error = response['detail_error'];
-    });
+
   }
 
   submit(): void {
