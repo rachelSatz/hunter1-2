@@ -1,0 +1,31 @@
+<table class="table my-3 dialog-table  pre-scrollable">
+  <thead>
+  <tr class="table-headers">
+    <th *ngIf="items.length > 0">
+      <mat-checkbox (change)="checkAll($event.checked)" name="isCheckAll" [ngModel]="isCheckAll"></mat-checkbox>
+    </th>
+    <th *ngFor="let header of headers" (click)="sort(header)">
+      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
+      <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngIf="!isSearching">
+    <tr class="pointer">
+      <td>סכום בחשבונית</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr class="pointer">
+      <td>סכום לפי הגדרת מעסיק</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </ng-container>
+  </tbody>
+</table>

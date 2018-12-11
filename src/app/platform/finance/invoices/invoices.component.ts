@@ -13,6 +13,7 @@ import {INVOICE_TYPES, STATUS, ALL_STATUS} from '../../../shared/_models/invoice
 import {SelectUnitService} from '../../../shared/_services/select-unit.service';
 import {Subscription} from 'rxjs';
 import {HelpersService} from '../../../shared/_services/helpers.service';
+import {RemarksFormComponent} from './remarks-form/remarks-form.component';
 
 
 @Component({
@@ -124,7 +125,9 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
     this.search();
   }
   ShowRemarks(id: number): void {
-
+    this.dialog.open(RemarksFormComponent, {
+      width: '450px'
+    });
   }
   openProactiveInvoice(): void {
     this.dialog.open(ProactiveInvoiceFormComponent, {
