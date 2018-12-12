@@ -18,9 +18,10 @@
 <div class="d-flex filter-row">
   <input class="ml-3" placeholder="סכום">
   <input class="ml-3" placeholder="מספר חשבונית">
-  <button class="btn blue-btn" (click)="openManualInvoice()">חשבון ידני</button>
+  <button class="btn blue-btn" (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>
+  <!--<button class="btn blue-btn" (click)="openManualInvoice()">חשבון ידני</button>-->
   <button class="btn blue-btn mr-2" (click)="openProactiveInvoice()">חשבון יזום</button>
-  <button class="btn blue-btn mr-2" [routerLink]="['./', 'errors']">שגיאות</button>
+  <!--<button class="btn blue-btn mr-2" [routerLink]="['./', 'errors']">שגיאות</button>-->
   <button class="btn blue-btn mr-2 big-btn" (click)="sendToGreenInvoice()">שליחה לחשבונית ירוקה</button>
   <!--<i matPrefix class="fa fa-user"></i>-->
   <!--<i matPrefix class="fa fa-file-excel"></i>-->

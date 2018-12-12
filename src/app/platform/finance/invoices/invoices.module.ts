@@ -13,6 +13,7 @@ import {InvoiceService} from '../../../shared/_services/http/invoice.service';
 import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
 import {EmployerService} from '../../../shared/_services/http/employer.service';
 import {RemarksFormComponent} from './remarks-form/remarks-form.component';
+import {EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
@@ -31,8 +32,8 @@ const routes: Routes = [
     PipesModule
 
   ],
-  declarations: [InvoicesComponent, ProactiveInvoiceFormComponent, RemarksFormComponent],
+  declarations: [InvoicesComponent, ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent],
   providers: [InvoiceService, EmployerService],
-  entryComponents: [ProactiveInvoiceFormComponent, RemarksFormComponent]
+  entryComponents: [ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent]
 })
 export class InvoicesModule { }

@@ -16,13 +16,29 @@ import {InvoiceService} from '../../../../shared/_services/http/invoice.service'
 
 })
 export class RemarksFormComponent extends DataTableComponent implements OnInit {
-
+  comments = [];
+  comment: string;
+  hasServerError: boolean;
+  remarks = {}
   constructor(protected route: ActivatedRoute, @Inject(MAT_DIALOG_DATA) public invoice: Invoice,
               private dialogRef: MatDialogRef<RemarksFormComponent>, private invoiceService: InvoiceService) {
     super(route);
   }
 
   ngOnInit() {
+    this.invoiceService.getInvoiceRemarks(this.invoice.id).then(response => this.remarks = response);
+    this.invoiceService.getComments(this.invoice.id).then(response => this.comments = response);
+  }
+  submit(): void {
+    this.hasServerError = false;
+
+    this.invoiceService.newComment(this.invoice.id, this.comment).then(response => {
+      if (response) {
+        this.dialogRef.close(this.comment);
+      } else {
+        this.hasServerError = true;
+      }
+    });
   }
 
   readonly headers: DataTableHeader[] =  [

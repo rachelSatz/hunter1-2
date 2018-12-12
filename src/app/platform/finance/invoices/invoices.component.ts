@@ -14,6 +14,7 @@ import {SelectUnitService} from '../../../shared/_services/select-unit.service';
 import {Subscription} from 'rxjs';
 import {HelpersService} from '../../../shared/_services/helpers.service';
 import {RemarksFormComponent} from './remarks-form/remarks-form.component';
+import {EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
 
 
 @Component({
@@ -126,12 +127,19 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
   }
   ShowRemarks(id: number): void {
     this.dialog.open(RemarksFormComponent, {
-      width: '450px'
+      width: '750px'
     });
   }
   openProactiveInvoice(): void {
     this.dialog.open(ProactiveInvoiceFormComponent, {
       width: '450px'
+    });
+  }
+
+  openFinanceExcelDialog(): void {
+    this.dialog.open(EmployersFinanceExcelComponent, {
+      width: '450px',
+      panelClass: 'employers-finance-excel'
     });
   }
 }
