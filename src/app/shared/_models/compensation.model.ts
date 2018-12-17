@@ -15,9 +15,9 @@ export class Compensation {
   has_file_inquiry: boolean;
   files: File[] = [];
   code_error: string;
-  detail_error: string;
+  error_details: string;
   code_error_file: string;
-  detail_error_file: string;
+  error_details_file: string;
 
   constructor() {
     this.files.push(new File());
