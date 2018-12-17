@@ -18,6 +18,7 @@ export class Compensation {
   error_details: string;
   code_error_file: string;
   error_details_file: string;
+  status: string;
 
   constructor() {
     this.files.push(new File());
