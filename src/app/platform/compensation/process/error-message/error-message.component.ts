@@ -30,9 +30,13 @@ export class ErrorMessageComponent implements OnInit {
   hasServerError: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation,
-              private dialogRef: MatDialogRef<ErrorMessageComponent>, private compensationService: CompensationService) {}
+              private dialogRef: MatDialogRef<ErrorMessageComponent>, private compensationService: CompensationService) {
+    console.log(Compensation);
+
+  }
 
   ngOnInit() {
+
 
   }
 
