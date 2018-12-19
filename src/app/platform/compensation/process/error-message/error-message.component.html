@@ -5,9 +5,9 @@
   <span>פרוט שגיאה</span>
 </div>
 <table id="errorMessageTable" class="mt-5">
-    <td  class="mr-3 ml-3 bold">{{ compensation.status === 'feedback_b' ? compensation.code_error :
+    <td  class="mr-3 ml-3 bold">{{ compensation.feedback_level === 'record' ? compensation.code_error :
       compensation.code_error_file    + ':'
       }}</td>
-    <td  class="mr-3 ml-3">{{ compensation.status === 'feedback_b' ?
+    <td  class="mr-3 ml-3">{{ compensation.status === 'record' ?
       compensation.error_details : compensation.error_details_file }}</td>
 </table>
