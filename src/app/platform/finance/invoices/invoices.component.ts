@@ -125,8 +125,9 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
       formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
     this.search();
   }
-  ShowRemarks(id: number): void {
+  ShowRemarks(item: Object): void {
     this.dialog.open(RemarksFormComponent, {
+      data: item,
       width: '750px'
     });
   }

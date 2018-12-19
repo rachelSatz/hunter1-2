@@ -54,8 +54,8 @@
       <td>{{ item.last_payment_date  | date: 'dd/MM/yy'  }}</td>
       <td>חשבון עסקה</td>
       <td>{{ invoice_all_status[item.status] }}</td>
-      <td><i class="fa fa-eye fa-lg" (click)="ShowRemarks(item.id)"></i></td>
-      <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item.id)" *ngIf="item.status === 'closed'"></i>
+      <td><i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)"></i></td>
+      <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" *ngIf="item.status === 'closed'"></i>
       <td></td>
     </tr>
   </ng-container>
