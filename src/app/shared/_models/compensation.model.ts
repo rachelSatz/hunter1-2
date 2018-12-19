@@ -16,6 +16,7 @@ export class Compensation {
   files: File[] = [];
   code_error: string;
   error_details: string;
+  feedback_level: string;
   code_error_file: string;
   error_details_file: string;
   status: string;
