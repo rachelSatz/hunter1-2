@@ -11,3 +11,9 @@
     <td  class="mr-3 ml-3">{{ compensation.feedback_level === 'record' ?
       compensation.error_details : compensation.error_details_file }}</td>
 </table>
+
+<table  *ngIf="compensation.feedback_level === 'record' && answer != []">
+  <tr *ngFor="let item of answer">
+  <td  class="mr-3 ml-3 bold">{{ item }}</td>
+  </tr>
+</table>

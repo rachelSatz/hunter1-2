@@ -4,7 +4,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 
-import { Compensation } from 'app/shared/_models/compensation.model';
+import {Compensation, AnswerManufacturer} from 'app/shared/_models/compensation.model';
 
 @Component({
   selector: 'app-error-message',
@@ -28,10 +28,20 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 export class ErrorMessageComponent implements OnInit {
 
   hasServerError: boolean;
+  answer: any[];
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation,
               private dialogRef: MatDialogRef<ErrorMessageComponent>, private compensationService: CompensationService) {
-    console.log(Compensation);
+    if (compensation.answerings_manufacturer !== null &&
+      compensation.answerings_manufacturer !== '') {
+      const lstAnswer = compensation.answerings_manufacturer.split(',');
+      this.answer = Object.keys(AnswerManufacturer).map(function (e) {
+        if (lstAnswer.some(a => a === AnswerManufacturer[e])) {
+          return e;
+        }
+      });
+      this.answer = this.answer.filter(a =>   a !== undefined );
+    }
 
   }
 
