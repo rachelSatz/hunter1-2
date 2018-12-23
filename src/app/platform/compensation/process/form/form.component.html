@@ -7,7 +7,7 @@
 <form #form="ngForm">
   <div class="mt-5 mb-3">
     <mat-checkbox name="has_clearing" class="ml-3"  (change)="checkedClearing($event.checked)" [(ngModel)]="hasClearing">דרך מסלקה</mat-checkbox>
-    <!--<mat-checkbox name="has_clearing_employer" (change)="checkedEmployer($event.checked)"  [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>-->
+    <mat-checkbox name="has_clearing_employer" (change)="checkedEmployer($event.checked)"  [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>
   </div>
   <div class="d-flex" [@fade]="hasClearingEmployer ? 'inactive' : 'active' ">
     <bd-select [items]="data.departments" placeholder="בחר מחלקה" (onSelect)="loadEmployees($event)" class="w-50 ml-3" ></bd-select>
