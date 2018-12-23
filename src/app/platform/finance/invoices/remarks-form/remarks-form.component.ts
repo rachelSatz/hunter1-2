@@ -27,7 +27,6 @@ export class RemarksFormComponent extends DataTableComponent implements OnInit {
 
   ngOnInit() {
     this.invoiceService.getInvoiceRemarks(this.invoice.id).then(response => this.remarks = response);
-    // this.invoiceService.getComments(this.invoice.id).then(response => this.comments = response);
   }
   submit(): void {
     this.hasServerError = false;

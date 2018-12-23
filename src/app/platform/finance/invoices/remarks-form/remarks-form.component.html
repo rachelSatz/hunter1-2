@@ -20,17 +20,17 @@
   <ng-container *ngIf="!isSearching">
     <tr class="pointer">
       <td class="w-25">סכום בחשבונית</td>
-      <td class="w-25"></td>
-      <td class="w-25"></td>
-      <td class="w-25"></td>
-      <td class="w-25"></td>
+      <td class="w-25">{{remarks['ids_count']}}</td>
+      <td class="w-25">{{remarks['payment_amount']}}</td>
+      <td class="w-25">{{remarks['payment_type']}}</td>
+      <td class="w-25">{{remarks['total_payment_amount']}}</td>
     </tr>
     <tr class="pointer">
       <td class="w-25">סכום לפי הגדרת מעסיק</td>
-      <td class="w-25"></td>
-      <td class="w-25"></td>
-      <td class="w-25"></td>
-      <td class="w-25"></td>
+      <td class="w-25">{{remarks['finance_ids_count']}}</td>
+      <td class="w-25">{{remarks['finance_payment_amount']}}</td>
+      <td class="w-25">{{remarks['payment_type']}}</td>
+      <td class="w-25">{{remarks['finance_payment_amount']}}</td>
     </tr>
   </ng-container>
   </tbody>
