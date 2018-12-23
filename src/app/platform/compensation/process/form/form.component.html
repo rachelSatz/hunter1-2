@@ -5,19 +5,23 @@
   <span>בקשה חדשה</span>
 </div>
 <form #form="ngForm">
-  <div class="d-flex mt-5">
-    <bd-select [items]="data.departments" placeholder="בחר מחלקה" (onSelect)="loadEmployees($event)" class="w-50 ml-3"></bd-select>
+  <div class="mt-5 mb-3">
+    <mat-checkbox name="has_clearing" class="ml-3"  (change)="checkedClearing($event.checked)" [(ngModel)]="hasClearing">דרך מסלקה</mat-checkbox>
+    <!--<mat-checkbox name="has_clearing_employer" (change)="checkedEmployer($event.checked)"  [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>-->
+  </div>
+  <div class="d-flex" [@fade]="hasClearingEmployer ? 'inactive' : 'active' ">
+    <bd-select [items]="data.departments" placeholder="בחר מחלקה" (onSelect)="loadEmployees($event)" class="w-50 ml-3" ></bd-select>
     <div class="w-50">
-      <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel required></bd-select>
+      <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel ng-required='hasClearingEmployer'></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && employeesModel.errors ? 'active' : 'inactive'">יש לבחור עובד.</p>
     </div>
   </div>
-  <div class="d-flex mt-4">
-      <bd-select  class="w-50 ml-3" [items]="data.companies" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel" (onSelect)="loadProducts($event)" ngModel required></bd-select>
+  <div class="d-flex mt-4" [@fade]="hasClearing ? 'inactive' : 'active' ">
+      <bd-select  class="w-50 ml-3" [items]="data.companies" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel" (onSelect)="loadProducts($event)" ngModel  ng-required='hasClearing' ></bd-select>
       <!--<p class="alert alert-danger" [@fade]="form.submitted && companyModel.errors ? 'active' : 'inactive'">יש לבחור חברה מנהלת.</p>-->
 
     <div class="w-50">
-      <bd-select [items]="productTypes" placeholder="סוג מוצר*" name="product_type" #productModel="ngModel" ngModel required></bd-select>
+      <bd-select [items]="productTypes" placeholder="סוג מוצר*" name="product_type" #productModel="ngModel" ngModel  ng-required='hasClearing' ></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && productModel.errors ? 'active' : 'inactive'">יש לבחור סוג מוצר.</p>
     </div>
   </div>

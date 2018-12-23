@@ -63,7 +63,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	paginateItems(): void {
 		const totalPages = Math.ceil(this.paginationData.totalItems / this.paginationData.limit);
 		this.paginationData.totalPages = (totalPages > 0) ? totalPages : 1;
-
 		this.setCurrentPage();
 	}
 

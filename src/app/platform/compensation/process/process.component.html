@@ -73,7 +73,15 @@
       <td>{{ sendingMethods[item.sending_method] }}</td>
       <td>
         <p class="mb-0">{{ statuses[item.status] }}</p>
-        <img src="/assets/img/icons/details_grey.png" (click)="openErrorMessageDialog(item)" class="mt-1" *ngIf="item.status === 'error_feedback_a' || item.status === 'error_feedback_b'">
+        <img src="/assets/img/icons/details_grey.png" (click)="openErrorMessageDialog(item)" class="mt-1"
+             *ngIf="
+             (item.feedback_level === 'record' && (item.code_error !== null ||
+             (item.error_details !== '' && item.error_details !== null)) ||
+             (item.answerings_manufacturer !== null && item.answerings_manufacturer !== ''))
+             ||
+             (item.feedback_level === 'file'  && item.code_error_file !== null  &&
+              item.code_error_file !== 'accepting_valid_file' )" >
+        <!--item.status === 'error_feedback_a' || item.status === 'error_feedback_b'">-->
       </td>
       <td>
         <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
