@@ -6,17 +6,17 @@
 </div>
 <form #form="ngForm">
   <div class="mt-5 mb-3">
-    <mat-checkbox name="has_clearing" class="ml-3"  (change)="checkedClearing($event.checked)" [(ngModel)]="hasClearing">דרך מסלקה</mat-checkbox>
-    <mat-checkbox name="has_clearing_employer" (change)="checkedEmployer($event.checked)"  [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>
+    <mat-checkbox name="has_clearing" class="ml-3"  [(ngModel)]="hasClearing">דרך מסלקה</mat-checkbox>
+    <mat-checkbox name="has_clearing_employer" [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>
   </div>
   <div class="d-flex" [@fade]="hasClearingEmployer ? 'inactive' : 'active' ">
     <bd-select [items]="data.departments" placeholder="בחר מחלקה" (onSelect)="loadEmployees($event)" class="w-50 ml-3" ></bd-select>
     <div class="w-50">
-      <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel ng-required='hasClearingEmployer'></bd-select>
+      <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel ng-required="!hasClearingEmployer"></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && employeesModel.errors ? 'active' : 'inactive'">יש לבחור עובד.</p>
     </div>
   </div>
-  <div class="d-flex mt-4" [@fade]="hasClearing ? 'inactive' : 'active' ">
+  <div class="d-flex mt-4" [@fade]="hasClearing || hasClearingEmployer? 'inactive' : 'active' ">
       <bd-select  class="w-50 ml-3" [items]="data.companies" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel" (onSelect)="loadProducts($event)" ngModel  ng-required='hasClearing' ></bd-select>
       <!--<p class="alert alert-danger" [@fade]="form.submitted && companyModel.errors ? 'active' : 'inactive'">יש לבחור חברה מנהלת.</p>-->
 
@@ -25,8 +25,13 @@
       <p class="alert alert-danger" [@fade]="form.submitted && productModel.errors ? 'active' : 'inactive'">יש לבחור סוג מוצר.</p>
     </div>
   </div>
+
+  <div class="d-flex mt-4" [@fade]="(hasClearing && hasClearingEmployer) || !hasClearingEmployer? 'inactive' : 'active' ">
+    <bd-select  class="w-50 ml-3" [items]="data.companies" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel"  ngModel  ng-required='hasClearing' multiple="true" ></bd-select>
+  </div>
+
   <mat-form-field class="w-50 my-3">
-    <input matInput class="pointer" (click)="datePicker.open()" [matDatepicker]="datePicker" placeholder="תאריך נכונות (שכר)*" name="validity_date" ngModel readonly>
+    <input matInput class="pointer" (click)="datePicker.open()" [matDatepicker]="datePicker" placeholder="תאריך נכונות (שכר)" name="validity_date" ngModel readonly required>
     <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
     <mat-datepicker #datePicker></mat-datepicker>
     <mat-error>שדה חובה.</mat-error>

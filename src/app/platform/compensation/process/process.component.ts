@@ -212,7 +212,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
 
   openFormDialog(): void {
     const dialog = this.dialog.open(FormComponent, {
-      data: { companies: this.companies, departments: this.departments }
+      data: { companies: this.companies, departments: this.departments , employerID: this.selectUnit.currentEmployerID}
     });
 
     this.sub.add(dialog.afterClosed().subscribe(created => {

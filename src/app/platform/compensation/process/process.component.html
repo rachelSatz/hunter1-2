@@ -73,7 +73,7 @@
       <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
       <td>{{ sendingMethods[item.sending_method] }}</td>
       <td>
-        <p class="mb-0">{{ statuses[item.status] }}</p>
+        <p class="mb-0">{{ statuses[item.status]  }}</p>
         <img src="/assets/img/icons/details_grey.png" (click)="openErrorMessageDialog(item)" class="mt-1"
              *ngIf="
              (item.feedback_level === 'record' && (item.code_error !== null ||
