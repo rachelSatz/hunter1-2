@@ -22,7 +22,7 @@ export class InvoiceService  extends BaseHttpService {
       request['params'] = searchCriteria;
     }
 
-    return this.http.get(this.endPoint, this.getTokenHeader())
+    return this.http.get(this.endPoint, request)
       .toPromise()
       .then(response => response as Invoice[])
       .catch(() => []);

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import {ActivatedRoute} from '@angular/router';
+import {FormControl} from '@angular/forms';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { formatDate } from '@angular/common';
@@ -9,12 +10,13 @@ import { MatDialog } from '@angular/material';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import {InvoiceService} from '../../../shared/_services/http/invoice.service';
 import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
-import {INVOICE_TYPES, STATUS, ALL_STATUS} from '../../../shared/_models/invoice.model';
+import {INVOICE_TYPES, STATUS, ALL_STATUS} from 'app/shared/_models/invoice.model';
 import {SelectUnitService} from '../../../shared/_services/select-unit.service';
 import {Subscription} from 'rxjs';
 import {HelpersService} from '../../../shared/_services/helpers.service';
 import {RemarksFormComponent} from './remarks-form/remarks-form.component';
 import {EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
+import {CompensationSendingMethods, CompensationStatus} from '../../../shared/_models/compensation.model';
 
 
 @Component({
@@ -22,17 +24,18 @@ import {EmployersFinanceExcelComponent} from './employers-finance-excel/employer
   templateUrl: './invoices.component.html',
   styleUrls: ['../../../shared/data-table/data-table.component.css', './invoices.component.css']
 })
-export class InvoicesComponent extends DataTableComponent implements OnInit {
+export class InvoicesComponent extends DataTableComponent implements OnInit, OnDestroy {
   employers = [];
   departments = [];
   invoices = [];
   invoiceTypes = INVOICE_TYPES;
   invoice_status = STATUS;
+  selectStatus = Object.keys(ALL_STATUS).map(function(e) {
+    return { id: e, name: ALL_STATUS[e] };
+  });
+
   invoice_all_status = ALL_STATUS;
-  readonly statusSelectOptions = [];
   sub = new Subscription;
-
-
 
   readonly headers: DataTableHeader[] =  [
     { column: 'employer_name', label: 'שם מעסיק' },
@@ -53,78 +56,39 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
               private dialog: MatDialog) {super(route); }
 
   ngOnInit() {
-    this.invoiceService.getInvoices().then(response => {
-      this.setItems(response);
-    });
+    this.fetchItems();
     // for (const status in this.invoice_status) {
     //   this.statusSelectOptions.push({ value: status, label: this.invoice_status[status] });
     // }
+    super.ngOnInit();
   }
   fetchItems(): void {
-    const organizationId = this.selectUnit.currentOrganizationID;
-    const employerId = this.selectUnit.currentEmployerID;
+    // const organizationId = this.selectUnit.currentOrganizationID;
+    // const employerId = this.selectUnit.currentEmployerID;
 
-    this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
-    this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
+    // this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
+    // this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
 
-    if (organizationId) {
-      this.searchCriteria['employerId'] = employerId;
-      this.searchCriteria['organizationId'] = organizationId;
+
 
       this.invoiceService.getInvoices(this.searchCriteria).then(response => {
-          this.setResponse(response) ;
+          this.setItems(response) ;
         });
-
-      if (this.selectUnit.currentEmployerID) {
-        this.departments = this.helpers.organizations.find(o => o.id === organizationId).
-        employer.find( e => e.id === employerId).department;
-      } else {
-
-        this.departments = [];
-        this.helpers.organizations.find(o => o.id === organizationId)
-          .employer.forEach( e => {
-          if (e && e.id !== 0) {
-            e.department.forEach(d => {
-              if (d) { this.departments.push(d); }
-            });
-          }});
-
-        // this.departments.forEach( d => {
-        //   if (d.employees) { d.employees.forEach( e =>   {
-        //     this.employees.push(e.name);
-        //   }); }
-        // });
       }
-    }
 
 
-
-
-    // this.employerService.getDepartmentsAndEmployees(this.selectUnit.currentEmployerID, this.selectUnit.currentOrganizationID)
-    //   .then(response => {
-    //     this.departments = response['departments'];
-    //     this.employees = response['employees'];
-    //   });
-
-    // this.invoiceService.getInvoices(this.searchCriteria).then(response => {
-    //   this.setResponse(response) ;
-    // });
-
-  }
-  setResponse(response: any[]): void {
-    this.setItems(response);
-  }
   valueDateChange(keyCode: Date): void {
-    this.searchCriteria['date_request'] =
+    this.searchCriteria['request_created_at'] =
       formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
     this.search();
   }
 
   valueDateChange2(keyCode: Date): void {
-    this.searchCriteria['date_request2'] =
+    this.searchCriteria['for_month'] =
       formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
     this.search();
   }
+
   ShowRemarks(item: Object): void {
     this.dialog.open(RemarksFormComponent, {
       data: item,
@@ -142,6 +106,10 @@ export class InvoicesComponent extends DataTableComponent implements OnInit {
       width: '450px',
       panelClass: 'employers-finance-excel'
     });
+  }
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.sub.unsubscribe();
   }
 }
 // file_count', JSON.stringify(file_count)

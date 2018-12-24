@@ -32,7 +32,12 @@ const routes: Routes = [
     PipesModule
 
   ],
-  declarations: [InvoicesComponent, ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent],
+  declarations: [
+    InvoicesComponent,
+    ProactiveInvoiceFormComponent,
+    RemarksFormComponent,
+    EmployersFinanceExcelComponent
+  ],
   providers: [InvoiceService, EmployerService],
   entryComponents: [ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent]
 })
