@@ -10,7 +10,13 @@
     <bd-select [items]="employers" placeholder="הכל" name="employers" #companyModel="ngModel" ngModel></bd-select>
   </div>
   <div class="w-100">
-    <bd-select placeholder="בגין חודש" name="for_month" ngModel required></bd-select>
+    <mat-form-field>
+      <input matInput class="pointer" (click)="datePickerRequest.open()" [matDatepicker]="datePickerRequest" placeholder="בגין חודש" name="for_month" (dateChange)="valueDateChange($event.value)" readonly>
+      <mat-datepicker-toggle matSuffix [for]="datePickerRequest"></mat-datepicker-toggle>
+      <mat-datepicker #datePickerRequest></mat-datepicker>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+    <!--<<bd-select placeholder="בגין חודש" name="for_month" ngModel required></bd-select>-->
   </div>
 </div>
 </form>
