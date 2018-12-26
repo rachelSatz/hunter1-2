@@ -1,9 +1,10 @@
 import {EmployerFinancialDetails} from './employer-financial-details.model';
+import {GreenInvoiceDocument} from './GreenInvoiceDocument';
 
 export class Invoice {
   id: number;
   employer_financial_details: EmployerFinancialDetails;
-  green_invoice_number: string[0];
+  green_invoice: GreenInvoiceDocument;
   total_amount: string;
   ids_count: string;
   for_month: string;
