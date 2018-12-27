@@ -4,7 +4,7 @@ import {GreenInvoiceDocument} from './GreenInvoiceDocument';
 export class Invoice {
   id: number;
   employer_financial_details: EmployerFinancialDetails;
-  green_invoice: GreenInvoiceDocument;
+  green_invoice_document: GreenInvoiceDocument;
   total_amount: string;
   ids_count: string;
   for_month: string;

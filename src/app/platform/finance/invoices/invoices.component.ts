@@ -33,7 +33,7 @@ export class InvoicesComponent extends DataTableComponent implements OnInit, OnD
   selectStatus = Object.keys(ALL_STATUS).map(function(e) {
     return { id: e, name: ALL_STATUS[e] };
   });
-
+  error_description = ''
   invoice_all_status = ALL_STATUS;
   sub = new Subscription;
 
