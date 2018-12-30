@@ -4,16 +4,34 @@
   </button>
   <span>פרוט שגיאה</span>
 </div>
-<table id="errorMessageTable" class="mt-5">
+<!--<div class ="row">-->
+  <!--<div class ="col-6">-->
+    <table class="mt-5 tableHeight table table-bordered">
+  <thead class="colorTh">
+  <tr class="table-headers">
+    <th>קוד שגיאה</th>
+    <th>פרוט שגיאה</th>
+  </tr>
+  </thead>
+  <tr>
     <td  class="mr-3 ml-3 bold">{{ compensation.feedback_level === 'record' ? compensation.code_error :
       compensation.code_error_file    + ':'
       }}</td>
     <td  class="mr-3 ml-3">{{ compensation.feedback_level === 'record' ?
       compensation.error_details : compensation.error_details_file }}</td>
-</table>
-
-<table  *ngIf="compensation.feedback_level === 'record' && answer != []">
-  <tr *ngFor="let item of answer">
-  <td  class="mr-3 ml-3 bold">{{ item }}</td>
   </tr>
 </table>
+  <!--</div>-->
+  <!--<div class="col-6">-->
+    <table *ngIf="compensation.feedback_level === 'record' && answer != []"  class="mt-5 tableHeight table table-bordered">
+      <thead class="colorTh">
+      <tr class="table-headers">
+        <th>מענה מיצרן</th>
+      </tr>
+      </thead>
+      <tr *ngFor="let item of answer">
+        <td class="mr-3 ml-3">{{ item }}</td>
+      </tr>
+    </table>
+  <!--</div>-->
+<!--</div>-->

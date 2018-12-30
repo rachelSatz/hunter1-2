@@ -3,13 +3,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-
 import {Compensation, AnswerManufacturer} from 'app/shared/_models/compensation.model';
 
 @Component({
   selector: 'app-error-message',
   templateUrl: './error-message.component.html',
-  styles: ['#errorMessageTable { height: 200px; overflow-y: auto; padding-top: 20px }'],
+  styles: ['.tableHeight { height: 200px; overflow-y: auto }', '.colorTh { color: #fff; background-color: #808080}'],
   animations: [
     trigger('fade', [
       state('inactive', style({

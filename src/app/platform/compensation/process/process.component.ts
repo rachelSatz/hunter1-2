@@ -315,30 +315,27 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
   }
 
-  downloadPdfFile(rowId: number): void {
-   this.compensationService.downloadPdfFile(rowId).then(response => {
-     const byteCharacters = atob(response);
-     const byteNumbers = new Array(byteCharacters.length);
-     for (let i = 0; i < byteCharacters.length; i++) {
-       byteNumbers[i] = byteCharacters.charCodeAt(i);
-     }
-     const byteArray = new Uint8Array(byteNumbers);
-     const blob = new Blob([byteArray], {type: 'application/pdf'});
-     FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
-   });
-  }
-
-  showPdfFile(rowId: number): any {
+  PdfFile(rowId: number, type: string): any {
       this.compensationService.downloadPdfFile(rowId).then(response => {
-        const byteCharacters = atob(response);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        if (response) {
+          const byteCharacters = atob(response);
+          const byteNumbers = new Array(byteCharacters.length);
+          console.log(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], {type: 'application/pdf'});
+          const fileURL = URL.createObjectURL(blob);
+          if (type === 'show') {
+            window.open(fileURL);
+          } else {
+            FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
+          }
+        }else {
+          type =  type === 'show' ?  'להציג' : 'להוריד';
+          this.notificationService.error('', ' אין אפשרות ' + type +  ' קובץ ');
         }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'application/pdf'});
-        const fileURL = URL.createObjectURL(blob);
-        window.open(fileURL);
       });
   }
 
