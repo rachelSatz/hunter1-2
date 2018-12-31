@@ -37,6 +37,8 @@ export class FormComponent implements OnInit {
   hasServerError: boolean;
   hasClearing = false;
   hasClearingEmployer = false;
+  dateFilter = (date: Date) =>   (!this.hasClearingEmployer  ||
+    (new Date(date.getFullYear() , date.getMonth() + 1 , 0).getDate() ===  date.getDate()))
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<FormComponent>,
               private departmentService: DepartmentService, private compensationService: CompensationService,
