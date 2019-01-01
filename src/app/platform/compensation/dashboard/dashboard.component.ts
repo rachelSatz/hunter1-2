@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {formatDate } from '@angular/common';
+import * as FileSaver from 'file-saver';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
@@ -16,7 +17,7 @@ import {Subscription} from 'rxjs';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
-  constructor(private employerService: EmployerService, private  userService: UserService,
+  constructor(private employerService: EmployerService, private userService: UserService,
               private compensationService: CompensationService,
               private selectUnit: SelectUnitService) {}
 
@@ -93,6 +94,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.isSearching = true;
     setTimeout(() => this.fetchItems(), 1000);
+  }
+
+  getMasavFile(): void {
+    this.compensationService.getMasav().then(response => {
+      // if (response) {
+      //   FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
+      // }
+    });
   }
 
   ngOnDestroy() {
