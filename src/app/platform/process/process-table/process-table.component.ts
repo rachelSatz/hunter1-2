@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
+import { ProcessStatus,  } from 'app/shared/_models/process.model';
 
 @Component({
   selector: 'app-process-table',
@@ -10,6 +11,8 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
   styleUrls: ['../../../shared/data-table/data-table.component.css', './process-table.component.css']
 })
 export class ProcessTableComponent extends DataTableComponent {
+
+  processStatus = ProcessStatus
 
   readonly headers: DataTableHeader[] =  [
     { column: 'process_name', label: 'שם תהליך' }, { column: 'process_number', label: 'מספר תהליך' },

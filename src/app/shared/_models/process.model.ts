@@ -49,21 +49,21 @@ export enum ValidityStatus {
   NotRelevant = 5,
 }
 
-export enum Process {
-  error: 'שגיאה בטעינת נתונים' ,
-  transmitted: 'שודר'  ,
-  partiallyTransmitted: 'שודר חלקית',
-  notTransmitted: 'לא שודר',
-  Loading: 'בטעינה',
+export enum ProcessStatus {
+  Loading = 'בטעינה',
+  Processing = 'מעבד',
+  Processed = 'מעובד',
+  Sent = 'שודר',
+  Feedbacked_Once = 'פידבק ראשון' ,
+  Finished = 'הסתיים'  ,
+  Error_Loading = 'שגיאת טעינה',
+  Error_Sending = 'שגיאת שליחה',
 }
 
-// validityStatus: {
-//   Invalid_file: 'קובץ לא חוקי',
-//     Waiting_for_treatment: 'ממתין לטיפול',
-//     Collection: 'גבייה',
-//     Finish: 'קובץ מעובד',
-//     problem: 'קיימת בעיה בסכומים',
-//     Error: 'שגיאה',
-//     NotRelevant: 'לא רלוונטי',
-// }
-// };
+export enum ProcessType {
+  Employer_Payment = 'בטעינה',
+  Regular_Fix = 'מעבד',
+  Positive_Negative_Fix = 'מעובד',
+  Direct_Employer = 'שודר',
+  Manual_Payment = 'פידבק ראשון' ,
+}
