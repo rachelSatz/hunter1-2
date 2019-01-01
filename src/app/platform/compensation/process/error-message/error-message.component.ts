@@ -3,13 +3,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-
-import { Compensation } from 'app/shared/_models/compensation.model';
+import {Compensation, AnswerManufacturer} from 'app/shared/_models/compensation.model';
 
 @Component({
   selector: 'app-error-message',
   templateUrl: './error-message.component.html',
-  styles: ['#errorMessageTable { height: 200px; overflow-y: auto; padding-top: 20px }'],
+  styles: ['.tableHeight { height: 200px; overflow-y: auto }', '.colorTh { color: #fff; background-color: #808080}'],
   animations: [
     trigger('fade', [
       state('inactive', style({
@@ -28,18 +27,26 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 export class ErrorMessageComponent implements OnInit {
 
   hasServerError: boolean;
-  code_error: string;
-  detail_error: string;
-
+  answer: any[];
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation,
-              private dialogRef: MatDialogRef<ErrorMessageComponent>, private compensationService: CompensationService) {}
+              private dialogRef: MatDialogRef<ErrorMessageComponent>, private compensationService: CompensationService) {
+    if (compensation.answerings_manufacturer !== null &&
+      compensation.answerings_manufacturer !== '') {
+      const lstAnswer = compensation.answerings_manufacturer.split(',');
+      this.answer = Object.keys(AnswerManufacturer).map(function (e) {
+        if (lstAnswer.some(a => a === AnswerManufacturer[e])) {
+          return e;
+        }
+      });
+      this.answer = this.answer.filter(a =>   a !== undefined );
+    }
+
+  }
 
   ngOnInit() {
-    this.compensationService.getErrorMessage(this.compensation.id).then(response => {
-      this.code_error = response['code_error'];
-      this.detail_error = response['detail_error'];
-    });
+
+
   }
 
   submit(): void {

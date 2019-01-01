@@ -73,8 +73,15 @@
       <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
       <td>{{ sendingMethods[item.sending_method] }}</td>
       <td>
-        <p class="mb-0">{{ statuses[item.status] }}</p>
-        <img src="/assets/img/icons/details_grey.png" (click)="openErrorMessageDialog(item)" class="mt-1" *ngIf="item.status === 'error_feedback_a' || item.status === 'error_feedback_b'">
+        <p class="mb-0">{{ statuses[item.status]  }}</p>
+        <img src="/assets/img/icons/details_grey.png" (click)="openErrorMessageDialog(item)" class="mt-1"
+             *ngIf=" item.status === 'feedback_a' || item.status === 'feedback_b' ?
+             (item.feedback_level === 'record' && (item.code_error !== null ||
+             (item.error_details !== '' && item.error_details !== null)) ||
+             (item.answerings_manufacturer !== null && item.answerings_manufacturer !== ''))
+             ||
+             (item.feedback_level === 'file'  && item.code_error_file !== null  &&
+              item.code_error_file !== 'accepting_valid_file' ) : false" >
       </td>
       <td>
         <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
@@ -87,8 +94,8 @@
       </td>
       <td>
         <span *ngIf="item.status !== 'closed'">טרם</span>
-        <i class="fa fa-download fa-lg ml-2" (click)="downloadPdfFile(item.id)" *ngIf="item.status === 'closed'"></i>
-        <i class="fa fa-eye fa-lg" (click)="showPdfFile(item.id)" *ngIf="item.status === 'closed'"></i>
+        <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, 'download')" *ngIf="item.status === 'closed'"></i>
+        <i class="fa fa-eye fa-lg" (click)="PdfFile(item.id, 'show')" *ngIf="item.status === 'closed'"></i>
       </td>
       <td>
         <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">

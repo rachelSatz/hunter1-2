@@ -33,6 +33,7 @@ export class CompensationService extends BaseHttpService {
   }
 
   newCompensation(compensation: Compensation): Promise<Object> {
+   console.log(compensation.event_code);
     return this.http.post(this.endPoint, compensation, this.getTokenHeader())
     .toPromise()
     .then(response => response as Object[])
@@ -78,7 +79,7 @@ export class CompensationService extends BaseHttpService {
     return this.http.post(this.endPoint + '/send', { compensation_ids: compensation_ids }, this.getTokenHeader())
     .toPromise()
     .then(response => response as any)
-    .catch(response => response as any)
+    .catch(response => response as any);
 
   }
 
@@ -209,6 +210,7 @@ export class CompensationService extends BaseHttpService {
         .catch(() => []);
     }
   }
+<<<<<<< HEAD
 
   getErrorMessage(compensationID: number): Promise<Compensation> {
     return this.http.get(this.endPoint + '/' + compensationID + '/getErrorMessage', this.getTokenHeader())
@@ -230,6 +232,8 @@ export class CompensationService extends BaseHttpService {
     .then(response => response as any)
     .catch(() => null);
   }
+=======
+>>>>>>> 17537a4c3d1fcd07d0119e25d86c86e6bd012265
 }
 
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Organization } from '../../../../shared/_models/organization.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { OrganizationService } from '../../../../shared/_services/http/organization.service';
+import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { PlatformComponent } from 'app/platform/platform.component';
 
 @Component({
