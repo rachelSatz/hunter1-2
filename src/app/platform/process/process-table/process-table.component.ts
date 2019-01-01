@@ -2,19 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import {ProcessService} from '../../../shared/_services/http/process.service';
+import { ProcessService } from 'app/shared/_services/http/process.service';
 
 @Component({
   selector: 'app-process-table',
   templateUrl: './process-table.component.html',
-  styleUrls: ['./process-table.component.css']
+  styleUrls: ['../../../shared/data-table/data-table.component.css', './process-table.component.css']
 })
-export class ProcessTableComponent extends DataTableComponent{
+export class ProcessTableComponent extends DataTableComponent {
 
   readonly headers: DataTableHeader[] =  [
     { column: 'process_name', label: 'שם תהליך' }, { column: 'process_number', label: 'מספר תהליך' },
-    { column: 'employer_name', label: 'שם מעסיק' }, { column: 'month', label: 'חודש' },
-    { column: 'code', label: 'קוד' }, { column: 'amount', label: 'סכום' }, { column: 'status', label: 'סטטוס שידור' }
+    { column: 'type', label: 'סוג תהליך' },
+    { column: 'employer_name', label: 'שם מעסיק' }, { column: 'employer_name', label: 'שם מחלקה' },
+    { column: 'month', label: 'חודש' }, {column: 'year', label: 'שנה' },
+    { column: 'amount', label: 'סכום' }, { column: 'status', label: 'סטטוס שידור' }
     , { column: 'download', label: 'הורדה' }
   ];
 
@@ -23,7 +25,7 @@ export class ProcessTableComponent extends DataTableComponent{
   }
 
   fetchItems(): void {
-    this.processService.getProcesses().then(response => this.setItems(response));
+    this.processService.getProcesses(this.searchCriteria).then(response => this.setItems(response));
   }
 
 
