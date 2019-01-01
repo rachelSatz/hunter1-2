@@ -30,19 +30,14 @@ export class ProcessService extends BaseHttpService {
       .toPromise()
       .then(response => response as Process);
   }
-  getProcesses(): Promise<Process[]> {
-    return this.http.get(this.endPoint, this.getTokenHeader())
+  getProcesses(searchCriteria?: Object): Promise<Process[]> {
+    const options = this.getTokenHeader();
+    options['params'] = searchCriteria;
+
+    return this.http.get(this.endPoint, options)
       .toPromise()
       .then(response => response as Process[]);
   }
-  // getProcesses(searchCriteria?: Object, orderCriteria?: DataTableOrderCriteria): Promise<Process[]> {
-  //   const options = this.getTokenHeader();
-  //   options['params'] = Object.assign(searchCriteria, orderCriteria);
-  //
-  //   return this.http.get(this.apiUrl + '/process', options)
-  //     .toPromise()
-  //     .then(response => response as Process[]);
-  // }
 
   getProcessDetail(processID: number): Promise<ProcessDetails> {
     return this.http.get(this.endPoint + '/' + processID + '/details', this.getTokenHeader())
