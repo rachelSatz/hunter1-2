@@ -11,7 +11,9 @@ import {map, startWith} from 'rxjs/operators';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
+
 import { ExcelComponent } from './excel/compensation/compensation.component';
+
 import { EmployeesComponent } from './excel/employees/employees.component';
 import { CommentsComponent } from './comments/comments.component';
 import { DetailsComponent } from './details/details.component';

@@ -30,7 +30,7 @@ export class ProcessTransmissionComponent implements OnInit {
 
   process: Process;
   payments: SendFile[] = [];
-  public Send: boolean = false;
+  public Send = false;
   public spin = false;
   public checkboxValue: boolean = false;
   public checklist: { fileId: number }[] = [{ fileId: 0 }];

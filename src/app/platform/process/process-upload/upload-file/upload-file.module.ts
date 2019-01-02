@@ -6,6 +6,7 @@ import { MatFormFieldModule, MatInputModule, MatDialogModule,
 import { FileDropModule } from 'ngx-file-drop';
 import { FormsModule } from '@angular/forms';
 
+
 import { UploadFileComponent } from './upload-file.component';
 
 const routes: Routes = [

@@ -132,8 +132,7 @@ export class ProcessUploadComponent implements OnInit, OnDestroy {
       case 1:
         if (this.Neg) {
           return 'נתוני החזר כספי';
-        }
-        else {
+        } else {
           return 'נתוני תהליך';
         }
 
@@ -158,7 +157,7 @@ export class ProcessUploadComponent implements OnInit, OnDestroy {
         },
         height: '450px',
         width: '600px'
-      })
+      });
     });
 
   }
