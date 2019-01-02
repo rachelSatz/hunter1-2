@@ -87,7 +87,6 @@ export class ProcessDataComponent implements OnInit {
       width: '600px'
     });
 
-
     //
     // openFormDialog(): void {
     //   const dialog = this.dialog.open(FormComponent, {
