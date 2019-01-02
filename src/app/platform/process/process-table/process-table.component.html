@@ -1,11 +1,31 @@
-<p class="h4 mb-4">תהליכים</p>
+<div class="col-12 f-12 mb-lg-5">
+  <div class="float-left">
+    <mat-form-field>
+      <mat-select placeholder="חודש שכר" [(ngModel)]="searchCriteria['month']" name="month" class="ml-3" (selectionChange)="search()" >
+        <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1" >
+          {{month}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="mr-3">
+    <mat-select placeholder="שנה" [(ngModel)]="searchCriteria['year']" name="year" (selectionChange)="search()" >
+      <mat-option *ngFor="let year of years" [value]="year" >
+        {{year}}
+      </mat-option>
+    </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+<div class="row col-12">
+<p class=" h4 mb-4">תהליכים</p>
+</div>
 <mat-form-field class="ml-3">
-  <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['val']" (change)="search()">
+  <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">
   <i matSuffix class="fa fa-search"></i>
 </mat-form-field>
 
 <div>
-  <button class="mb-2 float-left btn blue-btn">תהליך חדש</button>
+  <button class="mb-2 float-left btn blue-btn" [routerLink]="['../', 'new']">תהליך חדש</button>
 </div>
 
 <table class="table table-bordered table-hover mt-3 data-table">
@@ -22,13 +42,13 @@
     <tr *ngFor="let item of paginatedItems" class="pointer">
       <td>{{ item.name }}</td>
       <td>{{ item.id }}</td>
-      <td>{{ item.type }}</td>
+      <td>{{ processType[item.type] }}</td>
       <td>{{ item.employer_name }}</td>
       <td>{{ item.department_name }}</td>
       <td>{{ item.date | date:'MM'}}</td>
       <td>{{ item.date | date:'yyyy' }}</td>
       <td>{{ item.total  }}</td>
-      <td>{{ item.status  }}</td>
+      <td>{{ processStatus[item.status] }}</td>
       <td>{{ item.download }}</td>
 
     </tr>

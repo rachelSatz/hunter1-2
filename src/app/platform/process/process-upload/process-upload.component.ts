@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-process-upload',
   templateUrl: './process-upload.component.html',

@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule, Routes} from '@angular/router';
-import { MatFormFieldModule, MatInputModule, MatDialogModule,
-  MatProgressBarModule, MatSelectModule, MatTooltipModule, MatProgressSpinnerModule } from '@angular/material';
+import { RouterModule, Routes } from '@angular/router';
 import { FileDropModule } from 'ngx-file-drop';
 import { FormsModule } from '@angular/forms';
 
@@ -18,8 +16,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule,
-    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, FileDropModule
+    FileDropModule
   ],
   declarations: [UploadFileComponent]
 })

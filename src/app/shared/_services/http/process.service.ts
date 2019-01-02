@@ -244,13 +244,19 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
     .then(response => response  as any[]);
   }
 
+  email(fileId: number): Promise<boolean> {
+    return this.http.post(this.endPoint + '/email', {file_id: fileId}, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
+
 
 
   uploadProcess(file?: File): Promise<boolean> {
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-
 
       return this.http.post(this.endPoint + '/uploadProcess', formData, this.getTokenHeader())
         .toPromise()
