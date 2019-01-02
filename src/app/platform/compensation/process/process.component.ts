@@ -196,7 +196,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
       this.helpers.setPageSpinner(false);
       if (response) {
         if (response['list_exceptions'].length > 0) {
-          this.notificationService.error(   'הבקשות נכשלו. ' + response['list_exceptions'] ,
+          this.notificationService.error('הבקשות נכשלו. ' + response['list_exceptions'] ,
             ' הבקשות נכשלו.  ' + response['message'] );
         }else {
           this.notificationService.success('הבקשות נשלחו בהצלחה.');

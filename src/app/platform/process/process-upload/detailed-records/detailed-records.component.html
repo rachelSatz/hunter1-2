@@ -1,0 +1,58 @@
+
+<div class="d-flex filter-row mb-1">
+  <bd-select [items]="departments" placeholder="בחר עובד" ></bd-select>
+  <bd-select [items]="departments" placeholder="בחר קופה" ></bd-select>
+  <bd-select [items]="departments" placeholder="בחר סינון" ></bd-select>
+  <mat-form-field>
+    <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">
+    <i matSuffix class="fa fa-search"></i>
+  </mat-form-field>
+</div>
+
+<div class="dropdown show">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    פעולות
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="#">הפוך ללא רלונטי</a>
+    <a class="dropdown-item" href="#">העבר קבוצה</a>
+    <a class="dropdown-item" href="#">מחק רשומה</a>
+    <a class="dropdown-item" href="#">תהליך תיקון</a>
+  </div>
+</div>
+<table class="table table-bordered table-hover mt-3 data-table">
+  <thead>
+  <tr class="table-headers">
+    <th *ngFor="let header of headers" (click)="sort(header)">
+      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
+      <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngIf="!isSearching">
+    <tr *ngFor="let item of paginatedItems" class="pointer">
+      <td>{{ item.name }}</td>
+      <td>{{ item.id }}</td>
+      <td>{{ processType[item.type] }}</td>
+      <td>{{ item.employer_name }}</td>
+      <td>{{ item.department_name }}</td>
+      <td>{{ item.date | date:'MM'}}</td>
+      <td>{{ item.date | date:'yyyy' }}</td>
+      <td>{{ item.total  }}</td>
+      <td>{{ processStatus[item.status] }}</td>
+      <td>{{ item.download }}</td>
+      <td>{{ item.download }}</td>
+      <td>{{ item.download }}</td>
+      <td>{{ item.download }}</td>
+      <td>{{ item.download }}</td>
+      <td>{{ item.download }}</td>
+    </tr>
+  </ng-container>
+  <tr *ngIf="!isSearching && items.length === 0">
+    <td colspan="9" class="text-center bold">טבלת תהליכים ריקה.</td>
+  </tr>
+  </tbody>
+</table>

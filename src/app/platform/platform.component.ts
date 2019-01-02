@@ -15,8 +15,9 @@ export class PlatformComponent implements OnInit {
   activeUrl: string;
   organizations = [];
   employers = [];
+  departments = [];
   organizationId: number;
-  employerId: number;
+  employerId: object;
 
   readonly menuLinks = [
     { url: 'dashboard', label: 'דף הבית' },
@@ -102,10 +103,28 @@ export class PlatformComponent implements OnInit {
     }
     this.employers.sort((a, b) => a.id - b.id);
     this.employerId = this.employers.length > 0 ?  this.employers[0] : 0;
-    this.selectUnit.changeOrganizationEmployer(organizationID, this.employerId['id']);
+    this.organizationId = organizationID;
+    this.loadDepartments(this.employerId['id']);
   }
 
-  selectEmployer(employerID: number): void {
-    this.selectUnit.changeEmployer(employerID);
+  loadDepartments(employerID: number): void {
+    if (employerID > 0) {
+      this.employers = this.helpers.organizations.find(o => o.id === this.organizationId).employer;
+      this.departments = this.employers.find(e => e.id === employerID).department;
+      if (this.departments.length > 1) {
+        if (!this.departments.some(d => d.id === 0)) {
+          this.departments.push({'id': 0, 'name': 'כלל המחלקות'});
+        }
+      }
+      this.departments.sort((a, b) => a.id - b.id);
+    }else {
+      this.employerId = {'id': 0, 'name': 'כלל המעסיקים'};
+    }
+    const departmentId = this.departments.length > 0 ?  this.departments[0] : 0;
+    this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, employerID, departmentId);
+  }
+
+  selectDepartment(departmentID: number): void {
+    this.selectUnit.changeDepartment(departmentID);
   }
 }

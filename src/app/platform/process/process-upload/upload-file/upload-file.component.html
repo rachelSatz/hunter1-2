@@ -4,7 +4,7 @@
     <br/>קובץ זה יועבר לקופות על מנת להשיב את הכספים אל החשבון המוגדר.</p>
 </div>
 <div class="mb-5">
-<mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>
+<!--<mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>-->
 <file-drop  [ngClass]="{ 'uploaded': processFile }" ng2FileDrop (onFileDrop)="getFileFromDrop($event)">
 
 <label class="pointer" *ngIf="!processFile" (change)="setFile($event.target.files[0])" >
@@ -23,6 +23,5 @@
 <p class="text-danger" *ngIf="fileTypeError">יש להעלות קבצי XML בלבד.</p>
 </div>
 <div class="text-left">
-  <button class="btn blue-btn" onclick="uploadFile()" >המשך</button>
+  <button class="btn blue-btn" routerLink="['./','payment']" >המשך</button>
 </div>
-

@@ -61,9 +61,9 @@ export enum ProcessStatus {
 }
 
 export enum ProcessType {
-  Employer_Payment = 'בטעינה',
-  Regular_Fix = 'מעבד',
-  Positive_Negative_Fix = 'מעובד',
-  Direct_Employer = 'שודר',
+  Employer_Payment = 'תשלומי מעסיק',
+  Regular_Fix = 'תיקון סוג 2',
+  Positive_Negative_Fix = 'תיקון 6+1',
+  Direct_Employer = 'ישיר',
   Manual_Payment = 'פידבק ראשון' ,
 }
