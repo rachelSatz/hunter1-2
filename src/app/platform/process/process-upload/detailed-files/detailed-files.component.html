@@ -8,13 +8,16 @@
   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
     <a class="dropdown-item" href="#">עדכון תאריך תשלום</a>
     <a class="dropdown-item" href="#">מחיקת שורה</a>
-    <a class="dropdown-item" href="#">צירוף אסמכתא</a>
+    <a class="dropdown-item" href="#" (click)="openDialogAttachReference()">צירוף אסמכתא</a>
     <a class="dropdown-item" href="#">הפוך ללא רלונטי</a>
   </div>
 </div>
 <table class="table table-bordered table-hover mt-3 data-table">
   <thead>
   <tr class="table-headers">
+    <!--<th *ngIf="items.length > 0">-->
+      <!--<mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>-->
+    <!--</th>-->
     <th *ngFor="let header of headers" (click)="sort(header)">
       <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
       <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
@@ -24,6 +27,9 @@
   <tbody>
   <ng-container *ngIf="!isSearching">
     <tr *ngFor="let item of paginatedItems" class="pointer">
+      <!--<td>-->
+        <!--<mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>-->
+      <!--</td>-->
       <td>{{ item.name }}</td>
       <td>{{ item.id }}</td>
       <td>{{ processType[item.type] }}</td>

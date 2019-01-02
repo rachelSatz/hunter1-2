@@ -15,10 +15,11 @@ export class PaymentComponent implements OnInit {
   fileId = 1;
   divshow = 2;
   ngOnInit() {
+
   }
 
   openDialog(): void {
-    this.processService.email(this.fileId);
+     this.processService.email(this.fileId);
      this.dialog.open(EmailComponent, {
        width: '550px',
        panelClass: 'email-dialog'

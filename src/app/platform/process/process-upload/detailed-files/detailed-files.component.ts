@@ -1,7 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DataTableComponent} from '../../../../shared/data-table/data-table.component';
-import {ActivatedRoute} from '@angular/router';
-import {DataTableHeader} from '../../../../shared/data-table/classes/data-table-header';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DataTableComponent } from '../../../../shared/data-table/data-table.component';
+import { ActivatedRoute } from '@angular/router';
+import { DataTableHeader } from '../../../../shared/data-table/classes/data-table-header';
+import { AttachReferenceComponent } from './attach-reference/attach-reference.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-detailed-files',
@@ -20,11 +22,18 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
     { column: 'reference', label: 'אסמכתא' }
   ];
 
-  constructor(route: ActivatedRoute) {
+  constructor(route: ActivatedRoute, private dialog: MatDialog) {
     super(route);
   }
 
   ngOnInit() {
+  }
+
+  openDialogAttachReference(): void {
+    this.dialog.open(AttachReferenceComponent, {
+      width: '550px',
+      panelClass: 'send-email-dialog'
+    });
   }
 
 }

@@ -59,22 +59,25 @@
   </table>
 </div>
   <div class="text-left">
-    <button class="btn blue-btn" onclick="divshow = 3">לביצוע תשלום</button>
+    <button class="btn blue-btn" (click)="divshow = 3">לביצוע תשלום</button>
   </div>
 </div>
 
 <div [hidden]="divshow != 3">
   <p>אנא בחר אפשרות תשלום</p>
-  <table class="mr-5">
+  <div class="container w-50">
+   <table>
     <tr>
       <td> <button class="btn blue-btn btn-lg f-12"  >אנא בחר הנחיות תשלום בפורמט אקסל </button></td>
-      <td>  <button class="btn blue-btn btn-lg f-12  mr-3"> " >הורדת קובץ מס"ב לתשלום</button></td>
+      <td>  <button class="btn blue-btn btn-lg f-12  mr-3">הורדת קובץ מס"ב לתשלום</button></td>
     </tr>
     <tr>
       <td></td>
-      <td class="float-left" colspan="2" ><p class="f-12 bold pointer" (click)="openDialogSendFileEmail()" >שליחת קובץ מס"ב למייל</p></td>
+        <td class="float-left" colspan="2" >
+        <p class="f-12 bold pointer" (click)="openDialogSendFileEmail()" ><i class="fa fa-long-arrow-left"></i>  שליחת קובץ מס"ב למייל  </p></td>
     </tr>
   </table>
+  </div>
   <div class="float-left">
     <button class="btn blue-btn">המשך</button>
   </div>
