@@ -10,8 +10,9 @@ import {UploadFile} from 'ngx-file-drop';
 
 
 @Injectable()
-export class CompensationService extends BaseHttpService {
 
+export class CompensationService extends BaseHttpService {
+  y= 'p'
   readonly endPoint = this.apiUrl + '/compensations';
 
   constructor(userSession: UserSessionService, private http: HttpClient) {
@@ -209,6 +210,30 @@ export class CompensationService extends BaseHttpService {
         .catch(() => []);
     }
   }
+// <<<<<<< HEAD
+
+  getErrorMessage(compensationID: number): Promise<Compensation> {
+    return this.http.get(this.endPoint + '/' + compensationID + '/getErrorMessage', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Compensation)
+      .catch(() => null);
+  }
+
+
+  getMasav(): Promise<any> {
+    const request = this.getBlobOptions();
+
+    const x = ['1', 'l', '3'];
+    request['params'] = x;
+
+
+    return this.http.get(this.endPoint + '/masav', request)
+    .toPromise()
+    .then(response => response as any)
+    .catch(() => null);
+  }
+// =======
+// >>>>>>> 17537a4c3d1fcd07d0119e25d86c86e6bd012265
 }
 
 

@@ -44,3 +44,7 @@ header {
 bd-select {
   width: 200px !important;
 }
+
+.disable{
+  pointer-events:none;
+}

@@ -35,7 +35,7 @@ import { BankAccountEmployerComponent } from "./bank-account-employer/bank-accou
     EmployeePaymentFormComponent,
     BankAccountEmployerComponent
   ],
-  entryComponents: [EmployeePaymentFormComponent,BankAccountEmployerComponent],
+  entryComponents: [EmployeePaymentFormComponent, BankAccountEmployerComponent],
   providers: [ProcessResolve]
 })
 export class ProcessModule {}

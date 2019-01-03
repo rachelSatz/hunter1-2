@@ -1,14 +1,14 @@
 <div class="container">
   <div class="d-flex justify-content-center my-5">
     <div class="step-title active" (click)="activeUploadStep = 1">
-      <span class="flex-grow-1">טעינת קובץ שלילי</span>
+      <span class="flex-grow-1">טעינת קובץ שכר</span>
       <div class="triangles">
         <div [ngClass]="{ 'blue': activeUploadStep > 1 }"></div>
         <div></div>
       </div>
     </div>
     <div class="step-title" (click)="activeUploadStep = 2" [ngClass]="{ 'active': activeUploadStep > 1 }">
-      <span class="flex-grow-1">פירוט החזרים</span>
+      <span class="flex-grow-1">תשלום</span>
       <div class="triangles">
         <div [ngClass]="{ 'blue': activeUploadStep === 3 }"></div>
         <div></div>

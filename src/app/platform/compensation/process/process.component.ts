@@ -11,7 +11,9 @@ import {map, startWith} from 'rxjs/operators';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
+
 import { ExcelComponent } from './excel/compensation/compensation.component';
+
 import { EmployeesComponent } from './excel/employees/employees.component';
 import { CommentsComponent } from './comments/comments.component';
 import { DetailsComponent } from './details/details.component';
@@ -196,8 +198,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
       this.helpers.setPageSpinner(false);
       if (response) {
         if (response['list_exceptions'].length > 0) {
-          console.log();
-          this.notificationService.error(' הבקשות נכשלו. ' + response['list_exceptions'], 'הבקשות נכשלו.');
+          this.notificationService.error('הבקשות נכשלו. ' + response['list_exceptions'] ,
+            ' הבקשות נכשלו.  ' + response['message'] );
         }else {
           this.notificationService.success('הבקשות נשלחו בהצלחה.');
           this.checkedItems = [];
@@ -251,7 +253,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
       return;
     }
 
-    this.compensationService.manualChangingStatus(this.checkedItems.map(item => item.id), this.searchCriteria).then(response => {
+    this.compensationService.manualChangingStatus(this.checkedItems.map(item => item.id),
+      this.searchCriteria).then(response => {
         this.checkedItems = [];
         this.isCheckAll = false;
         this.setResponse(response);

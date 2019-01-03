@@ -7,7 +7,7 @@ import {
   Input,
   Output,
   ViewChild,
-  OnChanges,
+  OnChanges
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
