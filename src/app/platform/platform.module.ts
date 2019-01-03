@@ -27,6 +27,7 @@ const routes: Routes = [
       { path: 'process/new', loadChildren: 'app/platform/process/process-upload/payment/payment.module#PaymentModule' },
       { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' }
+
     ]
   }
 ];

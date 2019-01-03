@@ -245,7 +245,11 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
   }
 
   getUploadFile(processId: number): Promise<any> {
-    return this.http.post(this.endPoint + '/UploadFile', {processId: processId}, this.getTokenHeader())
+    const request = this.getTokenHeader();
+
+      request['processId'] = processId;
+
+    return this.http.get(this.endPoint + '/UploadFile', request)
       .toPromise()
       .then(response => response  as any)
       .catch(response => response  as any);

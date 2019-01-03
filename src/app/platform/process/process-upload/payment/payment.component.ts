@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material';
 import { EmailComponent } from './email/email.component';
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { ProcessService } from '../../../../shared/_services/http/process.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -11,13 +12,13 @@ import { ProcessService } from '../../../../shared/_services/http/process.servic
   styles: ['.thborder { border-bottom: 2px solid #dee2e6 }' ]
 })
 export class PaymentComponent implements OnInit {
-  constructor( private dialog: MatDialog, private  processService: ProcessService) { }
+  constructor( private dialog: MatDialog, private  processService: ProcessService,  private router: Router) { }
   fileId = 1;
   divshow = 1;
   email: string;
   ngOnInit() {
-    // this.processService.getUploadFile(this.fileId)
-    //   .then( () => { });
+    this.processService.getUploadFile(this.fileId)
+      .then( () => { });
 
   }
 
@@ -39,5 +40,9 @@ export class PaymentComponent implements OnInit {
 
   getEmailUser() {
     this.processService.getEmailUser().then( response => this.email = response['email']);
+  }
+
+  goToHomePage() {
+    this.router.navigate(['platform', 'dashboard']);
   }
 }
