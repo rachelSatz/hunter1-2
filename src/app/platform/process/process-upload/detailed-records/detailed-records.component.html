@@ -1,8 +1,8 @@
 
 <div class="d-flex filter-row mb-1">
-  <bd-select [items]="departments" placeholder="בחר עובד" ></bd-select>
-  <bd-select [items]="departments" placeholder="בחר קופה" ></bd-select>
-  <bd-select [items]="departments" placeholder="בחר סינון" ></bd-select>
+  <bd-select [items]="departments1" placeholder="בחר עובד" ></bd-select>
+  <bd-select [items]="departments2" placeholder="בחר קופה" ></bd-select>
+  <bd-select [items]="departments3" placeholder="בחר סינון" ></bd-select>
   <mat-form-field>
     <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">
     <i matSuffix class="fa fa-search"></i>
