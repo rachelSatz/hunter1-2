@@ -15,7 +15,8 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
-  MatSelectModule
+  MatSelectModule,
+  MatProgressBarModule
 } from '@angular/material';
 
 const routes: Routes = [
@@ -30,7 +31,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FileDropModule,
     MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule, MatSelectModule, MatChipsModule, MatIconModule,
-    MatAutocompleteModule,
+    MatAutocompleteModule, MatProgressBarModule
   ],
   providers: [ProcessService],
   declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent],

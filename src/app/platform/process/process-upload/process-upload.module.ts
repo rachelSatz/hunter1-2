@@ -9,8 +9,8 @@ import { DetailedFilesComponent } from './detailed-files/detailed-files.componen
 
 const routes: Routes = [
   { path: '', component: ProcessUploadComponent, children: [
-      { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule' },
-      { path: 'payment', loadChildren: './payment/payment.module#PaymentModule' }
+      { path: 'payment', loadChildren: './process-data/process-data.module#ProcessDataModule' },
+      { path: '', loadChildren: './payment/payment.module#PaymentModule' }
       // { path: 'broadcast', loadChildren: './payment/payment.module#PaymentModule' }
     ]}
 ];
