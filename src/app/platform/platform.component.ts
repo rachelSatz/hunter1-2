@@ -18,6 +18,7 @@ export class PlatformComponent implements OnInit {
   departments = [];
   organizationId: number;
   employerId: object;
+  departmentId: object;
 
   readonly menuLinks = [
     { url: 'dashboard', label: 'דף הבית' },
@@ -25,10 +26,10 @@ export class PlatformComponent implements OnInit {
         { url: 'process', label: 'מעקב יתרות לפיצויים' },
         { url: 'dashboard', label: 'מצג סטטוסים' }
       ]},
-    // { url: 'process', label: 'תהליכים', subMenuLinks: [
-    //   { url: 'new', label: 'צור תהליך חדש' },
-    //   { url: 'table', label: 'תהליכים' }
-    // ]},
+    { url: 'process', label: 'תהליכים', subMenuLinks: [
+      { url: 'new', label: 'צור תהליך חדש' },
+      { url: 'table', label: 'תהליכים' }
+    ]},
     // { url: 'feedback', label: 'היזונים חוזרים', subMenuLinks: [
     //   { url: 'graph', label: 'גרף' },
     //   { url: 'table/employees', label: 'טבלת עובדים' },
@@ -38,9 +39,9 @@ export class PlatformComponent implements OnInit {
     //   { url: 'employees', label: 'לפי עובד' },
     //   { url: 'files', label: 'לפי קובץ' }
     // ]},
-    // { url: 'finance', label: 'פיננסים', subMenuLinks: [
-    //   { url: 'invoices', label: 'חשבונות חייבים' }
-    // ]},
+    { url: 'finance', label: 'פיננסים', subMenuLinks: [
+      { url: 'invoices', label: 'חשבונות חייבים' }
+    ]},
     { url: 'settings', label: 'הגדרות', subMenuLinks: [
       // { url: 'employees', label: 'עובדים' },
       { url: 'organizations', label: 'ארגונים' },
@@ -103,6 +104,7 @@ export class PlatformComponent implements OnInit {
     this.employers.sort((a, b) => a.id - b.id);
     this.employerId = this.employers.length > 0 ?  this.employers[0] : 0;
     this.organizationId = organizationID;
+    // this.selectUnit.changeOrganizationEmployer(this.organizationId, this.employerId['id']);
     this.loadDepartments(this.employerId['id']);
   }
 

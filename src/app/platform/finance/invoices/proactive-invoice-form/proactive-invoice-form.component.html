@@ -11,7 +11,7 @@
   </div>
   <div class="w-100">
     <mat-form-field>
-      <input matInput class="pointer" (click)="datePickerRequest.open()" [matDatepicker]="datePickerRequest" placeholder="בגין חודש" name="for_month" (dateChange)="valueDateChange($event.value)" readonly>
+      <!--<input matInput class="pointer" (click)="datePickerRequest.open()" [matDatepicker]="datePickerRequest" placeholder="בגין חודש" name="for_month" (dateChange)="valueDateChange($event.value)" readonly>-->
       <mat-datepicker-toggle matSuffix [for]="datePickerRequest"></mat-datepicker-toggle>
       <mat-datepicker #datePickerRequest></mat-datepicker>
       <mat-error>שדה חובה.</mat-error>

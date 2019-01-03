@@ -4,13 +4,12 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import * as FileSaver from 'file-saver';
 import { HelpersService} from 'app/shared/_services/helpers.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import {InvoiceService} from '../../../../shared/_services/http/invoice.service';
+import { InvoiceService } from '../../../../shared/_services/http/invoice.service';
 
 
 @Component({
   selector: 'app-employers-finance-excel',
   templateUrl: './employers-finance-excel.component.html',
-  styleUrls: ['./employers-finance-excel.component.css'],
   animations: [
     trigger('fade', [
       state('inactive', style({
