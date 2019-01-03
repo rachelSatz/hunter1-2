@@ -18,17 +18,8 @@ export class PaymentComponent implements OnInit {
   email: string;
   ngOnInit() {
     this.processService.getUploadFile(this.fileId)
-      .then( () => { });
-
-  ngOnInit() {}
-
-  openDialog(): void {
-    this.getEmailUser();
-     this.dialog.open(EmailComponent, {
-       data: this.email,
-       width: '550px',
-       panelClass: 'email-dialog'
-     });
+      .then(() => {
+      });
   }
 
   openDialogSendFileEmail(): void {
@@ -36,9 +27,5 @@ export class PaymentComponent implements OnInit {
       width: '550px',
       panelClass: 'send-email-dialog'
     });
-  }
-
-  getEmailUser() {
-    this.processService.getEmailUser().then( response => this.email = response['email']);
   }
 }
