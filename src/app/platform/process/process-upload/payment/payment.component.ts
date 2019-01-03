@@ -16,15 +16,15 @@ export class PaymentComponent implements OnInit {
   divshow = 1;
   email: string;
   ngOnInit() {
-    // this.processService.getUploadFile(this.fileId)
-    //   .then( () => { });
+    this.processService.getUploadFile(this.fileId)
+      .then( () => { });
 
   }
 
   openDialog(): void {
     this.getEmailUser();
      this.dialog.open(EmailComponent, {
-       // data: this.email,
+       data: this.email,
        width: '550px',
        panelClass: 'email-dialog'
      });

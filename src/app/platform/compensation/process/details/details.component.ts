@@ -15,6 +15,7 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['../../../../shared/data-table/data-table.component.css'],
+  styles: ['table td { word-wrap:break-word }'],
   animations: [
     trigger('fade', [
       state('inactive', style({

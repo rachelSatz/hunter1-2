@@ -44,7 +44,8 @@ export class CompensationService extends BaseHttpService {
     const values = {
       projected_balance: compensation.projected_balance,
       reported_balance: compensation.reported_balance,
-      has_by_safebox: compensation.has_by_safebox
+      has_by_safebox: compensation.has_by_safebox,
+      portal_balance: compensation.portal_balance
     };
 
     const formData = new FormData();
