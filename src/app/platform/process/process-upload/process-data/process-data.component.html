@@ -1,7 +1,12 @@
 <div class="container">
+<<<<<<< HEAD:src/app/platform/process/process-data/process-data.component.html
   <app-process-upload></app-process-upload>
   <form #form="ngForm" class="mt-5">
     <div [@fade]="pageNumber === 1 ? 'active' : 'inactive'">
+=======
+  <form #form="ngForm" class="mt-5 m-0" >
+    <div [hidden]="pageNumber !== 1" >
+>>>>>>> 05fb9eb7f6a62f51ff2383c70eef5ae611395bb5:src/app/platform/process/process-upload/process-data/process-data.component.html
       <p class="h4">נתוני תהליך</p>
       <p class="grey-color f-12 mb-2">במסך זה יש להזין את פרטי התהליך</p>
       <mat-form-field class="w-50 mt-3">
@@ -38,6 +43,7 @@
           <p class="text-danger" *ngIf="fileTypeError">יש להעלות קבצי XML בלבד.</p>
         </div>
     </div>
+<<<<<<< HEAD:src/app/platform/process/process-data/process-data.component.html
     <div class="d-flex justify-content-end" *ngIf="pageNumber === 1">
       <button class="btn blue-btn mt-5" (click)="setPage(1, form)">המשך</button>
     </div>
@@ -53,5 +59,20 @@
       </span>
       <button class="btn blue-btn mt-5" (click)="paymentPopup(form)" onclick="uploadFile()">המשך</button>
     </div>
+=======
+    <ng-container *ngIf="pageNumber === 1; else secondButton">
+      <div class="w-100 d-flex justify-content-end">
+        <button  class="float-md-left btn blue-btn mt-5" (click)="next(1, form)">המשך</button>
+      </div>
+    </ng-container>
+    <ng-template #secondButton>
+      <div class="w-100 d-flex justify-content-between mt-2">
+         <span (click)="next(-1, form)">
+          <p class="pointer mt-5 blue-color"><i class="fa fa-angle-right"></i>       חזור</p>
+        </span>
+        <button class="btn blue-btn mt-5" click="uploadFile()">המשך</button>
+      </div>
+    </ng-template>
+>>>>>>> 05fb9eb7f6a62f51ff2383c70eef5ae611395bb5:src/app/platform/process/process-upload/process-data/process-data.component.html
   </form>
 </div>

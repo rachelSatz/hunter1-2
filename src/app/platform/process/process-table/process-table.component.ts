@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
@@ -32,7 +32,7 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
     , { column: 'download', label: 'הורדה' }
   ];
 
-  constructor(route: ActivatedRoute, private processService: ProcessService,
+  constructor(route: ActivatedRoute, private router: Router, private processService: ProcessService,
               private selectUnit: SelectUnitService) {
     super(route);
     this.searchCriteria['year'] = this.year;
@@ -60,6 +60,10 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
   ngOnDestroy() {
     super.ngOnDestroy();
     this.sub.unsubscribe();
+  }
+
+  redirect(): void {
+    this.router.navigateByUrl('/new');
   }
 
 }

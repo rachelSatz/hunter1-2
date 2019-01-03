@@ -261,11 +261,34 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
     .then(response => response  as any[]);
   }
 
-  email(fileId: number): Promise<boolean> {
-    return this.http.post(this.endPoint + '/email', {file_id: fileId}, this.getTokenHeader())
+  getUploadFile(processId: number): Promise<any> {
+    return this.http.post(this.endPoint + '/UploadFile', {processId: processId}, this.getTokenHeader())
       .toPromise()
-      .then(() => true)
-      .catch(() => false);
+      .then(response => response  as any)
+      .catch(response => response  as any);
   }
+<<<<<<< HEAD
+=======
+
+  getEmailUser(): Promise<object> {
+    return this.http.get(this.apiUrl  + '/user_email', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+
+  uploadProcess(file?: File): Promise<boolean> {
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      return this.http.post(this.endPoint + '/uploadProcess', formData, this.getTokenHeader())
+        .toPromise()
+        .then(() => true)
+        .catch(() => false);
+    }
+  }
+>>>>>>> 05fb9eb7f6a62f51ff2383c70eef5ae611395bb5
 }
 

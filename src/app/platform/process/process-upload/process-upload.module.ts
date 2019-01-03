@@ -10,9 +10,14 @@ import { BroadcastProcessComponent } from './broadcast-process/broadcast-process
 
 const routes: Routes = [
   { path: '', component: ProcessUploadComponent, children: [
+<<<<<<< HEAD
       { path: '', loadChildren: './payment/payment.module#PaymentModule' },
       { path: 'payment', loadChildren: './upload-file/upload-file.module#UploadFileModule' },
       { path: 'new', loadChildren: '../process-upload/process-upload.module#ProcessUplodModule' }
+=======
+      { path: 'payment', loadChildren: './process-data/process-data.module#ProcessDataModule' },
+      { path: '', loadChildren: './payment/payment.module#PaymentModule' }
+>>>>>>> 05fb9eb7f6a62f51ff2383c70eef5ae611395bb5
       // { path: 'broadcast', loadChildren: './payment/payment.module#PaymentModule' }
     ]}
 ];

@@ -31,6 +31,12 @@ constructor() {
   }
 }
 
+export class ViewProcess {
+  status: string;
+
+
+}
+
 export enum StepStatus {
   error = -1,
   transmitted = 0,

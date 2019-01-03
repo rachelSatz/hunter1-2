@@ -36,12 +36,12 @@ export class SelectUnitService {
     this.unitSubject.next(departmentId);
   }
 
-  // changeOrganizationEmployer(organizationId: number, employerId: number): void {
-  //   this.currentEmployerID = employerId;
-  //   this.currentOrganizationID = organizationId;
-  //   this.unitSubject.next(organizationId);
-  //   this.unitSubject.next(employerId);
-  // }
+  changeOrganizationEmployer(organizationId: number, employerId: number): void {
+    this.currentEmployerID = employerId;
+    this.currentOrganizationID = organizationId;
+    this.unitSubject.next(organizationId);
+    this.unitSubject.next(employerId);
+  }
 
 }
 
