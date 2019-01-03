@@ -11,8 +11,7 @@ import {
   MatProgressBarModule, MatProgressSpinnerModule,
   MatSelectModule, MatTooltipModule
 } from '@angular/material';
-import {BdSelectModule} from '../../../../assets/js/bd-select/bd-select.module';
-import {ProcessUploadComponent} from '../process-upload/process-upload.component';
+import {BdSelectModule} from '../../../../../assets/js/bd-select/bd-select.module';
 import {FileDropModule} from 'ngx-file-drop';
 import { SelectDepComponent } from './select-dep/select-dep.component';
 
@@ -30,9 +29,8 @@ const routes: Routes = [
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule,
     MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, FileDropModule,
 
-
   ],
-  declarations: [ProcessDataComponent, ProcessUploadComponent, SelectDepComponent],
+  declarations: [ProcessDataComponent , SelectDepComponent],
   entryComponents: [SelectDepComponent]
 })
 export class ProcessDataModule { }

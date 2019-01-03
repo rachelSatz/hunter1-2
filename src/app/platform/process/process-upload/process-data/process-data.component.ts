@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ProcessService } from 'app/shared/_services/http/process.service';
 import {NgForm} from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
-import { MatDialog } from '@angular/material';
-import { SelectDepComponent } from './select-dep/select-dep.component';
-import { Month } from '../../../shared/_const/month-bd-select';
+import { Month } from '../../../../shared/_const/month-bd-select';
+import {Router} from '@angular/router';
 
 
 @Component({
   selector: 'app-process-data',
   templateUrl: './process-data.component.html',
   styleUrls: ['./process-data.component.css'],
-  providers: [ProcessService]
 })
 export class ProcessDataComponent implements OnInit {
 
@@ -32,7 +29,7 @@ export class ProcessDataComponent implements OnInit {
   processFile: File;
   fileTypeError = false;
 
-  constructor(private processService: ProcessService, private dialog: MatDialog) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
   }
@@ -62,40 +59,17 @@ export class ProcessDataComponent implements OnInit {
 
     this.processFile = file;
   }
-  uploadFile() {
-    this.spin = true;
-    this.processService.uploadProcess(this.processFile).then(response => {
-      console.log(response);
-    });
+
+  uploadFile(): void {
+    this.router.navigate(['./', 'payment']);
   }
 
   next(index, form: NgForm) {
    if (form.value.year && form.value.month) {
      this.pageNumber += index;
-     console.log(this.pageNumber);
    }
    if (index === -1) {
      this.pageNumber = 1;
-
    }
-
-  }
-
-  openDialog() {
-    this.dialog.open(SelectDepComponent, {
-      height: '120px',
-      width: '600px'
-    });
-
-    //
-    // openFormDialog(): void {
-    //   const dialog = this.dialog.open(FormComponent, {
-    //     data: { }
-    //   });
-    //
-    //   this.sub.add(dialog.afterClosed().subscribe(created => {
-    //
-    //   }));
-    // }
   }
 }

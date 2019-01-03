@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-email',
@@ -8,9 +8,11 @@ import {MatDialogRef} from '@angular/material';
 })
 export class EmailComponent implements OnInit {
 
-  email = 'e@gmail.co.il';
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string,
+              private router: Router,
+              private dialogRef: MatDialogRef<EmailComponent>) {
 
-  constructor( private router: Router, private dialogRef: MatDialogRef<EmailComponent>) { }
+  }
 
   ngOnInit() {
     setTimeout(() => {

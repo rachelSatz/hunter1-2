@@ -1,5 +1,4 @@
 <div class="container">
-  <app-process-upload></app-process-upload>
   <form #form="ngForm" class="mt-5 m-0" >
     <div [hidden]="pageNumber !== 1" >
       <p class="h4">נתוני תהליך</p>
@@ -45,7 +44,7 @@
          <span (click)="next(-1, form)">
           <p class="pointer mt-5 blue-color"><i class="fa fa-angle-right"></i>       חזור</p>
         </span>
-        <button class="btn blue-btn mt-5" onclick="uploadFile()">המשך</button>
+        <button class="btn blue-btn mt-5" click="uploadFile()">המשך</button>
       </div>
     </ng-template>
   </form>
