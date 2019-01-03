@@ -32,7 +32,7 @@ export class ProcessTransmissionComponent implements OnInit {
   payments: SendFile[] = [];
   public Send = false;
   public spin = false;
-  public checkboxValue: boolean = false;
+  public checkboxValue = false;
   public checklist: { fileId: number }[] = [{ fileId: 0 }];
 
   public checkBoxValue = true;
@@ -45,8 +45,7 @@ export class ProcessTransmissionComponent implements OnInit {
         return "תהליך שידור שלילי";
       }
       return "תהליך שידור";
-    }
-    else {
+    } else {
       return "שידור בוצע בהצלחה";
     }
   }
@@ -56,8 +55,7 @@ export class ProcessTransmissionComponent implements OnInit {
         return "להלן פרטי החזר מתוך קובץ ה-XML";
       }
       return "להלן פרטי הנתונים הפנסיונים לשידור לקופות";
-    }
-    else {
+    } else {
       if (this.process.NegativeProcess) {
         
           return "בקשת ההחזר הועברה לקופות בהצלחה!";
@@ -71,7 +69,7 @@ export class ProcessTransmissionComponent implements OnInit {
       let getSend = sessionStorage.getItem('Send' + this.process.id);
       console.log("getSend", getSend);
       console.log("mode", getSend);
-      if (getSend && getSend == "true") {
+      if (getSend && getSend === "true") {
         this.Send = true;
       }
 
@@ -181,8 +179,7 @@ export class ProcessTransmissionComponent implements OnInit {
       });
 
 
-    }
-    else {
+    } else {
       this.router.navigate(['dashboard'])
     }
 
@@ -197,25 +194,25 @@ export class ProcessTransmissionComponent implements OnInit {
       }
     });
   }
-  ConfirmDisclaimerFile(){
-    if(this.process.NegativeProcess){
+  ConfirmDisclaimerFile() {
+    if (this.process.NegativeProcess) {
        this.processService.getManufacturerByprocess(this.process.id).then(response => {
-       let manufacturers:Manufacturer[]=response;
+       let manufacturers: Manufacturer[] = response;
 
-         const payDetails: { fileUplode: Process,manufacturers: Manufacturer[]} = { fileUplode: this.process,manufacturers:manufacturers };
+       const payDetails: { fileUplode: Process, manufacturers: Manufacturer[]} = { fileUplode: this.process, manufacturers: manufacturers };
       const dialog = this.dialog.open(ConfirmDisclaimerFileComponent, {
         data: payDetails,
         width: '90%'
       });
         dialog.afterClosed().subscribe(data => {
-        this.Send=data;
+        this.Send = data;
     });
     });
     }
   }
   sendDetails() {
     if (!this.checkboxValue) {
-      this.notificationService.showResult("עליך לאשר שבדקת את הנתוני התשלום", "error");
+      this.notificationService.showResult"עליך לאשר שבדקת את הנתוני התשלום", "error");
       return;
     }
     if (this.checklist.length > 0) {
@@ -225,14 +222,14 @@ export class ProcessTransmissionComponent implements OnInit {
     this.processService.postTransition(this.process, this.checklist)
       .then(response => {
         this.spin = false;
-        if (response.Success == 0) {
+        if (response.Success === 0) {
           this.Send = true;
           sessionStorage.setItem('Send' + this.process.id, this.Send.toString());
         }
 
 
 
-        this.notificationService.showResult(response.Message, response.Success == "1" ? "error" : "success");
+        this.notificationService.showResult(response.Message, response.Success === '1' ? 'error' : 'success');
 
 
       });

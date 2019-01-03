@@ -13,7 +13,7 @@ import { ProcessComponent } from './process.component';
 import { EmployeePaymentsTableComponent } from './employee-payments-table/employee-payments-table.component';
 import { EmployeePaymentFormComponent } from './employee-payment-form/employee-payment-form.component';
 import { ProcessResolve } from '../../shared/_resolves/process.resolve';
-import { BankAccountEmployerComponent } from "./bank-account-employer/bank-account-employer.component";
+import { BankAccountEmployerComponent } from './bank-account-employer/bank-account-employer.component';
 
 
 @NgModule({
