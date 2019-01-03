@@ -1,0 +1,52 @@
+<div class="container">
+  <form #form="ngForm" class="mt-5 m-0" >
+    <div [hidden]="pageNumber !== 1" >
+      <p class="h4">נתוני תהליך</p>
+      <p class="grey-color f-12 mb-2">במסך זה יש להזין את פרטי התהליך</p>
+      <mat-form-field class="w-50 mt-3">
+        <input matInput type="text" name="processName" ngModel placeholder="שם תהליך" >
+      </mat-form-field>
+      <p class="grey-color f-12">בשדה זה ניתן להזין מלל חופשי אשר יתווסף לצורך זיהוי התהליך</p>
+    <div class="d-flex w-100">
+      <bd-select [items]="month" name="month" ngModel [required]="true" placeholder="בחר חודש*"></bd-select>
+      <bd-select [items]="year" name="year" ngModel required placeholder="בחר שנה*" class="mr-4"></bd-select>
+    </div>
+    </div>
+    <div [hidden]="pageNumber !== 2"  >
+        <div>
+          <h4>טעינת נתונים</h4>
+          <p class="grey-color f-12 mb-2">במסך זה יש לבצע טעינת נתונים מתוך קובץ XML</p>
+        </div>
+        <div class="mt-5">
+          <mat-spinner class="mr-auto ml-auto mb-3" *ngIf="spin"></mat-spinner>
+          <file-drop  [ngClass]="{ 'uploaded': processFile }" ng2FileDrop (onFileDrop)="getFileFromDrop($event)">
+            <label class="pointer" *ngIf="!processFile" (change)="setFile($event.target.files[0])">
+              <img style="width: 35px;" src="/assets/img/icons/cloud-backup.svg" class="mr-5 mb-1">
+              <p class="h5 grey-color">בחר קובץ להעלאה</p>
+              <p class="h5 grey-color">או גרור קבצים לכאן</p>
+              <input type="file">
+            </label>
+            <div class="text-center" *ngIf="processFile">
+              <i class="fa fa-check-circle-o "></i>
+              <p class="text-dark"><i class="fa fa-times ml-2 pointer " (click)="processFile = null"></i>{{ processFile.name }}</p>
+            </div>
+          </file-drop>
+          <p class="text-danger" *ngIf="fileTypeError">יש להעלות קבצי XML בלבד.</p>
+        </div>
+    </div>
+    <ng-container *ngIf="pageNumber === 1; else secondButton">
+      <div class="w-100 d-flex justify-content-end">
+        <button  class="float-md-left btn blue-btn mt-5" (click)="next(1, form)">המשך</button>
+      </div>
+    </ng-container>
+    <ng-template #secondButton>
+      <div class="w-100 d-flex justify-content-between mt-2">
+         <span (click)="next(-1, form)">
+          <p class="pointer mt-5 blue-color"><i class="fa fa-angle-right"></i>       חזור</p>
+        </span>
+        <button class="btn blue-btn mt-5" click="uploadFile()">המשך</button>
+      </div>
+    </ng-template>
+  </form>
+  <!--<button class="btn blue-btn" (click)="openDialog()">בקשה חדשה</button>-->
+</div>

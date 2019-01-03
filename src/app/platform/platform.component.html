@@ -32,7 +32,8 @@
           </ul>
         </div>
         <bd-select [items]="helpers.organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
-        <bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="selectEmployer($event)"></bd-select>
+        <bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
+        <bd-select [items]="departments" class="ml-3" [(ngModel)]="departmentId" placeholder="מחלקה" (onSelect)="selectDepartment($event)"  [ngClass]="{'disable': employerId === undefined || employerId['id'] === 0}" style="display: none"></bd-select>
         <a class="navbar-brand" (click)="logout()">
           <img src="/assets/img/logo.svg" class="logo" alt="לוגו של סמארטי">
           <p class="mt-3 text-left f-14 grey-color">
