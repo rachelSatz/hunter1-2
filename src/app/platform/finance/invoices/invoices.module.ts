@@ -9,6 +9,11 @@ import { MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule,
   MatSelectModule, MatIconModule, MatAutocompleteModule } from '@angular/material';
 import { DatePickerModule } from '../../../shared/app-date-picker/app-date-picker.module';
 import { PipesModule } from '../../../shared/_pipes/pipes.module';
+import {InvoiceService} from '../../../shared/_services/http/invoice.service';
+import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
+import {EmployerService} from '../../../shared/_services/http/employer.service';
+import {RemarksFormComponent} from './remarks-form/remarks-form.component';
+import {EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
@@ -27,6 +32,13 @@ const routes: Routes = [
     PipesModule
 
   ],
-  declarations: [InvoicesComponent]
+  declarations: [
+    InvoicesComponent,
+    ProactiveInvoiceFormComponent,
+    RemarksFormComponent,
+    EmployersFinanceExcelComponent
+  ],
+  providers: [InvoiceService, EmployerService],
+  entryComponents: [ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent]
 })
 export class InvoicesModule { }

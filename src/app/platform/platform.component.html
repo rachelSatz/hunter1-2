@@ -16,6 +16,7 @@
                   </figure>
                   <p>{{ link.label }}</p>
                 </a>
+
               </li>
               <li [matMenuTriggerFor]="subMenu" class="nav-item pointer" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="link.subMenuLinks">
                 <figure>
