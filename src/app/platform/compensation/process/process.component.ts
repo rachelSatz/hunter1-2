@@ -282,10 +282,16 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   openDetailsDialog(item: Object): void {
-    this.dialog.open(DetailsComponent, {
+    const dialog = this.dialog.open(DetailsComponent, {
       data: item,
-      width: '600px'
+      width: '680px'
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(created => {
+      if (created) {
+        this.fetchItems();
+      }
+    }));
   }
 
   openErrorMessageDialog(item: Object): void {

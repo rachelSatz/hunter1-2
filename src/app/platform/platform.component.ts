@@ -18,10 +18,11 @@ export class PlatformComponent implements OnInit {
   departments = [];
   organizationId: number;
   employerId: object;
+  departmentId: object;
 
   readonly menuLinks = [
-    { url: 'dashboard', label: 'דף הבית' },
-    { url: 'compensations', label: 'יתרות לפיצויים', subMenuLinks: [
+        { url: 'dashboard', label: 'דף הבית' },
+        { url: 'compensations', label: 'יתרות לפיצויים', subMenuLinks: [
         { url: 'process', label: 'מעקב יתרות לפיצויים' },
         { url: 'dashboard', label: 'מצג סטטוסים' }
       ]},
@@ -103,6 +104,7 @@ export class PlatformComponent implements OnInit {
     this.employers.sort((a, b) => a.id - b.id);
     this.employerId = this.employers.length > 0 ?  this.employers[0] : 0;
     this.organizationId = organizationID;
+    // this.selectUnit.changeOrganizationEmployer(this.organizationId, this.employerId['id']);
     this.loadDepartments(this.employerId['id']);
   }
 
