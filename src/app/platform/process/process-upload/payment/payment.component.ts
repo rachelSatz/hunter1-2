@@ -2,13 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { EmailComponent } from './email/email.component';
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
-<<<<<<< HEAD
-import { ProcessService } from '../../../../shared/_services/http/process.service';
+// import { ProcessService } from '../../../../shared/_services/http/process.service';
 import {Router} from '@angular/router';
-
-=======
 import { ProcessService } from 'app/shared/_services/http/process.service';
->>>>>>> 58d272f074bcd2340005032d4f032a027e886e78
+import {ErrorMessageComponent} from './error-message/error-message.component';
 
 @Component({
   selector: 'app-payment',
@@ -16,21 +13,46 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
   styles: ['.thborder { border-bottom: 2px solid #dee2e6 }' ]
 })
 export class PaymentComponent implements OnInit {
-<<<<<<< HEAD
   constructor( private dialog: MatDialog, private  processService: ProcessService,  private router: Router) { }
-=======
-
-  constructor( private dialog: MatDialog, private  processService: ProcessService) {}
-
->>>>>>> 58d272f074bcd2340005032d4f032a027e886e78
   fileId = 1;
-
+  divshow = 1;
+  progress_status = '';
+  progress_percent = 0;
+  progress_num;
+  data;
   email: string;
+  name = 'someone'
   ngOnInit() {
     this.processService.getUploadFile(this.fileId)
-<<<<<<< HEAD
-      .then( () => { });
-
+      .then( response => this.data = response);
+        if (this.data != null) {
+          this.progress_status = this.data['status'];
+          switch (this.progress_status) {
+            case 'Progressing': {
+              this.progress_percent = 100;
+              setTimeout(() => {
+                this.divshow = 2;
+              }, 2000);
+              break;
+            }
+            case 'Loading': {
+              this.progress_percent = this.data['percent']
+              break;
+            }
+            case 'Error_Loading': {
+              this.openErrorDialog()
+              break;
+            }
+            default: {
+              break;
+            }
+          }
+        } else {
+          this.progress_percent = 100;
+          setTimeout(() => {
+            this.divshow = 2;
+          }, 2000);
+        }
   }
 
   openDialog(): void {
@@ -40,19 +62,22 @@ export class PaymentComponent implements OnInit {
        width: '550px',
        panelClass: 'email-dialog'
      });
-=======
-      .then(() => {
-      });
->>>>>>> 58d272f074bcd2340005032d4f032a027e886e78
   }
 
+
+  openErrorDialog(): void {
+    this.getEmailUser();
+    this.dialog.open(ErrorMessageComponent, {
+      width: '550px'
+      // panelClass: 'email-dialog'
+    });
+  }
   openDialogSendFileEmail(): void {
     this.dialog.open(SendFileEmailComponent, {
       width: '550px',
       panelClass: 'send-email-dialog'
     });
   }
-<<<<<<< HEAD
 
   getEmailUser() {
     this.processService.getEmailUser().then( response => this.email = response['email']);
@@ -61,6 +86,5 @@ export class PaymentComponent implements OnInit {
   goToHomePage() {
     this.router.navigate(['platform', 'dashboard']);
   }
-=======
->>>>>>> 58d272f074bcd2340005032d4f032a027e886e78
+
 }

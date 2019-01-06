@@ -6,7 +6,7 @@
 
   <br/>
   <p class="f-12">ניתן להמתין לסיום הטעינה ולהורדת הנחיית תשלום</p>
-  <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+  <mat-progress-bar mode="determinate" [value]="progress_percent"></mat-progress-bar>
 </div>
 
 <div class="text-center"  [hidden]="divshow != 2">

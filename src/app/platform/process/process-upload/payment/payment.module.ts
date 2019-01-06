@@ -18,6 +18,7 @@ import {
   MatSelectModule,
   MatProgressBarModule
 } from '@angular/material';
+import {ErrorMessageComponent} from './error-message/error-message.component';
 
 const routes: Routes = [
   { path: '', component: PaymentComponent }
@@ -34,8 +35,8 @@ const routes: Routes = [
     MatAutocompleteModule, MatProgressBarModule
   ],
   providers: [ProcessService],
-  declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent],
-  entryComponents: [ EmailComponent, SendFileEmailComponent ]
+  declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent, ErrorMessageComponent],
+  entryComponents: [ EmailComponent, SendFileEmailComponent, ErrorMessageComponent ]
 })
 export class PaymentModule { }
 

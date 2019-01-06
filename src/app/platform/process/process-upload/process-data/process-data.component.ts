@@ -1,17 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD:src/app/platform/process/process-data/process-data.component.ts
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
-=======
 import {NgForm} from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
-import { Month } from '../../../../shared/_const/month-bd-select';
-import {Router} from '@angular/router';
->>>>>>> 05fb9eb7f6a62f51ff2383c70eef5ae611395bb5:src/app/platform/process/process-upload/process-data/process-data.component.ts
-
 import { Month } from 'app/shared/_const/month-bd-select';
 
 import { NotificationService } from 'app/shared/_services/notification.service';
@@ -22,7 +16,6 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
   selector: 'app-process-data',
   templateUrl: './process-data.component.html',
   styleUrls: ['./process-data.component.css'],
-<<<<<<< HEAD:src/app/platform/process/process-data/process-data.component.ts
   providers: [ProcessService, NotificationService],
   animations: [
     trigger('fade', [
@@ -38,8 +31,6 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
       transition('inactive => active', animate('300ms ease-in'))
     ])
   ]
-=======
->>>>>>> 05fb9eb7f6a62f51ff2383c70eef5ae611395bb5:src/app/platform/process/process-upload/process-data/process-data.component.ts
 })
 export class ProcessDataComponent implements OnInit {
 
@@ -63,13 +54,10 @@ export class ProcessDataComponent implements OnInit {
   processFile: File;
   fileTypeError = false;
 
-<<<<<<< HEAD:src/app/platform/process/process-data/process-data.component.ts
   constructor(private router: Router, private dialog: MatDialog,
               private processService: ProcessService, private notificationService: NotificationService,
               private selectUnitService: SelectUnitService) {}
-=======
   constructor(private router: Router) {}
->>>>>>> 05fb9eb7f6a62f51ff2383c70eef5ae611395bb5:src/app/platform/process/process-upload/process-data/process-data.component.ts
 
   ngOnInit() {
 
@@ -98,7 +86,6 @@ export class ProcessDataComponent implements OnInit {
     this.processFile = file;
   }
 
-<<<<<<< HEAD:src/app/platform/process/process-data/process-data.component.ts
 
   uploadFile() {
     this.spin = true;
@@ -136,7 +123,7 @@ export class ProcessDataComponent implements OnInit {
       text += 'במידה והתשלום לא בוצע לקופות הנך מועבר לקבלת הנחיית תשלום. ';
       text += 'ניתן יהיה לערוך את פרטי התשלום לפני שידור הנתונים לקופות.';
 
-      const buttons = { confirmButtonText: 'כן', cancelButtonText: 'לא' };
+      const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
       this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
         if (confirmation.value) {
@@ -157,7 +144,8 @@ export class ProcessDataComponent implements OnInit {
         }
       });
     }
-=======
+  }
+
   uploadFile(): void {
     this.router.navigate(['./', 'payment']);
   }
@@ -169,7 +157,6 @@ export class ProcessDataComponent implements OnInit {
    if (index === -1) {
      this.pageNumber = 1;
    }
->>>>>>> 05fb9eb7f6a62f51ff2383c70eef5ae611395bb5:src/app/platform/process/process-upload/process-data/process-data.component.ts
   }
 }
 
