@@ -8,12 +8,10 @@ import { UserSessionService } from '../user-session.service';
 import { Process } from '../../_models/process.model';
 import { ProcessDetails } from '../../_models/process-details.model';
 import { ProductPayment } from '../../_models/product-payment.model';
-import { DataTableOrderCriteria } from '../../data-table/classes/data-table-order-criteria';
 import { TransmissionData } from '../../_models/transmission-data.model';
 import { SendFile } from '../../_models/send-file.model';
 import { BankBranch } from '../../_models/bank-branch.model';
 import { Manufacturer } from '../../_models/manufacturer.model';
-import {Employer} from '../../_models/employer.model';
 
 @Injectable()
 export class ProcessService extends BaseHttpService {
@@ -37,6 +35,20 @@ export class ProcessService extends BaseHttpService {
     return this.http.get(this.endPoint, options)
       .toPromise()
       .then(response => response as Process[]);
+  }
+
+  newProcess(values: Object, file?: File): Promise<boolean> {
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(values));
+
+    if (file) {
+      formData.append('file', file);
+    }
+
+    return this.http.post(this.endPoint, formData, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
   }
 
   getProcessDetail(processID: number): Promise<ProcessDetails> {
@@ -76,15 +88,18 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .toPromise()
       .then(response => response as any);
   }
-  Updatetransmission(processID: number): Promise<any> {
-    return this.http.post(this.endPoint + '/' + processID + '/Updatetransmission', this.getTokenHeader())
+
+  updatetransmission(processID: number): Promise<any> {
+    return this.http.put(this.endPoint + '/' + processID + '/transmission', this.getTokenHeader())
       .toPromise()
       .then(response => response as any);
   }
+
   loadTransmissionTableData(processID: number): Promise<SendFile[]> {
     return this.http.get(this.endPoint + '/' + processID + '/transmission', this.getTokenHeader())
       .toPromise()
-      .then(response => response as SendFile[]);
+      .then(response => response as SendFile[])
+      .catch(() => []);
   }
 
   getTransmissionFileDetails(fileID: number): Promise<any[]> {
@@ -92,8 +107,8 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .toPromise()
       .then(response => response as any[]);
   }
-  postCreateBankFrom(payment: any): Promise<number> {
 
+  postCreateBankFrom(payment: any): Promise<number> {
     const body = {
       processId: payment.process.id,
       fileId: payment.file.id,
@@ -202,7 +217,6 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
    }
 
   postNewDateDetails(payment: any, date: string): Promise<any[]> {
-
     const body = {
       processId: payment.process.id,
       date: date,
@@ -214,6 +228,7 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .toPromise()
       .then(response => response as any[]);
   }
+
   postKeepHaveNegativeProcess(processId: number, KeepHaveNegativeProcess: boolean) {
     const body = {
       processId: processId,
@@ -223,6 +238,7 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .toPromise()
       .then(response => response);
   }
+
   closeAllProcess(processId: number, paysIds: number[], close: boolean): Promise<any> {
 
     const body = {
@@ -235,7 +251,8 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .toPromise()
       .then(response => response);
   }
-  UpdateEmployerBankBranchProcess(bankBranch: BankBranch, process: number): Promise<any[]> {
+
+  updateEmployerBankBranchProcess(bankBranch: BankBranch, process: number): Promise<any[]> {
     const body = {
       bankBranch: bankBranch,
     };

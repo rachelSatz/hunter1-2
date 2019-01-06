@@ -21,8 +21,8 @@ export class PlatformComponent implements OnInit {
   departmentId: object;
 
   readonly menuLinks = [
-    { url: 'dashboard', label: 'דף הבית' },
-    { url: 'compensations', label: 'יתרות לפיצויים', subMenuLinks: [
+        { url: 'dashboard', label: 'דף הבית' },
+        { url: 'compensations', label: 'יתרות לפיצויים', subMenuLinks: [
         { url: 'process', label: 'מעקב יתרות לפיצויים' },
         { url: 'dashboard', label: 'מצג סטטוסים' }
       ]},

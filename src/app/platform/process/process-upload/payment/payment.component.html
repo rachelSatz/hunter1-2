@@ -1,5 +1,5 @@
 
-<div class="text-center" [hidden]="divshow != 1" >
+<div class="text-center" [@fade]="pageNumber === 1 ? 'active' : 'inactive'" >
   <h5 class="bold">הקובץ בטעינה</h5>
   <p class="f-12 mb-0" >לנוחיותך ניתן כעת לצאת מהמערכת </p>
   <p class="f-12">  ליציאה וקבלת הנחיות תשלום במייל, <a class="bold" (click)="openDialog()">לחץ כאן</a></p>
@@ -9,7 +9,7 @@
   <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
 </div>
 
-<div class="text-center"  [hidden]="divshow != 2">
+<div class="text-center"  [@fade]="pageNumber === 2 ? 'active' : 'inactive'">
   <h5 class="bold">הקובץ נטען בהצלחה</h5>
   <p class="f-12">להלן פרטי נתונים הפנסיונים לשידור לקופות </p>
   <p class="f-12 bold">יש לאשר לפני השידור</p>
@@ -60,11 +60,11 @@
   </table>
 </div>
   <div class="text-left">
-    <button class="btn blue-btn" (click)="divshow = 3">לביצוע תשלום</button>
+    <button class="btn blue-btn" (click)="pageNumber = 3">לביצוע תשלום</button>
   </div>
 </div>
 
-<div [hidden]="divshow != 3">
+<div [@fade]="pageNumber === 3 ? 'active' : 'inactive'">
   <p>אנא בחר אפשרות תשלום</p>
   <div class="container w-50">
    <table>
