@@ -1,3 +1,4 @@
+
 <div class="container">
   <form #form="ngForm" class="mt-5">
     <div [@fade]="pageNumber === 1 ? 'active' : 'inactive'">
@@ -37,35 +38,16 @@
           <p class="text-danger" *ngIf="fileTypeError">יש להעלות קבצי XML בלבד.</p>
         </div>
     </div>
-
-    <div class="d-flex justify-content-end" *ngIf="pageNumber === 1">
-      <button class="btn blue-btn mt-5" (click)="setPage(1, form)">המשך</button>
-    </div>
-    <div [@fade]="hasServerError ? 'active': 'inactive'" class="alert alert-danger" role="alert">
-      <strong>אירעה שגיאה</strong>
-    </div>
-    <div class="d-flex justify-content-between mt-2" [@fade]="pageNumber === 2 ? 'active' : 'inactive'">
-       <span (click)="setPage(-1, form)">
-        <p class="pointer mt-5 blue-color">
-          <i class="fa fa-angle-right ml-1"></i>
-          <span>חזור</span>
-        </p>
-      </span>
-      <button class="btn blue-btn mt-5" (click)="paymentPopup(form)" onclick="uploadFile()">המשך</button>
-    </div>
-
-    <ng-container *ngIf="pageNumber === 1; else secondButton">
-      <div class="w-100 d-flex justify-content-end">
-        <button  class="float-md-left btn blue-btn mt-5" (click)="next(1, form)">המשך</button>
-      </div>
-    </ng-container>
-    <ng-template #secondButton>
-      <div class="w-100 d-flex justify-content-between mt-2">
-         <span (click)="next(-1, form)">
-          <p class="pointer mt-5 blue-color"><i class="fa fa-angle-right"></i>       חזור</p>
-        </span>
-        <button class="btn blue-btn mt-5" click="uploadFile()">המשך</button>
-      </div>
-    </ng-template>
-  </form>
+  <p [@fade]="hasServerError ? 'active': 'inactive'" class="alert alert-danger">שגיאת שרת, נסה שנית או צור קשר.</p>
+  <div class="d-flex justify-content-between mt-2">
+     <span (click)="setPage(1, form)">
+       <p class="pointer mt-5 blue-color">
+         <i class="fa fa-angle-right ml-1"></i>
+         <span>חזור</span>
+       </p>
+     </span>
+    <button class="btn blue-btn mt-5" (click)="uploadFile()">המשך</button>
+  </div>
+</form>
 </div>
+

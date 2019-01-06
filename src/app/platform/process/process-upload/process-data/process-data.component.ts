@@ -4,7 +4,6 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
-
 import { Month } from 'app/shared/_const/month-bd-select';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { SelectUnitService} from 'app/shared/_services/select-unit.service';
@@ -52,11 +51,12 @@ export class ProcessDataComponent implements OnInit {
   processFile: File;
   fileTypeError = false;
 
-
   constructor(private router: Router, private dialog: MatDialog,
               private processService: ProcessService, private notificationService: NotificationService,
               private selectUnitService: SelectUnitService) {}
+
   ngOnInit() {
+    console.log('your problem is different woman');
 
   }
 
@@ -98,7 +98,7 @@ export class ProcessDataComponent implements OnInit {
         case 2:
           this.hasServerError = false;
           this.pageNumber += index;
-    }
+  }
 
   }
 
@@ -140,13 +140,13 @@ export class ProcessDataComponent implements OnInit {
   }
 
   next(index, form: NgForm) {
-   if (form.value.year && form.value.month) {
-     this.pageNumber += index;
-   }
-   if (index === -1) {
-     this.pageNumber = 1;
-   }
+    if (form.value.year && form.value.month) {
+      this.pageNumber += index;
+    }
 
+    if (index === -1) {
+      this.pageNumber = 1;
+    }
   }
 }
 

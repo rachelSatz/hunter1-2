@@ -2,9 +2,10 @@
 <div class="text-center" [@fade]="pageNumber === 1 ? 'active' : 'inactive'" >
   <h5 class="bold">הקובץ בטעינה</h5>
   <p class="f-12 mb-0" >לנוחיותך ניתן כעת לצאת מהמערכת </p>
-  <p class="f-12">  ליציאה וקבלת הנחיות תשלום במייל, <a class="bold" (click)="openDialog()">לחץ כאן</a></p>
-
-  <br/>
+  <p class="f-12 mb-3">
+     <span>ליציאה וקבלת הנחיות תשלום במייל,</span>
+    <a class="bold" (click)="openDialog()">לחץ כאן</a>
+  </p>
   <p class="f-12">ניתן להמתין לסיום הטעינה ולהורדת הנחיית תשלום</p>
   <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
 </div>
@@ -16,7 +17,9 @@
 <div class="container w-50">
   <table class="table table-borderless">
     <thead>
-      <tr class="thborder"><th colspan="2">פרטי התהליך</th></tr>
+      <tr class="thborder">
+        <th colspan="2">פרטי התהליך</th>
+      </tr>
     </thead>
     <tbody>
       <tr>
@@ -41,7 +44,9 @@
 
   <table class="table table-borderless">
     <thead>
-        <tr class="thborder"><th colspan="2">פרטי התשלומים</th></tr>
+        <tr class="thborder">
+          <th colspan="2">פרטי התשלומים</th>
+        </tr>
     </thead>
     <tbody>
     <tr>
@@ -69,13 +74,21 @@
   <div class="container w-50">
    <table>
     <tr>
-      <td> <button class="btn blue-btn btn-lg f-12"  >אנא בחר הנחיות תשלום בפורמט אקסל </button></td>
-      <td>  <button class="btn blue-btn btn-lg f-12  mr-3">הורדת קובץ מס"ב לתשלום</button></td>
+      <td>
+        <button class="btn blue-btn btn-lg f-12"  >אנא בחר הנחיות תשלום בפורמט אקסל </button>
+      </td>
+      <td>
+        <button class="btn blue-btn btn-lg f-12  mr-3">הורדת קובץ מס"ב לתשלום</button>
+      </td>
     </tr>
     <tr>
       <td></td>
-        <td class="float-left" colspan="2" >
-        <p class="f-12 bold pointer" (click)="openDialogSendFileEmail()" ><i class="fa fa-long-arrow-left"></i>  שליחת קובץ מס"ב למייל  </p></td>
+      <td class="float-left" colspan="2" >
+        <p class="f-12 bold pointer" (click)="openDialogSendFileEmail()" >
+          <i class="fa fa-long-arrow-left"></i>
+          שליחת קובץ מס"ב למייל
+        </p>
+      </td>
     </tr>
   </table>
   </div>
