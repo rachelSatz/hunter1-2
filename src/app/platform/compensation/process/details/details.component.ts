@@ -37,6 +37,12 @@ export class DetailsComponent  extends DataTableComponent implements OnInit {
   spin: boolean;
   hasServerError: boolean;
 
+  readonly headers: DataTableHeader[] =  [
+    { column: 'file_name', label: 'שם הקובץ' }, { column: 'file_type', label: 'סוג' },
+    { column: 'file_upload', label: 'תאריך העלאה' },
+    { column: 'null', label: 'אפשריות' }
+  ];
+
   constructor(protected route: ActivatedRoute, @Inject(MAT_DIALOG_DATA) public compensation: Compensation,
               private dialogRef: MatDialogRef<DetailsComponent>, private compensationService: CompensationService)  {
             super(route);
@@ -45,13 +51,6 @@ export class DetailsComponent  extends DataTableComponent implements OnInit {
     ngOnInit() {
       this.setItems(this.compensation.files);
   }
-
-  readonly headers: DataTableHeader[] =  [
-    { column: 'file_name', label: 'שם הקובץ' }, { column: 'file_type', label: 'סוג' },
-    { column: 'file_upload', label: 'תאריך העלאה' },
-    { column: 'null', label: 'אפשריות' }
-  ];
-
 
   submit(form: NgForm): void {
     if (form.valid) {
@@ -88,7 +87,7 @@ export class DetailsComponent  extends DataTableComponent implements OnInit {
       this.compensationService.deleteFile(this.compensation.id, fileName).then(response => {
         if (response) {
           // console.log(response['file_list'])
-          this.compensation.files = response['file_list']
+          this.compensation.files = response['file_list'];
           this.dialogRef.close(this.compensation);
         } else {
           this.hasServerError = true;
