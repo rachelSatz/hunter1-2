@@ -56,6 +56,7 @@ export class ProcessDataComponent implements OnInit {
               private selectUnitService: SelectUnitService) {}
 
   ngOnInit() {
+    console.log('your problem is different woman');
 
   }
 
@@ -82,7 +83,6 @@ export class ProcessDataComponent implements OnInit {
     this.processFile = file;
   }
 
-
   setPage(index: number, form: NgForm): void {
     switch (this.pageNumber) {
       case 1:
@@ -98,8 +98,7 @@ export class ProcessDataComponent implements OnInit {
         case 2:
           this.hasServerError = false;
           this.pageNumber += index;
-    }
-
+  }
   }
 
   paymentPopup(form: NgForm): void {
@@ -135,6 +134,10 @@ export class ProcessDataComponent implements OnInit {
     }
   }
 
+  uploadFile(): void {
+    this.router.navigate(['./', 'payment']);
+  }
+
 
 
   next(index, form: NgForm) {
@@ -144,6 +147,9 @@ export class ProcessDataComponent implements OnInit {
    if (index === -1) {
      this.pageNumber = 1;
    }
+    if (form.value.year && form.value.month) {
+      this.pageNumber += index;
+    }
   }
 }
 

@@ -7,14 +7,14 @@
         <div></div>
       </div>
     </div>
-    <div class="step-title" (click)="activeUploadStep = 2" [ngClass]="{ 'active': activeUploadStep > 1 }">
+    <div class="step-title" routerLink="./payment" [ngClass]="{ 'active': activeUploadStep > 1 }">
       <span class="flex-grow-1">תשלום</span>
       <div class="triangles">
         <div [ngClass]="{ 'blue': activeUploadStep === 3 }"></div>
         <div></div>
       </div>
     </div>
-    <div class="step-title" (click)="activeUploadStep = 3" [ngClass]="{ 'active': activeUploadStep === 3 }">
+    <div class="step-title" routerLink="./broadcast" [ngClass]="{ 'active': activeUploadStep === 3 }">
       <span>שידור נתונים</span>
     </div>
   </div>

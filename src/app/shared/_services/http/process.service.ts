@@ -272,7 +272,6 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .catch(response => response  as any);
   }
 
-
   getEmailUser(): Promise<object> {
     return this.http.get(this.apiUrl  + '/user_email', this.getTokenHeader())
       .toPromise()

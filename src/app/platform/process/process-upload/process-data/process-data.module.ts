@@ -17,13 +17,11 @@ import {
   MatProgressBarModule, MatProgressSpinnerModule,
   MatSelectModule, MatTooltipModule
 } from '@angular/material';
-import {BdSelectModule} from '../../../../../assets/js/bd-select/bd-select.module';
-import {FileDropModule} from 'ngx-file-drop';
 import { SelectDepComponent } from './select-dep/select-dep.component';
 
 const routes: Routes = [
   { path: '', component: ProcessDataComponent },
-  { path: 'upload', loadChildren: '../process-upload/payment/payment.module#PaymentModule' }
+
 ];
 
 @NgModule({
@@ -39,5 +37,6 @@ const routes: Routes = [
 
   declarations: [ProcessDataComponent , SelectDepComponent],
   entryComponents: [SelectDepComponent],
+    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, FileDropModule
 })
 export class ProcessDataModule {}
