@@ -20,9 +20,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
-    MatButtonModule,
     BdSelectModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule,
+    MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule,
     MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, FileDropModule
   ],
   declarations: [ProcessDataComponent , SelectDepComponent],

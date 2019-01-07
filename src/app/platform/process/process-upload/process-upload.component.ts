@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {getRelativePath} from 'tslint/lib/configuration';
 
 
 @Component({
@@ -12,15 +14,16 @@ export class ProcessUploadComponent implements OnInit {
   activeUploadStep = 1;
 
   public files: any[] = [];
-  paymentsFile: File;
-  fileTypeError = false;
-  noFileError = false;
 
-
-  constructor() { }
+  constructor(public router: Router, protected route: ActivatedRoute) { }
 
   ngOnInit() {
 
+  }
+
+  setRouterLink(route: string , index: number): void {
+    this.activeUploadStep = index;
+    this.router.navigate( [route], { relativeTo: this.route});
   }
 
 

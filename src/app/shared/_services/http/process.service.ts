@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
-import { Process } from '../../_models/process.model';
+import { Process, ViewProcess } from '../../_models/process.model';
 import { ProcessDetails } from '../../_models/process-details.model';
 import { ProductPayment } from '../../_models/product-payment.model';
 import { TransmissionData } from '../../_models/transmission-data.model';
@@ -28,6 +28,7 @@ export class ProcessService extends BaseHttpService {
       .toPromise()
       .then(response => response as Process);
   }
+
   getProcesses(searchCriteria?: Object): Promise<Process[]> {
     const options = this.getTokenHeader();
     options['params'] = searchCriteria;
@@ -35,6 +36,15 @@ export class ProcessService extends BaseHttpService {
     return this.http.get(this.endPoint, options)
       .toPromise()
       .then(response => response as Process[]);
+  }
+
+  getFilesList(processId: number): Promise<ViewProcess[]> {
+    const options = this.getTokenHeader();
+    options['params'] = {processId : processId};
+
+    return this.http.get( this.endPoint + '/FilesList', options)
+      .toPromise()
+      .then(response => response as ViewProcess[]);
   }
 
   newProcess(values: Object, file?: File): Promise<boolean> {
@@ -269,7 +279,7 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
   }
 
   getEmailUser(): Promise<object> {
-    return this.http.get(this.apiUrl  + '/user_email', this.getTokenHeader())
+    return this.http.get(this.endPoint  + '/UserEmail', this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
