@@ -4,11 +4,8 @@ import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
-// import { ProcessService } from '../../../../shared/_services/http/process.service';
-import {Router} from '@angular/router';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import {ErrorMessageComponent} from './error-message/error-message.component';
-import {animate, state, style, transition, trigger} from '@angular/animations';
 import {EmailComponent} from './email/email.component';
 
 @Component({
@@ -34,31 +31,30 @@ export class PaymentComponent implements OnInit {
   constructor( public router: Router, private dialog: MatDialog, private  processService: ProcessService) {}
 
   fileId = 1;
-  progress_status = '';
-  progress_percent = 0;
-  progress_num;
+  process_status = '';
+  process_percent = 0;
   data;
   email: string;
   name = 'someone';
-  pageNumber = 1;
+  pageNumber = 2;
 
   ngOnInit() {
 
 
     this.processService.getUploadFile(this.fileId)
-      .then( response => this.data = response);
-        if (this.data != null) {
-          this.progress_status = this.data['status'];
-          switch (this.progress_status) {
+      .then(response => {
+        if (response['status'] != null) {
+          this.process_status = response['status'];
+          switch (this.process_status) {
             case 'Progressing': {
-              this.progress_percent = 100;
+              this.process_percent = 100;
               setTimeout(() => {
-                this.divshow = 2;
+                this.pageNumber = 2;
               }, 2000);
               break;
             }
             case 'Loading': {
-              this.progress_percent = this.data['percent'];
+              this.process_percent = response['percent'];
               break;
             }
             case 'Error_Loading': {
@@ -70,11 +66,10 @@ export class PaymentComponent implements OnInit {
             }
           }
         } else {
-          this.progress_percent = 100;
-          setTimeout(() => {
-            this.divshow = 2;
-          }, 2000);
+          this.process_percent = 100;
+          this.pageNumber = 2;
         }
+      });
   }
 
   openDialog(): void {
@@ -95,6 +90,7 @@ export class PaymentComponent implements OnInit {
       // panelClass: 'email-dialog'
     });
   }
+
 
 
 
