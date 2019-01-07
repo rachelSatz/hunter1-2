@@ -21,7 +21,7 @@ const routes: Routes = [
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule,
     MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule
   ],
-  declarations: [ProcessUploadComponent, DetailedFilesComponent],
+  declarations: [ProcessUploadComponent],
   providers: [ProcessService]
 })
 export class ProcessUploadModule {}
