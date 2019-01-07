@@ -38,7 +38,6 @@ export class PaymentComponent implements OnInit {
   email: string;
   name = 'someone';
   pageNumber = 1;
-  email: string;
 
   ngOnInit() {
     this.processService.getUploadFile(this.fileId)
