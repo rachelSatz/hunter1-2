@@ -32,7 +32,8 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 export class ProcessDataComponent implements OnInit {
 
   pageNumber = 1;
-  valid: boolean;
+  monthValid = true;
+  yearValid = true;
   isSubmitting = false;
   hasServerError: boolean;
 
@@ -91,9 +92,13 @@ export class ProcessDataComponent implements OnInit {
             // return;
           }
           this.pageNumber += index;
-        } else {
-          this.valid = false;
-        }
+        } if (form.value.month) {
+          this.monthValid = true;
+        } else { this.monthValid = false;
+        } if ( form.value.year ) {
+          this.yearValid = true;
+        } else { this.yearValid = false; }
+        console.log('year' + this.yearValid + 'and' + this.monthValid + 'month');
         break;
         case 2:
           this.hasServerError = false;

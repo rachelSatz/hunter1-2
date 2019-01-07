@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatDialog } from '@angular/material';
+import {DateUpdateComponent} from './date-update/date-update.component';
 
 
 @Component({
@@ -25,13 +27,21 @@ export class BroadcastComponent implements OnInit {
   pageNumber = 1;
   valid: boolean;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit() {
+
   }
 
-  nextPage() {
-    this.pageNumber = 2;
+  dateUpdate() {
+    const dialogRef = this.dialog.open(DateUpdateComponent, {
+      height: '230px',
+      width: '550px',
+    });
+    dialogRef.afterClosed().subscribe(
+      data => console.log(data)
+    );
   }
+
 
 }

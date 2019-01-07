@@ -1,21 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule, MatDialogModule } from '@angular/material';
+import { DateUpdateModule } from './date-update/date-update.module';
+
 import { BroadcastComponent } from './broadcast.component';
-import {RouterModule, Routes} from '@angular/router';
-import { MatCheckboxModule } from '@angular/material';
-import {FormsModule} from '@angular/forms';
 
 const routes: Routes = [
-  { path: '', component: BroadcastComponent}
-]
+  { path: '', component: BroadcastComponent }
+];
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    MatCheckboxModule,
-    FormsModule
+    MatCheckboxModule, MatDialogModule,
+    FormsModule,
+    DateUpdateModule
   ],
   declarations: [BroadcastComponent]
 })
-export class BroadcastModule { }
+export class BroadcastModule {}

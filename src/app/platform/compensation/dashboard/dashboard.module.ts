@@ -11,7 +11,7 @@ import { DashboardComponent } from './dashboard.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { UserService } from 'app/shared/_services/http/user.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import {DatePickerModule} from '../../../shared/app-date-picker/app-date-picker.module';
+import { DatePickerModule } from '../../../shared/app-date-picker/app-date-picker.module';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent }
