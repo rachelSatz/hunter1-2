@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Subscription } from 'rxjs/Subscription';
 import { Month } from 'app/shared/_const/month-bd-select';
 
 import { NotificationService } from 'app/shared/_services/notification.service';
@@ -14,7 +13,6 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
   selector: 'app-process-data',
   templateUrl: './process-data.component.html',
   styleUrls: ['./process-data.component.css'],
-// <<<<<<< HEAD:src/app/platform/process/process-data/process-data.component.ts
   providers: [ProcessService, NotificationService],
   animations: [
     trigger('fade', [
@@ -33,9 +31,8 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 })
 export class ProcessDataComponent implements OnInit {
 
-  sub = new Subscription;
   pageNumber = 1;
-
+  valid: boolean;
   isSubmitting = false;
   hasServerError: boolean;
 
@@ -53,14 +50,11 @@ export class ProcessDataComponent implements OnInit {
   processFile: File;
   fileTypeError = false;
 
-  constructor(private router: Router, private dialog: MatDialog,
-              private processService: ProcessService, private notificationService: NotificationService,
-              private selectUnitService: SelectUnitService) {}
-
+  constructor(private router: Router, private route: ActivatedRoute,
+              private dialog: MatDialog, private processService: ProcessService,
+              private notificationService: NotificationService, private selectUnitService: SelectUnitService) {}
 
   ngOnInit() {
-    console.log('your problem is different woman');
-
   }
 
   getFileFromDrop(event) {
@@ -87,13 +81,6 @@ export class ProcessDataComponent implements OnInit {
   }
 
 
-  // uploadFile() {
-  //   this.spin = true;
-  //   this.processService.newProcess(this.processFile).then(response => {
-  //     console.log(response);
-  //   });
-  // }
-
   setPage(index: number, form: NgForm): void {
     switch (this.pageNumber) {
       case 1:
@@ -104,17 +91,18 @@ export class ProcessDataComponent implements OnInit {
             // return;
           }
           this.pageNumber += index;
+        } else {
+          this.valid = false;
         }
         break;
         case 2:
           this.hasServerError = false;
           this.pageNumber += index;
-  }
-
+      }
   }
 
   paymentPopup(form: NgForm): void {
-    if (form.valid && !this.isSubmitting) {
+    if (form.valid && !this.isSubmitting && this.processFile ) {
       this.isSubmitting = true;
       this.hasServerError = false;
 
@@ -126,12 +114,11 @@ export class ProcessDataComponent implements OnInit {
       const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
       this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
-        if (confirmation.value) {
-          console.log(confirmation.value);
-          const data = [form.value, this.selectUnitService.currentDepartmentID, confirmation.value]
+          const data = [this.processFile, form.value, this.selectUnitService.currentDepartmentID, confirmation.value];
+          console.log((this.router.url).split('/'));
+
           this.processService.newProcess(data).then(response => {
-            console.log(data);
-            this.router.navigate(['upload']);
+            this.router.navigate(['./payment'], { relativeTo: this.route });
             if (response) {
             } else {
               this.hasServerError = true;
@@ -139,25 +126,13 @@ export class ProcessDataComponent implements OnInit {
 
             this.isSubmitting = false;
           });
-        } else {
-          this.isSubmitting = false;
-        }
       });
     }
   }
 
   uploadFile(): void {
     this.router.navigate(['./', 'payment']);
-  }
 
-  next(index, form: NgForm) {
-    if (form.value.year && form.value.month) {
-      this.pageNumber += index;
-    }
-
-    if (index === -1) {
-      this.pageNumber = 1;
-    }
   }
 }
 

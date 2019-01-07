@@ -1,20 +1,20 @@
 <div class="container">
   <div class="d-flex justify-content-center my-5">
-    <div class="step-title active" (click)="activeUploadStep = 1">
+    <div class="step-title active">
       <span class="flex-grow-1">טעינת קובץ שכר</span>
       <div class="triangles">
         <div [ngClass]="{ 'blue': activeUploadStep > 1 }"></div>
         <div></div>
       </div>
     </div>
-    <div class="step-title" routerLink="./payment" [ngClass]="{ 'active': activeUploadStep > 1 }">
+    <div class="step-title" routerLink="./payment" [ngClass]="{ 'active': setHeaderColor() >= 2 }">
       <span class="flex-grow-1">תשלום</span>
       <div class="triangles">
-        <div [ngClass]="{ 'blue': activeUploadStep === 3 }"></div>
-        <div></div>
+        <div [ngClass]="{ 'blue': setHeaderColor() === 2 }"></div>
+        <div class="triangles"></div>
       </div>
     </div>
-    <div class="step-title" routerLink="./broadcast" [ngClass]="{ 'active': activeUploadStep === 3 }">
+    <div class="step-title" routerLink="./broadcast" [ngClass]="{ 'active': setHeaderColor() === 3}">
       <span>שידור נתונים</span>
     </div>
   </div>

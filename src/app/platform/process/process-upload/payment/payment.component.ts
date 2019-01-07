@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { EmailComponent } from './email/email.component';
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 

@@ -6,6 +6,7 @@
   text-align: center;
   box-shadow: 0 3px 0 0 #ececec;
   font-weight: bold;
+  outline: 0;
 }
 
 .step-title.active {
@@ -40,5 +41,6 @@
 .active > .triangles > :last-child {
   border-bottom-color: #00aeee;
   border-right-color: #00aeee;
+  background-color: #00aeee;
 }
 
