@@ -4,10 +4,7 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
-import {NgForm} from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
 import { Month } from 'app/shared/_const/month-bd-select';
-
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { SelectUnitService} from 'app/shared/_services/select-unit.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
@@ -57,7 +54,6 @@ export class ProcessDataComponent implements OnInit {
   constructor(private router: Router, private dialog: MatDialog,
               private processService: ProcessService, private notificationService: NotificationService,
               private selectUnitService: SelectUnitService) {}
-  constructor(private router: Router) {}
 
   ngOnInit() {
 
@@ -86,13 +82,6 @@ export class ProcessDataComponent implements OnInit {
     this.processFile = file;
   }
 
-
-  uploadFile() {
-    this.spin = true;
-    this.processService.newProcess(this.processFile).then(response => {
-      console.log(response);
-    });
-  }
 
   setPage(index: number, form: NgForm): void {
     switch (this.pageNumber) {
@@ -128,7 +117,7 @@ export class ProcessDataComponent implements OnInit {
       this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
         if (confirmation.value) {
           console.log(confirmation.value);
-          const data = [form.value, this.selectUnitService.currentDepartmentID, confirmation.value]
+          const data = [form.value, this.selectUnitService.currentDepartmentID, confirmation.value];
           this.processService.newProcess(data).then(response => {
             console.log(data);
             this.router.navigate(['upload']);
@@ -146,9 +135,7 @@ export class ProcessDataComponent implements OnInit {
     }
   }
 
-  uploadFile(): void {
-    this.router.navigate(['./', 'payment']);
-  }
+
 
   next(index, form: NgForm) {
    if (form.value.year && form.value.month) {
