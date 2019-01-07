@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 // import { ProcessService } from '../../../../shared/_services/http/process.service';
 import {Router} from '@angular/router';
@@ -28,9 +31,9 @@ import {EmailComponent} from './email/email.component';
   ]
 })
 export class PaymentComponent implements OnInit {
-  constructor( private dialog: MatDialog, private  processService: ProcessService,  private router: Router) { }
+  constructor( public router: Router, private dialog: MatDialog, private  processService: ProcessService) {}
+
   fileId = 1;
-  divshow = 1;
   progress_status = '';
   progress_percent = 0;
   progress_num;
@@ -40,6 +43,8 @@ export class PaymentComponent implements OnInit {
   pageNumber = 1;
 
   ngOnInit() {
+
+
     this.processService.getUploadFile(this.fileId)
       .then( response => this.data = response);
         if (this.data != null) {
@@ -73,22 +78,26 @@ export class PaymentComponent implements OnInit {
   }
 
   openDialog(): void {
-    this.getEmailUser();
-     this.dialog.open(EmailComponent, {
-       // data: this.email,
-       width: '550px',
-       panelClass: 'email-dialog'
-     });
+    this.processService.getEmailUser().then( response => {
+      this.email = response['email'];
+      this.dialog.open(EmailComponent, {
+        data: this.email,
+        width: '550px',
+        panelClass: 'email-dialog'
+      });
+    });
   }
 
 
   openErrorDialog(): void {
-    this.getEmailUser();
     this.dialog.open(ErrorMessageComponent, {
       width: '550px'
       // panelClass: 'email-dialog'
     });
   }
+
+
+
   openDialogSendFileEmail(): void {
     this.dialog.open(SendFileEmailComponent, {
       width: '550px',
@@ -96,9 +105,6 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  getEmailUser() {
-    this.processService.getEmailUser().then( response => this.email = response['email']);
-  }
 
   goToHomePage() {
     this.router.navigate(['platform', 'dashboard']);

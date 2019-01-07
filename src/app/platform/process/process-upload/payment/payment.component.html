@@ -54,24 +54,28 @@
     </tr>
     <tr>
       <td>מספר רשומות: </td>
-      <td><a>לפירוט מלא ></a></td>
+      <td>
+        <a (click)="setT()">לפירוט מלא ></a>
+      </td>
     </tr>
     <tr></tr>
     <tr>
       <td>מספר קבצים: </td>
-      <td><a>לפירוט מלא ></a></td>
+      <td>
+        <a (click)="setT()">לפירוט מלא ></a>
+      </td>
     </tr>
     </tbody>
   </table>
 </div>
   <div class="text-left">
-    <button class="btn blue-btn" (click)="pageNumber = 3">לביצוע תשלום</button>
+    <button class="btn blue-btn" (click)="pageNumber = 3"> לביצוע תשלום</button>
   </div>
 </div>
 
-<div [@fade]="pageNumber === 3 ? 'active' : 'inactive'">
-  <p>אנא בחר אפשרות תשלום</p>
-  <div class="container w-50">
+<div class="container" [@fade]="pageNumber === 3 ? 'active' : 'inactive'">
+  <p class="mb-4">אנא בחר אפשרות תשלום</p>
+  <div class="d-flex justify-content-center">
    <table>
     <tr>
       <td>
@@ -92,16 +96,23 @@
     </tr>
   </table>
   </div>
-  <div class="float-left">
+  <div class="float-left mt-lg-5">
     <button class="btn blue-btn">המשך</button>
   </div>
 </div>
 
-<div [hidden]="divshow != 4">
+
+<div  [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
 <h4>פירוט </h4>
 <table class="table table-borderless">
   <thead>
-  <tr class="thborder"><td colspan="2">פרטי התשלומים</td></tr>
+  <tr class="thborder">
+    <td colspan="2">
+      <span>פירוט</span>
+      <span [hidden]="true">רשומות</span>
+      <span>קבצים</span>
+    </td>
+  </tr>
   </thead>
   <tbody>
   <tr>
@@ -126,28 +137,3 @@
 <div>
   <a (click)="goToHomePage()">< חזרה לדף הבית</a>
 </div>
-<!--<div [hidden]="divshow != 4">-->
-<!--<h4>פירוט </h4>-->
-<!--<table class="table table-borderless">-->
-  <!--<thead>-->
-  <!--<tr class="thborder"><td colspan="2">פרטי התשלומים</td></tr>-->
-  <!--</thead>-->
-  <!--<tbody>-->
-  <!--<tr>-->
-    <!--<td>שם מעסיק: </td>-->
-    <!--<td>ח.פ:  </td>-->
-    <!--<td>שם מחלקה:  </td>-->
-    <!--<td>שם התהליך:  </td>-->
-  <!--</tr>-->
-  <!--<tr>-->
-    <!--<td>סכום לתשלום:  </td>-->
-    <!--<td>מספר תהליך: </td>-->
-    <!--<td>חודש שכר:  </td>-->
-    <!--<td>סה"כ  :</td>-->
-  <!--</tr>-->
-  <!--<tr>-->
-    <!--<td colspan="4">מספר קבצים:  </td>-->
-  <!--</tr>-->
-  <!--</tbody>-->
-<!--</table>-->
-<!--</div>-->

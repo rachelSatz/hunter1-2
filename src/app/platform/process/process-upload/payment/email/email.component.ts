@@ -11,7 +11,6 @@ export class EmailComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: string,
               private router: Router,
               private dialogRef: MatDialogRef<EmailComponent>) {
-
   }
 
   ngOnInit() {

@@ -49,7 +49,6 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
     const employerId = this.selectUnit.currentEmployerID;
 
     if (organizationId) {
-      this.searchCriteria['year'] = 2018;
       this.searchCriteria['departmentId'] = employerId;
       this.searchCriteria['employerId'] = employerId;
       this.searchCriteria['organizationId'] = organizationId;
@@ -62,8 +61,8 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
     this.sub.unsubscribe();
   }
 
-  redirect(): void {
-    this.router.navigateByUrl('/new');
+  redirectProcessNew(): void {
+    this.router.navigate(['platform', 'process' , 'new']);
   }
 
 }
