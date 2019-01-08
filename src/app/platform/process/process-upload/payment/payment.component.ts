@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ActivatedRoute } from '@angular/router';
 
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import {ErrorMessageComponent} from './error-message/error-message.component';
-import {EmailComponent} from './email/email.component';
-import {Contact} from '../../../../shared/_models/contact.model';
-import {ProcessDetails} from '../../../../shared/_models/process-details.model';
+import { ErrorMessageComponent } from './error-message/error-message.component';
+import { EmailComponent } from './email/email.component';
+import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -31,11 +31,12 @@ import * as FileSaver from 'file-saver';
   ]
 })
 export class PaymentComponent implements OnInit {
-  constructor( public router: Router, private dialog: MatDialog, private  processService: ProcessService) {}
-
+  constructor( private dialog: MatDialog, private  processService: ProcessService,
+               private activatedRoute: ActivatedRoute, private router: Router
+               ) {}
+  data;
   fileId = 1;
   process_percent = 0;
-  data;
   email: string;
   name = 'someone';
   pageNumber = 2;
@@ -94,6 +95,10 @@ export class PaymentComponent implements OnInit {
     this.dialog.open(ErrorMessageComponent, {
       width: '550px'
       // panelClass: 'email-dialog'
+    });
+    this.activatedRoute.queryParams.subscribe(fileData => {
+      this.data = fileData;
+      console.log(this.data.fileData[1]);
     });
   }
 

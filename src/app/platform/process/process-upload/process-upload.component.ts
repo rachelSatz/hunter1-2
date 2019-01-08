@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getRelativePath} from 'tslint/lib/configuration';
+
 
 
 @Component({
@@ -10,6 +11,7 @@ import {getRelativePath} from 'tslint/lib/configuration';
 })
 
 export class ProcessUploadComponent implements OnInit {
+
 
   activeUploadStep = 1;
 
