@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+
 
 
 @Component({
@@ -9,6 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 
 export class ProcessUploadComponent implements OnInit {
+
 
   activeUploadStep = 1;
 

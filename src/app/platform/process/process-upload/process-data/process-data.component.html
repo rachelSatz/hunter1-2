@@ -14,6 +14,15 @@
     </div>
   </div>
     <div *ngIf="pageNumber === 2">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th scope="col">{{form.value.processName + ' ' + month[(form.value.month)-1].name + ' ' + form.value.year}}</th>
+          <td scope="col">{{month[(form.value.month)-1].name}}</td>
+          <td scope="col">{{form.value.year}}</td>
+        </tr>
+        </thead>
+      </table>
         <div>
           <h4>טעינת נתונים</h4>
           <p class="grey-color f-12 mb-2">במסך זה יש לבצע טעינת נתונים מתוך קובץ XML</p>

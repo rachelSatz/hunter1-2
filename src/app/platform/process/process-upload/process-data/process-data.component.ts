@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -30,7 +30,10 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 })
 export class ProcessDataComponent implements OnInit {
 
+
+
   pageNumber = 1;
+  @Output() fileData;
   monthValid = true;
   yearValid = true;
   isSubmitting = false;
@@ -53,6 +56,7 @@ export class ProcessDataComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute,
               private dialog: MatDialog, private processService: ProcessService,
               private notificationService: NotificationService, private selectUnitService: SelectUnitService) {}
+
 
   ngOnInit() {
   }
@@ -123,7 +127,8 @@ export class ProcessDataComponent implements OnInit {
 
           this.processService.newProcess(data).then(response => {
             const processID = response;
-            this.router.navigate(['./payment'], { relativeTo: this.route });
+            const fileData = [this.month[form.value.month - 1].name, form.value.year, form.value.processName];
+            this.router.navigate(['./payment'], { relativeTo: this.route, queryParams: {fileData}});
             if (response) {
             } else {
               this.hasServerError = true;
@@ -139,5 +144,6 @@ export class ProcessDataComponent implements OnInit {
     this.router.navigate(['./', 'payment']);
 
   }
+
 }
 

@@ -1,5 +1,14 @@
 
 <div class="text-center" [@fade]="pageNumber === 1 ? 'active' : 'inactive'" >
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th scope="col">{{data.fileData[2]+ ' ' + data.fileData[0] + ' ' + data.fileData[1]}}</th>
+      <td scope="col">{{data.fileData[0]}}</td>
+      <td scope="col">{{data.fileData[1]}}</td>
+    </tr>
+    </thead>
+  </table>
   <h5 class="bold">הקובץ בטעינה</h5>
   <p class="f-12 mb-0" >לנוחיותך ניתן כעת לצאת מהמערכת </p>
   <p class="f-12 mb-3">

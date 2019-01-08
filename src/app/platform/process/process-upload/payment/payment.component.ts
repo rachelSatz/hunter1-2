@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material';
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-payment',
@@ -25,8 +26,9 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class PaymentComponent implements OnInit {
 
-  constructor( private dialog: MatDialog, private  processService: ProcessService) {}
+  constructor( private dialog: MatDialog, private  processService: ProcessService, private activatedRoute: ActivatedRoute) {}
 
+  data;
   fileId = 1;
   pageNumber = 1;
   email: string;
@@ -35,6 +37,11 @@ export class PaymentComponent implements OnInit {
     this.processService.getUploadFile(this.fileId)
       .then(() => {
       });
+
+    this.activatedRoute.queryParams.subscribe(fileData => {
+      this.data = fileData;
+      console.log(this.data.fileData[1]);
+    });
   }
 
   openDialogSendFileEmail(): void {
