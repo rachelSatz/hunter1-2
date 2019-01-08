@@ -3,15 +3,15 @@
     <div class="step-title active">
       <span class="flex-grow-1">טעינת קובץ שכר</span>
       <div class="triangles">
-        <div [ngClass]="{ 'blue': activeUploadStep > 1 }"></div>
+        <div [ngClass]="{ 'blue': setHeaderColor() >= 2  }"></div>
         <div></div>
       </div>
     </div>
     <div class="step-title" routerLink="./payment" [ngClass]="{ 'active': setHeaderColor() >= 2 }">
       <span class="flex-grow-1">תשלום</span>
       <div class="triangles">
-        <div [ngClass]="{ 'blue': setHeaderColor() === 2 }"></div>
-        <div class="triangles"></div>
+        <div [ngClass]="{ 'blue': setHeaderColor() === 3 }"></div>
+        <div></div>
       </div>
     </div>
     <div class="step-title" routerLink="./broadcast" [ngClass]="{ 'active': setHeaderColor() === 3}">

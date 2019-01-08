@@ -41,6 +41,5 @@
 .active > .triangles > :last-child {
   border-bottom-color: #00aeee;
   border-right-color: #00aeee;
-  background-color: #00aeee;
 }
 

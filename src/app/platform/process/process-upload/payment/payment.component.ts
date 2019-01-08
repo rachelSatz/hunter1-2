@@ -40,7 +40,6 @@ export class PaymentComponent implements OnInit {
 
     this.activatedRoute.queryParams.subscribe(fileData => {
       this.data = fileData;
-      console.log(this.data.fileData[1]);
     });
   }
 
