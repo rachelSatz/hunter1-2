@@ -72,9 +72,6 @@ export class PaymentComponent implements OnInit {
                 break;
               }
             }
-          } else {
-            this.process_percent = 100;
-            this.pageNumber = 2;
           }
         });
   }
@@ -98,7 +95,7 @@ export class PaymentComponent implements OnInit {
     });
     this.activatedRoute.queryParams.subscribe(fileData => {
       this.data = fileData;
-      console.log(this.data.fileData[1]);
+      console.log(this.data.fileData);
     });
   }
 

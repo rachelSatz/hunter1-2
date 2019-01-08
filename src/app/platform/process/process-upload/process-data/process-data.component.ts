@@ -135,7 +135,6 @@ export class ProcessDataComponent implements OnInit {
             } else {
               this.hasServerError = true;
             }
-
             this.isSubmitting = false;
           });
         }
