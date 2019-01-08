@@ -7,7 +7,6 @@ import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 import * as FileSaver from 'file-saver';
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
@@ -33,7 +32,6 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 'app/shared/_models/compensation.model';
 import { ProductType } from 'app/shared/_models/product.model';
-import { Employee } from '../../../shared/_models/employee.model';
 
 
 @Component({

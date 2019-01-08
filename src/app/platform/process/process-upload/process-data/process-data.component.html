@@ -11,34 +11,33 @@
           <!--<p class="alert alert-danger" [@fade]="!monthValid ? 'active' : 'inactive'">שדה חובה.</p>-->
       <bd-select [items]="year" name="year" ngModel required placeholder="בחר שנה*" class="mr-4"></bd-select>
         <!--<p class="alert alert-danger" [@fade]="!yearValid ? 'active' : 'inactive'">שדה חובה.</p>-->
-
     </div>
   </div>
-  <div *ngIf="pageNumber === 2">
-    <div>
-      <h4>טעינת נתונים</h4>
-      <p class="grey-color f-12 mb-2">במסך זה יש לבצע טעינת נתונים מתוך קובץ XML</p>
-    </div>
-    <div class="mt-5">
-      <mat-spinner class="mx-auto mb-3" *ngIf="spin"></mat-spinner>
-      <file-drop [ngClass]="{ 'uploaded': processFile }" ng2FileDrop (onFileDrop)="getFileFromDrop($event)">
-        <label class="text-center pointer" *ngIf="!processFile" (change)="setFile($event.target.files[0])">
-          <img src="/assets/img/icons/cloud-backup.svg" class="mb-1 icon-lg">
-          <p class="h5 grey-color">בחר קובץ להעלאה</p>
-          <p class="h5 grey-color">או גרור קבצים לכאן</p>
-          <input type="file" name="file" ngModel [required]="true">
-        </label>
-        <div class="text-center" *ngIf="processFile">
-          <i class="fa fa-check-circle-o "></i>
-          <p class="text-dark">
-            <i class="fa fa-times ml-2 pointer" (click)="processFile = null"></i>
-            <span>{{ processFile.name }}</span>
-          </p>
+    <div *ngIf="pageNumber === 2">
+        <div>
+          <h4>טעינת נתונים</h4>
+          <p class="grey-color f-12 mb-2">במסך זה יש לבצע טעינת נתונים מתוך קובץ XML</p>
         </div>
-      </file-drop>
-      <p class="text-danger" *ngIf="fileTypeError">יש להעלות קבצי XML בלבד.</p>
+        <div class="mt-5">
+          <mat-spinner class="mx-auto mb-3" *ngIf="spin"></mat-spinner>
+          <file-drop [ngClass]="{ 'uploaded': processFile }" ng2FileDrop (onFileDrop)="getFileFromDrop($event)">
+            <label class="text-center pointer" *ngIf="!processFile" (change)="setFile($event.target.files[0])">
+              <img src="/assets/img/icons/cloud-backup.svg" class="mb-1 icon-lg">
+              <p class="h5 grey-color">בחר קובץ להעלאה</p>
+              <p class="h5 grey-color">או גרור קבצים לכאן</p>
+              <input type="file">
+            </label>
+            <div class="text-center" *ngIf="processFile">
+              <i class="fa fa-check-circle-o "></i>
+              <p class="text-dark">
+                <i class="fa fa-times ml-2 pointer" (click)="processFile = null"></i>
+                <span>{{ processFile.name }}</span>
+              </p>
+            </div>
+          </file-drop>
+          <p class="text-danger" *ngIf="fileTypeError">יש להעלות קבצי XML בלבד.</p>
+        </div>
     </div>
-  </div>
   <p [@fade]="hasServerError ? 'active': 'inactive'" class="alert alert-danger">שגיאת שרת, נסה שנית או צור קשר.</p>
   <div class="d-flex justify-content-between mt-2">
      <span (click)="setPage(-1, form)">

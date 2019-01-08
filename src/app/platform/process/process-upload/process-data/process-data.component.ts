@@ -4,7 +4,6 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Month } from 'app/shared/_const/month-bd-select';
-
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { SelectUnitService} from 'app/shared/_services/select-unit.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
@@ -123,6 +122,7 @@ export class ProcessDataComponent implements OnInit {
           console.log((this.router.url).split('/'));
 
           this.processService.newProcess(data).then(response => {
+            const processID = response;
             this.router.navigate(['./payment'], { relativeTo: this.route });
             if (response) {
             } else {

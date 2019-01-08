@@ -211,7 +211,6 @@ export class CompensationService extends BaseHttpService {
         .catch(() => []);
     }
   }
-// <<<<<<< HEAD
 
   getErrorMessage(compensationID: number): Promise<Compensation> {
     return this.http.get(this.endPoint + '/' + compensationID + '/getErrorMessage', this.getTokenHeader())
@@ -233,8 +232,6 @@ export class CompensationService extends BaseHttpService {
     .then(response => response as any)
     .catch(() => null);
   }
-// =======
-// >>>>>>> 17537a4c3d1fcd07d0119e25d86c86e6bd012265
 }
 
 
