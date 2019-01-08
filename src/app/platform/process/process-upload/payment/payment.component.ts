@@ -7,6 +7,8 @@ import { SendFileEmailComponent } from './send-file-email/send-file-email.compon
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import {ErrorMessageComponent} from './error-message/error-message.component';
 import {EmailComponent} from './email/email.component';
+import {Contact} from '../../../../shared/_models/contact.model';
+import {ProcessDetails} from '../../../../shared/_models/process-details.model';
 
 @Component({
   selector: 'app-payment',
@@ -31,45 +33,45 @@ export class PaymentComponent implements OnInit {
   constructor( public router: Router, private dialog: MatDialog, private  processService: ProcessService) {}
 
   fileId = 1;
-  process_status = '';
   process_percent = 0;
   data;
   email: string;
   name = 'someone';
   pageNumber = 2;
+  process_details: ProcessDetails;
 
   ngOnInit() {
 
 
     this.processService.getUploadFile(this.fileId)
       .then(response => {
-        if (response['status'] != null) {
-          this.process_status = response['status'];
-          switch (this.process_status) {
-            case 'Progressing': {
-              this.process_percent = 100;
-              setTimeout(() => {
-                this.pageNumber = 2;
-              }, 2000);
-              break;
+        this.process_details = response;
+          if (this.process_details.status !== null) {
+            switch (this.process_details.status) {
+              case 'Progressing': {
+                this.process_percent = 100;
+                setTimeout(() => {
+                  this.pageNumber = 2;
+                }, 2000);
+                break;
+              }
+              case 'Loading': {
+                this.process_percent = this.process_details.percent;
+                break;
+              }
+              case 'Error_Loading': {
+                this.openErrorDialog();
+                break;
+              }
+              default: {
+                break;
+              }
             }
-            case 'Loading': {
-              this.process_percent = response['percent'];
-              break;
-            }
-            case 'Error_Loading': {
-              this.openErrorDialog();
-              break;
-            }
-            default: {
-              break;
-            }
+          } else {
+            this.process_percent = 100;
+            this.pageNumber = 2;
           }
-        } else {
-          this.process_percent = 100;
-          this.pageNumber = 2;
-        }
-      });
+        });
   }
 
   openDialog(): void {

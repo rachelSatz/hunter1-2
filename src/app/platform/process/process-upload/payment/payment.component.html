@@ -7,7 +7,7 @@
     <a class="bold" (click)="openDialog()">לחץ כאן</a>
   </p>
   <p class="f-12">ניתן להמתין לסיום הטעינה ולהורדת הנחיית תשלום</p>
-  <mat-progress-bar mode="determinate" [value]="progress_percent"></mat-progress-bar>
+  <mat-progress-bar mode="determinate" [value]="process_percent"></mat-progress-bar>
 </div>
 
 <div class="text-center"  [@fade]="pageNumber === 2 ? 'active' : 'inactive'">
@@ -24,55 +24,59 @@
     <tbody>
       <tr>
         <td>שם המעסיק:</td>
-        <td>מנפאור</td>
+        <td>{{ process_details.employer_name }}</td>
         <td>ח.פ: </td>
-        <td>659653248</td>
+        <td>{{ process_details.business_number }}</td>
       </tr>
       <tr>
         <td>שם מחלקה:</td>
-        <td>gdfgdf</td>
+        <td>{{ process_details.department_name }}</td>
         <td></td>
       </tr>
       <tr></tr>
       <tr>
         <td>שם התהליך: </td>
-        <td>ftgyhfghfg</td>
+        <td>{{ process_details.name }}</td>
         <td>מספר תהליך:</td>
-        <td>ftgyhfghfg</td>
+        <td>{{ process_details.id }}</td>
 
       </tr>
       <tr>
         <td>חודש שכר: </td>
+        <td>{{ process_details.date | slice:5:7}}</td>
         <td>שנה:</td>
+        <td>{{ process_details.date  | slice:0:4}}</td>
       </tr>
     </tbody>
   </table>
-
-  <table class="table table-borderless">
-    <thead>
-        <tr class="thborder">
-          <th colspan="2">פרטי התשלומים</th>
-        </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>סכום לתשלום: </td>
-    </tr>
-    <tr>
-      <td>מספר רשומות: </td>
-      <td>
-        <a (click)="setT()">לפירוט מלא ></a>
-      </td>
-    </tr>
-    <tr></tr>
-    <tr>
-      <td>מספר קבצים: </td>
-      <td>
-        <a (click)="setT()">לפירוט מלא ></a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+    <table class="table table-borderless">
+      <thead>
+          <tr class="thborder">
+            <th colspan="2">פרטי התשלומים</th>
+          </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>סכום לתשלום: </td>
+        <td>{{ process_details.total }}</td>
+      </tr>
+      <tr>
+        <td>מספר רשומות: </td>
+        <td>{{ process_details.records_count }}</td>
+        <td>
+          <a (click)="setT()">לפירוט מלא ></a>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <td>מספר קבצים: </td>
+        <td>{{ process_details.groups_count }}</td>
+        <td>
+          <a (click)="setT()">לפירוט מלא ></a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 </div>
   <div class="text-left">
     <button class="btn blue-btn" (click)="pageNumber = 3"> לביצוע תשלום</button>

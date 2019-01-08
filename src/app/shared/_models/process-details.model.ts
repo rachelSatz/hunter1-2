@@ -7,16 +7,18 @@ export class ProcessDetails {
   // paymentNumber: number;
   // paymentSum: number;
   // dateToPay:string;
-  employer_name: string
-  business_number: string;
+  id: number;
+  name: string;
+  status: string;
+  type: string;
+  total: number;
+  date: string;
+  records_count: number;
+  records_total: number;
+  groups_count: number;
   department_name: string;
-  process_name: string;
-  process_id: string;
-  process_month: string;
-  process_year: string;
-  total: string;
-  records_count: string;
-  groups_count: string;
-  process_status: string;
-  process_percent: string;
+  employer_name: string;
+  business_number: string;
+  percent: number;
+
 }
