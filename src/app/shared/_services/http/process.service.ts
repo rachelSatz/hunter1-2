@@ -47,6 +47,14 @@ export class ProcessService extends BaseHttpService {
       .then(response => response as ViewProcess[]);
   }
 
+  downloadMasav(): Promise<string> {
+    return this.http.get(this.endPoint + '/downloadMasav', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+
   newProcess(values: Object, file?: File): Promise<boolean> {
     const formData = new FormData();
     formData.append('data', JSON.stringify(values));

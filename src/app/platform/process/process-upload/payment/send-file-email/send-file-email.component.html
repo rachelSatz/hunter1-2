@@ -2,11 +2,25 @@
    שליחת קובץ למייל
 </h6>
 <div class="form-group">
-  <input type="email" class="form-control" placeholder="כתובת">
+  <input type="email" class="form-control" placeholder="כתובת" [value]="defaultEmail">
 </div>
 <div class="form-group mb-lg-5">
   <input type="email" class="form-control" placeholder="כתובת מייל...">
 </div>
+<mat-form-field class="w-100">
+  <mat-chip-list #chipList>
+    <mat-chip *ngFor="let email of Emails" [selectable]="selectable"
+              [removable]="removable" (removed)="remove(email)">
+      {{email.name}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input placeholder="הוספת כתובת מייל"
+           [matChipInputFor]="chipList"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+           [matChipInputAddOnBlur]="addOnBlur"
+           (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+</mat-form-field>
 <div class="text-center">
   <button class="btn blue-btn">שליחה</button>
 </div>

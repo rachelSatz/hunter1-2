@@ -91,7 +91,7 @@
         <button class="btn blue-btn btn-lg f-12"  >אנא בחר הנחיות תשלום בפורמט אקסל </button>
       </td>
       <td>
-        <button class="btn blue-btn btn-lg f-12  mr-3">הורדת קובץ מס"ב לתשלום</button>
+        <button class="btn blue-btn btn-lg f-12  mr-3" (click)="downloadMasav()">הורדת קובץ מס"ב לתשלום</button>
       </td>
     </tr>
     <tr>
@@ -107,6 +107,9 @@
   </div>
   <div class="float-left mt-lg-5">
     <button class="btn blue-btn">המשך</button>
+  </div>
+  <div class="float-right mt-lg-5">
+    <a (click)="goToPreviousPage()">< חזור</a>
   </div>
 </div>
 <div  [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
@@ -142,6 +145,6 @@
 </table>
 </div>
 <!--[routerLink]="['./', 'errors']-->
-<div>
+<div *ngIf="pageNumber !== 3">
   <a (click)="goToHomePage()">< חזרה לדף הבית</a>
 </div>

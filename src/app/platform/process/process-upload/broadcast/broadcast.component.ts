@@ -39,18 +39,7 @@ export class BroadcastComponent implements OnInit {
   constructor(private dialog: MatDialog, private processService: ProcessService) {}
 
   ngOnInit() {
-    this.processService.getUploadFile(this.processID)
-      .then(response => {
-        this.process_details = response;
-        switch (this.process_details.status) {
-          case 'Loading': {
-            break;
-          }
-          case 'Error_Loading': {
-            break;
-          }
-        }
-      });
+
   }
 
   dateUpdate() {

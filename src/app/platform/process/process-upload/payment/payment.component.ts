@@ -9,6 +9,7 @@ import {ErrorMessageComponent} from './error-message/error-message.component';
 import {EmailComponent} from './email/email.component';
 import {Contact} from '../../../../shared/_models/contact.model';
 import {ProcessDetails} from '../../../../shared/_models/process-details.model';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-payment',
@@ -39,6 +40,9 @@ export class PaymentComponent implements OnInit {
   name = 'someone';
   pageNumber = 2;
   process_details: ProcessDetails;
+  spin: boolean;
+  fileName: string;
+  type: string;
 
   ngOnInit() {
 
@@ -106,6 +110,23 @@ export class PaymentComponent implements OnInit {
 
   goToHomePage() {
     this.router.navigate(['platform', 'dashboard']);
+  }
+  goToPreviousPage() {
+    this.pageNumber = 2;
+  }
+
+  downloadMasav(): void {
+    this.processService.downloadMasav().then(response => {
+      const byteCharacters = atob(response);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], {type: 'application/' + this.type});
+      FileSaver.saveAs(blob, this.fileName);
+      this.spin = false;
+    });
   }
 
 }
