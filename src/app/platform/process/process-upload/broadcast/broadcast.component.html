@@ -1,0 +1,140 @@
+<div class="text-center" [@fade]="pageNumber === 1 ? 'active' : 'inactive'">
+  <h5 class="bold">תהליך שידור</h5>
+  <p class="f-12">להלן פרטי הנתונים הפנסיוניים לשידור לקופות</p>
+  <div class="container w-50">
+  <table class="table table-borderless">
+    <thead>
+    <tr class="border-bottom">
+      <th colspan="2" class="f-14">פרטי התהליך</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>שם המעסיק:</td>
+      <td>ח.פ: </td>
+    </tr>
+    <tr>
+      <td>שם מחלקה:</td>
+      <td>מספר תהליך:</td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td>שם התהליך: </td>
+      <td>חודש שכר:</td>
+    </tr>
+
+    </tbody>
+  </table>
+  <table class="table table-borderless">
+    <thead>
+    <tr class="thborder">
+      <th colspan="2" class="border-bottom f-14">פרטי התשלומים</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>סכום לתשלום:</td>
+    </tr>
+    <tr>
+      <td>מספר קבצים:</td>
+      <td>
+        <a>לפירוט מלא ></a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td>מספר רשומות:</td>
+      <td>
+        <a>לפירוט מלא ></a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a>תאריך תשלום (ערך):</a>
+      </td>
+      <td>
+        <a (click)="dateUpdate()">לעדכון תאריך ></a>
+      </td>
+    </tr>
+    <p class="f-12 bold float-lg-right">הנך נדרש לעדכן תאריך ערך</p>
+    </tbody>
+  </table>
+  </div>
+  <div class="container w-50">
+    <mat-checkbox [(ngModel)]="valid"  class="float-right">
+      <div class="text-wrap text-right mt-4">
+        <p class="f-12">הנני מאשר כי פרטי התשלום המוצגים מעלה נבדקו מול תוכנת השכר והנם תקינים.
+        בשידור לקופות הקבצים יועברו על פי הנתונים הקיימים ופיולה זואינה ניתנת לביטול.</p>
+      </div>
+    </mat-checkbox>
+    <div class="mt-5">
+      <button class="btn blue-btn" [disabled]="!valid" (click)="pageNumber = 2">שידור לקופות</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="text-center" [@fade]="pageNumber === 2? 'active': 'inactive'">
+  <h5 class="bold">שידור בוצע בהצלחה!</h5>
+  <p class="f-12">להלן סכום נתוני השידור</p>
+  <div class="container w-50">
+    <table class="table table-borderless">
+      <thead>
+      <tr class="border-bottom">
+        <th colspan="2" class="f-14">פרטי התהליך</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>שם המעסיק:  </td>
+        <td>ח.פ: </td>
+      </tr>
+      <tr>
+        <td>שם מחלקה:</td>
+        <td>מספר תהליך:</td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <td>שם התהליך: </td>
+        <td>חודש שכר:</td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-borderless">
+      <thead>
+      <tr class="thborder">
+        <th colspan="2" class="border-bottom f-14">פרטי התשלומים</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>סכום לתשלום:</td>
+      </tr>
+      <tr>
+        <td>מספר קבצים:</td>
+        <td>
+          <a>לפירוט מלא ></a>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <td>מספר רשומות:</td>
+        <td>
+          <a>לפירוט מלא ></a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a>תאריך תשלום (ערך):</a>
+        </td>
+      </tr>
+      <p class="f-12 bold float-lg-right">הנך נדרש לעדכן תאריך ערך</p>
+      </tbody>
+    </table>
+  </div>
+    <div>
+      <button class="btn blue-btn">יצירת בקשת החזר כספי</button>
+    </div>
+</div>
+
+

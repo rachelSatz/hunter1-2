@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Subscription } from 'rxjs/Subscription';
 import { Month } from 'app/shared/_const/month-bd-select';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { SelectUnitService} from 'app/shared/_services/select-unit.service';
@@ -31,9 +30,9 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 })
 export class ProcessDataComponent implements OnInit {
 
-  sub = new Subscription;
   pageNumber = 1;
-
+  monthValid = true;
+  yearValid = true;
   isSubmitting = false;
   hasServerError: boolean;
 
@@ -51,13 +50,11 @@ export class ProcessDataComponent implements OnInit {
   processFile: File;
   fileTypeError = false;
 
-  constructor(private router: Router, private dialog: MatDialog,
-              private processService: ProcessService, private notificationService: NotificationService,
-              private selectUnitService: SelectUnitService) {}
+  constructor(private router: Router, private route: ActivatedRoute,
+              private dialog: MatDialog, private processService: ProcessService,
+              private notificationService: NotificationService, private selectUnitService: SelectUnitService) {}
 
   ngOnInit() {
-    console.log('your problem is different woman');
-
   }
 
   getFileFromDrop(event) {
@@ -83,6 +80,7 @@ export class ProcessDataComponent implements OnInit {
     this.processFile = file;
   }
 
+
   setPage(index: number, form: NgForm): void {
     switch (this.pageNumber) {
       case 1:
@@ -93,16 +91,22 @@ export class ProcessDataComponent implements OnInit {
             // return;
           }
           this.pageNumber += index;
-        }
+        } if (form.value.month) {
+          this.monthValid = true;
+        } else { this.monthValid = false;
+        } if ( form.value.year ) {
+          this.yearValid = true;
+        } else { this.yearValid = false; }
+        console.log('year' + this.yearValid + 'and' + this.monthValid + 'month');
         break;
         case 2:
           this.hasServerError = false;
           this.pageNumber += index;
-  }
-  }
+        }
+      }
 
   paymentPopup(form: NgForm): void {
-    if (form.valid && !this.isSubmitting) {
+    if (form.valid && !this.isSubmitting && this.processFile) {
       this.isSubmitting = true;
       this.hasServerError = false;
 
@@ -116,10 +120,12 @@ export class ProcessDataComponent implements OnInit {
       this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
         if (confirmation.value) {
           console.log(confirmation.value);
-          const data = [form.value, this.selectUnitService.currentDepartmentID, confirmation.value];
+          const data = [this.processFile, form.value, this.selectUnitService.currentDepartmentID, confirmation.value];
+          console.log((this.router.url).split('/'));
+
           this.processService.newProcess(data).then(response => {
-            console.log(data);
-            this.router.navigate(['upload']);
+            const processID = response;
+            this.router.navigate(['./payment'], {relativeTo: this.route});
             if (response) {
             } else {
               this.hasServerError = true;
@@ -127,12 +133,11 @@ export class ProcessDataComponent implements OnInit {
 
             this.isSubmitting = false;
           });
-        } else {
-          this.isSubmitting = false;
         }
       });
     }
   }
+
 
   uploadFile(): void {
     this.router.navigate(['./', 'payment']);

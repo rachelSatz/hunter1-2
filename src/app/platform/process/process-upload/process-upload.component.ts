@@ -17,8 +17,10 @@ export class ProcessUploadComponent implements OnInit {
 
   constructor(public router: Router, protected route: ActivatedRoute) { }
 
-  ngOnInit() {
+  constructor(private router: Router) { }
 
+  ngOnInit() {
+    console.log(this.router.url);
   }
 
   setRouterLink(route: string , index: number): void {
@@ -26,6 +28,18 @@ export class ProcessUploadComponent implements OnInit {
     this.router.navigate( [route], { relativeTo: this.route});
   }
 
+
+  setHeaderColor(): number {
+    const currentRoute = (this.router.url).split('/');
+
+    if (currentRoute[4] === 'payment') {
+      return 2;
+    }
+
+    if (currentRoute[4] === 'broadcast') {
+      return 3;
+    }
+  }
 
 
 }
