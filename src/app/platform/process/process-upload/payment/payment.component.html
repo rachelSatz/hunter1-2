@@ -18,7 +18,7 @@
   <table class="table table-borderless">
     <thead>
       <tr class="thborder">
-        <th colspan="2">פרטי התהליך</th>
+        <th colspan="4">פרטי התהליך</th>
       </tr>
     </thead>
     <tbody>
@@ -39,7 +39,6 @@
         <td>{{ process_details.name }}</td>
         <td>מספר תהליך:</td>
         <td>{{ process_details.id }}</td>
-
       </tr>
       <tr>
         <td>חודש שכר: </td>
@@ -52,7 +51,7 @@
     <table class="table table-borderless">
       <thead>
           <tr class="thborder">
-            <th colspan="2">פרטי התשלומים</th>
+            <th colspan="4">פרטי התשלומים</th>
           </tr>
       </thead>
       <tbody>
@@ -110,8 +109,6 @@
     <button class="btn blue-btn">המשך</button>
   </div>
 </div>
-
-
 <div  [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
 <h4>פירוט </h4>
 <table class="table table-borderless">

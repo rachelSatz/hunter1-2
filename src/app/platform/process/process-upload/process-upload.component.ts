@@ -16,9 +16,7 @@ export class ProcessUploadComponent implements OnInit {
   public files: any[] = [];
 
   constructor(public router: Router, protected route: ActivatedRoute) { }
-
-  constructor(private router: Router) { }
-
+  
   ngOnInit() {
     console.log(this.router.url);
   }
