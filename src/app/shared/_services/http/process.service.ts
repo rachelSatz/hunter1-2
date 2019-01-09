@@ -16,7 +16,7 @@ import { Manufacturer } from '../../_models/manufacturer.model';
 @Injectable()
 export class ProcessService extends BaseHttpService {
 
-  readonly endPoint = this.apiUrl + '/process';
+  readonly endPoint = this.apiUrl + '/processes';
 
   constructor(userSession: UserSessionService, private http: HttpClient) {
     super(userSession);
@@ -308,6 +308,23 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
         .then(() => true)
         .catch(() => false);
     }
+  }
+
+  sendEmail(from: string, toEmails: any[], formatName: string, formatData: any): Promise<string> {
+    return this.http.post(this.apiUrl + '/generals' + '/sendEmail' ,
+      {sender: from, to: toEmails, formatName: formatName, formatData: formatData},
+      this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+
+  }
+
+  sss(): Promise<boolean> {
+    return this.http.post(this.apiUrl + '/generals' + '/sendEmail' , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
   }
 }
 

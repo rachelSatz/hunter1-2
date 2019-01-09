@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { FileDropModule } from 'ngx-file-drop';
 import { EmailComponent } from './email/email.component';
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
-import {ProcessService} from '../../../../shared/_services/http/process.service';
+import { ProcessService } from '../../../../shared/_services/http/process.service';
 import {
   MatAutocompleteModule,
   MatCheckboxModule,
@@ -19,6 +19,7 @@ import {
   MatProgressBarModule
 } from '@angular/material';
 import {ErrorMessageComponent} from './error-message/error-message.component';
+import {NotificationService} from '../../../../shared/_services/notification.service';
 
 const routes: Routes = [
   { path: '', component: PaymentComponent }
@@ -34,7 +35,7 @@ const routes: Routes = [
     MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule, MatSelectModule, MatChipsModule, MatIconModule,
     MatAutocompleteModule, MatProgressBarModule
   ],
-  providers: [ProcessService],
+  providers: [ProcessService, NotificationService],
   declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent, ErrorMessageComponent],
   entryComponents: [ EmailComponent, SendFileEmailComponent, ErrorMessageComponent ]
 })

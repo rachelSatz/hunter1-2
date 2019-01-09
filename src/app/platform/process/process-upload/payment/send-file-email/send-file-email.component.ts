@@ -1,23 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocompleteSelectedEvent,
   MatAutocomplete} from '@angular/material';
 import {Email} from '../../../../compensation/process/send-to/send-to.component';
+import {ProcessService} from '../../../../../shared/_services/http/process.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 @Component({
   selector: 'app-send-file-email',
   templateUrl: './send-file-email.component.html'
 })
 export class SendFileEmailComponent implements OnInit {
-  defaultEmail = 'mail@smarti.co.il';
+  fromEmail = 'desk@smarti.co.il';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   selectable = true;
   removable = true;
   addOnBlur = true;
   Emails: Email[] = [];
+  toEmail: Email;
+  from = 'system';
+  emailsList: string[] = [];
+  formatData = {'sum': 2};
 
-
-  constructor() { }
+  constructor(public processService: ProcessService, protected notificationService: NotificationService,
+              private dialogRef: MatDialogRef<SendFileEmailComponent>) { }
 
   ngOnInit() {
   }
@@ -47,4 +54,28 @@ export class SendFileEmailComponent implements OnInit {
       this.Emails.splice(index, 1);
     }
   }
+
+  sendMail(): void {
+    if (this.fromEmail !== 'desk@smarti.co.il') {
+      this.from = 'user';
+    }
+    if (this.toEmail !== null) {
+      this.emailsList.push(this.toEmail.toString());
+    }
+    if (this.Emails !== null && this.Emails.length > 0) {
+      this.Emails.forEach(email => this.emailsList.push(email.name));
+    }
+    this.processService.sendEmail(this.from, this.emailsList, 'A', this.formatData).then( response => {
+        if (response) {
+          if (response['result'] === 'Message_Sent') {
+            this.notificationService.success('נשלח בהצלחה.');
+            this.dialogRef.close();
+          } else {
+            this.notificationService.error('שליחה נכשלה');
+          }
+        }
+      });
+  }
+
+
 }
