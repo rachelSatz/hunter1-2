@@ -30,7 +30,7 @@ export class BroadcastComponent implements OnInit {
 
   pageNumber = 1;
   valid: boolean;
-
+  isRefund = false;
   employer;
   department;
   processID = 1;
@@ -88,6 +88,11 @@ export class BroadcastComponent implements OnInit {
         this.date = response['date'];
         this.employer = response['name'];
       } );
+  }
+
+  Refund() {
+    this.pageNumber = 1;
+    this.isRefund = true;
   }
 
 }

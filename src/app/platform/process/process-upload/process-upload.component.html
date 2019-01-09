@@ -1,14 +1,14 @@
 <div class="container">
   <div class="d-flex justify-content-center my-5">
     <div class="step-title active">
-      <span class="flex-grow-1">טעינת קובץ שכר</span>
+      <span class="flex-grow-1">טעינת קובץ</span>
       <div class="triangles">
         <div [ngClass]="{ 'blue': setHeaderColor() >= 2  }"></div>
         <div></div>
       </div>
     </div>
     <div class="step-title" routerLink="./payment" [ngClass]="{ 'active': setHeaderColor() >= 2 }">
-      <span class="flex-grow-1">תשלום</span>
+      <span class="flex-grow-1">תשלום / פירוט החזרים </span>
       <div class="triangles">
         <div [ngClass]="{ 'blue': setHeaderColor() === 3 }"></div>
         <div></div>

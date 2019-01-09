@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -30,16 +30,22 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 })
 export class ProcessDataComponent implements OnInit {
 
+  processType = [
+    { id: 'negative', name: 'שלילי' },
+    { id: 'positive', name: 'חיובי'}
+  ]
+
+  selectedType: 'positive' | 'negative';
+
   pageNumber = 1;
-  isRefund = true;
   monthValid = true;
   yearValid = true;
   isSubmitting = false;
   hasServerError: boolean;
 
-  readonly month = Month;
+  readonly months = Month;
 
-  readonly year = [
+  readonly years = [
     {'id': 2016, 'name': '2016'},
     {'id': 2017, 'name': '2017'},
     {'id': 2018, 'name': '2018'},
@@ -54,7 +60,6 @@ export class ProcessDataComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute,
               private dialog: MatDialog, private processService: ProcessService,
               private notificationService: NotificationService, private selectUnitService: SelectUnitService) {}
-
 
   ngOnInit() {
   }
@@ -76,12 +81,21 @@ export class ProcessDataComponent implements OnInit {
       this.fileTypeError = true;
       return;
     }
-    if (this.fileTypeError) {
-      this.fileTypeError = false;
+    this.fileTypeError = false;
+    const type = file.name.indexOf('NEG') === -1 ? 'positive' : 'negative';
+    if (type !== this.selectedType) {
+      this.notificationService.warning('הקובץ שהועלה אינו תואם את סוג הקובץ שבחרת', 'האם תרצה לשנות את סוג התהליך?').then(confirmation => {
+        if (confirmation.value) {
+          this.selectedType = this.selectedType === 'positive' ? 'negative' : 'positive';
+          this.processFile = file;
+        } else {
+          this.processFile = null;
+        }
+      });
+    } else {
+      this.processFile = file;
     }
-    this.processFile = file;
   }
-
 
   setPage(index: number, form: NgForm): void {
     switch (this.pageNumber) {
@@ -123,7 +137,7 @@ export class ProcessDataComponent implements OnInit {
 
           this.processService.newProcess(data).then(response => {
             const processID = response;
-            const fileData = [this.month[form.value.month - 1].name, form.value.year, form.value.processName];
+            const fileData = [this.months[form.value.month - 1].name, form.value.year, form.value.processName, this.selectedType];
             this.router.navigate(['./payment'], { relativeTo: this.route, queryParams: {fileData}});
             if (response) {
             } else {
@@ -140,6 +154,4 @@ export class ProcessDataComponent implements OnInit {
     this.router.navigate(['./', 'payment']);
 
   }
-
 }
-
