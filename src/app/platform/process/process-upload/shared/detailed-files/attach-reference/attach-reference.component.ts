@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-attach-reference',
@@ -6,8 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AttachReferenceComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(@Inject(MAT_DIALOG_DATA) public data: object) { }
+  uploadedFile: File;
+  typeDoc: string;
   ngOnInit() {
   }
 

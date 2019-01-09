@@ -80,3 +80,10 @@ export enum ProcessType {
   Direct_Employer = 'ישיר',
   Manual_Payment = 'פידבק ראשון' ,
 }
+
+export enum PaymentType {
+  Bank_Transfer = 'העברה בנקאית',
+  Check = 'צק',
+  Direct_Debit = 'הוראת קבע',
+  Masav = 'מס"ב',
+}

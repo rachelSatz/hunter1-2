@@ -4,8 +4,6 @@
   </button>
   <span>פרוט שגיאה</span>
 </div>
-<!--<div class ="row">-->
-  <!--<div class ="col-6">-->
     <table class="mt-5 tableHeight table table-bordered">
   <thead class="colorTh">
   <tr class="table-headers">
@@ -21,9 +19,6 @@
       compensation.error_details : compensation.error_details_file }}</td>
   </tr>
 </table>
-<<<<<<< HEAD
-  <!--</div>-->
-  <!--<div class="col-6">-->
     <table *ngIf="compensation.feedback_level === 'record' && answer != []"  class="mt-5 tableHeight table table-bordered">
       <thead class="colorTh">
       <tr class="table-headers">
@@ -34,13 +29,6 @@
         <td class="mr-3 ml-3">{{ item }}</td>
       </tr>
     </table>
-  <!--</div>-->
 <div class="py-4">
 </div>
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
-<!--<div class="py-4">-->
-<!--</div>-->
-<!--<p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>-->
-<!--<div mat-dialog-actions class="justify-content-center">-->
-  <!--<button class="btn blue-btn" (click)="submit()">שמור</button>-->
-<!--</div>-->

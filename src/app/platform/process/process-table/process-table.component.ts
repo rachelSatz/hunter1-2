@@ -7,6 +7,7 @@ import { ProcessStatus, ProcessType } from 'app/shared/_models/process.model';
 import { MONTHS } from 'app/shared/_const/months';
 import { Subscription } from 'rxjs';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-process-table',
@@ -63,6 +64,25 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
 
   redirectProcessNew(): void {
     this.router.navigate(['platform', 'process' , 'new']);
+  }
+
+  downloadFileProcess(): void {
+    this.processService.downloadFileProcess(1).then(response => {
+      if (response) {
+        const byteCharacters = atob(response);
+        const byteNumbers = new Array(byteCharacters.length);
+        console.log(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/pdf'});
+        const fileURL = URL.createObjectURL(blob);
+          FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
+      }else {
+        this.notificationService.error('', ' אין אפשרות להוריד את הקובץ '   );
+      }
+    });
   }
 
 }

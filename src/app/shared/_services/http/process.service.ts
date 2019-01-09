@@ -16,7 +16,7 @@ import { Manufacturer } from '../../_models/manufacturer.model';
 @Injectable()
 export class ProcessService extends BaseHttpService {
 
-  readonly endPoint = this.apiUrl + '/process';
+  readonly endPoint = this.apiUrl + '/processes';
 
   constructor(userSession: UserSessionService, private http: HttpClient) {
     super(userSession);
@@ -59,6 +59,20 @@ export class ProcessService extends BaseHttpService {
       .toPromise()
       .then(() => true)
       .catch(() => false);
+  }
+
+  update(type: string , val: any, fileId: object): Promise<boolean> {
+    return this.http.post(this.endPoint + '/Update', { params: val , type: type, fileId: fileId}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+  sss(): Promise<boolean> {
+    return this.http.post(this.apiUrl + '/generals' + '/sendEmail' , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
   }
 
   getProcessDetail(processID: number): Promise<ProcessDetails> {
@@ -271,8 +285,17 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
     .then(response => response  as any[]);
   }
 
+  sendUploadFile(processId: number): Promise<any> {
+     return this.http.post(this.endPoint + '/UploadFile', {processId: processId}, this.getTokenHeader())
+       .toPromise()
+       .then(response => response  as any)
+       .catch(response => response  as any);
+  }
+
   getUploadFile(processId: number): Promise<any> {
-    return this.http.post(this.endPoint + '/UploadFile', {processId: processId}, this.getTokenHeader())
+    const options = this.getTokenHeader();
+    options['params'] = {processId: 1};
+    return this.http.get(this.endPoint + '/UploadFile',  options)
       .toPromise()
       .then(response => response  as any)
       .catch(response => response  as any);
@@ -296,6 +319,13 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
         .then(() => true)
         .catch(() => false);
     }
+  }
+
+  downloadFileProcess(processId: number): Promise<string> {
+    return this.http.get(this.endPoint + '/' + processId + '/downloadFileProcess', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
   }
 }
 

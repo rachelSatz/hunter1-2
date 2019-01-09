@@ -5,12 +5,12 @@
 
 <button mat-button [matMenuTriggerFor]="menu" class="float-left mb-1">פעולות</button>
 <mat-menu #menu="matMenu">
-  <button mat-menu-item>עדכון תאריך תשלום</button>
-  <button mat-menu-item>מחיקת שורה</button>
-  <button mat-menu-item>צירוף אסמכתא</button>
-  <button mat-menu-item>הפוך ללא רלוונטי</button>
+  <button mat-menu-item (click)="openUpdatePayDateDialog('', -1)">עדכון תאריך תשלום</button>
+  <button mat-menu-item (click)=openWarningMessageComponentDialog(false)>מחיקת שורה</button>
+  <button mat-menu-item (click)=openDialogAttachReference()>צירוף אסמכתא</button>
+  <button mat-menu-item (click)=openWarningMessageComponentDialog(true)>הפוך ללא רלוונטי</button>
 </mat-menu>
-
+<!--<div class="table-responsive">-->
 <table class="table table-bordered table-hover mt-3 data-table">
   <thead>
   <tr class="table-headers">
@@ -36,8 +36,9 @@
       </td>
       <td>{{ item.product_type }}</td>
       <td>{{ item.product_code }}</td>
-      <td>{{ item.payment_ref_number }}</td>
-      <td>{{ item.payment_date  }}</td>
+      <td (click)="openUpdateTypePayDialog(paymentType[item.payment_type], item.file_id)">{{ paymentType[item.payment_type] }}</td>
+      <td (click)="openUpdateAccountNumberDialog(item.group_thing_sum, item.file_id)">{{ item.payment_ref_number }}</td>
+      <td (click)="openUpdatePayDateDialog(item.payment_date, item.file_id)">{{ item.payment_date  }}</td>
       <td>{{ item.group_thing_sum }}</td>
       <td>{{ item.file_id }}</td>
       <td>
@@ -56,3 +57,4 @@
   </tr>
   </tbody>
 </table>
+<!--</div>-->

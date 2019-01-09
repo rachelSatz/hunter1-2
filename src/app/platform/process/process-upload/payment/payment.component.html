@@ -55,14 +55,14 @@
     <tr>
       <td>מספר רשומות: </td>
       <td>
-        <a (click)="setT()">לפירוט מלא ></a>
+        <a (click)="pageNumber = 4;record=true">לפירוט מלא ></a>
       </td>
     </tr>
     <tr></tr>
     <tr>
       <td>מספר קבצים: </td>
       <td>
-        <a (click)="setT()">לפירוט מלא ></a>
+        <a (click)="pageNumber = 4;file=true">לפירוט מלא ></a>
       </td>
     </tr>
     </tbody>
@@ -102,33 +102,43 @@
 </div>
 
 <div  [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
-<h4>פירוט </h4>
 <table class="table table-borderless">
   <thead>
-  <tr class="thborder">
-    <td colspan="2">
-      <span>פירוט</span>
-      <span [hidden]="true">רשומות</span>
-      <span>קבצים</span>
+  <tr>
+    <td colspan="4">
+      <span>פירוט  </span>
+      <span [hidden]="file">רשומות</span>
+      <span [hidden]="record">קבצים</span>
     </td>
   </tr>
   </thead>
-  <tbody>
+  <tbody class="f-12">
   <tr>
-    <td>שם מעסיק: </td>
-    <td>ח.פ:  </td>
-    <td>שם מחלקה:  </td>
-    <td>שם התהליך:  </td>
+    <td>שם המעסיק:</td>
+
+    <td>ח.פ:</td>
+
+    <td>שם מחלקה:</td>
+
+    <td>שם התהליך:</td>
+
   </tr>
   <tr>
-    <td>סכום לתשלום:  </td>
-    <td>מספר תהליך: </td>
-    <td>חודש שכר:  </td>
-    <td>סה"כ  :</td>
+    <td>סכום לתשלום:</td>
+    <td>מספר תהליך:</td>
+    <td>חודש שכר:</td>
+    <td [hidden]="file">מספר רשומות:</td>
+    <td [hidden]="record">סה"כ קבוצות ששודרו:</td>
   </tr>
   <tr>
-    <td colspan="4">מספר קבצים:  </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>מספר קבצים:</td>
   </tr>
   </tbody>
 </table>
+
+<app-detailed-files *ngIf="file"></app-detailed-files>
+<app-detailed-records *ngIf="record"></app-detailed-records>
 </div>

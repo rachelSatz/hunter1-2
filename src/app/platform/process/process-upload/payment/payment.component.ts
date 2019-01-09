@@ -28,15 +28,16 @@ import { EmailComponent } from './email/email.component';
 })
 export class PaymentComponent implements OnInit {
 
-  constructor( public router: Router, private dialog: MatDialog, private  processService: ProcessService) {}
+  constructor( public router: Router, private dialog: MatDialog,
+               private  processService: ProcessService) {}
 
   fileId = 1;
-  pageNumber = 1;
+  pageNumber = 2;
   email: string;
+  record: boolean;
+  file: boolean;
 
   ngOnInit() {
-
-
     this.processService.getUploadFile(this.fileId)
       .then(() => {
       });
@@ -60,5 +61,4 @@ export class PaymentComponent implements OnInit {
       panelClass: 'send-email-dialog'
     });
   }
-
 }
