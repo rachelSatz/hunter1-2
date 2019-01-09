@@ -44,10 +44,10 @@ export class PaymentComponent implements OnInit {
   spin: boolean;
   fileName: string;
   type: string;
+  record: boolean;
+  file: boolean;
 
   ngOnInit() {
-
-
     this.processService.getUploadFile(this.fileId)
       .then(response => {
         this.process_details = response;
@@ -130,5 +130,4 @@ export class PaymentComponent implements OnInit {
       this.spin = false;
     });
   }
-
 }

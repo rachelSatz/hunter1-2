@@ -1,11 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocompleteSelectedEvent,
-  MatAutocomplete} from '@angular/material';
-import {Email} from '../../../../compensation/process/send-to/send-to.component';
-import {ProcessService} from '../../../../../shared/_services/http/process.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent, MatDialogRef } from '@angular/material';
+import { Email} from '../../../../compensation/process/send-to/send-to.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { ProcessService } from 'app/shared/_services/http/process.service';
 
 @Component({
   selector: 'app-send-file-email',
@@ -76,6 +74,4 @@ export class SendFileEmailComponent implements OnInit {
         }
       });
   }
-
-
 }

@@ -54,19 +54,37 @@ export class ProcessService extends BaseHttpService {
       .catch(() => null);
   }
 
-
-  newProcess(values: Object, file?: File): Promise<boolean> {
+  // if (uploadedFile) {
+  //   for (let i = 0; i <= uploadedFile.length - 1 ; i++) {
+  //     formData.append('file' + i, uploadedFile[i]);
+  //   }
+  // }
+  newProcess(values: any, file?: File): Promise<boolean> {
     const formData = new FormData();
-    formData.append('data', JSON.stringify(values));
+    // formData.append('departmentId', values.departmentId);
+    formData.append('departmentId', '2');
+    formData.append('isDirect', values.isDirect);
+    formData.append('month', values.month);
+    formData.append('processName', values.processName);
+    formData.append('year', values.year);
+
+    // formData.append('data', JSON.stringify(values));
 
     if (file) {
       formData.append('file', file);
     }
 
-    return this.http.post(this.endPoint, formData, this.getTokenHeader())
+    return this.http.post(this.endPoint + '/UploadFile',  formData, this.getTokenHeader())
       .toPromise()
       .then(() => true)
       .catch(() => false);
+  }
+
+  update(type: string , val: any, fileId: object): Promise<boolean> {
+    return this.http.post(this.endPoint + '/Update', { params: val , type: type, fileId: fileId}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
   }
 
   getProcessDetail(processID: number): Promise<ProcessDetails> {
@@ -279,12 +297,17 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
     .then(response => response  as any[]);
   }
 
-  getUploadFile(processId: number): Promise<ProcessDetails> {
-    const request = this.getTokenHeader();
+  sendUploadFile(processId: number): Promise<any> {
+     return this.http.post(this.endPoint + '/UploadFile', {processId: processId}, this.getTokenHeader())
+       .toPromise()
+       .then(response => response  as any)
+       .catch(response => response  as any);
+  }
 
-      request['params'] = {'processId': processId};
-
-    return this.http.get(this.endPoint + '/UploadFile', request)
+  getUploadFile(processId: number): Promise<any> {
+    const options = this.getTokenHeader();
+    options['params'] = {processId: 1};
+    return this.http.get(this.endPoint + '/UploadFile',  options)
       .toPromise()
       .then(response => response as ProcessDetails)
       .catch(response => response as null);
@@ -320,11 +343,11 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
 
   }
 
-  sss(): Promise<boolean> {
-    return this.http.post(this.apiUrl + '/generals' + '/sendEmail' , this.getTokenHeader())
+  downloadFileProcess(processId: number): Promise<string> {
+    return this.http.get(this.endPoint + '/' + processId + '/downloadFileProcess', this.getTokenHeader())
       .toPromise()
       .then(response => response)
-      .catch(response => response);
+      .catch(() => null);
   }
 }
 

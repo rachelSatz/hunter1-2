@@ -36,7 +36,7 @@ export class ProcessDataComponent implements OnInit {
   yearValid = true;
   isSubmitting = false;
   hasServerError: boolean;
-
+  data: any;
   readonly month = Month;
 
   readonly year = [
@@ -121,9 +121,9 @@ export class ProcessDataComponent implements OnInit {
       this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
         if (confirmation.value) {
           console.log(confirmation.value);
-          const data = [this.processFile, form.value, this.selectUnitService.currentDepartmentID, confirmation.value];
-
-          this.processService.newProcess(data).then(response => {
+          this.data = {'month': form.value['month'], 'year': form.value['year'], 'processName': form.value['processName'],
+                      'departmentId': this.selectUnitService.currentDepartmentID, 'isDirect': confirmation.value};
+          this.processService.newProcess(this.data, this.processFile).then(response => {
             const processID = response;
             const fileData = [this.month[form.value.month - 1].name, form.value.year, form.value.processName];
             this.router.navigate(['./payment'], { relativeTo: this.route, queryParams: {fileData}});

@@ -5,8 +5,6 @@ import * as FileSaver from 'file-saver';
 
 import { HelpersService} from 'app/shared/_services/helpers.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import { Department } from 'app/shared/_models/department.model';
-
 
 @Component({
   selector: 'app-employees',
