@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProcessService } from 'app/shared/_services/http/process.service';
 
 @Component({
   selector: 'app-send-file-email',
@@ -6,9 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SendFileEmailComponent implements OnInit {
 
-  constructor() { }
+  constructor(public  processService: ProcessService) { }
 
   ngOnInit() {
   }
-
 }

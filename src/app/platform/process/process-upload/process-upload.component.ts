@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-process-upload',
@@ -11,13 +11,15 @@ export class ProcessUploadComponent implements OnInit {
 
   public files: any[] = [];
 
-  constructor(private router: Router) { }
+
+  constructor(public router: Router, protected route: ActivatedRoute) { }
 
   ngOnInit() {
   }
 
   setHeaderColor(): number {
     const currentRoute = (this.router.url).split('/');
+
 
     if (currentRoute[4]) {
       if (currentRoute[4].split('?')[0] === 'payment') {

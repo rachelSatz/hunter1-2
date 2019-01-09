@@ -43,3 +43,11 @@
   border-right-color: #00aeee;
 }
 
+
+.mt-lg-8 {
+  margin-top: 8rem !important
+}
+
+::ng-deep .dialog-file .mat-dialog-container {
+  overflow: visible;
+}

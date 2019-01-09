@@ -1,0 +1,60 @@
+<!--<mat-menu #menu="matMenu">-->
+  <!--<button mat-menu-item>Item 1</button>-->
+  <!--<button mat-menu-item>Item 1</button>-->
+<!--</mat-menu>-->
+
+<button mat-button [matMenuTriggerFor]="menu" class="float-left mb-1">פעולות</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="openUpdatePayDateDialog('', -1)">עדכון תאריך תשלום</button>
+  <button mat-menu-item (click)=openWarningMessageComponentDialog(false)>מחיקת שורה</button>
+  <button mat-menu-item (click)=openDialogAttachReference()>צירוף אסמכתא</button>
+  <button mat-menu-item (click)=openWarningMessageComponentDialog(true)>הפוך ללא רלוונטי</button>
+</mat-menu>
+<!--<div class="table-responsive">-->
+<table class="table table-bordered table-hover mt-3 data-table">
+  <thead>
+  <tr class="table-headers">
+    <th *ngIf="items.length > 0">
+      <mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>
+    </th>
+    <th *ngFor="let header of headers" (click)="sort(header)">
+      <span class="pointer" >{{ header.label }}</span>
+      <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngIf="!isSearching">
+    <tr *ngFor="let item of paginatedItems" class="pointer">
+      <td>
+        <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
+      </td>
+      <td>{{ item.group_id }}</td>
+      <td>{{ item.company_name }}</td>
+      <td>
+        <img src="/assets/img/icons/details_grey.png" title="">
+      </td>
+      <td>{{ item.product_type }}</td>
+      <td>{{ item.product_code }}</td>
+      <td (click)="openUpdateTypePayDialog(paymentType[item.payment_type], item.file_id)">{{ paymentType[item.payment_type] }}</td>
+      <td (click)="openUpdateAccountNumberDialog(item.group_thing_sum, item.file_id)">{{ item.payment_ref_number }}</td>
+      <td (click)="openUpdatePayDateDialog(item.payment_date, item.file_id)">{{ item.payment_date  }}</td>
+      <td>{{ item.group_thing_sum }}</td>
+      <td>{{ item.file_id }}</td>
+      <td>
+        <img src="/assets/img/icons/chat_bubble_grey.png">
+      </td>
+      <td>{{ processStatus[item.status] }}</td>
+
+      <td>
+         <i class="fa fa-download fa-lg ml-2" ></i>
+      </td>
+
+    </tr>
+  </ng-container>
+  <tr *ngIf="!isSearching && items.length === 0">
+    <td colspan="13" class="text-center bold">טבלת תהליכים ריקה.</td>
+  </tr>
+  </tbody>
+</table>
+<!--</div>-->

@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
+import { EmailComponent } from './email/email.component';
+
 
 @Component({
   selector: 'app-payment',
@@ -28,10 +32,13 @@ export class PaymentComponent implements OnInit {
 
   constructor( private dialog: MatDialog, private  processService: ProcessService, private activatedRoute: ActivatedRoute) {}
 
+
   data;
   fileId = 1;
-  pageNumber = 1;
+  pageNumber = 2;
   email: string;
+  record: boolean;
+  file: boolean;
 
   ngOnInit() {
     this.processService.getUploadFile(this.fileId)
@@ -41,6 +48,18 @@ export class PaymentComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(fileData => {
       this.data = fileData;
     });
+  }
+
+  openDialog(): void {
+    this.processService.getEmailUser().then( response => {
+      this.email = response['email'];
+      this.dialog.open(EmailComponent, {
+        data: this.email,
+        width: '550px',
+        panelClass: 'email-dialog'
+      });
+    });
+
   }
 
   openDialogSendFileEmail(): void {

@@ -32,9 +32,16 @@ constructor() {
 }
 
 export class ViewProcess {
+  group_id: number;
+  file_id: number;
+  company_name: string;
+  employer_product: string;
+  product_type: string;
+  product_code: string;
+  payment_ref_number: string;
+  group_thing_sum: string;
+  payment_date: string;
   status: string;
-
-
 }
 
 export enum StepStatus {
@@ -72,4 +79,11 @@ export enum ProcessType {
   Positive_Negative_Fix = 'תיקון 6+1',
   Direct_Employer = 'ישיר',
   Manual_Payment = 'פידבק ראשון' ,
+}
+
+export enum PaymentType {
+  Bank_Transfer = 'העברה בנקאית',
+  Check = 'צק',
+  Direct_Debit = 'הוראת קבע',
+  Masav = 'מס"ב',
 }

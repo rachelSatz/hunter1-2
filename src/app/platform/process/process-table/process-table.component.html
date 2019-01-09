@@ -25,7 +25,7 @@
 </mat-form-field>
 
 <div>
-  <button class="mb-2 float-left btn blue-btn" (click)="redirect()" >תהליך חדש</button>
+  <button class="mb-2 float-left btn blue-btn" (click)="redirectProcessNew()">תהליך חדש</button>
 </div>
 
 <table class="table table-bordered table-hover mt-3 data-table">
@@ -49,12 +49,15 @@
       <td>{{ item.date | date:'yyyy' }}</td>
       <td>{{ item.total  }}</td>
       <td>{{ processStatus[item.status] }}</td>
-      <td>{{ item.download }}</td>
+      <td>
+        <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id, 'download')" >
+        </i>
+      </td>
 
     </tr>
   </ng-container>
   <tr *ngIf="!isSearching && items.length === 0">
-    <td colspan="9" class="text-center bold">טבלת תהליכים ריקה.</td>
+    <td colspan="10" class="text-center bold">טבלת תהליכים ריקה.</td>
   </tr>
   </tbody>
 </table>

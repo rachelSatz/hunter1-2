@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DataTableComponent } from '../../../../shared/data-table/data-table.component';
+import { Component, OnInit } from '@angular/core';
+import { DataTableComponent } from '../../../../../shared/data-table/data-table.component';
 import { ActivatedRoute } from '@angular/router';
-import { DataTableHeader } from '../../../../shared/data-table/classes/data-table-header';
+import { DataTableHeader } from '../../../../../shared/data-table/classes/data-table-header';
 
 @Component({
   selector: 'app-detailed-records',
