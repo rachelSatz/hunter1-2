@@ -30,10 +30,8 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 })
 export class ProcessDataComponent implements OnInit {
 
-
-
   pageNumber = 1;
-  @Output() fileData;
+  isRefund = true;
   monthValid = true;
   yearValid = true;
   isSubmitting = false;
@@ -101,7 +99,6 @@ export class ProcessDataComponent implements OnInit {
         } if ( form.value.year ) {
           this.yearValid = true;
         } else { this.yearValid = false; }
-        console.log('year' + this.yearValid + 'and' + this.monthValid + 'month');
         break;
         case 2:
           this.hasServerError = false;
@@ -125,7 +122,6 @@ export class ProcessDataComponent implements OnInit {
         if (confirmation.value) {
           console.log(confirmation.value);
           const data = [this.processFile, form.value, this.selectUnitService.currentDepartmentID, confirmation.value];
-          console.log((this.router.url).split('/'));
 
           this.processService.newProcess(data).then(response => {
             const processID = response;

@@ -1,32 +1,43 @@
-<div class="container">
-  <form #form="ngForm" class="mt-5">
-    <div [@fade]="pageNumber === 1 ? 'active' : 'inactive'">
-      <p class="h4">נתוני תהליך</p>
-      <p class="grey-color f-12 mb-2">במסך זה יש להזין את פרטי התהליך</p>
-      <mat-form-field class="w-50 mt-3">
-        <input matInput type="text" name="processName" ngModel placeholder="שם תהליך">
-      </mat-form-field>
-      <p class="grey-color f-12">בשדה זה ניתן להזין מלל חופשי אשר יתווסף לצורך זיהוי התהליך</p>
-      <div class="d-flex">
+<!--<div class="container">-->
+<form #form="ngForm" class="mt-5">
+  <div [@fade]="pageNumber === 1 ? 'active' : 'inactive'">
+    <p class="h4">נתוני תהליך</p>
+    <p class="grey-color f-12 mb-2">במסך זה יש להזין את פרטי התהליך</p>
+    <mat-form-field class="w-50 mt-3">
+      <input matInput type="text" name="processName" ngModel placeholder="שם תהליך">
+    </mat-form-field>
+    <p class="grey-color f-12">בשדה זה ניתן להזין מלל חופשי אשר יתווסף לצורך זיהוי התהליך</p>
+    <div class="d-flex">
+      <div class="w-50">
         <bd-select [items]="month" name="month" ngModel [required]="true" placeholder="בחר חודש*"></bd-select>
-          <!--<p class="alert alert-danger" [@fade]="!monthValid ? 'active' : 'inactive'">שדה חובה.</p>-->
-      <bd-select [items]="year" name="year" ngModel required placeholder="בחר שנה*" class="mr-4"></bd-select>
-        <!--<p class="alert alert-danger" [@fade]="!yearValid ? 'active' : 'inactive'">שדה חובה.</p>-->
+          <p class="alert alert-danger" [@fade]="!monthValid ? 'active' : 'inactive'">שדה חובה.</p>
+      </div>
+      <div class="w-50 mr-4">
+      <bd-select [items]="year" name="year" ngModel required placeholder="בחר שנה*"></bd-select>
+        <p class="alert alert-danger" [@fade]="!yearValid ? 'active' : 'inactive'">שדה חובה.</p>
+      </div>
     </div>
   </div>
     <div *ngIf="pageNumber === 2">
-      <table class="table table-bordered">
-        <thead>
-        <tr>
-          <th scope="col">{{form.value.processName + ' ' + month[(form.value.month)-1].name + ' ' + form.value.year}}</th>
-          <td scope="col">{{month[(form.value.month)-1].name}}</td>
-          <td scope="col">{{form.value.year}}</td>
-        </tr>
-        </thead>
-      </table>
+      <div *ngIf="isRefund" class="w-50">
+        <h4>העלאת תהליך שלילי</h4>
+        <p class="grey-color f-12 mb-2">לבקשת החזרים כספיים מהקופות יש להעלות קובץ בפורמט XML שלילי, אשר מונפק מתכנת השכר.
+          קובץ זה יועבר לקופות על מנת להשיב את הכספים אל החשבון המוגדר.XML</p>
+      </div>
+      <div *ngIf="!isRefund">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th scope="col">{{form.value.processName + ' ' + month[(form.value.month)-1].name + ' ' + form.value.year}}</th>
+            <td scope="col">{{month[(form.value.month)-1].name}}</td>
+            <td scope="col">{{form.value.year}}</td>
+          </tr>
+          </thead>
+        </table>
         <div>
           <h4>טעינת נתונים</h4>
           <p class="grey-color f-12 mb-2">במסך זה יש לבצע טעינת נתונים מתוך קובץ XML</p>
+          </div>
         </div>
         <div class="mt-5">
           <mat-spinner class="mx-auto mb-3" *ngIf="spin"></mat-spinner>
@@ -57,7 +68,6 @@
        </p>
      </span>
     <button class="btn blue-btn mt-5" (click)=" pageNumber === 2 ? paymentPopup(form): setPage(1, form)" >המשך</button>
-
   </div>
 </form>
 
