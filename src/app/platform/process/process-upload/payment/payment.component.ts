@@ -37,17 +37,6 @@ export class PaymentComponent implements OnInit {
                ) {}
 
 
-  processID;
-  employer;
-  department;
-  processName;
-  companyCode;
-  month;
-  sumPayment;
-  files;
-  recordNumber;
-  status;
-  date;
 
   data;
   fileId = 1;
@@ -79,35 +68,6 @@ export class PaymentComponent implements OnInit {
   }
 
 
-  getData() {
-    this.processService.getUploadFile(this.processID)
-      .then(response => {
-        switch (response['status']) {
-          case 'Loading': {
-
-          }
-            break;
-          case ('Error_Loading'): {
-
-          }
-        }
-        if (response['status']) {}
-        this.employer = response['employer_name'];
-        this.department = response['department_name'];
-        this.processName = response['name'];
-
-        this.companyCode = response['company_code'];
-        this.month = response['month'];
-
-        this.sumPayment = response['total']
-        this.files = response['groups_count'];
-        this.recordNumber = response['record_count'];
-
-        this.status = response['status'];
-        this.date = response['date'];
-        this.employer = response['name'];
-      } );
-  }
 
   nav() {
     const fileData = [true];
