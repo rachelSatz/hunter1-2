@@ -11,6 +11,8 @@ import { EmailComponent } from './email/email.component';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import * as FileSaver from 'file-saver';
 
+
+
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -98,8 +100,6 @@ export class PaymentComponent implements OnInit {
       console.log(this.data.fileData);
     });
   }
-
-
 
 
   openDialogSendFileEmail(): void {

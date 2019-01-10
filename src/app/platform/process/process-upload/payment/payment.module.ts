@@ -8,18 +8,8 @@ import { EmailComponent } from './email/email.component';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import {
-  MatAutocompleteModule,
-  MatCheckboxModule,
-  MatChipsModule,
-  MatDialogModule,
-  MatFormFieldModule,
-  MatIconModule,
-  MatInputModule,
-  MatSelectModule,
-  MatProgressBarModule,
-  MatMenuModule
-} from '@angular/material';
+import { MatAutocompleteModule, MatCheckboxModule, MatChipsModule, MatDialogModule, MatFormFieldModule, MatIconModule,
+         MatInputModule, MatSelectModule, MatProgressBarModule, MatMenuModule} from '@angular/material';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { DetailedFilesComponent } from '../shared/detailed-files/detailed-files.component';
 import { UpdatePaymentTypeComponent } from '../shared/detailed-files/update-payment-type/update-payment-type.component';
@@ -50,11 +40,11 @@ const routes: Routes = [
     DatePickerModule
   ],
   providers: [DatePipe, ProcessService, NotificationService],
-  declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent, DetailedFilesComponent, DetailedRecordsComponent,
-    UpdatePaymentTypeComponent, AttachReferenceComponent, UpdateAccountNumberComponent, UpdatePaymentDateComponent,
-    CommentsComponent
+  declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent, DetailedFilesComponent,
+                 DetailedRecordsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
+                 UpdateAccountNumberComponent, UpdatePaymentDateComponent, CommentsComponent
   ],
-  entryComponents: [ EmailComponent, SendFileEmailComponent, ErrorMessageComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
+  entryComponents: [ EmailComponent, SendFileEmailComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
     UpdateAccountNumberComponent, UpdatePaymentDateComponent, CommentsComponent]
 })
 export class PaymentModule { }

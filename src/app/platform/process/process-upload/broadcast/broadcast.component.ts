@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog } from '@angular/material';
-import {DateUpdateComponent} from './date-update/date-update.component';
+import { DateUpdateComponent } from './date-update/date-update.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import {ProcessDetails} from '../../../../shared/_models/process-details.model';
+import { ProcessDetails } from '../../../../shared/_models/process-details.model';
 
 
 
@@ -31,6 +31,9 @@ export class BroadcastComponent implements OnInit {
 
   pageNumber = 1;
   valid: boolean;
+  isRefund = false;
+  employer;
+  department;
   processID = 1;
   process_details: ProcessDetails;
   paymentDate: string;
@@ -39,7 +42,7 @@ export class BroadcastComponent implements OnInit {
   constructor(private dialog: MatDialog, private processService: ProcessService) {}
 
   ngOnInit() {
-
+    this.getData();
   }
 
   dateUpdate() {
@@ -65,6 +68,11 @@ export class BroadcastComponent implements OnInit {
           }
         }
       });
+  }
+
+  Refund() {
+    this.pageNumber = 1;
+    this.isRefund = true;
   }
 
 }

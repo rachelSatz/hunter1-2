@@ -149,6 +149,10 @@
     <a (click)="goToPreviousPage()">< חזור</a>
   </div>
 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0861233ad8d515c0c418761dd217df75823970ba
 <div  [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
 <table class="table table-borderless">
   <thead>
@@ -159,11 +163,15 @@
       <span [hidden]="record">קבצים</span>
     </td>
   </tr>
+<<<<<<< HEAD
   <tr class="thborder"><td colspan="2">פרטי התשלומים</td></tr>
+=======
+>>>>>>> 0861233ad8d515c0c418761dd217df75823970ba
   </thead>
   <tbody class="f-12">
   <tr>
     <td>שם המעסיק:</td>
+<<<<<<< HEAD
 
     <td>ח.פ:</td>
 
@@ -171,6 +179,11 @@
 
     <td>שם התהליך:</td>
 
+=======
+    <td>ח.פ:</td>
+    <td>שם מחלקה:</td>
+    <td>שם התהליך:</td>
+>>>>>>> 0861233ad8d515c0c418761dd217df75823970ba
   </tr>
   <tr>
     <td>סכום לתשלום:</td>
@@ -187,6 +200,7 @@
   </tr>
   </tbody>
 </table>
+<<<<<<< HEAD
 
 <app-detailed-files *ngIf="file"></app-detailed-files>
 <app-detailed-records *ngIf="record"></app-detailed-records>
@@ -194,4 +208,8 @@
 <!--[routerLink]="['./', 'errors']-->
 <div *ngIf="pageNumber !== 3">
   <a (click)="goToHomePage()">< חזרה לדף הבית</a>
+=======
+<app-detailed-files *ngIf="file"></app-detailed-files>
+<app-detailed-records *ngIf="record"></app-detailed-records>
+>>>>>>> 0861233ad8d515c0c418761dd217df75823970ba
 </div>
