@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -29,6 +29,8 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
   ]
 })
 export class ProcessDataComponent implements OnInit {
+
+  @ViewChild('fileInput') fileInput: ElementRef;
 
   processType = [
     { id: 'negative', name: 'שלילי' },
@@ -90,6 +92,7 @@ export class ProcessDataComponent implements OnInit {
           this.processFile = file;
         } else {
           this.processFile = null;
+          this.fileInput.nativeElement.value = null;
         }
       });
     } else {
