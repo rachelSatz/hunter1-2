@@ -11,17 +11,11 @@ import { ProcessUploadComponent } from './process-upload.component';
 
 
 const routes: Routes = [
-  { path: '', component: ProcessUploadComponent, children: [
+      { path: '', component: ProcessUploadComponent, children: [
       { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule'},
       { path: 'payment', loadChildren: './payment/payment.module#PaymentModule'},
-      { path: 'detailed-files', loadChildren: './shared/detailed-files/detailed-files.module#DetailedFilesModule'},
       { path: 'broadcast', loadChildren: './broadcast/broadcast.module#BroadcastModule' },
       { path: 'payment', loadChildren: './payment/payment.module#PaymentModule'},
-      // { path: 'detailed-files', loadChildren: './shared/detailed-files/detailed-files.module#DetailedFilesModule'}
-      { path: 'payment', loadChildren: './payment/payment.module#PaymentModule' },
-      { path: 'broadcast', loadChildren: './broadcast/broadcast.module#BroadcastModule' }
-      // { path: 'detailed-files', loadChildren: './shared/detailed-files/detailed-files.module#DetailedFilesModule'}
-
     ]}
 ];
 
