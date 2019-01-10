@@ -42,27 +42,27 @@
     <tbody>
       <tr>
         <td>שם המעסיק:</td>
-        <td *ngIf="process_details !== null && process_details !== undefined && process_details.employer_name !== null">{{ process_details.employer_name }}</td>
+        <td>{{ process_details.employer_name }}</td>
         <td>ח.פ: </td>
-        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.business_number !== null">{{ process_details.business_number }}</td>
+        <td>{{ process_details.business_number }}</td>
       </tr>
       <tr>
         <td>שם מחלקה:</td>
-        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.department_name !== null">{{ process_details.department_name }}</td>
+        <td>{{ process_details.department_name }}</td>
         <td></td>
       </tr>
       <tr></tr>
       <tr>
         <td>שם התהליך: </td>
-        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.name !== null">{{ process_details.name }}</td>
+        <td>{{ process_details.name }}</td>
         <td>מספר תהליך:</td>
-        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.id !== null">{{ process_details.id }}</td>
+        <td>{{ process_details.id }}</td>
       </tr>
       <tr>
         <td>חודש שכר: </td>
-        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.date !== null">{{ process_details.date | slice:5:7}}</td>
+        <td>{{ process_details.date | slice:5:7}}</td>
         <td>שנה:</td>
-        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.date !== null">{{ process_details.date  | slice:0:4}}</td>
+        <td>{{ process_details.date  | slice:0:4}}</td>
       </tr>
     </tbody>
   </table>
@@ -75,11 +75,11 @@
       <tbody>
       <tr>
         <td>סכום לתשלום: </td>
-        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.total !== null">{{ process_details.total }}</td>
+        <td>{{ process_details.total }}</td>
       </tr>
       <tr>
         <td>מספר רשומות: </td>
-        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.records_count !== null">{{ process_details.records_count }}</td>
+        <td>{{ process_details.records_count }}</td>
         <td>
           <a (click)="pageNumber = 4;record=true">לפירוט מלא ></a>
         </td>
@@ -87,7 +87,7 @@
       <tr></tr>
       <tr>
         <td>מספר קבצים: </td>
-        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.groups_count !== null">{{ process_details.groups_count }}</td>
+        <td>{{ process_details.groups_count }}</td>
         <td>
           <a (click)="pageNumber = 4;record=true;recordeDetails()">לפירוט מלא ></a>
         </td>
@@ -147,16 +147,25 @@
   <tbody class="f-12">
   <tr>
     <td>שם המעסיק:</td>
+    <td>{{ process_details.employer_name }}</td></td>
     <td>ח.פ:</td>
+    <td>{{ process_details.business_number }}</td>
     <td>שם מחלקה:</td>
+    <td>{{ process_details.department_name }}</td>
     <td>שם התהליך:</td>
+    <td>{{ process_details.name }}</td>
   </tr>
   <tr>
     <td>סכום לתשלום:</td>
+    <td>{{ process_details.total }}</td>
     <td>מספר תהליך:</td>
+    <td>{{ process_details.id }}</td>
     <td>חודש שכר:</td>
+    <td>{{ process_details.date | slice:5:7}}</td>
     <td [hidden]="file">מספר רשומות:</td>
+    <td>{{ process_details.records_count }}</td>
     <td [hidden]="record">סה"כ קבוצות ששודרו:</td>
+    <td>{{ process_details.groups_count }}</td>
   </tr>
   <tr>
     <td></td>
