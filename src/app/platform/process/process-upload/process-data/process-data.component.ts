@@ -140,10 +140,18 @@ export class ProcessDataComponent implements OnInit {
           this.data = {'month': form.value['month'], 'year': form.value['year'], 'processName': form.value['processName'],
                       'departmentId': this.selectUnitService.currentDepartmentID, 'isDirect': confirmation.value};
           this.processService.newProcess(this.data, this.processFile).then(response => {
-            const processID = response;
-            const fileData = [this.months[form.value.month - 1].name, form.value.year, form.value.processName, this.selectedType];
-            this.router.navigate(['./payment'], { relativeTo: this.route, queryParams: {fileData}});
-            if (response) {
+            const processID = response['processId'];
+            // const fileData = [this.months[form.value.month - 1].name, form.value.year, form.value.processName, this.selectedType,
+            //                   processID];
+            this.router.navigate(['./payment'], { relativeTo: this.route,
+              queryParams: {
+                month: this.months[form.value.month - 1].name,
+                year: form.value.year,
+                processName: form.value.processName,
+                type: this.selectedType,
+                processId: processID
+            }});
+            if (response['processId'] > 0) {
             } else {
               this.hasServerError = true;
             }

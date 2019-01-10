@@ -40,7 +40,7 @@ export class ProcessService extends BaseHttpService {
 
   getFilesList(processId: number): Promise<ViewProcess[]> {
     const options = this.getTokenHeader();
-    options['params'] = {processId : processId};
+    options['params'] = {processId : 1};
 
     return this.http.get( this.endPoint + '/FilesList', options)
       .toPromise()
@@ -76,8 +76,8 @@ export class ProcessService extends BaseHttpService {
 
     return this.http.post(this.endPoint + '/UploadFile',  formData, this.getTokenHeader())
       .toPromise()
-      .then(() => true)
-      .catch(() => false);
+      .then(response => response)
+      .catch(response => response);
   }
 
   update(type: string , val: any, fileId: object): Promise<boolean> {
@@ -306,7 +306,7 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
 
   getUploadFile(processId: number): Promise<any> {
     const options = this.getTokenHeader();
-    options['params'] = {processId: 1};
+    options['params'] = {processId: processId};
     return this.http.get(this.endPoint + '/UploadFile',  options)
       .toPromise()
       .then(response => response as ProcessDetails)
@@ -349,5 +349,6 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .then(response => response)
       .catch(() => null);
   }
+
 }
 

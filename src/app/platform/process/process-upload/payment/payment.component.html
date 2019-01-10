@@ -3,9 +3,9 @@
   <table class="table table-bordered">
     <thead>
     <tr>
-      <!--<th scope="col">{{data.fileData[2]+ ' ' + data.fileData[0] + ' ' + data.fileData[1]}}</th>-->
-      <!--<td scope="col">{{data.fileData[0]}}</td>-->
-      <!--<td scope="col">{{data.fileData[1]}}</td>-->
+      <th scope="col">{{data['processName']+ ' ' + data['month'] + ' ' + data['year']}}</th>
+      <td scope="col">{{data['month']}}</td>
+      <td scope="col">{{data['year']}}</td>
     </tr>
     </thead>
   </table>
@@ -16,10 +16,19 @@
     <a class="bold" (click)="openDialog()">לחץ כאן</a>
   </p>
   <p class="f-12">ניתן להמתין לסיום הטעינה ולהורדת הנחיית תשלום</p>
-  <mat-progress-bar mode="determinate" [value]="process_percent"></mat-progress-bar>
+  <mat-progress-bar mode="determinate" [(value)]="process_percent"></mat-progress-bar>
 </div>
-
 <div class="text-center"  [@fade]="pageNumber === 2 ? 'active' : 'inactive'">
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th scope="col">{{data['processName']+ ' ' + data['month'] + ' ' + data['year']}}</th>
+      <td scope="col">{{data['month']}}</td>
+      <td scope="col">{{data['year']}}</td>
+    </tr>
+    </thead>
+  </table>
+  <br>
   <h5 class="bold">הקובץ נטען בהצלחה</h5>
   <p class="f-12">להלן פרטי נתונים הפנסיונים לשידור לקופות </p>
   <p class="f-12 bold">יש לאשר לפני השידור</p>
@@ -33,31 +42,30 @@
     <tbody>
       <tr>
         <td>שם המעסיק:</td>
-        <td>{{ process_details.employer_name }}</td>
+        <td *ngIf="process_details !== null && process_details !== undefined && process_details.employer_name !== null">{{ process_details.employer_name }}</td>
         <td>ח.פ: </td>
-        <td>{{ process_details.business_number }}</td>
+        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.business_number !== null">{{ process_details.business_number }}</td>
       </tr>
       <tr>
         <td>שם מחלקה:</td>
-        <td>{{ process_details.department_name }}</td>
+        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.department_name !== null">{{ process_details.department_name }}</td>
         <td></td>
       </tr>
       <tr></tr>
       <tr>
         <td>שם התהליך: </td>
-        <td>{{ process_details.name }}</td>
+        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.name !== null">{{ process_details.name }}</td>
         <td>מספר תהליך:</td>
-        <td>{{ process_details.id }}</td>
+        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.id !== null">{{ process_details.id }}</td>
       </tr>
       <tr>
         <td>חודש שכר: </td>
-        <td>{{ process_details.date | slice:5:7}}</td>
+        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.date !== null">{{ process_details.date | slice:5:7}}</td>
         <td>שנה:</td>
-        <td>{{ process_details.date  | slice:0:4}}</td>
+        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.date !== null">{{ process_details.date  | slice:0:4}}</td>
       </tr>
     </tbody>
   </table>
-<<<<<<< HEAD
     <table class="table table-borderless">
       <thead>
           <tr class="thborder">
@@ -67,52 +75,26 @@
       <tbody>
       <tr>
         <td>סכום לתשלום: </td>
-        <td>{{ process_details.total }}</td>
+        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.total !== null">{{ process_details.total }}</td>
       </tr>
       <tr>
         <td>מספר רשומות: </td>
-        <td>{{ process_details.records_count }}</td>
+        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.records_count !== null">{{ process_details.records_count }}</td>
         <td>
-          <a (click)="setT()">לפירוט מלא ></a>
+          <a (click)="pageNumber = 4;record=true">לפירוט מלא ></a>
         </td>
       </tr>
       <tr></tr>
       <tr>
         <td>מספר קבצים: </td>
-        <td>{{ process_details.groups_count }}</td>
+        <td *ngIf="process_details !== null && process_details !== undefined  && process_details.groups_count !== null">{{ process_details.groups_count }}</td>
         <td>
-          <a (click)="setT()">לפירוט מלא ></a>
+          <a (click)="pageNumber = 4;record=true;recordeDetails()">לפירוט מלא ></a>
         </td>
       </tr>
       </tbody>
     </table>
-=======
 
-  <table class="table table-borderless">
-    <thead>
-        <tr class="thborder">
-          <th colspan="2">פרטי התשלומים</th>
-        </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>סכום לתשלום: </td>
-    </tr>
-    <tr>
-      <td>מספר רשומות: </td>
-      <td>
-        <a (click)="pageNumber = 4;record=true">לפירוט מלא ></a>
-      </td>
-    </tr>
-    <tr></tr>
-    <tr>
-      <td>מספר קבצים: </td>
-      <td>
-        <a (click)="pageNumber = 4;file=true">לפירוט מלא ></a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
 </div>
   <div class="text-left">
     <button class="btn blue-btn" (click)="pageNumber = 3"> לביצוע תשלום</button>
@@ -143,16 +125,12 @@
   </table>
   </div>
   <div class="float-left mt-lg-5">
-    <button class="btn blue-btn">המשך</button>
+    <button class="btn blue-btn" (click)="setPage(1)">המשך</button>
   </div>
   <div class="float-right mt-lg-5">
     <a (click)="goToPreviousPage()">< חזור</a>
   </div>
 </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> 0861233ad8d515c0c418761dd217df75823970ba
 <div  [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
 <table class="table table-borderless">
   <thead>
@@ -163,27 +141,15 @@
       <span [hidden]="record">קבצים</span>
     </td>
   </tr>
-<<<<<<< HEAD
   <tr class="thborder"><td colspan="2">פרטי התשלומים</td></tr>
-=======
->>>>>>> 0861233ad8d515c0c418761dd217df75823970ba
+
   </thead>
   <tbody class="f-12">
   <tr>
     <td>שם המעסיק:</td>
-<<<<<<< HEAD
-
-    <td>ח.פ:</td>
-
-    <td>שם מחלקה:</td>
-
-    <td>שם התהליך:</td>
-
-=======
     <td>ח.פ:</td>
     <td>שם מחלקה:</td>
     <td>שם התהליך:</td>
->>>>>>> 0861233ad8d515c0c418761dd217df75823970ba
   </tr>
   <tr>
     <td>סכום לתשלום:</td>
@@ -200,7 +166,6 @@
   </tr>
   </tbody>
 </table>
-<<<<<<< HEAD
 
 <app-detailed-files *ngIf="file"></app-detailed-files>
 <app-detailed-records *ngIf="record"></app-detailed-records>
@@ -208,8 +173,6 @@
 <!--[routerLink]="['./', 'errors']-->
 <div *ngIf="pageNumber !== 3">
   <a (click)="goToHomePage()">< חזרה לדף הבית</a>
-=======
 <app-detailed-files *ngIf="file"></app-detailed-files>
 <app-detailed-records *ngIf="record"></app-detailed-records>
->>>>>>> 0861233ad8d515c0c418761dd217df75823970ba
 </div>

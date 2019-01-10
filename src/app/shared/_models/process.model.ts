@@ -32,16 +32,32 @@ constructor() {
 }
 
 export class ViewProcess {
-  group_id: number;
   file_id: number;
   company_name: string;
-  employer_product: string;
+  employer_products: EmployerProduct;
   product_type: string;
   product_code: string;
+  payment_identifier: string;
+  payment_additional_info: PaymentAdditionalInfo;
+  payment_date: string;
+  file_total: number;
+  group_id: number;
+  status: string;
   payment_ref_number: string;
   group_thing_sum: string;
-  payment_date: string;
-  status: string;
+}
+
+export class EmployerProduct {
+  code: string;
+  name: string;
+}
+
+export class PaymentAdditionalInfo {
+  id: number;
+  account_number: string;
+  branch_number: string;
+  bank_number: string;
+  is_primary: boolean;
 }
 
 export enum StepStatus {

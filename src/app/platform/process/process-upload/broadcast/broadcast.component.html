@@ -1,5 +1,14 @@
-<!--<<<<<<< HEAD-->
 <div class="text-center" [@fade]="pageNumber === 1 ? 'active' : 'inactive'">
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th scope="col">{{data['processName']+ ' ' + data['month'] + ' ' + data['year']}}</th>
+      <td scope="col">{{data['month']}}</td>
+      <td scope="col">{{data['year']}}</td>
+    </tr>
+    </thead>
+  </table>
+  <br>
   <h5 class="bold">תהליך שידור</h5>
   <p class="f-12">להלן פרטי הנתונים הפנסיוניים לשידור לקופות</p>
   <div class="container w-75">
@@ -12,7 +21,7 @@
     <tbody>
     <tr>
       <td>שם המעסיק:</td>
-      <td>{{ process_details.employer_name }}</td>
+      <td *ngIf="process_details !== null && process_details.employer_name !== null">{{ process_details.employer_name }}</td>
       <td>ח.פ: </td>
       <td>{{ process_details.business_number }}</td>
     </tr>
@@ -80,67 +89,67 @@
     </mat-checkbox>
     <div class="mt-5">
       <button class="btn blue-btn" [disabled]="!valid" (click)="pageNumber = 2">שידור לקופות</button>
-<!--=======-->
-<div class="col-6  offset-3" [@fade]="pageNumber === 1? 'active': 'inactive'">
-  <div *ngIf="!isRefund">
-    <h5 class="bold text-center">תהליך שידור</h5>
-    <p class="f-12 text-center grey-color">להלן פרטי הנתונים הפנסיוניים לשידור לקופות</p>
-  </div>
-  <div *ngIf="isRefund">
-    <h5 class="bold text-center">תהליך שידור קובץ שלילי</h5>
-    <p class="f-12 text-center grey-color">להלן פרטי הבקשה להחזר מהקופות</p>
-  </div>
-  <p class="border-bottom f-14 bold grey-color">פרטי התהליך</p>
-  <div class="d-flex">
-    <span class="w-50">שם המעסיק: </span>
-    <span>ח.פ: </span>
-  </div>
-  <div class="d-flex my-3">
-    <span class="w-50">שם מחלקה:</span>
-    <span>מספר תהליך:</span>
-  </div>
-  <div class="d-flex">
-    <span class="w-50">מספר רשומות:</span>
-    <span>לפירוט מלא ></span>
-  </div>
-  <div class="d-flex my-3">
-    <span class="w-50">שם התהליך:</span>
-    <span>חודש שכר:</span>
-  </div>
-  <p class="border-bottom f-14 bold grey-color">פרטי התשלומים</p>
-  <div class="text-right">
-    <span>סכום לתשלום:</span>
-  </div>
-  <div class="d-flex my-3">
-    <span class="w-50 text-right">מספר קבצים:</span>
-    <span>לפירוט מלא ></span>
-  </div>
-  <div class="d-flex">
-    <span class="w-50 text-right">מספר רשומות:</span>
-    <span>לפירוט מלא ></span>
-  </div>
-  <div *ngIf="!isRefund">
-    <div class="d-flex mt-2">
-      <span class="w-50 text-right">תאריך תשלום (ערך):</span>
-      <span (click)="dateUpdate()">לעדכון תאריך ></span>
-<!--&gt;>>>>>> 0861233ad8d515c0c418761dd217df75823970ba-->
-    </div>
-    <p class="f-12 bold red-color">הנך נדרש לעדכן תאריך ערך</p>
-  </div>
-  <div class="mt-4 d-flex" *ngIf="isRefund" >
-    <p class="text-right bold red-color f-12">שים לב! </p>
-    <p class="f-12 mr-2">בשידור לקופות הנך מאשר כי קובץ ההצהרה לבקשת החזר יהיה ממוען לחברות המנהלות בקובץ</p>
-  </div>
-  <mat-checkbox *ngIf="!isRefund" [(ngModel)]="valid">
-    <div class="text-wrap text-right mt-4">
-      <p class="f-12">הנני מאשר כי פרטי התשלום המוצגים מעלה נבדקו מול תוכנת השכר והנם תקינים.
-      בשידור לקופות הקבצים יועברו על פי הנתונים הקיימים ופיולה זואינה ניתנת לביטול.</p>
-    </div>
-  </mat-checkbox>
-  <div class="text-center mt-5">
-    <button class="btn blue-btn" [disabled]="!valid && !isRefund" (click)="pageNumber = 2">שידור לקופות</button>
   </div>
 </div>
+    <!--<div class="col-6  offset-3" [@fade]="pageNumber === 1? 'active': 'inactive'">
+      <div *ngIf="!isRefund">
+        <h5 class="bold text-center">תהליך שידור</h5>
+        <p class="f-12 text-center grey-color">להלן פרטי הנתונים הפנסיוניים לשידור לקופות</p>
+      </div>
+      <div *ngIf="isRefund">
+        <h5 class="bold text-center">תהליך שידור קובץ שלילי</h5>
+        <p class="f-12 text-center grey-color">להלן פרטי הבקשה להחזר מהקופות</p>
+      </div>
+      <p class="border-bottom f-14 bold grey-color">פרטי התהליך</p>
+      <div class="d-flex">
+        <span class="w-50">שם המעסיק: </span>
+        <span>ח.פ: </span>
+      </div>
+      <div class="d-flex my-3">
+        <span class="w-50">שם מחלקה:</span>
+        <span>מספר תהליך:</span>
+      </div>
+      <div class="d-flex">
+        <span class="w-50">מספר רשומות:</span>
+        <span>לפירוט מלא ></span>
+      </div>
+      <div class="d-flex my-3">
+        <span class="w-50">שם התהליך:</span>
+        <span>חודש שכר:</span>
+      </div>
+      <p class="border-bottom f-14 bold grey-color">פרטי התשלומים</p>
+      <div class="text-right">
+        <span>סכום לתשלום:</span>
+      </div>
+      <div class="d-flex my-3">
+        <span class="w-50 text-right">מספר קבצים:</span>
+        <span>לפירוט מלא ></span>
+      </div>
+      <div class="d-flex">
+        <span class="w-50 text-right">מספר רשומות:</span>
+        <span>לפירוט מלא ></span>
+      </div>
+      <div *ngIf="!isRefund">
+        <div class="d-flex mt-2">
+          <span class="w-50 text-right">תאריך תשלום (ערך):</span>
+          <span (click)="dateUpdate()">לעדכון תאריך ></span>
+        </div>
+        <p class="f-12 bold red-color">הנך נדרש לעדכן תאריך ערך</p>
+      </div>
+      <div class="mt-4 d-flex" *ngIf="isRefund" >
+        <p class="text-right bold red-color f-12">שים לב! </p>
+        <p class="f-12 mr-2">בשידור לקופות הנך מאשר כי קובץ ההצהרה לבקשת החזר יהיה ממוען לחברות המנהלות בקובץ</p>
+      </div>
+      <mat-checkbox *ngIf="!isRefund" [(ngModel)]="valid">
+        <div class="text-wrap text-right mt-4">
+          <p class="f-12">הנני מאשר כי פרטי התשלום המוצגים מעלה נבדקו מול תוכנת השכר והנם תקינים.
+            בשידור לקופות הקבצים יועברו על פי הנתונים הקיימים ופיולה זואינה ניתנת לביטול.</p>
+        </div>
+      </mat-checkbox>
+      <div class="text-center mt-5">
+        <button class="btn blue-btn" [disabled]="!valid && !isRefund" (click)="pageNumber = 2">שידור לקופות</button>
+      </div>
+    </div>-->
 <div class="col-6 offset-3" [@fade]="pageNumber === 2? 'active': 'inactive'">
   <p class="h5 text-center mb-5" *ngIf="isRefund">בקשת ההחזר הועברה לקופות בהצלחה!</p>
   <div class="text-center" *ngIf="!isRefund">
@@ -184,8 +193,4 @@
     <button class="btn blue-btn" (click)="Refund()">יצירת בקשת החזר כספי</button>
   </div>
 </div>
-</div>
 
-
-  </div>
-</div>
