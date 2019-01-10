@@ -34,6 +34,7 @@ import { CommentsComponent } from '../../../compensation/process/comments/commen
 
 const routes: Routes = [
   { path: '', component: PaymentComponent }
+
 ];
 
 
@@ -57,5 +58,8 @@ const routes: Routes = [
   entryComponents: [ EmailComponent, SendFileEmailComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
     UpdateAccountNumberComponent, UpdatePaymentDateComponent, CommentsComponent]
 })
-export class PaymentModule { }
+export class PaymentModule {
+
+
+}
 

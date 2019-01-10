@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ActivatedRoute } from '@angular/router';
 import { EmailComponent } from './email/email.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -30,8 +30,24 @@ import { EmailComponent } from './email/email.component';
 })
 export class PaymentComponent implements OnInit {
 
-  constructor( private dialog: MatDialog, private  processService: ProcessService, private activatedRoute: ActivatedRoute) {}
+  constructor( private dialog: MatDialog,
+               private  processService: ProcessService,
+               private route: ActivatedRoute,
+               private router: Router,
+               ) {}
 
+
+  processID;
+  employer;
+  department;
+  processName;
+  companyCode;
+  month;
+  sumPayment;
+  files;
+  recordNumber;
+  status;
+  date;
 
   data;
   fileId = 1;
@@ -41,13 +57,6 @@ export class PaymentComponent implements OnInit {
   file: boolean;
 
   ngOnInit() {
-    this.processService.getUploadFile(this.fileId)
-      .then(() => {
-      });
-
-    this.activatedRoute.queryParams.subscribe(fileData => {
-      this.data = fileData;
-    });
   }
 
   openDialog(): void {
@@ -67,5 +76,41 @@ export class PaymentComponent implements OnInit {
       width: '550px',
       panelClass: 'send-email-dialog'
     });
+  }
+
+
+  getData() {
+    this.processService.getUploadFile(this.processID)
+      .then(response => {
+        switch (response['status']) {
+          case 'Loading': {
+
+          }
+            break;
+          case ('Error_Loading'): {
+
+          }
+        }
+        if (response['status']) {}
+        this.employer = response['employer_name'];
+        this.department = response['department_name'];
+        this.processName = response['name'];
+
+        this.companyCode = response['company_code'];
+        this.month = response['month'];
+
+        this.sumPayment = response['total']
+        this.files = response['groups_count'];
+        this.recordNumber = response['record_count'];
+
+        this.status = response['status'];
+        this.date = response['date'];
+        this.employer = response['name'];
+      } );
+  }
+
+  nav() {
+    const fileData = [true];
+    this.router.navigate(['./broadcast'], { relativeTo: this.route, queryParams: {fileData}});
   }
 }

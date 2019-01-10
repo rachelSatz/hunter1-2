@@ -10,10 +10,36 @@ import { DataTableHeader } from '../../../../../shared/data-table/classes/data-t
 })
 export class DetailedRecordsComponent  extends DataTableComponent implements OnInit {
 
+  readonly employee1 =  [
+    { column: 'talila', label: 'שם העובד' }, { column: 'process_number', label: 'תעודת זהות' },
+    { column: 'ddd', label: 'סוג תקבול' }, { column: 'month', label: 'מספר קופה בשכר' },
+    { column: 'amount', label: 'שם קופה בשכר' }, { column: 'status', label: 'סוג קופה' },
+    { column: 'download', label: 'סטטוס' }, { column: 'download', label: 'מ"ה' },
+    { column: 'download', label: 'חודש תשלום' }, { column: 'download', label: 'חודש ייחוס' },
+    { column: 'download', label: 'שכר' }, { column: 'download', label: 'פיצויים' },
+    { column: 'download', label: 'הפרשת מעסיק' }, { column: 'download', label: 'הפרשת עובד' },
+    { column: 'download', label: 'סה"כ' }
+  ];
+
+
+  readonly employee2 =  [
+    { column: 'tamtam', label: 'שם העובד' }, { column: 'process_number', label: 'תעודת זהות' },
+    { column: 'ddd', label: 'סוג תקבול' }, { column: 'month', label: 'מספר קופה בשכר' },
+    { column: 'amount', label: 'שם קופה בשכר' }, { column: 'status', label: 'סוג קופה' },
+    { column: 'download', label: 'סטטוס' }, { column: 'download', label: 'מ"ה' },
+    { column: 'download', label: 'חודש תשלום' }, { column: 'download', label: 'חודש ייחוס' },
+    { column: 'download', label: 'שכר' }, { column: 'download', label: 'פיצויים' },
+    { column: 'download', label: 'הפרשת מעסיק' }, { column: 'download', label: 'הפרשת עובד' },
+    { column: 'download', label: 'סה"כ' }
+  ];
+
+
+
+
   readonly headers: DataTableHeader[] =  [
     { column: 'process_name', label: 'שם העובד' }, { column: 'process_number', label: 'תעודת זהות' },
     { column: 'type', label: 'סוג תקבול' }, { column: 'month', label: 'מספר קופה בשכר' },
-    { column: 'amount', label: 'שם קןפה בשכר' }, { column: 'status', label: 'סוג קופה' },
+    { column: 'amount', label: 'שם קופה בשכר' }, { column: 'status', label: 'סוג קופה' },
     { column: 'download', label: 'סטטוס' }, { column: 'download', label: 'מ"ה' },
     { column: 'download', label: 'חודש תשלום' }, { column: 'download', label: 'חודש ייחוס' },
     { column: 'download', label: 'שכר' }, { column: 'download', label: 'פיצויים' },

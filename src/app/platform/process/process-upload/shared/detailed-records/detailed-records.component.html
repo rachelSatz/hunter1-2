@@ -1,66 +1,55 @@
-
-
-<!--<div class="d-flex filter-row mb-1">-->
-  <!--<bd-select [items]="departments1" placeholder="בחר עובד" ></bd-select>-->
-  <!--<bd-select [items]="departments2" placeholder="בחר קופה" ></bd-select>-->
-  <!--<bd-select [items]="departments3" placeholder="בחר סינון" ></bd-select>-->
-  <!--<mat-form-field>-->
-    <!--<input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">-->
-    <!--<i matSuffix class="fa fa-search"></i>-->
-  <!--</mat-form-field>-->
-<!--</div>-->
-
-
-<!--<div class="dropdown show">-->
-  <!--<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"-->
-     <!--data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-    <!--פעולות-->
-  <!--</a>-->
-
-  <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
-    <!--<a class="dropdown-item" href="#">הפוך ללא רלונטי</a>-->
-    <!--<a class="dropdown-item" href="#">העבר קבוצה</a>-->
-    <!--<a class="dropdown-item" href="#">מחק רשומה</a>-->
-    <!--<a class="dropdown-item" href="#">תהליך תיקון</a>-->
-  <!--</div>-->
-<!--</div>-->
-<!--<table class="table table-bordered table-hover mt-3 data-table">-->
-  <!--<thead>-->
-  <!--<tr class="table-headers">-->
-    <!--&lt;!&ndash;<th *ngIf="items.length > 0">&ndash;&gt;-->
-      <!--&lt;!&ndash;<mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>&ndash;&gt;-->
-    <!--&lt;!&ndash;</th>&ndash;&gt;-->
-    <!--<th *ngFor="let header of headers" (click)="sort(header)">-->
-      <!--<span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>-->
-      <!--<i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>-->
-    <!--</th>-->
-  <!--</tr>-->
-  <!--</thead>-->
-  <!--<tbody>-->
-  <!--<ng-container *ngIf="!isSearching">-->
-    <!--<tr *ngFor="let item of paginatedItems" class="pointer">-->
-      <!--&lt;!&ndash;<td>&ndash;&gt;-->
-        <!--&lt;!&ndash;<mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>&ndash;&gt;-->
-      <!--&lt;!&ndash;</td>&ndash;&gt;-->
-      <!--<td>{{ item.name }}</td>-->
-      <!--<td>{{ item.id }}</td>-->
-      <!--<td>{{ processType[item.type] }}</td>-->
-      <!--<td>{{ item.employer_name }}</td>-->
-      <!--<td>{{ item.department_name }}</td>-->
-      <!--<td>{{ item.date | date:'MM'}}</td>-->
-      <!--<td>{{ item.date | date:'yyyy' }}</td>-->
-      <!--<td>{{ item.total  }}</td>-->
-      <!--<td>{{ processStatus[item.status] }}</td>-->
-      <!--<td>{{ item.download }}</td>-->
-      <!--<td>{{ item.download }}</td>-->
-      <!--<td>{{ item.download }}</td>-->
-      <!--<td>{{ item.download }}</td>-->
-      <!--<td>{{ item.download }}</td>-->
-      <!--<td>{{ item.download }}</td>-->
-    <!--</tr>-->
-  <!--</ng-container>-->
-  <!--<tr *ngIf="!isSearching && items.length === 0">-->
-    <!--<td colspan="9" class="text-center bold">טבלת תהליכים ריקה.</td>-->
-  <!--</tr>-->
-  <!--</tbody>-->
-<!--</table>-->
+<div class="d-flex align-content-between w-75">
+    <mat-form-field class="w-50  mr-4">
+      <mat-select name="employee" placeholder="בחר עובד" [(ngModel)]="selectedEmployee">
+        <mat-option *ngFor="let type of processType" [value]="type.id">{{ type.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-50  mr-4">
+        <mat-select name="cashBox" placeholder="בחר קופה" [(ngModel)]="selectedCashBox">
+          <mat-option *ngFor="let type of processType" [value]="type.id">{{ type.name }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-50  mr-4">
+      <mat-select name="filter" placeholder="בחר סינון" [(ngModel)]="selectedFilter">
+        <mat-option *ngFor="let type of processType" [value]="type.id">{{ type.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-50 mr-4">
+      <input type="text" name="search" matInput placeholder="חיפוש" [(ngModel)]="searchParams">
+    </mat-form-field>
+  <div>
+    <button mat-button [matMenuTriggerFor]="menu" class="btn blue-btn  mr-5 mt-2">פעולות</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="openUpdatePayDateDialog('', -1)">עדכון תאריך תשלום</button>
+      <button mat-menu-item (click)=openWarningMessageComponentDialog(false)>מחיקת שורה</button>
+      <button mat-menu-item (click)=openDialogAttachReference()>צירוף אסמכתא</button>
+      <button mat-menu-item (click)=openWarningMessageComponentDialog(true)>הפוך ללא רלוונטי</button>
+    </mat-menu>
+  </div>
+</div>
+<div>
+<table class="table">
+  <thead class="thead-light">
+  <tr class="align-content-center">
+    <th scope="col" class="f-12 text-center align-middle"><mat-checkbox></mat-checkbox></th>
+    <th scope="col" class="f-12 text-center align-middle" *ngFor="let header of headers">{{header.label}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th scope="row">
+      <mat-checkbox></mat-checkbox>
+    </th>
+    <td class="f-12 bold" *ngFor="let item of employee1">{{item.column}}</td>
+  <tr>
+    <th scope="row">
+      <mat-checkbox></mat-checkbox>
+    </th>
+    <td class="f-12 bold" *ngFor="let item of employee2">{{item.column}}</td>
+  </tr>
+  <tr *ngIf="true">
+    <td colspan="16" class="text-center bold">טבלת תהליכים ריקה.</td>
+  </tr>
+  </tbody>
+</table>
+</div>
