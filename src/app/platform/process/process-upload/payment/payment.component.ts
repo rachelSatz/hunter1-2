@@ -34,7 +34,6 @@ import {ViewProcess} from '../../../../shared/_models/process.model';
   ]
 })
 export class PaymentComponent implements OnInit {
-<<<<<<< HEAD
 
   constructor( private dialog: MatDialog,
                private  processService: ProcessService,

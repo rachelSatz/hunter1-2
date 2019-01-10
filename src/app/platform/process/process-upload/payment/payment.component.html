@@ -65,33 +65,33 @@
       </tr>
     </tbody>
   </table>
-<<<<<<< HEAD
-  <table class="table table-borderless">
-    <thead>
-        <tr class="thborder">
-          <th colspan="2">פרטי התשלומים</th>
-        </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>סכום לתשלום: </td>
-    </tr>
-    <tr>
-      <td>מספר רשומות: </td>
-      <td>
-        <a (click)="pageNumber = 4;record=true">לפירוט מלא ></a>
-      </td>
-    </tr>
-    <tr></tr>
-    <tr>
-      <td>מספר קבצים: </td>
-      <td>
-        <a (click)="pageNumber = 4;file=true">לפירוט מלא ></a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-=======
+<!--<<<<<<< HEAD-->
+  <!--<table class="table table-borderless">-->
+    <!--<thead>-->
+        <!--<tr class="thborder">-->
+          <!--<th colspan="2">פרטי התשלומים</th>-->
+        <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--<tr>-->
+      <!--<td>סכום לתשלום: </td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+      <!--<td>מספר רשומות: </td>-->
+      <!--<td>-->
+        <!--<a (click)="pageNumber = 4;record=true">לפירוט מלא ></a>-->
+      <!--</td>-->
+    <!--</tr>-->
+    <!--<tr></tr>-->
+    <!--<tr>-->
+      <!--<td>מספר קבצים: </td>-->
+      <!--<td>-->
+        <!--<a (click)="pageNumber = 4;file=true">לפירוט מלא ></a>-->
+      <!--</td>-->
+    <!--</tr>-->
+    <!--</tbody>-->
+  <!--</table>-->
+<!--=======-->
     <table class="table table-borderless">
       <thead>
           <tr class="thborder">
@@ -120,8 +120,6 @@
       </tr>
       </tbody>
     </table>
-
->>>>>>> c0d2e9cd6ef9bf687e8064cb745c6b579b00c59e
 </div>
   <div class="text-left">
     <button class="btn blue-btn" (click)="pageNumber = 3"> לביצוע תשלום</button>
@@ -151,14 +149,10 @@
   </table>
   </div>
   <div class="float-left mt-lg-5">
-<<<<<<< HEAD
-    <button class="btn blue-btn" routerLink="broadcast">המשך</button>
-=======
     <button class="btn blue-btn" (click)="setPage(1)">המשך</button>
   </div>
   <div class="float-right mt-lg-5">
     <a (click)="goToPreviousPage()">< חזור</a>
->>>>>>> c0d2e9cd6ef9bf687e8064cb745c6b579b00c59e
   </div>
 </div>
 <div  [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
