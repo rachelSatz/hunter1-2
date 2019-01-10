@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog } from '@angular/material';
-import {DateUpdateComponent} from './date-update/date-update.component';
+import { DateUpdateComponent } from './date-update/date-update.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
+import { ProcessDetails } from '../../../../shared/_models/process-details.model';
 
 
 
@@ -34,20 +35,14 @@ export class BroadcastComponent implements OnInit {
   employer;
   department;
   processID = 1;
-  companyCode;
-  month;
-  processName;
-  date;
-  sumPayment;
-  files;
-  recordNumber;
-  status;
+  process_details: ProcessDetails;
+  paymentDate: string;
 
 
   constructor(private dialog: MatDialog, private processService: ProcessService) {}
 
   ngOnInit() {
-
+    this.getData();
   }
 
   dateUpdate() {
@@ -56,38 +51,23 @@ export class BroadcastComponent implements OnInit {
       width: '550px',
     });
     dialogRef.afterClosed().subscribe(
-      data => console.log(data)
+      data => this.paymentDate = data
     );
   }
 
   getData() {
     this.processService.getUploadFile(this.processID)
       .then(response => {
-        switch (response['status']) {
+        this.process_details = response;
+        switch (this.process_details.status) {
           case 'Loading': {
-
-          }
             break;
-          case ('Error_Loading'): {
-
+          }
+          case 'Error_Loading': {
+            break;
           }
         }
-        if (response['status']) {}
-        this.employer = response['employer_name'];
-        this.department = response['department_name'];
-        this.processName = response['name'];
-
-        this.companyCode = response['company_code'];
-        this.month = response['month'];
-
-        this.sumPayment = response['total']
-        this.files = response['groups_count'];
-        this.recordNumber = response['record_count'];
-
-        this.status = response['status'];
-        this.date = response['date'];
-        this.employer = response['name'];
-      } );
+      });
   }
 
   Refund() {

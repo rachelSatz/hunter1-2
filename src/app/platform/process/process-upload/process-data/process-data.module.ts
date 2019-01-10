@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { FileDropModule } from 'ngx-file-drop';
 import { MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule,
          MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatTooltipModule } from '@angular/material';
-
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { ProcessDataComponent } from './process-data.component';
 import { SelectDepComponent } from './select-dep/select-dep.component';
@@ -23,9 +22,9 @@ const routes
     RouterModule.forChild(routes),
     FormsModule,
     BdSelectModule,
-    MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule,
-    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, FileDropModule
-  ],
+    MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule,
+    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, FileDropModule,MatButtonModule
+],
   declarations: [ProcessDataComponent , SelectDepComponent],
   entryComponents: [SelectDepComponent]
 })

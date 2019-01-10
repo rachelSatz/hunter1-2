@@ -35,7 +35,7 @@ export class ProcessDataComponent implements OnInit {
   processType = [
     { id: 'negative', name: 'שלילי' },
     { id: 'positive', name: 'חיובי'}
-  ]
+  ];
 
   selectedType: 'positive' | 'negative';
 
@@ -44,6 +44,8 @@ export class ProcessDataComponent implements OnInit {
   yearValid = true;
   isSubmitting = false;
   hasServerError: boolean;
+  data: any;
+  readonly month = Month;
 
   readonly months = Month;
 
@@ -120,11 +122,11 @@ export class ProcessDataComponent implements OnInit {
         case 2:
           this.hasServerError = false;
           this.pageNumber += index;
+        }
       }
-  }
 
   paymentPopup(form: NgForm): void {
-    if (form.valid && !this.isSubmitting && this.processFile ) {
+    if (form.valid && !this.isSubmitting && this.processFile) {
       this.isSubmitting = true;
       this.hasServerError = false;
 
@@ -136,25 +138,49 @@ export class ProcessDataComponent implements OnInit {
       const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
       this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
-          const data = [this.processFile, form.value, this.selectUnitService.currentDepartmentID, confirmation.value];
-
-          this.processService.newProcess(data).then(response => {
-            const processID = response;
-            const fileData = [this.months[form.value.month - 1].name, form.value.year, form.value.processName, this.selectedType];
-            this.router.navigate(['./payment'], { relativeTo: this.route, queryParams: {fileData}});
-            if (response) {
+        if (confirmation.value) {
+          console.log(confirmation.value);
+          this.data = {'month': form.value['month'], 'year': form.value['year'], 'processName': form.value['processName'],
+                      'departmentId': this.selectUnitService.currentDepartmentID, 'isDirect': confirmation.value};
+          this.processService.newProcess(this.data, this.processFile).then(response => {
+            const processID = response['processId'];
+            // const fileData = [this.months[form.value.month - 1].name, form.value.year, form.value.processName, this.selectedType,
+            //                   processID];
+            this.router.navigate(['./payment'], { relativeTo: this.route,
+              queryParams: {
+                month: this.months[form.value.month - 1].name,
+                year: form.value.year,
+                processName: form.value.processName,
+                type: this.selectedType,
+                processId: processID
+            }});
+            if (response['processId'] > 0) {
             } else {
               this.hasServerError = true;
             }
-
             this.isSubmitting = false;
           });
+        }
       });
     }
   }
 
+
   uploadFile(): void {
     this.router.navigate(['./', 'payment']);
+  }
 
+
+
+  next(index, form: NgForm) {
+   if (form.value.year && form.value.month) {
+     this.pageNumber += index;
+   }
+   if (index === -1) {
+     this.pageNumber = 1;
+   }
+    if (form.value.year && form.value.month) {
+      this.pageNumber += index;
+    }
   }
 }
