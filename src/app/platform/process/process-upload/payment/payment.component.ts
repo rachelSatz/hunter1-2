@@ -51,7 +51,6 @@ export class PaymentComponent implements OnInit {
   type: string;
   record: boolean;
   file: boolean;
-  viewProcess: ViewProcess[];
 
 
   ngOnInit() {
@@ -156,10 +155,4 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  recordeDetails(): void {
-    this.processService.getFilesList(this.processId)
-      .then(response => {
-        this.viewProcess = response;
-      });
-  }
 }

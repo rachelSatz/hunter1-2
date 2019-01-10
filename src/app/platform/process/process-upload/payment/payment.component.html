@@ -44,7 +44,7 @@
         <td>שם המעסיק:</td>
         <td>{{ process_details.employer_name }}</td>
         <td>ח.פ: </td>
-        <td>{{ process_details.business_number }}</td>
+        <td>{{ process_details.employer_business_number }}</td>
       </tr>
       <tr>
         <td>שם מחלקה:</td>
@@ -89,7 +89,7 @@
         <td>מספר קבצים: </td>
         <td>{{ process_details.groups_count }}</td>
         <td>
-          <a (click)="pageNumber = 4;record=true;recordeDetails()">לפירוט מלא ></a>
+          <a (click)="pageNumber = 4;file=true;">לפירוט מלא ></a>
         </td>
       </tr>
       </tbody>
@@ -147,9 +147,9 @@
   <tbody class="f-12">
   <tr>
     <td>שם המעסיק:</td>
-    <td>{{ process_details.employer_name }}</td></td>
+    <td>{{ process_details.employer_name }}</td>
     <td>ח.פ:</td>
-    <td>{{ process_details.business_number }}</td>
+    <td>{{ process_details.employer_business_number }}</td>
     <td>שם מחלקה:</td>
     <td>{{ process_details.department_name }}</td>
     <td>שם התהליך:</td>

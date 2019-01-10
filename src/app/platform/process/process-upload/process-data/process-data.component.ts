@@ -135,7 +135,6 @@ export class ProcessDataComponent implements OnInit {
       const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
       this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
-        if (confirmation.value) {
           console.log(confirmation.value);
           this.data = {'month': form.value['month'], 'year': form.value['year'], 'processName': form.value['processName'],
                       'departmentId': this.selectUnitService.currentDepartmentID, 'isDirect': confirmation.value};
@@ -157,7 +156,6 @@ export class ProcessDataComponent implements OnInit {
             }
             this.isSubmitting = false;
           });
-        }
       });
     }
   }

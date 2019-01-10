@@ -29,22 +29,26 @@
       <td>
         <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
       </td>
-      <td>{{ item.group_id }}</td>
+      <td>{{ item.group_id}}</td>
       <td>{{ item.company_name }}</td>
+      <!--let aaa = item.employer_products[0].code '+' item.employer_products[0].name-->
       <td>
-        <img src="/assets/img/icons/details_grey.png" title="">
+        <img src="/assets/img/icons/details_grey.png"
+             title={{item.employer_products[0].code}}>
+        <!--title="line 1&#013;line 2"-->
       </td>
       <td>{{ item.product_type }}</td>
       <td>{{ item.product_code }}</td>
       <td (click)="openUpdateTypePayDialog(paymentType[item.payment_type], item.file_id)">{{ paymentType[item.payment_type] }}</td>
-      <td (click)="openUpdateAccountNumberDialog(item.group_thing_sum, item.file_id)">{{ item.payment_ref_number }}</td>
+      <td>{{ item.payment_identifier }}</td>
+      <td (click)="openUpdateAccountNumberDialog(item.file_total, item.file_id)">{{ item.payment_additional_info.account_number }}</td>
       <td (click)="openUpdatePayDateDialog(item.payment_date, item.file_id)">{{ item.payment_date  }}</td>
-      <td>{{ item.group_thing_sum }}</td>
+      <td>{{ item.file_total }}</td>
       <td>{{ item.file_id }}</td>
       <td>
-        <img src="/assets/img/icons/chat_bubble_grey.png">
+        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item.file_id)">
       </td>
-      <td>{{ processStatus[item.status] }}</td>
+      <td>{{ filesStatus[item.status] }}</td>
 
       <td>
          <i class="fa fa-download fa-lg ml-2" ></i>

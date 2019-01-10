@@ -7,10 +7,11 @@ import { AttachReferenceComponent } from './attach-reference/attach-reference.co
 import { UpdatePaymentTypeComponent } from './update-payment-type/update-payment-type.component';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import { ProcessStatus, PaymentType } from 'app/shared/_models/process.model';
+import { PaymentType, FilesStatus} from 'app/shared/_models/process.model';
 import { UpdateAccountNumberComponent } from './update-account-number/update-account-number.component';
 import { UpdatePaymentDateComponent } from './update-payment-date/update-payment-date.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { CommentsComponent } from './comments/comments.component';
 
 @Component({
   selector: 'app-detailed-files',
@@ -23,10 +24,11 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
     { column: 'group_id', label: 'מס קבוצה' }, { column: 'company', label: 'חברה מנהלת' },
     { column: 'product_pay', label: 'קופה בשכר' }, { column: 'product_type', label: 'סוג מוצר' },
     { column: 'product', label: 'מ"ה' }, { column: 'type_pay', label: 'סוג תשלום' },
+    { column: 'payment_identifier', label: 'מס אסמכתא' },
     { column: 'account', label: 'מס חשבון/צק' }, { column: 'date_pay', label: 'תאריך תשלום' },
     { column: 'amount', label: 'סכום' }, { column: 'number', label: 'מספר מזהה' },
     { column: 'comment', label: 'הערות' }, { column: 'status', label: 'סטטוס' },
-    { column: 'file', label: 'קובץ' }
+    { column: 'file', label: 'אסמכתא' }
   ];
 
   constructor(route: ActivatedRoute,
@@ -37,7 +39,7 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   }
 
   paymentType = PaymentType;
-  processStatus = ProcessStatus;
+  filesStatus = FilesStatus;
 
   ngOnInit() {
     this.fetchItems();
@@ -93,6 +95,14 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
        });
      }
    }
+
+  openCommentsDialog(file_id: number): void {
+    this.dialog.open(CommentsComponent, {
+      data: {'file_id': [ file_id ]},
+      width: '655px',
+      panelClass: 'dialog-file'
+    });
+  }
 
   openWarningMessageComponentDialog(type: string): void {
     const title = type ? 'לא רלונטי' : 'מחיקת שורות';

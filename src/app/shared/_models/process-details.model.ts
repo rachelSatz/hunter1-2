@@ -18,7 +18,7 @@ export class ProcessDetails {
   groups_count: number;
   department_name: string;
   employer_name: string;
-  business_number: string;
+  employer_business_number: string;
   percent: number;
 
 }
