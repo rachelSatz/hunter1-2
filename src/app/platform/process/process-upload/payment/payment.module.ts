@@ -10,8 +10,6 @@ import { SendFileEmailComponent } from './send-file-email/send-file-email.compon
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { MatAutocompleteModule, MatCheckboxModule, MatChipsModule, MatDialogModule, MatFormFieldModule, MatIconModule,
          MatInputModule, MatSelectModule, MatProgressBarModule, MatMenuModule} from '@angular/material';
-import { ErrorMessageComponent } from './error-message/error-message.component';
-import { DetailedFilesComponent } from '../shared/detailed-files/detailed-files.component';
 import { UpdatePaymentTypeComponent } from '../shared/detailed-files/update-payment-type/update-payment-type.component';
 import { AttachReferenceComponent } from '../shared/detailed-files/attach-reference/attach-reference.component';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
@@ -20,7 +18,8 @@ import { UpdatePaymentDateComponent } from '../shared/detailed-files/update-paym
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { DetailedRecordsComponent } from '../shared/detailed-records/detailed-records.component';
-import { CommentsComponent } from '../../../compensation/process/comments/comments.component';
+import {CommentsComponent} from '../shared/detailed-files/comments/comments.component';
+import {DetailedFilesModule} from '../shared/detailed-files/detailed-files.module';
 
 const routes: Routes = [
   { path: '', component: PaymentComponent }
@@ -33,14 +32,15 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes),
     FileDropModule,
-    MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule, MatSelectModule, MatChipsModule, MatIconModule,
-    MatAutocompleteModule, MatProgressBarModule, MatMenuModule,
+    MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule, MatSelectModule,
+    MatChipsModule, MatIconModule, MatAutocompleteModule, MatProgressBarModule, MatMenuModule,
     BdSelectModule,
     PipesModule,
-    DatePickerModule
+    DatePickerModule,
+    DetailedFilesModule
   ],
   providers: [DatePipe, ProcessService, NotificationService],
-  declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent, DetailedFilesComponent,
+  declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent,
                  DetailedRecordsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
                  UpdateAccountNumberComponent, UpdatePaymentDateComponent, CommentsComponent
   ],

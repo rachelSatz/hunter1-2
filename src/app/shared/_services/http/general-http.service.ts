@@ -152,7 +152,21 @@ export class GeneralHttpService extends BaseHttpService {
       .then(response => response as BankBranch[])
       .catch(() => []);
   }
+    newComment(objectID: number, content: string, contentType: string): Promise<boolean> {
+      return this.http.post(this.apiUrl + '/generals'  + '/' + objectID + '/comment', { 'content': content ,
+        'content_type': contentType}, this.getTokenHeader())
+        .toPromise()
+        .then(() => true)
+        .catch(() => false);
+    }
 
+    getComments(objectID: number, contentType: string): Promise<Object[]> {
+      return this.http.post(this.apiUrl + '/generals' + '/' + objectID + '/getComments', {'content_type': contentType},
+        this.getTokenHeader())
+        .toPromise()
+        .then(response => response as Object[])
+        .catch(() => []);
+    }
 
 
 }

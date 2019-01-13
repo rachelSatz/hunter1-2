@@ -1,10 +1,8 @@
 import { Component, OnInit, Inject} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-
-import { CompensationService } from 'app/shared/_services/http/compensation.service';
-
 import { Compensation } from 'app/shared/_models/compensation.model';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 
 @Component({
   selector: 'app-comments',
@@ -31,16 +29,16 @@ export class CommentsComponent implements OnInit {
   hasServerError: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation,
-              private dialogRef: MatDialogRef<CommentsComponent>, private compensationService: CompensationService) {}
+              private dialogRef: MatDialogRef<CommentsComponent>, private generalService: GeneralHttpService) {}
 
   ngOnInit() {
-    this.compensationService.getComments(this.compensation.id).then(response => this.comments = response);
+    this.generalService.getComments(this.compensation.id, 'compensation').then(response => this.comments = response);
   }
 
   submit(): void {
     this.hasServerError = false;
 
-    this.compensationService.newComment(this.compensation.id, this.comment).then(response => {
+    this.generalService.newComment(this.compensation.id, this.comment, 'compensation').then(response => {
       if (response) {
         this.dialogRef.close(this.comment);
       } else {
