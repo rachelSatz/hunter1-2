@@ -78,9 +78,9 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
      });
    }
 
-   openUpdateAccountNumberDialog(accNum: string, file_id: number): void {
+   openUpdateAccountNumberDialog(accNum: string, file_id: number, payment_identifier: string): void {
      this.dialog.open(UpdateAccountNumberComponent, {
-       data: {'accNum': accNum, 'file_id': [ file_id ]},
+       data: {'accNum': accNum, 'file_id': [ file_id ], 'payment_identifier:': payment_identifier},
        width: '655px',
        panelClass: 'dialog-file'
      });

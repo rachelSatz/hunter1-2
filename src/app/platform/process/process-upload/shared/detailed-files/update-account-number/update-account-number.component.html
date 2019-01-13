@@ -19,6 +19,9 @@
           <input matInput type="text" [(ngModel)]="number" name="number"  placeholder="מס' חשבון" maxlength="8">
         </mat-form-field>
       </div>
+      <mat-form-field>
+        <input matInput type="text" [(ngModel)]=data.payment_identifier name="number"  placeholder="מס' אסמכתא" maxlength="50">
+      </mat-form-field>
     </div>
     <div class="text-center">
       <button class="btn blue-btn" (click)="submit(form)">עדכון</button>

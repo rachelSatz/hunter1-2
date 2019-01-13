@@ -40,7 +40,7 @@
       <td>{{ item.product_code }}</td>
       <td (click)="openUpdateTypePayDialog(paymentType[item.payment_type], item.file_id)">{{ paymentType[item.payment_type] }}</td>
       <td>{{ item.payment_identifier }}</td>
-      <td (click)="openUpdateAccountNumberDialog(item.file_total, item.file_id)">{{ item.payment_additional_info.account_number }}</td>
+      <td (click)="openUpdateAccountNumberDialog(item.file_total, item.file_id, item.payment_identifier)">{{ item.payment_additional_info.account_number }}</td>
       <td (click)="openUpdatePayDateDialog(item.payment_date, item.file_id)">{{ item.payment_date  }}</td>
       <td>{{ item.file_total }}</td>
       <td>{{ item.file_id }}</td>
