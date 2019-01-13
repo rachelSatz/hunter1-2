@@ -48,7 +48,7 @@
     <th *ngIf="items.length > 0">
       <mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>
     </th>
-    <th *ngFor="let header of headers" (click)="sort(header)">
+    <th *ngFor="let header of headers; let index = index;" (click)="index < 12 &&  sort(header)">
       <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
       <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
     </th>

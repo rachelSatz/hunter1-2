@@ -7,6 +7,7 @@ import { MatFormFieldModule, MatInputModule, MatDialogModule, MatMenuModule,
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 
 import { ProcessUploadComponent } from './process-upload.component';
 
@@ -14,8 +15,8 @@ import { ProcessUploadComponent } from './process-upload.component';
 const routes: Routes = [
   { path: '', component: ProcessUploadComponent, children: [
       { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule'},
-      { path: 'payment', loadChildren: './payment/payment.module#PaymentModule'}
-      // { path: 'detailed-files', loadChildren: './shared/detailed-files/detailed-files.module#DetailedFilesModule'}
+      { path: 'payment', loadChildren: './payment/payment.module#PaymentModule'},
+      // { path: 'broadcast-process', loadChildren: './shared/detailed-files/detailed-files.module#DetailedFilesModule'}
     ]}
 ];
 
@@ -28,6 +29,6 @@ const routes: Routes = [
     PipesModule
   ],
   declarations: [ProcessUploadComponent],
-  providers: [ProcessService, GeneralHttpService]
+  providers: [ProcessService, GeneralHttpService, FilterItemsPipe]
 })
 export class ProcessUploadModule {}

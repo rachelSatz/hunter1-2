@@ -7,13 +7,15 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule,
   MatSelectModule, MatIconModule, MatAutocompleteModule } from '@angular/material';
-import { DatePickerModule } from '../../../shared/app-date-picker/app-date-picker.module';
-import { PipesModule } from '../../../shared/_pipes/pipes.module';
-import {InvoiceService} from '../../../shared/_services/http/invoice.service';
-import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
-import {EmployerService} from '../../../shared/_services/http/employer.service';
-import {RemarksFormComponent} from './remarks-form/remarks-form.component';
-import {EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
+
+import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
+import { PipesModule } from 'app/shared/_pipes/pipes.module';
+import { InvoiceService } from 'app/shared/_services/http/invoice.service';
+import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { RemarksFormComponent } from './remarks-form/remarks-form.component';
+import { EmployersFinanceExcelComponent } from './employers-finance-excel/employers-finance-excel.component';
+import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
@@ -30,7 +32,6 @@ const routes: Routes = [
     DataTableModule,
     BdSelectModule,
     PipesModule
-
   ],
   declarations: [
     InvoicesComponent,
@@ -38,7 +39,7 @@ const routes: Routes = [
     RemarksFormComponent,
     EmployersFinanceExcelComponent
   ],
-  providers: [InvoiceService, EmployerService],
+  providers: [InvoiceService, EmployerService, FilterItemsPipe],
   entryComponents: [ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent]
 })
 export class InvoicesModule { }

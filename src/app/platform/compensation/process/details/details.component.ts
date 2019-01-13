@@ -10,6 +10,7 @@ import { CompensationService } from 'app/shared/_services/http/compensation.serv
 import { Compensation } from 'app/shared/_models/compensation.model';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import {FilterItemsPipe} from '../../../../shared/_pipes/filter-items.pipe';
 
 @Component({
   selector: 'app-details',
@@ -44,9 +45,10 @@ export class DetailsComponent  extends DataTableComponent implements OnInit {
   ];
 
   constructor(protected route: ActivatedRoute, @Inject(MAT_DIALOG_DATA) public compensation: Compensation,
-              private dialogRef: MatDialogRef<DetailsComponent>, private compensationService: CompensationService)  {
-            super(route);
-    }
+              private dialogRef: MatDialogRef<DetailsComponent>, private compensationService: CompensationService) {
+    super(route);
+  }
+
 
     ngOnInit() {
       this.setItems(this.compensation.files);
