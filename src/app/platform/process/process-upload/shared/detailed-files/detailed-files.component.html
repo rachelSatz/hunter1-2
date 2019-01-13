@@ -31,11 +31,10 @@
       </td>
       <td>{{ item.group_id}}</td>
       <td>{{ item.company_name }}</td>
-      <!--let aaa = item.employer_products[0].code '+' item.employer_products[0].name-->
       <td>
-        <img src="/assets/img/icons/details_grey.png"
-             title={{item.employer_products[0].code}}>
-        <!--title="line 1&#013;line 2"-->
+        <img src="/assets/img/icons/details_grey.png" [title]="getTitle(item.employer_products)[0]" *ngIf="!getTitle(item.employer_products)[1]">
+        <img src="/assets/img/icons/details_grey.png" *ngIf="getTitle(item.employer_products)[1]" title="{{ getTitle(item.employer_products)[0] }}
+        {{ getTitle(item.employer_products)[1] }}">
       </td>
       <td>{{ item.product_type }}</td>
       <td>{{ item.product_code }}</td>

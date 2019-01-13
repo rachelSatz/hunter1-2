@@ -7,7 +7,7 @@ import { AttachReferenceComponent } from './attach-reference/attach-reference.co
 import { UpdatePaymentTypeComponent } from './update-payment-type/update-payment-type.component';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import { PaymentType, FilesStatus} from 'app/shared/_models/process.model';
+import {PaymentType, FilesStatus, EmployerProduct} from 'app/shared/_models/process.model';
 import { UpdateAccountNumberComponent } from './update-account-number/update-account-number.component';
 import { UpdatePaymentDateComponent } from './update-payment-date/update-payment-date.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
@@ -127,6 +127,17 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
         }
       });
     }
+  }
+  getTitle(employer_products: EmployerProduct[]): string[] {
+    const title = [];
+    if (employer_products.length > 1) {
+      title[0] = employer_products[0].code + ' - ' + employer_products[0].name;
+      title[1] = employer_products[1].code + ' - ' + employer_products[1].name;
+    } else {
+      title[0] = employer_products[0].code + ' - ' + employer_products[0].name;
+    }
+
+    return title;
   }
 
   ngOnDestroy() {
