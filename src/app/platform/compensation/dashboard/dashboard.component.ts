@@ -96,13 +96,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     setTimeout(() => this.fetchItems(), 1000);
   }
 
-  getMasavFile(): void {
-    this.compensationService.getMasav().then(response => {
-      // if (response) {
-      //   FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
-      // }
-    });
-  }
 
   ngOnDestroy() {
     this.sub.unsubscribe();

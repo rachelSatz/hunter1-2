@@ -114,11 +114,11 @@ a:hover {
 }
 
 .btn {
-  width: 150px;
+  min-width: 150px;
 }
 
 .btn-lg {
-  width: 300px;
+  min-width: 300px;
 }
 
 .page-spinner-wrapper {

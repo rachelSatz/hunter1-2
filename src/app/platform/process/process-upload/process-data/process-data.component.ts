@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Subscription } from 'rxjs/Subscription';
 import { Month } from 'app/shared/_const/month-bd-select';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { SelectUnitService} from 'app/shared/_services/select-unit.service';
@@ -31,15 +30,26 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 })
 export class ProcessDataComponent implements OnInit {
 
-  sub = new Subscription;
-  pageNumber = 1;
+  @ViewChild('fileInput') fileInput: ElementRef;
 
+  processType = [
+    { id: 'negative', name: 'שלילי' },
+    { id: 'positive', name: 'חיובי'}
+  ];
+
+  selectedType: 'positive' | 'negative';
+
+  pageNumber = 1;
+  monthValid = true;
+  yearValid = true;
   isSubmitting = false;
   hasServerError: boolean;
-
+  data: any;
   readonly month = Month;
 
-  readonly year = [
+  readonly months = Month;
+
+  readonly years = [
     {'id': 2016, 'name': '2016'},
     {'id': 2017, 'name': '2017'},
     {'id': 2018, 'name': '2018'},
@@ -51,13 +61,11 @@ export class ProcessDataComponent implements OnInit {
   processFile: File;
   fileTypeError = false;
 
-  constructor(private router: Router, private dialog: MatDialog,
-              private processService: ProcessService, private notificationService: NotificationService,
-              private selectUnitService: SelectUnitService) {}
+  constructor(private router: Router, private route: ActivatedRoute,
+              private dialog: MatDialog, private processService: ProcessService,
+              private notificationService: NotificationService, private selectUnitService: SelectUnitService) {}
 
   ngOnInit() {
-    console.log('your problem is different woman');
-
   }
 
   getFileFromDrop(event) {
@@ -77,10 +85,21 @@ export class ProcessDataComponent implements OnInit {
       this.fileTypeError = true;
       return;
     }
-    if (this.fileTypeError) {
-      this.fileTypeError = false;
+    this.fileTypeError = false;
+    const type = file.name.indexOf('NEG') === -1 ? 'positive' : 'negative';
+    if (type !== this.selectedType) {
+      this.notificationService.warning('הקובץ שהועלה אינו תואם את סוג הקובץ שבחרת', 'האם תרצה לשנות את סוג התהליך?').then(confirmation => {
+        if (confirmation.value) {
+          this.selectedType = this.selectedType === 'positive' ? 'negative' : 'positive';
+          this.processFile = file;
+        } else {
+          this.processFile = null;
+          this.fileInput.nativeElement.value = null;
+        }
+      });
+    } else {
+      this.processFile = file;
     }
-    this.processFile = file;
   }
 
   setPage(index: number, form: NgForm): void {
@@ -93,17 +112,21 @@ export class ProcessDataComponent implements OnInit {
             // return;
           }
           this.pageNumber += index;
-        }
+        } if (form.value.month) {
+          this.monthValid = true;
+        } else { this.monthValid = false;
+        } if ( form.value.year ) {
+          this.yearValid = true;
+        } else { this.yearValid = false; }
         break;
         case 2:
           this.hasServerError = false;
           this.pageNumber += index;
-  }
-
-  }
+        }
+      }
 
   paymentPopup(form: NgForm): void {
-    if (form.valid && !this.isSubmitting) {
+    if (form.valid && !this.isSubmitting && this.processFile) {
       this.isSubmitting = true;
       this.hasServerError = false;
 
@@ -117,36 +140,47 @@ export class ProcessDataComponent implements OnInit {
       this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
         if (confirmation.value) {
           console.log(confirmation.value);
-          const data = [form.value, this.selectUnitService.currentDepartmentID, confirmation.value]
-          this.processService.newProcess(data).then(response => {
-            console.log(data);
-            this.router.navigate(['upload']);
-            if (response) {
+          this.data = {'month': form.value['month'], 'year': form.value['year'], 'processName': form.value['processName'],
+                      'departmentId': this.selectUnitService.currentDepartmentID, 'isDirect': confirmation.value};
+          this.processService.newProcess(this.data, this.processFile).then(response => {
+            const processID = response['processId'];
+            // const fileData = [this.months[form.value.month - 1].name, form.value.year, form.value.processName, this.selectedType,
+            //                   processID];
+            this.router.navigate(['./payment'], { relativeTo: this.route,
+              queryParams: {
+                month: this.months[form.value.month - 1].name,
+                year: form.value.year,
+                processName: form.value.processName,
+                type: this.selectedType,
+                processId: processID
+            }});
+            if (response['processId'] > 0) {
             } else {
               this.hasServerError = true;
             }
-
             this.isSubmitting = false;
           });
-        } else {
-          this.isSubmitting = false;
         }
       });
     }
   }
 
+
   uploadFile(): void {
     this.router.navigate(['./', 'payment']);
   }
 
+
+
   next(index, form: NgForm) {
+   if (form.value.year && form.value.month) {
+     this.pageNumber += index;
+   }
+   if (index === -1) {
+     this.pageNumber = 1;
+   }
     if (form.value.year && form.value.month) {
       this.pageNumber += index;
     }
-
-    if (index === -1) {
-      this.pageNumber = 1;
-    }
   }
 }
-

@@ -6,6 +6,7 @@
   text-align: center;
   box-shadow: 0 3px 0 0 #ececec;
   font-weight: bold;
+  outline: 0;
 }
 
 .step-title.active {
