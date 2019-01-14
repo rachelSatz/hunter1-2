@@ -31,11 +31,10 @@ export class EmployeesComponent implements OnInit {
   typeDoc: string;
   message: string;
   hasServerError: boolean;
-  departmentId: number;
   exampleFileType = 'xlsx';
   exampleFileName = 'employeesExample.xlsx';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: number,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<EmployeesComponent>,
               private compensationService: CompensationService,
               private  helpers: HelpersService) { }
@@ -48,7 +47,7 @@ export class EmployeesComponent implements OnInit {
     this.hasServerError = false;
     if (this.uploadedFile) {
       this.helpers.setPageSpinner(true);
-      this.compensationService.uploadExcelEmployees(this.uploadedFile, this.departmentId).then(response => {
+      this.compensationService.uploadExcelEmployees(this.uploadedFile, this.data.departmentId).then(response => {
         this.helpers.setPageSpinner(false);
         this.message = response['message'];
         if (this.message  !== 'הצליח') {

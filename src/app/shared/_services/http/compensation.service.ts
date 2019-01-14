@@ -33,7 +33,6 @@ export class CompensationService extends BaseHttpService {
   }
 
   newCompensation(compensation: Compensation): Promise<Object> {
-   console.log(compensation.event_code);
     return this.http.post(this.endPoint, compensation, this.getTokenHeader())
     .toPromise()
     .then(response => response as Object[])

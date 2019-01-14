@@ -90,8 +90,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     return { id: e, name: CompensationSendingMethods[e] };
   });
   employers = [];
-  employees = [];
-  departments = [];
+  // employees = [];
+  // departments = [];
   companies = [];
   users = [];
   sourceTypes = Object.keys(CompensationSendingMethods).map(function(e) {
@@ -146,26 +146,26 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
         this.setResponse(response);
       });
 
-      if (this.selectUnit.currentEmployerID) {
-        this.departments = this.helpers.organizations.find(o => o.id === organizationId).
-        employer.find( e => e.id === employerId).department;
-      } else {
-
-        this.departments = [];
-        this.helpers.organizations.find(o => o.id === organizationId)
-          .employer.forEach( e => {
-          if (e && e.id !== 0) {
-            e.department.forEach(d => {
-              if (d) { this.departments.push(d); }
-            });
-          }});
-
-         this.departments.forEach( d => {
-          if (d.employees) { d.employees.forEach( e =>   {
-            this.employees.push(e.name);
-          }); }
-        });
-      }
+      // if (this.selectUnit.currentEmployerID) {
+      //   this.departments = this.helpers.organizations.find(o => o.id === organizationId).
+      //   employer.find( e => e.id === employerId).department;
+      // } else {
+      //
+      //   this.departments = [];
+      //   this.helpers.organizations.find(o => o.id === organizationId)
+      //     .employer.forEach( e => {
+      //     if (e && e.id !== 0) {
+      //       e.department.forEach(d => {
+      //         if (d) { this.departments.push(d); }
+      //       });
+      //     }});
+      //
+      //    this.departments.forEach( d => {
+      //     if (d.employees) { d.employees.forEach( e =>   {
+      //       this.employees.push(e.name);
+      //     }); }
+      //   });
+      // }
     }
   }
 
@@ -211,8 +211,13 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   openFormDialog(): void {
+    if (this.selectUnit.currentDepartmentID === 0) {
+      this.notificationService.error('יש לבחור מחלקה', '');
+      return;
+    }
+    const employees = this.selectUnit.currentDepartments.find( d => d.id === this.selectUnit.currentDepartmentID ).employees;
     const dialog = this.dialog.open(FormComponent, {
-      data: { companies: this.companies, departments: this.departments , employerID: this.selectUnit.currentEmployerID}
+      data: { companies: this.companies, employees: employees , employerID: this.selectUnit.currentEmployerID}
     });
 
     this.sub.add(dialog.afterClosed().subscribe(created => {
@@ -238,8 +243,12 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   openExcelEmployeesDialog(): void {
+    if (this.selectUnit.currentDepartmentID === 0) {
+      this.notificationService.error('יש לבחור מחלקה', '');
+      return;
+    }
     this.dialog.open(EmployeesComponent, {
-      data: {  departments: this.departments },
+      data: {  departmentId: this.selectUnit.currentDepartmentID },
       width: '450px',
       panelClass: 'excel-employees-dialog'
     });
