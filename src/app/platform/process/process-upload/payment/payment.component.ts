@@ -6,12 +6,12 @@ import { ActivatedRoute } from '@angular/router';
 
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import { ErrorMessageComponent } from './error-message/error-message.component';
 import { EmailComponent } from './email/email.component';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import * as FileSaver from 'file-saver';
 import {NgForm} from '@angular/forms';
 import {ViewProcess} from '../../../../shared/_models/process.model';
+import {NotificationService} from '../../../../shared/_services/notification.service';
 
 
 
@@ -36,7 +36,8 @@ import {ViewProcess} from '../../../../shared/_models/process.model';
 })
 export class PaymentComponent implements OnInit {
   constructor( private dialog: MatDialog, private  processService: ProcessService,
-               private activatedRoute: ActivatedRoute, private router: Router
+               private activatedRoute: ActivatedRoute, private router: Router,
+               protected  notificationService: NotificationService
                ) {}
   data;
   // fileId = 1;
@@ -77,7 +78,7 @@ export class PaymentComponent implements OnInit {
                 break;
               }
               case 'Error_Loading': {
-                this.openErrorDialog();
+                this.notificationService.error('אירעה שגיאה בהעלאת הקובץ');
                 break;
               }
               default: {
@@ -98,15 +99,6 @@ export class PaymentComponent implements OnInit {
       });
     });
   }
-
-
-  openErrorDialog(): void {
-    this.dialog.open(ErrorMessageComponent, {
-      width: '550px'
-      // panelClass: 'email-dialog'
-    });
-  }
-
 
   openDialogSendFileEmail(): void {
     this.dialog.open(SendFileEmailComponent, {

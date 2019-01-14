@@ -141,8 +141,6 @@
       <span [hidden]="record">קבצים</span>
     </td>
   </tr>
-  <tr class="thborder"><td colspan="2">פרטי התשלומים</td></tr>
-
   </thead>
   <tbody class="f-12">
   <tr>
@@ -163,15 +161,14 @@
     <td>חודש שכר:</td>
     <td>{{ process_details.date | slice:5:7}}</td>
     <td [hidden]="file">מספר רשומות:</td>
-    <td>{{ process_details.records_count }}</td>
+    <td [hidden]="file">{{ process_details.records_count }}</td>
     <td [hidden]="record">סה"כ קבוצות ששודרו:</td>
-    <td>{{ process_details.groups_count }}</td>
+    <td [hidden]="record"> {{ process_details.groups_count }}</td>
   </tr>
   <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>מספר קבצים:</td>
+
+    <td colspan="8">מספר קבצים:</td>
+    <td colspan="8">{{ process_details.groups_count }}</td>
   </tr>
   </tbody>
 </table>
@@ -179,9 +176,4 @@
 <app-detailed-files *ngIf="file"></app-detailed-files>
 <app-detailed-records *ngIf="record"></app-detailed-records>
 </div>
-<!--[routerLink]="['./', 'errors']-->
-<div *ngIf="pageNumber !== 3">
-  <a (click)="goToHomePage()">< חזרה לדף הבית</a>
-<app-detailed-files *ngIf="file"></app-detailed-files>
-<app-detailed-records *ngIf="record"></app-detailed-records>
-</div>
+

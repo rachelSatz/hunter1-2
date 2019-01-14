@@ -13,6 +13,8 @@ import { UpdatePaymentDateComponent } from './update-payment-date/update-payment
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { CommentsComponent } from './comments/comments.component';
 import * as FileSaver from 'file-saver';
+import {ExcelComponent} from '../../../../compensation/process/excel/compensation/compensation.component';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-detailed-files',
@@ -42,6 +44,7 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   paymentType = PaymentType;
   filesStatus = FilesStatus;
   spin: boolean;
+  sub = new Subscription;
 
   ngOnInit() {
     this.fetchItems();
@@ -74,28 +77,42 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
 
    openUpdateTypePayDialog(typePay: string, file_id: number): void {
 
-     this.dialog.open(UpdatePaymentTypeComponent, {
-       data: {'typePay': typePay, 'file_id': [file_id]},
-       width: '550px',
-       panelClass: 'dialog-file'
-     });
+    const dialog = this.dialog.open(UpdatePaymentTypeComponent, {
+        data: {'typePay': typePay, 'file_id': [file_id]},
+        width: '550px',
+        panelClass: 'dialog-file'
+    });
+
+     this.sub.add(dialog.afterClosed().subscribe(() => {
+       this.fetchItems();
+     }));
+
    }
 
    openUpdateAccountNumberDialog(accNum: string, file_id: number, ref_number: string): void {
-     this.dialog.open(UpdateAccountNumberComponent, {
+     const dialog = this.dialog.open(UpdateAccountNumberComponent, {
        data: {'accNum': accNum, 'file_id': [ file_id ], 'ref_number': ref_number},
        width: '655px',
        panelClass: 'dialog-file'
      });
+
+     this.sub.add(dialog.afterClosed().subscribe(() => {
+       this.fetchItems();
+     }));
    }
 
    openUpdatePayDateDialog(date: string, file_id: number): void {
+
      if (file_id !== -1 || this.checkedRowItems()) {
-       this.dialog.open(UpdatePaymentDateComponent, {
+       const dialog = this.dialog.open(UpdatePaymentDateComponent, {
          data: {'date': date, 'file_id': file_id === -1 ? this.checkedItems.map(item => item.file_id) : [ file_id ]},
          width: '550px',
          panelClass: 'dialog-file'
        });
+
+       this.sub.add(dialog.afterClosed().subscribe(() => {
+         this.fetchItems();
+       }));
      }
    }
 
@@ -165,5 +182,6 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
 
   ngOnDestroy() {
     super.ngOnDestroy();
+    this.sub.unsubscribe();
   }
 }

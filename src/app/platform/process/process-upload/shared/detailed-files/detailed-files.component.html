@@ -3,7 +3,7 @@
   <!--<button mat-menu-item>Item 1</button>-->
 <!--</mat-menu>-->
 
-<button mat-button [matMenuTriggerFor]="menu" class="float-left mb-1">פעולות</button>
+<button mat-button [matMenuTriggerFor]="menu" class="btn blue-btn float-left mb-1">פעולות</button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click)="openUpdatePayDateDialog('', -1)">עדכון תאריך תשלום</button>
   <button mat-menu-item (click)=openWarningMessageComponentDialog(false)>מחיקת שורה</button>
@@ -56,8 +56,7 @@
     </tr>
   </ng-container>
   <tr *ngIf="!isSearching && items.length === 0">
-    <td colspan="13" class="text-center bold">טבלת תהליכים ריקה.</td>
+    <td colspan="14" class="text-center bold">טבלת תהליכים ריקה.</td>
   </tr>
   </tbody>
 </table>
-<!--</div>-->
