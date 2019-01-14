@@ -113,8 +113,7 @@ export class ProcessDataComponent implements OnInit {
     switch (this.pageNumber) {
       case 1:
         if (form.value.year && form.value.month) {
-          const departmentID = this.selectUnitService.currentDepartmentID;
-          if (departmentID === undefined || departmentID === 0) {
+          if (this.selectUnitService.currentDepartmentID === 0) {
             this.notificationService.error('  לא ניתן להעלות קובץ ללא בחירת מחלקה\n' +
               ' אנא בחר מחלקה ונסה שנית\n');
               return;
