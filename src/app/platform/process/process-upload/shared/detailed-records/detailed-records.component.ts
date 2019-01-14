@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataTableComponent } from '../../../../../shared/data-table/data-table.component';
 import { ActivatedRoute } from '@angular/router';
 import { DataTableHeader } from '../../../../../shared/data-table/classes/data-table-header';
+import {FilterItemsPipe} from '../../../../../shared/_pipes/filter-items.pipe';
 
 @Component({
   selector: 'app-detailed-records',
@@ -47,7 +48,7 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
     { column: 'download', label: 'סה"כ' }
   ];
 
-  constructor(route: ActivatedRoute ) {
+  constructor(route: ActivatedRoute) {
     super(route);
   }
 

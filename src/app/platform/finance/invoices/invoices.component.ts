@@ -17,6 +17,7 @@ import {HelpersService} from '../../../shared/_services/helpers.service';
 import {RemarksFormComponent} from './remarks-form/remarks-form.component';
 import {EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
 import {CompensationSendingMethods, CompensationStatus} from '../../../shared/_models/compensation.model';
+import {FilterItemsPipe} from '../../../shared/_pipes/filter-items.pipe';
 
 
 @Component({
@@ -53,7 +54,9 @@ export class InvoicesComponent extends DataTableComponent implements OnInit, OnD
 
   constructor(route: ActivatedRoute, private invoiceService: InvoiceService, private selectUnit: SelectUnitService,
               private helpers: HelpersService,
-              private dialog: MatDialog) {super(route); }
+              private dialog: MatDialog) {
+    super(route);
+  }
 
   ngOnInit() {
     this.fetchItems();

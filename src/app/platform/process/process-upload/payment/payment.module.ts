@@ -20,7 +20,7 @@ import { UpdatePaymentDateComponent } from '../shared/detailed-files/update-paym
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { DetailedRecordsComponent } from '../shared/detailed-records/detailed-records.component';
-import { CommentsComponent } from '../../../compensation/process/comments/comments.component';
+
 
 const routes: Routes = [
   { path: '', component: PaymentComponent }
@@ -43,13 +43,12 @@ const routes: Routes = [
   providers: [DatePipe, ProcessService, NotificationService],
   declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent, DetailedFilesComponent,
                  DetailedRecordsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
-                 UpdateAccountNumberComponent, UpdatePaymentDateComponent, CommentsComponent
+                 UpdateAccountNumberComponent, UpdatePaymentDateComponent
   ],
   entryComponents: [ EmailComponent, SendFileEmailComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
-    UpdateAccountNumberComponent, UpdatePaymentDateComponent, CommentsComponent]
+    UpdateAccountNumberComponent, UpdatePaymentDateComponent]
 })
 export class PaymentModule {
-
 
 }
 
