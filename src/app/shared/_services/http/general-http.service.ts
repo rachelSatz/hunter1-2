@@ -9,6 +9,7 @@ import { Bank } from '../../_models/bank.model';
 import { BankBranch } from '../../_models/bank-branch.model';
 import { Manufacturer } from '../../_models/manufacturer.model';
 import { Product } from '../../_models/product.model';
+import * as FileSaver from 'file-saver';
 // import { Application } from "../../_models/Application.model";
 // import { Agent } from "../../_models/agent.model";
 
@@ -167,6 +168,7 @@ export class GeneralHttpService extends BaseHttpService {
         .then(response => response as Object[])
         .catch(() => []);
     }
+
 
 
 }

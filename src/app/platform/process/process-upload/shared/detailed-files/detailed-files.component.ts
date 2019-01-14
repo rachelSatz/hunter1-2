@@ -12,6 +12,7 @@ import { UpdateAccountNumberComponent } from './update-account-number/update-acc
 import { UpdatePaymentDateComponent } from './update-payment-date/update-payment-date.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { CommentsComponent } from './comments/comments.component';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-detailed-files',
@@ -40,6 +41,7 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
 
   paymentType = PaymentType;
   filesStatus = FilesStatus;
+  spin: boolean;
 
   ngOnInit() {
     this.fetchItems();
@@ -55,6 +57,7 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   openDialogAttachReference(): void {
     if (this.checkedRowItems()) {
       this.dialog.open(AttachReferenceComponent, {
+        data: {'file_id': this.checkedItems.map(item => item.file_id)},
         width: '550px',
         panelClass: 'send-email-dialog'
       });
@@ -78,9 +81,9 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
      });
    }
 
-   openUpdateAccountNumberDialog(accNum: string, file_id: number, payment_identifier: string): void {
+   openUpdateAccountNumberDialog(accNum: string, file_id: number, ref_number: string): void {
      this.dialog.open(UpdateAccountNumberComponent, {
-       data: {'accNum': accNum, 'file_id': [ file_id ], 'payment_identifier:': payment_identifier},
+       data: {'accNum': accNum, 'file_id': [ file_id ], 'ref_number': ref_number},
        width: '655px',
        panelClass: 'dialog-file'
      });
@@ -138,6 +141,26 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
     }
 
     return title;
+  }
+
+
+
+  downloadFile(fileId: number): void {
+    // const type = fileName.split('.').pop();
+    this.spin = true;
+    this.processService.downloadFile(fileId).then(response => {
+      const fileName = response['fileName']
+      const type = fileName.split('.').pop();
+      const byteCharacters = atob(response['blob']);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], {type: 'application/' + type});
+      FileSaver.saveAs(blob, fileName);
+      this.spin = false;
+    });
   }
 
   ngOnDestroy() {

@@ -350,6 +350,27 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .catch(() => null);
   }
 
+  uploadRef(uploadedFile: File, fileId: number): Promise<Object> {
+    if (uploadedFile) {
+      const formData = new FormData();
+      formData.append('file', uploadedFile);
+
+      return this.http.post(this.endPoint + '/' + fileId + '/UploadRef', formData, this.getTokenHeader())
+        .toPromise()
+        .then(response => response as Object)
+        .catch(() => []);
+    }
+  }
+
+  downloadFile(rowID: number): Promise<string> {
+    return this.http.get(this.endPoint + '/' + rowID + '/downloadFile', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+
+
 
 }
 
