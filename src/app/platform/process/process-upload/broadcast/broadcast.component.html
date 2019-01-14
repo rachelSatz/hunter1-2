@@ -158,7 +158,7 @@
         </div>
       </mat-checkbox>
       <div class="text-center mt-5">
-        <button class="btn blue-btn" [disabled]="!valid && !isRefund" (click)="pageNumber = 2">שידור לקופות</button>
+        <button class="btn blue-btn" [disabled]="!valid && !isRefund" (click)="transfer()">שידור לקופות</button>
       </div>
     </div>
 <div class="col-6 offset-3" [@fade]="pageNumber === 2? 'active': 'inactive'">

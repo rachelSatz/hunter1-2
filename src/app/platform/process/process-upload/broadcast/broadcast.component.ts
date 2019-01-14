@@ -6,6 +6,7 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ProcessDetails } from '../../../../shared/_models/process-details.model';
 import { ActivatedRoute } from '@angular/router';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import {NotificationService} from '../../../../shared/_services/notification.service';
 
 
 @Component({
@@ -45,7 +46,8 @@ export class BroadcastComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
               private processService: ProcessService,
-              private  processDataService: ProcessDataService) {}
+              private  processDataService: ProcessDataService,
+              private notificationService: NotificationService) {}
 
   ngOnInit() {
 
@@ -86,6 +88,17 @@ export class BroadcastComponent implements OnInit {
   Refund() {
     this.pageNumber = 1;
     this.isRefund = true;
+  }
+
+  transfer() {
+    this.processService.transfer( this.processID)
+      .then(response => {
+        if (response['result'] === 'false') {
+          this.notificationService.error('', 'לא הצליח לשדר קובץ');
+        }else {
+          this.pageNumber = 2;
+        }
+      });
   }
 
 }
