@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -7,26 +7,16 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./process-upload.component.css']
 })
 
-export class ProcessUploadComponent implements OnInit {
+export class ProcessUploadComponent {
 
   public files: any[] = [];
 
-
-
   constructor(public router: Router, protected route: ActivatedRoute) { }
 
-  ngOnInit() {
-  }
-
-  setRouterLink(route: string , index: number): void {
-    // this.activeUploadStep = index;
-    this.router.navigate( [route], { relativeTo: this.route});
-  }
 
 
   setHeaderColor(): number {
     const currentRoute = (this.router.url).split('/');
-
 
     if (currentRoute[4]) {
       if (currentRoute[4].split('?')[0] === 'payment') {
@@ -34,8 +24,10 @@ export class ProcessUploadComponent implements OnInit {
       }
     }
 
-    if (currentRoute[4] === 'broadcast') {
-      return 3;
+    if (currentRoute[4]) {
+      if (currentRoute[4].split('?')[0] === 'broadcast') {
+        return 3;
+      }
     }
   }
 }

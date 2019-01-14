@@ -22,7 +22,7 @@
         <mat-error>שדה חובה.</mat-error>
       </mat-form-field>
       <mat-form-field class="w-50 mr-4">
-        <mat-select name="month" placeholder="בחר חודש" required ngModel>
+        <mat-select name="month" placeholder="בחר חודש"  required ngModel>
           <mat-option *ngFor="let month of months" [value]="month.id">{{ month.name }}</mat-option>
         </mat-select>
         <mat-error>שדה חובה.</mat-error>
@@ -34,9 +34,9 @@
         <table class="table table-bordered">
           <thead>
           <tr>
-            <th scope="col">{{form.value.processName + ' ' + months[(form.value.month)-1].name + ' ' + form.value.year}}</th>
-            <td scope="col">{{months[(form.value.month)-1].name}}</td>
-            <td scope="col">{{form.value.year}}</td>
+            <th scope="col">{{ form.value.processName + ' ' + months[(form.value.month)-1].name + ' ' + form.value.year }}</th>
+            <td scope="col">{{ months[(form.value.month)-1].name }}</td>
+            <td scope="col">{{ form.value.year }}</td>
           </tr>
           </thead>
         </table>

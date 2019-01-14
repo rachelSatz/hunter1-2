@@ -1,29 +1,23 @@
 <div class="text-center" [@fade]="pageNumber === 1 ? 'active' : 'inactive'" >
-  <table class="table table-bordered">
-    <thead>
-    <tr>
-      <th scope="col">{{data['processName']+ ' ' + data['month'] + ' ' + data['year']}}</th>
-      <td scope="col">{{data['month']}}</td>
-      <td scope="col">{{data['year']}}</td>
-    </tr>
-    </thead>
-  </table>
   <h5 class="bold">הקובץ בטעינה</h5>
   <p class="f-12 mb-0" >לנוחיותך ניתן כעת לצאת מהמערכת </p>
   <p class="f-12 mb-3">
      <span>ליציאה וקבלת הנחיות תשלום במייל,</span>
-    <a class="bold" (click)="openDialog()">לחץ כאן</a>
+    <a class="bold " (click)="openDialog()">לחץ כאן</a>
   </p>
   <p class="f-12">ניתן להמתין לסיום הטעינה ולהורדת הנחיית תשלום</p>
-  <mat-progress-bar mode="determinate" [(value)]="process_percent"></mat-progress-bar>
+  <mat-progress-bar mode="determinate" [value]="process_percent"></mat-progress-bar>
+  <p class="grey-color pointer float-right" (click)="setPage('home')">< חזרה לדף הבית</p>
 </div>
-<div class="text-center"  [@fade]="pageNumber === 2 ? 'active' : 'inactive'">
+<div class="text-center" [@fade]="pageNumber === 2 ? 'active' : 'inactive'">
   <table class="table table-bordered">
     <thead>
     <tr>
-      <th scope="col">{{data['processName']+ ' ' + data['month'] + ' ' + data['year']}}</th>
-      <td scope="col">{{data['month']}}</td>
-      <td scope="col">{{data['year']}}</td>
+      <th scope="col">{{ processDataService.activeProcess.name + ' '
+      + processDataService.activeProcess.month + ' '
+      + processDataService.activeProcess.year }}</th>
+      <td scope="col">{{ processDataService.activeProcess.month }}</td>
+      <td scope="col">{{ processDataService.activeProcess.year }}</td>
     </tr>
     </thead>
   </table>
@@ -115,17 +109,22 @@
         <td>מספר קבצים: </td>
         <td *ngIf="process_details !== null && process_details !== undefined  && process_details.groups_count !== null">{{ process_details.groups_count }}</td>
         <td>
-          <a (click)="pageNumber = 4;record=true;recordeDetails()">לפירוט מלא ></a>
+          <a (click)="pageNumber = 4;file = true;recordeDetails()">לפירוט מלא ></a>
         </td>
       </tr>
       </tbody>
     </table>
+  <span (click)="setPage('new')" class="float-right">
+       <p *ngIf="pageNumber === 2" class="pointer mt-5 grey-color">
+         <i class="fa fa-angle-right ml-1"></i>
+         <span>חזור</span>
+       </p>
+     </span>
 </div>
   <div class="text-left">
     <button class="btn blue-btn" (click)="pageNumber = 3"> לביצוע תשלום</button>
   </div>
 </div>
-
 <div class="container" [@fade]="pageNumber === 3 ? 'active' : 'inactive'">
   <p class="mb-4">אנא בחר אפשרות תשלום</p>
   <div class="d-flex justify-content-center">
@@ -149,13 +148,16 @@
   </table>
   </div>
   <div class="float-left mt-lg-5">
-    <button class="btn blue-btn" (click)="setPage(1)">המשך</button>
+    <button class="btn blue-btn" (click)="setPage('broadcast')">המשך</button>
   </div>
-  <div class="float-right mt-lg-5">
-    <a (click)="goToPreviousPage()">< חזור</a>
-  </div>
+  <span (click)="setPage('payment')" class="float-right">
+       <p class="pointer mt-5 grey-color">
+         <i class="fa fa-angle-right ml-1"></i>
+         <span>חזור</span>
+       </p>
+     </span>
 </div>
-<div  [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
+<div [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
 <table class="table table-borderless">
   <thead>
   <tr>
@@ -166,7 +168,6 @@
     </td>
   </tr>
   <tr class="thborder"><td colspan="2">פרטי התשלומים</td></tr>
-
   </thead>
   <tbody class="f-12">
   <tr>
@@ -190,13 +191,8 @@
   </tr>
   </tbody>
 </table>
-
-<app-detailed-files *ngIf="file"></app-detailed-files>
-<app-detailed-records *ngIf="record"></app-detailed-records>
 </div>
-<!--[routerLink]="['./', 'errors']-->
 <div *ngIf="pageNumber !== 3">
-  <a (click)="goToHomePage()">< חזרה לדף הבית</a>
 <app-detailed-files *ngIf="file"></app-detailed-files>
 <app-detailed-records *ngIf="record"></app-detailed-records>
 </div>

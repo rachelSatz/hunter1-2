@@ -32,7 +32,7 @@
   <thead class="thead-light">
   <tr class="align-content-center">
     <th scope="col" class="f-12 text-center align-middle"><mat-checkbox></mat-checkbox></th>
-    <th scope="col" class="f-12 text-center align-middle" *ngFor="let header of headers">{{header.label}}</th>
+    <th scope="col" class="f-12 font-weight-bold text-center align-middle" *ngFor="let header of headers">{{header.label}}</th>
   </tr>
   </thead>
   <tbody>
@@ -40,12 +40,12 @@
     <th scope="row">
       <mat-checkbox></mat-checkbox>
     </th>
-    <td class="f-12 bold" *ngFor="let item of employee1">{{item.column}}</td>
+    <td class="f-12" *ngFor="let item of employee1">{{item.column}}</td>
   <tr>
     <th scope="row">
       <mat-checkbox></mat-checkbox>
     </th>
-    <td class="f-12 bold" *ngFor="let item of employee2">{{item.column}}</td>
+    <td class="f-12" *ngFor="let item of employee2">{{item.column}}</td>
   </tr>
   <tr *ngIf="true">
     <td colspan="16" class="text-center bold">טבלת תהליכים ריקה.</td>

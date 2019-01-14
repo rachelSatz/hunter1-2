@@ -8,6 +8,7 @@ import { MatFormFieldModule, MatInputModule, MatDialogModule, MatMenuModule,
          MatProgressBarModule, MatSelectModule, MatTooltipModule, MatProgressSpinnerModule,
          MatCheckboxModule } from '@angular/material';
 import { ProcessUploadComponent } from './process-upload.component';
+import {ProcessDataService} from 'app/shared/_services/process-data-service';
 
 
 const routes: Routes = [
@@ -15,7 +16,6 @@ const routes: Routes = [
       { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule'},
       { path: 'payment', loadChildren: './payment/payment.module#PaymentModule'},
       { path: 'broadcast', loadChildren: './broadcast/broadcast.module#BroadcastModule' },
-      { path: 'payment', loadChildren: './payment/payment.module#PaymentModule'},
     ]}
 ];
 
@@ -28,6 +28,6 @@ const routes: Routes = [
     PipesModule
   ],
   declarations: [ProcessUploadComponent],
-  providers: [ProcessService, GeneralHttpService]
+  providers: [ProcessService, GeneralHttpService, ProcessDataService]
 })
 export class ProcessUploadModule {}

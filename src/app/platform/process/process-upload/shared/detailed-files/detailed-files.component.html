@@ -11,7 +11,7 @@
   <button mat-menu-item (click)=openWarningMessageComponentDialog(true)>הפוך ללא רלוונטי</button>
 </mat-menu>
 <!--<div class="table-responsive">-->
-<table class="table table-bordered table-hover mt-3 data-table">
+<table class="table mt-3 data-table">
   <thead>
   <tr class="table-headers">
     <th *ngIf="items.length > 0">
@@ -52,9 +52,9 @@
 
     </tr>
   </ng-container>
-  <tr *ngIf="!isSearching && items.length === 0">
-    <td colspan="13" class="text-center bold">טבלת תהליכים ריקה.</td>
-  </tr>
+  <!--<tr *ngIf="!isSearching && items.length === 0">-->
+    <!--<td colspan="13" class="text-center bold">טבלת תהליכים ריקה.</td>-->
+  <!--</tr>-->
   </tbody>
 </table>
 <!--</div>-->

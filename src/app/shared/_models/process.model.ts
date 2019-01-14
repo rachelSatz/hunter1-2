@@ -2,13 +2,14 @@ import { Employer } from './employer.model';
 import { ProcessDetails } from './process-details.model';
 
 export class Process {
+
   name: string;
   id: number;
   employer_name: string;
   department_name: string;
   employer: Employer;
-  month: number;
-  year: number;
+  month;
+  year;
   totalPaymentFile?: number;
   codeFile: number ;
   details: ProcessDetails;
@@ -23,7 +24,11 @@ export class Process {
   HaveNegativeProcess: boolean;
   NegativeProcess: boolean;
   status: string;
-
+  type: string;
+  isDirect: boolean;
+  file;
+  processID: number;
+  departmentId;
 
 constructor() {
     this.employer = new Employer();

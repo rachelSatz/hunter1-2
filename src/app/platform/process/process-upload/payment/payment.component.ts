@@ -10,8 +10,8 @@ import { EmailComponent } from './email/email.component';
 import { Router } from '@angular/router';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import * as FileSaver from 'file-saver';
-import {ViewProcess} from '../../../../shared/_models/process.model';
-
+import { ViewProcess } from '../../../../shared/_models/process.model';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
 
 
 @Component({
@@ -31,20 +31,16 @@ import {ViewProcess} from '../../../../shared/_models/process.model';
       transition('active => inactive', animate('0ms ease-in')),
       transition('inactive => active', animate('300ms ease-in'))
     ])
-  ]
-})
+  ]})
 export class PaymentComponent implements OnInit {
 
-  constructor( private dialog: MatDialog,
-               private  processService: ProcessService,
-               private activatedRoute: ActivatedRoute,
-               private router: Router,
-               ) {}
+  constructor(private dialog: MatDialog, private route: ActivatedRoute,
+              private router: Router, private processService: ProcessService,
+              public  processDataService: ProcessDataService) {}
 
 
 
-  data;
-  // fileId = 1;
+
   process_percent = 0;
   processId;
   email: string;
@@ -61,11 +57,7 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
 
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.processId = params['processId'] || 0;
-      this.data = params;
-
-    });
+    this.processId = this.processDataService.activeProcess.processID || 0;
 
     this.processService.getUploadFile(this.processId)
       .then(response => {
@@ -106,7 +98,6 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-
   openErrorDialog(): void {
     this.dialog.open(ErrorMessageComponent, {
       width: '550px'
@@ -114,39 +105,11 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-
   openDialogSendFileEmail(): void {
     this.dialog.open(SendFileEmailComponent, {
       width: '550px',
       panelClass: 'send-email-dialog'
     });
-  }
-
-
-
-  goToHomePage() {
-    this.router.navigate(['platform', 'dashboard']);
-  }
-  goToPreviousPage() {
-    this.pageNumber = 2;
-  }
-
-  // setPage(index: number): void {
-  //   // this.pageNumber += index;
-  //   this.router.navigate(['./broadcast'], { relativeTo: this.activatedRoute,
-  //     queryParams: {queryParams: this.data }} );
-  // }
-
-
-  changePage(isForword: boolean) {
-    if (isForword) {
-      this.router.navigate(['./broadcast'], { relativeTo: this.activatedRoute,
-        queryParams: {queryParams: this.data }} );
-    } else {
-      this.router.navigate(['./payment'], { relativeTo: this.activatedRoute,
-      queryParams: {queryParams: this.data }} );
-  }
-
   }
 
   downloadMasav(): void {
@@ -156,6 +119,7 @@ export class PaymentComponent implements OnInit {
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
+
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], {type: 'application/' + this.type});
       FileSaver.saveAs(blob, this.fileName);
@@ -168,5 +132,26 @@ export class PaymentComponent implements OnInit {
       .then(response => {
         this.viewProcess = response;
       });
+  }
+
+
+  setPage(page) {
+    switch (page) {
+      case 'new': {
+        this.router.navigate(['/platform', 'process', 'new'], { relativeTo: this.route });
+        break;
+      }
+      case 'broadcast': {
+        this.router.navigate(['/platform', 'process', 'new', 'broadcast']);
+        break;
+      }
+      case 'payment': {
+        this.pageNumber -= 1;
+        break;
+      }
+      case 'home': {
+        this.router.navigate(['platform', 'dashboard']);
+      }
+    }
   }
 }

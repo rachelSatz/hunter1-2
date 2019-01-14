@@ -30,12 +30,13 @@
 }
 
 .data-table th {
+  border-top: none;
   vertical-align: middle;
   text-align: center !important;
-  background-color: #808080;
-  color: #fff;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: bold;
   cursor: pointer;
-  font-weight: normal;
 }
 
 .headers th > i {

@@ -1,97 +1,108 @@
-<div class="text-center" [@fade]="pageNumber === 1 ? 'active' : 'inactive'">
-  <table class="table table-bordered">
-    <thead>
-    <tr>
-      <th scope="col">{{data['processName']+ ' ' + data['month'] + ' ' + data['year']}}</th>
-      <td scope="col">{{data['month']}}</td>
-      <td scope="col">{{data['year']}}</td>
-    </tr>
-    </thead>
-  </table>
-  <br>
-  <h5 class="bold">תהליך שידור</h5>
-  <p class="f-12">להלן פרטי הנתונים הפנסיוניים לשידור לקופות</p>
-  <div class="container w-75">
-  <table class="table table-borderless">
-    <thead>
-    <tr class="border-bottom">
-      <th colspan="4" class="f-14">פרטי התהליך</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>שם המעסיק:</td>
-      <td *ngIf="process_details !== null && process_details.employer_name !== null">{{ process_details.employer_name }}</td>
-      <td>ח.פ: </td>
-      <td>{{ process_details.business_number }}</td>
-    </tr>
-    <tr>
-      <td>שם מחלקה:</td>
-      <td>{{ process_details.department_name }}</td>
-      <td>מספר תהליך:</td>
-      <td>{{ process_details.id }}</td>
-    </tr>
-    <tr></tr>
-    <tr>
-      <td>שם התהליך: </td>
-      <td>{{ process_details.name }}</td>
-      <td>חודש שכר:</td>
-      <td>{{ process_details.date | slice:5:7}}</td>
-    </tr>
+<!--<div class="text-center" [@fade]="pageNumber === 1 ? 'active' : 'inactive'">-->
+  <!--<table class="table table-bordered">-->
+    <!--<thead>-->
+    <!--<tr>-->
+      <!--<th scope="col">{{data['processName']+ ' ' + data['month'] + ' ' + data['year']}}</th>-->
+      <!--<td scope="col">{{data['month']}}</td>-->
+      <!--<td scope="col">{{data['year']}}</td>-->
+    <!--</tr>-->
+    <!--</thead>-->
+  <!--</table>-->
+  <!--<br>-->
+  <!--<h5 class="bold">תהליך שידור</h5>-->
+  <!--<p class="f-12">להלן פרטי הנתונים הפנסיוניים לשידור לקופות</p>-->
+  <!--<div class="container w-75">-->
+  <!--<table class="table table-borderless">-->
+    <!--<thead>-->
+    <!--<tr class="border-bottom">-->
+      <!--<th colspan="4" class="f-14">פרטי התהליך</th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--<tr>-->
+      <!--<td>שם המעסיק:</td>-->
+      <!--<td *ngIf="process_details !== null && process_details.employer_name !== null">{{ process_details.employer_name }}</td>-->
+      <!--<td>ח.פ: </td>-->
+      <!--<td>{{ process_details.business_number }}</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+      <!--<td>שם מחלקה:</td>-->
+      <!--<td>{{ process_details.department_name }}</td>-->
+      <!--<td>מספר תהליך:</td>-->
+      <!--<td>{{ process_details.id }}</td>-->
+    <!--</tr>-->
+    <!--<tr></tr>-->
+    <!--<tr>-->
+      <!--<td>שם התהליך: </td>-->
+      <!--<td>{{ process_details.name }}</td>-->
+      <!--<td>חודש שכר:</td>-->
+      <!--<td>{{ process_details.date | slice:5:7}}</td>-->
+    <!--</tr>-->
 
-    </tbody>
-  </table>
-    <table class="table table-borderless">
-    <thead>
-    <tr class="border-bottom">
-      <th colspan="4" class="f-14">פרטי התשלומים</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>סכום לתשלום:</td>
-      <td>{{ process_details.total }}</td>
-    </tr>
-    <tr>
-      <td>מספר קבצים:</td>
-      <td>{{ process_details.groups_count }}</td>
-      <td>
-        <a>לפירוט מלא ></a>
-      </td>
-    </tr>
-    <tr></tr>
-    <tr>
-      <td>מספר רשומות:</td>
-      <td>{{ process_details.records_count }}</td>
-      <td>
-        <a>לפירוט מלא ></a>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <a>תאריך תשלום (ערך):</a>
-      </td>
-      <td>{{ paymentDate | date: 'dd/MM/yyyy' }}</td>
-      <td>
-        <a (click)="dateUpdate()">לעדכון תאריך ></a>
-      </td>
-    </tr>
-    <p class="f-12 bold float-lg-right">הנך נדרש לעדכן תאריך ערך</p>
-    </tbody>
-  </table>
-  </div>
-  <div class="container w-50">
-    <mat-checkbox [(ngModel)]="valid"  class="float-right">
-      <div class="text-wrap text-right mt-4">
-        <p class="f-12">הנני מאשר כי פרטי התשלום המוצגים מעלה נבדקו מול תוכנת השכר והנם תקינים.
-        בשידור לקופות הקבצים יועברו על פי הנתונים הקיימים ופיולה זואינה ניתנת לביטול.</p>
-      </div>
-    </mat-checkbox>
-    <div class="mt-5">
-      <button class="btn blue-btn" [disabled]="!valid" (click)="pageNumber = 2">שידור לקופות</button>
-  </div>
-</div>
-    <!--<div class="col-6  offset-3" [@fade]="pageNumber === 1? 'active': 'inactive'">
+    <!--</tbody>-->
+  <!--</table>-->
+    <!--<table class="table table-borderless">-->
+    <!--<thead>-->
+    <!--<tr class="border-bottom">-->
+      <!--<th colspan="4" class="f-14">פרטי התשלומים</th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--<tr>-->
+      <!--<td>סכום לתשלום:</td>-->
+      <!--<td>{{ process_details.total }}</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+      <!--<td>מספר קבצים:</td>-->
+      <!--<td>{{ process_details.groups_count }}</td>-->
+      <!--<td>-->
+        <!--<a>לפירוט מלא ></a>-->
+      <!--</td>-->
+    <!--</tr>-->
+    <!--<tr></tr>-->
+    <!--<tr>-->
+      <!--<td>מספר רשומות:</td>-->
+      <!--<td>{{ process_details.records_count }}</td>-->
+      <!--<td>-->
+        <!--<a>לפירוט מלא ></a>-->
+      <!--</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+      <!--<td>-->
+        <!--<a>תאריך תשלום (ערך):</a>-->
+      <!--</td>-->
+      <!--<td>{{ paymentDate | date: 'dd/MM/yyyy' }}</td>-->
+      <!--<td>-->
+        <!--<a (click)="dateUpdate()">לעדכון תאריך ></a>-->
+      <!--</td>-->
+    <!--</tr>-->
+    <!--<p class="f-12 bold float-lg-right">הנך נדרש לעדכן תאריך ערך</p>-->
+    <!--</tbody>-->
+  <!--</table>-->
+  <!--</div>-->
+  <!--<div class="container w-50">-->
+    <!--<mat-checkbox [(ngModel)]="valid"  class="float-right">-->
+      <!--<div class="text-wrap text-right mt-4">-->
+        <!--<p class="f-12">הנני מאשר כי פרטי התשלום המוצגים מעלה נבדקו מול תוכנת השכר והנם תקינים.-->
+        <!--בשידור לקופות הקבצים יועברו על פי הנתונים הקיימים ופיולה זואינה ניתנת לביטול.</p>-->
+      <!--</div>-->
+    <!--</mat-checkbox>-->
+    <!--<div class="mt-5">-->
+      <!--<button class="btn blue-btn" [disabled]="!valid" (click)="pageNumber = 2">שידור לקופות</button>-->
+  <!--</div>-->
+<!--</div>-->
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th scope="col">{{ processDataService.activeProcess.name + ' '
+    + processDataService.activeProcess.month + ' '
+    + processDataService.activeProcess.year }}</th>
+    <td scope="col">{{ processDataService.activeProcess.month }}</td>
+    <td scope="col">{{ processDataService.activeProcess.year }}</td>
+  </tr>
+  </thead>
+</table>
+    <div class="col-6  offset-3" [@fade]="pageNumber === 1? 'active': 'inactive'">
       <div *ngIf="!isRefund">
         <h5 class="bold text-center">תהליך שידור</h5>
         <p class="f-12 text-center grey-color">להלן פרטי הנתונים הפנסיוניים לשידור לקופות</p>
@@ -149,7 +160,7 @@
       <div class="text-center mt-5">
         <button class="btn blue-btn" [disabled]="!valid && !isRefund" (click)="pageNumber = 2">שידור לקופות</button>
       </div>
-    </div>-->
+    </div>
 <div class="col-6 offset-3" [@fade]="pageNumber === 2? 'active': 'inactive'">
   <p class="h5 text-center mb-5" *ngIf="isRefund">בקשת ההחזר הועברה לקופות בהצלחה!</p>
   <div class="text-center" *ngIf="!isRefund">

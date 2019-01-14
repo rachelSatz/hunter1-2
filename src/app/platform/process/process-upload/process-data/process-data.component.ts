@@ -3,10 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Month } from 'app/shared/_const/month-bd-select';
+
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { SelectUnitService} from 'app/shared/_services/select-unit.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
+
+import { Month } from 'app/shared/_const/month-bd-select';
+import { Process } from 'app/shared/_models/process.model';
 
 @Component({
   selector: 'app-process-data',
@@ -26,7 +30,7 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
       transition('active => inactive', animate('0ms ease-in')),
       transition('inactive => active', animate('300ms ease-in'))
     ])
-  ]
+  ],
 })
 export class ProcessDataComponent implements OnInit {
 
@@ -39,13 +43,14 @@ export class ProcessDataComponent implements OnInit {
 
   selectedType: 'positive' | 'negative';
 
+  processId;
   pageNumber = 1;
   monthValid = true;
   yearValid = true;
   isSubmitting = false;
   hasServerError: boolean;
-  data: any;
-  readonly month = Month;
+
+  process: Process;
 
   readonly months = Month;
 
@@ -63,9 +68,11 @@ export class ProcessDataComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute,
               private dialog: MatDialog, private processService: ProcessService,
-              private notificationService: NotificationService, private selectUnitService: SelectUnitService) {}
+              private notificationService: NotificationService, private selectUnitService: SelectUnitService,
+              public processDataService: ProcessDataService) {}
 
   ngOnInit() {
+    this.process = this.processDataService.activeProcess ?  this.processDataService.activeProcess : new Process();
   }
 
   getFileFromDrop(event) {
@@ -138,39 +145,38 @@ export class ProcessDataComponent implements OnInit {
       const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
       this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
-        if (confirmation.value) {
-          console.log(confirmation.value);
-          this.data = {'month': form.value['month'], 'year': form.value['year'], 'processName': form.value['processName'],
-                      'departmentId': this.selectUnitService.currentDepartmentID, 'isDirect': confirmation.value};
-          this.processService.newProcess(this.data, this.processFile).then(response => {
-            const processID = response['processId'];
-            // const fileData = [this.months[form.value.month - 1].name, form.value.year, form.value.processName, this.selectedType,
-            //                   processID];
-            this.router.navigate(['./payment'], { relativeTo: this.route,
-              queryParams: {
-                month: this.months[form.value.month - 1].name,
-                year: form.value.year,
-                processName: form.value.processName,
-                type: this.selectedType,
-                processId: processID
-            }});
-            if (response['processId'] > 0) {
-            } else {
-              this.hasServerError = true;
-            }
-            this.isSubmitting = false;
-          });
-        }
-      });
-    }
+        const isDirect = confirmation.value;
+        const data = {
+          'month': this.months[form.value.month - 1].name,
+          'year': form.value['year'],
+          'processName': form.value['processName'],
+          'departmentId': this.selectUnitService.currentDepartmentID,
+          'isDirect': isDirect,
+          'file': this.processFile,
+          'type': this.selectedType,
+          'processId': ''
+        };
+
+        this.processDataService.setProcess(data);
+
+        this.processService.newProcess(this.processDataService.activeProcess).then(response => {
+          data['processId'] = response['processId'];
+          this.router.navigate(['./payment'], { relativeTo: this.route });
+          if (response['processId'] > 0) {
+          } else {
+            this.hasServerError = true;
+          }
+          this.isSubmitting = false;
+        });
+
+    });
+  }
   }
 
 
   uploadFile(): void {
     this.router.navigate(['./', 'payment']);
   }
-
-
 
   next(index, form: NgForm) {
    if (form.value.year && form.value.month) {
