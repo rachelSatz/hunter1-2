@@ -321,8 +321,8 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .catch(response => response as null);
   }
 
-  getEmailUser(): Promise<object> {
-    return this.http.get(this.endPoint  + '/UserEmail', this.getTokenHeader())
+  getPaymentMailOnCompletion(processId: number): Promise<object> {
+    return this.http.post(this.endPoint  + '/PaymentMailOnCompletion', { processId: processId}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);

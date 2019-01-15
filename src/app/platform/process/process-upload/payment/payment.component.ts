@@ -84,7 +84,7 @@ export class PaymentComponent implements OnInit {
   }
 
   openDialog(): void {
-    this.processService.getEmailUser().then( response => {
+    this.processService.getPaymentMailOnCompletion(this.processId).then( response => {
       this.email = response['email'];
       this.dialog.open(EmailComponent, {
         data: this.email,

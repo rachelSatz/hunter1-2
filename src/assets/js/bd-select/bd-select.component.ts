@@ -65,10 +65,12 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
 
   @Output() onSelect: EventEmitter<Object | Object[]> = new EventEmitter();
   @Output() onDeselect: EventEmitter<boolean> = new EventEmitter();
+  @Output() onScroll: EventEmitter<boolean> = new EventEmitter();
 
   @Input() @HostBinding('style.width') width = '100%';
 
   @ViewChild('filterValueEle') filterElement: ElementRef;
+  @ViewChild('optionsEle') optionsElement: ElementRef;
 
   filterValue: string;
 
