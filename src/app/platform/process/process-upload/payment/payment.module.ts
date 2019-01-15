@@ -18,7 +18,8 @@ import { UpdatePaymentDateComponent } from '../shared/detailed-files/update-paym
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { DetailedRecordsComponent } from '../shared/detailed-records/detailed-records.component';
-import {DetailedFilesModule} from '../shared/detailed-files/detailed-files.module';
+import { DetailedFilesModule } from '../shared/detailed-files/detailed-files.module';
+
 
 
 const routes: Routes = [

@@ -1,7 +1,3 @@
-<!--<mat-menu #menu="matMenu">-->
-  <!--<button mat-menu-item>Item 1</button>-->
-  <!--<button mat-menu-item>Item 1</button>-->
-<!--</mat-menu>-->
 
 <button mat-button [matMenuTriggerFor]="menu" class="btn blue-btn float-left mb-1">פעולות</button>
 <mat-menu #menu="matMenu">
@@ -10,7 +6,6 @@
   <button mat-menu-item (click)=openDialogAttachReference()>צירוף אסמכתא</button>
   <button mat-menu-item (click)=openWarningMessageComponentDialog(true)>הפוך ללא רלוונטי</button>
 </mat-menu>
-<!--<div class="table-responsive">-->
 <table class="table mt-3 data-table">
   <thead>
   <tr class="table-headers">
@@ -18,7 +13,7 @@
       <mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>
     </th>
     <th *ngFor="let header of headers" (click)="sort(header)">
-      <span class="pointer" >{{ header.label }}</span>
+      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
       <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
     </th>
   </tr>
@@ -58,8 +53,7 @@
   <tr *ngIf="!isSearching && items.length === 0">
     <td colspan="14" class="text-center bold">טבלת תהליכים ריקה.</td>
   </tr>
-  <!--<tr *ngIf="!isSearching && items.length === 0">-->
-    <!--<td colspan="13" class="text-center bold">טבלת תהליכים ריקה.</td>-->
-  <!--</tr>-->
   </tbody>
 </table>
+<!--<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>-->
+<!---->

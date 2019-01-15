@@ -59,33 +59,6 @@
       </tr>
     </tbody>
   </table>
-<!--<<<<<<< HEAD-->
-  <!--<table class="table table-borderless">-->
-    <!--<thead>-->
-        <!--<tr class="thborder">-->
-          <!--<th colspan="2">פרטי התשלומים</th>-->
-        <!--</tr>-->
-    <!--</thead>-->
-    <!--<tbody>-->
-    <!--<tr>-->
-      <!--<td>סכום לתשלום: </td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-      <!--<td>מספר רשומות: </td>-->
-      <!--<td>-->
-        <!--<a (click)="pageNumber = 4;record=true">לפירוט מלא ></a>-->
-      <!--</td>-->
-    <!--</tr>-->
-    <!--<tr></tr>-->
-    <!--<tr>-->
-      <!--<td>מספר קבצים: </td>-->
-      <!--<td>-->
-        <!--<a (click)="pageNumber = 4;file=true">לפירוט מלא ></a>-->
-      <!--</td>-->
-    <!--</tr>-->
-    <!--</tbody>-->
-  <!--</table>-->
-<!--=======-->
     <table class="table table-borderless">
       <thead>
           <tr class="thborder">
@@ -125,6 +98,7 @@
     <button class="btn blue-btn" (click)="pageNumber = 3"> לביצוע תשלום</button>
   </div>
 </div>
+
 <div class="container" [@fade]="pageNumber === 3 ? 'active' : 'inactive'">
   <p class="mb-4">אנא בחר אפשרות תשלום</p>
   <div class="d-flex justify-content-center">
@@ -157,6 +131,7 @@
        </p>
      </span>
 </div>
+
 <div [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
 <table class="table table-borderless">
   <thead>
@@ -167,7 +142,6 @@
       <span [hidden]="record">קבצים</span>
     </td>
   </tr>
-  <tr class="thborder"><td colspan="2">פרטי התשלומים</td></tr>
   </thead>
   <tbody class="f-12">
   <tr>
@@ -193,56 +167,13 @@
     <td [hidden]="record"> {{ process_details.groups_count }}</td>
   </tr>
   <tr>
-
     <td colspan="8">מספר קבצים:</td>
     <td colspan="8">{{ process_details.groups_count }}</td>
   </tr>
   </tbody>
 </table>
-</div>
-<div *ngIf="pageNumber !== 3">
-<app-detailed-files *ngIf="file"></app-detailed-files>
-<app-detailed-records *ngIf="record"></app-detailed-records>
-=======
-   <span (click)="setPage('success')" class="float-right">
-       <p *ngIf="file || record" class="pointer mt-5 grey-color">
-         <i class="fa fa-angle-right ml-1"></i>
-         <span>חזור</span>
-       </p>
-     </span>
-  <table class="table table-borderless">
-    <thead>
-    <tr>
-      <td colspan="4">
-        <span>פירוט  </span>
-        <span [hidden]="file">רשומות</span>
-        <span [hidden]="record">קבצים</span>
-      </td>
-    </tr>
-    <tr class="thborder"><td colspan="2">פרטי התשלומים</td></tr>
-    </thead>
-    <tbody class="f-12">
-    <tr>
-      <td>שם המעסיק:</td>
-      <td>ח.פ:</td>
-      <td>שם מחלקה:</td>
-      <td>שם התהליך:</td>
-    </tr>
-    <tr>
-      <td>סכום לתשלום:</td>
-      <td>מספר תהליך:</td>
-      <td>חודש שכר:</td>
-      <td [hidden]="file">מספר רשומות:</td>
-      <td [hidden]="record">סה"כ קבוצות ששודרו:</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>מספר קבצים:</td>
-    </tr>
-    </tbody>
-  </table>
   <app-detailed-files *ngIf="file"></app-detailed-files>
   <app-detailed-records *ngIf="record"></app-detailed-records>
 </div>
+
+

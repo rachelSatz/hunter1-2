@@ -3,18 +3,19 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { AttachReferenceComponent } from './attach-reference/attach-reference.component';
-import { UpdatePaymentTypeComponent } from './update-payment-type/update-payment-type.component';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import {PaymentType, FilesStatus, EmployerProduct} from 'app/shared/_models/process.model';
+import { PaymentType, FilesStatus, EmployerProduct } from 'app/shared/_models/process.model';
+import { NotificationService } from 'app/shared/_services/notification.service';
+
+import { AttachReferenceComponent } from './attach-reference/attach-reference.component';
+import { UpdatePaymentTypeComponent } from './update-payment-type/update-payment-type.component';
 import { UpdateAccountNumberComponent } from './update-account-number/update-account-number.component';
 import { UpdatePaymentDateComponent } from './update-payment-date/update-payment-date.component';
-import { NotificationService } from 'app/shared/_services/notification.service';
 import { CommentsComponent } from './comments/comments.component';
+
 import * as FileSaver from 'file-saver';
-import {ExcelComponent} from '../../../../compensation/process/excel/compensation/compensation.component';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detailed-files',
@@ -34,7 +35,7 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
     { column: 'file', label: 'אסמכתא' }
   ];
 
-  constructor(route: ActivatedRoute,
+  constructor(protected route: ActivatedRoute,
               private dialog: MatDialog,
               private  processService: ProcessService,
               protected  notificationService: NotificationService) {
@@ -166,7 +167,7 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
     // const type = fileName.split('.').pop();
     this.spin = true;
     this.processService.downloadFile(fileId).then(response => {
-      const fileName = response['fileName']
+      const fileName = response['fileName'];
       const type = fileName.split('.').pop();
       const byteCharacters = atob(response['blob']);
       const byteNumbers = new Array(byteCharacters.length);

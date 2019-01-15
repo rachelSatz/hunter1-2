@@ -9,9 +9,8 @@ import { EmailComponent } from './email/email.component';
 import { Router } from '@angular/router';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import * as FileSaver from 'file-saver';
-import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
-import { ErrorMessageComponent } from './error-message/error-message.component';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 
 @Component({
@@ -33,13 +32,13 @@ import { ErrorMessageComponent } from './error-message/error-message.component';
     ])
   ]})
 export class PaymentComponent implements OnInit {
-  data;
-  // fileId = 1;
+
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
               private router: Router, private processService: ProcessService,
               public  processDataService: ProcessDataService,
-              protected notificationService?: NotificationService) {}
+              protected notificationService: NotificationService) {}
 
+  data;
   process_percent = 0;
   processId;
   email: string;
@@ -92,13 +91,6 @@ export class PaymentComponent implements OnInit {
         width: '550px',
         panelClass: 'email-dialog'
       });
-    });
-  }
-
-  openErrorDialog(): void {
-    this.dialog.open(ErrorMessageComponent, {
-      width: '550px'
-      // panelClass: 'email-dialog'
     });
   }
 

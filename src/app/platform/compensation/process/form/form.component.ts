@@ -46,11 +46,11 @@ export class FormComponent implements OnInit {
               private productService: ProductService) {}
 
   ngOnInit() {
-
+    this.loadEmployees(this.data.departmentId);
   }
 
   loadEmployees(departmentID: number): void {
-    this.employees = this.data.departments.find( d => d.id === departmentID ).employees;
+    this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
   }
 
   loadProducts(companyID: number): void {
