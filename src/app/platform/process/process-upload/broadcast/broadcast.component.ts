@@ -3,9 +3,11 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MatDialog } from '@angular/material';
 import { DateUpdateComponent } from './date-update/date-update.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import { ProcessDetails } from '../../../../shared/_models/process-details.model';
+import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { ActivatedRoute } from '@angular/router';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { Process } from 'app/shared/_models/process.model';
 
 
 @Component({
@@ -26,10 +28,13 @@ import { ProcessDataService } from 'app/shared/_services/process-data-service';
       transition('inactive => active', animate('300ms ease-in'))
     ])
   ],
-  providers: [ProcessService]
+  providers: [ProcessService, NotificationService]
 })
 export class BroadcastComponent implements OnInit {
 
+  process: Process;
+  file: boolean;
+  record: boolean;
   type;
   data;
   processId;
@@ -41,6 +46,7 @@ export class BroadcastComponent implements OnInit {
   processID = 1;
   process_details: ProcessDetails;
   paymentDate: string;
+  page;
 
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
@@ -56,6 +62,7 @@ export class BroadcastComponent implements OnInit {
     } else {
       this.isRefund = true;
     }
+    this.processDataService.activeProcess.pageNumber = 3;
   }
 
   dateUpdate() {
@@ -87,5 +94,4 @@ export class BroadcastComponent implements OnInit {
     this.pageNumber = 1;
     this.isRefund = true;
   }
-
 }

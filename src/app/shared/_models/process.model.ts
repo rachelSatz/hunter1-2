@@ -3,12 +3,13 @@ import { ProcessDetails } from './process-details.model';
 
 export class Process {
 
-  name: string;
+  name = '';
   id: number;
   employer_name: string;
   department_name: string;
   employer: Employer;
   month;
+  monthID;
   year;
   totalPaymentFile?: number;
   codeFile: number ;
@@ -29,6 +30,7 @@ export class Process {
   file;
   processID: number;
   departmentId;
+  pageNumber;
 
 constructor() {
     this.employer = new Employer();

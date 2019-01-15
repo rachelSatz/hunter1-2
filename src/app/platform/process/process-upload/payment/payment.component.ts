@@ -151,6 +151,12 @@ export class PaymentComponent implements OnInit {
       }
       case 'home': {
         this.router.navigate(['platform', 'dashboard']);
+        break;
+      }
+      case 'success': {
+        this.pageNumber = 2;
+        this.record = false;
+        this.file = false;
       }
     }
   }
