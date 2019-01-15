@@ -171,8 +171,7 @@ export class ProcessDataComponent implements OnInit {
 
     });
   }
-  }
-
+}
 
   uploadFile(): void {
     this.router.navigate(['./', 'payment']);

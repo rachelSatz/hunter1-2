@@ -41,7 +41,7 @@ constructor() {
 export class ViewProcess {
   file_id: number;
   company_name: string;
-  employer_products: EmployerProduct;
+  employer_products: EmployerProduct[];
   product_type: string;
   product_code: string;
   payment_identifier: string;
@@ -50,6 +50,7 @@ export class ViewProcess {
   file_total: number;
   group_id: number;
   status: string;
+  ref_path: string;
   payment_ref_number: string;
   group_thing_sum: string;
 }
@@ -109,4 +110,13 @@ export enum PaymentType {
   Check = 'צק',
   Direct_Debit = 'הוראת קבע',
   Masav = 'מס"ב',
+}
+
+export enum FilesStatus {
+  open = 'פתוח',
+  sent = 'נשלח',
+  feedback_a = 'התקבל פידבק א',
+  feedback_b = 'התקבל פידבק ב',
+  closed = 'סגור',
+  not_relevant = 'לא רלוונטי'
 }

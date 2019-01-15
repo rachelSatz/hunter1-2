@@ -137,35 +137,16 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   fetchItems(): void {
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
+    const departmentId = this.selectUnit.currentDepartmentID;
 
     if (organizationId) {
       this.searchCriteria['employerId'] = employerId;
       this.searchCriteria['organizationId'] = organizationId;
+      this.searchCriteria['departmentId'] = departmentId;
 
       this.compensationService.getCompensations(this.searchCriteria).then(response => {
         this.setResponse(response);
       });
-
-      // if (this.selectUnit.currentEmployerID) {
-      //   this.departments = this.helpers.organizations.find(o => o.id === organizationId).
-      //   employer.find( e => e.id === employerId).department;
-      // } else {
-      //
-      //   this.departments = [];
-      //   this.helpers.organizations.find(o => o.id === organizationId)
-      //     .employer.forEach( e => {
-      //     if (e && e.id !== 0) {
-      //       e.department.forEach(d => {
-      //         if (d) { this.departments.push(d); }
-      //       });
-      //     }});
-      //
-      //    this.departments.forEach( d => {
-      //     if (d.employees) { d.employees.forEach( e =>   {
-      //       this.employees.push(e.name);
-      //     }); }
-      //   });
-      // }
     }
   }
 
@@ -174,11 +155,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     this.users =  this.users.filter((x) => this.users.indexOf(x) === 0);
     this.setItems(response);
   }
-
-  // loadEmployees(departmentID: number): void {
-   // this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
-  // }
-
 
   valueDateChange(keyCode: Date): void {
     this.searchCriteria['date_request'] =
@@ -215,9 +191,9 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
       this.notificationService.error('יש לבחור מחלקה', '');
       return;
     }
-    const employees = this.selectUnit.currentDepartments.find( d => d.id === this.selectUnit.currentDepartmentID ).employees;
+
     const dialog = this.dialog.open(FormComponent, {
-      data: { companies: this.companies, employees: employees , employerID: this.selectUnit.currentEmployerID}
+      data: { companies: this.companies, departmentId: this.selectUnit.currentDepartmentID , employerID: this.selectUnit.currentEmployerID}
     });
 
     this.sub.add(dialog.afterClosed().subscribe(created => {

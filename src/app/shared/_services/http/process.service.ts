@@ -62,7 +62,7 @@ export class ProcessService extends BaseHttpService {
   newProcess(values: any, file?: File): Promise<boolean> {
     const formData = new FormData();
     // formData.append('departmentId', values.departmentId);
-    formData.append('departmentId', '2');
+    formData.append('departmentId', '6');
     formData.append('isDirect', values.isDirect);
     formData.append('month', values.month);
     formData.append('processName', values.processName);
@@ -357,6 +357,28 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .then(response => response)
       .catch(() => null);
   }
+
+  uploadRef(uploadedFile: File, fileId: number): Promise<Object> {
+    if (uploadedFile) {
+      const formData = new FormData();
+      formData.append('file', uploadedFile);
+
+      return this.http.post(this.endPoint + '/' + fileId + '/UploadRef', formData, this.getTokenHeader())
+        .toPromise()
+        .then(response => response as Object)
+        .catch(() => []);
+    }
+  }
+
+  downloadFile(rowID: number): Promise<string> {
+    return this.http.get(this.endPoint + '/' + rowID + '/downloadFile', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+
+
 
 }
 

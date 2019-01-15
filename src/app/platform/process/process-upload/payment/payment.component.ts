@@ -5,12 +5,13 @@ import { ActivatedRoute } from '@angular/router';
 
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import { ErrorMessageComponent } from './error-message/error-message.component';
 import { EmailComponent } from './email/email.component';
 import { Router } from '@angular/router';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import * as FileSaver from 'file-saver';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import {ErrorMessageComponent} from '../../../compensation/process/error-message/error-message.component';
 
 
 @Component({
@@ -35,11 +36,10 @@ export class PaymentComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
               private router: Router, private processService: ProcessService,
-              public  processDataService: ProcessDataService) {}
+              public  processDataService: ProcessDataService,
+              protected notificationService: NotificationService) {}
 
-
-
-
+  data;
   process_percent = 0;
   processId;
   email: string;
@@ -76,7 +76,7 @@ export class PaymentComponent implements OnInit {
                 break;
               }
               case 'Error_Loading': {
-                this.openErrorDialog();
+                this.notificationService.error('אירעה שגיאה בהעלאת הקובץ');
                 break;
               }
               default: {

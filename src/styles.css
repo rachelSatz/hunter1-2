@@ -261,18 +261,10 @@ a:hover {
   color: #fff;
 }
 
-/*--- Material RTL ---*/
+/*--- Material ---*/
 
-.mat-form-field, .mat-select-panel .mat-optgroup-label, .mat-select-panel .mat-option {
-  text-align: right !important;
-}
-
-.mat-input-element {
-  text-align: right;
-}
-
-.mat-dialog-container {
-  direction: rtl;
+.mat-tooltip  {
+  white-space: pre-line !important;
 }
 
 .dialog-header {
