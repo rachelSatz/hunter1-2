@@ -25,9 +25,11 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule, MatMenuModule,
-    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule, MatIconModule
+    MatFormFieldModule, MatInputModule, MatSelectModule,
+    MatDialogModule, MatMenuModule, MatProgressBarModule,
+    MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule, MatIconModule
   ],
+  exports: [DetailedFilesComponent],
   providers: [ NotificationService],
   declarations: [ DetailedFilesComponent],
 })

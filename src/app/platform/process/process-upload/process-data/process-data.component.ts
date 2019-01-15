@@ -67,7 +67,6 @@ export class ProcessDataComponent implements OnInit {
 
   ngOnInit() {
     this.process = this.processDataService.activeProcess ?  this.processDataService.activeProcess : new Process();
-    console.log(this.months[this.process.month]);
   }
 
   getFileFromDrop(event) {
@@ -114,16 +113,14 @@ export class ProcessDataComponent implements OnInit {
         }
 
         if (form.value.year && form.value.month) {
+          // this.selectUnitService.currentDepartmentID === undefined
           if (this.selectUnitService.currentDepartmentID === 0) {
             this.notificationService.error('  לא ניתן להעלות קובץ ללא בחירת מחלקה\n' +
               ' אנא בחר מחלקה ונסה שנית\n');
               return;
           }
           this.pageNumber += index;
-        } if (form.value.month) {
-          this.monthValid = true;
-        } else { this.monthValid = false;
-        } if ( form.value.year ) {
+        } this.monthValid = !!form.value.month; if ( form.value.year ) {
           this.yearValid = true;
         } else { this.yearValid = false; }
         break;

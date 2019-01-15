@@ -101,7 +101,7 @@
         <td>מספר רשומות: </td>
         <td *ngIf="process_details !== null && process_details !== undefined  && process_details.records_count !== null">{{ process_details.records_count }}</td>
         <td>
-          <a (click)="pageNumber = 4 ;record=true">לפירוט מלא ></a>
+          <a (click)="setPage('details-records')">לפירוט מלא ></a>
         </td>
       </tr>
       <tr></tr>
@@ -109,7 +109,7 @@
         <td>מספר קבצים: </td>
         <td *ngIf="process_details !== null && process_details !== undefined  && process_details.groups_count !== null">{{ process_details.groups_count }}</td>
         <td>
-          <a (click)="pageNumber = 4;file = true;">לפירוט מלא ></a>
+          <a (click)="setPage('detailed-files')">לפירוט מלא ></a>
         </td>
       </tr>
       </tbody>
@@ -157,46 +157,4 @@
        </p>
      </span>
 </div>
-<div [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
-   <span (click)="setPage('success')" class="float-right">
-       <p *ngIf="file || record" class="pointer mt-5 grey-color">
-         <i class="fa fa-angle-right ml-1"></i>
-         <span>חזור</span>
-       </p>
-     </span>
-  <table class="table table-borderless">
-    <thead>
-    <tr>
-      <td colspan="4">
-        <span>פירוט  </span>
-        <span [hidden]="file">רשומות</span>
-        <span [hidden]="record">קבצים</span>
-      </td>
-    </tr>
-    <tr class="thborder"><td colspan="2">פרטי התשלומים</td></tr>
-    </thead>
-    <tbody class="f-12">
-    <tr>
-      <td>שם המעסיק:</td>
-      <td>ח.פ:</td>
-      <td>שם מחלקה:</td>
-      <td>שם התהליך:</td>
-    </tr>
-    <tr>
-      <td>סכום לתשלום:</td>
-      <td>מספר תהליך:</td>
-      <td>חודש שכר:</td>
-      <td [hidden]="file">מספר רשומות:</td>
-      <td [hidden]="record">סה"כ קבוצות ששודרו:</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>מספר קבצים:</td>
-    </tr>
-    </tbody>
-  </table>
-  <app-detailed-files *ngIf="file"></app-detailed-files>
-  <app-detailed-records *ngIf="record"></app-detailed-records>
-</div>
+

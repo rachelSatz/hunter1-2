@@ -43,7 +43,7 @@ export class PaymentComponent implements OnInit {
   process_percent = 0;
   processId;
   email: string;
-  name = 'someone';
+  name = '';
   pageNumber = 2;
   process_details: ProcessDetails;
   spin: boolean;
@@ -53,9 +53,11 @@ export class PaymentComponent implements OnInit {
   file: boolean;
 
   ngOnInit() {
-
+    if (this.processDataService.activeProcess.pageNumber === 3) {
+      this.pageNumber = 2;
+    }
     this.processId = this.processDataService.activeProcess.processID || 0;
-
+    this.processDataService.activeProcess.pageNumber = 2;
     this.processService.getUploadFile(this.processId)
       .then(response => {
         this.process_details = response;
@@ -65,6 +67,7 @@ export class PaymentComponent implements OnInit {
                 this.process_percent = 100;
                 setTimeout(() => {
                   this.pageNumber = 2;
+                  this.processDataService.activeProcess.pageNumber = 3;
                 }, 2000);
                 break;
               }
@@ -98,7 +101,6 @@ export class PaymentComponent implements OnInit {
   openErrorDialog(): void {
     this.dialog.open(ErrorMessageComponent, {
       width: '550px'
-      // panelClass: 'email-dialog'
     });
   }
 
@@ -127,6 +129,7 @@ export class PaymentComponent implements OnInit {
   setPage(page) {
     switch (page) {
       case 'new': {
+        this.processDataService.activeProcess.pageNumber = 1;
         this.router.navigate(['/platform', 'process', 'new'], { relativeTo: this.route });
         break;
       }
@@ -142,10 +145,20 @@ export class PaymentComponent implements OnInit {
         this.router.navigate(['platform', 'dashboard']);
         break;
       }
+      // delete
       case 'success': {
         this.pageNumber = 2;
         this.record = false;
         this.file = false;
+        break;
+      }
+      case 'detailed-files': {
+        const files = {name: 'file'};
+        this.router.navigate(['/platform', 'process', 'new', 'details'], {queryParams: files});
+        break;
+      }
+      case 'details-records': {
+        this.router.navigate(['/platform', 'process', 'new', 'details']);
       }
     }
   }
