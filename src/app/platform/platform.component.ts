@@ -70,10 +70,12 @@ export class PlatformComponent implements OnInit {
   }
 
   getOrganizations(is_loadEmployer: boolean): void {
+    this.helpers.setPageSpinner(true);
     this.organizationService.getOrganizations().then(response => {
       this.helpers.organizations = response;
       this.organizationId = this.helpers.organizations.length > 0 ?  this.helpers.organizations[0].id : 0;
-      if (is_loadEmployer) { this.loadEmployers(this.organizationId); }
+      if (is_loadEmployer) { this.loadEmployers(this.organizationId); } else {  this.helpers.setPageSpinner(false); }
+
     });
   }
 
@@ -126,6 +128,7 @@ export class PlatformComponent implements OnInit {
     this.selectUnit.changeEmployersDepartments(this.employers, this.departments);
     this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, employerID,
       this.departments.length > 0 ? this.departmentId['id'] : 0);
+    this.helpers.setPageSpinner(false);
   }
 
   selectDepartment(departmentID: number): void {

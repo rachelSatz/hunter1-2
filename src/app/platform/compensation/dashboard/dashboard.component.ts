@@ -45,6 +45,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private globalFunc(): void {
     this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
     this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
+    this.searchCriteria['departmentId'] = this.selectUnit.currentDepartmentID;
 
     this.getDefaultDate();
     this.fetchItems();

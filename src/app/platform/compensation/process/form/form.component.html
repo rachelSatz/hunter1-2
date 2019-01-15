@@ -12,7 +12,7 @@
   <div class="d-flex" [@fade]="hasClearingEmployer ? 'inactive' : 'active' ">
     <!--<bd-select [items]="data.departments" placeholder="בחר מחלקה" (onSelect)="loadEmployees($event)" class="w-50 ml-3" ></bd-select>-->
     <!--<div class="w-50">-->
-      <bd-select [items]="data.employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel ng-required="!hasClearingEmployer"></bd-select>
+      <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel ng-required="!hasClearingEmployer"></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && employeesModel.errors ? 'active' : 'inactive'">יש לבחור עובד.</p>
     <!--</div>-->
   </div>
