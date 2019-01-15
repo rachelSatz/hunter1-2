@@ -54,7 +54,7 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
 
-    this.processId = this.processDataService.activeProcess.processID || 0;
+    // this.processId = this.processDataService.activeProcess.processID || 0;
 
     this.processService.getUploadFile(this.processId)
       .then(response => {

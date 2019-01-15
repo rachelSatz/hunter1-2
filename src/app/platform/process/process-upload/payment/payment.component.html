@@ -13,11 +13,11 @@
   <table class="table table-bordered">
     <thead>
     <tr>
-      <th scope="col">{{ processDataService.activeProcess.name + ' '
-      + processDataService.activeProcess.month + ' '
-      + processDataService.activeProcess.year }}</th>
-      <td scope="col">{{ processDataService.activeProcess.month }}</td>
-      <td scope="col">{{ processDataService.activeProcess.year }}</td>
+      <!--<th scope="col">{{ processDataService.activeProcess.name + ' '-->
+      <!--+ processDataService.activeProcess.month + ' '-->
+      <!--+ processDataService.activeProcess.year }}</th>-->
+      <!--<td scope="col">{{ processDataService.activeProcess.month }}</td>-->
+      <!--<td scope="col">{{ processDataService.activeProcess.year }}</td>-->
     </tr>
     </thead>
   </table>
@@ -158,7 +158,6 @@
      </span>
 </div>
 <div [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
-<<<<<<< HEAD
 <table class="table table-borderless">
   <thead>
   <tr>
@@ -246,5 +245,4 @@
   </table>
   <app-detailed-files *ngIf="file"></app-detailed-files>
   <app-detailed-records *ngIf="record"></app-detailed-records>
->>>>>>> ed9c61bff65825e4e5a411c258d56c2327109f86
 </div>

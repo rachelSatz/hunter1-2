@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DataTableComponent } from '../../../../../shared/data-table/data-table.component';
 import { ActivatedRoute } from '@angular/router';
 import { DataTableHeader } from '../../../../../shared/data-table/classes/data-table-header';
-import {FilterItemsPipe} from '../../../../../shared/_pipes/filter-items.pipe';
+import { MatDialog } from '@angular/material';
+import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 
 @Component({
   selector: 'app-detailed-records',
@@ -48,11 +49,29 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
     { column: 'download', label: 'סה"כ' }
   ];
 
-  constructor(route: ActivatedRoute) {
+  constructor(route: ActivatedRoute,
+              private dialog: MatDialog) {
     super(route);
   }
 
   ngOnInit() {
   }
 
+  openGroupTransferDialog(): void {
+    if (this.checkedRowItems()) {
+      const dialog = this.dialog.open(GroupTransferComponent, {
+        data: {'file_id': this.checkedItems.map(item => item.file_id)},
+        width: '550px',
+        panelClass: 'dialog-file'
+      });
+    }
+  }
+
+  checkedRowItems(): boolean {
+    if (this.checkedItems.length === 0) {
+      this.setNoneCheckedWarning();
+      return false;
+    }
+    return true;
+  }
 }
