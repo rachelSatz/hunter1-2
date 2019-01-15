@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataTableComponent } from '../../../../../shared/data-table/data-table.component';
 import { ActivatedRoute } from '@angular/router';
 import { DataTableHeader } from '../../../../../shared/data-table/classes/data-table-header';
+import {FilterItemsPipe} from '../../../../../shared/_pipes/filter-items.pipe';
 
 @Component({
   selector: 'app-detailed-records',
@@ -10,10 +11,10 @@ import { DataTableHeader } from '../../../../../shared/data-table/classes/data-t
 })
 export class DetailedRecordsComponent  extends DataTableComponent implements OnInit {
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'process_name', label: 'שם העובד' }, { column: 'process_number', label: 'תעודת זהות' },
-    { column: 'type', label: 'סוג תקבול' }, { column: 'month', label: 'מספר קופה בשכר' },
-    { column: 'amount', label: 'שם קןפה בשכר' }, { column: 'status', label: 'סוג קופה' },
+  readonly employee1 =  [
+    { column: 'talila', label: 'שם העובד' }, { column: 'process_number', label: 'תעודת זהות' },
+    { column: 'ddd', label: 'סוג תקבול' }, { column: 'month', label: 'מספר קופה בשכר' },
+    { column: 'amount', label: 'שם קופה בשכר' }, { column: 'status', label: 'סוג קופה' },
     { column: 'download', label: 'סטטוס' }, { column: 'download', label: 'מ"ה' },
     { column: 'download', label: 'חודש תשלום' }, { column: 'download', label: 'חודש ייחוס' },
     { column: 'download', label: 'שכר' }, { column: 'download', label: 'פיצויים' },
@@ -21,7 +22,33 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
     { column: 'download', label: 'סה"כ' }
   ];
 
-  constructor(route: ActivatedRoute ) {
+
+  readonly employee2 =  [
+    { column: 'tamtam', label: 'שם העובד' }, { column: 'process_number', label: 'תעודת זהות' },
+    { column: 'ddd', label: 'סוג תקבול' }, { column: 'month', label: 'מספר קופה בשכר' },
+    { column: 'amount', label: 'שם קופה בשכר' }, { column: 'status', label: 'סוג קופה' },
+    { column: 'download', label: 'סטטוס' }, { column: 'download', label: 'מ"ה' },
+    { column: 'download', label: 'חודש תשלום' }, { column: 'download', label: 'חודש ייחוס' },
+    { column: 'download', label: 'שכר' }, { column: 'download', label: 'פיצויים' },
+    { column: 'download', label: 'הפרשת מעסיק' }, { column: 'download', label: 'הפרשת עובד' },
+    { column: 'download', label: 'סה"כ' }
+  ];
+
+
+
+
+  readonly headers: DataTableHeader[] =  [
+    { column: 'process_name', label: 'שם העובד' }, { column: 'process_number', label: 'תעודת זהות' },
+    { column: 'type', label: 'סוג תקבול' }, { column: 'month', label: 'מספר קופה בשכר' },
+    { column: 'amount', label: 'שם קופה בשכר' }, { column: 'status', label: 'סוג קופה' },
+    { column: 'download', label: 'סטטוס' }, { column: 'download', label: 'מ"ה' },
+    { column: 'download', label: 'חודש תשלום' }, { column: 'download', label: 'חודש ייחוס' },
+    { column: 'download', label: 'שכר' }, { column: 'download', label: 'פיצויים' },
+    { column: 'download', label: 'הפרשת מעסיק' }, { column: 'download', label: 'הפרשת עובד' },
+    { column: 'download', label: 'סה"כ' }
+  ];
+
+  constructor(route: ActivatedRoute) {
     super(route);
   }
 

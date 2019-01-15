@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { MatFormFieldModule, MatInputModule, MatDialogModule, MatMenuModule,
+         MatProgressBarModule, MatSelectModule, MatTooltipModule, MatProgressSpinnerModule,
+
+         MatCheckboxModule } from '@angular/material';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { MatFormFieldModule, MatInputModule, MatDialogModule, MatMenuModule,
-         MatProgressBarModule, MatSelectModule, MatTooltipModule, MatProgressSpinnerModule,
-         MatCheckboxModule } from '@angular/material';
+import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
+
 import { ProcessUploadComponent } from './process-upload.component';
+import {ProcessDataService} from 'app/shared/_services/process-data-service';
 
 
 const routes: Routes = [
@@ -15,7 +19,6 @@ const routes: Routes = [
       { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule'},
       { path: 'payment', loadChildren: './payment/payment.module#PaymentModule'},
       { path: 'broadcast', loadChildren: './broadcast/broadcast.module#BroadcastModule' },
-      { path: 'payment', loadChildren: './payment/payment.module#PaymentModule'},
     ]}
 ];
 
@@ -28,6 +31,7 @@ const routes: Routes = [
     PipesModule
   ],
   declarations: [ProcessUploadComponent],
-  providers: [ProcessService, GeneralHttpService]
+  providers: [ProcessService, GeneralHttpService, ProcessDataService, FilterItemsPipe]
+
 })
 export class ProcessUploadModule {}

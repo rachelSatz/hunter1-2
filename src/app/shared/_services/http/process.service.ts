@@ -87,11 +87,19 @@ export class ProcessService extends BaseHttpService {
       .catch(response => response);
   }
 
+  transfer(processID: number): Promise<any> {
+    return this.http.post(this.endPoint  + '/Transmit', { processId: processID} , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
   getProcessDetail(processID: number): Promise<ProcessDetails> {
     return this.http.get(this.endPoint + '/' + processID + '/details', this.getTokenHeader())
       .toPromise()
       .then(response => response as ProcessDetails);
   }
+
 
   getEmployeePayments(searchCriteria: Object): Promise<Object[]> {
     const options = this.getTokenHeader();

@@ -38,7 +38,7 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
               private dialog: MatDialog,
               private  processService: ProcessService,
               protected  notificationService: NotificationService) {
-    super(route, notificationService);
+  super(route , notificationService);
   }
 
   paymentType = PaymentType;

@@ -1,6 +1,6 @@
 <p class="h4 mb-4">מעקב יתרות לפיצוים</p>
 <div class="d-flex filter-row mb-1">
-  <bd-select [items]="departments" placeholder="מחלקה" ></bd-select>
+  <!--<bd-select [items]="departments" placeholder="מחלקה" ></bd-select>-->
 </div>
 
 <div class="d-flex filter-row mb-1">
@@ -42,13 +42,13 @@
   <button class="btn blue-btn " (click)="sendCompensations()">שדר בקשה</button>
   </div>
 </div>
-<table class="table table-bordered table-hover mt-3 data-table">
+<table class="table table-hover mt-3 data-table">
   <thead>
   <tr class="table-headers">
     <th *ngIf="items.length > 0">
       <mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>
     </th>
-    <th *ngFor="let header of headers" (click)="sort(header)">
+    <th *ngFor="let header of headers; let index = index;" (click)="index < 12 &&  sort(header)">
       <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
       <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
     </th>

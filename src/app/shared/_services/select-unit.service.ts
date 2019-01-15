@@ -10,8 +10,12 @@ export class SelectUnitService {
   currentEmployerID: number;
   currentDepartmentID: number;
 
-  unitSubject: Subject<number> = new Subject();
+  currentOrganizations: any;
+  currentEmployers: any;
+  currentDepartments: any;
 
+  unitSubject: Subject<number> = new Subject();
+  unitObjSubject: Subject<object> = new Subject();
   // changeOrganization(id: number): void {
   //   this.currentOrganizationID = id;
   //   this.unitSubject.next(id);
@@ -26,6 +30,14 @@ export class SelectUnitService {
     this.currentDepartmentID = id;
     this.unitSubject.next(id);
   }
+
+  changeEmployersDepartments( employers: any, departments: any): void {
+    this.currentEmployers = employers;
+    this.currentDepartments = departments;
+    this.unitObjSubject.next(employers);
+    this.unitObjSubject.next(departments);
+  }
+
 
   changeOrganizationEmployerDepartment(organizationId: number, employerId: number, departmentId: number): void {
     this.currentEmployerID = employerId;

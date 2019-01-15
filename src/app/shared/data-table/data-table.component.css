@@ -30,12 +30,14 @@
 }
 
 .data-table th {
+  border-top: none;
   vertical-align: middle;
   text-align: center !important;
-  background-color: #808080;
-  color: #fff;
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #000000;
+  font-weight: bold;
   cursor: pointer;
-  font-weight: normal;
 }
 
 .headers th > i {
@@ -57,7 +59,7 @@
 
 .data-table td {
   padding: 0.5rem;
-  border: 1px solid #ddd;
+  /*border: 1px solid #ddd;*/
   text-align: center !important;
   font-size: 14px;
   vertical-align: middle;

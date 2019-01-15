@@ -1,0 +1,57 @@
+
+<div class="d-flex align-content-between w-75">
+    <mat-form-field class="w-50  mr-4">
+      <mat-select name="employee" placeholder="בחר עובד" [(ngModel)]="selectedEmployee">
+        <mat-option *ngFor="let type of processType" [value]="type.id">{{ type.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-50  mr-4">
+        <mat-select name="cashBox" placeholder="בחר קופה" [(ngModel)]="selectedCashBox">
+          <mat-option *ngFor="let type of processType" [value]="type.id">{{ type.name }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-50  mr-4">
+      <mat-select name="filter" placeholder="בחר סינון" [(ngModel)]="selectedFilter">
+        <mat-option *ngFor="let type of processType" [value]="type.id">{{ type.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-50 mr-4">
+      <input type="text" name="search" matInput placeholder="חיפוש" [(ngModel)]="searchParams">
+    </mat-form-field>
+  <div>
+    <button mat-button [matMenuTriggerFor]="menu" class="btn blue-btn  mr-5 mt-2">פעולות</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="openUpdatePayDateDialog('', -1)">עדכון תאריך תשלום</button>
+      <button mat-menu-item (click)=openWarningMessageComponentDialog(false)>מחיקת שורה</button>
+      <button mat-menu-item (click)=openDialogAttachReference()>צירוף אסמכתא</button>
+      <button mat-menu-item (click)=openWarningMessageComponentDialog(true)>הפוך ללא רלוונטי</button>
+    </mat-menu>
+  </div>
+</div>
+<div>
+<table class="table">
+  <thead class="thead-light">
+  <tr class="align-content-center">
+    <th scope="col" class="f-12 text-center align-middle"><mat-checkbox></mat-checkbox></th>
+    <th scope="col" class="f-12 font-weight-bold text-center align-middle" *ngFor="let header of headers">{{header.label}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th scope="row">
+      <mat-checkbox></mat-checkbox>
+    </th>
+    <td class="f-12" *ngFor="let item of employee1">{{item.column}}</td>
+  <tr>
+    <th scope="row">
+      <mat-checkbox></mat-checkbox>
+    </th>
+    <td class="f-12" *ngFor="let item of employee2">{{item.column}}</td>
+  </tr>
+  <tr *ngIf="true">
+    <td colspan="16" class="text-center bold">טבלת תהליכים ריקה.</td>
+  </tr>
+  </tbody>
+</table>
+</div>
+

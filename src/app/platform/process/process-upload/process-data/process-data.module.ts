@@ -23,7 +23,7 @@ const routes
     FormsModule,
     BdSelectModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule,
-    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, FileDropModule,MatButtonModule
+    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, FileDropModule, MatButtonModule
 ],
   declarations: [ProcessDataComponent , SelectDepComponent],
   entryComponents: [SelectDepComponent]
