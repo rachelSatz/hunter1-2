@@ -1,15 +1,30 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule} from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import {
+  MatCheckboxModule,
+  MatMenuModule,
+  MatIconModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatSelectModule,
+  MatDialogModule, MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule
+} from '@angular/material';
+
+import { NotificationService } from 'app/shared/_services/notification.service';
 import { DetailedRecordsComponent } from './detailed-records.component';
-import { FileTransferComponent } from './file-transfer/file-transfer.component';
-import {MatCheckboxModule, MatMenuModule} from '@angular/material';
+
+
 
 @NgModule({
   imports: [
     CommonModule,
-    MatCheckboxModule,
-    MatMenuModule
+    FormsModule,
+    MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule, MatMenuModule,
+    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule, MatIconModule
   ],
-  declarations: [DetailedRecordsComponent, FileTransferComponent]
+  exports: [DetailedRecordsComponent],
+  providers: [ NotificationService],
+  declarations: [DetailedRecordsComponent]
 })
 export class DetailedRecordsModule { }
