@@ -50,7 +50,7 @@ export class FormComponent implements OnInit {
   }
 
   loadEmployees(departmentID: number): void {
-    this.employees = this.data.departments.find( d => d.id === departmentID ).employees;
+    this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
   }
 
   loadProducts(companyID: number): void {

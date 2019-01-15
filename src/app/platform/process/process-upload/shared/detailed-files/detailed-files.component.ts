@@ -35,7 +35,7 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
     { column: 'file', label: 'אסמכתא' }
   ];
 
-  constructor(route: ActivatedRoute,
+  constructor(protected route: ActivatedRoute,
               private dialog: MatDialog,
               private  processService: ProcessService,
               protected  notificationService: NotificationService) {

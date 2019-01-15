@@ -21,7 +21,7 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
     { column: 'download', label: 'סה"כ' }
   ];
 
-  constructor(route: ActivatedRoute) {
+  constructor(protected route: ActivatedRoute) {
     super(route);
   }
 

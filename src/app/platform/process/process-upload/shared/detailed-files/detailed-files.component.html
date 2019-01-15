@@ -13,7 +13,7 @@
       <mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>
     </th>
     <th *ngFor="let header of headers" (click)="sort(header)">
-      <span class="pointer" >{{ header.label }}</span>
+      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
       <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
     </th>
   </tr>
@@ -55,3 +55,5 @@
   </tr>
   </tbody>
 </table>
+<!--<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>-->
+<!---->
