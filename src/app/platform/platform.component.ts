@@ -120,9 +120,12 @@ export class PlatformComponent implements OnInit {
       this.departments.sort((a, b) => a.id - b.id);
     }else {
       this.employerId = {'id': 0, 'name': 'כלל המעסיקים'};
+      this.departments = [];
     }
-    const departmentId = this.departments.length > 0 ?  this.departments[0] : 0;
-    this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, employerID, departmentId);
+    this.departmentId = this.departments.length > 0 ?  this.departments[0] : 0;
+    this.selectUnit.changeEmployersDepartments(this.employers, this.departments);
+    this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, employerID,
+      this.departments.length > 0 ? this.departmentId['id'] : 0);
   }
 
   selectDepartment(departmentID: number): void {

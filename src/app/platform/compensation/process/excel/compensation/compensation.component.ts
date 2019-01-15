@@ -60,13 +60,15 @@ export class ExcelComponent implements OnInit {
           if (this.message === undefined) {
             this.message = 'שגיאה';
             const byteCharacters = atob(response.toString());
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-              byteNumbers[i] = byteCharacters.charCodeAt(i);
+            if (byteCharacters !== '') {
+              const byteNumbers = new Array(byteCharacters.length);
+              for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+              }
+              const byteArray = new Uint8Array(byteNumbers);
+              const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+              FileSaver.saveAs(blob, 'שגיאה.xlsx');
             }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-            FileSaver.saveAs(blob, 'שגיאה.xlsx');
           }
           this.hasServerError = true;
         }else {
