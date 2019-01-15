@@ -33,11 +33,11 @@ import { NotificationService } from 'app/shared/_services/notification.service';
   ]})
 export class PaymentComponent implements OnInit {
 
-  constructor( private dialog: MatDialog, private  processService: ProcessService,
-               private route: ActivatedRoute, private router: Router,
-               protected  notificationService: NotificationService,
-               public  processDataService: ProcessDataService
-               ) {}
+  constructor(private dialog: MatDialog, private route: ActivatedRoute,
+              private router: Router, private processService: ProcessService,
+              public  processDataService: ProcessDataService,
+              protected notificationService: NotificationService) {}
+
   data;
   process_percent = 0;
   processId;
@@ -132,6 +132,12 @@ export class PaymentComponent implements OnInit {
       }
       case 'home': {
         this.router.navigate(['platform', 'dashboard']);
+        break;
+      }
+      case 'success': {
+        this.pageNumber = 2;
+        this.record = false;
+        this.file = false;
       }
     }
   }

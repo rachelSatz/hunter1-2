@@ -1,28 +1,28 @@
-<!--<div class="container">-->
 <form #form="ngForm" class="mt-5">
   <div [@fade]="pageNumber === 1 ? 'active' : 'inactive'">
     <p class="h4">נתוני תהליך</p>
     <p class="grey-color f-12 mb-2">במסך זה יש להזין את פרטי התהליך</p>
     <div class="d-flex">
       <mat-form-field class="w-50 mt-2">
-        <input matInput type="text" name="processName" ngModel placeholder="שם תהליך">
+        <input matInput type="text" name="processName" [(ngModel)]="process.name" placeholder="שם תהליך">
         <mat-hint class="grey-color f-12">בשדה זה ניתן להזין מלל חופשי אשר יתווסף לצורך זיהוי התהליך</mat-hint>
       </mat-form-field>
       <mat-form-field class="w-50 mt-2 mr-4">
-        <mat-select name="type" placeholder="סוג תהליך" [(ngModel)]="selectedType" required>
-          <mat-option *ngFor="let type of processType" [value]="type.id">{{ type.name }}</mat-option>
+        <mat-select name="type" placeholder="סוג תהליך" [(ngModel)]="process.type" required>
+          <mat-option value="positive">חיובי</mat-option>
+          <mat-option value="negative">שלילי</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div class="d-flex mt-5  mt-2 ">
       <mat-form-field class="w-50">
-        <mat-select name="year" placeholder="בחר שנה" required ngModel>
+        <mat-select name="year" placeholder="בחר שנה" [(ngModel)]="process.year" required>
           <mat-option *ngFor="let year of years" [value]="year.id">{{ year.name }}</mat-option>
         </mat-select>
         <mat-error>שדה חובה.</mat-error>
       </mat-form-field>
       <mat-form-field class="w-50 mr-4">
-        <mat-select name="month" placeholder="בחר חודש"  required ngModel>
+        <mat-select name="month" placeholder="בחר חודש" [(ngModel)]="process.monthID" required>
           <mat-option *ngFor="let month of months" [value]="month.id">{{ month.name }}</mat-option>
         </mat-select>
         <mat-error>שדה חובה.</mat-error>
@@ -40,12 +40,12 @@
           </tr>
           </thead>
         </table>
-        <div *ngIf="selectedType === 'negative'" class="w-50">
+        <div *ngIf="selectedType === 'negative' || process.type === 'negative'" class="w-50">
           <h4>העלאת תהליך שלילי</h4>
           <p class="grey-color f-12 mb-2">לבקשת החזרים כספיים מהקופות יש להעלות קובץ בפורמט XML שלילי, אשר מונפק מתכנת השכר.
             קובץ זה יועבר לקופות על מנת להשיב את הכספים אל החשבון המוגדר.XML</p>
         </div>
-        <div *ngIf="selectedType === 'positive'">
+        <div *ngIf="selectedType === 'positive' || process.type === 'positive'">
           <h4>טעינת נתונים</h4>
           <p class="grey-color f-12 mb-2">במסך זה יש לבצע טעינת נתונים מתוך קובץ XML</p>
           </div>
@@ -53,8 +53,8 @@
         <div class="mt-5">
           <mat-spinner class="mx-auto mb-3" *ngIf="spin"></mat-spinner>
           <file-drop [ngClass]="{ 'uploaded': processFile }" ng2FileDrop (onFileDrop)="getFileFromDrop($event)">
-            <i class="fa fa-times ml-2 pointer" (click)="processFile = null" *ngIf="processFile"></i>
-            <label class="text-center pointer" *ngIf="!processFile" (change)="setFile($event.target.files[0])">
+            <i class="fa fa-times ml-2 pointer" (click)="processFile = null; process.file = null" *ngIf="processFile || process.file"></i>
+            <label class="text-center pointer" *ngIf="!processFile && !process.file" (change)="setFile($event.target.files[0])">
               <img src="/assets/img/icons/cloud-backup.svg" class="mb-1 icon-lg">
               <p class="h5 grey-color">בחר קובץ להעלאה</p>
               <p class="h5 grey-color">או גרור קבצים לכאן</p>
@@ -63,6 +63,10 @@
             <div class="text-center" *ngIf="processFile">
               <i class="fa fa-check-circle-o mb-3"></i>
               <p class="text-dark">{{ processFile.name }}</p>
+            </div>
+            <div class="text-center" *ngIf="process.file">
+              <i class="fa fa-check-circle-o mb-3"></i>
+              <p class="text-dark">{{ process.file.name }}</p>
             </div>
           </file-drop>
           <p class="text-danger" *ngIf="fileTypeError">יש להעלות קבצי XML בלבד.</p>

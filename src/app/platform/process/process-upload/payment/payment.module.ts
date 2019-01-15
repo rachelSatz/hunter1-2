@@ -21,11 +21,11 @@ import { DetailedRecordsComponent } from '../shared/detailed-records/detailed-re
 import { DetailedFilesModule } from '../shared/detailed-files/detailed-files.module';
 
 
+
 const routes: Routes = [
   { path: '', component: PaymentComponent }
 
 ];
-
 
 @NgModule({
   imports: [
