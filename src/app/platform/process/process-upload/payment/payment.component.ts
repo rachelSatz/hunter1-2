@@ -10,7 +10,6 @@ import { EmailComponent } from './email/email.component';
 import { Router } from '@angular/router';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import * as FileSaver from 'file-saver';
-import { ViewProcess } from '../../../../shared/_models/process.model';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 
 
@@ -52,8 +51,6 @@ export class PaymentComponent implements OnInit {
   type: string;
   record: boolean;
   file: boolean;
-  viewProcess: ViewProcess[];
-
 
   ngOnInit() {
 
@@ -126,14 +123,6 @@ export class PaymentComponent implements OnInit {
       this.spin = false;
     });
   }
-
-  recordeDetails(): void {
-    this.processService.getFilesList(this.processId)
-      .then(response => {
-        this.viewProcess = response;
-      });
-  }
-
 
   setPage(page) {
     switch (page) {
