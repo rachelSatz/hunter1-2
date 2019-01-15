@@ -28,6 +28,7 @@ import { SendToComponent } from './send-to/send-to.component';
 import { InquiriesComponent } from './inquiries/inquiries.component';
 import { EmployeesComponent } from './excel/employees/employees.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
+import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
 
 
 const routes: Routes = [
@@ -60,7 +61,7 @@ const routes: Routes = [
     ErrorMessageComponent
   ],
   providers: [ CompensationService, DepartmentService, ProductService, NotificationService, ContactService, EmployerService,
-    FilterItemsPipe],
+    FilterItemsPipe, GeneralHttpService],
   entryComponents: [
     FormComponent,
     CommentsComponent,
@@ -70,7 +71,6 @@ const routes: Routes = [
     ExcelComponent,
     EmployeesComponent,
     InquiriesComponent,
-    CommentsComponent,
     ErrorMessageComponent
   ],
 })
