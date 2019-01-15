@@ -13,11 +13,11 @@
   <table class="table table-bordered">
     <thead>
     <tr>
-      <th scope="col">{{ processDataService.activeProcess.name + ' '
-      + processDataService.activeProcess.month + ' '
-      + processDataService.activeProcess.year }}</th>
-      <td scope="col">{{ processDataService.activeProcess.month }}</td>
-      <td scope="col">{{ processDataService.activeProcess.year }}</td>
+      <!--<th scope="col">{{ processDataService.activeProcess.name + ' '-->
+      <!--+ processDataService.activeProcess.month + ' '-->
+      <!--+ processDataService.activeProcess.year }}</th>-->
+      <!--<td scope="col">{{ processDataService.activeProcess.month }}</td>-->
+      <!--<td scope="col">{{ processDataService.activeProcess.year }}</td>-->
     </tr>
     </thead>
   </table>
@@ -74,7 +74,7 @@
         <td>מספר רשומות: </td>
         <td>{{ process_details.records_count }}</td>
         <td>
-          <a (click)="pageNumber = 4 ;record=true">לפירוט מלא ></a>
+          <a (click)="setPage('details-records')">לפירוט מלא ></a>
         </td>
       </tr>
       <tr></tr>
@@ -82,7 +82,7 @@
         <td>מספר קבצים: </td>
         <td>{{ process_details.groups_count }}</td>
         <td>
-          <a (click)="pageNumber = 4;file = true;">לפירוט מלא ></a>
+          <a (click)="setPage('detailed-files')">לפירוט מלא ></a>
         </td>
       </tr>
       </tbody>
@@ -131,49 +131,4 @@
        </p>
      </span>
 </div>
-
-<div [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
-<table class="table table-borderless">
-  <thead>
-  <tr>
-    <td colspan="4">
-      <span>פירוט  </span>
-      <span [hidden]="file">רשומות</span>
-      <span [hidden]="record">קבצים</span>
-    </td>
-  </tr>
-  </thead>
-  <tbody class="f-12">
-  <tr>
-    <td>שם המעסיק:</td>
-    <td>{{ process_details.employer_name }}</td>
-    <td>ח.פ:</td>
-    <td>{{ process_details.employer_business_number }}</td>
-    <td>שם מחלקה:</td>
-    <td>{{ process_details.department_name }}</td>
-    <td>שם התהליך:</td>
-    <td>{{ process_details.name }}</td>
-  </tr>
-  <tr>
-    <td>סכום לתשלום:</td>
-    <td>{{ process_details.total }}</td>
-    <td>מספר תהליך:</td>
-    <td>{{ process_details.id }}</td>
-    <td>חודש שכר:</td>
-    <td>{{ process_details.date | slice:5:7}}</td>
-    <td [hidden]="file">מספר רשומות:</td>
-    <td [hidden]="file">{{ process_details.records_count }}</td>
-    <td [hidden]="record">סה"כ קבוצות ששודרו:</td>
-    <td [hidden]="record"> {{ process_details.groups_count }}</td>
-  </tr>
-  <tr>
-    <td colspan="8">מספר קבצים:</td>
-    <td colspan="8">{{ process_details.groups_count }}</td>
-  </tr>
-  </tbody>
-</table>
-  <app-detailed-files *ngIf="file"></app-detailed-files>
-  <app-detailed-records *ngIf="record"></app-detailed-records>
-</div>
-
 

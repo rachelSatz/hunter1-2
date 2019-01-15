@@ -67,7 +67,6 @@ export class ProcessDataComponent implements OnInit {
 
   ngOnInit() {
     this.process = this.processDataService.activeProcess ?  this.processDataService.activeProcess : new Process();
-    console.log(this.months[this.process.month]);
   }
 
   getFileFromDrop(event) {
@@ -114,16 +113,14 @@ export class ProcessDataComponent implements OnInit {
         }
 
         if (form.value.year && form.value.month) {
+          // this.selectUnitService.currentDepartmentID === undefined
           if (this.selectUnitService.currentDepartmentID === 0) {
             this.notificationService.error('  לא ניתן להעלות קובץ ללא בחירת מחלקה\n' +
               ' אנא בחר מחלקה ונסה שנית\n');
               return;
           }
           this.pageNumber += index;
-        } if (form.value.month) {
-          this.monthValid = true;
-        } else { this.monthValid = false;
-        } if ( form.value.year ) {
+        } this.monthValid = !!form.value.month; if ( form.value.year ) {
           this.yearValid = true;
         } else { this.yearValid = false; }
         break;
@@ -148,21 +145,18 @@ export class ProcessDataComponent implements OnInit {
       this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
         const isDirect = confirmation.value;
         const data = {
-          'month': this.months[form.value.month - 1].name,
-          'monthID': this.months[form.value.month - 1].id,
+          'month': this.months[form.value.month - 1].id,
           'year': form.value['year'],
           'processName': form.value['processName'],
           'departmentId': this.selectUnitService.currentDepartmentID,
           'isDirect': isDirect,
-          'file': this.processFile,
+          // 'file': this.processFile,
           'type': this.selectedType,
           'processId': '',
           'pageNumber': 1
         };
 
-        this.processDataService.setProcess(data);
-
-        this.processService.newProcess(this.processDataService.activeProcess).then(response => {
+        this.processService.newProcess(data, this.processFile).then(response => {
           data['processId'] = response['processId'];
           this.router.navigate(['./payment'], { relativeTo: this.route });
           if (response['processId'] > 0) {
@@ -171,6 +165,11 @@ export class ProcessDataComponent implements OnInit {
           }
           this.isSubmitting = false;
         });
+
+        this.processDataService.setProcess(data);
+
+        data['file'] = this.processFile;
+
 
     });
   }

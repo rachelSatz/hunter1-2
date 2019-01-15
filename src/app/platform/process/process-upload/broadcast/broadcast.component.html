@@ -130,11 +130,11 @@
       </div>
       <div class="d-flex my-3">
         <span class="w-50 text-right">מספר קבצים:</span>
-        <span class="pointer" (click)="details('files')">לפירוט מלא ></span>
+        <span class="pointer" (click)="setPage('detailed-files')">לפירוט מלא ></span>
       </div>
       <div class="d-flex">
         <span class="w-50 text-right">מספר רשומות:</span>
-        <span (click)="details('records')" class="pointer">לפירוט מלא ></span>
+        <span (click)="setPage('detailed-records')" class="pointer">לפירוט מלא ></span>
       </div>
       <div *ngIf="!isRefund">
         <div class="d-flex mt-2">
@@ -154,11 +154,12 @@
         </div>
       </mat-checkbox>
       <div class="text-center mt-5">
-        <button class="btn blue-btn" [disabled]="!valid && !isRefund" (click)="transfer()">שידור לקופות</button>
+        <button class="btn blue-btn" [disabled]="!valid && !isRefund" (click)="transfer();
+        processDataService.activeProcess.pageNumber = 5">שידור לקופות</button>
       </div>
     </div>
 <div class="col-6 offset-3" [@fade]="pageNumber === 2? 'active': 'inactive'">
-  <p class="h5 text-center mb-5" *ngIf="isRefund">בקשת ההחזר הועברה לקופות בהצלחה!</p>
+  <p class="h5 bold text-center mb-5" *ngIf="isRefund">בקשת ההחזר הועברה לקופות בהצלחה!</p>
   <div class="text-center" *ngIf="!isRefund">
     <p class="h5 bold mb-2">שידור בוצע בהצלחה!</p>
     <p class="f-12">להלן סכום נתוני השידור</p>
@@ -182,11 +183,11 @@
   </div>
   <div class="d-flex my-3">
     <span class="w-50 text-right">מספר קבצים:</span>
-    <span>לפירוט מלא ></span>
+    <span class="pointer" (click)="setPage('detailed-files')">לפירוט מלא ></span>
   </div>
   <div class="d-flex">
     <span class="w-50 text-right">מספר רשומות:</span>
-    <span>לפירוט מלא ></span>
+    <span class="pointer" (click)="setPage('detailed-records')">לפירוט מלא ></span>
   </div>
   <div class="mt-4 d-flex" *ngIf="isRefund" >
     <p class="text-right bold red-color f-12">שים לב!</p>

@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
@@ -21,7 +23,8 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
     { column: 'download', label: 'סה"כ' }
   ];
 
-  constructor(protected route: ActivatedRoute) {
+  constructor(route: ActivatedRoute,
+              private dialog: MatDialog) {
     super(route);
   }
 
@@ -29,7 +32,22 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
     super.ngOnInit();
   }
 
-  ngOnDestroy() {
-    super.ngOnDestroy();
+  openGroupTransferDialog(): void {
+    if (this.checkedRowItems()) {
+      const dialog = this.dialog.open(GroupTransferComponent, {
+        data: {'file_id': this.checkedItems.map(item => item.file_id)},
+        width: '550px',
+        panelClass: 'dialog-file'
+      });
+    }
+  }
+
+  checkedRowItems(): boolean {
+    if (this.checkedItems.length === 0) {
+      this.setNoneCheckedWarning();
+      return false;
+    }
+    return true;
+
   }
 }
