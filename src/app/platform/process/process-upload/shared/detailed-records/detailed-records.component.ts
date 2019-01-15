@@ -33,9 +33,9 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
   }
 
   openGroupTransferDialog(): void {
-    if (this.checkedRowItems()) {
+    if (true || this.checkedRowItems()) {
       const dialog = this.dialog.open(GroupTransferComponent, {
-        data: {'file_id': this.checkedItems.map(item => item.file_id)},
+        data: {'ids': this.checkedItems.map(item => item.id)},
         width: '550px',
         panelClass: 'dialog-file'
       });
@@ -44,7 +44,7 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
 
   checkedRowItems(): boolean {
     if (this.checkedItems.length === 0) {
-      this.setNoneCheckedWarning();
+      // this.setNoneCheckedWarning();
       return false;
     }
     return true;

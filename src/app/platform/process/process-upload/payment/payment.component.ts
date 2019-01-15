@@ -46,14 +46,14 @@ export class PaymentComponent implements OnInit {
   pageNumber = 2;
   process_details: ProcessDetails;
   spin: boolean;
-  fileName: string;
-  type: string;
+  fileName = 'masav-file';
+  type = '.001';
   record: boolean;
   file: boolean;
 
   ngOnInit() {
 
-    // this.processId = this.processDataService.activeProcess.processID || 0;
+    this.processId = this.processDataService.activeProcess.processID || 0;
 
     this.processService.getUploadFile(this.processId)
       .then(response => {
@@ -102,7 +102,7 @@ export class PaymentComponent implements OnInit {
   }
 
   downloadMasav(): void {
-    this.processService.downloadMasav().then(response => {
+    this.processService.downloadMasav(this.processId).then(response => {
       const byteCharacters = atob(response);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {

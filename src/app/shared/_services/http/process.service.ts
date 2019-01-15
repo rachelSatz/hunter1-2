@@ -12,6 +12,7 @@ import { TransmissionData } from '../../_models/transmission-data.model';
 import { SendFile } from '../../_models/send-file.model';
 import { BankBranch } from '../../_models/bank-branch.model';
 import { Manufacturer } from '../../_models/manufacturer.model';
+import {promise} from 'selenium-webdriver';
 
 @Injectable()
 export class ProcessService extends BaseHttpService {
@@ -47,8 +48,8 @@ export class ProcessService extends BaseHttpService {
       .then(response => response as ViewProcess[]);
   }
 
-  downloadMasav(): Promise<string> {
-    return this.http.get(this.endPoint + '/downloadMasav', this.getTokenHeader())
+  downloadMasav(processId: number): Promise<string> {
+    return this.http.get(this.endPoint + '/' + processId + '/downloadMasav', this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);
@@ -377,8 +378,18 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .catch(() => null);
   }
 
+  groupList(): Promise<any> {
+    return this.http.get(this.endPoint + '/groupList', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
 
-
-
+  }
+  updateMTBGroup(rowIDs: number[], groupId: number): Promise<boolean> {
+    return this.http.post(this.endPoint + '/updateMTBGroup', {ids: rowIDs, groupId: groupId}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
 }
 

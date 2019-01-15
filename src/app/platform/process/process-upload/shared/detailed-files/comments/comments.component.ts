@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { GeneralHttpService } from '../../../../../../shared/_services/http/general-http.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
