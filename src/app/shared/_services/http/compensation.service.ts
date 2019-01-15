@@ -83,19 +83,7 @@ export class CompensationService extends BaseHttpService {
 
   }
 
-  newComment(compensation_id: number, content: string): Promise<boolean> {
-    return this.http.post(this.endPoint + '/' + compensation_id + '/comment', { 'content': content }, this.getTokenHeader())
-    .toPromise()
-    .then(() => true)
-    .catch(() => false);
-  }
 
-  getComments(compensationID: number): Promise<Object[]> {
-    return this.http.get(this.endPoint + '/' + compensationID + '/getComments', this.getTokenHeader())
-      .toPromise()
-      .then(response => response as Object[])
-      .catch(() => []);
-  }
 
   getInquiries(compensationID: number): Promise<Object[]> {
     return this.http.get(this.endPoint + '/' + compensationID + '/inquiries', this.getTokenHeader())

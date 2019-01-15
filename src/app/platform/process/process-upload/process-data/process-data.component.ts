@@ -171,7 +171,7 @@ export class ProcessDataComponent implements OnInit {
 
     });
   }
-  }
+}
 
 
   uploadFile(): void {

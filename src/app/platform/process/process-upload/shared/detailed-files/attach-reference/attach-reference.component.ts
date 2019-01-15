@@ -1,5 +1,8 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { NgForm } from '@angular/forms';
+import * as FileSaver from 'file-saver';
+import { ProcessService } from 'app/shared/_services/http/process.service';
 
 @Component({
   selector: 'app-attach-reference',
@@ -7,10 +10,30 @@ import {MAT_DIALOG_DATA} from '@angular/material';
 })
 export class AttachReferenceComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: object) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+              public processService: ProcessService,
+              private dialogRef: MatDialogRef<AttachReferenceComponent>) { }
   uploadedFile: File;
   typeDoc: string;
+  hasServerError: boolean;
+  message: string;
+
   ngOnInit() {
   }
-
+  submit(form: NgForm): void {
+    this.hasServerError = false;
+    if (this.uploadedFile) {
+      this.processService.uploadRef(this.uploadedFile, this.data.file_id).then(response => {
+        if (response['message'] === 'success') {
+          this.hasServerError = true;
+          this.dialogRef.close();
+        } else {
+            this.message = 'ארעה שגיאה';
+        }
+      });
+    } else {
+      this.hasServerError = true;
+      this.message = 'לא נבחר קובץ';
+    }
+  }
 }
