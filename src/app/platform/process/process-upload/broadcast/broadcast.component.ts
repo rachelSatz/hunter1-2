@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog } from '@angular/material';
-import { DateUpdateComponent } from './date-update/date-update.component';
-import { ProcessService } from 'app/shared/_services/http/process.service';
-import { ProcessDetails } from '../../../../shared/_models/process-details.model';
 import { ActivatedRoute } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
+import { Process } from 'app/shared/_models/process.model';
+import { ProcessDetails } from 'app/shared/_models/process-details.model';
+import { DateUpdateComponent } from './date-update/date-update.component';
+
+import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
-import {NotificationService} from '../../../../shared/_services/notification.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 
 @Component({
@@ -27,10 +30,13 @@ import {NotificationService} from '../../../../shared/_services/notification.ser
       transition('inactive => active', animate('300ms ease-in'))
     ])
   ],
-  providers: [ProcessService]
+  providers: [ProcessService, NotificationService]
 })
 export class BroadcastComponent implements OnInit {
 
+  process: Process;
+  file: boolean;
+  record: boolean;
   type;
   data;
   processId;
@@ -58,6 +64,7 @@ export class BroadcastComponent implements OnInit {
     } else {
       this.isRefund = true;
     }
+    this.processDataService.activeProcess.pageNumber = 3;
   }
 
   dateUpdate() {
@@ -89,6 +96,7 @@ export class BroadcastComponent implements OnInit {
     this.pageNumber = 1;
     this.isRefund = true;
   }
+
 
   transfer() {
     this.processService.transfer( this.processID)

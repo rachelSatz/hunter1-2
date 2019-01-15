@@ -12,7 +12,6 @@ import * as FileSaver from 'file-saver';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { ErrorMessageComponent } from './error-message/error-message.component';
-import { ViewProcess } from 'app/shared/_models/process.model';
 
 
 @Component({
@@ -125,8 +124,6 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-
-
   setPage(page) {
     switch (page) {
       case 'new': {
@@ -143,6 +140,12 @@ export class PaymentComponent implements OnInit {
       }
       case 'home': {
         this.router.navigate(['platform', 'dashboard']);
+        break;
+      }
+      case 'success': {
+        this.pageNumber = 2;
+        this.record = false;
+        this.file = false;
       }
     }
   }

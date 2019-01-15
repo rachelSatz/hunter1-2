@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
 
 
 @Component({
@@ -12,7 +13,8 @@ export class ProcessUploadComponent {
 
   public files: any[] = [];
 
-  constructor(public router: Router, protected route: ActivatedRoute) { }
+  constructor(public router: Router, protected route: ActivatedRoute,
+              private processDataService: ProcessDataService) { }
 
 
 
@@ -20,7 +22,7 @@ export class ProcessUploadComponent {
     const currentRoute = (this.router.url).split('/');
 
     if (currentRoute[4]) {
-      if (currentRoute[4].split('?')[0] === 'payment') {
+      if (currentRoute[4] === 'payment') {
         return 2;
       }
     }
@@ -28,6 +30,26 @@ export class ProcessUploadComponent {
     if (currentRoute[4]) {
       if (currentRoute[4].split('?')[0] === 'broadcast') {
         return 3;
+      }
+    }
+  }
+
+  setPage(route) {
+    switch (route) {
+      case 'payment': {
+        this.router.navigate(['/platform', 'process', 'new', 'payment']);
+        break;
+      }
+      case 'broadcast': {
+        // this.processDataService.activeProcess.pageNumber = 3;
+        console.log(this.processDataService.activeProcess.pageNumber);
+        this.router.navigate(['/platform', 'process', 'new', 'broadcast']);
+        break;
+      }
+      case 'new': {
+        // if (this.processDataService.activeProcess.pageNumber === 1) {
+          this.router.navigate(['/platform', 'process', 'new']);
+        // }
       }
     }
   }

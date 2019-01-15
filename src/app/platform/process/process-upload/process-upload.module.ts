@@ -11,13 +11,15 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 
 import { ProcessUploadComponent } from './process-upload.component';
-import {ProcessDataService} from 'app/shared/_services/process-data-service';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import {DetailedFilesComponent} from './shared/detailed-files/detailed-files.component';
+import {DetailedRecordsComponent} from './shared/detailed-records/detailed-records.component';
 
 
 const routes: Routes = [
       { path: '', component: ProcessUploadComponent, children: [
-      { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule'},
-      { path: 'payment', loadChildren: './payment/payment.module#PaymentModule'},
+      { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule' },
+      { path: 'payment', loadChildren: './payment/payment.module#PaymentModule' },
       { path: 'broadcast', loadChildren: './broadcast/broadcast.module#BroadcastModule' },
     ]}
 ];
@@ -31,7 +33,7 @@ const routes: Routes = [
     PipesModule
   ],
   declarations: [ProcessUploadComponent],
-  providers: [ProcessService, GeneralHttpService, ProcessDataService, FilterItemsPipe]
+  providers: [ProcessService, GeneralHttpService, ProcessDataService, FilterItemsPipe, DetailedFilesComponent, DetailedRecordsComponent]
 
 })
 export class ProcessUploadModule {}

@@ -36,14 +36,8 @@ export class ProcessDataComponent implements OnInit {
 
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  processType = [
-    { id: 'negative', name: 'שלילי' },
-    { id: 'positive', name: 'חיובי'}
-  ];
-
   selectedType: 'positive' | 'negative';
 
-  processId;
   pageNumber = 1;
   monthValid = true;
   yearValid = true;
@@ -73,6 +67,7 @@ export class ProcessDataComponent implements OnInit {
 
   ngOnInit() {
     this.process = this.processDataService.activeProcess ?  this.processDataService.activeProcess : new Process();
+    console.log(this.months[this.process.month]);
   }
 
   getFileFromDrop(event) {
@@ -98,6 +93,7 @@ export class ProcessDataComponent implements OnInit {
       this.notificationService.warning('הקובץ שהועלה אינו תואם את סוג הקובץ שבחרת', 'האם תרצה לשנות את סוג התהליך?').then(confirmation => {
         if (confirmation.value) {
           this.selectedType = this.selectedType === 'positive' ? 'negative' : 'positive';
+          this.process.type = this.selectedType;
           this.processFile = file;
         } else {
           this.processFile = null;
@@ -112,6 +108,11 @@ export class ProcessDataComponent implements OnInit {
   setPage(index: number, form: NgForm): void {
     switch (this.pageNumber) {
       case 1:
+        this.selectedType = form.value.type;
+        if ( this.selectedType ) {
+          this.process.type = this.selectedType;
+        }
+
         if (form.value.year && form.value.month) {
           if (this.selectUnitService.currentDepartmentID === 0) {
             this.notificationService.error('  לא ניתן להעלות קובץ ללא בחירת מחלקה\n' +
@@ -133,7 +134,7 @@ export class ProcessDataComponent implements OnInit {
       }
 
   paymentPopup(form: NgForm): void {
-    if (form.valid && !this.isSubmitting && this.processFile) {
+    if (form.valid && !this.isSubmitting && ( this.processFile || this.process.file )) {
       this.isSubmitting = true;
       this.hasServerError = false;
 
@@ -171,13 +172,15 @@ export class ProcessDataComponent implements OnInit {
         const isDirect = confirmation.value;
         const data = {
           'month': this.months[form.value.month - 1].name,
+          'monthID': this.months[form.value.month - 1].id,
           'year': form.value['year'],
           'processName': form.value['processName'],
           'departmentId': this.selectUnitService.currentDepartmentID,
           'isDirect': isDirect,
           'file': this.processFile,
           'type': this.selectedType,
-          'processId': ''
+          'processId': '',
+          'pageNumber': 1
         };
 
         this.processDataService.setProcess(data);
@@ -199,17 +202,5 @@ export class ProcessDataComponent implements OnInit {
 
   uploadFile(): void {
     this.router.navigate(['./', 'payment']);
-  }
-
-  next(index, form: NgForm) {
-   if (form.value.year && form.value.month) {
-     this.pageNumber += index;
-   }
-   if (index === -1) {
-     this.pageNumber = 1;
-   }
-    if (form.value.year && form.value.month) {
-      this.pageNumber += index;
-    }
   }
 }
