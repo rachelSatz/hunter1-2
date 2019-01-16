@@ -11,7 +11,6 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 
 import { ProcessUploadComponent } from './process-upload.component';
-import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { FormsModule } from '@angular/forms';
 
 
@@ -20,8 +19,8 @@ const routes: Routes = [
       { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule' },
       { path: 'payment/:id', loadChildren: './payment/payment.module#PaymentModule' },
       { path: 'broadcast', loadChildren: './broadcast/broadcast.module#BroadcastModule' },
-          { path: 'details', loadChildren: './shared/details/details.module#DetailsModule' }
-        ]}
+      { path: 'details', loadChildren: './shared/details/details.module#DetailsModule' }
+      ]}
 ];
 
 @NgModule({
@@ -33,7 +32,7 @@ const routes: Routes = [
     PipesModule, FormsModule
   ],
   declarations: [ProcessUploadComponent],
-  providers: [ProcessService, GeneralHttpService, ProcessDataService,
+  providers: [ProcessService, GeneralHttpService,
               FilterItemsPipe]
 
 })

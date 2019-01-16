@@ -18,7 +18,6 @@ import { AttachReferenceComponent } from '../shared/detailed-files/attach-refere
 import { UpdateAccountNumberComponent } from '../shared/detailed-files/update-account-number/update-account-number.component';
 import { PaymentComponent } from './payment.component';
 import { UpdatePaymentDateComponent } from '../shared/detailed-files/update-payment-date/update-payment-date.component';
-import { DetailedRecordsComponent } from '../shared/detailed-records/detailed-records.component';
 import { GroupTransferComponent } from '../shared/detailed-records/group-transfer/group-transfer.component';
 
 
@@ -41,8 +40,8 @@ const routes: Routes = [
   ],
   providers: [DatePipe, ProcessService, NotificationService],
   declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent,
-                 DetailedRecordsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
-                 UpdateAccountNumberComponent, UpdatePaymentDateComponent, GroupTransferComponent
+    UpdatePaymentTypeComponent, AttachReferenceComponent,
+    UpdateAccountNumberComponent, UpdatePaymentDateComponent, GroupTransferComponent
   ],
   entryComponents: [ EmailComponent, SendFileEmailComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
     UpdateAccountNumberComponent, UpdatePaymentDateComponent, GroupTransferComponent]

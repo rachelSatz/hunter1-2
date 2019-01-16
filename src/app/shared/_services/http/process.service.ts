@@ -346,11 +346,11 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
 
   }
 
-  downloadFileProcess(processId: number): Promise<string> {
+  downloadFileProcess(processId: number): Promise<any> {
     return this.http.get(this.endPoint + '/' + processId + '/downloadFileProcess', this.getTokenHeader())
       .toPromise()
-      .then(response => response)
-      .catch(() => null);
+      .then(response => response as any)
+      .catch(response => response as any);
   }
 
   uploadRef(uploadedFile: File, fileId: number): Promise<Object> {

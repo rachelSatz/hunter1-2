@@ -14,6 +14,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import * as FileSaver from 'file-saver';
 import { interval, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
+import {Process} from '../../../../shared/_models/process.model';
 
 
 @Component({
@@ -39,11 +40,12 @@ export class PaymentComponent implements OnInit {
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
               private router: Router, private processService: ProcessService,
               public  processDataService: ProcessDataService,
-              protected notificationService: NotificationService) {}
+              private notificationService: NotificationService) {}
 
   data;
   process_percent = 0;
   processId;
+  process: Process;
   email: string;
   name = '';
   pageNumber = 1;

@@ -143,42 +143,35 @@ export class ProcessDataComponent implements OnInit {
       const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
       this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
-        const isDirect = confirmation.value;
-        const data = {
-          'month': this.months[form.value.month - 1].id,
-          'year': form.value['year'],
-          'processName': form.value['processName'],
-          'departmentId': this.selectUnitService.currentDepartmentID,
-          'isDirect': isDirect,
-          // 'file': this.processFile,
-          'type': this.selectedType,
-          'processId': '',
-          'pageNumber': 1
-        };
+        if (confirmation['dismiss'] === 'cancel' || confirmation.value) {
+          const isDirect = !!confirmation.value;
+          const data = {
+            'month': this.months[form.value.month - 1].id,
+            'year': form.value['year'],
+            'processName': form.value['processName'],
+            'departmentId': this.selectUnitService.currentDepartmentID,
+            'isDirect': isDirect,
+            'type': this.selectedType,
+            'processId': '',
+            'pageNumber': 1
+          };
 
-        this.processService.newProcess(data, this.processFile).then(response => {
-          data['processId'] = response['processId'];
-          data['file'] = this.processFile;
+          this.processService.newProcess(data, this.processFile).then(response => {
+            data['processId'] = response['processId'];
+            data['file'] = this.processFile;
 
-          this.processDataService.setProcess(data);
-          this.router.navigate(['./payment', response['processId']], { relativeTo: this.route });
-          if (response['processId'] > 0) {
-          } else {
-            this.hasServerError = true;
-          }
+            this.processDataService.setProcess(data);
+            this.router.navigate(['./payment', response['processId']], {relativeTo: this.route});
+            if (response['processId'] > 0) {
+            } else {
+              this.hasServerError = true;
+            }
+            this.isSubmitting = false;
+          });
+        } else {
           this.isSubmitting = false;
-        });
-
-
-
-
-
-
+        }
     });
   }
 }
-
-  uploadFile(): void {
-    this.router.navigate(['./', 'payment']);
-  }
 }
