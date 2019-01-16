@@ -161,7 +161,7 @@ export class ProcessDataComponent implements OnInit {
           data['file'] = this.processFile;
 
           this.processDataService.setProcess(data);
-          this.router.navigate(['./payment'], { relativeTo: this.route });
+          this.router.navigate(['./payment', response['processId']], { relativeTo: this.route });
           if (response['processId'] > 0) {
           } else {
             this.hasServerError = true;
