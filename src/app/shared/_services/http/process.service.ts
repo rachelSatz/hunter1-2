@@ -12,7 +12,8 @@ import { TransmissionData } from '../../_models/transmission-data.model';
 import { SendFile } from '../../_models/send-file.model';
 import { BankBranch } from '../../_models/bank-branch.model';
 import { Manufacturer } from '../../_models/manufacturer.model';
-import {promise} from 'selenium-webdriver';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ProcessService extends BaseHttpService {
@@ -55,11 +56,6 @@ export class ProcessService extends BaseHttpService {
       .catch(() => null);
   }
 
-  // if (uploadedFile) {
-  //   for (let i = 0; i <= uploadedFile.length - 1 ; i++) {
-  //     formData.append('file' + i, uploadedFile[i]);
-  //   }
-  // }
   newProcess(values: any, file?: File): Promise<boolean> {
     const formData = new FormData();
     // formData.append('departmentId', values.departmentId);
@@ -313,13 +309,11 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
        .catch(response => response  as any);
   }
 
-  getUploadFile(processId: number): Promise<any> {
+  getUploadFile(processId: number): Observable<any> {
     const options = this.getTokenHeader();
     options['params'] = {processId: processId};
     return this.http.get(this.endPoint + '/UploadFile',  options)
-      .toPromise()
-      .then(response => response as ProcessDetails)
-      .catch(response => response as null);
+      .pipe( map((response: Response) => response));
   }
 
   getPaymentMailOnCompletion(processId: number): Promise<object> {

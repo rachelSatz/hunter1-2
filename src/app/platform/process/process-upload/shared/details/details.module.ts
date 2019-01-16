@@ -12,7 +12,7 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule, MatMenuModule, MatProgressBarModule,
-  MatSelectModule
+  MatSelectModule, MatTooltipModule
 } from '@angular/material';
 import {FormsModule} from '@angular/forms';
 
@@ -26,7 +26,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatDialogModule,
     MatCheckboxModule, MatSelectModule, MatChipsModule,
-    MatIconModule, MatAutocompleteModule, MatProgressBarModule, MatMenuModule,
+    MatIconModule, MatAutocompleteModule, MatProgressBarModule, MatMenuModule, MatTooltipModule,
     FormsModule
   ],
   declarations: [DetailsComponent, DetailedRecordsComponent, DetailedFilesComponent]
