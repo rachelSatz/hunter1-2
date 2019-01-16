@@ -3,11 +3,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import { ProcessStatus, ProcessType } from 'app/shared/_models/process.model';
+import {Process, ProcessStatus, ProcessType} from 'app/shared/_models/process.model';
 import { MONTHS } from 'app/shared/_const/months';
 import { Subscription } from 'rxjs';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import * as FileSaver from 'file-saver';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import {MatDialog} from '@angular/material';
+import {ProcessDataService} from '../../../shared/_services/process-data-service';
 
 @Component({
   selector: 'app-process-table',
@@ -29,13 +32,16 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
     { column: 'type', label: 'סוג תהליך' },
     { column: 'employer_name', label: 'שם מעסיק' }, { column: 'employer_name', label: 'שם מחלקה' },
     { column: 'month', label: 'חודש' }, {column: 'year', label: 'שנה' },
-    { column: 'amount', label: 'סכום' }, { column: 'status', label: 'סטטוס שידור' }
+    { column: 'amount', label: 'סכום' }, { column: 'status', label: 'סטטוס ' }
     , { column: 'download', label: 'הורדה' }
   ];
 
-  constructor(route: ActivatedRoute, private router: Router, private processService: ProcessService,
-              private selectUnit: SelectUnitService) {
-    super(route);
+  constructor(route: ActivatedRoute, private router: Router,
+              private processService: ProcessService,
+              private selectUnit: SelectUnitService,
+              protected notificationService: NotificationService,
+              public processDataService: ProcessDataService) {
+    super(route, notificationService);
     this.searchCriteria['year'] = this.year;
   }
 
@@ -48,9 +54,10 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
   fetchItems(): void {
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
+    const departmentId = this.selectUnit.currentDepartmentID;
 
     if (organizationId) {
-      this.searchCriteria['departmentId'] = employerId;
+      this.searchCriteria['departmentId'] = departmentId;
       this.searchCriteria['employerId'] = employerId;
       this.searchCriteria['organizationId'] = organizationId;
       this.processService.getProcesses(this.searchCriteria).then(response => this.setItems(response));
@@ -66,23 +73,34 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
     this.router.navigate(['platform', 'process' , 'new']);
   }
 
-  downloadFileProcess(): void {
-    this.processService.downloadFileProcess(1).then(response => {
+  downloadFileProcess(processId: number): void {
+    this.processService.downloadFileProcess(processId).then(response => {
       if (response) {
-        const byteCharacters = atob(response);
+        const byteCharacters = atob(response['blob']);
         const byteNumbers = new Array(byteCharacters.length);
         console.log(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
           byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
         const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'application/pdf'});
+        const blob = new Blob([byteArray], {type: 'application/dat'});
         const fileURL = URL.createObjectURL(blob);
-          FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
+          FileSaver.saveAs(blob, response['fileName']);
       }else {
         this.notificationService.error('', ' אין אפשרות להוריד את הקובץ '   );
       }
     });
   }
 
+  moveProcess(process: Process): void {
+   if (process.status === 'Loading' || process.status ===  'Processing') {
+     const data = {
+       'pageNumber': 1
+     };
+
+     this.processDataService.setProcess(data);
+
+     this.router.navigate(['platform', 'process' , 'new', 'payment', process.id]);
+   }
+  }
 }

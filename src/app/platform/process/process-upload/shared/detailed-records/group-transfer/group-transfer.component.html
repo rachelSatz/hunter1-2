@@ -1,3 +1,25 @@
-<p>
-  group-transfer works!
-</p>
+<div class="dialog-header float-left mb-1 d-flex">
+  <button mat-dialog-close class="float-left">
+    <i class="fa fa-close"></i>
+  </button>
+</div>
+<form #form="ngForm">
+  <div class="mt-1">
+    <h6 class="bold">העברת קבוצה</h6>
+    <br>
+    <div>
+      <div class="d-flex align-items-center">
+        <div class="bd-select-container">
+        <bd-select  [(ngModel)]="groupId" name="groupId" [items]="groups"  placeholder="בחר קבוצה" (onSelect)="selectedGroup()"></bd-select>
+        </div>
+      </div>
+      <div>
+        <span (click)="showDiv(isShow)"> > העבר לקבוצה חדשה</span>
+        <div *ngIf="isShow">טקסט כלשהוא</div>
+      </div>
+    </div>
+    <div class="text-center">
+      <button class="btn blue-btn" (click)="submit(form)">העברה</button>
+    </div>
+  </div>
+</form>

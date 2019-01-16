@@ -48,9 +48,9 @@
       <td>{{ item.date | date:'MM'}}</td>
       <td>{{ item.date | date:'yyyy' }}</td>
       <td>{{ item.total  }}</td>
-      <td>{{ processStatus[item.status] }}</td>
+      <td (click)="moveProcess(item)">{{ processStatus[item.status] }}</td>
       <td>
-        <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id, 'download')" >
+        <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)" >
         </i>
       </td>
 

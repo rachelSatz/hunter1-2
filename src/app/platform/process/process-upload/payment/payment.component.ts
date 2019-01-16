@@ -8,10 +8,13 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 import { EmailComponent } from './email/email.component';
 import { Router } from '@angular/router';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
-import * as FileSaver from 'file-saver';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import {ErrorMessageComponent} from '../../../compensation/process/error-message/error-message.component';
+
+import * as FileSaver from 'file-saver';
+import { interval, Subscription } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
+import {Process} from '../../../../shared/_models/process.model';
 
 
 @Component({
@@ -37,20 +40,23 @@ export class PaymentComponent implements OnInit {
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
               private router: Router, private processService: ProcessService,
               public  processDataService: ProcessDataService,
-              protected notificationService: NotificationService) {}
+              private notificationService: NotificationService) {}
 
   data;
   process_percent = 0;
   processId;
+  process: Process;
   email: string;
   name = '';
-  pageNumber = 2;
+  pageNumber = 1;
   process_details: ProcessDetails;
   spin: boolean;
-  fileName: string;
-  type: string;
+  fileName = 'masav-file';
+  type = '.001';
   record: boolean;
   file: boolean;
+  inter = <any>interval(5000);
+  sub = new Subscription;
 
   ngOnInit() {
 
@@ -65,49 +71,49 @@ export class PaymentComponent implements OnInit {
     });
 
     this.processDataService.activeProcess.pageNumber = 2;
-    this.processService.getUploadFile(this.processId)
-      .then(response => {
-        this.process_details = response;
-          if (this.process_details.status !== null) {
-            switch (this.process_details.status) {
-              case 'Progressing': {
-                this.process_percent = 100;
-                setTimeout(() => {
-                  this.pageNumber = 2;
-                  this.processDataService.activeProcess.pageNumber = 3;
-                }, 2000);
-                break;
-              }
-              case 'Loading': {
-                this.process_percent = this.process_details.percent;
-                break;
-              }
-              case 'Error_Loading': {
-                this.notificationService.error('אירעה שגיאה בהעלאת הקובץ');
-                break;
-              }
-              default: {
-                break;
-              }
-            }
-          }
-        });
+
+
+    this.sub = this.inter.pipe(
+      startWith(0),
+      switchMap(() => this.processService.getUploadFile(this.processId))
+    ).subscribe(response => {
+       this.set_process(response);
+    });
+  }
+
+  set_process(response): void {
+    this.process_details = response;
+    if (this.process_details.status !== null) {
+      switch (this.process_details.status) {
+        case 'Processing': {
+          this.process_percent = 100;
+          setTimeout(() => {
+            this.pageNumber = 2;
+            this.processDataService.activeProcess.pageNumber = 3;
+            this.sub.unsubscribe();
+          }, 2000);
+          break;
+        }
+        case 'Loading': {
+          this.process_percent = this.process_details.percent;
+          break;
+        }
+        case 'Error_Loading': {
+          this.notificationService.error('אירעה שגיאה בהעלאת הקובץ');
+          this.sub.unsubscribe();
+        }
+      }
+    }
   }
 
   openDialog(): void {
-    this.processService.getEmailUser().then( response => {
-      this.email = response['email'];
+    this.processService.getPaymentMailOnCompletion(this.processId).then( response => {
+      this.email = response['email_address'];
       this.dialog.open(EmailComponent, {
         data: this.email,
         width: '550px',
         panelClass: 'email-dialog'
       });
-    });
-  }
-
-  openErrorDialog(): void {
-    this.dialog.open(ErrorMessageComponent, {
-      width: '550px'
     });
   }
 
@@ -119,7 +125,7 @@ export class PaymentComponent implements OnInit {
   }
 
   downloadMasav(): void {
-    this.processService.downloadMasav().then(response => {
+    this.processService.downloadMasav(this.processId).then(response => {
       const byteCharacters = atob(response);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {

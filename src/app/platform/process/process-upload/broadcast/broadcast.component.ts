@@ -78,21 +78,6 @@ export class BroadcastComponent implements OnInit {
     );
   }
 
-  getData() {
-    this.processService.getUploadFile(this.processID)
-      .then(response => {
-        this.process_details = response;
-        switch (this.process_details.status) {
-          case 'Loading': {
-            break;
-          }
-          case 'Error_Loading': {
-            break;
-          }
-        }
-      });
-  }
-
   Refund() {
     this.processDataService.activeProcess = new Process();
     this.processDataService.activeProcess.type = 'negative';
@@ -121,7 +106,5 @@ export class BroadcastComponent implements OnInit {
    } else {
      this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
    }
-
   }
-
 }

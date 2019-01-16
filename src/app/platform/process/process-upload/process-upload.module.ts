@@ -11,7 +11,6 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 
 import { ProcessUploadComponent } from './process-upload.component';
-import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { FormsModule } from '@angular/forms';
 
 
@@ -33,7 +32,7 @@ const routes: Routes = [
     PipesModule, FormsModule
   ],
   declarations: [ProcessUploadComponent],
-  providers: [ProcessService, GeneralHttpService, ProcessDataService,
+  providers: [ProcessService, GeneralHttpService,
               FilterItemsPipe]
 
 })

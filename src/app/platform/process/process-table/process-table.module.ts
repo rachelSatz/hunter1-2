@@ -4,13 +4,13 @@ import {  FormsModule } from '@angular/forms';
 import {  RouterModule, Routes } from '@angular/router';
 
 import { ProcessTableComponent } from './process-table.component';
-import {  DataTableModule } from 'app/shared/data-table/data-table.module';
-import {  ProcessService } from 'app/shared/_services/http/process.service';
-import {PaymentComponent} from '../process-upload/payment/payment.component';
+
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 const routes: Routes = [
   { path: '', component: ProcessTableComponent },
-  { path: 'test', component: PaymentComponent },
   { path: 'payment', loadChildren: '../process-upload/payment/payment.module#PaymentModule' }
 ];
 
@@ -22,6 +22,6 @@ const routes: Routes = [
     DataTableModule
   ],
   declarations: [ProcessTableComponent],
-  providers: [ProcessService],
+  providers: [ProcessService, NotificationService],
 })
 export class ProcessTableModule { }
