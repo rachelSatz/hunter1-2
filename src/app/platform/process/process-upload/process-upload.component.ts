@@ -14,28 +14,25 @@ export class ProcessUploadComponent {
   public files: any[] = [];
 
   constructor(public router: Router, protected route: ActivatedRoute,
-              private processDataService: ProcessDataService) { }
-
-
+              private processDataService: ProcessDataService) {}
 
   setHeaderColor(): number {
     const currentRoute = (this.router.url).split('/');
-
-    if (currentRoute[4]) {
-      if (currentRoute[4] === 'payment') {
+    if (currentRoute[5]) {
+      if (currentRoute[5] === 'payment') {
         return 2;
       }
-      if (currentRoute[4].split('?')[0] === 'broadcast') {
+
+      if (currentRoute[5].split('?')[0] === 'broadcast') {
         return 3;
     }
-    if (currentRoute[4]) {
-        if (currentRoute[4].split('?')[0] === 'details') {
+    if (currentRoute[5]) {
+        if (currentRoute[5].split('?')[0] === 'details') {
           if (this.processDataService.activeProcess.pageNumber >= 4) {
             return 3;
-          } else {
-            return 2;
           }
         }
+        return 2;
       }
     }
   }
@@ -59,7 +56,6 @@ export class ProcessUploadComponent {
         break;
       }
       case 'broadcast': {
-        console.log(this.processDataService.activeProcess.pageNumber);
         this.router.navigate(['/platform', 'process', 'new', 'broadcast']);
         break;
       }
@@ -71,4 +67,7 @@ export class ProcessUploadComponent {
       }
     }
   }
+
 }
+
+

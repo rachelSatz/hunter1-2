@@ -13,16 +13,17 @@
   <table class="table table-bordered">
     <thead>
     <tr>
-      <!--<th scope="col">{{ processDataService.activeProcess.name + ' '-->
-      <!--+ processDataService.activeProcess.month + ' '-->
-      <!--+ processDataService.activeProcess.year }}</th>-->
-      <!--<td scope="col">{{ processDataService.activeProcess.month }}</td>-->
-      <!--<td scope="col">{{ processDataService.activeProcess.year }}</td>-->
+      <th scope="col">{{ processDataService.activeProcess.name + ' '
+      + processDataService.activeProcess.monthName + ' '
+      + processDataService.activeProcess.year }}</th>
+      <td scope="col">{{ processDataService.activeProcess.monthName }}</td>
+      <td scope="col">{{ processDataService.activeProcess.year }}</td>
     </tr>
     </thead>
   </table>
   <br>
   <h5 class="bold">הקובץ נטען בהצלחה</h5>
+  <!--<button [routerLink]="['./' 6]">tamtam</button>-->
   <p class="f-12">להלן פרטי נתונים הפנסיונים לשידור לקופות </p>
   <p class="f-12 bold">יש לאשר לפני השידור</p>
 <div class="container w-75">

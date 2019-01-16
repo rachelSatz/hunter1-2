@@ -26,8 +26,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatDialogModule,
     MatCheckboxModule, MatSelectModule, MatChipsModule,
-    MatIconModule, MatAutocompleteModule, MatProgressBarModule, MatMenuModule, MatTooltipModule,
-    FormsModule
+    MatIconModule, MatAutocompleteModule, MatProgressBarModule, MatMenuModule,
+    FormsModule, MatTooltipModule
   ],
   declarations: [DetailsComponent, DetailedRecordsComponent, DetailedFilesComponent]
 })

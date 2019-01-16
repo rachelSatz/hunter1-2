@@ -11,12 +11,14 @@ export class ProcessDataService {
     this.activeProcess.pageNumber = data['pageNumber'];
     this.activeProcess.year = data['year'];
     this.activeProcess.month = data['month'];
+    this.activeProcess.monthName = data['monthName']
     this.activeProcess.name = data['processName'];
     this.activeProcess.type = data['type'];
     this.activeProcess.processID = data['processId'];
     this.activeProcess.departmentId = data['departmentId'];
     this.activeProcess.isDirect = data['isDirect'];
     this.activeProcess.file = data['file'];
+    this.activeProcess.pageIndex = 2;
   }
 }
 

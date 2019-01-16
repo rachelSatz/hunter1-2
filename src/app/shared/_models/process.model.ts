@@ -9,7 +9,7 @@ export class Process {
   department_name: string;
   employer: Employer;
   month;
-  monthID;
+  monthName;
   year;
   totalPaymentFile?: number;
   codeFile: number ;
@@ -27,6 +27,7 @@ export class Process {
   status: string;
   type: string;
   isDirect: boolean;
+  pageIndex;
   file;
   processID: number;
   departmentId;

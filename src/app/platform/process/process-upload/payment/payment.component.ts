@@ -63,7 +63,13 @@ export class PaymentComponent implements OnInit {
     if (this.processDataService.activeProcess.pageNumber === 3) {
       this.pageNumber = 2;
     }
-    this.processId = this.processDataService.activeProcess.processID || 0;
+    // this.processId = this.processDataService.activeProcess.processID || 0;
+   this.processId = this.route.snapshot.params['id'];
+
+    this.route.params.subscribe(params => {
+       this.processId = params['id'];
+    });
+
     this.processDataService.activeProcess.pageNumber = 2;
 
 
@@ -143,11 +149,11 @@ export class PaymentComponent implements OnInit {
     switch (page) {
       case 'new': {
         this.processDataService.activeProcess.pageNumber = 1;
-        this.router.navigate(['/platform', 'process', 'new'], { relativeTo: this.route });
+        this.router.navigate(['/platform', 'process', 'new', 1], { relativeTo: this.route });
         break;
       }
       case 'broadcast': {
-        this.router.navigate(['/platform', 'process', 'new', 'broadcast']);
+        this.router.navigate(['/platform', 'process', 'new', 1, 'broadcast']);
         break;
       }
       case 'payment': {
@@ -167,11 +173,15 @@ export class PaymentComponent implements OnInit {
       }
       case 'detailed-files': {
         const files = {name: 'file'};
-        this.router.navigate(['/platform', 'process', 'new', 'details'], {queryParams: files});
+        this.router.navigate(['/platform', 'process', 'new', 1, 'details'], {queryParams: files});
+        break;
+      }
+      case 's': {
+        this.router.navigate([])
         break;
       }
       case 'details-records': {
-        this.router.navigate(['/platform', 'process', 'new', 'details']);
+        this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
       }
     }
   }

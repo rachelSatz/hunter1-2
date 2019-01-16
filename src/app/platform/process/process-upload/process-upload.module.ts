@@ -15,12 +15,12 @@ import { FormsModule } from '@angular/forms';
 
 
 const routes: Routes = [
-      { path: '', component: ProcessUploadComponent, children: [
-      { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule' },
-      { path: 'payment/:id', loadChildren: './payment/payment.module#PaymentModule' },
-      { path: 'broadcast', loadChildren: './broadcast/broadcast.module#BroadcastModule' },
-      { path: 'details', loadChildren: './shared/details/details.module#DetailsModule' }
-      ]}
+              { path: '', component: ProcessUploadComponent, children: [
+              { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule' },
+              { path: 'payment/:id', loadChildren: './payment/payment.module#PaymentModule' },
+              { path: 'broadcast', loadChildren: './broadcast/broadcast.module#BroadcastModule' },
+              { path: 'details', loadChildren: './shared/details/details.module#DetailsModule' }
+            ]}
 ];
 
 @NgModule({

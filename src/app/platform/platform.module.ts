@@ -23,7 +23,7 @@ const routes: Routes = [
       { path: 'settings/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
       { path: 'settings/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
       { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
-      { path: 'process/new', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
+      { path: 'process/new/:status', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' }
     ]
   }

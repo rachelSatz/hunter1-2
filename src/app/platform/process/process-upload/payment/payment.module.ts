@@ -3,8 +3,9 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FileDropModule } from 'ngx-file-drop';
-import { MatAutocompleteModule, MatCheckboxModule, MatChipsModule, MatDialogModule, MatFormFieldModule, MatIconModule,
-  MatInputModule, MatSelectModule, MatProgressBarModule, MatMenuModule} from '@angular/material';
+import { MatAutocompleteModule, MatCheckboxModule, MatChipsModule,
+         MatDialogModule, MatFormFieldModule, MatIconModule,
+         MatInputModule, MatSelectModule, MatProgressBarModule, MatMenuModule} from '@angular/material';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
@@ -36,6 +37,7 @@ const routes: Routes = [
     MatChipsModule, MatIconModule, MatAutocompleteModule, MatProgressBarModule, MatMenuModule,
     BdSelectModule,
     PipesModule,
+
     DatePickerModule
   ],
   providers: [DatePipe, ProcessService, NotificationService],
@@ -45,6 +47,7 @@ const routes: Routes = [
   ],
   entryComponents: [ EmailComponent, SendFileEmailComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
     UpdateAccountNumberComponent, UpdatePaymentDateComponent, GroupTransferComponent]
+
 })
 export class PaymentModule {
 
