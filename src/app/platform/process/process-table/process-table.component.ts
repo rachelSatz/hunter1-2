@@ -29,7 +29,7 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
     { column: 'type', label: 'סוג תהליך' },
     { column: 'employer_name', label: 'שם מעסיק' }, { column: 'employer_name', label: 'שם מחלקה' },
     { column: 'month', label: 'חודש' }, {column: 'year', label: 'שנה' },
-    { column: 'amount', label: 'סכום' }, { column: 'status', label: 'סטטוס שידור' }
+    { column: 'amount', label: 'סכום' }, { column: 'status', label: 'סטטוס ' }
     , { column: 'download', label: 'הורדה' }
   ];
 
@@ -48,9 +48,10 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
   fetchItems(): void {
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
+    const departmentId = this.selectUnit.currentDepartmentID;
 
     if (organizationId) {
-      this.searchCriteria['departmentId'] = employerId;
+      this.searchCriteria['departmentId'] = departmentId;
       this.searchCriteria['employerId'] = employerId;
       this.searchCriteria['organizationId'] = organizationId;
       this.processService.getProcesses(this.searchCriteria).then(response => this.setItems(response));
@@ -85,4 +86,9 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
     });
   }
 
+  moveProcess(status: string, processId: number): void {
+   if (status === 'Loading' || 'Processing') {
+     this.router.navigate(['platform', 'process' , 'new', 'payment', processId]);
+   }
+  }
 }
