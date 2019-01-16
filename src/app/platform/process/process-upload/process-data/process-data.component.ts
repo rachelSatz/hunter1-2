@@ -163,9 +163,10 @@ export class ProcessDataComponent implements OnInit {
           this.processService.newProcess(data, this.processFile).then(response => {
             data['processId'] = response['processId'];
             data['file'] = this.processFile;
+            data['monthName'] = this.months[form.value.month - 1].name;
 
             this.processDataService.setProcess(data);
-            this.router.navigate(['./payment', response['processId']], {relativeTo: this.route});
+            this.router.navigate(['./payment', 5], {relativeTo: this.route});
             if (response['processId'] > 0) {
             } else {
               this.hasServerError = true;

@@ -9,7 +9,7 @@ export class Process {
   department_name: string;
   employer: Employer;
   month;
-  monthID;
+  monthName;
   year;
   totalPaymentFile?: number;
   codeFile: number ;

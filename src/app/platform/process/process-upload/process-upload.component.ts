@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 
@@ -37,14 +37,7 @@ export class ProcessUploadComponent {
     }
   }
 
-
-
-
-
-
-
   setPage(route) {
-    console.log(this.route.snapshot)
     if (this.processDataService.activeProcess === undefined) {
       return;
     }
@@ -63,7 +56,6 @@ export class ProcessUploadComponent {
         break;
       }
       case 'broadcast': {
-        console.log(this.processDataService.activeProcess.pageNumber);
         this.router.navigate(['/platform', 'process', 'new', 'broadcast']);
         break;
       }
