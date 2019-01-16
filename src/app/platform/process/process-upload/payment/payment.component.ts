@@ -44,7 +44,7 @@ export class PaymentComponent implements OnInit {
   processId;
   email: string;
   name = '';
-  pageNumber = 1;
+  pageNumber = 2;
   process_details: ProcessDetails;
   spin: boolean;
   fileName: string;
