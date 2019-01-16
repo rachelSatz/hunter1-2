@@ -27,6 +27,7 @@ export class Process {
   status: string;
   type: string;
   isDirect: boolean;
+  pageIndex;
   file;
   processID: number;
   departmentId;

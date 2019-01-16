@@ -27,7 +27,7 @@ export class PlatformComponent implements OnInit {
         { url: 'dashboard', label: 'מצג סטטוסים' }
       ]},
     { url: 'process', label: 'תהליכים', subMenuLinks: [
-      { url: 'new', label: 'צור תהליך חדש' },
+      { url: 'new/0', label: 'צור תהליך חדש' },
       { url: 'table', label: 'תהליכים' }
     ]},
     // { url: 'feedback', label: 'היזונים חוזרים', subMenuLinks: [
@@ -133,5 +133,8 @@ export class PlatformComponent implements OnInit {
 
   selectDepartment(departmentID: number): void {
     this.selectUnit.changeDepartment(departmentID);
+  }
+  test() {
+    console.log('skdjflkjs');
   }
 }

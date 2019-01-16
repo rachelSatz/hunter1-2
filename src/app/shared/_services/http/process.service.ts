@@ -376,9 +376,5 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .then(response => response)
       .catch(() => null);
   }
-
-
-
-
 }
 

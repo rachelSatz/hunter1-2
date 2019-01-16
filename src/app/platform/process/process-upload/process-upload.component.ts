@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 
@@ -14,33 +14,37 @@ export class ProcessUploadComponent {
   public files: any[] = [];
 
   constructor(public router: Router, protected route: ActivatedRoute,
-              private processDataService: ProcessDataService) { }
-
-
+              private processDataService: ProcessDataService) {}
 
   setHeaderColor(): number {
     const currentRoute = (this.router.url).split('/');
-
-    if (currentRoute[4]) {
-      if (currentRoute[4] === 'payment') {
+    if (currentRoute[5]) {
+      if (currentRoute[5] === 'payment') {
         return 2;
       }
-      if (currentRoute[4].split('?')[0] === 'broadcast') {
+
+      if (currentRoute[5].split('?')[0] === 'broadcast') {
         return 3;
     }
-    if (currentRoute[4]) {
-        if (currentRoute[4].split('?')[0] === 'details') {
+    if (currentRoute[5]) {
+        if (currentRoute[5].split('?')[0] === 'details') {
           if (this.processDataService.activeProcess.pageNumber >= 4) {
             return 3;
-          } else {
-            return 2;
           }
         }
+        return 2;
       }
     }
   }
 
+
+
+
+
+
+
   setPage(route) {
+    console.log(this.route.snapshot)
     if (this.processDataService.activeProcess === undefined) {
       return;
     }
@@ -71,4 +75,7 @@ export class ProcessUploadComponent {
       }
     }
   }
+
 }
+
+

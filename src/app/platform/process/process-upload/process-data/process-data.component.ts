@@ -37,7 +37,6 @@ export class ProcessDataComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
 
   selectedType: 'positive' | 'negative';
-
   pageNumber = 1;
   monthValid = true;
   yearValid = true;
@@ -66,6 +65,11 @@ export class ProcessDataComponent implements OnInit {
               public processDataService: ProcessDataService) {}
 
   ngOnInit() {
+
+    if (this.route.snapshot.params.status === '0') {
+        this.processDataService.activeProcess = null;
+    }
+
     this.process = this.processDataService.activeProcess ?  this.processDataService.activeProcess : new Process();
   }
 
@@ -120,9 +124,9 @@ export class ProcessDataComponent implements OnInit {
               return;
           }
           this.pageNumber += index;
-        } this.monthValid = !!form.value.month; if ( form.value.year ) {
-          this.yearValid = true;
-        } else { this.yearValid = false; }
+        }
+        this.monthValid = !!form.value.month;
+        this.yearValid = !!form.value.year;
         break;
         case 2:
           this.hasServerError = false;
@@ -160,9 +164,8 @@ export class ProcessDataComponent implements OnInit {
         this.processDataService.setProcess(data);
 
         this.processService.newProcess(this.processDataService.activeProcess).then(response => {
-          data['processId'] = response['processId'];
-          this.router.navigate(['./payment'], { relativeTo: this.route });
-          if (response['processId'] > 0) {
+          if (response['processId']) {
+            this.router.navigate(['./payment', response['processId']], { relativeTo: this.route });
           } else {
             this.hasServerError = true;
           }
