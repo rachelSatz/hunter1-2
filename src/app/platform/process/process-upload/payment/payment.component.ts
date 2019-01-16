@@ -8,12 +8,12 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 import { EmailComponent } from './email/email.component';
 import { Router } from '@angular/router';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
-import * as FileSaver from 'file-saver';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import {ErrorMessageComponent} from '../../../compensation/process/error-message/error-message.component';
+
+import * as FileSaver from 'file-saver';
 import { interval, Subscription } from 'rxjs';
-import { startWith, switchMap, take } from 'rxjs/operators';
+import { startWith, switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -105,12 +105,6 @@ export class PaymentComponent implements OnInit {
         width: '550px',
         panelClass: 'email-dialog'
       });
-    });
-  }
-
-  openErrorDialog(): void {
-    this.dialog.open(ErrorMessageComponent, {
-      width: '550px'
     });
   }
 
