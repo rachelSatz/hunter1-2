@@ -95,6 +95,12 @@ export class PaymentComponent implements OnInit {
         case 'Error_Loading': {
           this.notificationService.error('אירעה שגיאה בהעלאת הקובץ');
           this.sub.unsubscribe();
+          break;
+        }
+        case 'Done_Processing': {
+          this.pageNumber = 3;
+          this.sub.unsubscribe();
+          break;
         }
       }
     }

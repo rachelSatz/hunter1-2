@@ -316,6 +316,16 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .pipe( map((response: Response) => response));
   }
 
+  getUploadFileDone(processId: number): Promise<ProcessDetails> {
+    const options = this.getTokenHeader();
+    options['params'] = {processId: processId};
+    return this.http.get(this.endPoint + '/UploadFile',  options)
+      .toPromise()
+      .then(response => response as ProcessDetails)
+      .catch(response => response);
+  }
+
+
   getPaymentMailOnCompletion(processId: number): Promise<object> {
     return this.http.post(this.endPoint  + '/PaymentMailOnCompletion', { processId: processId}, this.getTokenHeader())
       .toPromise()

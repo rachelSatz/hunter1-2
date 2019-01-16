@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { MonthlyTransferBlockService } from '../../../../../shared/_services/http/monthly-transfer-block';
 
 @Component({
   selector: 'app-detailed-records',
@@ -23,7 +24,7 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
   ];
 
   constructor(route: ActivatedRoute,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,  private  monthlyTransferBlockService: MonthlyTransferBlockService ) {
     super(route);
   }
 
@@ -48,5 +49,30 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
     }
     return true;
 
+  }
+
+  openWarningMessageComponentDialog(type: string): void {
+    const title = type ? 'לא רלונטי' : 'מחיקת שורות';
+    const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלונטית?' : 'האם ברצונך למחוק שורת אלו?';
+    const typeData = type ? 'notRelevant' : 'delete';
+    if (this.checkedRowItems()) {
+
+      const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+
+      this.notificationService.warning( title, body, buttons).then(confirmation => {
+        if (confirmation.value) {
+          this.monthlyTransferBlockService.update( typeData, '' , this.checkedItems.map(item => item.id))
+            .then( response => {
+              if (response) {
+                this.checkedItems = [];
+                this.isCheckAll = false;
+                this.fetchItems();
+              } else {
+                this.notificationService.error( '', 'הפעולה נכשלה');
+              }
+            });
+        }
+      });
+    }
   }
 }
