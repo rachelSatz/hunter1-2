@@ -12,8 +12,7 @@ import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 
 import { ProcessUploadComponent } from './process-upload.component';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
-import {DetailedFilesComponent} from './shared/detailed-files/detailed-files.component';
-import {DetailedRecordsComponent} from './shared/detailed-records/detailed-records.component';
+import { FormsModule } from '@angular/forms';
 
 
 const routes: Routes = [
@@ -21,7 +20,8 @@ const routes: Routes = [
       { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule' },
       { path: 'payment', loadChildren: './payment/payment.module#PaymentModule' },
       { path: 'broadcast', loadChildren: './broadcast/broadcast.module#BroadcastModule' },
-    ]}
+          { path: 'details', loadChildren: './shared/details/details.module#DetailsModule' }
+        ]}
 ];
 
 @NgModule({
@@ -30,10 +30,11 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule, MatMenuModule,
     MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule,
-    PipesModule
+    PipesModule, FormsModule
   ],
   declarations: [ProcessUploadComponent],
-  providers: [ProcessService, GeneralHttpService, ProcessDataService, FilterItemsPipe, DetailedFilesComponent, DetailedRecordsComponent]
+  providers: [ProcessService, GeneralHttpService, ProcessDataService,
+              FilterItemsPipe]
 
 })
 export class ProcessUploadModule {}

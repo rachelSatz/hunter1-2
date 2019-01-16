@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import {MatCheckboxModule, MatDialogModule, MatMenuModule} from '@angular/material';
+import { MatCheckboxModule, MatDialogModule, MatMenuModule } from '@angular/material';
+
 import { DateUpdateModule } from './date-update/date-update.module';
 import { BroadcastComponent } from './broadcast.component';
 

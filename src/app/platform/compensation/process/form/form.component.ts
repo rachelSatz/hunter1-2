@@ -10,6 +10,7 @@ import { ProductService } from 'app/shared/_services/http/product.service';
 import { ProductType } from 'app/shared/_models/product.model';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -37,6 +38,8 @@ export class FormComponent implements OnInit {
   hasServerError: boolean;
   hasClearing = false;
   hasClearingEmployer = false;
+  scrollIndex = 1;
+
   dateFilter = (date: Date) =>   (!this.hasClearingEmployer  ||
     (new Date(date.getFullYear() , date.getMonth() + 1 , 0).getDate() ===  date.getDate()))
 
@@ -46,11 +49,23 @@ export class FormComponent implements OnInit {
               private productService: ProductService) {}
 
   ngOnInit() {
-    this.loadEmployees(this.data.departmentId);
+    this.loadEmployees();
   }
 
-  loadEmployees(departmentID: number): void {
-    this.departmentService.getEmployees(departmentID).then(response => this.employees = response);
+  checkLoadEmployees(scrollY: number): void {
+    console.log(scrollY);
+    if (scrollY >= 3700 * this.scrollIndex) {
+      this.scrollIndex++;
+      this.loadEmployees();
+    }
+  }
+
+  loadEmployees(): void {
+    this.departmentService.getEmployees(this.data.departmentId, this.scrollIndex)
+    .then(response => {
+      this.employees = [ ...this.employees, ...response];
+      console.log( this.employees);
+    });
   }
 
   loadProducts(companyID: number): void {

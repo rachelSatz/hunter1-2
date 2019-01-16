@@ -11,7 +11,6 @@ export class ProcessDataService {
     this.activeProcess.pageNumber = data['pageNumber'];
     this.activeProcess.year = data['year'];
     this.activeProcess.month = data['month'];
-    this.activeProcess.monthID = data['monthID'];
     this.activeProcess.name = data['processName'];
     this.activeProcess.type = data['type'];
     this.activeProcess.processID = data['processId'];

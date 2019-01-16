@@ -13,14 +13,13 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 export class DetailedRecordsComponent  extends DataTableComponent implements OnInit , OnDestroy {
 
   readonly headers: DataTableHeader[] =  [
-    { column: 'process_name', label: 'שם העובד' }, { column: 'process_number', label: 'תעודת זהות' },
-    { column: 'type', label: 'סוג תקבול' }, { column: 'month', label: 'מספר קופה בשכר' },
-    { column: 'amount', label: 'שם קופה בשכר' }, { column: 'status', label: 'סוג קופה' },
-    { column: 'download', label: 'סטטוס' }, { column: 'download', label: 'מ"ה' },
-    { column: 'download', label: 'חודש תשלום' }, { column: 'download', label: 'חודש ייחוס' },
-    { column: 'download', label: 'שכר' }, { column: 'download', label: 'פיצויים' },
-    { column: 'download', label: 'הפרשת מעסיק' }, { column: 'download', label: 'הפרשת עובד' },
-    { column: 'download', label: 'סה"כ' }
+    { column: 'employee_name', label: 'שם העובד' }, { column: 'personal_id', label: 'תעודת זהות' },
+    { column: 'deposit_type', label: 'סוג תקבול' }, { column: 'employer_product_code', label: 'מספר קופה בשכר' },
+    { column: 'employer_product_name', label: 'שם קופה בשכר' }, { column: 'employer_product_type', label: 'סוג קופה' },
+    { column: 'deposit_status', label: 'סטטוס' }, { column: 'prodect_code', label: 'מ"ה' },
+    { column: 'payment_month', label: 'חודש תשלום' }, { column: 'payment_month', label: 'חודש ייחוס' },
+    { column: 'salary', label: 'שכר' }, { column: 'sum_compensation', label: 'פיצויים' },
+    { column: 'sum_employer_benefits', label: 'הפרשת מעסיק' }, { column: 'sum_employee_benefits', label: 'הפרשת עובד' }
   ];
 
   constructor(route: ActivatedRoute,

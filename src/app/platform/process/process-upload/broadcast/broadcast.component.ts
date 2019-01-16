@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-
-import { Process } from 'app/shared/_models/process.model';
-import { ProcessDetails } from 'app/shared/_models/process-details.model';
-import { DateUpdateComponent } from './date-update/date-update.component';
 
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+
+import { Process } from 'app/shared/_models/process.model';
+import { ProcessDetails } from 'app/shared/_models/process-details.model';
+
+import { DateUpdateComponent } from './date-update/date-update.component';
+
 
 
 @Component({
@@ -51,20 +53,20 @@ export class BroadcastComponent implements OnInit {
 
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
+              private router: Router,
               private processService: ProcessService,
               private  processDataService: ProcessDataService,
               private notificationService: NotificationService) {}
 
   ngOnInit() {
-
     this.type = this.processDataService.activeProcess.type;
     this.processId = this.processDataService.activeProcess.processID;
-    if ( this.type === 'positive' ) {
-      this.isRefund = false;
+    this.isRefund = this.type !== 'positive';
+    if (this.processDataService.activeProcess.pageNumber !== 5) {
+      this.processDataService.activeProcess.pageNumber = 4;
     } else {
-      this.isRefund = true;
+      this.pageNumber = 2;
     }
-    this.processDataService.activeProcess.pageNumber = 3;
   }
 
   dateUpdate() {
@@ -107,6 +109,17 @@ export class BroadcastComponent implements OnInit {
           this.pageNumber = 2;
         }
       });
+  }
+
+  setPage(type) {
+    console.log(this.processDataService.activeProcess.pageNumber);
+    if (type === 'detailed-files') {
+     const files = {name: 'files'};
+     this.router.navigate(['/platform', 'process', 'new', 'details'], {queryParams: files});
+   } else {
+     this.router.navigate(['/platform', 'process', 'new', 'details']);
+   }
+
   }
 
 }

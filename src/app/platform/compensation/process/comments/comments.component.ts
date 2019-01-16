@@ -29,10 +29,12 @@ export class CommentsComponent implements OnInit {
   hasServerError: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation,
-              private dialogRef: MatDialogRef<CommentsComponent>, private generalService: GeneralHttpService) {}
+              private dialogRef: MatDialogRef<CommentsComponent>,
+              private generalService: GeneralHttpService) {}
 
   ngOnInit() {
-    this.generalService.getComments(this.compensation.id, 'compensation').then(response => this.comments = response);
+    this.generalService.getComments(this.compensation.id, 'compensation')
+      .then(response => this.comments = response);
   }
 
   submit(): void {

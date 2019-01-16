@@ -322,8 +322,8 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .catch(response => response as null);
   }
 
-  getEmailUser(): Promise<object> {
-    return this.http.get(this.endPoint  + '/UserEmail', this.getTokenHeader())
+  getPaymentMailOnCompletion(processId: number): Promise<object> {
+    return this.http.post(this.endPoint  + '/PaymentMailOnCompletion', { processId: processId}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
@@ -376,20 +376,6 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .toPromise()
       .then(response => response)
       .catch(() => null);
-  }
-
-  groupList(): Promise<any> {
-    return this.http.get(this.endPoint + '/groupList', this.getTokenHeader())
-      .toPromise()
-      .then(response => response)
-      .catch(() => null);
-
-  }
-  updateMTBGroup(rowIDs: number[], groupId: number): Promise<boolean> {
-    return this.http.post(this.endPoint + '/updateMTBGroup', {ids: rowIDs, groupId: groupId}, this.getTokenHeader())
-      .toPromise()
-      .then(response => response)
-      .catch(response => response);
   }
 }
 

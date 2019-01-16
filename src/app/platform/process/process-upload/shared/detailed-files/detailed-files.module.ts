@@ -14,12 +14,14 @@ MatDialogModule, MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModul
 import { DetailedFilesComponent } from './detailed-files.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule, MatMenuModule,
-    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule, MatIconModule
+    MatFormFieldModule, MatInputModule, MatSelectModule,
+    MatDialogModule, MatMenuModule, MatProgressBarModule,
+    MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule, MatIconModule
   ],
   exports: [DetailedFilesComponent],
   providers: [ NotificationService],

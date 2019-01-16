@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ProcessService } from 'app/shared/_services/http/process.service';
-import {NgForm} from '@angular/forms';
+import { NgForm } from '@angular/forms';
+import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 
 @Component({
   selector: 'app-group-transfer',
@@ -11,14 +11,14 @@ export class GroupTransferComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<GroupTransferComponent>,
-              public processService: ProcessService) { }
+              public mtbService: MonthlyTransferBlockService) { }
 
   groups: any;
   groupId: number;
   isShow = false;
 
   ngOnInit() {
-    this.processService.groupList().then(items => {
+    this.mtbService.groupList().then(items => {
       this.groups = items;
     });
   }
@@ -33,10 +33,16 @@ export class GroupTransferComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
-    this.processService.updateMTBGroup(this.data.ids, this.groupId).then( response => {
-      if (response) {
-        this.dialogRef.close();
-      }
-    });
+    if (this.groupId > 0) {
+      this.mtbService.updateMTBGroup(this.data.ids, this.groupId).then( response => {
+        if (response) {
+          this.dialogRef.close();
+        }
+      });
+    } else {
+
+    }
+
+
   }
 }
