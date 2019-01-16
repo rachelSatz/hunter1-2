@@ -93,7 +93,8 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
   }
 
   moveProcess(process: Process): void {
-   if (process.status === 'Loading' || process.status ===  'Processing') {
+    const status = this.processStatus[process.status];
+   if (status === this.processStatus.Loading || status ===  this.processStatus.Can_Be_Processed) {
      const data = {
        'pageNumber': 1
      };

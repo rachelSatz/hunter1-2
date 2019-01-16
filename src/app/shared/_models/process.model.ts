@@ -89,13 +89,13 @@ export enum ValidityStatus {
 
 export enum ProcessStatus {
   Loading = 'בטעינה',
-  Processing = 'מעבד',
-  Processed = 'מעובד',
-  Sent = 'שודר',
+  Can_Be_Processed = 'מעבד',
+  Done_Processing = 'מעובד',
+  Transmitted = 'שודר',
   Feedbacked_Once = 'פידבק ראשון' ,
   Finished = 'הסתיים'  ,
   Error_Loading = 'שגיאת טעינה',
-  Error_Sending = 'שגיאת שליחה',
+  Error_Transmiting = 'שגיאת שליחה',
 }
 
 export enum ProcessType {

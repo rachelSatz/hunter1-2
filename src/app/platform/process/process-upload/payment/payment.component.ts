@@ -85,7 +85,7 @@ export class PaymentComponent implements OnInit {
     this.process_details = response;
     if (this.process_details.status !== null) {
       switch (this.process_details.status) {
-        case 'Processing': {
+        case 'Can_Be_Processed': {
           this.process_percent = 100;
           setTimeout(() => {
             this.pageNumber = 2;
