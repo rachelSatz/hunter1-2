@@ -158,6 +158,9 @@ export class ProcessDataComponent implements OnInit {
 
         this.processService.newProcess(data, this.processFile).then(response => {
           data['processId'] = response['processId'];
+          data['file'] = this.processFile;
+
+          this.processDataService.setProcess(data);
           this.router.navigate(['./payment'], { relativeTo: this.route });
           if (response['processId'] > 0) {
           } else {
@@ -166,9 +169,9 @@ export class ProcessDataComponent implements OnInit {
           this.isSubmitting = false;
         });
 
-        this.processDataService.setProcess(data);
 
-        data['file'] = this.processFile;
+
+
 
 
     });

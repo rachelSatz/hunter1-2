@@ -44,7 +44,7 @@ export class PaymentComponent implements OnInit {
   processId;
   email: string;
   name = '';
-  pageNumber = 2;
+  pageNumber = 1;
   process_details: ProcessDetails;
   spin: boolean;
   fileName: string;
@@ -63,7 +63,7 @@ export class PaymentComponent implements OnInit {
         this.process_details = response;
           if (this.process_details.status !== null) {
             switch (this.process_details.status) {
-              case 'Progressing': {
+              case 'Processing': {
                 this.process_percent = 100;
                 setTimeout(() => {
                   this.pageNumber = 2;
