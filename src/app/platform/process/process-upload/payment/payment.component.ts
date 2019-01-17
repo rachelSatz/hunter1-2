@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
@@ -35,7 +35,8 @@ import {Process} from '../../../../shared/_models/process.model';
       transition('inactive => active', animate('300ms ease-in'))
     ])
   ]})
-export class PaymentComponent implements OnInit {
+
+export class PaymentComponent implements OnInit , OnDestroy {
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
               private router: Router, private processService: ProcessService,
@@ -185,4 +186,9 @@ export class PaymentComponent implements OnInit {
       }
     }
   }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
 }
