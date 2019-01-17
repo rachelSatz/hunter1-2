@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import {ProcessDetails} from '../../../../../shared/_models/process-details.model';
 import {ProcessService} from '../../../../../shared/_services/http/process.service';
+import {DataTableComponent} from '../../../../../shared/data-table/data-table.component';
 
 
 @Component({
@@ -11,14 +12,17 @@ import {ProcessService} from '../../../../../shared/_services/http/process.servi
   templateUrl: './details.component.html',
   providers: [NotificationService]
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent extends DataTableComponent implements OnInit {
 
   type = 'records' || 'files';
   process_details: ProcessDetails;
 
-  constructor( private router: Router,
+  constructor(route: ActivatedRoute, 
+              private router: Router,
                private processDataService: ProcessDataService,
-               private processService: ProcessService) { }
+               private processService: ProcessService) {
+    super(route);
+  }
 
   ngOnInit() {
    if (this.router.url.split('?')[1]) {
