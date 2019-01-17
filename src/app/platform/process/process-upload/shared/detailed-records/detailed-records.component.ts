@@ -33,15 +33,24 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
               protected  notificationService: NotificationService) {
   super(route , notificationService);
 }
+  employees = [];
+  products = [];
   sub = new Subscription;
 
   ngOnInit() {
+    this.monthlyTransferBlockService.getEntity(this.processDataService.activeProcess.processID)
+      .then(response => {
+        this.employees = response['employees'];
+        this.products = response['products'];
+      });
+
     this.fetchItems();
     super.ngOnInit();
   }
 
   fetchItems() {
-    this.monthlyTransferBlockService.getMonthlyList(this.processDataService.activeProcess.processID)
+    this.searchCriteria['processId'] = this.processDataService.activeProcess.processID
+    this.monthlyTransferBlockService.getMonthlyList(this.searchCriteria)
       .then(response => this.setItems(response));
   }
 
