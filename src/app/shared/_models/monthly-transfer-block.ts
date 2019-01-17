@@ -1,5 +1,5 @@
 export class MonthlyTransferBlock {
-  monthly_trans_id: number;
+  id: number;
   first_name: string;
   last_name: string;
   personal_id: string;
