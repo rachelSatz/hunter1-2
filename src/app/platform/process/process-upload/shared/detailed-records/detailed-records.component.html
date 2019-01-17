@@ -1,32 +1,23 @@
 
 <div class="d-flex align-content-between w-75">
-    <mat-form-field class="w-50  mr-4">
-      <mat-select name="employee" placeholder="בחר עובד" [(ngModel)]="selectedEmployee">
-        <mat-option *ngFor="let type of processType" [value]="type.id">{{ type.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="w-50  mr-4">
-        <mat-select name="cashBox" placeholder="בחר קופה" [(ngModel)]="selectedCashBox">
-          <mat-option *ngFor="let type of processType" [value]="type.id">{{ type.name }}</mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class="w-50  mr-4">
-      <mat-select name="filter" placeholder="בחר סינון" [(ngModel)]="selectedFilter">
-        <mat-option *ngFor="let type of processType" [value]="type.id">{{ type.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="w-50 mr-4">
-      <input type="text" name="search" matInput placeholder="חיפוש" [(ngModel)]="searchParams">
-    </mat-form-field>
-  <div>
-    <button mat-button [matMenuTriggerFor]="menu" class="btn blue-btn  mr-5 mt-2">פעולות</button>
+  <bd-select [items]="employees" placeholder="בחר עובד" [(ngModel)]="searchCriteria['employee_id']" (onSelect)="search()" class="ml-3"></bd-select>
+  <bd-select [items]="products" placeholder="בחר קופה" [(ngModel)]="searchCriteria['product_id']" (onSelect)="search()" class="ml-3"></bd-select>
+  <mat-form-field class="ml-3">
+    <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">
+    <i matSuffix class="fa fa-search"></i>
+  </mat-form-field>
+
+
+  <button class="btn blue-btn h-75" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
+
+    <button mat-button [matMenuTriggerFor]="menu" class="btn blue-btn  mr-5 mt-2 float-left h-75">פעולות</button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="openWarningMessageComponentDialog(true)">הפוך ללא רלוונטי</button>
       <button mat-menu-item (click)="openGroupTransferDialog()">העבר קבוצה</button>
       <button mat-menu-item (click)="openWarningMessageComponentDialog(false)">מחק רשומה</button>
       <!--<button mat-menu-item>תהליך תיקון</button>-->
     </mat-menu>
-  </div>
+
 </div>
 <!--[matTooltip]="'מיין לפי ' + header.label"-->
 <table class="table mt-3 data-table">
@@ -36,7 +27,7 @@
       <mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>
     </th>
     <th *ngFor="let header of headers" (click)="sort(header)">
-      <span class="pointer" >{{ header.label }}</span>
+      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
       <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
     </th>
   </tr>
@@ -68,4 +59,4 @@
     </tr>
     </tbody>
   </table>
-  <!--<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>-->
+  <app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>

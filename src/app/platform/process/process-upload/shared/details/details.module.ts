@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import { DetailsComponent } from './details.component';
 import { RouterModule, Routes} from '@angular/router';
+
 import {
   MatAutocompleteModule,
   MatCheckboxModule,
@@ -15,6 +16,7 @@ import {
 import {FormsModule} from '@angular/forms';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DetailedFilesComponent } from '../detailed-files/detailed-files.component';
 import { DetailedRecordsComponent } from '../detailed-records/detailed-records.component';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
@@ -42,7 +44,8 @@ const routes: Routes = [
     FormsModule, MatTooltipModule,
     PipesModule,
     BdSelectModule,
-    DatePickerModule
+    DatePickerModule,
+    DataTableModule
   ],
   // exports: [DatePipe],
   providers: [MonthlyTransferBlockService],

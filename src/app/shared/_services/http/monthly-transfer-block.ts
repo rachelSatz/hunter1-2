@@ -3,6 +3,7 @@ import { BaseHttpService } from './base-http.service';
 import {UserSessionService} from '../user-session.service';
 import {HttpClient} from '@angular/common/http';
 import {MonthlyTransferBlock} from '../../_models/monthly-transfer-block';
+import {Employee} from '../../_models/employee.model';
 
 @Injectable()
 export class MonthlyTransferBlockService  extends BaseHttpService {
@@ -20,9 +21,9 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
 
   }
 
-  getMonthlyList(processId: number): Promise<MonthlyTransferBlock[]> {
+  getMonthlyList(searchCriteria: object): Promise<MonthlyTransferBlock[]> {
     const options = this.getTokenHeader();
-    options['params'] = {processId : processId};
+    options['params'] = searchCriteria;
     return this.http.get(this.endPoint, options)
       .toPromise()
       .then(response => response as MonthlyTransferBlock[])
@@ -49,6 +50,16 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
       .toPromise()
       .then(response => response)
       .catch(response => response);
+  }
+
+  getEntity(processId: number): Promise<Employee[]> {
+
+    const options = this.getTokenHeader();
+    options['params'] = {processId : processId};
+    return this.http.get(this.endPoint + '/entity', options)
+      .toPromise()
+      .then(response => response as Employee[])
+      .catch(response => null);
   }
 
 

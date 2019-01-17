@@ -11,13 +11,13 @@ import { Subscription } from 'rxjs';
 import {UpdateAccountNumberComponent} from '../detailed-files/update-account-number/update-account-number.component';
 import {GroupBankAccountComponent} from './group-bank-account/group-bank-account.component';
 
+
 @Component({
   selector: 'app-detailed-records',
   templateUrl: './detailed-records.component.html',
   styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
 export class DetailedRecordsComponent  extends DataTableComponent implements OnInit , OnDestroy {
-  sub = new Subscription;
 
   readonly headers: DataTableHeader[] =  [
     { column: 'employee_name', label: 'שם העובד' }, { column: 'personal_id', label: 'תעודת זהות' },
@@ -36,11 +36,25 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
               protected  notificationService: NotificationService) {
   super(route , notificationService);
 }
+  employees = [];
+  products = [];
+  sub = new Subscription;
 
   ngOnInit() {
-    this.monthlyTransferBlockService.getMonthlyList(this.processDataService.activeProcess.processID)
-      .then(response => this.setItems(response));
+    this.monthlyTransferBlockService.getEntity(this.processDataService.activeProcess.processID)
+      .then(response => {
+        this.employees = response['employees'];
+        this.products = response['products'];
+      });
+
+    this.fetchItems();
     super.ngOnInit();
+  }
+
+  fetchItems() {
+    this.searchCriteria['processId'] = this.processDataService.activeProcess.processID;
+    this.monthlyTransferBlockService.getMonthlyList(this.searchCriteria)
+      .then(response => this.setItems(response));
   }
 
   openGroupTransferDialog(): void {
@@ -97,5 +111,10 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
         }
       });
     }
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.sub.unsubscribe();
   }
 }
