@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NgForm } from '@angular/forms';
-import { formatDate } from '@angular/common';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 
 @Component({

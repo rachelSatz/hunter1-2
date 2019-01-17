@@ -16,6 +16,7 @@ import { CommentsComponent } from './comments/comments.component';
 
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
+import {ProcessDataService} from '../../../../../shared/_services/process-data-service';
 
 @Component({
   selector: 'app-detailed-files',
@@ -38,6 +39,7 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   constructor(protected route: ActivatedRoute,
               private dialog: MatDialog,
               private  processService: ProcessService,
+              private processDataService: ProcessDataService,
               protected  notificationService: NotificationService) {
   super(route , notificationService);
   }
@@ -53,18 +55,23 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   }
 
   fetchItems() {
-    this.processService.getFilesList(1).then( response => this.setItems(response));
+    this.processService.getFilesList(this.processDataService.activeProcess.processID)
+      .then( response => this.setItems(response));
   }
 
 
 
   openDialogAttachReference(): void {
     if (this.checkedRowItems()) {
-      this.dialog.open(AttachReferenceComponent, {
+      const dialog = this.dialog.open(AttachReferenceComponent, {
         data: {'file_id': this.checkedItems.map(item => item.file_id)},
         width: '550px',
         panelClass: 'send-email-dialog'
       });
+
+      this.sub.add(dialog.afterClosed().subscribe(() => {
+        this.fetchItems();
+      }));
     }
   }
 
@@ -120,33 +127,35 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   openCommentsDialog(file_id: number): void {
     this.dialog.open(CommentsComponent, {
       data: {'file_id': [ file_id ]},
-      width: '655px',
+      width: '550px',
       panelClass: 'dialog-file'
     });
   }
 
   openWarningMessageComponentDialog(type: string): void {
-    const title = type ? 'לא רלונטי' : 'מחיקת שורות';
-    const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלונטית?' : 'האם ברצונך למחוק שורת אלו?';
-    const typeData = type ? 'notRelevant' : 'delete';
     if (this.checkedRowItems()) {
+      const title = type ? 'לא רלונטי' : 'מחיקת שורות';
+      const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלונטית?' : 'האם ברצונך למחוק שורת אלו?';
+      const typeData = type ? 'notRelevant' : 'delete';
+      if (this.checkedRowItems()) {
 
-      const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+        const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
-      this.notificationService.warning( title, body, buttons).then(confirmation => {
-        if (confirmation.value) {
-          this.processService.update( typeData, '' , this.checkedItems.map(item => item.file_id))
-            .then( response => {
-              if (response) {
-                this.checkedItems = [];
-                this.isCheckAll = false;
-                this.fetchItems();
-              } else {
-                this.notificationService.error( '', 'הפעולה נכשלה');
-              }
-            });
-        }
-      });
+        this.notificationService.warning(title, body, buttons).then(confirmation => {
+          if (confirmation.value) {
+            this.processService.update(typeData, '', this.checkedItems.map(item => item.file_id))
+              .then(response => {
+                if (response) {
+                  this.checkedItems = [];
+                  this.isCheckAll = false;
+                  this.fetchItems();
+                } else {
+                  this.notificationService.error('', 'הפעולה נכשלה');
+                }
+              });
+          }
+        });
+      }
     }
   }
   getTitle(employer_products: EmployerProduct[]): string[] {

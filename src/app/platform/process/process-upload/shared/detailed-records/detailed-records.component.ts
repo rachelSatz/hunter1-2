@@ -5,6 +5,7 @@ import { GroupTransferComponent } from './group-transfer/group-transfer.componen
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { MonthlyTransferBlockService } from '../../../../../shared/_services/http/monthly-transfer-block';
+import {ProcessDataService} from '../../../../../shared/_services/process-data-service';
 
 @Component({
   selector: 'app-detailed-records',
@@ -24,11 +25,15 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
   ];
 
   constructor(route: ActivatedRoute,
-              private dialog: MatDialog,  private  monthlyTransferBlockService: MonthlyTransferBlockService ) {
+              private dialog: MatDialog,
+              private processDataService: ProcessDataService,
+              private  monthlyTransferBlockService: MonthlyTransferBlockService ) {
     super(route);
   }
 
   ngOnInit() {
+    this.monthlyTransferBlockService.getMonthlyList(this.processDataService.activeProcess.processID)
+      .then(response => this.setItems(response));
     super.ngOnInit();
   }
 

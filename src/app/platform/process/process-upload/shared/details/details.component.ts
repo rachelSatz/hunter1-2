@@ -35,7 +35,7 @@ export class DetailsComponent implements OnInit {
     if (this.processDataService.activeProcess.pageNumber === 4 || this.processDataService.activeProcess.pageNumber === 5) {
       this.router.navigate(['/platform', 'process', 'new', 1, 'broadcast']);
     } else {
-      this.router.navigate(['/platform', 'process', 'new', 'payment', this.processDataService.activeProcess.processID]);
+      this.router.navigate(['/platform', 'process', 'new', 1 , 'payment', this.processDataService.activeProcess.processID]);
     }
   }
 }

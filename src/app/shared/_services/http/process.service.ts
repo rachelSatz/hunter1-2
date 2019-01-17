@@ -42,7 +42,7 @@ export class ProcessService extends BaseHttpService {
 
   getFilesList(processId: number): Promise<ViewProcess[]> {
     const options = this.getTokenHeader();
-    options['params'] = {processId : 1};
+    options['params'] = {processId : processId};
 
     return this.http.get( this.endPoint + '/FilesList', options)
       .toPromise()

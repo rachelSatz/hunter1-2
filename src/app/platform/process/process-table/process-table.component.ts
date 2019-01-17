@@ -70,12 +70,12 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
   }
 
   redirectProcessNew(): void {
-    this.router.navigate(['platform', 'process' , 'new']);
+    this.router.navigate(['platform', 'process' , 'new', '0']);
   }
 
   downloadFileProcess(processId: number): void {
     this.processService.downloadFileProcess(processId).then(response => {
-      if (response) {
+      if (response.ok) {
         const byteCharacters = atob(response['blob']);
         const byteNumbers = new Array(byteCharacters.length);
         console.log(byteCharacters.length);
@@ -103,7 +103,7 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
 
      this.processDataService.setProcess(data);
 
-     this.router.navigate(['platform', 'process' , 'new', 'payment', process.id]);
+     this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id]);
    }
   }
 }
