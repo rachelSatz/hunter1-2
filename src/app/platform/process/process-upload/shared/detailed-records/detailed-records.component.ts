@@ -7,6 +7,7 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { MonthlyTransferBlockService } from '../../../../../shared/_services/http/monthly-transfer-block';
 import {ProcessDataService} from '../../../../../shared/_services/process-data-service';
 import {NotificationService} from '../../../../../shared/_services/notification.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-detailed-records',
@@ -32,11 +33,16 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
               protected  notificationService: NotificationService) {
   super(route , notificationService);
 }
+  sub = new Subscription;
 
   ngOnInit() {
+    this.fetchItems();
+    super.ngOnInit();
+  }
+
+  fetchItems() {
     this.monthlyTransferBlockService.getMonthlyList(this.processDataService.activeProcess.processID)
       .then(response => this.setItems(response));
-    super.ngOnInit();
   }
 
   openGroupTransferDialog(): void {
@@ -46,6 +52,10 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
         width: '550px',
         panelClass: 'dialog-file'
       });
+
+      this.sub.add(dialog.afterClosed().subscribe(() => {
+        this.fetchItems();
+      }));
     }
   }
 
@@ -81,5 +91,10 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
         }
       });
     }
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.sub.unsubscribe();
   }
 }

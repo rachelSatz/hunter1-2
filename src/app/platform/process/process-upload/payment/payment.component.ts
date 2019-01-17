@@ -150,6 +150,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
     switch (page) {
       case 'new': {
         this.processDataService.activeProcess.pageNumber = 1;
+        // this.router.navigate(['platform', 'process' , 'new', '1']);
         this.router.navigate(['/platform', 'process', 'new', 1], { relativeTo: this.route });
         break;
       }
