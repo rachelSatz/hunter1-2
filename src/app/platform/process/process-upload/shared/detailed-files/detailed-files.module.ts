@@ -33,6 +33,6 @@ import { NotificationService } from 'app/shared/_services/notification.service';
   ],
   exports: [DetailedFilesComponent],
   providers: [ NotificationService],
-  declarations: [ DetailedFilesComponent],
+  declarations: [ DetailedFilesComponent]
 })
 export class DetailedFilesModule { }

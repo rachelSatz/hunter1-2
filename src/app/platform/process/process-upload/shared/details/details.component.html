@@ -14,38 +14,46 @@
          <i class="fa fa-angle-right ml-1"></i>
          <span>חזור</span>
        </p>
-     </span>
-<table class="table table-borderless">
-  <thead>
-  <tr>
-    <td colspan="4">
-      <span>פירוט  </span>
-      <span [hidden]="type !== 'records'">רשומות</span>
-      <span [hidden]="type !== 'files'">קבצים</span>
-    </td>
-  </tr>
-  </thead>
-  <tbody class="f-12">
-  <tr>
-    <td>שם המעסיק:</td>
-    <td>ח.פ:</td>
-    <td>שם מחלקה:</td>
-    <td>שם התהליך:</td>
-  </tr>
-  <tr>
-    <td>סכום לתשלום:</td>
-    <td>מספר תהליך:</td>
-    <td>חודש שכר:</td>
-    <td [hidden]="type !== 'records'">מספר רשומות:</td>
-    <td [hidden]="type !== 'files'">סה"כ קבוצות ששודרו:</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>מספר קבצים:</td>
-  </tr>
-  </tbody>
-</table>
+</span>
+
+  <table class="table table-borderless">
+    <thead>
+    <tr>
+      <td colspan="4">
+        <span>פירוט  </span>
+        <span [hidden]="type !== 'records'">רשומות</span>
+        <span [hidden]="type !== 'files'">קבצים</span>
+      </td>
+    </tr>
+    </thead>
+    <tbody class="f-12">
+    <tr>
+      <td>שם המעסיק:</td>
+      <td>{{ process_details.employer_name }}</td>
+      <td>ח.פ:</td>
+      <td>{{ process_details.employer_business_number }}</td>
+      <td>שם מחלקה:</td>
+      <td>{{ process_details.department_name }}</td>
+      <td>שם התהליך:</td>
+      <td>{{ process_details.name }}</td>
+    </tr>
+    <tr>
+      <td>סכום לתשלום:</td>
+      <td>{{ process_details.total }}</td>
+      <td>מספר תהליך:</td>
+      <td>{{ process_details.id }}</td>
+      <td>חודש שכר:</td>
+      <td>{{ process_details.date | slice:5:7}}</td>
+      <td [hidden]="type !== 'records'">מספר רשומות:</td>
+      <td [hidden]="type !== 'records'">{{ process_details.records_count }}</td>
+      <td [hidden]="type !== 'file'">סה"כ קבוצות ששודרו:</td>
+      <td [hidden]="type !== 'file'"> {{ process_details.groups_count }}</td>
+    </tr>
+    <tr>
+      <td colspan="8">מספר קבצים: {{ process_details.groups_count }}</td>
+
+    </tr>
+    </tbody>
+  </table>
 <app-detailed-files *ngIf="type === 'files'"></app-detailed-files>
 <app-detailed-records *ngIf="type === 'records'"></app-detailed-records>

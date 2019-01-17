@@ -21,4 +21,8 @@ export class ProcessDetails {
   employer_business_number: string;
   percent: number;
 
+  constructor() {
+    this.employer_name = '';
+  }
+
 }

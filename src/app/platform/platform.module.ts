@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
@@ -38,6 +38,6 @@ const routes: Routes = [
     MatMenuModule,
   ],
   declarations: [PlatformComponent],
-  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService]
+  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, DatePipe]
 })
 export class PlatformModule {}
