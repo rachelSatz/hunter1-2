@@ -15,7 +15,6 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { EmailComponent } from './email/email.component';
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { PaymentComponent } from './payment.component';
-import { GroupTransferComponent } from '../shared/detailed-records/group-transfer/group-transfer.component';
 
 
 const routes: Routes = [
@@ -36,8 +35,8 @@ const routes: Routes = [
     DatePickerModule
   ],
   providers: [ProcessService, NotificationService],
-  declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent, GroupTransferComponent],
-  entryComponents: [ EmailComponent, SendFileEmailComponent, GroupTransferComponent]
+  declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent],
+  entryComponents: [ EmailComponent, SendFileEmailComponent]
 
 })
 export class PaymentModule {

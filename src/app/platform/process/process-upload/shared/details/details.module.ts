@@ -25,6 +25,7 @@ import { UpdateAccountNumberComponent } from '../detailed-files/update-account-n
 import { UpdatePaymentDateComponent } from '../detailed-files/update-payment-date/update-payment-date.component';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
+import { GroupTransferComponent } from '../detailed-records/group-transfer/group-transfer.component';
 
 
 const routes: Routes = [
@@ -45,10 +46,10 @@ const routes: Routes = [
   // exports: [DatePipe],
   providers: [MonthlyTransferBlockService],
   declarations: [ DetailsComponent, DetailedRecordsComponent, DetailedFilesComponent,
-    CommentsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
+    CommentsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent, GroupTransferComponent,
     UpdateAccountNumberComponent, UpdatePaymentDateComponent],
   entryComponents: [CommentsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
-    UpdateAccountNumberComponent, UpdatePaymentDateComponent] 
+    UpdateAccountNumberComponent, UpdatePaymentDateComponent, GroupTransferComponent]
 
 })
 export class DetailsModule { }
