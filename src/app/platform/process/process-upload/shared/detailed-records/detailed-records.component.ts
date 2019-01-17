@@ -5,8 +5,11 @@ import { GroupTransferComponent } from './group-transfer/group-transfer.componen
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { MonthlyTransferBlockService } from '../../../../../shared/_services/http/monthly-transfer-block';
-import {ProcessDataService} from '../../../../../shared/_services/process-data-service';
-import {NotificationService} from '../../../../../shared/_services/notification.service';
+import { ProcessDataService } from '../../../../../shared/_services/process-data-service';
+import { NotificationService } from '../../../../../shared/_services/notification.service';
+import { Subscription } from 'rxjs';
+import {UpdateAccountNumberComponent} from '../detailed-files/update-account-number/update-account-number.component';
+import {GroupBankAccountComponent} from './group-bank-account/group-bank-account.component';
 
 @Component({
   selector: 'app-detailed-records',
@@ -14,6 +17,7 @@ import {NotificationService} from '../../../../../shared/_services/notification.
   styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
 export class DetailedRecordsComponent  extends DataTableComponent implements OnInit , OnDestroy {
+  sub = new Subscription;
 
   readonly headers: DataTableHeader[] =  [
     { column: 'employee_name', label: 'שם העובד' }, { column: 'personal_id', label: 'תעודת זהות' },
@@ -46,7 +50,19 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
         width: '550px',
         panelClass: 'dialog-file'
       });
+      // this.sub.add(dialog.afterClosed().subscribe((data) => {
+      //   if (data !== 'undefined' && data !== null) {
+      //     openBankAccountDialog(data);
+      //   }
+      // }));
     }
+  }
+  openBankAccountDialog(data: object): void {
+    const dialog = this.dialog.open(GroupBankAccountComponent, {
+      data: {'data': data},
+      width: '655px',
+      panelClass: 'dialog-file'
+    });
   }
 
   checkedRowItems(): boolean {
