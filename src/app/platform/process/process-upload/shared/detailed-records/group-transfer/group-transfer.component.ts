@@ -31,6 +31,14 @@ export class GroupTransferComponent implements OnInit {
   showDiv(show: boolean): void {
     this.isShow = !show;
   }
+  newGroup(): void {
+    this.dialogRef.close();
+    this.mtbService.createMTBGroup(this.data.ids).then( response => {
+      if (response['success'] && response['message'] === 'diff') {
+        this.dialogRef.close(response['data']);
+      }
+    });
+  }
 
   submit(form: NgForm): void {
     if (this.groupId > 0) {
