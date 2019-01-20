@@ -8,8 +8,7 @@ import { MonthlyTransferBlockService } from '../../../../../shared/_services/htt
 import { ProcessDataService } from '../../../../../shared/_services/process-data-service';
 import { NotificationService } from '../../../../../shared/_services/notification.service';
 import { Subscription } from 'rxjs';
-import {UpdateAccountNumberComponent} from '../detailed-files/update-account-number/update-account-number.component';
-import {GroupBankAccountComponent} from './group-bank-account/group-bank-account.component';
+import { GroupBankAccountComponent } from './group-bank-account/group-bank-account.component';
 
 
 @Component({
@@ -64,15 +63,16 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
         width: '550px',
         panelClass: 'dialog-file'
       });
-      // this.sub.add(dialog.afterClosed().subscribe((data) => {
-      //   if (data !== 'undefined' && data !== null) {
-      //     openBankAccountDialog(data);
-      //   }
-      // }));
+      this.sub.add(dialog.afterClosed().subscribe((data) => {
+        if (data !== 'undefined' && data !== null) {
+          this.openBankAccountDialog(data);
+          // this.fetchItems(true);
+        }
+      }));
     }
   }
   openBankAccountDialog(data: object): void {
-    const dialog = this.dialog.open(GroupBankAccountComponent, {
+    this.dialog.open(GroupBankAccountComponent, {
       data: {'data': data},
       width: '655px',
       panelClass: 'dialog-file'

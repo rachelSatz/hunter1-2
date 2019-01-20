@@ -54,7 +54,7 @@ export class BroadcastComponent implements OnInit {
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
               private router: Router,
               private processService: ProcessService,
-              private  processDataService: ProcessDataService,
+              public  processDataService: ProcessDataService,
               private notificationService: NotificationService) {}
 
   ngOnInit() {

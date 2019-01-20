@@ -132,7 +132,7 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
     });
   }
 
-  openWarningMessageComponentDialog(type: string): void {
+  openWarningMessageComponentDialog(type: boolean): void {
     if (this.checkedRowItems()) {
       const title = type ? 'לא רלונטי' : 'מחיקת שורות';
       const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלונטית?' : 'האם ברצונך למחוק שורת אלו?';

@@ -49,7 +49,7 @@ const routes: Routes = [
   ],
   // exports: [DatePipe],
   providers: [MonthlyTransferBlockService],
-  declarations: [ DetailsComponent, DetailedRecordsComponent, DetailedFilesComponent,
+  declarations: [ DetailsComponent,
     CommentsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent, GroupTransferComponent,
     UpdateAccountNumberComponent, UpdatePaymentDateComponent, GroupBankAccountComponent],
   entryComponents: [CommentsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
