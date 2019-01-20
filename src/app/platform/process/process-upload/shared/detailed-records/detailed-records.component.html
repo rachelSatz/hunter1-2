@@ -46,8 +46,8 @@
         <td>{{ item.deposit_type }}</td>
         <td>{{ item.employer_product_code }}</td>
         <td>{{ item.employer_product_name }}</td>
-        <td>{{ item.employer_product_type }}</td>
-        <td>{{ item.deposit_status }}</td>
+        <td>{{ productTypes[item.employer_product_type] }}</td>
+        <td>{{ depositStatus[item.deposit_status] }}</td>
         <td>{{ item.prodect_code }}</td>
         <td>{{ item.payment_month | date: 'dd/MM/yy' }}</td>
         <td>{{ item.payment_month | date: 'dd/MM/yy' }}</td>

@@ -14,8 +14,6 @@ MatInputModule,
 MatSelectModule,
 MatDialogModule, MatProgressSpinnerModule
 } from '@angular/material';
-
-import { DetailedFilesComponent } from './detailed-files.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
 
@@ -31,8 +29,6 @@ import { NotificationService } from 'app/shared/_services/notification.service';
     MatFormFieldModule, MatInputModule, MatSelectModule,
     MatDialogModule, MatMenuModule, MatProgressSpinnerModule, MatIconModule
   ],
-  // exports: [DetailedFilesComponent],
   providers: [ NotificationService]
-  // declarations: [ DetailedFilesComponent]
 })
 export class DetailedFilesModule { }
