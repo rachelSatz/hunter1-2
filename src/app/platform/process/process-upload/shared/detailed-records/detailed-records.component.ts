@@ -15,17 +15,7 @@ import { GroupBankAccountComponent } from './group-bank-account/group-bank-accou
   selector: 'app-detailed-records',
   templateUrl: './detailed-records.component.html',
   styles: ['#accounts { direction: ltr; height: 200px;  overflow-y: auto; }'],
-
-//
-// #accounts > * {
-//   direction: rtl;
-// }
-//
-// .remove-account-icon {
-//   height: 34px
-// }
-
-styleUrls: ['../../../../../shared/data-table/data-table.component.css']
+  styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
 export class DetailedRecordsComponent  extends DataTableComponent implements OnInit , OnDestroy {
 
