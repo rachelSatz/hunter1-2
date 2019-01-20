@@ -87,7 +87,7 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
         const fileURL = URL.createObjectURL(blob);
           FileSaver.saveAs(blob, response['fileName']);
       }else {
-        this.notificationService.error('', ' אין אפשרות להוריד את הקובץ '   );
+        this.notificationService.error('', ' אין אפשרות להוריד את הקובץ ');
       }
     });
   }
@@ -96,8 +96,13 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
     const status = this.processStatus[process.status];
    if (status === this.processStatus.Loading || status ===  this.processStatus.Can_Be_Processed
    || status === this.processStatus.Done_Processing) {
+     const date = new Date(process.date);
      const data = {
        'pageNumber': 1,
+       'processName': process.name,
+       'year': date.getFullYear(),
+       'month': date.getMonth(),
+       'monthName':  this.months[date.getMonth()],
        'processId': process.id
      };
 

@@ -1,16 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material';
-import {ActivatedRoute, Router} from '@angular/router';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import {ActivatedRoute, Data, Router} from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import {ProcessService} from 'app/shared/_services/http/process.service';
-import {ProcessDataService} from 'app/shared/_services/process-data-service';
-import {NotificationService} from 'app/shared/_services/notification.service';
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
-import {Process} from 'app/shared/_models/process.model';
-import {ProcessDetails} from 'app/shared/_models/process-details.model';
+import { Process } from 'app/shared/_models/process.model';
+import { ProcessDetails } from 'app/shared/_models/process-details.model';
 
-import {DateUpdateComponent} from './date-update/date-update.component';
+import { DateUpdateComponent } from './date-update/date-update.component';
 
 
 @Component({
@@ -48,16 +49,24 @@ export class BroadcastComponent implements OnInit {
   department;
   processID = 1;
   process_details: ProcessDetails;
-  paymentDate: string;
+  paymentDate = '--/--/--';
 
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
               private router: Router,
               private processService: ProcessService,
               public  processDataService: ProcessDataService,
-              private notificationService: NotificationService) {}
+              private notificationService: NotificationService,
+              private dataPipe: DatePipe) {}
 
   ngOnInit() {
+
+    this.processService.getUploadFile(this.processDataService.activeProcess.processID).subscribe(response => {
+      this.process_details = response;
+    });
+
+    this. process_details = new ProcessDetails;
+    console.log(this.process_details);
     this.type = this.processDataService.activeProcess.type;
     this.processId = this.processDataService.activeProcess.processID;
     this.isRefund = this.type !== 'positive';
@@ -74,7 +83,8 @@ export class BroadcastComponent implements OnInit {
       width: '550px',
     });
     dialogRef.afterClosed().subscribe(
-      data => this.paymentDate = data
+      data => this.paymentDate = this.dataPipe.transform(data, 'dd/MM/yyyy')
+
     );
   }
 
@@ -82,7 +92,7 @@ export class BroadcastComponent implements OnInit {
     this.processDataService.activeProcess = new Process();
     this.processDataService.activeProcess.type = 'negative';
     console.log(this.processDataService.activeProcess);
-    this.router.navigate(['/platform', 'process', 'new', 0]);
+    this.router.navigate(['/platform', 'process', 'new', 2]);
 
   }
 

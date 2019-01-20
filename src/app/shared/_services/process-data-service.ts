@@ -19,6 +19,7 @@ export class ProcessDataService {
     this.activeProcess.isDirect = data['isDirect'];
     this.activeProcess.file = data['file'];
     this.activeProcess.pageIndex = 2;
+    this.activeProcess.returnDetails = data['returnDetails'];
   }
 }
 

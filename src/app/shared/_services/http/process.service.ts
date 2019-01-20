@@ -49,8 +49,10 @@ export class ProcessService extends BaseHttpService {
       .then(response => response as ViewProcess[]);
   }
 
-  downloadMasav(processId: number): Promise<string> {
-    return this.http.get(this.endPoint + '/' + processId + '/downloadMasav', this.getTokenHeader())
+  downloadMasav(id: number): Promise<string> {
+    const processId = {'processId': id}
+    return this.http.post(this.endPoint + '/downloadMasav', processId, this.getTokenHeader())
+
       .toPromise()
       .then(response => response)
       .catch(() => null);
@@ -311,7 +313,7 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
 
   getUploadFile(processId: number): Observable<any> {
     const options = this.getTokenHeader();
-    options['params'] = {processId: processId};
+    options['params'] = { processId: processId };
     return this.http.get(this.endPoint + '/UploadFile',  options)
       .pipe( map((response: Response) => response));
   }

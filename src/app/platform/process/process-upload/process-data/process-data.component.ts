@@ -68,6 +68,11 @@ export class ProcessDataComponent implements OnInit {
 
     if (this.route.snapshot.params.status === '0') {
         this.processDataService.activeProcess = null;
+
+    }
+    if (this.route.snapshot.params.status === '2') {
+      this.processDataService.activeProcess = new Process();
+      this.processDataService.activeProcess.type = 'negative';
     }
 
     this.process = this.processDataService.activeProcess ?  this.processDataService.activeProcess : new Process();
@@ -160,12 +165,14 @@ export class ProcessDataComponent implements OnInit {
             'pageNumber': 1
           };
 
-          this.processService.newProcess(data, this.processFile).then(response => {
+          this.processService.newProcess(data,
+            this.route.snapshot.params.status === '1' ? this.process.file : this.processFile ).then(response => {
             data['processId'] = response['processId'];
             data['file'] = this.processFile;
             data['monthName'] = this.months[form.value.month - 1].name;
 
             this.processDataService.setProcess(data);
+
             this.router.navigate(['./payment', response['processId']], {relativeTo: this.route});
             if (response['processId'] > 0) {
             } else {
@@ -179,4 +186,5 @@ export class ProcessDataComponent implements OnInit {
     });
   }
 }
+
 }
