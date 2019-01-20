@@ -8,25 +8,14 @@ import { MonthlyTransferBlockService } from '../../../../../shared/_services/htt
 import { ProcessDataService } from '../../../../../shared/_services/process-data-service';
 import { NotificationService } from '../../../../../shared/_services/notification.service';
 import { Subscription } from 'rxjs';
-import {UpdateAccountNumberComponent} from '../detailed-files/update-account-number/update-account-number.component';
-import {GroupBankAccountComponent} from './group-bank-account/group-bank-account.component';
+import { GroupBankAccountComponent } from './group-bank-account/group-bank-account.component';
 
 
 @Component({
   selector: 'app-detailed-records',
   templateUrl: './detailed-records.component.html',
   styles: ['#accounts { direction: ltr; height: 200px;  overflow-y: auto; }'],
-
-//
-// #accounts > * {
-//   direction: rtl;
-// }
-//
-// .remove-account-icon {
-//   height: 34px
-// }
-
-styleUrls: ['../../../../../shared/data-table/data-table.component.css']
+  styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
 export class DetailedRecordsComponent  extends DataTableComponent implements OnInit , OnDestroy {
 
