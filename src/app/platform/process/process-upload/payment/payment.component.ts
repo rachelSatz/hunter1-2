@@ -54,6 +54,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
   spin: boolean;
   fileName = 'masav-file';
   type = '.001';
+  month;
   record: boolean;
   file: boolean;
   inter = <any>interval(5000);
@@ -67,11 +68,9 @@ export class PaymentComponent implements OnInit , OnDestroy {
     // this.processId = this.processDataService.activeProcess.processID || 0;
    this.processId = this.route.snapshot.params['id'];
 
-    this.route.params.subscribe(params => {
-       this.processId = params['id'];
-    });
 
     this.processDataService.activeProcess.pageNumber = 2;
+
 
 
     this.sub = this.inter.pipe(
@@ -80,6 +79,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
     ).subscribe(response => {
       this.set_process(response);
     });
+    // this.month = this.process_details.date.slice(5 [7]) ;
   }
 
   set_process(response): void {

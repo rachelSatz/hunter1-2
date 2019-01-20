@@ -10,12 +10,12 @@
     <div>
       <div class="d-flex align-items-center">
         <div class="bd-select-container">
-        <bd-select  [(ngModel)]="groupId" name="groupId" [items]="groups"  placeholder="בחר קבוצה" (onSelect)="selectedGroup()"></bd-select>
+        <bd-select  [(ngModel)]="groupId" name="groupId" [items]="groups"  placeholder="בחר קבוצה"></bd-select>
         </div>
       </div>
       <div>
         <span (click)="showDiv(isShow)"> > העבר לקבוצה חדשה</span>
-        <div *ngIf="isShow">טקסט כלשהוא</div>
+        <!--<div *ngIf="isShow">טקסט כלשהוא</div>-->
       </div>
     </div>
     <div class="text-center">
