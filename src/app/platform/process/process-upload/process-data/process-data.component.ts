@@ -140,7 +140,9 @@ export class ProcessDataComponent implements OnInit {
       }
 
   paymentPopup(form: NgForm): void {
+    console.log('faze 1');
     if (form.valid && !this.isSubmitting && ( this.processFile || this.process.file )) {
+      console.log('faze two')
       this.isSubmitting = true;
       this.hasServerError = false;
 

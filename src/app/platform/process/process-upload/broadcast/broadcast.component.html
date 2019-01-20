@@ -20,33 +20,57 @@
       </div>
       <p class="border-bottom f-14 bold grey-color">פרטי התהליך</p>
       <div class="d-flex">
-        <span class="w-50">שם המעסיק: {{process_details.employer_name}} </span>
-        <span>ח.פ: {{process_details.employer_business_number}} </span>
-      </div>
-      <div class="d-flex my-3">
-        <span class="w-50">שם מחלקה: {{process_details.department_name}}</span>
-        <span>מספר תהליך: {{process_details.id}}</span>
-      </div>
-      <div class="d-flex my-3">
-        <span class="w-50">שם התהליך: {{process_details.name}}</span>
-        <span>חודש שכר: {{process_details.date | slice:5:7}}</span>
-      </div>
-      <p class="border-bottom f-14 bold grey-color">פרטי התשלומים</p>
-      <div class="text-right">
-        <span>סכום לתשלום: {{process_details.total}}</span>
-      </div>
-      <div class="d-flex my-3">
-        <span class="w-50 text-right">מספר קבצים: {{process_details.groups_count}}</span>
-        <span class="pointer" (click)="setPage('detailed-files')">לפירוט מלא ></span>
+        <div class="d-flex w-50">
+          <span>שם המעסיק:</span>
+          <p class="bold mr-1">{{process_details.employer_name}}</p>
+        </div>
+        <span>ח.פ:</span>
+        <p class="bold mr-1">{{process_details.employer_business_number}} </p>
       </div>
       <div class="d-flex">
-        <span class="w-50 text-right"> מספר רשומות:{{process_details.records_count }}</span>
-        <span (click)="setPage('detailed-records')" class="pointer">לפירוט מלא ></span>
+        <div class="d-flex w-50">
+          <span>שם מחלקה: </span>
+          <p class="bold mr-1">{{process_details.department_name}}</p>
+        </div>
+        <span>מספר תהליך:</span>
+        <p class="bold mr-1">{{process_details.id}}</p>
+      </div>
+      <div class="d-flex">
+        <div class="d-flex w-50">
+          <span>שם התהליך: </span>
+          <p class="bold mr-1">{{process_details.name}}</p>
+        </div>
+        <span>חודש שכר:</span>
+        <!--<p class="bold mr-1">{{process_details.date | slice:5:7}}</p>-->
+        <p class="bold mr-1">{{processDataService.activeProcess.monthName}}</p>
+      </div>
+
+      <p class="border-bottom f-14 bold grey-color">פרטי התשלומים</p>
+      <div class="d-flex">
+        <span>סכום לתשלום: </span>
+        <p class="bold mr-1">{{process_details.total}}</p>
+      </div>
+      <div class="d-flex">
+        <div class="d-flex w-50">
+          <span>מספר קבצים: </span>
+          <p class="bold mr-1">{{process_details.groups_count}}</p>
+        </div>
+        <span class="pointer " (click)="setPage('detailed-files')">לפירוט מלא ></span>
+      </div>
+      <div class="d-flex">
+        <div class="d-flex w-50">
+          <span>מספר רשומות: </span>
+          <p class="bold mr-1">{{process_details.records_count }}</p>
+        </div>
+        <span (click)="setPage('detailed-records')" class="pointer ">לפירוט מלא ></span>
       </div>
       <div *ngIf="!isRefund">
-        <div class="d-flex mt-2">
-          <span class="w-50 text-right">תאריך תשלום (ערך): {{paymentDate}}</span>
-          <span class="pointer" (click)="dateUpdate()">לעדכון תאריך ></span>
+        <div class="d-flex">
+          <div class="d-flex w-50">
+            <span>תאריך תשלום (ערך): </span>
+            <p class="bold mr-1">{{paymentDate}}</p>
+          </div>
+          <span class="pointer " (click)="dateUpdate()">לעדכון תאריך ></span>
         </div>
         <p class="f-12 bold red-color">הנך נדרש לעדכן תאריך ערך</p>
       </div>
@@ -73,27 +97,47 @@
   </div>
   <p class="border-bottom f-14 bold grey-color">פרטי התהליך</p>
   <div class="d-flex">
-    <span class="w-50">שם המעסיק: {{process_details.employer_name}} </span>
-    <span>ח.פ: {{process_details.employer_business_number}} </span>
+    <div class="d-flex w-50">
+      <span>שם המעסיק:</span>
+      <p class="bold mr-1">{{process_details.employer_name}}</p>
+    </div>
+    <span>ח.פ:</span>
+    <p class="bold mr-1">{{process_details.employer_business_number}} </p>
   </div>
-  <div class="d-flex my-3">
-    <span class="w-50">שם מחלקה: {{process_details.department_name}}</span>
-    <span>מספר תהליך: {{process_details.id}}</span>
+  <div class="d-flex">
+    <div class="d-flex w-50">
+      <span>שם מחלקה: </span>
+      <p class="bold mr-1">{{process_details.department_name}}</p>
+    </div>
+    <span>מספר תהליך:</span>
+    <p class="bold mr-1">{{process_details.id}}</p>
   </div>
-  <div class="d-flex my-3">
-    <span class="w-50">שם התהליך: {{process_details.name}}</span>
-    <span>חודש שכר: {{process_details.date | slice:5:7}}</span>
+  <div class="d-flex">
+    <div class="d-flex w-50">
+      <span>שם התהליך: </span>
+      <p class="bold mr-1">{{process_details.name}}</p>
+    </div>
+    <span>חודש שכר:</span>
+    <!--<p class="bold mr-1">{{process_details.date | slice:5:7}}</p>-->
+    <p class="bold mr-1">{{processDataService.activeProcess.monthName}}</p>
   </div>
   <p class="border-bottom f-14 bold grey-color">פרטי התשלומים</p>
-  <div class="text-right">
-    <span>סכום לתשלום: {{process_details.total}}</span>
+  <div class="d-flex">
+    <span>סכום לתשלום: </span>
+    <p class="bold mr-1">{{process_details.total}}</p>
   </div>
-  <div class="d-flex my-3">
-    <span class="w-50 text-right">מספר קבצים: {{ process_details.groups_count}}</span>
+  <div class="d-flex">
+    <div class="d-flex w-50">
+      <span>מספר קבצים: </span>
+      <p class="bold mr-1">{{process_details.groups_count}}</p>
+    </div>
     <span class="pointer" (click)="setPage('detailed-files')">לפירוט מלא ></span>
   </div>
   <div class="d-flex">
-    <span class="w-50 text-right">מספר רשומות: {{process_details.records_count}}</span>
+    <div class="d-flex w-50">
+      <span>מספר רשומות: </span>
+      <p class="bold mr-1">{{process_details.records_count}}</p>
+    </div>
     <span class="pointer" (click)="setPage('detailed-records')">לפירוט מלא ></span>
   </div>
   <div class="mt-4 d-flex" *ngIf="isRefund" >

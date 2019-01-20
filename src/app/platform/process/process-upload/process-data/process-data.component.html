@@ -22,7 +22,7 @@
         <mat-error>שדה חובה.</mat-error>
       </mat-form-field>
       <mat-form-field class="w-50 mr-4">
-        <mat-select name="month" placeholder="בחר חודש" [(ngModel)]="process.monthID" required>
+        <mat-select name="month" placeholder="בחר חודש" [(ngModel)]="process.month" required>
           <mat-option *ngFor="let month of months" [value]="month.id">{{ month.name }}</mat-option>
         </mat-select>
         <mat-error>שדה חובה.</mat-error>
