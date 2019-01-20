@@ -68,6 +68,11 @@ export class ProcessDataComponent implements OnInit {
 
     if (this.route.snapshot.params.status === '0') {
         this.processDataService.activeProcess = null;
+
+    }
+    if (this.route.snapshot.params.status === '2') {
+      this.processDataService.activeProcess = new Process();
+      this.processDataService.activeProcess.type = 'negative';
     }
 
     this.process = this.processDataService.activeProcess ?  this.processDataService.activeProcess : new Process();
@@ -179,4 +184,5 @@ export class ProcessDataComponent implements OnInit {
     });
   }
 }
+
 }
