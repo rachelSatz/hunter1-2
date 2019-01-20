@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatButton } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 
@@ -36,6 +36,8 @@ export class GroupTransferComponent implements OnInit {
     this.mtbService.createMTBGroup(this.data.ids).then( response => {
       if (response['success'] && response['message'] === 'diff') {
         this.dialogRef.close(response['data']);
+      } else {
+        this.dialogRef.close();
       }
     });
   }

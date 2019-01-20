@@ -64,15 +64,16 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
         width: '550px',
         panelClass: 'dialog-file'
       });
-      // this.sub.add(dialog.afterClosed().subscribe((data) => {
-      //   if (data !== 'undefined' && data !== null) {
-      //     openBankAccountDialog(data);
-      //   }
-      // }));
+      this.sub.add(dialog.afterClosed().subscribe((data) => {
+        if (data !== 'undefined' && data !== null) {
+          this.openBankAccountDialog(data);
+          // this.fetchItems(true);
+        }
+      }));
     }
   }
   openBankAccountDialog(data: object): void {
-    const dialog = this.dialog.open(GroupBankAccountComponent, {
+    this.dialog.open(GroupBankAccountComponent, {
       data: {'data': data},
       width: '655px',
       panelClass: 'dialog-file'
