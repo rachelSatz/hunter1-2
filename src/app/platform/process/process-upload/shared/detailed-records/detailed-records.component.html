@@ -1,25 +1,28 @@
-
-<div class="d-flex align-content-between w-75">
-  <bd-select [items]="employees" placeholder="בחר עובד" [(ngModel)]="searchCriteria['employee_id']" (onSelect)="search()" class="ml-3"></bd-select>
-  <bd-select [items]="products" placeholder="בחר קופה" [(ngModel)]="searchCriteria['product_id']" (onSelect)="search()" class="ml-3"></bd-select>
+<div class="d-flex align-items-center">
+  <div class="bd-select-container">
+    <bd-select [items]="employees" placeholder="בחר עובד" [(ngModel)]="searchCriteria['employee_id']" (onSelect)="search()" class="ml-3">
+    </bd-select>
+  </div>
+  <div class="mx-3 bd-select-container">
+    <bd-select [items]="products" placeholder="בחר קופה" [(ngModel)]="searchCriteria['product_id']" (onSelect)="search()" class="ml-3">
+    </bd-select>
+  </div>
   <mat-form-field class="ml-3">
     <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">
     <i matSuffix class="fa fa-search"></i>
   </mat-form-field>
-
-
   <button class="btn blue-btn h-75" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
-
-    <button mat-button [matMenuTriggerFor]="menu" class="btn blue-btn  mr-5 mt-2 float-left h-75">פעולות</button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="openWarningMessageComponentDialog(true)">הפוך ללא רלוונטי</button>
-      <button mat-menu-item (click)="openGroupTransferDialog()">העבר קבוצה</button>
-      <button mat-menu-item (click)="openWarningMessageComponentDialog(false)">מחק רשומה</button>
-      <!--<button mat-menu-item>תהליך תיקון</button>-->
-    </mat-menu>
-
+<div class="float-left">
+  <button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-1">פעולות</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openWarningMessageComponentDialog(true)">הפוך ללא רלוונטי</button>
+    <button mat-menu-item (click)="openGroupTransferDialog()">העבר קבוצה</button>
+    <button mat-menu-item (click)="openWarningMessageComponentDialog(false)">מחק רשומה</button>
+    <!--<button mat-menu-item>תהליך תיקון</button>-->
+  </mat-menu>
 </div>
-<!--[matTooltip]="'מיין לפי ' + header.label"-->
+</div>
+
 <table class="table mt-3 data-table">
   <thead>
   <tr class="table-headers">
