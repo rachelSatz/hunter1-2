@@ -19,7 +19,7 @@ export class DetailsComponent extends DataTableComponent implements OnInit {
 
   constructor(route: ActivatedRoute, 
               private router: Router,
-               private processDataService: ProcessDataService,
+               public processDataService: ProcessDataService,
                private processService: ProcessService) {
     super(route);
   }

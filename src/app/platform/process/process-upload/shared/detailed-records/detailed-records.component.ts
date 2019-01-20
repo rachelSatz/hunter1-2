@@ -99,7 +99,7 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
 
   }
 
-  openWarningMessageComponentDialog(type: string): void {
+  openWarningMessageComponentDialog(type: boolean): void {
     const title = type ? 'לא רלונטי' : 'מחיקת שורות';
     const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלונטית?' : 'האם ברצונך למחוק שורת אלו?';
     const typeData = type ? 'notRelevant' : 'delete';
