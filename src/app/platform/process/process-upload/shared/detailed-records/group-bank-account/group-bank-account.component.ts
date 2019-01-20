@@ -15,7 +15,7 @@ export class GroupBankAccountComponent implements OnInit {
   bankId: number;
   banks = []
   ngOnInit() {
-    this.banks = this.data.map(item => ({name: item['bank_name']}));
+    // this.banks = this.data;
     this.bankId = 0;
   }
   submit(form: NgForm): void {
@@ -26,8 +26,6 @@ export class GroupBankAccountComponent implements OnInit {
         }
       });
     } else {
-
-
     }
   }
 }

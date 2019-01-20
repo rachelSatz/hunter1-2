@@ -8,11 +8,13 @@
     <h6 class="bold">עדכון אסמכתא</h6>
     <!--<p class="f-12"> סוג תשלום: <span> {{ data.accNum }}</span></p>-->
       <div class="d-flex align-items-center">
-        <div class="bd-select-container">
-        <bd-select  [ngModel]="bankId" name="bankId" [items]="data" label="bank_name" placeholder="בחר בנק"></bd-select>
+        <div class="bd-select-container" *ngFor="let item of data">
+          <span>{{ item.bank_name }}</span>
+          <!--<bd-select [items]="data" placeholder="בחר בנק"></bd-select>-->
+
+          <!--<bd-select  [ngModel]="bankId" name="bankId" [items]="banks" label="bank_name" placeholder="בחר בנק"></bd-select>-->
         </div>
       </div>
-
     <div class="text-center">
       <button class="btn blue-btn" (click)="submit(form)">עדכון</button>
     </div>
