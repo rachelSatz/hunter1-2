@@ -68,8 +68,8 @@ export class ProcessDataComponent implements OnInit {
 
     if (this.route.snapshot.params.status === '0') {
         this.processDataService.activeProcess = null;
-
     }
+
     if (this.route.snapshot.params.status === '2') {
       this.processDataService.activeProcess = new Process();
       this.processDataService.activeProcess.type = 'negative';
@@ -122,8 +122,8 @@ export class ProcessDataComponent implements OnInit {
         }
 
         if (form.value.year && form.value.month) {
-          // this.selectUnitService.currentDepartmentID === undefined
-          if (this.selectUnitService.currentDepartmentID === 0) {
+
+          if (this.selectUnitService.currentDepartmentID === undefined) {
             this.notificationService.error('  לא ניתן להעלות קובץ ללא בחירת מחלקה\n' +
               ' אנא בחר מחלקה ונסה שנית\n');
               return;
@@ -164,11 +164,10 @@ export class ProcessDataComponent implements OnInit {
             'processId': '',
             'pageNumber': 1
           };
-
           this.processService.newProcess(data,
             this.route.snapshot.params.status === '1' ? this.process.file : this.processFile ).then(response => {
             data['processId'] = response['processId'];
-            data['file'] = this.processFile;
+            data['file'] = this.route.snapshot.params.status === '1' ? this.process.file : this.processFile;
             data['monthName'] = this.months[form.value.month - 1].name;
 
             this.processDataService.setProcess(data);
@@ -182,9 +181,8 @@ export class ProcessDataComponent implements OnInit {
           });
         } else {
           this.isSubmitting = false;
-        }
-    });
+          }
+      });
+    }
   }
-}
-
 }

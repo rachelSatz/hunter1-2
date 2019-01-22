@@ -16,7 +16,8 @@ import { DepositStatus, DepositType } from 'app/shared/_models/monthly-transfer-
 @Component({
   selector: 'app-detailed-records',
   templateUrl: './detailed-records.component.html',
-  styles: ['#accounts { direction: ltr; height: 200px;  overflow-y: auto; }'],
+  styles: ['#accounts { direction: ltr; height: 200px;  overflow-y: auto; }',
+           '.extend {width: 140%; margin-right: -20%}'],
   styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
 export class DetailedRecordsComponent  extends DataTableComponent implements OnInit , OnDestroy {

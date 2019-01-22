@@ -9,51 +9,60 @@
   </tr>
   </thead>
 </table>
-<span (click)="back()" class="float-right">
-       <p class="pointer mt-5 grey-color">
-         <i class="fa fa-angle-right ml-1"></i>
-         <span>חזור</span>
-       </p>
+<span (click)="back()" class="float-right w-100">
+  <p class="pointer grey-color">
+    <i class="fa fa-angle-right ml-1"></i>
+      <span>חזור</span>
+  </p>
 </span>
+<p class="h5 pb-3" *ngIf="type === 'files'">פירוט קבצים</p>
+<p class="h5" *ngIf="type === 'records'">פירוט רשומות</p>
+<div class="d-flex" *ngIf="process_details">
+  <div class="w-25">
+    <span class="f-14">שם מעסיק:</span>
+    <span class="bold mr-1 f-14">{{ process_details.employer_name }}</span>
+  </div>
+  <div class="w-25">
+    <span>ח.פ:</span>
+    <span class="bold mr-1 f-14">{{ process_details.employer_business_number }}</span>
+  </div>
+  <div class="w-25">
+    <span class="f-14">שם מחלקה:</span>
+    <span class="bold mr-1 f-14">{{ process_details.department_name }}</span>
+  </div>
+  <div class="w-25">
+    <span class="f-14">שם התהליך:</span>
+    <span class="bold mr-1 f-14">{{ process_details.name }}</span>
+  </div>
+</div>
+<div class="d-flex mt-2" *ngIf="process_details">
+  <div class="w-25">
+    <span class="f-14">סכום לתשלום:</span>
+    <span class="bold mr-1 f-14">{{ process_details.total }}</span>
+  </div>
+  <div class="w-25">
+    <span class="f-14">מספר תהליך:</span>
+    <span class="bold mr-1 f-14">{{ process_details.id }}</span>
+  </div>
+  <div class="w-25">
+    <span class="f-14">חודש שכר:</span>
+    <span class="bold mr-1 f-14">{{ process_details.date | slice:5:7}}</span>
+  </div>
+  <div [hidden]="type !== 'records'" class="w-25">
+    <span class="f-14">מספר רשומות:</span>
+    <span class="bold mr-1 f-14">{{ process_details.records_count }}</span>
+  </div>
+  <div [hidden]="type !== 'files'" class="w-25">
+    <span class="f-14">סה"כ קבוצות ששודרו:</span>
+    <span class="bold mr-1 f-14">{{ process_details.groups_count }}</span>
+  </div>
+</div>
+<div class="float-left w-25 mt-2" *ngIf="process_details" >
+  <span class="f-14">מספר קבצים:</span>
+  <span class="bold mr-1 f-14">{{ process_details.groups_count }}</span>
+</div>
 
-  <table class="table table-borderless">
-    <thead>
-    <tr>
-      <td colspan="4">
-        <span>פירוט  </span>
-        <span [hidden]="type !== 'records'">רשומות</span>
-        <span [hidden]="type !== 'files'">קבצים</span>
-      </td>
-    </tr>
-    </thead>
-    <tbody class="f-12">
-    <tr>
-      <td>שם המעסיק:</td>
-      <td>{{ process_details.employer_name }}</td>
-      <td>ח.פ:</td>
-      <td>{{ process_details.employer_business_number }}</td>
-      <td>שם מחלקה:</td>
-      <td>{{ process_details.department_name }}</td>
-      <td>שם התהליך:</td>
-      <td>{{ process_details.name }}</td>
-    </tr>
-    <tr>
-      <td>סכום לתשלום:</td>
-      <td>{{ process_details.total }}</td>
-      <td>מספר תהליך:</td>
-      <td>{{ process_details.id }}</td>
-      <td>חודש שכר:</td>
-      <td>{{ process_details.date | slice:5:7}}</td>
-      <td [hidden]="type !== 'records'">מספר רשומות:</td>
-      <td [hidden]="type !== 'records'">{{ process_details.records_count }}</td>
-      <td [hidden]="type !== 'file'">סה"כ קבוצות ששודרו:</td>
-      <td [hidden]="type !== 'file'"> {{ process_details.groups_count }}</td>
-    </tr>
-    <tr>
-      <td colspan="8">מספר קבצים: {{ process_details.groups_count }}</td>
-
-    </tr>
-    </tbody>
-  </table>
-<app-detailed-files *ngIf="type === 'files'"></app-detailed-files>
-<app-detailed-records *ngIf="type === 'records'"></app-detailed-records>
+<div class="mt-5 py-5">
+  <app-detailed-files *ngIf="type === 'files'"></app-detailed-files>
+  <app-detailed-records *ngIf="type === 'records'"></app-detailed-records>
+</div>

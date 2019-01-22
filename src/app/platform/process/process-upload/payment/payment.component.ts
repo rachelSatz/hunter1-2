@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { MatDialog } from '@angular/material';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
 
@@ -14,7 +14,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import * as FileSaver from 'file-saver';
 import { interval, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
-import {Process} from '../../../../shared/_models/process.model';
+import {Process} from 'app/shared/_models/process.model';
 
 
 @Component({
@@ -65,7 +65,6 @@ export class PaymentComponent implements OnInit , OnDestroy {
     if (this.processDataService.activeProcess.pageNumber === 3) {
       this.pageNumber = 2;
     }
-    // this.processId = this.processDataService.activeProcess.processID || 0;
    this.processId = this.route.snapshot.params['id'];
 
 
@@ -79,12 +78,10 @@ export class PaymentComponent implements OnInit , OnDestroy {
     ).subscribe(response => {
       this.set_process(response);
     });
-    // this.month = this.process_details.date.slice(5 [7]) ;
   }
 
   set_process(response): void {
     this.process_details = response;
-    console.log( this.process_details);
     if (this.process_details.status !== null) {
       switch (this.process_details.status) {
         case 'Can_Be_Processed': {
@@ -184,7 +181,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
         this.router.navigate(['/platform', 'process', 'new', 1, 'details'], {queryParams: files});
         break;
       }
-      case 'details-records': {
+      case 'detailed-records': {
         this.processDataService.activeProcess.returnDetails = true;
         this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
       }

@@ -39,6 +39,7 @@ export class BroadcastComponent implements OnInit {
   process: Process;
   file: boolean;
   record: boolean;
+  dateValid = false;
   type;
   data;
   processId;
@@ -66,7 +67,6 @@ export class BroadcastComponent implements OnInit {
     });
 
     this. process_details = new ProcessDetails;
-    console.log(this.process_details);
     this.type = this.processDataService.activeProcess.type;
     this.processId = this.processDataService.activeProcess.processID;
     this.isRefund = this.type !== 'positive';
@@ -83,15 +83,13 @@ export class BroadcastComponent implements OnInit {
       width: '550px',
     });
     dialogRef.afterClosed().subscribe(
-      data => this.paymentDate = this.dataPipe.transform(data, 'dd/MM/yyyy')
-
+      data => this.update(data)
     );
   }
 
   Refund() {
     this.processDataService.activeProcess = new Process();
     this.processDataService.activeProcess.type = 'negative';
-    console.log(this.processDataService.activeProcess);
     this.router.navigate(['/platform', 'process', 'new', 2]);
 
   }
@@ -109,12 +107,16 @@ export class BroadcastComponent implements OnInit {
   }
 
   setPage(type) {
-    console.log(this.processDataService.activeProcess.pageNumber);
     if (type === 'detailed-files') {
      const files = {name: 'files'};
      this.router.navigate(['/platform', 'process', 'new', 1, 'details'], {queryParams: files});
    } else {
      this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
    }
+  }
+
+  update(data) {
+    this.paymentDate = this.dataPipe.transform(data, 'dd/MM/yyyy');
+    this.dateValid = !this.paymentDate.includes('-');
   }
 }

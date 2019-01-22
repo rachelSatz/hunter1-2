@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { FileDropModule } from 'ngx-file-drop';
 import { MatAutocompleteModule, MatCheckboxModule, MatChipsModule,
          MatDialogModule, MatFormFieldModule, MatIconModule,
-         MatInputModule, MatSelectModule, MatProgressBarModule, MatMenuModule} from '@angular/material';
+         MatInputModule, MatSelectModule, MatProgressBarModule, MatMenuModule } from '@angular/material';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';

@@ -354,3 +354,9 @@ button[mat-dialog-close] {
     max-width: 100%;
   }
 }
+
+/*.extend {*/
+  /*position: absolute;*/
+  /*width: 80% !important;*/
+  /*right: 11%;*/
+/*}*/

@@ -5,8 +5,9 @@
   justify-content: center;
   height: 200px !important;
   border: 2px dashed #b7b7b7 !important;
-  border-radius: 8px !important;
+  border-radius: 0 !important;
 }
+
 
 ::ng-deep .content {
   height: initial !important;
@@ -24,4 +25,11 @@
 .fa-check-circle-o {
   font-size: 60px;
 }
+
+.file-uploaded  ::ng-deep .drop-zone {
+  border: 2px solid #b7b7b7 !important;
+}
+
+
+
 

@@ -16,12 +16,12 @@ import { CommentsComponent } from './comments/comments.component';
 
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
-import {ProcessDataService} from '../../../../../shared/_services/process-data-service';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
 
 @Component({
   selector: 'app-detailed-files',
   templateUrl: './detailed-files.component.html',
-  styleUrls: ['../../../../../shared/data-table/data-table.component.css']
+  styleUrls: ['../../../../../shared/data-table/data-table.component.css', './details-files.component.css']
 })
 export class DetailedFilesComponent extends DataTableComponent implements OnInit, OnDestroy {
 
