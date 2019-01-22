@@ -45,7 +45,6 @@ const routes: Routes = [
     DatePickerModule,
     DataTableModule
   ],
-  // exports: [DatePipe],
   providers: [MonthlyTransferBlockService],
   declarations: [ DetailsComponent,
     CommentsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent, GroupTransferComponent,

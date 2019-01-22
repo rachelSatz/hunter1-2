@@ -13,8 +13,8 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
     super(userSession);
   }
 
-  groupList(): Promise<any> {
-    return this.http.get(this.endPoint + '/groupList', this.getTokenHeader())
+  groupList( processId: number): Promise<any> {
+    return this.http.get(this.endPoint + '/' + processId + '/groupList', this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);
@@ -31,15 +31,16 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
 
   }
 
-  updateMTBGroup(rowIDs: number[], groupId: number): Promise<boolean> {
-    return this.http.post(this.endPoint + '/updateMTBGroup', {ids: rowIDs, groupId: groupId}, this.getTokenHeader())
-      .toPromise()
-      .then(response => response)
-      .catch(response => response);
-  }
+  // updateMTBGroup(rowIDs: number[], groupId: number): Promise<boolean> {
+  //   return this.http.post(this.endPoint + '/updateMTBGroup', {ids: rowIDs, groupId: groupId}, this.getTokenHeader())
+  //     .toPromise()
+  //     .then(response => response)
+  //     .catch(response => response);
+  // }
 
-  createMTBGroup(rowIDs: number[]): Promise<boolean> {
-    return this.http.post(this.endPoint + '/createMTBGroup', {ids: rowIDs}, this.getTokenHeader())
+  createMTBGroup(rowIDs: number[], bankAccountId?: number, groupId?: number, process_id?: number): Promise<boolean> {
+    return this.http.post(this.endPoint + '/createOrUpdateMTBGroup',
+      {ids: rowIDs, bank_account_id: bankAccountId, groupId: groupId, process_id: process_id }, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);

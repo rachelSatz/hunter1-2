@@ -6,7 +6,6 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Compensation } from 'app/shared/_models/compensation.model';
-import {UploadFile} from 'ngx-file-drop';
 
 
 @Injectable()

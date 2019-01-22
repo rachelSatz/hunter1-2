@@ -8,18 +8,21 @@
     <h6 class="bold">העברת קבוצה</h6>
     <br>
     <div>
-      <div class="d-flex align-items-center">
-        <div class="bd-select-container">
-        <bd-select  [(ngModel)]="groupId" name="groupId" [items]="groups"  placeholder="בחר קבוצה"></bd-select>
-        </div>
+      <div class="row">
+          <bd-select  class="col-6" [ngModel]="groupId" name="groupId" #groupIdSelect="ngModel" value="group_id" [items]="data.groups"  placeholder="בחר קבוצה" required></bd-select>
+          <p class="alert red-color col-6" [@fade]="groupIdSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
       </div>
       <div>
-        <button mat-button (click)="newGroup()">" > העבר לקבוצה חדשה</button>
+        <a (click)="newGroup()" class="bold f-12">> העבר לקבוצה חדשה</a>
+        <!--<button mat-button (click)="newGroup()"> העבר לקבוצה חדשה</button>-->
         <!--<div *ngIf="isShow">טקסט כלשהוא</div>-->
       </div>
     </div>
-    <div class="text-center">
+    <div class="text-center mb-1">
       <button class="btn blue-btn" (click)="submit(form)">העברה</button>
     </div>
+
+    <p class="alert alert-danger " [@fade]="hasServerError ? 'active' : 'inactive'">{{ message }}</p>
   </div>
+
 </form>

@@ -43,10 +43,10 @@
         </td>
         <td>{{ item.first_name + ' ' + item.last_name}}</td>
         <td>{{ item.personal_id }}</td>
-        <td>{{ item.deposit_type }}</td>
+        <td>{{ depositTypes[item.deposit_type] }}</td>
         <td>{{ item.employer_product_code }}</td>
         <td>{{ item.employer_product_name }}</td>
-        <td>{{ productTypes[item.employer_product_type] }}</td>
+        <td>{{ depositTypes[item.employer_product_type] }}</td>
         <td>{{ depositStatus[item.deposit_status] }}</td>
         <td>{{ item.prodect_code }}</td>
         <td>{{ item.payment_month | date: 'MM/yy' }}</td>

@@ -1,11 +1,28 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatButton } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NgForm } from '@angular/forms';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
+
 
 @Component({
   selector: 'app-group-transfer',
-  templateUrl: './group-transfer.component.html'
+  templateUrl: './group-transfer.component.html',
+  animations: [
+    trigger('fade', [
+      state('inactive', style({
+        display: 'none',
+        height: '0'
+      })),
+      state('active', style({
+        display: '*',
+        height: '*'
+      })),
+      transition('active => inactive', animate('200ms')),
+      transition('inactive => active', animate('200ms'))
+    ])
+  ]
 })
 export class GroupTransferComponent implements OnInit {
 
@@ -13,38 +30,32 @@ export class GroupTransferComponent implements OnInit {
               private dialogRef: MatDialogRef<GroupTransferComponent>,
               public mtbService: MonthlyTransferBlockService) { }
 
-  groups: any;
   groupId: number;
-  isShow = false;
+  hasServerError: boolean;
+  message: string;
 
   ngOnInit() {
-    this.mtbService.groupList().then(items => {
-      this.groups = items;
-    });
   }
-  // selectedGroup(): void {
-  //   const selectedGroupId = this.groups.find(group => {
-  //     return +group.id === this.groupId;
-  //   });
-  //
-  // }
-  showDiv(show: boolean): void {
-    this.isShow = !show;
-  }
+
   newGroup(): void {
-    this.dialogRef.close();
+    this.hasServerError = false;
     this.mtbService.createMTBGroup(this.data.ids).then( response => {
       if (response['success'] && response['message'] === 'diff') {
         this.dialogRef.close(response['data']);
       } else {
-        this.dialogRef.close();
+        if (response['message'] === 'different products') {
+          this.hasServerError = true;
+          this.message = 'אין אפשרות להעביר לקבוצה שתי מ"ה שונים';
+        }else {
+          this.dialogRef.close();
+        }
       }
     });
   }
 
   submit(form: NgForm): void {
-    if (this.groupId > 0) {
-      this.mtbService.updateMTBGroup(this.data.ids, this.groupId).then( response => {
+    if (form.value.groupId > 0) {
+      this.mtbService.createMTBGroup(this.data.ids, 0 , form.value.groupId, this.data.processId).then( response => {
         if (response) {
           this.dialogRef.close();
         }
@@ -52,7 +63,5 @@ export class GroupTransferComponent implements OnInit {
     } else {
 
     }
-
-
   }
 }

@@ -10,7 +10,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { Subscription } from 'rxjs';
 import { GroupBankAccountComponent } from './group-bank-account/group-bank-account.component';
 import { ProductType } from 'app/shared/_models/product.model';
-import { DepositStatus } from 'app/shared/_models/monthly-transfer-block';
+import { DepositStatus, DepositType } from 'app/shared/_models/monthly-transfer-block';
 
 
 @Component({
@@ -44,6 +44,7 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
 
   productTypes = ProductType;
   depositStatus = DepositStatus;
+  depositTypes = DepositType
 
   ngOnInit() {
     this.monthlyTransferBlockService.getEntity(this.processDataService.activeProcess.processID)
@@ -63,23 +64,31 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
   }
 
   openGroupTransferDialog(): void {
-    if (true || this.checkedRowItems()) {
-      const dialog = this.dialog.open(GroupTransferComponent, {
-        data: {'ids': this.checkedItems.map(item => item.id)},
-        width: '550px',
-        panelClass: 'dialog-file'
+    if (this.checkedRowItems()) {
+      this.monthlyTransferBlockService.groupList( this.processDataService.activeProcess.processID).then(items => {
+        const ids = this.checkedItems.map(item => item.id);
+        const dialog = this.dialog.open(GroupTransferComponent, {
+          data: {'ids': ids
+            , 'groups': items, 'processId': this.processDataService.activeProcess.processID},
+          width: '550px',
+          panelClass: 'dialog-file'
+        });
+        this.sub.add(dialog.afterClosed().subscribe((data) => {
+          this.checkedItems = [];
+          this.isCheckAll = false;
+          if (data && data !== null && data !== '') {
+            this.openBankAccountDialog(data, ids);
+            this.fetchItems();
+          }else {
+            this.fetchItems();
+          }
+        }));
       });
-      this.sub.add(dialog.afterClosed().subscribe((data) => {
-        if (data !== 'undefined' && data !== null) {
-          this.openBankAccountDialog(data);
-          // this.fetchItems(true);
-        }
-      }));
     }
   }
-  openBankAccountDialog(data: object): void {
+  openBankAccountDialog(data: object, ids: object): void {
     this.dialog.open(GroupBankAccountComponent, {
-      data: {'data': data},
+      data: {'banks': data, 'ids': ids },
       width: '655px',
       panelClass: 'dialog-file'
     });
@@ -91,7 +100,6 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
       return false;
     }
     return true;
-
   }
 
   openWarningMessageComponentDialog(type: boolean): void {

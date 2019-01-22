@@ -5,18 +5,41 @@
 </div>
 <form #form="ngForm">
   <div class="mt-1">
-    <h6 class="bold">עדכון אסמכתא</h6>
-    <!--<p class="f-12"> סוג תשלום: <span> {{ data.accNum }}</span></p>-->
+    <h6 class="bold"> בחירת בנק לקבוצה <span class="f-12">(יש לבחור רשומה אחת)</span></h6>
       <div class="d-flex align-items-center">
-        <div class="bd-select-container" *ngFor="let item of data">
-          <span>{{ item.bank_name }}</span>
-          <!--<bd-select [items]="data" placeholder="בחר בנק"></bd-select>-->
+        <table class="table table-hover mt-3 data-table">
+          <thead>
+          <tr class="table-headers">
+            <th *ngIf="items.length > 0">
+              <mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>
+            </th>
+            <th *ngFor="let header of headers; let index = index;" (click)="index < 12 &&  sort(header)">
+              <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
+              <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngIf="!isSearching">
+            <tr *ngFor="let item of paginatedItems" class="pointer" [ngClass]="{ 'checked': item.isChecked }">
+              <td>
+                <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
+              </td>
+              <td>{{ item.bank_name}}</td>
+              <td>{{ item.branch_name }}</td>
+              <td>{{ item.account_number }}</td>
 
-          <!--<bd-select  [ngModel]="bankId" name="bankId" [items]="banks" label="bank_name" placeholder="בחר בנק"></bd-select>-->
-        </div>
+            </tr>
+          </ng-container>
+          <tr *ngIf="!isSearching && items.length === 0">
+            <td colspan="19" class="text-center bold">טבלת הבקשות ריקה.</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
-    <div class="text-center">
+    <div class="text-center mb-1">
       <button class="btn blue-btn" (click)="submit(form)">עדכון</button>
     </div>
+    <p class="alert alert-danger " [@fade]="hasServerError ? 'active' : 'inactive'">יש לסמן רק רשומה אחת</p>
   </div>
 </form>
