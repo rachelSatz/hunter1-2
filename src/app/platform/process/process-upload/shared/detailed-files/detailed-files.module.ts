@@ -31,8 +31,8 @@ import { NotificationService } from 'app/shared/_services/notification.service';
     MatFormFieldModule, MatInputModule, MatSelectModule,
     MatDialogModule, MatMenuModule, MatProgressSpinnerModule, MatIconModule
   ],
-  exports: [DetailedFilesComponent],
-  providers: [ NotificationService],
-  declarations: [ DetailedFilesComponent]
+  // exports: [DetailedFilesComponent],
+  providers: [ NotificationService]
+  // declarations: [ DetailedFilesComponent]
 })
 export class DetailedFilesModule { }

@@ -2,7 +2,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent, MatDialogRef } from '@angular/material';
 import { Email} from 'app/platform/compensation/process/send-to/send-to.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 
 @Component({

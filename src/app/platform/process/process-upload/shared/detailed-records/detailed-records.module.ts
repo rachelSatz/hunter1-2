@@ -10,11 +10,9 @@ import {
   MatSelectModule,
   MatDialogModule, MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule
 } from '@angular/material';
-
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DetailedRecordsComponent } from './detailed-records.component';
-import { FileTransferComponent } from './file-transfer/file-transfer.component';
-import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 
 
 
@@ -23,10 +21,11 @@ import { GroupTransferComponent } from './group-transfer/group-transfer.componen
     CommonModule,
     FormsModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule, MatMenuModule,
-    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule, MatIconModule
+    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule, MatIconModule,
+    BdSelectModule
   ],
-  declarations: [DetailedRecordsComponent, FileTransferComponent, GroupTransferComponent],
-  exports: [DetailedRecordsComponent],
+  // declarations: [DetailedRecordsComponent],
+  // exports: [DetailedRecordsComponent],
   providers: [ NotificationService]
 })
 export class DetailedRecordsModule { }

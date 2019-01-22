@@ -10,6 +10,7 @@ export class Process {
   employer: Employer;
   month;
   monthName;
+  date: string;
   year;
   totalPaymentFile?: number;
   codeFile: number ;
@@ -32,6 +33,7 @@ export class Process {
   processID: number;
   departmentId;
   pageNumber;
+  returnDetails;
 
 constructor() {
     this.employer = new Employer();

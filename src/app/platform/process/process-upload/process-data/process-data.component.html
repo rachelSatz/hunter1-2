@@ -52,7 +52,7 @@
         </div>
         <div class="mt-5">
           <mat-spinner class="mx-auto mb-3" *ngIf="spin"></mat-spinner>
-          <file-drop [ngClass]="{ 'uploaded': processFile }" ng2FileDrop (onFileDrop)="getFileFromDrop($event)">
+          <file-drop [ngClass]="{ 'file-uploaded': processFile }" ng2FileDrop (onFileDrop)="getFileFromDrop($event)">
             <i class="fa fa-times ml-2 pointer" (click)="processFile = null; process.file = null" *ngIf="processFile || process.file"></i>
             <label class="text-center pointer" *ngIf="!processFile && !process.file" (change)="setFile($event.target.files[0])">
               <img src="/assets/img/icons/cloud-backup.svg" class="mb-1 icon-lg">

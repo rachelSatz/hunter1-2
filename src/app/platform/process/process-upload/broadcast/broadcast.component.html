@@ -1,3 +1,4 @@
+
 <table class="table table-bordered">
   <thead>
   <tr>
@@ -9,7 +10,7 @@
   </tr>
   </thead>
 </table>
-    <div class="col-6  offset-3" [@fade]="pageNumber === 1? 'active': 'inactive'">
+<div class="col-6  offset-3" [@fade]="pageNumber === 1? 'active': 'inactive'">
       <div *ngIf="!isRefund">
         <h5 class="bold text-center">תהליך שידור</h5>
         <p class="f-12 text-center grey-color">להלן פרטי הנתונים הפנסיוניים לשידור לקופות</p>
@@ -41,7 +42,6 @@
           <p class="bold mr-1">{{process_details.name}}</p>
         </div>
         <span>חודש שכר:</span>
-        <!--<p class="bold mr-1">{{process_details.date | slice:5:7}}</p>-->
         <p class="bold mr-1">{{processDataService.activeProcess.monthName}}</p>
       </div>
 
@@ -84,8 +84,8 @@
             בשידור לקופות הקבצים יועברו על פי הנתונים הקיימים ופיולה זואינה ניתנת לביטול.</p>
         </div>
       </mat-checkbox>
-      <div class="text-center mt-5">
-        <button class="btn blue-btn" [disabled]="!valid && !isRefund || !paymentDate" (click)="transfer();
+      <div class="text-center mt-5 pb-5">
+        <button class="btn blue-btn" [disabled]="(!valid || !dateValid) && !isRefund " (click)="transfer();
         processDataService.activeProcess.pageNumber = 5">שידור לקופות</button>
       </div>
     </div>
@@ -118,7 +118,6 @@
       <p class="bold mr-1">{{process_details.name}}</p>
     </div>
     <span>חודש שכר:</span>
-    <!--<p class="bold mr-1">{{process_details.date | slice:5:7}}</p>-->
     <p class="bold mr-1">{{processDataService.activeProcess.monthName}}</p>
   </div>
   <p class="border-bottom f-14 bold grey-color">פרטי התשלומים</p>
@@ -144,36 +143,7 @@
     <p class="text-right bold red-color f-12">שים לב!</p>
     <p class="f-12 mr-2">בשידור לקופות הנך מאשר כי קובץ ההצהרה לבקשת החזר יהיה ממוען לחברות המנהלות בקובץ</p>
   </div>
-  <div class="mt-5 text-center" *ngIf="!isRefund">
+  <div class="mt-5 text-center pb-5" *ngIf="!isRefund">
     <button class="btn blue-btn" (click)="Refund()">יצירת בקשת החזר כספי</button>
   </div>
 </div>
-
-<!--<table *ngIf="record || file" class="table table-borderless">-->
-  <!--<thead>-->
-  <!--<tr class="thborder">-->
-    <!--<th colspan="4">פרטי התשלומים:</th>-->
-  <!--</tr>-->
-  <!--</thead>-->
-  <!--<tbody>-->
-  <!--<tr>-->
-    <!--<td>סכום לתשלום: {{process_details.total}} </td>-->
-    <!--<td *ngIf="process_details !== null && process_details !== undefined  && process_details.total !== null">{{ process_details.total }}</td>-->
-  <!--</tr>-->
-  <!--<tr>-->
-    <!--<td>מספר רשומות: </td>-->
-    <!--<td *ngIf="process_details !== null && process_details !== undefined  && process_details.records_count !== null">{{ process_details.records_count }}</td>-->
-    <!--<td>-->
-      <!--<a (click)="pageNumber = 4; record=true">לפירוט מלא ></a>-->
-    <!--</td>-->
-  <!--</tr>-->
-  <!--<tr></tr>-->
-  <!--<tr>-->
-    <!--<td>מספר קבצים: </td>-->
-    <!--<td *ngIf="process_details !== null && process_details !== undefined  && process_details.groups_count !== null">{{ process_details.groups_count }}</td>-->
-    <!--<td>-->
-      <!--<a (click)="pageNumber = 4; file = true">לפירוט מלא ></a>-->
-    <!--</td>-->
-  <!--</tr>-->
-  <!--</tbody>-->
-<!--</table>-->

@@ -8,13 +8,14 @@ import { MonthlyTransferBlockService } from '../../../../../shared/_services/htt
 import { ProcessDataService } from '../../../../../shared/_services/process-data-service';
 import { NotificationService } from '../../../../../shared/_services/notification.service';
 import { Subscription } from 'rxjs';
-import {UpdateAccountNumberComponent} from '../detailed-files/update-account-number/update-account-number.component';
-import {GroupBankAccountComponent} from './group-bank-account/group-bank-account.component';
+import { GroupBankAccountComponent } from './group-bank-account/group-bank-account.component';
 
 
 @Component({
   selector: 'app-detailed-records',
   templateUrl: './detailed-records.component.html',
+  styles: ['#accounts { direction: ltr; height: 200px;  overflow-y: auto; }',
+           '.extend {width: 140%; margin-right: -20%}'],
   styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
 export class DetailedRecordsComponent  extends DataTableComponent implements OnInit , OnDestroy {
@@ -64,15 +65,16 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
         width: '550px',
         panelClass: 'dialog-file'
       });
-      // this.sub.add(dialog.afterClosed().subscribe((data) => {
-      //   if (data !== 'undefined' && data !== null) {
-      //     openBankAccountDialog(data);
-      //   }
-      // }));
+      this.sub.add(dialog.afterClosed().subscribe((data) => {
+        if (data !== 'undefined' && data !== null) {
+          this.openBankAccountDialog(data);
+          // this.fetchItems(true);
+        }
+      }));
     }
   }
   openBankAccountDialog(data: object): void {
-    const dialog = this.dialog.open(GroupBankAccountComponent, {
+    this.dialog.open(GroupBankAccountComponent, {
       data: {'data': data},
       width: '655px',
       panelClass: 'dialog-file'
@@ -88,7 +90,7 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
 
   }
 
-  openWarningMessageComponentDialog(type: string): void {
+  openWarningMessageComponentDialog(type: boolean): void {
     const title = type ? 'לא רלונטי' : 'מחיקת שורות';
     const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלונטית?' : 'האם ברצונך למחוק שורת אלו?';
     const typeData = type ? 'notRelevant' : 'delete';
