@@ -18,3 +18,20 @@ export class MonthlyTransferBlock {
 }
 
 
+export enum DepositType {
+  Regular = 'שוטף',
+  Singular = 'חד פעמי',
+  Convalescence = 'דמי הבראה',
+  Differences = 'הפרשים',
+  Overtime= 'שעות נוספות',
+}
+
+
+
+export enum DepositStatus {
+  Wage_Worker = 'שכיר',
+  Self_Employeed = 'עצמאי',
+  Share_Holder = 'בעל מניות'
+}
+
+

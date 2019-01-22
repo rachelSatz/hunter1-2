@@ -4,11 +4,13 @@ import { MatDialog } from '@angular/material';
 import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { MonthlyTransferBlockService } from '../../../../../shared/_services/http/monthly-transfer-block';
-import { ProcessDataService } from '../../../../../shared/_services/process-data-service';
-import { NotificationService } from '../../../../../shared/_services/notification.service';
+import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 import { Subscription } from 'rxjs';
 import { GroupBankAccountComponent } from './group-bank-account/group-bank-account.component';
+import { ProductType } from 'app/shared/_models/product.model';
+import { DepositStatus } from 'app/shared/_models/monthly-transfer-block';
 
 
 @Component({
@@ -40,6 +42,9 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
   employees = [];
   products = [];
   sub = new Subscription;
+
+  productTypes = ProductType;
+  depositStatus = DepositStatus;
 
   ngOnInit() {
     this.monthlyTransferBlockService.getEntity(this.processDataService.activeProcess.processID)
@@ -83,7 +88,7 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
 
   checkedRowItems(): boolean {
     if (this.checkedItems.length === 0) {
-      // this.setNoneCheckedWarning();
+      this.setNoneCheckedWarning();
       return false;
     }
     return true;

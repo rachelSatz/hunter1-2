@@ -12,8 +12,6 @@ import {
 } from '@angular/material';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { DetailedRecordsComponent } from './detailed-records.component';
-
 
 
 @NgModule({
@@ -24,8 +22,6 @@ import { DetailedRecordsComponent } from './detailed-records.component';
     MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule, MatIconModule,
     BdSelectModule
   ],
-  // declarations: [DetailedRecordsComponent],
-  // exports: [DetailedRecordsComponent],
   providers: [ NotificationService]
 })
 export class DetailedRecordsModule { }

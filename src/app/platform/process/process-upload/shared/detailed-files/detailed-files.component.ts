@@ -133,7 +133,6 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   }
 
   openWarningMessageComponentDialog(type: boolean): void {
-    if (this.checkedRowItems()) {
       const title = type ? 'לא רלונטי' : 'מחיקת שורות';
       const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלונטית?' : 'האם ברצונך למחוק שורת אלו?';
       const typeData = type ? 'notRelevant' : 'delete';
@@ -156,8 +155,8 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
           }
         });
       }
-    }
   }
+
   getTitle(employer_products: EmployerProduct[]): string[] {
     const title = [];
     if (employer_products.length > 1) {
