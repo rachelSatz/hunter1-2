@@ -34,6 +34,7 @@ export class Process {
   departmentId;
   pageNumber;
   returnDetails;
+  error_details: string;
 
 constructor() {
     this.employer = new Employer();

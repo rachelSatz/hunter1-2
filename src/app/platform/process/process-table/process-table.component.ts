@@ -111,4 +111,9 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
      this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id]);
    }
   }
+
+  messageError(error: string): void {
+    this.notificationService.error('', error);
+  }
+
 }
