@@ -10,6 +10,7 @@ import { BankBranch } from '../../_models/bank-branch.model';
 import { Manufacturer } from '../../_models/manufacturer.model';
 import { Product } from '../../_models/product.model';
 import * as FileSaver from 'file-saver';
+import {promise} from 'selenium-webdriver';
 // import { Application } from "../../_models/Application.model";
 // import { Agent } from "../../_models/agent.model";
 
@@ -169,6 +170,9 @@ export class GeneralHttpService extends BaseHttpService {
         .catch(() => []);
     }
 
-
-
+  getEmployeeData(departmentId: number): Promise<Object[]> {
+    return this.http.get(this.apiUrl  + '/feedbacks?departmentId=' + departmentId, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Object[]);
+  }
 }

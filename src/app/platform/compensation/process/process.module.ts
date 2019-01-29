@@ -28,7 +28,7 @@ import { SendToComponent } from './send-to/send-to.component';
 import { InquiriesComponent } from './inquiries/inquiries.component';
 import { EmployeesComponent } from './excel/employees/employees.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
-import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
+import { GeneralHttpService } from '../../../shared/_services/http/general-http.service';
 
 
 const routes: Routes = [
