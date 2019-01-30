@@ -1,4 +1,5 @@
 export class FileFeedback {
+  id: string;
   company_name: string;
   month: string;
   amount: string;

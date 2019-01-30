@@ -12,7 +12,7 @@ import { FileFeedbackError } from '../../_models/file-feedback-error';
 @Injectable()
 export class FeedbackService extends BaseHttpService {
 
-  readonly endPoint = this.apiUrl + '/feedback';
+  readonly endPoint = this.apiUrl + '/feedbacks';
 
   constructor(userSession: UserSessionService, private http: HttpClient) {
     super(userSession);
@@ -37,15 +37,16 @@ export class FeedbackService extends BaseHttpService {
     .then(response => response as EmployeeFeedback[]);
   }
 
-  getFileFeedbacks(searchCriteria?: Object): Promise<FileFeedback[]> {
+  getFileFeedbacks(departmentId: number): Promise<FileFeedback[]> {
     
     const options = this.getTokenHeader();
-    options['params'] = searchCriteria;
+    options['params'] = departmentId;
 
-    return this.http.get(this.endPoint + '/file', options)
+    return this.http.get(this.endPoint + '/FilesList', options)
     .toPromise()
     .then(response => response as FileFeedback[]);
   }
+
   storeComment(fileFeedback: FileFeedback, remark: string): Promise<any[]>  {
   const formData = new FormData;
     formData.append('feedback', JSON.stringify(fileFeedback));

@@ -26,17 +26,17 @@
 <div class="row col-12">
   <p class=" h4 mb-4">מעקב לפי קובץ</p>
 </div>
-<mat-form-field class="ml-3">
-  <input matInput placeholder="חיפוש"  (change)="search()">
-  <i matSuffix class="fa fa-search"></i>
-</mat-form-field>
-<div class="float-left">
-  <button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="openFormDialog()">שלח פנייה</button>
-    <button mat-menu-item (click)="openGroupTransferDialog()">עדכון סטטוס ידני</button>
-  </mat-menu>
-</div>
+<!--<mat-form-field class="ml-3">-->
+  <!--<input matInput placeholder="חיפוש"  (change)="search()">-->
+  <!--<i matSuffix class="fa fa-search"></i>-->
+<!--</mat-form-field>-->
+<!--<div class="float-left">-->
+  <!--<button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>-->
+  <!--<mat-menu #menu="matMenu">-->
+    <!--<button mat-menu-item (click)="openFormDialog()">שלח פנייה</button>-->
+    <!--<button mat-menu-item (click)="openGroupTransferDialog()">עדכון סטטוס ידני</button>-->
+  <!--</mat-menu>-->
+<!--</div>-->
 <table class="table table-hover mt-3 data-table">
   <thead>
   <tr class="table-headers">
@@ -46,5 +46,23 @@
     </th>
   </tr>
   </thead>
+  <tbody>
+  <ng-container *ngIf="!isSearching">
+    <tr *ngFor="let item of paginatedItems" class="pointer" [ngClass]="{ 'checked': item.isChecked }">
+      <td>{{ item.company_name}}</td>
+      <td>{{ item.month }}</td>
+      <td>{{ item.amount }}</td>
+      <td>{{ item.code }}</td>
+      <td>{{ item.date | date: 'MM/yy' }}</td>
+      <td>{{ item.inquiry_created_at | date: 'MM/yy' }}</td>
+      <td>{{ item.last_update }}</td>
+      <td>{{ item.status }}</td>
+      <td>{{ item.inquiry_status }}</td>
+      <td (click)="openFormDialog()"></td>
+      <td (click)="sendInquiry()"></td>
+      <td (click)="openCommentsDialog()"></td>
+    </tr>
+  </ng-container>
+  </tbody>
 </table>
 <app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>

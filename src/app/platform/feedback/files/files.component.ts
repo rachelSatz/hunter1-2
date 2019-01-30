@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { MatDialog } from '@angular/material';
 import { FormComponent } from './form/form.component';
+import { FeedbackService } from 'app/shared/_services/http/feedback.service';
+import {SelectUnitService} from '../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-files',
@@ -12,6 +14,7 @@ import { FormComponent } from './form/form.component';
   styleUrls: ['../../../shared/data-table/data-table.component.css']
 })
 export class FilesComponent extends DataTableComponent implements OnInit {
+
 
   readonly headers: DataTableHeader[] =  [
     { column: 'company_name', label: 'חברה מנהלת' },
@@ -31,11 +34,13 @@ export class FilesComponent extends DataTableComponent implements OnInit {
 
   constructor(route: ActivatedRoute, private router: Router,
               protected notificationService: NotificationService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog, private feedbackService: FeedbackService,
+              private selectUnit: SelectUnitService,) {
     super(route, notificationService);
   }
 
   ngOnInit() {
+    this.feedbackService.getFileFeedbacks(this.selectUnit.currentDepartmentID).then(response => this.setItems(response));
   }
 
   openFormDialog(): void {
