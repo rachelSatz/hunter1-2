@@ -102,6 +102,10 @@ export class FeedbackService extends BaseHttpService {
     .then(response => response);
   }
 
-
+  getEmployeeData(departmentId: number): Promise<EmployeeFeedback> {
+    return this.http.get(this.apiUrl  + '/feedbacks?departmentId=' + departmentId, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as EmployeeFeedback);
+  }
 
 }

@@ -31,10 +31,52 @@
   <div>
     <button class="mb-2 float-left btn blue-btn" (click)="openApplicationDialog()">פעולות</button>
   </div>
+<div [@slideToggle]="extraSearchCriteria" class="d-flex align-items-center flex-wrap mb-3 filter-row">
+  <mat-form-field class="ml-3">
+    <input matInput placeholder="לפי חברה מנהלת"  (change)="search()">
+    <i matSuffix class="fa fa-search"></i>
+  </mat-form-field>
+  <bd-select [items]="selectProductType" placeholder="לפי סוג המוצר" class="ml-3"></bd-select>
+  <mat-form-field class="ml-3">
+    <input matInput placeholder="לפי קוד אוצר"  (change)="search()">
+    <i matSuffix class="fa fa-search"></i>
+  </mat-form-field>
+  <mat-form-field class="ml-3">
+    <input matInput placeholder="לפי סכום"  (change)="search()">
+    <i matSuffix class="fa fa-search"></i>
+  </mat-form-field>
+  <bd-select [items]="statusLabel" placeholder="לפי סטטוס" [(ngModel)]="searchCriteria['response_time']" (onSelect)="search()"></bd-select>
+  <bd-select [items]="statusLabel" placeholder="לפי סטטוס פניה" [(ngModel)]="searchCriteria['response_time']" (onSelect)="search()"></bd-select>
+
+  <mat-form-field>
+    <input matInput class="pointer" (click)="datePickerRequest.open()" [matDatepicker]="datePickerRequest" placeholder=" תאריך יצירת בקשה" name="dateRequest"  [(ngModel)]="searchCriteria['date_request']" (dateChange)="valueDateChange($event.value)" readonly>
+    <mat-datepicker-toggle matSuffix [for]="datePickerRequest"></mat-datepicker-toggle>
+    <mat-datepicker #datePickerRequest></mat-datepicker>
+    <mat-error>שדה חובה.</mat-error>
+  </mat-form-field>
+</div>
+<div class="d-flex justify-content-between">
+  <div class="p-2" (click)="toggleExtraSearch()">
+    <span class="bold blue-color pointer">{{ extraSearchCriteria === 'active' ? 'הצג פחות >' : 'חיפוש מורחב >' }}</span>
+  </div>
+</div>
+
 <table class="table table-hover mt-3 data-table">
-  <th *ngFor="let header of headers">{{header.label}}</th>
-  <tr class="table-headers"></tr>
+  <th *ngFor="let header of headers">{{header.label}}
+
+  </th>
+  <tr class="table-headers pointer" *ngFor="let employee of employeeData">
+    <td>{{ employee.name }}</td>
+    <td>{{ employee.personal_id }}</td>
+    <td>{{ employee.payment_month | date:'MM'}}</td>
+    <td>{{ employee.deposit_month }}</td>
+    <td>{{ employee.salary }}</td>
+    <td>{{ employee.company_name}}</td>
+    <td>{{ employee.product_type}}</td>
+    <td>{{ employee.product_code}}</td>
+    <td>{{ employee.sum}}</td>
+  </tr>
 </table>
-<!--<button class="btn blue-btn" (click)="httpTest()"></button>-->
+
 
 

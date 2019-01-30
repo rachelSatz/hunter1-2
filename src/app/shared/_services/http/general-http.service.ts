@@ -170,9 +170,5 @@ export class GeneralHttpService extends BaseHttpService {
         .catch(() => []);
     }
 
-  getEmployeeData(departmentId: number): Promise<Object[]> {
-    return this.http.get(this.apiUrl  + '/feedbacks?departmentId=' + departmentId, this.getTokenHeader())
-      .toPromise()
-      .then(response => response as Object[]);
-  }
+
 }
