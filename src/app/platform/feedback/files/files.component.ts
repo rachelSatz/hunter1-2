@@ -3,6 +3,8 @@ import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { MatDialog } from '@angular/material';
+import { FormComponent } from './form/form.component';
 
 @Component({
   selector: 'app-files',
@@ -28,11 +30,18 @@ export class FilesComponent extends DataTableComponent implements OnInit {
   ];
 
   constructor(route: ActivatedRoute, private router: Router,
-              protected notificationService: NotificationService) {
+              protected notificationService: NotificationService,
+              private dialog: MatDialog) {
     super(route, notificationService);
   }
 
   ngOnInit() {
   }
 
+  openFormDialog(): void {
+    this.dialog.open(FormComponent, {
+      width: '550px',
+      panelClass: 'dialog-file'
+    });
+  }
 }

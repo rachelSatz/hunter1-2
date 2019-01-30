@@ -1,33 +1,42 @@
 <div class="col-12 f-12 mb-lg-5">
   <div class="float-left">
-    <!--<mat-form-field>-->
-      <!--<mat-select placeholder="חודש שכר" [(ngModel)]="searchCriteria['month']" name="month" class="ml-3" (selectionChange)="search()" >-->
-        <!--<mat-option *ngFor="let month of months; let index = index;" [value]="index + 1" >-->
-          <!--{{month}}-->
-        <!--</mat-option>-->
-      <!--</mat-select>-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field class="mr-3">-->
-      <!--<mat-select placeholder="שנה" [(ngModel)]="searchCriteria['year']" name="year" (selectionChange)="search()" >-->
-        <!--<mat-option *ngFor="let year of years" [value]="year" >-->
-          <!--{{year}}-->
-        <!--</mat-option>-->
-      <!--</mat-select>-->
-    <!--</mat-form-field>-->
-  <!--</div>-->
+    <mat-form-field class="ml-3">
+      <mat-select placeholder="מצג" [(ngModel)]="monthSearch" name="month" (selectionChange)="search()">
+        <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1" >
+          {{month.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field  class="ml-3">
+      <mat-select placeholder="חודש שכר" [(ngModel)]="monthSearch" name="month" (selectionChange)="search()">
+        <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1" >
+          {{month.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="שנה" [(ngModel)]="yearSearch" name="year" (selectionChange)="search()">
+        <mat-option *ngFor="let year of years" [value]="year">
+          {{year}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 </div>
 <div class="row col-12">
-  <p class=" h4 mb-4">תהליכים</p>
+  <p class=" h4 mb-4">מעקב לפי קובץ</p>
 </div>
-<!--<mat-form-field class="ml-3">-->
-  <!--<input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">-->
-  <!--<i matSuffix class="fa fa-search"></i>-->
-<!--</mat-form-field>-->
-
-<div>
-  <button class="mb-2 float-left btn blue-btn" (click)="redirectProcessNew()">פעולות</button>
+<mat-form-field class="ml-3">
+  <input matInput placeholder="חיפוש"  (change)="search()">
+  <i matSuffix class="fa fa-search"></i>
+</mat-form-field>
+<div class="float-left">
+  <button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openFormDialog()">שלח פנייה</button>
+    <button mat-menu-item (click)="openGroupTransferDialog()">עדכון סטטוס ידני</button>
+  </mat-menu>
 </div>
-
 <table class="table table-hover mt-3 data-table">
   <thead>
   <tr class="table-headers">
@@ -37,30 +46,5 @@
     </th>
   </tr>
   </thead>
-  <!--<tbody>-->
-  <!--&lt;!&ndash;<ng-container *ngIf="!isSearching">&ndash;&gt;-->
-  <!--<ng-container>-->
-  <!--<tr *ngFor="let item of paginatedItems" class="pointer">-->
-      <!--<td>{{ item.name }}</td>-->
-      <!--<td>{{ item.id }}</td>-->
-      <!--<td>{{ processType[item.type] }}</td>-->
-      <!--<td>{{ item.employer_name }}</td>-->
-      <!--<td>{{ item.department_name }}</td>-->
-      <!--<td>{{ item.date | date:'MM'}}</td>-->
-      <!--<td>{{ item.date | date:'yyyy' }}</td>-->
-      <!--<td>{{ item.total  }}</td>-->
-      <!--<td (click)="item.status === 'Error_Loading' ? messageError(item.error_details) :moveProcess(item)">{{ processStatus[item.status] }}</td>-->
-      <!--<td>-->
-        <!--<i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)" >-->
-        <!--</i>-->
-      <!--</td>-->
-
-    <!--</tr>-->
-  <!--</ng-container>-->
-  <!--<tr *ngIf="!isSearching && items.length === 0">-->
-    <!--<td colspan="10" class="text-center bold">טבלת תהליכים ריקה.</td>-->
-  <!--</tr>-->
-  <!--</tbody>-->
 </table>
 <app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
-</div>
