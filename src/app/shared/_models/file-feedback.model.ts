@@ -1,31 +1,13 @@
-import { Process } from './process.model';
-import { Manufacturer } from './manufacturer.model';
-import {Employer} from "./employer.model";
-import {BankBranch} from "./bank-branch.model";
-
 export class FileFeedback {
-  
-  process: Process;
-  manufacturer: Manufacturer;
-  accountNumber: number;
-  sumFile: number;
-  fileName: string;
-  xmlReturnStatusText: string;
-  manualStatusUpdateText: string;
-  firstStatusText: string;
+  company_name: string;
+  month: string;
+  amount: string;
+  code: string;
+  date: string;
+  inquiry_created_at: string;
+  last_update: string;
+  status: string;
+  inquiry_status: string;
 
-  id: number;
-  employer: Employer;
-  bankBranch: BankBranch;
-  payType: number;
-  productType: number;
-  firstStatus: number;
-  xmlReturnStatus: number;
-  manualStatusUpdate: number;
-
-  remarkStatus: string;
-  remarkManual: string;
-  MonthValueDate: string;
-  SendStatusDate: string;
 }
 

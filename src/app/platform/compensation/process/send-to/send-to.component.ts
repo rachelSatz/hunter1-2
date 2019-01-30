@@ -13,6 +13,7 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { Compensation } from 'app/shared/_models/compensation.model';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
 
 export interface Contact {
   id: number;
@@ -61,7 +62,8 @@ export class SendToComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation, private dialog: MatDialog,
               private dialogRef: MatDialogRef<SendToComponent>, private compensationService: CompensationService,
-              private contactService: ContactService, private helpers: HelpersService) {
+              private contactService: ContactService, private helpers: HelpersService,
+              private generalService: GeneralHttpService) {
     this.filteredContacts = this.contactCtrl.valueChanges.pipe(
       startWith(null),
       map((contact: string | null) => contact ? this._filter(contact) : this.contacts.slice()));
@@ -85,8 +87,8 @@ export class SendToComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-
-      this.compensationService.newInquiry(this.compensation.id, this.comments, this.Emails, form.value['contactsAdd'], this.uploadedFile).then(response => {
+      this.generalService.newInquiry(this.compensation.id, this.comments, 'compensation', this.Emails, form.value['contactsAdd'],
+        this.uploadedFile).then(response => {
       if (response) {
             this.dialogRef.close(this.compensation);
           } else {
@@ -141,7 +143,7 @@ export class SendToComponent implements OnInit {
   }
 
   private _filter(value: string): Contact[] {
-    console.log(value)
+    console.log(value);
     const filterValue =  value['name'] === undefined ? value.toLowerCase() : value['name'].toLowerCase();
 
     return this.contacts.filter(contact => contact.name.toLowerCase().indexOf(filterValue) === 0);

@@ -154,21 +154,52 @@ export class GeneralHttpService extends BaseHttpService {
       .then(response => response as BankBranch[])
       .catch(() => []);
   }
-    newComment(objectID: number, content: string, contentType: string): Promise<boolean> {
-      return this.http.post(this.apiUrl + '/generals'  + '/' + objectID + '/comment', { 'content': content ,
-        'content_type': contentType}, this.getTokenHeader())
-        .toPromise()
-        .then(() => true)
-        .catch(() => false);
-    }
+  newComment(objectID: number, content: string, contentType: string): Promise<boolean> {
+    return this.http.post(this.apiUrl + '/generals'  + '/' + objectID + '/comment', { 'content': content ,
+      'content_type': contentType}, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
 
-    getComments(objectID: number, contentType: string): Promise<Object[]> {
-      return this.http.post(this.apiUrl + '/generals' + '/' + objectID + '/getComments', {'content_type': contentType},
-        this.getTokenHeader())
-        .toPromise()
-        .then(response => response as Object[])
-        .catch(() => []);
+  getComments(objectID: number, contentType: string): Promise<Object[]> {
+    return this.http.post(this.apiUrl + '/generals' + '/' + objectID + '/getComments', {'content_type': contentType},
+      this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Object[])
+      .catch(() => []);
+  }
+
+  getInquiries(objectID: number, contentType: string): Promise<Object[]> {
+    return this.http.post(this.apiUrl + '/generals' + '/' + objectID + '/inquiries', {'content_type': contentType},
+       this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Object[])
+      .catch(() => []);
+  }
+
+  newInquiry(objectID: number, content: string, contentType: string, emails_list: any[], contact_list: any[],
+             uploadedFile?: File[]): Promise<boolean> {
+    const values = {
+      content: content,
+      content_type: contentType,
+      emails_list: emails_list,
+      contact_list: contact_list
+    };
+    const formData = new FormData();
+    formData.append('values', JSON.stringify(values));
+
+    if (uploadedFile) {
+      for (let i = 0; i <= uploadedFile.length - 1 ; i++) {
+        formData.append('file' + i, uploadedFile[i]);
+      }
     }
+    return this.http.post(this.apiUrl + '/generals'  + '/' + objectID +  '/newInquiry', formData
+      , this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
 
   getEmployeeData(departmentId: number): Promise<Object[]> {
     return this.http.get(this.apiUrl  + '/feedbacks?departmentId=' + departmentId, this.getTokenHeader())

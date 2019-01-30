@@ -15,18 +15,18 @@ export class FilesComponent extends DataTableComponent implements OnInit {
 
   readonly headers: DataTableHeader[] =  [
     { column: 'company_name', label: 'חברה מנהלת' },
-    { column: 'employer_name', label: 'שם מעסיק' },
-    { column: 'process_name', label: 'שם תהליך' },
     { column: 'month', label: 'חודש שכר' },
     { column: 'amount', label: 'סכום' },
     { column: 'code', label: 'קוד אוצר' },
     { column: 'date', label: 'תאריך שידור' },
-    { column: 'amount', label: 'תאריך יצירת הפנייה' },
-    { column: 'status', label: 'תאריך עדכון אחרון' },
-    { column: 'download', label: 'היזון ראשוני' },
-    { column: 'amount', label: 'היזון חודשי' },
+    { column: 'inquiry_created_at', label: 'תאריך יצירת הפנייה' },
+    { column: 'last_update', label: 'תאריך עדכון אחרון' },
     { column: 'status', label: 'סטטוס' },
-    { column: 'download', label: 'סטטוס פנייה' }
+    { column: 'inquiry_status', label: 'סטטוס פנייה' },
+    { column: 'more', label: 'מידע נוסף' },
+    { column: 'send_request', label: 'שלח פנייה' },
+    { column: 'comments', label: 'הערות' }
+
   ];
 
   constructor(route: ActivatedRoute, private router: Router,
