@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { EmployeesComponent } from './employees.component';
 import { RouterModule, Routes } from '@angular/router';
 import {
-  MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatNativeDateModule,
+  MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatMenuModule, MatNativeDateModule,
   MatOptionModule, MatSelectModule, MatTooltipModule
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { SendApplicationComponent } from './send-application/send-application.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
+import { DataTableModule } from '../../../shared/data-table/data-table.module';
 
 const routes: Routes = [{
   path: '', component: EmployeesComponent
@@ -29,7 +30,9 @@ const routes: Routes = [{
     MatOptionModule,
     BdSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatMenuModule,
+    DataTableModule
   ],
   exports: [],
   declarations: [EmployeesComponent, SendApplicationComponent],

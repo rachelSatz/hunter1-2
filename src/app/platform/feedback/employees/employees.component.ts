@@ -53,7 +53,7 @@ export interface DialogData {
   ]
 })
 
-export class EmployeesComponent  extends DataTableComponent implements OnInit {
+export class EmployeesComponent extends DataTableComponent implements OnInit {
 
   departmentId;
   readonly years = [2016, 2017, 2018, 2019];
@@ -105,7 +105,6 @@ export class EmployeesComponent  extends DataTableComponent implements OnInit {
   toggleExtraSearch(): void {
     this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
   }
-
 
 
   fetchItems(): void {

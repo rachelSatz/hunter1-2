@@ -21,9 +21,6 @@
       <input matInput placeholder="חיפוש לפי שם/ת.ז" [(ngModel)]="searchCriteria['searchValue']" (change)="search()">
       <i matSuffix class="fa fa-search"></i>
     </mat-form-field>
-    <div>
-      <button class="mb-2 float-left btn blue-btn" (click)="openApplicationDialog()">פעולות</button>
-    </div>
   <div [@slideToggle]="extraSearchCriteria" class="d-flex align-items-center flex-wrap mb-3 filter-row">
     <mat-form-field class="ml-3">
       <input matInput placeholder="לפי חברה מנהלת" [(ngModel)]="searchCriteria['companyName']" (change)="search()">
@@ -37,7 +34,7 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field class="mr-3">
-      <input matInput placeholder="לפי קוד אוצר" [(ngModel)]="searchCriteria['productCode']" (change)="search()">
+      <input matInput placeholder="לפי קוד אוצר" type="text" [(ngModel)]="searchCriteria['productCode']" (change)="search()">
       <i matSuffix class="fa fa-search"></i>
     </mat-form-field>
     <mat-form-field class="mr-3">
@@ -77,21 +74,21 @@
     </div>
   </div>
 <table class="table table-hover mt-3 data-table">
-  <th *ngFor="let header of headers">{{header.label}}
-
+  <th *ngFor="let header of headers" (click)="sort(header)">
+    <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
+    <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
   </th>
-  <tr class="table-headers pointer" *ngFor="let employee of employeeData">
+  <tr class="table-headers pointer" *ngFor="let employee of paginatedItems" (click)="openApplicationDialog()">
     <td>{{ employee.name }}</td>
     <td>{{ employee.personal_id }}</td>
-    <td>{{ employee.payment_month | date:'MM'}}</td>
+    <td>{{ employee.salary_month | date:'MM'}}</td>
     <td>{{ employee.deposit_month }}</td>
     <td>{{ employee.salary }}</td>
     <td>{{ employee.company_name}}</td>
     <td>{{ employee.product_type}}</td>
     <td>{{ employee.product_code}}</td>
-    <td>{{ employee.sum}}</td>
+    <td>{{employee.amount}}</td>
   </tr>
 </table>
-
-
+<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
 
