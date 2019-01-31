@@ -22,6 +22,7 @@ import { BdSelectModule } from '../../../../assets/js/bd-select/bd-select.module
 import {ContactService} from '../../../shared/_services/http/contact.service';
 import {HelpersService} from '../../../shared/_services/helpers.service';
 import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
+import {CommentsFormComponent} from '../shared/comments-form/comments-form.component';
 
 const routes: Routes = [
   { path: '', component: FilesComponent }
@@ -38,8 +39,8 @@ const routes: Routes = [
     MatChipsModule, MatIconModule, MatAutocompleteModule,
     BdSelectModule
   ],
-  declarations: [FilesComponent, FormComponent, InquiryFormComponent],
+  declarations: [FilesComponent, FormComponent, InquiryFormComponent, CommentsFormComponent],
   providers: [NotificationService, FeedbackService, ContactService, HelpersService, GeneralHttpService],
-  entryComponents: [FormComponent, InquiryFormComponent]
+  entryComponents: [FormComponent, InquiryFormComponent, CommentsFormComponent]
 })
 export class FilesModule { }

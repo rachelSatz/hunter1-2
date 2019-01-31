@@ -58,9 +58,15 @@
       <td>{{ item.inquiries.updated_at }}</td>
       <td>{{ item.status }}</td>
       <!--<td>{{ item.inquiry_status }}</td>-->
-      <td (click)="openFormDialog()"></td>
-      <td (click)="sendInquiry()"></td>
-      <td (click)="openCommentsDialog()"></td>
+      <td >
+        <img src="/assets/img/icons/details_grey.png" (click)="openFormDialog()">
+      </td>
+      <td>
+        <button (click)="openInquiresDialog()">שלח</button>
+      </td>
+      <td>
+        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
+      </td>
     </tr>
   </ng-container>
   <tr *ngIf="!isSearching && items.length === 0">

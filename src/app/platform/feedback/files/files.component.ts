@@ -8,6 +8,8 @@ import { FormComponent } from './form/form.component';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { InquiryFormComponent} from '../shared/inquiry-form/inquiry-form.component';
+import {CommentsComponent} from '../../process/process-upload/shared/detailed-files/comments/comments.component';
+import {CommentsFormComponent} from '../shared/comments-form/comments-form.component';
 
 @Component({
   selector: 'app-files',
@@ -51,9 +53,17 @@ export class FilesComponent extends DataTableComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
+  openInquiresDialog(): void {
     this.dialog.open(InquiryFormComponent, {
       data: {'id': 1, 'contentType': 'groupthing', 'employerId': 4, 'companyId': 5},
+      width: '550px',
+      panelClass: 'dialog-file'
+    });
+  }
+
+  openCommentsDialog(): void {
+    this.dialog.open(CommentsFormComponent, {
+      data: {'id': 1, 'contentType': 'groupthing'},
       width: '550px',
       panelClass: 'dialog-file'
     });
