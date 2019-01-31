@@ -90,6 +90,18 @@
     <td>{{ employee.product_type}}</td>
     <td>{{ employee.product_code}}</td>
     <td>{{ employee.sum}}</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td >
+      <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog()">
+    </td>
+    <td>
+      <button (click)="openInquiresDialog()">שלח</button>
+    </td>
+    <td>
+      <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
+    </td>
   </tr>
 </table>
 

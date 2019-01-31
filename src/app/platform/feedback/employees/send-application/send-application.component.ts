@@ -24,7 +24,5 @@ export class SendApplicationComponent implements OnInit {
   ngOnInit() {
   }
 
-  newComment() {
-    this.generalHttpService.newComment(15, this.commentContent, 'string');
-  }
+
 }

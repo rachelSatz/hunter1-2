@@ -11,6 +11,8 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ProductType } from 'app/shared/_models/product.model';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
+import {InquiryFormComponent} from '../shared/inquiry-form/inquiry-form.component';
+import {CommentsFormComponent} from '../shared/comments-form/comments-form.component';
 
 export interface DialogData {
   placeholder: string;
@@ -72,8 +74,6 @@ export class EmployeesComponent  extends DataTableComponent implements OnInit {
     { column: '', label: 'עובד' },
     { column: 'process_name', label: 'ת"ז' },
     { column: 'employer_name', label: 'חודש שכר' },
-    { column: 'month', label: 'חודש הפרשה' },
-    { column: 'amount', label: 'שכר' },
     { column: 'code', label: 'חברה מנהלת' },
     { column: 'date', label: 'סוג מוצר' },
     { column: 'amount', label: 'קוד אוצר' },
@@ -82,7 +82,10 @@ export class EmployeesComponent  extends DataTableComponent implements OnInit {
     { column: 'amount', label: 'תאריך יצירת הפניה' },
     { column: 'status', label: 'תאריך עדכון אחרון' },
     { column: 'status', label: 'סטטוס' },
-    { column: 'download', label: 'סטטוס פנייה' }
+    { column: 'download', label: 'סטטוס פנייה' },
+    { column: 'more', label: 'מידע נוסף'},
+    { column: 'send_request', label: 'שלח פנייה'},
+    { column: 'comments', label: 'הערות'}
   ];
   constructor(public dialog: MatDialog, route: ActivatedRoute, notificationService: NotificationService,
               private feedbackService: FeedbackService, private selectUnitService: SelectUnitService) {
@@ -115,6 +118,22 @@ export class EmployeesComponent  extends DataTableComponent implements OnInit {
       this.employeeData = response;
     });
 
+  }
+
+  openInquiresDialog(): void {
+    this.dialog.open(InquiryFormComponent, {
+      data: {'id': 1, 'contentType': 'monthlytransferblock', 'employerId': 4, 'companyId': 5},
+      width: '550px',
+      panelClass: 'dialog-file'
+    });
+  }
+
+  openCommentsDialog(): void {
+    this.dialog.open(CommentsFormComponent, {
+      data: {'id': 1, 'contentType': 'monthlytransferblock'},
+      width: '550px',
+      panelClass: 'dialog-file'
+    });
   }
 
 }

@@ -48,7 +48,8 @@ export class FilesComponent extends DataTableComponent implements OnInit {
 
   openFormDialog(): void {
     this.dialog.open(FormComponent, {
-      width: '550px',
+      width: '1350px',
+      height: '680px',
       panelClass: 'dialog-file'
     });
   }
