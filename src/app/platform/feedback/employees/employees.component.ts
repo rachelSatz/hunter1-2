@@ -8,7 +8,6 @@ import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { EmployeeFeedback } from 'app/shared/_models/employee-feedback.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ProductType } from 'app/shared/_models/product.model';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
@@ -56,15 +55,13 @@ export interface DialogData {
 
 export class EmployeesComponent  extends DataTableComponent implements OnInit {
 
-
+  departmentId;
   readonly years = [2016, 2017, 2018, 2019];
-  monthSearch;
-  yearSearch;
   months = Month;
   statusLabel = Object.keys(StatusLabel).map(function(e) {
     return { id: e, name: StatusLabel[e] };
   });
-  employeeData = new EmployeeFeedback;
+  employeeData: any;
   extraSearchCriteria = 'inactive';
   selectProductType = Object.keys(ProductType).map(function(e) {
     return { id: e, name: ProductType[e] };
@@ -93,14 +90,9 @@ export class EmployeesComponent  extends DataTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.statusLabel);
-    // this.feedbackService.getEmployeeData(this.selectUnitService.currentDepartmentID).then(
-    this.feedbackService.getEmployeeData(6).then(
-      response => {
-        this.employeeData = response;
-        console.log(this.employeeData[0]);
-      }
-    );
+    this.departmentId = this.selectUnitService.currentDepartmentID;
+    this.fetchItems();
+    super.ngOnInit();
   }
 
   openApplicationDialog(): void {
@@ -112,6 +104,17 @@ export class EmployeesComponent  extends DataTableComponent implements OnInit {
 
   toggleExtraSearch(): void {
     this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
+  }
+
+
+
+  fetchItems(): void {
+    console.log(this.searchCriteria + ' searchCriteria');
+    this.feedbackService.searchEmployeeData(6, this.searchCriteria).then(response => {
+      this.setItems(response);
+      this.employeeData = response;
+    });
+
   }
 
 }
