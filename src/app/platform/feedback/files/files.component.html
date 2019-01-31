@@ -30,13 +30,13 @@
   <!--<input matInput placeholder="חיפוש"  (change)="search()">-->
   <!--<i matSuffix class="fa fa-search"></i>-->
 <!--</mat-form-field>-->
-<!--<div class="float-left">-->
-  <!--<button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>-->
-  <!--<mat-menu #menu="matMenu">-->
-    <!--<button mat-menu-item (click)="openFormDialog()">שלח פנייה</button>-->
-    <!--<button mat-menu-item (click)="openGroupTransferDialog()">עדכון סטטוס ידני</button>-->
-  <!--</mat-menu>-->
-<!--</div>-->
+<div class="float-left">
+  <button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openFormDialog()">שלח פנייה</button>
+    <button mat-menu-item (click)="openDialog()">עדכון סטטוס ידני</button>
+  </mat-menu>
+</div>
 <table class="table table-hover mt-3 data-table">
   <thead>
   <tr class="table-headers">
@@ -48,21 +48,24 @@
   </thead>
   <tbody>
   <ng-container *ngIf="!isSearching">
-    <tr *ngFor="let item of paginatedItems" class="pointer" [ngClass]="{ 'checked': item.isChecked }">
+    <tr *ngFor="let item of paginatedItems" class="pointer">
       <td>{{ item.company_name}}</td>
-      <td>{{ item.month }}</td>
+      <!--<td>{{ item.month }}</td>-->
       <td>{{ item.amount }}</td>
-      <td>{{ item.code }}</td>
-      <td>{{ item.date | date: 'MM/yy' }}</td>
-      <td>{{ item.inquiry_created_at | date: 'MM/yy' }}</td>
-      <td>{{ item.last_update }}</td>
+      <td>{{ item.product_code }}</td>
+      <!--<td>{{ item.date | date: 'MM/yy' }}</td>-->
+      <td>{{ item.inquiries.created_at }}</td>
+      <td>{{ item.inquiries.updated_at }}</td>
       <td>{{ item.status }}</td>
-      <td>{{ item.inquiry_status }}</td>
+      <!--<td>{{ item.inquiry_status }}</td>-->
       <td (click)="openFormDialog()"></td>
       <td (click)="sendInquiry()"></td>
       <td (click)="openCommentsDialog()"></td>
     </tr>
   </ng-container>
+  <tr *ngIf="!isSearching && items.length === 0">
+    <td colspan="10" class="text-center bold">טבלת תהליכים ריקה.</td>
+  </tr>
   </tbody>
 </table>
 <app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>

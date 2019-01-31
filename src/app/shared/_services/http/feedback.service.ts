@@ -40,7 +40,7 @@ export class FeedbackService extends BaseHttpService {
   getFileFeedbacks(departmentId: number): Promise<FileFeedback[]> {
     
     const options = this.getTokenHeader();
-    options['params'] = departmentId;
+    options['params'] = { departmentId: departmentId };
 
     return this.http.get(this.endPoint + '/FilesList', options)
     .toPromise()

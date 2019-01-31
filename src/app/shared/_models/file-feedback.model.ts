@@ -1,14 +1,17 @@
-export class FileFeedback {
-  id: string;
-  company_name: string;
-  month: string;
-  amount: string;
-  code: string;
-  date: string;
-  inquiry_created_at: string;
-  last_update: string;
-  status: string;
-  inquiry_status: string;
+import {Inquiry} from './inquiry';
+import {Comment} from './comment';
 
+export class FileFeedback {
+  id: number;
+  amount: number;
+  product_code: string;
+  company_name: string;
+  status: string;
+  error_code: string;
+  error_details: string;
+  file_name: string;
+  process_name: string;
+  inquiries: Inquiry;
+  comments: Comment;
 }
 
