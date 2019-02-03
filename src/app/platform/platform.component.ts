@@ -52,6 +52,8 @@ export class PlatformComponent implements OnInit {
       ]},
   ];
 
+  private _is_Employer: boolean;
+
   constructor(private router: Router,
               private userSession: UserSessionService,
               private organizationService: OrganizationService,
@@ -69,12 +71,19 @@ export class PlatformComponent implements OnInit {
     });
   }
 
-  getOrganizations(is_loadEmployer: boolean): void {
+  getOrganizations(is_loadEmployer: boolean, is_Employer?: boolean): void {
+    this._is_Employer = is_Employer;
     this.helpers.setPageSpinner(true);
     this.organizationService.getOrganizations().then(response => {
       this.helpers.organizations = response;
-      this.organizationId = this.helpers.organizations.length > 0 ?  this.helpers.organizations[0].id : 0;
-      if (is_loadEmployer) { this.loadEmployers(this.organizationId); } else {  this.helpers.setPageSpinner(false); }
+      if (!this._is_Employer) {
+        this.organizationId = this.helpers.organizations.length > 0 ? this.helpers.organizations[0].id : 0;
+      }
+      if (!is_loadEmployer) {
+        this.helpers.setPageSpinner(false);
+      } else {
+        this.loadEmployers(this.organizationId);
+      }
 
     });
   }
@@ -104,9 +113,10 @@ export class PlatformComponent implements OnInit {
       }
     }
     this.employers.sort((a, b) => a.id - b.id);
-    this.employerId = this.employers.length > 0 ?  this.employers[0] : 0;
-    this.organizationId = organizationID;
-    // this.selectUnit.changeOrganizationEmployer(this.organizationId, this.employerId['id']);
+    if (!this._is_Employer) {
+      this.employerId = this.employers.length > 0 ? this.employers[0] : 0;
+      this.organizationId = organizationID;
+    }
     this.loadDepartments(this.employerId['id']);
   }
 
@@ -124,17 +134,17 @@ export class PlatformComponent implements OnInit {
       this.employerId = {'id': 0, 'name': 'כלל המעסיקים'};
       this.departments = [];
     }
-    this.departmentId = this.departments.length > 0 ?  this.departments[0] : 0;
-    this.selectUnit.changeEmployersDepartments(this.employers, this.departments);
-    this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, employerID,
-      this.departments.length > 0 ? this.departmentId['id'] : 0);
+    if (!this._is_Employer) {
+      this.departmentId = this.departments.length > 0 ? this.departments[0] : 0;
+      this.selectUnit.changeEmployersDepartments(this.employers, this.departments);
+      this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, employerID,
+        this.departments.length > 0 ? this.departmentId['id'] : 0);
+    }
     this.helpers.setPageSpinner(false);
   }
 
   selectDepartment(departmentID: number): void {
     this.selectUnit.changeDepartment(departmentID);
   }
-  test() {
-    console.log('skdjflkjs');
-  }
+
 }

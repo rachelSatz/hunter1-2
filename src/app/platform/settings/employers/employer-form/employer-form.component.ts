@@ -165,7 +165,7 @@ export class EmployerFormComponent implements OnInit {
   private  messageResponse(response: any): void {
     const message = response['message'];
     if (message) {
-      this.platformComponent.getOrganizations(true);
+      this.platformComponent.getOrganizations(true, true);
       this.handleResponse(response);
     }else {
       this.message = 'ח.פ קיים לארגון זה.' ;
