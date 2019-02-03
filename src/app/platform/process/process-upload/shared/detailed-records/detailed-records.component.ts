@@ -16,9 +16,7 @@ import { DepositStatus, DepositType } from 'app/shared/_models/monthly-transfer-
 @Component({
   selector: 'app-detailed-records',
   templateUrl: './detailed-records.component.html',
-  styles: ['#accounts { direction: ltr; height: 200px;  overflow-y: auto; }',
-           '.extend {width: 140%; margin-right: -20%}'],
-  styleUrls: ['../../../../../shared/data-table/data-table.component.css']
+  styleUrls: ['../../../../../shared/data-table/data-table.component.css' , './detailed-records.component.css']
 })
 export class DetailedRecordsComponent  extends DataTableComponent implements OnInit , OnDestroy {
 
@@ -29,7 +27,8 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
     { column: 'deposit_status', label: 'סטטוס' }, { column: 'prodect_code', label: 'מ"ה' },
     { column: 'payment_month', label: 'חודש תשלום' }, { column: 'payment_month1', label: 'חודש ייחוס' },
     { column: 'salary', label: 'שכר' }, { column: 'sum_compensation', label: 'פיצויים' },
-    { column: 'sum_employer_benefits', label: 'הפרשת מעסיק' }, { column: 'sum_employee_benefits', label: 'הפרשת עובד' }
+    { column: 'sum_employer_benefits', label: 'הפרשת מעסיק' }, { column: 'sum_employee_benefits', label: 'הפרשת עובד' } ,
+    { column: 'amount', label: 'סה"כ' }
   ];
 
   constructor(route: ActivatedRoute,

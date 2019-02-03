@@ -8,13 +8,15 @@ export class MonthlyTransferBlock {
   employer_product_name: string;
   employer_product_type: string;
   prodect_code: number;
-  payment_month: string;
+  // payment_month: string;
   salary: number;
+  salary_month: string;
   deposit_status: string;
   sum_compensation: number;
   sum_employee_benefits: number;
   sum_employer_benefits: number;
   sum_ipi_employer: number;
+  amount: number;
 }
 
 
