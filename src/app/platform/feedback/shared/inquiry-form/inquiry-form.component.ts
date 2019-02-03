@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, NgForm} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocompleteSelectedEvent,
+import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocompleteSelectedEvent,
   MatAutocomplete} from '@angular/material';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
@@ -11,10 +11,9 @@ import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 
 import { Compensation } from 'app/shared/_models/compensation.model';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
-
+import { Observable} from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { GeneralHttpService } from '../../../../shared/_services/http/general-http.service';
 export interface Contact {
   id: number;
   name: string;
@@ -24,8 +23,8 @@ export interface Email {
 }
 
 @Component({
-  selector: 'app-send-to',
-  templateUrl: './send-to.component.html',
+  selector: 'app-inquiry-form',
+  templateUrl: './inquiry-form.component.html',
   animations: [
     trigger('fade', [
       state('inactive', style({
@@ -41,8 +40,7 @@ export interface Email {
     ])
   ]
 })
-
-export class SendToComponent implements OnInit {
+export class InquiryFormComponent implements OnInit {
   hasServerError: boolean;
   uploadedFile: File [];
   contactCtrl = new FormControl();
@@ -60,16 +58,10 @@ export class SendToComponent implements OnInit {
   @ViewChild('contactInput') contactInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation, private dialog: MatDialog,
-              private dialogRef: MatDialogRef<SendToComponent>, private compensationService: CompensationService,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog,
+              private dialogRef: MatDialogRef<InquiryFormComponent>,
               private contactService: ContactService, private helpers: HelpersService,
-              private generalService: GeneralHttpService) {
-    this.filteredContacts = this.contactCtrl.valueChanges.pipe(
-      startWith(null),
-      map((contact: string | null) => contact ? this._filter(contact) : this.contacts.slice()));
-
-  }
-
+              private generalService: GeneralHttpService) { }
 
   ngOnInit() {
     this.helpers.setPageSpinner(true);
@@ -77,7 +69,7 @@ export class SendToComponent implements OnInit {
   }
 
   loadContacts(): void {
-    this.contactService.getEmployerContacts(this.compensation.company_id, this.compensation.employer_id).then(types => {
+    this.contactService.getEmployerContacts(this.data.companyId, this.data.employerId).then(types => {
       this.contacts = types;
       this.helpers.setPageSpinner(false);
     });
@@ -87,14 +79,14 @@ export class SendToComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      this.generalService.newInquiry(this.compensation.id, this.comments, 'compensation', this.Emails, form.value['contactsAdd'],
+      this.generalService.newInquiry(this.data.id, this.comments, this.data.contentType, this.Emails, form.value['contactsAdd'],
         this.uploadedFile).then(response => {
-      if (response) {
-            this.dialogRef.close(this.compensation);
-          } else {
-            this.hasServerError = true;
-          }
-        });
+        if (response) {
+          this.dialogRef.close(this.data);
+        } else {
+          this.hasServerError = true;
+        }
+      });
     }
   }
 

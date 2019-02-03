@@ -23,11 +23,9 @@
   <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">
   <i matSuffix class="fa fa-search"></i>
 </mat-form-field>
-
 <div>
   <button class="mb-2 float-left btn blue-btn" (click)="redirectProcessNew()">תהליך חדש</button>
 </div>
-
 <table class="table table-hover mt-3 data-table">
   <thead>
   <tr class="table-headers">
@@ -53,7 +51,6 @@
         <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)" >
         </i>
       </td>
-
     </tr>
   </ng-container>
   <tr *ngIf="!isSearching && items.length === 0">

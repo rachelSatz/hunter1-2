@@ -55,9 +55,9 @@ export class ContactService extends BaseHttpService {
   }
 
 
-  getEmployerContacts(compensation: Compensation): Promise<any[]> {
-    return this.http.post(this.endPoint + '/employerContacts', { 'company_id': compensation.company_id
-      , 'employer_id': compensation.employer_id} , this.getTokenHeader())
+  getEmployerContacts(companyId: string, employerId: string): Promise<any[]> {
+    return this.http.post(this.endPoint + '/employerContacts', { 'company_id': companyId
+      , 'employer_id': employerId} , this.getTokenHeader())
       .toPromise()
       .then(response => response as any[])
       .catch(() => []);

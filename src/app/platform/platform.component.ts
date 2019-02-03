@@ -35,10 +35,10 @@ export class PlatformComponent implements OnInit {
     //   { url: 'table/employees', label: 'טבלת עובדים' },
     //   { url: 'table/files', label: 'טבלת קבצים' }
     // ]},
-    // { url: 'rejected', label: 'מעקב שגויים', subMenuLinks: [
-    //   { url: 'employees', label: 'לפי עובד' },
-    //   { url: 'files', label: 'לפי קובץ' }
-    // ]},
+    { url: 'feedback', label: 'תשלומים והיזונים', subMenuLinks: [
+      { url: 'employees', label: 'לפי עובד' },
+      { url: 'files', label: 'לפי קובץ' }
+    ]},
     { url: 'finance', label: 'פיננסים', subMenuLinks: [
       { url: 'invoices', label: 'חשבונות חייבים' }
     ]},
