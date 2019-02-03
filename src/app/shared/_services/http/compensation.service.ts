@@ -82,39 +82,6 @@ export class CompensationService extends BaseHttpService {
 
   }
 
-
-
-  getInquiries(compensationID: number): Promise<Object[]> {
-    return this.http.get(this.endPoint + '/' + compensationID + '/inquiries', this.getTokenHeader())
-    .toPromise()
-    .then(response => response as Object[])
-    .catch(() => []);
-  }
-
-  newInquiry(compensation_id: number, content: string, emails_list: any[], contact_list: any[],
-             uploadedFile?: File[]): Promise<boolean> {
-    const values = {
-      content: content,
-      emails_list: emails_list,
-      contact_list: contact_list
-    };
-
-    const formData = new FormData();
-    formData.append('values', JSON.stringify(values));
-
-    if (uploadedFile) {
-      for (let i = 0; i <= uploadedFile.length - 1 ; i++) {
-        formData.append('file' + i, uploadedFile[i]);
-      }
-    }
-
-    return this.http.post(this.endPoint + '/' + compensation_id + '/newInquiry', formData
-      , this.getTokenHeader())
-      .toPromise()
-      .then(() => true)
-      .catch(() => false);
-  }
-
   downloadPdfFile(rowID: number): Promise<string> {
     return this.http.get(this.endPoint + '/' + rowID + '/downloadPdfFile', this.getTokenHeader())
       .toPromise()

@@ -10,6 +10,9 @@ import { IsAuthenticatedGuard } from '../shared/_guards/is-authenticated.guard';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { ProcessDataService } from '../shared/_services/process-data-service';
+import { InquiryFormComponent } from './feedback/shared/inquiry-form/inquiry-form.component';
+import {MatChipsModule, MatFormFieldModule, MatIconModule, MatInputModule} from '@angular/material';
+import {CommentsFormComponent} from './feedback/shared/comments-form/comments-form.component';
 
 const routes: Routes = [
   {
@@ -38,8 +41,13 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     MatMenuModule,
+    MatChipsModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
-  declarations: [PlatformComponent],
+  declarations: [PlatformComponent, InquiryFormComponent, CommentsFormComponent],
+  entryComponents: [InquiryFormComponent, CommentsFormComponent],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, DatePipe]
 })
 export class PlatformModule {}

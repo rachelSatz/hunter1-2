@@ -4,6 +4,7 @@ import { CompensationService } from 'app/shared/_services/http/compensation.serv
 import * as FileSaver from 'file-saver';
 import {Compensation} from '../../../../shared/_models/compensation.model';
 import {forEach} from '@angular/router/src/utils/collection';
+import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
 
 
 
@@ -17,11 +18,11 @@ export class InquiriesComponent implements OnInit {
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensationID: number, private dialog: MatDialog,
-              private compensationService: CompensationService) {
+              private compensationService: CompensationService, private generalService : GeneralHttpService) {
   }
 
   ngOnInit() {
-    this.compensationService.getInquiries(this.compensationID).then(response =>
+    this.generalService.getInquiries(this.compensationID, 'compensation').then(response =>
       this.inquiries = response
     );
   }
