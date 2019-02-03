@@ -36,8 +36,8 @@ export class RegisterComponent implements OnInit {
 
 
   ngOnInit() {
-    if (!this.route.snapshot.params.token) {
-
+    if (!this.route.snapshot.queryParams.token) {
+      return;
     }
   }
 
@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit {
       this.isSubmitting = true;
 
 
-      this.appHttp.register(form.value.password, this.route.snapshot.params.token).then(response => {
+      this.appHttp.register(form.value.password, this.route.snapshot.queryParams.token).then(response => {
         if (response.token) {
           this.userSession.login({username: '', token: response['token']});
           this.router.navigate(['/platform']);
