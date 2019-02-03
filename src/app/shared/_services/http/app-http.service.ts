@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -18,5 +18,13 @@ export class AppHttpService extends BaseHttpService {
     .toPromise()
     .then(response => response as any)
     .catch(response => response as any);
+  }
+
+  register( password: string, token: string): Promise<any> {
+    const headers = new HttpHeaders({ 'token': token });
+    return this.http.post(this.apiUrl + '/register',  { password: password }, { headers: headers})
+      .toPromise()
+      .then(response => response as any)
+      .catch(response => response as any);
   }
 }
