@@ -1,3 +1,7 @@
+.search-criteria mat-form-field {
+  width: 300px;
+}
+
 .data-table-actions {
   margin-bottom: 20px;
 }
@@ -83,4 +87,9 @@
 .data-table .row-image {
   width: 30px;
   height: auto;
+}
+
+.btn {
+  min-width: 40px;
+  border-radius: 0;
 }

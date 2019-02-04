@@ -17,12 +17,10 @@ import {
 } from '@angular/material';
 import { FormComponent } from './form/form.component';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
-import { InquiryFormComponent } from '../shared/inquiry-form/inquiry-form.component';
 import { BdSelectModule } from '../../../../assets/js/bd-select/bd-select.module';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
 
 const routes: Routes = [
   { path: '', component: FilesComponent }
@@ -39,8 +37,8 @@ const routes: Routes = [
     MatChipsModule, MatIconModule, MatAutocompleteModule, MatDatepickerModule, MatNativeDateModule,
     BdSelectModule
   ],
-  declarations: [FilesComponent, FormComponent, InquiryFormComponent, CommentsFormComponent],
+  declarations: [FilesComponent, FormComponent],
   providers: [NotificationService, FeedbackService, ContactService, HelpersService, GeneralHttpService],
-  entryComponents: [FormComponent, InquiryFormComponent, CommentsFormComponent]
+  entryComponents: [FormComponent]
 })
 export class FilesModule { }

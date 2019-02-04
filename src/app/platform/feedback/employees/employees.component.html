@@ -1,29 +1,26 @@
-  <div class="col-12 f-12 mb-lg-5">
-    <div class="float-left">
-      <mat-form-field  class="ml-3">
-        <mat-select placeholder="חודש שכר" [(ngModel)]="searchCriteria['salaryMonth']" name="month" (selectionChange)="search()">
-          <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1" >
-            {{month.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="שנה" [(ngModel)]="searchCriteria['salaryYear']" name="year" (selectionChange)="search()">
-          <mat-option *ngFor="let year of years" [value]="year">
-            {{year}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+<div class="col-12 f-12 mb-lg-5">
+  <div class="float-left">
+    <mat-form-field  class="ml-3">
+      <mat-select placeholder="חודש שכר" [(ngModel)]="searchCriteria['salaryMonth']" name="month" (selectionChange)="search()">
+        <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1" >
+          {{month.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="שנה" [(ngModel)]="searchCriteria['salaryYear']" name="year" (selectionChange)="search()">
+        <mat-option *ngFor="let year of years" [value]="year">
+          {{year}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
+</div>
   <p class="h5 bold py-5">מעקב ברמת עובד</p>
     <mat-form-field class="ml-3">
       <input matInput placeholder="חיפוש לפי שם/ת.ז" [(ngModel)]="searchCriteria['searchValue']" (change)="search()">
       <i matSuffix class="fa fa-search"></i>
     </mat-form-field>
-    <div>
-      <button class="mb-2 float-left btn blue-btn" (click)="openApplicationDialog()">פעולות</button>
-    </div>
   <div [@slideToggle]="extraSearchCriteria" class="d-flex align-items-center flex-wrap mb-3 filter-row">
     <mat-form-field class="ml-3">
       <input matInput placeholder="לפי חברה מנהלת" [(ngModel)]="searchCriteria['companyName']" (change)="search()">
@@ -37,7 +34,7 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field class="mr-3">
-      <input matInput placeholder="לפי קוד אוצר" [(ngModel)]="searchCriteria['productCode']" (change)="search()">
+      <input matInput placeholder="לפי קוד אוצר" type="text" [(ngModel)]="searchCriteria['productCode']" (change)="search()">
       <i matSuffix class="fa fa-search"></i>
     </mat-form-field>
     <mat-form-field class="mr-3">
@@ -77,33 +74,44 @@
     </div>
   </div>
 <table class="table table-hover mt-3 data-table">
-  <th *ngFor="let header of headers">{{header.label}}
-
-  </th>
-  <tr class="table-headers pointer" *ngFor="let employee of employeeData">
-    <td>{{ employee.name }}</td>
-    <td>{{ employee.personal_id }}</td>
-    <td>{{ employee.payment_month | date:'MM'}}</td>
-    <td>{{ employee.deposit_month }}</td>
-    <td>{{ employee.salary }}</td>
-    <td>{{ employee.company_name}}</td>
-    <td>{{ employee.product_type}}</td>
-    <td>{{ employee.product_code}}</td>
-    <td>{{ employee.sum}}</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td >
-      <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog()">
-    </td>
-    <td>
-      <button (click)="openInquiresDialog()">שלח</button>
-    </td>
-    <td>
-      <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
-    </td>
+  <thead>
+  <tr class="table-headers">
+    <th *ngFor="let header of headers" (click)="sort(header)">
+      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
+      <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
+    </th>
   </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngIf="!isSearching">
+    <tr class="pointer" *ngFor="let employee of paginatedItems">
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.personal_id }}</td>
+      <td>{{ employee.salary_month | date:'MM'}}</td>
+      <td>{{ employee.deposit_month }}</td>
+      <td>{{ employee.salary }}</td>
+      <td>{{ employee.company_name}}</td>
+      <td>{{ employee.product_type}}</td>
+      <td>{{ employee.product_code}}</td>
+      <td>{{employee.amount}}</td>
+      <td>{{ employee.sum}}</td>
+      <td></td>
+      <td></td>
+      <td >
+        <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog()">
+      </td>
+      <td>
+        <button class="btn blue-btn" (click)="openInquiresDialog()">שלח</button>
+      </td>
+      <td>
+        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog()">
+      </td>
+    </tr>
+  </ng-container>
+  <tr *ngIf="!isSearching && items.length === 0">
+    <td colspan="15" class="text-center bold">טבלת תהליכים ריקה.</td>
+  </tr>
+  </tbody>
 </table>
-
-
+<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
 

@@ -3,6 +3,7 @@ import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { MatDialog } from '@angular/material';
 import { SendApplicationComponent } from './send-application/send-application.component';
+
 import { Month } from 'app/shared/_const/month-bd-select';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
@@ -21,7 +22,7 @@ export interface DialogData {
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.css'],
+  styleUrls: ['./employees.component.css', '../../../shared/data-table/data-table.component.css'],
   providers: [MatDialog, FeedbackService],
   animations: [
     trigger('slideToggle', [
@@ -55,7 +56,7 @@ export interface DialogData {
   ]
 })
 
-export class EmployeesComponent  extends DataTableComponent implements OnInit {
+export class EmployeesComponent extends DataTableComponent implements OnInit {
 
   departmentId;
   readonly years = [2016, 2017, 2018, 2019];
@@ -110,7 +111,6 @@ export class EmployeesComponent  extends DataTableComponent implements OnInit {
   }
 
 
-
   fetchItems(): void {
     console.log(this.searchCriteria + ' searchCriteria');
     this.feedbackService.searchEmployeeData(6, this.searchCriteria).then(response => {
@@ -130,7 +130,7 @@ export class EmployeesComponent  extends DataTableComponent implements OnInit {
 
   openCommentsDialog(): void {
     this.dialog.open(CommentsFormComponent, {
-      data: {'id': 1, 'contentType': 'monthlytransferblock'},
+      data: {'id': 1, 'contentType': 'groupthing'},
       width: '550px',
       panelClass: 'dialog-file'
     });

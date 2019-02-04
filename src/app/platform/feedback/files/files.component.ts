@@ -2,16 +2,26 @@ import { Component, OnDestroy, OnInit} from '@angular/core';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NotificationService } from 'app/shared/_services/notification.service';
 import { MatDialog } from '@angular/material';
-import { FormComponent } from './form/form.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
+import { NotificationService } from 'app/shared/_services/notification.service';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+
 import { InquiryFormComponent} from '../shared/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
 import { Subscription } from 'rxjs';
 import { Month } from 'app/shared/_const/month-bd-select';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+
+
+import { FormComponent } from './form/form.component';
+import { InquiryFormComponent } from '../shared/inquiry-form/inquiry-form.component';
+import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
+
+import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
+import { ProductType } from 'app/shared/_models/product.model';
 
 @Component({
   selector: 'app-files',
@@ -54,7 +64,13 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
   months = Month;
   extraSearchCriteria = 'inactive';
 
-
+  departmentId;
+  statusLabel = Object.keys(StatusLabel).map(function(e) {
+    return { id: e, name: StatusLabel[e] };
+  });
+  selectProductType = Object.keys(ProductType).map(function(e) {
+    return { id: e, name: ProductType[e] };
+  });
   readonly headers: DataTableHeader[] = [
     {column: 'company_name', label: 'חברה מנהלת'},
     // {column: 'month', label: 'חודש שכר'},
@@ -71,6 +87,8 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
 
   ];
 
+
+
   constructor(route: ActivatedRoute, private router: Router,
               protected notificationService: NotificationService,
               private dialog: MatDialog, private feedbackService: FeedbackService,
@@ -85,6 +103,10 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
   }
   fetchItems(): void {
     this.feedbackService.getFileFeedbacks(this.selectUnit.currentDepartmentID).then(response => this.setItems(response));
+    this.departmentId = this.selectUnit.currentDepartmentID;
+    this.fetchItems();
+    super.ngOnInit();
+
   }
 
   toggleExtraSearch(): void {
@@ -119,4 +141,8 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
     super.ngOnDestroy();
     this.sub.unsubscribe();
   }
+  toggleExtraSearch(): void {
+    this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
+  }
+
 }
