@@ -13,13 +13,7 @@ import { InquiryFormComponent} from '../shared/inquiry-form/inquiry-form.compone
 import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
 import { Subscription } from 'rxjs';
 import { Month } from 'app/shared/_const/month-bd-select';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-
-
 import { FormComponent } from './form/form.component';
-import { InquiryFormComponent } from '../shared/inquiry-form/inquiry-form.component';
-import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
-
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { ProductType } from 'app/shared/_models/product.model';
 
@@ -140,9 +134,6 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
   ngOnDestroy() {
     super.ngOnDestroy();
     this.sub.unsubscribe();
-  }
-  toggleExtraSearch(): void {
-    this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
   }
 
 }
