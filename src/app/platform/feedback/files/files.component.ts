@@ -16,7 +16,6 @@ import { Month } from 'app/shared/_const/month-bd-select';
 import { FormComponent } from './form/form.component';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { ProductType } from 'app/shared/_models/product.model';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-files',
@@ -55,15 +54,13 @@ import { Subscription } from 'rxjs';
 })
 export class FilesComponent extends DataTableComponent implements OnInit, OnDestroy  {
 
-  sub = new Subscription()
+  sub = new Subscription();
   fileData;
   extraSearchCriteria = 'inactive';
   departmentId;
   readonly years = [2016, 2017, 2018, 2019];
   months = Month;
-  extraSearchCriteria = 'inactive';
 
-  departmentId;
   statusLabel = Object.keys(StatusLabel).map(function(e) {
     return { id: e, name: StatusLabel[e] };
   });
@@ -120,29 +117,35 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
   toggleExtraSearch(): void {
     this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
   }
-  openFormDialog(): void {
+  openFormDialog(item: any): void {
     this.dialog.open(FormComponent, {
       width: '1350px',
       height: '680px',
-      data:  this.fileData,
+      data:  item,
       panelClass: 'dialog-file'
     });
   }
 
-  openInquiresDialog(): void {
-    this.dialog.open(InquiryFormComponent, {
-      data: {'id': 1, 'contentType': 'groupthing', 'employerId': 4, 'companyId': 5},
+  openInquiresDialog(id: number): void {
+    const dialog = this.dialog.open(InquiryFormComponent, {
+      data: {'id': id, 'contentType': 'groupthing', 'employerId': this.searchCriteria['employerId'], 'companyId': 5},
       width: '550px',
       panelClass: 'dialog-file'
     });
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+      this.fetchItems();
+    }));
   }
 
-  openCommentsDialog(): void {
-    this.dialog.open(CommentsFormComponent, {
-      data: {'id': 1, 'contentType': 'groupthing'},
+  openCommentsDialog(id: number): void {
+    const dialog = this.dialog.open(CommentsFormComponent, {
+      data: {'id': id, 'contentType': 'groupthing'},
       width: '550px',
       panelClass: 'dialog-file'
     });
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+      this.fetchItems();
+    }));
   }
 
   ngOnDestroy() {

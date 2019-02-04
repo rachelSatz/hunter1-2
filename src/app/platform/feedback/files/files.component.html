@@ -83,19 +83,16 @@
   </div>
 </div>
 <!--<div class="float-left">-->
-<<<<<<< HEAD
 <!--<button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>-->
 <!--<mat-menu #menu="matMenu">-->
 <!--<button mat-menu-item (click)="openFormDialog()">שלח פנייה</button>-->
 <!--<button mat-menu-item (click)="openDialog()">עדכון סטטוס ידני</button>-->
 <!--</mat-menu>-->
-=======
   <!--<button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>-->
   <!--<mat-menu #menu="matMenu">-->
     <!--<button mat-menu-item (click)="openFormDialog()">שלח פנייה</button>-->
     <!--<button mat-menu-item (click)="openDialog()">עדכון סטטוס ידני</button>-->
   <!--</mat-menu>-->
->>>>>>> c8d90e598b012102858aef02c2917901cb977dfe
 <!--</div>-->
 <table class="table table-hover mt-3 data-table">
   <thead>
@@ -119,13 +116,13 @@
       <td>{{ item.status }}</td>
       <!--<td>{{ item.inquiry_status }}</td>-->
       <td >
-        <img src="/assets/img/icons/details_grey.png" (click)="openFormDialog()">
+        <img src="/assets/img/icons/details_grey.png" (click)="openFormDialog(item)">
       </td>
       <td>
-        <button class="btn btn1 blue-btn" (click)="openInquiresDialog()">שלח</button>
+        <button class="btn btn1 blue-btn" (click)="openInquiresDialog(item.id)">שלח</button>
       </td>
       <td>
-        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog()">
+        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item.id)">
       </td>
     </tr>
   </ng-container>

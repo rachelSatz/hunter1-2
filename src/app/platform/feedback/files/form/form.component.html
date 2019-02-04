@@ -1,19 +1,19 @@
 <p class="bold m-0">חברת ביטוח בע"מ</p>
 <div class="d-flex p-2">
   <span class="header-width bold f-14">שם תהליך</span>
-  <span class="header-width bold f-14">שם מעסיק</span>
+  <!--<span class="header-width bold f-14">שם מעסיק</span>-->
   <span class="header-width bold f-14">סוג מוצר</span>
   <span class="header-width bold f-14">מספר קופה בשכר</span>
-  <span class="header-width bold f-14">חודש שכר</span>
+  <!--<span class="header-width bold f-14">חודש שכר</span>-->
   <span class="header-width bold f-14">חודש שידור</span>
   <span class="header-width bold f-14">סכום</span>
 </div>
 <div class="d-flex p-2 border-bottom">
+  <span class="header-width f-14">{{data.process_name}}</span>
   <span class="header-width f-14"></span>
   <span class="header-width f-14"></span>
   <span class="header-width f-14"></span>
-  <span class="header-width f-14"></span>
-  <span class="header-width f-14"></span>
+  <span class="header-width f-14">{{ data.amount }}</span>
 </div>
 <div class="d-flex p-2 mt-3">
   <span class="header-width bold f-14">בנק</span>
@@ -27,8 +27,8 @@
   <span class="header-width f-14"></span>
   <span class="header-width f-14"></span>
   <span class="header-width f-14"></span>
-  <span class="header-width f-14"></span>
-  <span class="header-width f-14"></span>
+  <span class="header-width f-14">{{ data.amount }}</span>
+  <span class="header-width f-14">{{ data.product_code}}</span>
 </div>
 <div class="d-flex p-2 mt-2">
   <span class="header-width bold f-14">יצירת הפנייה</span>
@@ -37,7 +37,7 @@
   <span class="header-width bold f-14">תאריך שידור</span>
 </div>
 <div class="d-flex p-2 border-bottom">
-  <span class="header-width f-14"></span>
+  <span class="header-width f-14">{{ data.inquiries.created_at}}</span>
   <span class="header-width f-14"></span>
   <span class="header-width f-14"></span>
   <span class="header-width f-14"></span>

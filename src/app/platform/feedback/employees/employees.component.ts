@@ -12,15 +12,12 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { SendApplicationComponent } from './send-application/send-application.component';
 import { InquiryFormComponent } from '../shared/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
-<<<<<<< HEAD
-=======
 
 import { Month } from 'app/shared/_const/month-bd-select';
 import { ProductType } from 'app/shared/_models/product.model';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { Subscription } from 'rxjs';
-import {DatePipe} from '@angular/common';
->>>>>>> c8d90e598b012102858aef02c2917901cb977dfe
+import { DatePipe } from '@angular/common';
 
 export interface DialogData {
   test: string;
