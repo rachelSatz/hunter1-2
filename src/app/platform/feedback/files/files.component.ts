@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,15 +8,51 @@ import { FormComponent } from './form/form.component';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { InquiryFormComponent} from '../shared/inquiry-form/inquiry-form.component';
-import {CommentsComponent} from '../../process/process-upload/shared/detailed-files/comments/comments.component';
-import {CommentsFormComponent} from '../shared/comments-form/comments-form.component';
+import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
+import { Subscription } from 'rxjs';
+import { Month } from 'app/shared/_const/month-bd-select';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-files',
   templateUrl: './files.component.html',
-  styleUrls: ['../../../shared/data-table/data-table.component.css']
+  styleUrls: ['../../../shared/data-table/data-table.component.css'],
+  animations: [
+    trigger('slideToggle', [
+      state('inactive', style({
+        display: 'none',
+        height: '0',
+        opacity: '0',
+        visibility: 'hidden'
+      })),
+      state('active', style({
+        display: '*',
+        height: '*',
+        opacity: '1',
+        visibility: 'visible'
+      })),
+      transition('active => inactive', animate('200ms')),
+      transition('inactive => active', animate('200ms'))
+    ]),
+    trigger('placeholder', [
+      state('inactive', style({
+        fontSize: '*',
+        top: '*'
+      })),
+      state('active', style({
+        fontSize: '10px',
+        top: '-10px'
+      })),
+      transition('active => inactive', animate('300ms ease-in')),
+      transition('inactive => active', animate('300ms ease-in'))
+    ])
+  ]
 })
-export class FilesComponent extends DataTableComponent implements OnInit {
+export class FilesComponent extends DataTableComponent implements OnInit, OnDestroy  {
+  sub = new Subscription;
+  readonly years = [2016, 2017, 2018, 2019];
+  months = Month;
+  extraSearchCriteria = 'inactive';
 
 
   readonly headers: DataTableHeader[] = [
@@ -43,9 +79,17 @@ export class FilesComponent extends DataTableComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
+
+    super.ngOnInit();
+  }
+  fetchItems(): void {
     this.feedbackService.getFileFeedbacks(this.selectUnit.currentDepartmentID).then(response => this.setItems(response));
   }
 
+  toggleExtraSearch(): void {
+    this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
+  }
   openFormDialog(): void {
     this.dialog.open(FormComponent, {
       width: '1350px',
@@ -68,5 +112,11 @@ export class FilesComponent extends DataTableComponent implements OnInit {
       width: '550px',
       panelClass: 'dialog-file'
     });
+  }
+
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.sub.unsubscribe();
   }
 }

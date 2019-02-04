@@ -7,10 +7,10 @@ import { RouterModule, Routes} from '@angular/router';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import {
   MatAutocompleteModule,
-  MatCheckboxModule, MatChipsModule,
+  MatCheckboxModule, MatChipsModule, MatDatepickerModule,
   MatDialogModule,
   MatFormFieldModule, MatIconModule,
-  MatInputModule,
+  MatInputModule, MatNativeDateModule,
   MatOptionModule,
   MatSelectModule,
   MatTooltipModule
@@ -19,10 +19,10 @@ import { FormComponent } from './form/form.component';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { InquiryFormComponent } from '../shared/inquiry-form/inquiry-form.component';
 import { BdSelectModule } from '../../../../assets/js/bd-select/bd-select.module';
-import {ContactService} from '../../../shared/_services/http/contact.service';
-import {HelpersService} from '../../../shared/_services/helpers.service';
-import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
-import {CommentsFormComponent} from '../shared/comments-form/comments-form.component';
+import { ContactService } from 'app/shared/_services/http/contact.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
 
 const routes: Routes = [
   { path: '', component: FilesComponent }
@@ -36,7 +36,7 @@ const routes: Routes = [
     DataTableModule,
     MatInputModule, MatTooltipModule, MatDialogModule, MatFormFieldModule,
     MatSelectModule, MatOptionModule, MatCheckboxModule, MatFormFieldModule,
-    MatChipsModule, MatIconModule, MatAutocompleteModule,
+    MatChipsModule, MatIconModule, MatAutocompleteModule, MatDatepickerModule, MatNativeDateModule,
     BdSelectModule
   ],
   declarations: [FilesComponent, FormComponent, InquiryFormComponent, CommentsFormComponent],

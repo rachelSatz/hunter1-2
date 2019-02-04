@@ -11,8 +11,8 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ProductType } from 'app/shared/_models/product.model';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
-import {InquiryFormComponent} from '../shared/inquiry-form/inquiry-form.component';
-import {CommentsFormComponent} from '../shared/comments-form/comments-form.component';
+import { InquiryFormComponent } from '../shared/inquiry-form/inquiry-form.component';
+import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
 
 export interface DialogData {
   placeholder: string;
