@@ -16,7 +16,7 @@ import { CommentsFormComponent } from '../shared/comments-form/comments-form.com
 import { Month } from 'app/shared/_const/month-bd-select';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { ProductType } from 'app/shared/_models/product.model';
-import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-files',
@@ -55,6 +55,8 @@ import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
 })
 export class FilesComponent extends DataTableComponent implements OnInit {
 
+  sub = new Subscription()
+  fileData;
   extraSearchCriteria = 'inactive';
   departmentId;
   readonly years = [2016, 2017, 2018, 2019];
@@ -92,18 +94,40 @@ export class FilesComponent extends DataTableComponent implements OnInit {
 
   ngOnInit() {
     this.departmentId = this.selectUnit.currentDepartmentID;
-    this.fetchItems();
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
     super.ngOnInit();
 
 
     this.feedbackService.getFileFeedbacks(this.selectUnit.currentDepartmentID)
-      .then(response => this.setItems(response));
+      .then(response => {
+        this.setItems(response);
+        this.fileData = response;
+      });
+  }
+
+
+  fetchItems(): void {
+    const organizationId = this.selectUnit.currentOrganizationID;
+    const employerId = this.selectUnit.currentEmployerID;
+    const departmentId = this.selectUnit.currentDepartmentID;
+
+    if (organizationId) {
+      this.searchCriteria['departmentId'] = departmentId;
+      this.searchCriteria['employerId'] = employerId;
+      this.searchCriteria['organizationId'] = organizationId;
+      this.feedbackService.getFileFeedbacks(this.selectUnit.currentDepartmentID)
+        .then(response => {
+          this.setItems(response);
+          this.fileData = response;
+        });
+    }
   }
 
   openFormDialog(): void {
     this.dialog.open(FormComponent, {
       width: '1350px',
       height: '680px',
+      data:  this.fileData,
       panelClass: 'dialog-file'
     });
   }
@@ -128,14 +152,6 @@ export class FilesComponent extends DataTableComponent implements OnInit {
     this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
   }
 
-  fetchItems(): void {
-    console.log(this.searchCriteria + ' searchCriteria');
-    this.feedbackService.searchEmployeeData(6, this.searchCriteria).then(response => {
-      this.setItems(response);
-    });
 
-
-
-  }
 
 }

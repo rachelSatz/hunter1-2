@@ -122,4 +122,10 @@ export class FeedbackService extends BaseHttpService {
       .catch(() => []);
   }
 
+  downloadGroupThingFile(id: number): Promise<Blob> {
+    return this.http.get(this.apiUrl + '/files/' + id + '/downloadFile', this.getBlobOptions())
+      .toPromise()
+      .then(response => response as Blob);
+  }
+
 }

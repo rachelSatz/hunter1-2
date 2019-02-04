@@ -58,10 +58,10 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field class="mr-3">
-      <input matInput class="pointer" (click)="datePickerRequest.open()" [matDatepicker]="datePickerRequest" placeholder="לפי תאריך יצירה" name="dateRequest"
-             [(ngModel)]="searchCriteria['date_request']" readonly>
-      <mat-datepicker-toggle matSuffix [for]="datePickerRequest"></mat-datepicker-toggle>
-      <mat-datepicker #datePickerRequest></mat-datepicker>
+      <input matInput class="pointer" (click)="datePickerRequest1.open()" [matDatepicker]="datePickerRequest1" placeholder="לפי תאריך יצירה" name="createDate"
+             [(ngModel)]="searchCriteria['create_date']" readonly>
+      <mat-datepicker-toggle matSuffix [for]="datePickerRequest1"></mat-datepicker-toggle>
+      <mat-datepicker #datePickerRequest1></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="mr-3">
       <input matInput class="pointer" (click)="datePickerRequest2.open()" [matDatepicker]="datePickerRequest2" placeholder="לפי תאריך עדכון" name="dateUpdate"
@@ -70,7 +70,7 @@
       <mat-datepicker #datePickerRequest2></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="mr-3">
-      <input matInput class="pointer" (click)="datePickerRequest3.open()" [matDatepicker]="datePickerRequest3" placeholder="לפי תאריך שידור" name="dateUpdate"
+      <input matInput class="pointer" (click)="datePickerRequest3.open()" [matDatepicker]="datePickerRequest3" placeholder="לפי תאריך שידור" name="broadcastDate"
              [(ngModel)]="searchCriteria['broadcast_date']" readonly>
       <mat-datepicker-toggle matSuffix [for]="datePickerRequest3"></mat-datepicker-toggle>
       <mat-datepicker #datePickerRequest3></mat-datepicker>
@@ -82,13 +82,13 @@
     </div>
   </div>
 </div>
-<div class="float-left">
-  <button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="openFormDialog()">שלח פנייה</button>
-    <button mat-menu-item (click)="openDialog()">עדכון סטטוס ידני</button>
-  </mat-menu>
-</div>
+<!--<div class="float-left">-->
+  <!--<button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>-->
+  <!--<mat-menu #menu="matMenu">-->
+    <!--<button mat-menu-item (click)="openFormDialog()">שלח פנייה</button>-->
+    <!--<button mat-menu-item (click)="openDialog()">עדכון סטטוס ידני</button>-->
+  <!--</mat-menu>-->
+<!--</div>-->
 <table class="table table-hover mt-3 data-table">
   <thead>
   <tr class="table-headers">
@@ -114,15 +114,15 @@
         <img src="/assets/img/icons/details_grey.png" (click)="openFormDialog()">
       </td>
       <td>
-        <button class="btn blue-btn" (click)="openInquiresDialog()">שלח</button>
+        <button class="btn btn1 blue-btn" (click)="openInquiresDialog()">שלח</button>
       </td>
       <td>
-        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
+        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog()">
       </td>
     </tr>
   </ng-container>
   <tr *ngIf="!isSearching && items.length === 0">
-    <td colspan="10" class="text-center bold">טבלת תהליכים ריקה.</td>
+    <td colspan="10" class="text-center bold">טבלת מעקב ריקה.</td>
   </tr>
   </tbody>
 </table>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
+import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 
 @Component({
   selector: 'app-form',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormComponent implements OnInit {
 
-  constructor() { }
+  fileName: string;
+  constructor(private feedbackService: FeedbackService) { }
 
   ngOnInit() {
   }
 
+  downloadFile() {
+    console.log( 'sdf');
+
+    this.feedbackService.downloadGroupThingFile(6).then(response => {
+    });
+  }
 }

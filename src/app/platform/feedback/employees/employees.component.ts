@@ -1,23 +1,26 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { MatDialog } from '@angular/material';
-import { SendApplicationComponent } from './send-application/send-application.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { Month } from 'app/shared/_const/month-bd-select';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ProductType } from 'app/shared/_models/product.model';
-import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
+
+import { SendApplicationComponent } from './send-application/send-application.component';
 import { InquiryFormComponent } from '../shared/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
-import { FormComponent } from '../files/form/form.component';
+
+import { Month } from 'app/shared/_const/month-bd-select';
+import { ProductType } from 'app/shared/_models/product.model';
+import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
+import { Subscription } from 'rxjs';
+import {DatePipe} from '@angular/common';
 
 export interface DialogData {
-  placeholder: string;
+  test: string;
 }
 
 @Component({
@@ -59,7 +62,9 @@ export interface DialogData {
 
 export class EmployeesComponent extends DataTableComponent implements OnInit {
 
+  date = '--/--/--';
   departmentId;
+  sub = new Subscription()
   readonly years = [2016, 2017, 2018, 2019];
   months = Month;
   statusLabel = Object.keys(StatusLabel).map(function(e) {
@@ -90,14 +95,34 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
     { column: 'comments', label: 'הערות'}
   ];
   constructor(public dialog: MatDialog, route: ActivatedRoute, notificationService: NotificationService,
-              private feedbackService: FeedbackService, private selectUnitService: SelectUnitService) {
+              private feedbackService: FeedbackService, private selectUnitService: SelectUnitService,
+              private dataPipe: DatePipe) {
     super(route, notificationService);
   }
 
   ngOnInit() {
+    this.sub.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
     this.departmentId = this.selectUnitService.currentDepartmentID;
-    this.fetchItems();
     super.ngOnInit();
+  }
+
+
+  fetchItems(): void {
+    const organizationId = this.selectUnitService.currentOrganizationID;
+    const employerId = this.selectUnitService.currentEmployerID;
+    const departmentId = this.selectUnitService.currentDepartmentID;
+
+    if (organizationId) {
+      this.searchCriteria['departmentId'] = departmentId;
+      this.searchCriteria['employerId'] = employerId;
+      this.searchCriteria['organizationId'] = organizationId;
+      this.feedbackService.searchEmployeeData(this.departmentId, this.searchCriteria).then(response => {
+        this.setItems(response);
+        this.employeeData = response;
+        this.date = this.dataPipe.transform(this.employeeData['deposit_month']);
+        console.log(this.employeeData);
+      });
+    }
   }
 
   openApplicationDialog(): void {
@@ -112,14 +137,7 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
   }
 
 
-  fetchItems(): void {
-    console.log(this.searchCriteria + ' searchCriteria');
-    this.feedbackService.searchEmployeeData(6, this.searchCriteria).then(response => {
-      this.setItems(response);
-      this.employeeData = response;
-    });
 
-  }
 
   openInquiresDialog(): void {
     this.dialog.open(InquiryFormComponent, {
