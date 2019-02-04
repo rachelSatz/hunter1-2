@@ -3,6 +3,7 @@ import {Comment} from './comment';
 
 export class FileFeedback {
   id: number;
+  updated_at: Date;
   amount: number;
   product_code: string;
   company_name: string;
