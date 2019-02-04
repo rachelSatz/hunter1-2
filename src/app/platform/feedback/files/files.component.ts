@@ -16,6 +16,7 @@ import { Month } from 'app/shared/_const/month-bd-select';
 import { FormComponent } from './form/form.component';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { ProductType } from 'app/shared/_models/product.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-files',
@@ -53,7 +54,11 @@ import { ProductType } from 'app/shared/_models/product.model';
   ]
 })
 export class FilesComponent extends DataTableComponent implements OnInit, OnDestroy  {
-  sub = new Subscription;
+
+  sub = new Subscription()
+  fileData;
+  extraSearchCriteria = 'inactive';
+  departmentId;
   readonly years = [2016, 2017, 2018, 2019];
   months = Month;
   extraSearchCriteria = 'inactive';
@@ -82,7 +87,6 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
   ];
 
 
-
   constructor(route: ActivatedRoute, private router: Router,
               protected notificationService: NotificationService,
               private dialog: MatDialog, private feedbackService: FeedbackService,
@@ -95,12 +99,22 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
 
     super.ngOnInit();
   }
-  fetchItems(): void {
-    this.feedbackService.getFileFeedbacks(this.selectUnit.currentDepartmentID).then(response => this.setItems(response));
-    this.departmentId = this.selectUnit.currentDepartmentID;
-    this.fetchItems();
-    super.ngOnInit();
 
+  fetchItems(): void {
+    const organizationId = this.selectUnit.currentOrganizationID;
+    const employerId = this.selectUnit.currentEmployerID;
+    const departmentId = this.selectUnit.currentDepartmentID;
+
+    if (organizationId) {
+      this.searchCriteria['departmentId'] = departmentId;
+      this.searchCriteria['employerId'] = employerId;
+      this.searchCriteria['organizationId'] = organizationId;
+      this.feedbackService.getFileFeedbacks(this.selectUnit.currentDepartmentID)
+        .then(response => {
+          this.setItems(response);
+          this.fileData = response;
+        });
+    }
   }
 
   toggleExtraSearch(): void {
@@ -110,6 +124,7 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
     this.dialog.open(FormComponent, {
       width: '1350px',
       height: '680px',
+      data:  this.fileData,
       panelClass: 'dialog-file'
     });
   }
@@ -129,7 +144,6 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
       panelClass: 'dialog-file'
     });
   }
-
 
   ngOnDestroy() {
     super.ngOnDestroy();
