@@ -1,34 +1,26 @@
-import { Component, OnInit, Inject} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import * as FileSaver from 'file-saver';
-import {Compensation} from '../../../../shared/_models/compensation.model';
-import {forEach} from '@angular/router/src/utils/collection';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
-
-
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-inquiries',
   templateUrl: './inquiries.component.html'
 })
 export class InquiriesComponent implements OnInit {
-
   inquiries = [];
 
-
-  constructor(@Inject(MAT_DIALOG_DATA) public compensationID: number, private dialog: MatDialog,
-              private compensationService: CompensationService, private generalService: GeneralHttpService) {
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+              private dialog: MatDialog,
+              private generalService: GeneralHttpService) { }
 
   ngOnInit() {
-    this.generalService.getInquiries(this.compensationID, 'compensation').then(response =>
+    this.generalService.getInquiries(this.data.id, this.data.contentType).then(response =>
       this.inquiries = response
     );
   }
-
   downloadFilesInquirie(id: number): void {
-    this.generalService.downloadFilesInquirie(id, 'compensation').then(response => {
+    this.generalService.downloadFilesInquirie(id, this.data.contentType).then(response => {
       response.forEach(item => {
         const byteCharacters = atob(item.blob);
         const byteNumbers = new Array(byteCharacters.length);

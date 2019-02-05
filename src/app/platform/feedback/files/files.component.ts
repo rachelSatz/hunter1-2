@@ -16,6 +16,7 @@ import { Month } from 'app/shared/_const/month-bd-select';
 import { FormComponent } from './form/form.component';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { ProductType } from 'app/shared/_models/product.model';
+import {InquiriesComponent} from '../shared/inquiries/inquiries.component';
 
 @Component({
   selector: 'app-files',
@@ -69,6 +70,7 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
   });
   readonly headers: DataTableHeader[] = [
     {column: 'company_name', label: 'חברה מנהלת'},
+    {column: 'employer_name', label: 'שם מעסיק'},
     // {column: 'month', label: 'חודש שכר'},
     {column: 'amount', label: 'סכום'},
     {column: 'code', label: 'קוד אוצר'},
@@ -79,6 +81,7 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
     // {column: 'inquiry_status', label: 'סטטוס פנייה'},
     {column: 'more', label: 'מידע נוסף'},
     {column: 'send_request', label: 'שלח פנייה'},
+    {column: 'inquiries', label: 'פניות'},
     {column: 'comments', label: 'הערות'}
 
   ];
@@ -146,6 +149,14 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
     }));
+  }
+
+  openInquiriesDetailsDialog(id: number): void {
+    const dialog = this.dialog.open(InquiriesComponent, {
+      data: {'id': id, 'contentType': 'groupthing'},
+      width: '550px',
+      panelClass: 'dialog-file'
+    });
   }
 
   ngOnDestroy() {

@@ -107,6 +107,7 @@
   <ng-container *ngIf="!isSearching">
     <tr *ngFor="let item of paginatedItems" class="pointer">
       <td>{{ item.company_name}}</td>
+      <td>{{ item.employer_name}}</td>
       <!--<td>{{ item.month }}</td>-->
       <td>{{ item.amount }}</td>
       <td>{{ item.product_code }}</td>
@@ -120,6 +121,9 @@
       </td>
       <td>
         <button class="btn btn1 blue-btn" (click)="openInquiresDialog(item.id)">שלח</button>
+      </td>
+      <td>
+        <span class="grey-circle" (click)="openInquiriesDetailsDialog(item)"></span>
       </td>
       <td>
         <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item.id)">

@@ -201,5 +201,14 @@ export class GeneralHttpService extends BaseHttpService {
       .catch(() => false);
   }
 
+  downloadFilesInquirie(rowID: number, contentType: string): Promise<any[]> {
+    return this.http.post(this.apiUrl + '/generals' + '/' + rowID + '/downloadFilesInquirie', {'content_type': contentType},
+      this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+
 
 }
