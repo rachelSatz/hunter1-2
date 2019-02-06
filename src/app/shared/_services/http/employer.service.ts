@@ -37,6 +37,11 @@ export class EmployerService extends BaseHttpService {
     .then(response => response as Employer[]);
   }
 
+  getAllEmployers(): Promise<Employer[]> {
+    return this.http.get(this.endPoint + '/allEmployers', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Employer[]);
+  }
    
   newEmployer(employer: Employer): Promise<Employer> {
     return this.http.post(this.endPoint, employer, this.getTokenHeader())
@@ -95,6 +100,13 @@ export class EmployerService extends BaseHttpService {
         .then(response => response as Object)
         .catch(() => []);
     }
+  }
+
+  getEmployerFinance(employerId: number): Promise<any> {
+    return this.http.get(this.endPoint + '/' + employerId + '/employerFinance', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as any)
+      .catch(() => []);
   }
 
 

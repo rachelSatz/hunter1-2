@@ -24,12 +24,21 @@ export class Employer {
   comments: string;
   bank_accounts: EmployerBankAccount[] = [];
   organizationId: number;
+  organization_name: string;
+  status: string;
   department: Department[];
-
 
   constructor() {
     this.bank_accounts.push(new EmployerBankAccount());
     this.bankBranch = new BankBranch;
   }
+
+
+}
+
+export enum EmployerStatus {
+  'active' = 'מעסיק פעיל',
+  'inactive' = 'מעסיק לא פעיל',
+  'on_process' = 'בהקמה'
 }
 

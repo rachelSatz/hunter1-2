@@ -47,7 +47,6 @@ export class InquiriesComponent implements OnInit {
         const blob = new Blob([byteArray], {type: 'application/' + item.type});
         FileSaver.saveAs(blob,  item.name);
       });
-
     });
   }
 
