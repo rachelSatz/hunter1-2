@@ -17,7 +17,8 @@ import { Month } from 'app/shared/_const/month-bd-select';
 import { ProductType } from 'app/shared/_models/product.model';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { Subscription } from 'rxjs';
-import {DatePipe} from '@angular/common';
+import { DatePipe } from '@angular/common';
+import {InquiriesComponent} from '../shared/inquiries/inquiries.component';
 
 export interface DialogData {
   test: string;
@@ -92,6 +93,7 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
     { column: 'download', label: 'סטטוס פנייה' },
     { column: 'more', label: 'מידע נוסף'},
     { column: 'send_request', label: 'שלח פנייה'},
+    {column: 'inquiries', label: 'פניות'},
     { column: 'comments', label: 'הערות'}
   ];
   constructor(public dialog: MatDialog, route: ActivatedRoute, notificationService: NotificationService,
@@ -155,4 +157,11 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
     });
   }
 
+  openInquiriesDetailsDialog(id: number): void {
+    const dialog = this.dialog.open(InquiriesComponent, {
+      data: {'id': id, 'contentType': 'groupthing'},
+      width: '550px',
+      panelClass: 'dialog-file'
+    });
+  }
 }

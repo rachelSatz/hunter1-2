@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,14 +9,14 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
-import { FormComponent } from './form/form.component';
-import { InquiryFormComponent } from '../shared/inquiry-form/inquiry-form.component';
+import { InquiryFormComponent} from '../shared/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
-
+import { Subscription } from 'rxjs';
 import { Month } from 'app/shared/_const/month-bd-select';
+import { FormComponent } from './form/form.component';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { ProductType } from 'app/shared/_models/product.model';
-import { Subscription } from 'rxjs';
+import { InquiriesComponent} from '../shared/inquiries/inquiries.component';
 
 @Component({
   selector: 'app-files',
@@ -53,7 +53,7 @@ import { Subscription } from 'rxjs';
     ])
   ]
 })
-export class FilesComponent extends DataTableComponent implements OnInit {
+export class FilesComponent extends DataTableComponent implements OnInit, OnDestroy  {
 
   sub = new Subscription();
   fileData;
@@ -61,6 +61,7 @@ export class FilesComponent extends DataTableComponent implements OnInit {
   departmentId;
   readonly years = [2016, 2017, 2018, 2019];
   months = Month;
+
   statusLabel = Object.keys(StatusLabel).map(function(e) {
     return { id: e, name: StatusLabel[e] };
   });
@@ -69,20 +70,21 @@ export class FilesComponent extends DataTableComponent implements OnInit {
   });
   readonly headers: DataTableHeader[] = [
     {column: 'company_name', label: 'חברה מנהלת'},
+    {column: 'employer_name', label: 'שם מעסיק'},
     // {column: 'month', label: 'חודש שכר'},
     {column: 'amount', label: 'סכום'},
     {column: 'code', label: 'קוד אוצר'},
     // {column: 'date', label: 'תאריך שידור'},
-    {column: 'inquiry_created_at', label: 'תאריך יצירת הפנייה'},
-    {column: 'last_update', label: 'תאריך עדכון אחרון'},
+    // {column: 'inquiry_created_at', label: 'תאריך יצירת הפנייה'},
+    // {column: 'last_update', label: 'תאריך עדכון אחרון'},
     {column: 'status', label: 'סטטוס'},
     // {column: 'inquiry_status', label: 'סטטוס פנייה'},
     {column: 'more', label: 'מידע נוסף'},
     {column: 'send_request', label: 'שלח פנייה'},
+    {column: 'inquiries', label: 'פניות'},
     {column: 'comments', label: 'הערות'}
 
   ];
-
 
 
   constructor(route: ActivatedRoute, private router: Router,
@@ -93,11 +95,10 @@ export class FilesComponent extends DataTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.departmentId = this.selectUnit.currentDepartmentID;
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
+
     super.ngOnInit();
   }
-
 
   fetchItems(): void {
     const organizationId = this.selectUnit.currentOrganizationID;
@@ -116,35 +117,51 @@ export class FilesComponent extends DataTableComponent implements OnInit {
     }
   }
 
-  openFormDialog(): void {
-    this.dialog.open(FormComponent, {
-      width: '1350px',
-      height: '680px',
-      data:  this.fileData,
-      panelClass: 'dialog-file'
-    });
-  }
-
-  openInquiresDialog(): void {
-    this.dialog.open(InquiryFormComponent, {
-      data: {'id': 1, 'contentType': 'groupthing', 'employerId': 4, 'companyId': 5},
-      width: '550px',
-      panelClass: 'dialog-file'
-    });
-  }
-
-  openCommentsDialog(): void {
-    this.dialog.open(CommentsFormComponent, {
-      data: {'id': 1, 'contentType': 'groupthing'},
-      width: '550px',
-      panelClass: 'dialog-file'
-    });
-  }
-
   toggleExtraSearch(): void {
     this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
   }
+  openFormDialog(item: any): void {
+    this.dialog.open(FormComponent, {
+      width: '1350px',
+      height: '680px',
+      data:  item,
+      panelClass: 'dialog-file'
+    });
+  }
 
+  openInquiresDialog(id: number): void {
+    const dialog = this.dialog.open(InquiryFormComponent, {
+      data: {'id': id, 'contentType': 'groupthing', 'employerId': this.searchCriteria['employerId'], 'companyId': 5},
+      width: '550px',
+      panelClass: 'dialog-file'
+    });
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+      this.fetchItems();
+    }));
+  }
 
+  openCommentsDialog(id: number): void {
+    const dialog = this.dialog.open(CommentsFormComponent, {
+      data: {'id': id, 'contentType': 'groupthing'},
+      width: '550px',
+      panelClass: 'dialog-file'
+    });
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+      this.fetchItems();
+    }));
+  }
+
+  openInquiriesDetailsDialog(id: number): void {
+    const dialog = this.dialog.open(InquiriesComponent, {
+      data: {'id': id, 'contentType': 'groupthing'},
+      width: '550px',
+      panelClass: 'dialog-file'
+    });
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.sub.unsubscribe();
+  }
 
 }

@@ -18,7 +18,7 @@ export class InquiriesComponent implements OnInit {
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensationID: number, private dialog: MatDialog,
-              private compensationService: CompensationService, private generalService : GeneralHttpService) {
+              private compensationService: CompensationService, private generalService: GeneralHttpService) {
   }
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class InquiriesComponent implements OnInit {
   }
 
   downloadFilesInquirie(id: number): void {
-    this.compensationService.downloadFilesInquirie(id).then(response => {
+    this.generalService.downloadFilesInquirie(id, 'compensation').then(response => {
       response.forEach(item => {
         const byteCharacters = atob(item.blob);
         const byteNumbers = new Array(byteCharacters.length);

@@ -89,14 +89,6 @@ export class CompensationService extends BaseHttpService {
       .catch(() => null);
   }
 
-  downloadFilesInquirie(rowID: number): Promise<any[]> {
-    return this.http.get(this.endPoint + '/' + rowID + '/downloadFilesInquirie', this.getTokenHeader())
-      .toPromise()
-      .then(response => response)
-      .catch(() => null);
-  }
-
-
   downloadFile(rowID: number, filename: string): Promise<string> {
     return this.http.post(this.endPoint + '/' + rowID + '/downloadFile', { filename: filename},
       this.getTokenHeader())
