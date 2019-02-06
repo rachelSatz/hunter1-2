@@ -1,51 +1,71 @@
-<div class="container-fluid">
-  <header>
-    <div id="mainMenu">
-      <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav">
-            <ng-container *ngFor="let link of menuLinks">
-              <li class="nav-item" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="!link.subMenuLinks">
-                <a class="menu-link" [routerLink]="['/platform', link.url]">
+<div class="d-flex">
+  <div *ngIf="isAgent" class="text-center" [className]="agentBarActive? 'closedAgentBar': 'agentBar'">
+    <div *ngIf="!agentBarActive">
+      <div class="d-flex pointer selected">
+        <span class="w-100 py-3" (click)="agentBarActive = !agentBarActive">חזרה לסליקה</span>
+      </div>
+      <div class="d-flex pointer py-3">
+        <i class="w-100 fa fa-search"></i>
+      </div>
+      <div *ngFor="let el of agentBarEl" class="d-flex pointer">
+      <span class="w-100 py-3" (click)="selectedEl = el.id" [ngClass]="{'selectedEl': selectedEl === el.id}">{{el.label}}</span>
+    </div>
+    </div>
+    <div *ngIf="agentBarActive" (click)="agentBarActive = !agentBarActive">
+      <span class="py-4"></span>
+      <div *ngFor="let el of agentBarEl" class="d-flex pointer">
+        <span class="w-100 py-3"><i class="w-100 fa fa-{{el.icon}}"></i></span>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <header>
+      <div id="mainMenu">
+        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent" [@fade]="agentBarActive ? 'active' : 'inactive'">
+            <ul class="navbar-nav">
+              <ng-container *ngFor="let link of menuLinks">
+                <li class="nav-item" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="!link.subMenuLinks">
+                  <a class="menu-link" [routerLink]="['/platform', link.url]">
+                    <figure>
+                      <img [src]="getImage(link)" [attr.alt]="link.label">
+                    </figure>
+                    <p>{{ link.label }}</p>
+                  </a>
+
+                </li>
+                <li [matMenuTriggerFor]="subMenu" class="nav-item pointer" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="link.subMenuLinks">
                   <figure>
                     <img [src]="getImage(link)" [attr.alt]="link.label">
                   </figure>
-                  <p>{{ link.label }}</p>
-                </a>
-
-              </li>
-              <li [matMenuTriggerFor]="subMenu" class="nav-item pointer" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="link.subMenuLinks">
-                <figure>
-                  <img [src]="getImage(link)" [attr.alt]="link.label">
-                </figure>
-                <span>{{ link.label }}</span>
-                <mat-menu #subMenu yPosition="above" [overlapTrigger]="false">
-                  <button mat-menu-item class="dropdown-item" *ngFor="let subLink of link.subMenuLinks"
-                          [routerLink]="'/platform/' + link.url + '/' + subLink.url" >{{ subLink.label }}</button>
-                </mat-menu>
-              </li>
-            </ng-container>
-          </ul>
-        </div>
-        <bd-select [items]="helpers.organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
-        <bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
-        <bd-select [items]="departments" class="ml-3" [(ngModel)]="departmentId" placeholder="מחלקה" (onSelect)="selectDepartment($event)"  [ngClass]="{'disable': employerId === undefined || employerId['id'] === 0}"></bd-select>
-        <a class="navbar-brand" (click)="logout()">
-          <img src="/assets/img/logo.svg" class="logo" alt="לוגו של סמארטי">
-          <p class="mt-3 text-left f-14 grey-color">
-            <span>התנתקות</span>
-            <img src="/assets/img/icons/logout.png" class="mr-2">
-          </p>
-        </a>
-      </nav>
+                  <span>{{ link.label }}</span>
+                  <mat-menu #subMenu yPosition="above" [overlapTrigger]="false">
+                    <button mat-menu-item class="dropdown-item" *ngFor="let subLink of link.subMenuLinks"
+                            [routerLink]="'/platform/' + link.url + '/' + subLink.url" >{{ subLink.label }}</button>
+                  </mat-menu>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+          <bd-select [items]="helpers.organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
+          <bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
+          <bd-select [items]="departments" class="ml-3" [(ngModel)]="departmentId" placeholder="מחלקה" (onSelect)="selectDepartment($event)"  [ngClass]="{'disable': employerId === undefined || employerId['id'] === 0}"></bd-select>
+          <a class="navbar-brand" (click)="logout()">
+            <img src="/assets/img/logo.svg" class="logo" alt="לוגו של סמארטי">
+            <p class="mt-3 text-left f-14 grey-color">
+              <span>התנתקות</span>
+              <img src="/assets/img/icons/logout.png" class="mr-2">
+            </p>
+          </a>
+        </nav>
+      </div>
+    </header>
+    <div id="content">
+      <router-outlet></router-outlet>
     </div>
-  </header>
-  <div id="content">
-    <router-outlet></router-outlet>
   </div>
 </div>
-

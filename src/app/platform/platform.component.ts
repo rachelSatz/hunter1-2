@@ -4,21 +4,62 @@ import { UserSessionService } from '../shared/_services/user-session.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-platform',
   templateUrl: './platform.component.html',
-  styleUrls: ['./platform.component.css']
+  styleUrls: ['./platform.component.css'],
+  animations: [
+    trigger('fade', [
+      state('inactive', style({
+        display: 'none',
+        opacity: '0'
+      })),
+      state('active', style({
+        display: 'block',
+        opacity: '1'
+      })),
+      transition('active => inactive', animate('100ms ease-in')),
+      transition('inactive => active', animate('300ms ease-in'))
+    ]),
+    trigger('slideInOut', [
+      state('in', style({
+        display: 'none',
+        width: '0',
+        opacity: '0'
+      })),
+      state('out', style({
+        display: 'block',
+        width: '*',
+        opacity: '1'
+      })),
+      transition('in => out', animate('400ms ease-in-out')),
+      transition('out => in', animate('400ms ease-in-out'))
+    ]),
+  ]
 })
 export class PlatformComponent implements OnInit {
 
   activeUrl: string;
+  selectedEl: number;
   organizations = [];
   employers = [];
   departments = [];
   organizationId: number;
   employerId: object;
   departmentId: object;
+  agentBarActive = true;
+  isAgent = true;
+
+  readonly agentBarEl = [
+    { id: 1, icon: 'list-ul' , label: 'תור עבודה' },
+    { id: 2, icon: 'list-ul' , label: 'משימות' },
+    { id: 3, icon: 'users' , label: 'מעסיקים' },
+    { id: 4, icon: 'file' , label: 'מסמכים' },
+    { id: 5, icon: 'user' , label: 'אנשי קשר' },
+    { id: 6, icon: 'bell' , label: 'התראות' }
+    ];
 
   readonly menuLinks = [
         { url: 'dashboard', label: 'דף הבית' },

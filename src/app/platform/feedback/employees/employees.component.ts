@@ -64,7 +64,7 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
 
   date = '--/--/--';
   departmentId;
-  sub = new Subscription()
+  sub = new Subscription();
   readonly years = [2016, 2017, 2018, 2019];
   months = Month;
   statusLabel = Object.keys(StatusLabel).map(function(e) {
@@ -126,7 +126,7 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
   }
 
   openApplicationDialog(): void {
-    const dialogRef = this.dialog.open(SendApplicationComponent, {
+    this.dialog.open(SendApplicationComponent, {
       width: '1350px',
       height: '680px'
     });

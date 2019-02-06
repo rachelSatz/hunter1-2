@@ -48,3 +48,36 @@ bd-select {
 .disable{
   pointer-events:none;
 }
+
+.agentBar {
+  height: 100%;
+  position: absolute;
+  background-color: #555555;
+  width: 110px;
+  color: #ffffff;
+  text-align: center;
+}
+
+
+.closedAgentBar {
+  height: 100%;
+  text-align: center;
+  position: absolute;
+  background-color: #555555;
+  width: 50px;
+  color: #ffffff;
+}
+
+
+.agentBar > div > div:hover {
+  background-color: grey;
+}
+
+.closedAgentBar > div > div:hover {
+  background-color: grey;
+}
+
+.selected {
+
+}
+

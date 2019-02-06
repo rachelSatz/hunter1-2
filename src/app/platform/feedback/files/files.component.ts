@@ -55,7 +55,7 @@ import { Subscription } from 'rxjs';
 })
 export class FilesComponent extends DataTableComponent implements OnInit {
 
-  sub = new Subscription()
+  sub = new Subscription();
   fileData;
   extraSearchCriteria = 'inactive';
   departmentId;
@@ -96,13 +96,6 @@ export class FilesComponent extends DataTableComponent implements OnInit {
     this.departmentId = this.selectUnit.currentDepartmentID;
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
     super.ngOnInit();
-
-
-    this.feedbackService.getFileFeedbacks(this.selectUnit.currentDepartmentID)
-      .then(response => {
-        this.setItems(response);
-        this.fileData = response;
-      });
   }
 
 
