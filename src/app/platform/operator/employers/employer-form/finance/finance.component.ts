@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {EmployerService} from '../../../../../shared/_services/http/employer.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-finance',
@@ -8,6 +8,7 @@ import {EmployerService} from '../../../../../shared/_services/http/employer.ser
 })
 export class FinanceComponent implements OnInit {
   comments;
+
   constructor(private employerService: EmployerService) { }
 
   ngOnInit() {

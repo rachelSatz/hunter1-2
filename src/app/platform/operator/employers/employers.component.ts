@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { EmployerService } from '../../../shared/_services/http/employer.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { MatDialog } from '@angular/material';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { DataTableHeader } from '../../../shared/data-table/classes/data-table-header';
-import { EmployerStatus } from '../../../shared/_models/employer.model';
+import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
+import { EmployerStatus } from 'app/shared/_models/employer.model';
 
 @Component({
   selector: 'app-employers',

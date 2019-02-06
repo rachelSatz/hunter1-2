@@ -6,7 +6,7 @@ import { ChartsModule } from 'ng2-charts';
 import { DashboardComponent } from './dashboard.component';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent }
+  { path: '', component: DashboardComponent },
 ];
 
 @NgModule({

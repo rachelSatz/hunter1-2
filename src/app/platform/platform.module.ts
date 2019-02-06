@@ -29,7 +29,9 @@ const routes: Routes = [
       { path: 'process/new/:status', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
       { path: 'feedback/employees', loadChildren: 'app/platform/feedback/employees/employees.module#EmployeesModule' },
-      { path: 'feedback/files', loadChildren: 'app/platform/feedback/files/files.module#FilesModule' }
+      { path: 'feedback/files', loadChildren: 'app/platform/feedback/files/files.module#FilesModule' },
+      { path: 'operator/employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' }
+
     ]
   }
 ];

@@ -8,12 +8,12 @@
         <i class="w-100 fa fa-search"></i>
       </div>
       <div *ngFor="let el of agentBarEl" class="d-flex pointer">
-      <span class="w-100 py-3" (click)="selectedEl = el.id" [ngClass]="{'selectedEl': selectedEl === el.id}">{{el.label}}</span>
+      <span class="w-100 py-3" [routerLink]="['/platform', 'operator', el.link]">{{el.label}}</span>
     </div>
     </div>
     <div *ngIf="agentBarActive" (click)="agentBarActive = !agentBarActive">
       <span class="py-4"></span>
-      <div *ngFor="let el of agentBarEl" class="d-flex pointer">
+      <div *ngFor="let el of agentBarEl"  class="d-flex pointer">
         <span class="w-100 py-3"><i class="w-100 fa fa-{{el.icon}}"></i></span>
       </div>
     </div>
