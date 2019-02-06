@@ -53,12 +53,12 @@ export class PlatformComponent implements OnInit {
   isAgent = true;
 
   readonly agentBarEl = [
-    { id: 1, icon: 'list-ul' , label: 'תור עבודה' },
-    { id: 2, icon: 'list-ul' , label: 'משימות' },
-    { id: 3, icon: 'users' , label: 'מעסיקים' },
-    { id: 4, icon: 'file' , label: 'מסמכים' },
-    { id: 5, icon: 'user' , label: 'אנשי קשר' },
-    { id: 6, icon: 'bell' , label: 'התראות' }
+    { id: 1, icon: 'question-circle' , label: 'תור עבודה', link: 'employers'},
+    { id: 2, icon: 'list-ul' , label: 'משימות',    link: 'employers'},
+    { id: 3, icon: 'users' ,   label: 'מעסיקים',   link: 'employers'},
+    { id: 4, icon: 'file' ,    label: 'מסמכים',    link: 'employers'},
+    { id: 5, icon: 'user' ,    label: 'אנשי קשר',  link: 'employers'},
+    { id: 6, icon: 'bell' ,    label: 'התראות',    link: 'employers'}
     ];
 
   readonly menuLinks = [
