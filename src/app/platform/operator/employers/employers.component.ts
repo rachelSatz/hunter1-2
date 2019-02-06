@@ -13,7 +13,7 @@ import { EmployerStatus } from 'app/shared/_models/employer.model';
   templateUrl: './employers.component.html',
   styleUrls: ['../../../shared/data-table/data-table.component.css', './employers.component.css']
 })
-export class EmployersComponent extends DataTableComponent  implements OnInit, OnDestroy {
+export class EmployersComponent extends DataTableComponent  implements OnInit {
 
   sub = new Subscription;
   employerStatus = EmployerStatus;
@@ -26,8 +26,7 @@ export class EmployersComponent extends DataTableComponent  implements OnInit, O
     { column: 'phone', label: 'טלפון' },
     { column: 'mobile', label: 'טלפון נייד' },
     { column: 'address', label: 'כתובת' },
-    { column: 'status', label: 'סטטוס' },
-    { column: 'more', label: 'פעולות' },
+    { column: 'status', label: 'סטטוס' }
 
   ];
 
@@ -39,19 +38,8 @@ export class EmployersComponent extends DataTableComponent  implements OnInit, O
   }
 
   ngOnInit() {
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-      this.fetchItems();
-    }));
+    this.employerService.getAllEmployers().then(response => this.setItems(response));
 
     super.ngOnInit();
-  }
-
-  fetchItems(): void {
-    if (this.selectUnit.currentOrganizationID) {
-      this.employerService.getAllEmployers().then(response => this.setItems(response));
-    }
-  }
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 }
