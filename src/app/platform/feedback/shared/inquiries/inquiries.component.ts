@@ -1,11 +1,27 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog} from '@angular/material';
-import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
+import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocompleteSelectedEvent,
+  MatAutocomplete} from '@angular/material';
+import { GeneralHttpService } from '../../../../shared/_services/http/general-http.service';
 import * as FileSaver from 'file-saver';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-inquiries',
-  templateUrl: './inquiries.component.html'
+  templateUrl: './inquiries.component.html',
+  animations: [
+    trigger('fade', [
+      state('inactive', style({
+        display: 'none',
+        opacity: '0',
+      })),
+      state('active', style({
+        display: '*',
+        opacity: '1',
+      })),
+      transition('active => inactive', animate('200ms')),
+      transition('inactive => active', animate('200ms'))
+    ])
+  ]
 })
 export class InquiriesComponent implements OnInit {
   inquiries = [];

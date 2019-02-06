@@ -1,10 +1,9 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material';
-import {InquiryFormComponent} from '../../shared/inquiry-form/inquiry-form.component';
-import {CommentsFormComponent} from '../../shared/comments-form/comments-form.component';
 import {Subscription} from 'rxjs';
 import * as FileSaver from 'file-saver';
+import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-form',
@@ -15,10 +14,12 @@ export class FormComponent implements OnInit {
   sub = new Subscription();
   fileName: string;
   spin: boolean;
+  // employerId = this.selectUnit.currentEmployerID;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private feedbackService: FeedbackService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
     console.log(this.data);
@@ -39,10 +40,10 @@ export class FormComponent implements OnInit {
       this.spin = false;
     });
   }
-  //
+
   // openInquiresDialog(id: number): void {
   //   const dialog = this.dialog.open(InquiryFormComponent, {
-  //     data: {'id': id, 'contentType': 'groupthing', 'employerId': this.searchCriteria['employerId'], 'companyId': 5},
+  //     data: {'id': id, 'contentType': 'groupthing', 'employerId': employerId, 'companyId': 5},
   //     width: '550px',
   //     panelClass: 'dialog-file'
   //   });
@@ -50,7 +51,7 @@ export class FormComponent implements OnInit {
   //     this.dialog.closeAll();
   //   }));
   // }
-  //
+
   // openCommentsDialog(id: number): void {
   //   const dialog = this.dialog.open(CommentsFormComponent, {
   //     data: {'id': id, 'contentType': 'groupthing'},
@@ -58,6 +59,7 @@ export class FormComponent implements OnInit {
   //     panelClass: 'dialog-file'
   //   });
   //   this.sub.add(dialog.afterClosed().subscribe(() => {
-  //   }));
+  //   })
+  //   );
   // }
 }

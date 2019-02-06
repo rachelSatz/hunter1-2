@@ -4,15 +4,10 @@ import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocom
   MatAutocomplete} from '@angular/material';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-
-import { CompensationService } from 'app/shared/_services/http/compensation.service';
-
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 
-import { Compensation } from 'app/shared/_models/compensation.model';
 import { Observable} from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { GeneralHttpService } from '../../../../shared/_services/http/general-http.service';
 export interface Contact {
   id: number;

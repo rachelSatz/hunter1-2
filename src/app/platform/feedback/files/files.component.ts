@@ -16,7 +16,7 @@ import { Month } from 'app/shared/_const/month-bd-select';
 import { FormComponent } from './form/form.component';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { ProductType } from 'app/shared/_models/product.model';
-import {InquiriesComponent} from '../shared/inquiries/inquiries.component';
+import { InquiriesComponent} from '../shared/inquiries/inquiries.component';
 
 @Component({
   selector: 'app-files',
@@ -75,8 +75,8 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
     {column: 'amount', label: 'סכום'},
     {column: 'code', label: 'קוד אוצר'},
     // {column: 'date', label: 'תאריך שידור'},
-    {column: 'inquiry_created_at', label: 'תאריך יצירת הפנייה'},
-    {column: 'last_update', label: 'תאריך עדכון אחרון'},
+    // {column: 'inquiry_created_at', label: 'תאריך יצירת הפנייה'},
+    // {column: 'last_update', label: 'תאריך עדכון אחרון'},
     {column: 'status', label: 'סטטוס'},
     // {column: 'inquiry_status', label: 'סטטוס פנייה'},
     {column: 'more', label: 'מידע נוסף'},

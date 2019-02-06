@@ -19,6 +19,7 @@ import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
+import {InquiriesComponent} from '../shared/inquiries/inquiries.component';
 
 const routes: Routes = [{
   path: '', component: EmployeesComponent
@@ -28,29 +29,18 @@ const routes: Routes = [{
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatTooltipModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatOptionModule,
     BdSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatMenuModule,
-    DataTableModule,
-    MatChipsModule,
-    MatIconModule,
-    PipesModule,
-    MatCheckboxModule,
-    MatAutocompleteModule,
-
-
+    FormsModule,
+    MatTooltipModule, MatDialogModule, MatFormFieldModule, MatInputModule,
+    MatSelectModule, DataTableModule, MatChipsModule,
+    MatOptionModule, MatDatepickerModule,
+    MatNativeDateModule, MatMenuModule,
+    MatIconModule, PipesModule,
+    MatCheckboxModule, MatAutocompleteModule,
   ],
   exports: [],
-  declarations: [EmployeesComponent, SendApplicationComponent],
-  entryComponents: [SendApplicationComponent],
+  declarations: [EmployeesComponent, SendApplicationComponent, InquiriesComponent],
+  entryComponents: [SendApplicationComponent, InquiriesComponent],
   providers: [NotificationService, FeedbackService, ContactService, HelpersService, GeneralHttpService],
 })
 export class EmployeesModule { }
