@@ -7,7 +7,7 @@ export class MonthlyTransferBlock {
   employer_product_code: number;
   employer_product_name: string;
   employer_product_type: string;
-  prodect_code: number;
+  product_code: number;
   // payment_month: string;
   salary: number;
   salary_month: string;

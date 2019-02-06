@@ -7,7 +7,7 @@ import {EmployerService} from '../../../../../shared/_services/http/employer.ser
   styleUrls: ['./finance.component.css']
 })
 export class FinanceComponent implements OnInit {
-
+  comments;
   constructor(private employerService: EmployerService) { }
 
   ngOnInit() {

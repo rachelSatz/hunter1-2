@@ -31,7 +31,7 @@
           <img src="/assets/img/icons/details_grey.png" *ngIf="getTitle(item.employer_products)[1]" title="{{ getTitle(item.employer_products)[0] }}
           {{ getTitle(item.employer_products)[1] }}">
         </td>
-        <td>{{ item.product_type }}</td>
+        <td>{{ productType[item.product_type] }}</td>
         <td>{{ item.product_code }}</td>
         <td (click)="openUpdateTypePayDialog(paymentType[item.payment_type], item.file_id)">{{ paymentType[item.payment_type] }}</td>
         <td (click)="openUpdateAccountNumberDialog(item.file_total, item.file_id, item.payment_identifier)">{{ item.payment_identifier }}</td>

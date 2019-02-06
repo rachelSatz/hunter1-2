@@ -42,9 +42,9 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
   products = [];
   sub = new Subscription;
 
-  productTypes = ProductType;
   depositStatus = DepositStatus;
-  depositTypes = DepositType
+  depositTypes = DepositType;
+  productType = ProductType;
 
   ngOnInit() {
     this.monthlyTransferBlockService.getEntity(this.processDataService.activeProcess.processID)
@@ -53,14 +53,16 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
         this.products = response['products'];
       });
 
-    this.fetchItems();
+    this.searchCriteria['processId'] = this.processDataService.activeProcess.processID;
+    this.monthlyTransferBlockService.getMonthlyList(this.searchCriteria)
+      .then(response => this.setItems(response));
+
+    // this.fetchItems();
     super.ngOnInit();
   }
 
   fetchItems() {
-    this.searchCriteria['processId'] = this.processDataService.activeProcess.processID;
-    this.monthlyTransferBlockService.getMonthlyList(this.searchCriteria)
-      .then(response => this.setItems(response));
+
   }
 
   openGroupTransferDialog(): void {
