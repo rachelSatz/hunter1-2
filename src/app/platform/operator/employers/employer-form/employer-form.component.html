@@ -1,3 +1,50 @@
-<p>
-  employer-form works!
-</p>
+<div class="mr-5 px-4">
+  <p class="h5 bold py-3">כרטיס מעסיק</p>
+  <div class="w-50 d-flex">
+    <span class="w-25 f-12 grey-color">שם מעסיק</span>
+    <span class="w-25 f-12 grey-color">מספר ח.פ</span>
+    <span class="w-25 f-12 grey-color">מספר תיק ניכויים</span>
+  </div>
+  <div class="w-50 d-flex">
+    <span class="w-25">שם מעסיק</span>
+    <span class="w-25">מספר ח.פ</span>
+    <span class="w-25">מספר תיק ניכויים</span>
+  </div>
+  <div class="d-flex mt-5">
+    <form>
+      <mat-form-field>
+        <input matInput type="email"  placeholder="כתובת מייל" name="mail">
+      </mat-form-field>
+      <mat-form-field class="mr-3">
+        <input matInput type="tel" placeholder="טלפון">
+      </mat-form-field>
+      <mat-form-field class="mr-3">
+        <input matInput type="text" placeholder="כתובת">
+      </mat-form-field>
+      <mat-form-field class="mr-3">
+        <mat-select placeholder="פרוייקט">
+          <mat-option>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="mr-3">
+        <mat-select placeholder="מנהל תיק">
+          <mat-option>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="mr-3">
+        <mat-select placeholder="סטטוס">
+          <mat-option>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div>
+    <div class="d-flex border-bottom mt-5 pt-5 text-center" id="headers">
+      <span *ngFor="let header of headers" [routerLink]="[header.link]">{{header.label}}</span>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

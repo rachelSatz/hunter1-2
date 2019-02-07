@@ -11,6 +11,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatRadioModule,
+  MatOptionModule,
   MatSelectModule
 } from '@angular/material';
 import {BdSelectModule} from '../../../../../assets/js/bd-select/bd-select.module';
@@ -21,6 +22,19 @@ const routes: Routes = [
   { path: '', component: EmployerFormComponent },
   { path: ':id', component: EmployerFormComponent, resolve: { employer: EmployersResolve } }
 ];
+
+const routes: Routes = [
+  { path: '', component: EmployerFormComponent , children: [
+      { path: 'comments', loadChildren: './comments/comments.module#CommentsModule' },
+      { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule' },
+      { path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule' },
+      { path: 'departments', loadChildren: './departments/departments.module#DepartmentsModule' },
+      { path: 'defrayal', loadChildren: './defrayal/defrayal.module#DefrayalModule' },
+      { path: 'finance', loadChildren: './finance/finance.module#FinanceModule' },
+      { path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule' },
+      { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' }
+    ]}
+  ];
 @NgModule({
   imports: [
     CommonModule,
@@ -28,7 +42,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
-    BdSelectModule
+    BdSelectModule,
+    MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule
   ],
   declarations: [EmployerFormComponent],
   providers: [EmployerService, EmployersResolve, GeneralHttpService]
