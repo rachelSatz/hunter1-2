@@ -1,0 +1,58 @@
+<form #form="ngForm">
+  <h3>כרטיס מחלקה</h3>
+  <div class="d-flex">
+    <label placeholder="מספר מחלקה" name="id" [ngModel]="department.id"/>
+    <mat-form-field class="w-50">
+      <input matInput placeholder="שם מחלקה" name="name" [ngModel]="department.name" required>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+  </div>
+
+  <button class="btn blue-btn ml-1" (click)="openBankAccountDialog()"> הוספת חשבון חדש </button>
+
+  <p class="border-bottom f-14 bold">חשבון בנק משלם</p>
+  <div id="accounts" formArrayName="bank_accounts" class="border-bottom">
+    <div *ngFor="let account of department.bank_accounts_deposit; let index = index; let last = last" [formGroupName]="index">
+      <div class="d-flex align-items-center">
+        <div class="bd-select-container">
+          <bd-select formControlName="bank_id"  [items]="banks"  placeholder="בחר בנק"></bd-select>
+          <mat-error *ngIf="hasErrors('bank_id', { arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
+        </div>
+        <div class="mx-3 bd-select-container">
+          <bd-select formControlName="branch_id"  [items]="selectedBankBranch(index)" placeholder="בחר סניף"></bd-select>
+          <mat-error *ngIf="hasErrors('branch_id', { arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
+        </div>
+        <mat-form-field>
+          <input matInput type="text" formControlName="number" placeholder="מס' חשבון" maxlength="8">
+          <mat-error *ngIf="hasErrors('number', { specificError: 'required', arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
+          <mat-error *ngIf="hasErrors('number', { specificError: 'pattern', touch: true, arrayPosition: index, formArrayName: 'bank_accounts' })">יש להקיש מעל 5 ספרות</mat-error>
+        </mat-form-field>
+        <mat-checkbox formControlName="is_primary" class="mx-3" (change)="primaryBankChecked(index, $event.checked)">בנק ראשי</mat-checkbox>
+        <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+      </div>
+    </div>
+  </div>
+
+  <p class="border-bottom f-14 bold">חשבון בנק להחזר כספים</p>
+  <div id="accounts1" formArrayName="bank_accounts" class="border-bottom">
+    <div *ngFor="let account of department.bank_accounts_withdrawal; let index = index; let last = last" [formGroupName]="index">
+      <div class="d-flex align-items-center">
+        <div class="bd-select-container">
+          <bd-select formControlName="bank_id"  [items]="banks"  placeholder="בחר בנק"></bd-select>
+          <mat-error *ngIf="hasErrors('bank_id', { arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
+        </div>
+        <div class="mx-3 bd-select-container">
+          <bd-select formControlName="branch_id"  [items]="selectedBankBranch(index)" placeholder="בחר סניף"></bd-select>
+          <mat-error *ngIf="hasErrors('branch_id', { arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
+        </div>
+        <mat-form-field>
+          <input matInput type="text" formControlName="number" placeholder="מס' חשבון" maxlength="8">
+          <mat-error *ngIf="hasErrors('number', { specificError: 'required', arrayPosition: index, formArrayName: 'bank_accounts' })">שדה חובה.</mat-error>
+          <mat-error *ngIf="hasErrors('number', { specificError: 'pattern', touch: true, arrayPosition: index, formArrayName: 'bank_accounts' })">יש להקיש מעל 5 ספרות</mat-error>
+        </mat-form-field>
+        <mat-checkbox formControlName="is_primary" class="mx-3" (change)="primaryBankChecked(index, $event.checked)">בנק ראשי</mat-checkbox>
+        <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+      </div>
+    </div>
+  </div>
+</form>

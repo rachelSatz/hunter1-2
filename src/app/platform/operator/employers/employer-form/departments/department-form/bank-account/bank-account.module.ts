@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OperatorComponent } from './operator.component';
-
+import { BankAccountComponent } from './bank-account.component';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [OperatorComponent]
+  declarations: [BankAccountComponent]
 })
-export class OperatorModule { }
+export class BankAccountModule { }
