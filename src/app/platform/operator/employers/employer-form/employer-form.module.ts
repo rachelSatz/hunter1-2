@@ -18,10 +18,6 @@ import {BdSelectModule} from '../../../../../assets/js/bd-select/bd-select.modul
 import {EmployerService} from '../../../../shared/_services/http/employer.service';
 import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
 
-const routes: Routes = [
-  { path: '', component: EmployerFormComponent },
-  { path: ':id', component: EmployerFormComponent, resolve: { employer: EmployersResolve } }
-];
 
 const routes: Routes = [
   { path: '', component: EmployerFormComponent , children: [

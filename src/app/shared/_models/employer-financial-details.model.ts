@@ -31,3 +31,35 @@ export class EmployerFinancialPayments {
   payment_amount: string;
   ids_count: string;
 }
+
+export enum PAYMENT_TERMS {
+  manual = 'מיידי',
+  net = 'שוטף',
+  net15 = 'שוטף+15',
+  net30 = 'שוטף+30',
+  net45 = 'שוטף+45',
+  net60 = 'שוטף+60',
+  net75 = 'שוטף+75',
+  net90 = 'שוטף+90',
+  net120 = 'שוטף+120',
+  masav = 'מסב זיכויים',
+}
+export enum PAYMENT_METHOD {
+  unknown = 'לא ידוע',
+  direct_debit = 'הןראת קבע',
+  credit_card = 'כרטיס אשראי',
+  bank_transfer = 'העברה בנקאית',
+  check = 'צ"ק',
+  masbaProduct = 'מסב',
+}
+export enum TAX {
+  before = 'לא כולל',
+  included = 'כולל',
+  free = 'ללא',
+}
+export enum CURRENCY {
+  ils = 'שקל',
+}
+export enum LANGUAGE {
+  he = 'עברית',
+}
