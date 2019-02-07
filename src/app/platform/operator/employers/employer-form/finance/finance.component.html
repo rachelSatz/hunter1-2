@@ -1,3 +1,42 @@
-<p>
-  finance works!
-</p>
+<form #form="ngForm" (ngSubmit)="submit(form)">
+  <div class="row">
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput type="text" [(ngModel)]="financialDetails.pay_employer.business_number" placeholder="ח.פ משלם" name="username" required>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <div class="col-6 col-lg-3">
+      <bd-select [items]="roles" placeholder="מטבע" #currencySelect="ngModel" name="currency" [(ngModel)]="financialDetails.currency" required></bd-select>
+    </div>
+    <div class="col-6 col-lg-3">
+      <bd-select [items]="roles" placeholder="שפה" #languageSelect="ngModel" name="language" [(ngModel)]="financialDetails.language" required></bd-select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 col-lg-3">
+      <bd-select [items]="roles" placeholder="תנאי תשלום" #paymentTermsSelect="ngModel" name="role" [(ngModel)]="financialDetails.payment_terms" required></bd-select>
+    </div>
+    <div class="col-6 col-lg-3">
+      <bd-select [items]="roles" placeholder="אופן תשלום" #paymentMethodSelect="ngModel" name="role" [(ngModel)]="financialDetails.payment_method" required></bd-select>
+    </div>
+  </div>
+  <div class="row">
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput type="text" [(ngModel)]="financialDetails.invoice_employer_name" placeholder="שם מעסיק בחשבונית ירוקה" name="invoice_employer_name" required>
+    </mat-form-field>
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput type="text" [(ngModel)]="financialDetails.green_invoice_id" placeholder="מספר מזהה בחשבונית ירוקה" name="green_invoice_id" required>
+    </mat-form-field>
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput type="text" [(ngModel)]="financialDetails.green_invoice_email" placeholder="מייל בחשבונית ירוקה" name="green_invoice_email" required>
+    </mat-form-field>
+  </div>
+  <div class="row mb-4">
+    <div class="col-6 col-lg-3">
+      <mat-checkbox class="check-module" [(ngModel)]="financialDetails.direct_debit_commission" [name]="'module_' + i">{{ moduleTypes[module.name] }}</mat-checkbox>
+    </div>
+  </div>
+  <div class="mt-3">
+    <button class="btn blue-btn" type="submit">שלח</button>
+  </div>
+</form>

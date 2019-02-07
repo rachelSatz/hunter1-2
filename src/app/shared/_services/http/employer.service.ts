@@ -11,6 +11,7 @@ import {BankBranch} from '../../_models/bank-branch.model';
 import {Employee} from '../../_models/employee.model';
 import {Department} from '../../_models/department.model';
 import {Subject} from 'rxjs';
+import {EmployerFinancialDetails} from '../../_models/employer-financial-details.model';
 
 @Injectable()
 export class EmployerService extends BaseHttpService {
@@ -68,9 +69,6 @@ export class EmployerService extends BaseHttpService {
     .then(response => response as { responseCode: number });
   }
 
-
-
-
   getDepartments(employerID: number): Promise<Department[]> {
     return this.http.get(this.endPoint + '/' + employerID + '/departments', this.getTokenHeader())
       .toPromise()
@@ -102,12 +100,25 @@ export class EmployerService extends BaseHttpService {
     }
   }
 
-  getEmployerFinance(employerId: number): Promise<any> {
-    return this.http.get(this.endPoint + '/' + employerId + '/employerFinance', this.getTokenHeader())
+  getEmployerFinance(employerId: number): Promise<EmployerFinancialDetails> {
+    const request = this.getTokenHeader();
+    request['params'] = {employerId: employerId};
+
+    return this.http.get(this.endPoint + '/employerFinance', request)
       .toPromise()
-      .then(response => response as any)
-      .catch(() => []);
+      .then(response => response as EmployerFinancialDetails)
+      .catch(() => null);
   }
 
+  updateFinancialDetails(id: number, financialDetails: EmployerFinancialDetails): Promise<boolean> {
+    return this.http.post(this.endPoint + '/' + id + '/updateFinancialDetails' , financialDetails, this.getTokenHeader())
+      .toPromise()
+      .then(response =>  response as boolean);
+  }
 
+  saveFinancialDetails(financialDetails: EmployerFinancialDetails): Promise<boolean> {
+    return this.http.post(this.endPoint + '/saveFinancialDetails', financialDetails, this.getTokenHeader())
+      .toPromise()
+      .then(response =>  response as boolean);
+  }
 }
