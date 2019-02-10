@@ -2,7 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployerFormComponent } from './employer-form.component';
 import { RouterModule, Routes } from '@angular/router';
-import { MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule } from '@angular/material';
+import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
+import { FormsModule } from '@angular/forms';
+import {
+  MatButtonModule,
+  MatCheckboxModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatRadioModule,
+  MatOptionModule,
+  MatSelectModule
+} from '@angular/material';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 
 const routes: Routes = [
   { path: '', component: EmployerFormComponent , children: [
@@ -21,9 +35,14 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    FormsModule,
+    MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
+    BdSelectModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule
   ],
   declarations: [EmployerFormComponent],
+  providers: [EmployerService, EmployersResolve, GeneralHttpService]
+
 })
 
 export class EmployerFormModule { }
