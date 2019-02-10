@@ -37,8 +37,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
-    BdSelectModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule
+    BdSelectModule, MatOptionModule
   ],
   declarations: [EmployerFormComponent],
   providers: [EmployerService, EmployersResolve, GeneralHttpService]
