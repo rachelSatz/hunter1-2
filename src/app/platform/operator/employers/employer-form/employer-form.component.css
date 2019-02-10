@@ -6,3 +6,15 @@
   font-size: 20px;
   cursor: pointer;
 }
+
+
+.active {
+  border-bottom: 1.5px solid #00ADEE;
+  color: #00ADEE;
+}
+
+.header-border {
+  border-bottom: 2px solid #E5E5E5 ;
+}
+
+

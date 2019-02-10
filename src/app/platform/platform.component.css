@@ -77,4 +77,10 @@ bd-select {
   background-color: #7C839C;
 }
 
+.selected {
+  background-color: #7C839C;
+}
 
+.home-page-color {
+  background-color: #00ADEE;
+}

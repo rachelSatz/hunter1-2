@@ -13,13 +13,14 @@ export class OrganizationFormComponent implements OnInit {
 
   organization = new Organization();
   hasServerError: boolean;
-  constructor(private route: ActivatedRoute, private router: Router, private organizationService: OrganizationService,
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private organizationService: OrganizationService,
               private  platformComponent: PlatformComponent) {
 
   }
 
   ngOnInit() {
-
     if (this.route.snapshot.data.organization) {
       this.organization = this.route.snapshot.data.organization;
     }

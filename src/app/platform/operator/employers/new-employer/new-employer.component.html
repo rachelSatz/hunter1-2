@@ -1,0 +1,98 @@
+<div class="mr-5 px-4">
+  <p class="h4 mb-4">הקמת מעסיק</p>
+  <p class="f-12 bold mt-5">פרטים</p>
+  <form  #form="ngForm" (ngSubmit)="submit(form)"  [formGroup]="newEmployerForm">
+    <div formGroupName="employerDetails">
+      <mat-form-field>
+        <input matInput placeholder="שם מעסיק" formControlName="name">
+      </mat-form-field>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="מספר ח.פ" formControlName="businessNumber">
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="מספר תיק ניכויים" formControlName="deductionNumber">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="כתובת מייל" formControlName="email">
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="טלפון" formControlName="address">
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="כתובת" formControlName="phone">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="פרוייקט" formControlName="project">
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="מנהל תיק" formControlName="operator">
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="סטטוס" formControlName="status">
+        </mat-form-field>
+      </div>
+    </div>
+    <p class="f-12 bold mt-5">אנשי קשר</p>
+    <div  formGroupName="contactDetails">
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="שם פרטי" formControlName="firstName">
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="שם משפחה" formControlName="lastName">
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <mat-select placeholder="מין" formControlName="gender">
+            <mat-option>זכר</mat-option>
+            <mat-option>נקבה</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="מספר טלפון" formControlName="phone">
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="טלפון נייד" formControlName="mobile">
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="פקס" formControlName="fax">
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <input matInput placeholder="כתובת מייל" formControlName="email">
+      </mat-form-field>
+      <mat-form-field class="mr-5">
+        <input matInput placeholder="כתובת" formControlName="address">
+      </mat-form-field>
+    </div>
+    <mat-form-field class="w-25">
+      <input matInput placeholder="הוספת הערות" formControlName="comments">
+    </mat-form-field>
+    <p class="f-12 bold mt-5">סליקה</p>
+    <div formGroupName="defrayal">
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="ח.פ" formControlName="businessNumber" maxlength="9">
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="מספר מזהה לשליחה" formControlName="sendingNumber" maxlength="9">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="קוד מוסד(5)" formControlName="institutionCode5" maxlength="5">
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="קוד מוסד(8)" formControlName="institutionCode8" maxlength="8">
+        </mat-form-field>
+      </div>
+    </div>
+    <button type="submit" class="btn blue-btn">שמור</button>
+  </form>
+</div>
