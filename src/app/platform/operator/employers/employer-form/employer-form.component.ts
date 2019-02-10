@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-employer-form',
@@ -22,10 +24,13 @@ export class EmployerFormComponent implements OnInit {
     {label: 'דוחות',    link: 'reports'    },
   ];
 
-  constructor(private router: Router,  private fb: FormBuilder) { }
+  constructor(private router: Router,  private fb: FormBuilder,  private route: ActivatedRoute,
+              private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
     this.initForm();
+    this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
+
   }
 
   initForm(): void {
@@ -44,4 +49,5 @@ export class EmployerFormComponent implements OnInit {
     this.employerForm.controls[name].patchValue(value);
     console.log('this.employerForm.controls[name].value');
   }
+
 }

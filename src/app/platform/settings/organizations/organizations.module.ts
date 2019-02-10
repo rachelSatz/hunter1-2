@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { OrganizationsComponent } from './organizations.component';
 
-import {DataTableModule} from '../../../shared/data-table/data-table.module';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 
 

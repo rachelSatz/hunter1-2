@@ -63,9 +63,7 @@ export class EmployersComponent extends DataTableComponent  implements OnInit {
   ];
 
   constructor(route: ActivatedRoute,
-              private employerService: EmployerService,
-              private dialog: MatDialog,
-              private selectUnit: SelectUnitService) {
+              private employerService: EmployerService) {
     super(route);
   }
 

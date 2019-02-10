@@ -17,13 +17,24 @@ export class DepartmentService extends BaseHttpService {
     super(userSession);
   }
 
-  getDepartments(): Promise<Department[]> {
-    const header = this.getTokenHeader();
-    return this.http.get(this.endPoint, this.getTokenHeader())
+  getDepartments(employerId: number): Promise<Department[]> {
+    const request = this.getTokenHeader();
+    request['params'] = { employerId: employerId };
+    return this.http.get(this.endPoint, request)
       .toPromise()
       .then(response => response as Department[])
       .catch(() => []);
   }
+
+  getDepartment(departmentId: number): Promise<Department> {
+    // const request = this.getTokenHeader();
+    // request['params'] = { departmentId: departmentId };
+    return this.http.get(this.endPoint + '/' + departmentId, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Department)
+      .catch(() => null);
+  }
+
 
   getEmployees(departmentID: number, index: number): Promise<Employee[]> {
     const request = this.getTokenHeader();

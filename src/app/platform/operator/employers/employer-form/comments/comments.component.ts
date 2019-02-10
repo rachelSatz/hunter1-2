@@ -45,7 +45,6 @@ export class CommentsComponent implements OnInit {
   submit() {
     this.generalService.newComment(this.selectUnit.currentEmployerID, this.comment, 'employer').then();
     const curDate = new Date();
-    console.log(this.comments[0].apdated_at);
     this.comments[this.comments.length] = {id: 1, content: this.comment, updated_at: curDate, created_at: curDate,
       username: this.user.username};
     this.comment = null;
