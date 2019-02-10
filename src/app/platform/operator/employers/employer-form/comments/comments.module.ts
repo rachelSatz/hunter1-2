@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommentsComponent } from './comments.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
 
 const routes: Routes = [
   { path: '', component: CommentsComponent }
@@ -15,7 +15,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [GeneralHttpService],
   declarations: [CommentsComponent]

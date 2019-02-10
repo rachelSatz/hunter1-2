@@ -42,7 +42,6 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 export class PlatformComponent implements OnInit {
 
   activeUrl: string;
-  isOperator: boolean;
   organizations = [];
   employers = [];
   departments = [];
@@ -53,12 +52,12 @@ export class PlatformComponent implements OnInit {
   isAgent = true;
 
   readonly agentBarEl = [
-    { id: 1, icon: 'question-circle' , label: 'תור עבודה', link: 'employers'},
-    { id: 2, icon: 'list-ul' , label: 'משימות',    link: 'employers'},
+    { id: 1, icon: 'question-circle' , label: 'תור עבודה', link: ''},
+    { id: 2, icon: 'list-ul' , label: 'משימות',    link: ''},
     { id: 3, icon: 'users' ,   label: 'מעסיקים',   link: 'employers'},
-    { id: 4, icon: 'file' ,    label: 'מסמכים',    link: 'employers'},
-    { id: 5, icon: 'user' ,    label: 'אנשי קשר',  link: 'employers'},
-    { id: 6, icon: 'bell' ,    label: 'התראות',    link: 'employers'}
+    { id: 4, icon: 'file' ,    label: 'מסמכים',    link: ''},
+    { id: 5, icon: 'user' ,    label: 'אנשי קשר',  link: ''},
+    { id: 6, icon: 'bell' ,    label: 'התראות',    link: ''}
     ];
 
   readonly menuLinks = [

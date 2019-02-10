@@ -11,30 +11,30 @@
     <span class="w-25">מספר תיק ניכויים</span>
   </div>
   <div class="d-flex mt-5">
-    <form>
+    <form #form="ngForm" (ngSubmit)="submit(form.valid)"  [formGroup]="employerForm">
       <mat-form-field>
-        <input matInput type="email"  placeholder="כתובת מייל" name="mail">
+        <input matInput type="email" placeholder="כתובת מייל" formControlName="email">
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <input matInput type="tel" placeholder="טלפון">
+        <input matInput type="tel" placeholder="טלפון" formControlName="phone" maxlength="10">
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <input matInput type="text" placeholder="כתובת">
+        <input matInput type="text" placeholder="כתובת" formControlName="address">
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <mat-select placeholder="פרוייקט">
+        <mat-select placeholder="פרוייקט" formControlName="project">
           <mat-option>
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <mat-select placeholder="מנהל תיק">
+        <mat-select placeholder="מנהל תיק" formControlName="operator">
           <mat-option>
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <mat-select placeholder="סטטוס">
+        <mat-select placeholder="סטטוס"  formControlName="status">
           <mat-option>
           </mat-option>
         </mat-select>
@@ -43,7 +43,7 @@
   </div>
   <div>
     <div class="d-flex border-bottom mt-5 pt-5 text-center" id="headers">
-      <span *ngFor="let header of headers" [routerLink]="[header.link]">{{header.label}}</span>
+      <span *ngFor="let header of headers" [ngClass]="{ 'active': header.link === router.url.split('/')[6] }" [routerLink]="[header.link]">{{header.label}}</span>
     </div>
   </div>
   <router-outlet></router-outlet>

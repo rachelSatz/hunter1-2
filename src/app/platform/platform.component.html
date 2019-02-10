@@ -1,18 +1,19 @@
 <div class="d-flex">
   <div *ngIf="isAgent" class="text-center" [className]="agentBarActive? 'closedAgentBar': 'agentBar'">
     <div *ngIf="!agentBarActive">
-      <div class="d-flex pointer selected">
+      <div class="d-flex pointer home-page-color">
         <span class="w-100 py-3" (click)="agentBarActive = !agentBarActive" [routerLink]="['/platform', 'dashboard']">חזרה לסליקה</span>
       </div>
       <div class="d-flex pointer py-3">
         <i class="w-100 fa fa-search"></i>
       </div>
       <div *ngFor="let el of agentBarEl" class="d-flex pointer">
-        <span class="w-100 py-3" [routerLink]="['/platform', 'operator', el.link]">{{el.label}}</span>
+        <span class="w-100 py-3" [routerLink]="['/platform', 'operator', el.link]"
+              [ngClass]="{'selected':  el.link === router.url.split('/')[3]}">{{el.label}}</span>
     </div>
     </div>
     <div *ngIf="agentBarActive" (click)="agentBarActive = !agentBarActive">
-      <span class="py-4"></span>
+      <p class="py-5 mt-2"></p>
       <div *ngFor="let el of agentBarEl"  class="d-flex pointer">
         <span class="w-100 py-3"><i class="w-100 fa fa-{{el.icon}}"></i></span>
       </div>

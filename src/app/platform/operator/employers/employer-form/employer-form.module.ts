@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EmployerFormComponent } from './employer-form.component';
 import { RouterModule, Routes } from '@angular/router';
 import {MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule } from '@angular/material';
+import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', component: EmployerFormComponent , children: [
@@ -20,6 +21,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule
   ],
   declarations: [EmployerFormComponent]

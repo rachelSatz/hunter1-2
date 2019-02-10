@@ -11,7 +11,8 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 const routes: Routes = [
   { path: '', component: EmployersComponent },
-  { path: 'form/:id', loadChildren: 'app/platform/operator/employers/employer-form/employer-form.module#EmployerFormModule' }
+  { path: 'form/:id', loadChildren: 'app/platform/operator/employers/employer-form/employer-form.module#EmployerFormModule' },
+  { path: 'new', loadChildren: 'app/platform/operator/employers/new-employer/new-employer.module#NewEmployerModule' }
 ];
 
 @NgModule({
