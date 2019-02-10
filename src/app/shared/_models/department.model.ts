@@ -6,11 +6,11 @@ export class Department {
   id: number;
   name: string;
   employees: Employee[];
-  bank_accounts_deposit: EmployerBankAccount[] = [];
-  bank_accounts_withdrawal: EmployerBankAccount[] = [];
+  bank_account_deposit: EmployerBankAccount;
+  bank_account_withdrawal: EmployerBankAccount;
 
   constructor() {
-    this.bank_accounts_deposit.push(new EmployerBankAccount());
-    this.bank_accounts_withdrawal.push(new EmployerBankAccount());
+    this.bank_account_deposit = new EmployerBankAccount();
+    this.bank_account_withdrawal = new EmployerBankAccount();
   }
 }

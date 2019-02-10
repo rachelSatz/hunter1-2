@@ -1,8 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import {
+  MatButtonModule,
+  MatCheckboxModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatRadioModule,
+  MatSelectModule
+} from '@angular/material';
+
 import { DepartmentFormComponent } from './department-form.component';
 import { DepartmentsResolve } from 'app/shared/_resolves/department.resolve';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
+import { BankAccountComponent } from './bank-account/bank-account.component';
 
 
 const routes: Routes = [
@@ -12,8 +25,14 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule.forChild(routes),
+    FormsModule,
+    MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
+    BdSelectModule
   ],
-  declarations: []
+  declarations: [DepartmentFormComponent, BankAccountComponent],
+  providers: [DepartmentsResolve],
+  entryComponents: [BankAccountComponent]
 })
 export class DepartmentFormModule { }

@@ -42,7 +42,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 export class PlatformComponent implements OnInit {
 
   activeUrl: string;
-  selectedEl: number;
+  isOperator: boolean;
   organizations = [];
   employers = [];
   departments = [];

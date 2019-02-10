@@ -8,3 +8,12 @@ export class EmployerBankAccount {
   branch: BankBranch;
   is_primary: boolean;
 }
+
+
+export class FlatEmployerBankAccount {
+  id: number;
+  account_number: string;
+  bank_number: Bank;
+  branch_number: BankBranch;
+  is_primary: boolean;
+}

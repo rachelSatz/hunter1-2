@@ -27,9 +27,9 @@ export class DepartmentService extends BaseHttpService {
   }
 
   getDepartment(departmentId: number): Promise<Department> {
-    const request = this.getTokenHeader();
-    request['params'] = { departmentId: departmentId };
-    return this.http.get(this.endPoint, request)
+    // const request = this.getTokenHeader();
+    // request['params'] = { departmentId: departmentId };
+    return this.http.get(this.endPoint + '/' + departmentId, this.getTokenHeader())
       .toPromise()
       .then(response => response as Department)
       .catch(() => null);

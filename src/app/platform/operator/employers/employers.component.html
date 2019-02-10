@@ -1,34 +1,36 @@
-<p class="h4 mb-4">טבלת מעסיקים</p>
-<table class="table table-hover mt-3 data-table">
-  <thead>
-  <tr class="table-headers">
-    <th *ngFor="let header of headers" (click)="sort(header)">
-      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
-      <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
-    </th>
-    <th>פעולות</th>
-  </tr>
-  </thead>
-  <tbody>
-  <ng-container *ngIf="!isSearching">
-    <tr *ngFor="let item of paginatedItems" class="pointer">
-      <td>{{ item.organization_name }}</td>
-      <td>{{ item.name }}</td>
-      <td>{{ item.business_number }}</td>
-      <td>{{ item.email }}</td>
-      <td>{{ item.phone }}</td>
-      <td>{{ item.mobile }}</td>
-      <td>{{ item.address }}</td>
-      <td>{{ employerStatus[item.status] }}</td>
-      <td>
-        <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
-        <img src="/assets/img/icons/details_grey.png" class="row-image">
-      </td>
+<div class="mr-5 px-4">
+  <p class="h4 mb-4">טבלת מעסיקים</p>
+  <table class="table table-hover mt-3 data-table">
+    <thead>
+    <tr class="table-headers">
+      <th *ngFor="let header of headers" (click)="sort(header)">
+        <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
+        <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
+      </th>
+      <th>פעולות</th>
     </tr>
-  </ng-container>
-  <tr *ngIf="!isSearching && items.length === 0">
-    <td colspan="10" class="text-center bold">טבלת מעסיקים ריקה.</td>
-  </tr>
-  </tbody>
-</table>
-<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
+    </thead>
+    <tbody>
+    <ng-container *ngIf="!isSearching">
+      <tr *ngFor="let item of paginatedItems" class="pointer">
+        <td>{{ item.organization_name }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.business_number }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.phone }}</td>
+        <td>{{ item.mobile }}</td>
+        <td>{{ item.address }}</td>
+        <td>{{ employerStatus[item.status] }}</td>
+        <td>
+          <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+          <img src="/assets/img/icons/details_grey.png" class="row-image">
+        </td>
+      </tr>
+    </ng-container>
+    <tr *ngIf="!isSearching && items.length === 0">
+      <td colspan="10" class="text-center bold">טבלת מעסיקים ריקה.</td>
+    </tr>
+    </tbody>
+  </table>
+  <app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
+</div>
