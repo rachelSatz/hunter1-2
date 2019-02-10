@@ -102,7 +102,7 @@ export class EmployerService extends BaseHttpService {
 
   getEmployerFinance(employerId: number): Promise<EmployerFinancialDetails> {
     const request = this.getTokenHeader();
-    request['params'] = {employerId: employerId};
+    request['params'] = {employer_id: employerId};
 
     return this.http.get(this.endPoint + '/employerFinance', request)
       .toPromise()

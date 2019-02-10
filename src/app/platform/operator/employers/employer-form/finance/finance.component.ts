@@ -18,6 +18,7 @@ import {NgForm} from '@angular/forms';
 export class FinanceComponent implements OnInit {
   financialDetails: EmployerFinancialDetails;
   hasServerError: boolean;
+  aaa = '123456'
 
   paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function(e) {
     return { id: e, name: PAYMENT_TERMS[e] };
@@ -39,8 +40,8 @@ export class FinanceComponent implements OnInit {
 
   ngOnInit() {
     // employerId
-    // this.employerService.getEmployerFinance(5).then(response =>
-    //   this.financialDetails = response);
+    this.employerService.getEmployerFinance(5).then(response =>
+      this.financialDetails = response);
   }
 
   submit(form: NgForm): void {
