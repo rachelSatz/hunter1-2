@@ -15,7 +15,6 @@ import {
 import { DepartmentFormComponent } from './department-form.component';
 import { DepartmentsResolve } from 'app/shared/_resolves/department.resolve';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
-import { BankAccountComponent } from './bank-account/bank-account.component';
 
 
 const routes: Routes = [
@@ -28,11 +27,12 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
-    MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
+    MatFormFieldModule, MatInputModule,
+    MatCheckboxModule, MatRadioModule,
+    MatSelectModule, MatButtonModule, MatIconModule,
     BdSelectModule
   ],
-  declarations: [DepartmentFormComponent, BankAccountComponent],
-  providers: [DepartmentsResolve],
-  entryComponents: [BankAccountComponent]
+  declarations: [DepartmentFormComponent],
+  providers: [DepartmentsResolve]
 })
 export class DepartmentFormModule { }

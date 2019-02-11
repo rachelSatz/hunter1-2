@@ -7,13 +7,16 @@ export class EmployerBankAccount {
   bank: Bank;
   branch: BankBranch;
   is_primary: boolean;
-}
+  bank_id: number;
+  branch_id: number;
+  type: string;
 
-
-export class FlatEmployerBankAccount {
-  id: number;
-  account_number: string;
-  bank_number: Bank;
-  branch_number: BankBranch;
-  is_primary: boolean;
+  constructor() {
+    this.id = 0;
+    this.number = '0';
+    this.is_primary = false;
+    this.bank_id = 0;
+    this.branch_id = 0;
+    this.type = 'Deposit';
+  }
 }

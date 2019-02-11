@@ -27,8 +27,6 @@ export class DepartmentService extends BaseHttpService {
   }
 
   getDepartment(departmentId: number): Promise<Department> {
-    // const request = this.getTokenHeader();
-    // request['params'] = { departmentId: departmentId };
     return this.http.get(this.endPoint + '/' + departmentId, this.getTokenHeader())
       .toPromise()
       .then(response => response as Department)
@@ -45,4 +43,19 @@ export class DepartmentService extends BaseHttpService {
       .then(response => response as Employee[])
       .catch(() => []);
   }
+
+  update(department: Department): Promise<boolean> {
+    return this.http.put(this.endPoint + '/' + department.id, department, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  create(department: Department, employerID: number): Promise<boolean> {
+    return this.http.post(this.endPoint, {department: department, employerId: employerID}, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
+
 }

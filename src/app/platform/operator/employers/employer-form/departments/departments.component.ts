@@ -17,6 +17,7 @@ export class DepartmentsComponent extends DataTableComponent implements OnInit ,
               private departmentService: DepartmentService,
               private selectUnit: SelectUnitService) {
     super(route);
+    this.paginationData.limit = 5;
   }
 
   readonly headers: DataTableHeader[] =  [
@@ -26,7 +27,8 @@ export class DepartmentsComponent extends DataTableComponent implements OnInit ,
 
   ngOnInit() {
     console.log(this.route);
-    this.departmentService.getDepartments(this.selectUnit.currentEmployerID).then(response => this.setItems(response));
+    this.departmentService.getDepartments(this.selectUnit.currentEmployerID)
+      .then(response => this.setItems(response));
     super.ngOnInit();
   }
 
