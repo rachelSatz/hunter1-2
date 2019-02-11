@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployerFormComponent } from './employer-form.component';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
-import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -12,8 +12,7 @@ import {
   MatInputModule,
   MatRadioModule,
   MatOptionModule,
-  MatSelectModule
-} from '@angular/material';
+  MatSelectModule } from '@angular/material';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
@@ -36,6 +35,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
     BdSelectModule, MatOptionModule
   ],

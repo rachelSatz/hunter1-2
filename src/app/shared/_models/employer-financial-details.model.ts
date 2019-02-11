@@ -46,7 +46,7 @@ export enum PAYMENT_TERMS {
 }
 export enum PAYMENT_METHOD {
   unknown = 'לא ידוע',
-  direct_debit = 'הןראת קבע',
+  direct_debit = 'הוראת קבע',
   credit_card = 'כרטיס אשראי',
   bank_transfer = 'העברה בנקאית',
   check = 'צ"ק',
