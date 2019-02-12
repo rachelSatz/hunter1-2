@@ -4,10 +4,18 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class UserSessionService {
 
+  roleName: string;
+
   loginStatus: Subject<boolean> = new Subject;
+  role: Subject<string> = new Subject;
 
   isLoggedIn() {
     return !!sessionStorage.getItem('user');
+  }
+
+  setRole(role: string): void {
+    this.roleName = role
+    this.role.next( role);
   }
 
   login(user?: Object): void {

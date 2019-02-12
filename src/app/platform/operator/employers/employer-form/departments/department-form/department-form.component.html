@@ -1,4 +1,4 @@
-<form #form="ngForm" class="mt-5" (ngSubmit)="saveChange(form)">
+<form #form="ngForm" class="mt-5" (ngSubmit)="submit(form)">
   <h6 class="bold">כרטיס מחלקה</h6>
   <div class="d-flex w-50 mt-1">
     <mat-form-field class="ml-2 disabledInput" >
@@ -18,14 +18,14 @@
         <div class="d-flex align-items-center" [ngClass]="{'disabledInput' : !isEdit}">
           <div class="bd-select-container">
             <bd-select name="bank_id"  [items]="banks" #bankIDSelect="ngModel" [(ngModel)]="department.bank_account_deposit.bank_id" placeholder="בחר בנק" (onSelect)="selectedBankBranch()" required></bd-select>
-            <p class="alert alert-danger" [@fade]="bankIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+            <mat-error [@fade]="bankIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
           </div>
           <div class="mx-3 bd-select-container">
             <bd-select name="branch_id"  [items]="bankBranchesDeposit" #branchIDSelect="ngModel" [(ngModel)]="department.bank_account_deposit.branch_id"  placeholder="בחר סניף" required></bd-select>
-            <p class="alert alert-danger" [@fade]="branchIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+            <mat-error [@fade]="branchIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
           </div>
           <mat-form-field>
-            <input matInput type="text" name="number" placeholder="מס' חשבון" [(ngModel)]="department.bank_account_deposit.number" maxlength="8" pattern="^\\d{5,8}$" required>
+            <input matInput type="text" name="number" placeholder="מס' חשבון" [(ngModel)]="department.bank_account_deposit.number" maxlength="8" pattern="^\d{5,8}$" required>
             <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
           </mat-form-field>
         </div>
@@ -41,14 +41,14 @@
       <div class="d-flex align-items-center" [ngClass]="{'disabledInput' : !isEditWithdrawal}">
         <div class="bd-select-container">
           <bd-select name="bank_id_withdrawal"  [items]="banks" #bankIDWithdrawalSelect="ngModel" [(ngModel)]="department.bank_account_withdrawal.bank_id" placeholder="בחר בנק" (onSelect)="selectedBankBranch('Withdrawal')" required></bd-select>
-          <p class="alert alert-danger" [@fade]="bankIDWithdrawalSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+          <mat-error [@fade]="bankIDWithdrawalSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
         </div>
         <div class="mx-3 bd-select-container">
           <bd-select name="branch_id_withdrawal"  [items]="bankBranchesWithdrawal" #branchIDWithdrawalSelect="ngModel" [ngModel]="department.bank_account_withdrawal.branch_id"  placeholder="בחר סניף" required></bd-select>
-          <p class="alert alert-danger" [@fade]="branchIDWithdrawalSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+          <mat-error [@fade]="branchIDWithdrawalSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
         </div>
         <mat-form-field>
-          <input matInput type="text" name="number_withdrawal" placeholder="מס' חשבון" [(ngModel)]="department.bank_account_withdrawal.number" maxlength="8" pattern="^\\d{5,8}$" required>
+          <input matInput type="text" name="number_withdrawal" placeholder="מס' חשבון" [(ngModel)]="department.bank_account_withdrawal.number" maxlength="8" pattern="^\d{5,8}$" required>
           <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
         </mat-form-field>
       </div>
@@ -57,5 +57,6 @@
       </div>
     </div>
   </div>
+  <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
   <button class="btn blue-btn ml-1 mt-1" type="submit"> שמור </button>
 </form>

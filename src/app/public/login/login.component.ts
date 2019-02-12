@@ -31,7 +31,8 @@ export class LoginComponent {
   isSubmitting: boolean;
 
   constructor(private router: Router, private appHttp: AppHttpService,
-              private userSession: UserSessionService, private helpers: HelpersService) {}
+              private userSession: UserSessionService,
+              private helpers: HelpersService) {}
 
   login(form: NgForm): void {
     if (form.valid) {
@@ -43,6 +44,7 @@ export class LoginComponent {
       this.appHttp.login(form.value.username, form.value.password).then(response => {
         if (response.token) {
         this.userSession.login({username: form.value.username, token: response['token']});
+        this.userSession.setRole(response['role']);
         this.router.navigate(['/platform']);
         } else {
            this.hasServerError = true;

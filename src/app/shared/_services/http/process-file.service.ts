@@ -6,7 +6,7 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Process } from '../../_models/process.model';
-import { Contact } from "../../_models/contact.model";
+import { Contact } from '../../_models/contact.model';
 
 @Injectable()
 export class ProcessFileService extends BaseHttpService {
@@ -30,8 +30,8 @@ export class ProcessFileService extends BaseHttpService {
       .catch(() => false);
   }
 
-  PrepareContactToSendMail(processID: number,isPayment:boolean): Promise<Contact[]> {
-    return this.http.get(this.endPoint + '/' + processID +'/'+isPayment+ '/file/PrepareSendMail', this.getTokenHeader())
+  PrepareContactToSendMail(processID: number, isPayment: boolean): Promise<Contact[]> {
+    return this.http.get(this.endPoint + '/' + processID + '/' + isPayment + '/file/PrepareSendMail', this.getTokenHeader())
       .toPromise()
       .then(response => response as Contact[]);
   }

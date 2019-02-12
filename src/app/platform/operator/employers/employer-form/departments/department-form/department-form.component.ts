@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { NgForm  } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
@@ -9,7 +9,6 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { EmployerBankAccount } from 'app/shared/_models/employer-bank-account.model';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-
 
 
 @Component({
@@ -39,11 +38,14 @@ export class DepartmentFormComponent implements OnInit {
   isEditWithdrawal= false;
   bankBranchesDeposit = [];
   bankBranchesWithdrawal = [];
-  constructor(private dialog: MatDialog,
+  hasServerError: boolean;
+
+  constructor(
               private route: ActivatedRoute,
               private generalService: GeneralHttpService,
               private departmentService: DepartmentService,
-              private selectUnit: SelectUnitService) {
+              private selectUnit: SelectUnitService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -98,15 +100,25 @@ export class DepartmentFormComponent implements OnInit {
     }
   }
 
-  saveChange(form: NgForm) {
+  submit(form: NgForm): void {
     if (form.valid) {
       if (this.department.id) {
-        this.departmentService.update(this.department).then(response => {
-          if (response) {}});
+        this.departmentService.update(this.department)
+          .then(response => this.handleResponse(response));
       } else {
-        this.departmentService.create(this.department, this.selectUnit.currentEmployerID).then(response => {
-          if (response) {}});
+        this.departmentService.create(this.department, this.selectUnit.currentEmployerID)
+          .then(response => this.handleResponse(response));
       }
     }
   }
+
+  private handleResponse(response: boolean): void {
+    if (response) {
+      this.router.navigate(['platform', 'operator', 'employers',
+        'form', this.selectUnit.currentEmployerID, 'departments']);
+    } else {
+      this.hasServerError = true;
+    }
+  }
+
 }

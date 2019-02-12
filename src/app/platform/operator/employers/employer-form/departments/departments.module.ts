@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DepartmentsComponent } from './departments.component';
 import { RouterModule, Routes } from '@angular/router';
+
+import { DepartmentsComponent } from './departments.component';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 

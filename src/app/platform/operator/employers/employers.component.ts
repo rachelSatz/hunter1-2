@@ -44,7 +44,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     ])
   ]
 })
-export class EmployersComponent extends DataTableComponent  implements OnInit {
+export class EmployersComponent extends DataTableComponent  implements OnInit , OnDestroy {
 
   sub = new Subscription;
   extraSearchCriteria = 'inactive';
@@ -65,12 +65,16 @@ export class EmployersComponent extends DataTableComponent  implements OnInit {
   constructor(route: ActivatedRoute,
               private employerService: EmployerService) {
     super(route);
+    this.paginationData.limit = 12;
   }
 
   ngOnInit() {
-    this.employerService.getAllEmployers().then(response => this.setItems(response));
-
+    this.fetchItems();
     super.ngOnInit();
+  }
+
+  fetchItems(): void {
+    this.employerService.getAllEmployers(this.searchCriteria).then(response => this.setItems(response));
   }
 
   toggleExtraSearch() {
@@ -81,5 +85,7 @@ export class EmployersComponent extends DataTableComponent  implements OnInit {
    }
   }
 
-  fetchItems() {}
+  ngOnDestroy() {
+    super.ngOnDestroy();
+  }
 }

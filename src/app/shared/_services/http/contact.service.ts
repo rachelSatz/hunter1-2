@@ -4,9 +4,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
-
 import { Contact } from 'app/shared/_models/contact.model';
-import {Compensation} from '../../_models/compensation.model';
 
 @Injectable()
 export class  ContactService extends BaseHttpService {
