@@ -17,12 +17,14 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 
+
 const routes: Routes = [
-  { path: '', component: EmployerFormComponent , children: [
+  { path: ':id', component: EmployerFormComponent, resolve: { employer: EmployersResolve },
+   children: [
       { path: 'comments', loadChildren: './comments/comments.module#CommentsModule' },
       { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule' },
       { path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule' },
-      { path: 'departments', loadChildren: './departments/departments.module#DepartmentsModule' },
+      { path: 'departments', loadChildren: './departments/departments.module#DepartmentsModule'},
       { path: 'defrayal', loadChildren: './defrayal/defrayal.module#DefrayalModule' },
       { path: 'finance', loadChildren: './finance/finance.module#FinanceModule' },
       { path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule' },

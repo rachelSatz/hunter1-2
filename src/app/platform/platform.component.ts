@@ -49,7 +49,7 @@ export class PlatformComponent implements OnInit {
   employerId: object;
   departmentId: object;
   agentBarActive = true;
-  isAgent = true;
+  isAgent = false;
 
   readonly agentBarEl = [
     { id: 1, icon: 'question-circle' , label: 'תור עבודה', link: ''},
@@ -101,6 +101,7 @@ export class PlatformComponent implements OnInit {
               public helpers: HelpersService) {}
 
   ngOnInit() {
+    this.isAgent =  this.userSession.roleName !== 'employer' ? true : false;
     this.getOrganizations(false);
     this.setActiveUrl(this.router.url);
 

@@ -10,9 +10,11 @@ export class Contact {
   email: string;
   role: string;
   employer_id: number;
+  comment: string;
 }
 
 export enum EntityTypes {
   agent = 'סוכן',
-  company = 'חברה מנהלת'
+  company = 'חברה מנהלת',
+  employer = 'מעסיק'
 }

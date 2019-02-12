@@ -26,7 +26,6 @@ export class DepartmentsComponent extends DataTableComponent implements OnInit ,
   ];
 
   ngOnInit() {
-    console.log(this.route);
     this.departmentService.getDepartments(this.selectUnit.currentEmployerID)
       .then(response => this.setItems(response));
     super.ngOnInit();
