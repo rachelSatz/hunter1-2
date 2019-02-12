@@ -15,8 +15,8 @@ export class EmployerBankAccount {
     this.id = 0;
     this.number = '0';
     this.is_primary = false;
-    this.bank_id = 0;
-    this.branch_id = 0;
+    // this.bank_id = 0;
+    // this.branch_id = 0;
     this.type = 'Deposit';
   }
 }

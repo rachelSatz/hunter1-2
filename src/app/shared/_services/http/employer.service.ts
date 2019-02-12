@@ -38,8 +38,14 @@ export class EmployerService extends BaseHttpService {
     .then(response => response as Employer[]);
   }
 
-  getAllEmployers(): Promise<Employer[]> {
-    return this.http.get(this.endPoint + '/allEmployers', this.getTokenHeader())
+  getAllEmployers(searchCriteria: any): Promise<Employer[]> {
+    const request = this.getTokenHeader();
+
+    if (searchCriteria) {
+      request['params'] = searchCriteria;
+    }
+
+    return this.http.get(this.endPoint + '/allEmployers', request)
       .toPromise()
       .then(response => response as Employer[]);
   }

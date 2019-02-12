@@ -1,37 +1,12 @@
 <div class="mr-5 px-4">
   <p class="h4 mb-4">טבלת מעסיקים</p>
-  <div class="bold pointer py-5">
-  <i class="fa fa-plus"  [routerLink]="['./', 'new']" ></i>
-    הקמת מעסיק
+  <div class="bold pointer py-4" >
+    <span [routerLink]="['./', 'new']"> <i class="fa fa-plus"></i>הקמת מעסיק</span>
   </div>
-  <!--<div [@slideToggle]="extraSearchCriteria" class="d-flex align-items-center mb-3 w-75 filter-row">-->
-    <!--&lt;!&ndash;<mat-form-field class="mr-3">&ndash;&gt;-->
-      <!--&lt;!&ndash;<input matInput [(ngModel)]="searchCriteria['employer']" (change)="search()" placeholder="מעסיק">&ndash;&gt;-->
-    <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
-    <!--&lt;!&ndash;<mat-form-field class="mr-3">&ndash;&gt;-->
-      <!--&lt;!&ndash;<input matInput [(ngModel)]="searchCriteria['organization']" (change)="search()" placeholder="ארגון">&ndash;&gt;-->
-    <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
-    <!--&lt;!&ndash;<mat-form-field class="mr-3">&ndash;&gt;-->
-      <!--&lt;!&ndash;<input matInput [(ngModel)]="searchCriteria['companyCode']" (change)="search()" placeholder="ח.פ">&ndash;&gt;-->
-    <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
-    <!--&lt;!&ndash;<mat-form-field class="mr-3">&ndash;&gt;-->
-      <!--&lt;!&ndash;<input matInput [(ngModel)]="searchCriteria['phone']" (change)="search()" placeholder="טלפון">&ndash;&gt;-->
-    <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
-    <!--&lt;!&ndash;<mat-form-field class="mr-3">&ndash;&gt;-->
-      <!--&lt;!&ndash;<input matInput [(ngModel)]="searchCriteria['mobile']" (change)="search()" placeholder="טלפון נייד">&ndash;&gt;-->
-    <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
-    <!--&lt;!&ndash;<mat-form-field class="mr-3">&ndash;&gt;-->
-      <!--&lt;!&ndash;<input matInput [(ngModel)]="searchCriteria['status']" (change)="search()" placeholder="סטטוס">&ndash;&gt;-->
-    <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
-    <!--&lt;!&ndash;<mat-form-field class="mr-3">&ndash;&gt;-->
-      <!--&lt;!&ndash;<input matInput [(ngModel)]="searchCriteria['email']" (change)="search()" placeholder="כתובת מייל">&ndash;&gt;-->
-    <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
-  <!--&lt;!&ndash;</div>&ndash;&gt;-->
-  <!--&lt;!&ndash;<div class="d-flex justify-content-between">&ndash;&gt;-->
-    <!--&lt;!&ndash;<div class="p-2" (click)="toggleExtraSearch()">&ndash;&gt;-->
-      <!--&lt;!&ndash;<span class="bold blue-color pointer">{{ extraSearchCriteria === 'active' ? 'הצג פחות >' : 'חיפוש מורחב >' }}</span>&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-  <!--</div>-->
+  <mat-form-field class="ml-3">
+    <input matInput placeholder="חפש" [(ngModel)]="searchCriteria['employer']" (change)="search()">
+    <i matSuffix class="fa fa-search"></i>
+  </mat-form-field>
   <table class="table table-hover mt-3 data-table">
     <thead>
     <tr class="table-headers">
