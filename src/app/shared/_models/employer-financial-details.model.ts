@@ -35,6 +35,7 @@ export class EmployerFinancialProduct {
 }
 
 export class EmployerFinancialPayments {
+  id: number;
   payment_type: string;
   payment_amount: string;
   ids_count: string;

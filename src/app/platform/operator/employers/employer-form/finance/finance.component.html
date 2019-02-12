@@ -1,6 +1,12 @@
 <form #form="ngForm">
-  <div hidden name="id" [ngModel]="financialDetails.id"></div>
-  <div hidden name="pay_employer_id" [ngModel]="financialDetails.pay_employer.id"></div>
+  <div [style.visibility]='hidden'>
+    <mat-form-field hidden>
+      <input matInput type="text" name="id" [(ngModel)]="financialDetails.id">
+    </mat-form-field>
+    <mat-form-field hidden>
+      <input matInput type="text" name="pay_employer_id" [(ngModel)]="financialDetails.pay_employer.id">
+    </mat-form-field>
+  </div>
   <div class="row mt-lg-5">
     <mat-form-field class="col-6 col-lg-3">
       <input matInput type="text" name="business_number" [(ngModel)]="financialDetails.pay_employer.business_number" placeholder="ח.פ משלם" required>
@@ -39,20 +45,29 @@
   <div class="row">
     <mat-checkbox name="direct_debit_commission" [(ngModel)]="financialDetails.direct_debit_commission" >עמלת הוראת קבע</mat-checkbox>
   </div>
-  <!--<div class="row mt-3">-->
-    <!--<button (click)="addProduct1()">הוספת מוצר</button>-->
-  <!--</div>-->
-  <div name="products" class="row mt-3 mb-lg-2">מוצרים</div>
+
+  <div  name="products" class="row mt-3 mb-lg-2">מוצרים</div>
+  <button *ngIf="financialDetails.financial_product.length == 0" class="btn blue-btn mt-3 d-flex justify-content-start" (click)="addProductRow()">הוספת מוצר</button>
 
   <div class="mt-3"  *ngFor="let product of financialDetails.financial_product; let last1 = last; let index1 = index">
+    <div [style.visibility]='hidden'>
+      <mat-form-field hidden>
+        <input matInput type="text" [name]="'product_id' + index1" [(ngModel)]="product.id">
+      </mat-form-field>
+    </div>
     <div class="d-flex align-items-center">
       <div class="bd-select-container">
         <bd-select [items]="productTypesItems" placeholder="שם מוצר" #productTypeSelect="ngModel" [name]="'product_type' + index1"  [(ngModel)]="product.product_type" required></bd-select>
       </div>
     </div>
     <div class="d-flex align-items-center" *ngFor="let payments of product.financial_payments;  let last = last; let index = index">
+      <div [style.visibility]='hidden'>
+        <mat-form-field hidden>
+          <input matInput type="text" [name]="'payment_id' + index1 + index" [(ngModel)]="payments.id">
+        </mat-form-field>
+      </div>
       <div class="bd-select-container">
-        <bd-select [items]="paymentTypesItems" placeholder="שיטת חיוב" #paymentTermsSelect="ngModel" [name]="'payment_terms' + index1 + index" [(ngModel)]="payments.payment_type" required></bd-select>
+        <bd-select [items]="paymentTypesItems" placeholder="שיטת חיוב" #paymentTypesSelect="ngModel" [name]="'payment_type' + index1 + index" [(ngModel)]="payments.payment_type" required></bd-select>
       </div>
       <mat-form-field class="mr-3">
         <input matInput type="text" [name]="'payment_amount' + index1 + index" [(ngModel)]="payments.payment_amount" placeholder="סכום לתשלום" required>
