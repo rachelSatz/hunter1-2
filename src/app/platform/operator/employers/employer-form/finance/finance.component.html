@@ -1,4 +1,6 @@
-<form #form="ngForm" (ngSubmit)="submit(form)">
+<form #form="ngForm">
+  <div hidden name="id" [ngModel]="financialDetails.id"></div>
+  <div hidden name="pay_employer_id" [ngModel]="financialDetails.pay_employer.id"></div>
   <div class="row mt-lg-5">
     <mat-form-field class="col-6 col-lg-3">
       <input matInput type="text" name="business_number" [(ngModel)]="financialDetails.pay_employer.business_number" placeholder="ח.פ משלם" required>
@@ -37,29 +39,53 @@
   <div class="row">
     <mat-checkbox name="direct_debit_commission" [(ngModel)]="financialDetails.direct_debit_commission" >עמלת הוראת קבע</mat-checkbox>
   </div>
-  <div>
-    <button (click)="addProduct()">הוספת מוצר</button>
-  </div>
-  <div *ngIf="showProduct">
+  <!--<div class="row mt-3">-->
+    <!--<button (click)="addProduct1()">הוספת מוצר</button>-->
+  <!--</div>-->
+  <div name="products" class="row mt-3 mb-lg-2">מוצרים</div>
 
-    <div class="row mb-4">
-      <div class="col-6 col-lg-3">
-        <bd-select [items]="currencyItems" placeholder="סליקה" #currencySelect="ngModel" name="currency"  [(ngModel)]="financialDetails.currency" required></bd-select>
+  <div class="mt-3"  *ngFor="let product of financialDetails.financial_product; let last1 = last; let index1 = index">
+    <div class="d-flex align-items-center">
+      <div class="bd-select-container">
+        <bd-select [items]="productTypesItems" placeholder="שם מוצר" #productTypeSelect="ngModel" [name]="'product_type' + index1"  [(ngModel)]="product.product_type" required></bd-select>
       </div>
     </div>
-    <div class="row mb-4">
-      <div class="col-6 col-lg-3">
-        <bd-select [items]="paymentTermsItems" placeholder="שיטת חיוב" #paymentTermsSelect="ngModel" name="payment_terms" [(ngModel)]="financialDetails.payment_terms" required></bd-select>
+    <div class="d-flex align-items-center" *ngFor="let payments of product.financial_payments;  let last = last; let index = index">
+      <div class="bd-select-container">
+        <bd-select [items]="paymentTypesItems" placeholder="שיטת חיוב" #paymentTermsSelect="ngModel" [name]="'payment_terms' + index1 + index" [(ngModel)]="payments.payment_type" required></bd-select>
       </div>
-      <mat-form-field class="col-6 col-lg-3">
-        <input matInput type="text" name="business_number" [(ngModel)]="financialDetails.pay_employer.business_number" placeholder="סכום לתשלום" required>
+      <mat-form-field class="mr-3">
+        <input matInput type="text" [name]="'payment_amount' + index1 + index" [(ngModel)]="payments.payment_amount" placeholder="סכום לתשלום" required>
       </mat-form-field>
-      <mat-form-field class="col-6 col-lg-3">
-        <input matInput type="text" name="business_number" [(ngModel)]="financialDetails.pay_employer.business_number" placeholder="כמות ת.ז." required>
+      <mat-form-field class="mr-3">
+        <input matInput type="text" [name]="'ids_count' + index1 + index" [(ngModel)]="payments.ids_count" placeholder="כמות ת.ז." required>
+      </mat-form-field>
+      <i class="fa fa-plus-circle fa-2x pointer blue-color" (click)="addPaymentRow(index1)" *ngIf="last && index < 4"></i>
+    </div>
+    <div class="row">
+      <mat-checkbox [name]="'is_zero' + index1" [(ngModel)]="product.is_zero" >הצג אפסים</mat-checkbox>
+    </div>
+    <div class="row">
+      <mat-checkbox [name]="'show_details' + index1" [(ngModel)]="product.show_details">הצג פרטים בחשבונית</mat-checkbox>
+    </div>
+    <div class="row">
+      <mat-checkbox name="additional_payment" (change)="showAdditionalPayment(index1, $event.checked)">תוספת קבועה לתשלום</mat-checkbox>
+    </div>
+    <div class="row mt-2 mb-4" *ngIf="additionalPayment || product.additional_payment_amount > 0">
+      <mat-form-field *ngIf="rowIndex === index1" class="col-6 col-lg-3">
+        <input matInput type="text" [name]="'additional_payment_amount' + index1" [(ngModel)]="product.additional_payment_amount" placeholder="סכום עמלה" required>
+      </mat-form-field>
+      <mat-form-field *ngIf="rowIndex === index1" class="col-6 col-lg-3">
+        <input matInput type="text" [name]="'additional_payment_desc' + index1" [(ngModel)]="product.additional_payment_desc" placeholder="תיאור עמלה" required>
       </mat-form-field>
     </div>
+    <mat-divider class="mt-3"></mat-divider>
+      <button class="btn blue-btn mt-3 d-flex justify-content-start" (click)="addProductRow()" *ngIf="last1 && index1 < 1">הוספת מוצר</button>
   </div>
-  <div class="mt-3">
-    <button class="btn blue-btn" type="submit">שלח</button>
+  <div class="d-flex justify-content-end">
+    <button class="btn blue-btn mt-3 mb-5" (click)="submit(form)">שלח</button>
   </div>
+  <!--<div class="mt-3">-->
+    <!--<button class="btn blue-btn" (click)="submit(form)">שלח</button>-->
+  <!--</div>-->
 </form>
