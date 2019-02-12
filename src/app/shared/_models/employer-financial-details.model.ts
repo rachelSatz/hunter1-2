@@ -4,7 +4,7 @@ export class EmployerFinancialDetails {
   id: number;
   employer: Employer;
   pay_employer: Employer;
-  financial_product: EmployerFinancialProduct[];
+  financial_product: EmployerFinancialProduct[] = [];
   invoice_employer_name: string;
   currency: string;
   language: string;
@@ -14,6 +14,10 @@ export class EmployerFinancialDetails {
   green_invoice_id: string;
   green_invoice_email: string;
   direct_debit_commission: string;
+
+  constructor() {
+      this.financial_product.push(new EmployerFinancialProduct());
+  }
 }
 
 export class EmployerFinancialProduct {
@@ -23,7 +27,11 @@ export class EmployerFinancialProduct {
   show_details: string;
   additional_payment_amount: string;
   additional_payment_desc: string;
-  financial_payments: EmployerFinancialPayments[];
+  financial_payments: EmployerFinancialPayments[] = [];
+
+  constructor() {
+    this.financial_payments.push(new EmployerFinancialPayments());
+  }
 }
 
 export class EmployerFinancialPayments {
@@ -46,7 +54,7 @@ export enum PAYMENT_TERMS {
 }
 export enum PAYMENT_METHOD {
   unknown = 'לא ידוע',
-  direct_debit = 'הןראת קבע',
+  direct_debit = 'הוראת קבע',
   credit_card = 'כרטיס אשראי',
   bank_transfer = 'העברה בנקאית',
   check = 'צ"ק',
@@ -62,4 +70,16 @@ export enum CURRENCY {
 }
 export enum LANGUAGE {
   he = 'עברית',
+}
+
+export enum PRODUCT_TYPES {
+  defrayal = 'סליקה',
+  compensation = 'יתרות לפיצויים',
+}
+
+export enum PAYMENT_TYPE {
+  no_payment = 'ללא פרטי תשלום',
+  number_of_employees = 'מספר עובדים',
+  fixed = 'חודשי קבוע',
+
 }

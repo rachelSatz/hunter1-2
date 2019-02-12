@@ -4,13 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
 
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
-
 import { ContactFormComponent } from './contact-form.component';
-
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { AgentService } from 'app/shared/_services/http/agent.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
-
 import { ContactResolve } from 'app/shared/_resolves/contact.resolve';
 
 const routes: Routes = [
