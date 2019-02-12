@@ -3,9 +3,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 import { User } from 'app/shared/_models/user.model';
-import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
 
 
 @Component({
@@ -43,11 +43,22 @@ export class CommentsComponent implements OnInit {
   }
 
   submit() {
-    this.generalService.newComment(this.selectUnit.currentEmployerID, this.comment, 'employer').then();
+    if (this.comment === undefined) {
+      return;
+    }
+
+    this.generalService.newComment(this.selectUnit.currentEmployerID, this.comment, 'employer')
+      .then(response => {
+        if (!response) {
+           this.hasServerError = true;
+           return;
+      }} );
+
     const curDate = new Date();
+    this.hasServerError = false;
     this.comments[this.comments.length] = {id: 1, content: this.comment, updated_at: curDate, created_at: curDate,
-      username: this.user.username};
-    this.comment = null;
+                  username: this.user.username};
+    this.comment = undefined;
   }
 
 }

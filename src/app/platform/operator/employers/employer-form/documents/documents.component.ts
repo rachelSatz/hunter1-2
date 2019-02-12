@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DocumentsComponent implements OnInit {
 
+
+  readonly headers = ['שם קובץ', 'תאריך העלאה', 'אפשרויות', 'סוג'];
+
   constructor() { }
 
   ngOnInit() {
