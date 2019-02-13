@@ -35,6 +35,7 @@ const routes: Routes = [
       { path: 'feedback/employees', loadChildren: 'app/platform/feedback/employees/employees.module#EmployeesModule' },
       { path: 'feedback/files', loadChildren: 'app/platform/feedback/files/files.module#FilesModule' },
       { path: 'operator/employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },
+      { path: 'operator/work-queue', loadChildren: 'app/platform/operator/work-queue/work-queue.module#WorkQueueModule'}
       // { path: 'operator/employers/contacts', loadChildren: 'app/platform/operator/' +
       //     'employers/employer-form/contacts/contacts.component#ContactsModule' }
 
