@@ -21,7 +21,7 @@ export class  DocumentService extends BaseHttpService {
 
     if (employerId) {
       options['params'] = {employerId: employerId};
-    } 
+    }
 
     return this.http.get(this.endPoint, options)
       .toPromise()
@@ -29,9 +29,26 @@ export class  DocumentService extends BaseHttpService {
       .catch(() => []);
   }
 
-  downloadFile(rowID: number): Promise<string> {
-    return this.http.post(this.endPoint + '/' + rowID + '/downloadFile',
-      this.getTokenHeader())
+  downloadFile(rowID: number, employerId: number): Promise<string> {
+    const options = this.getTokenHeader();
+
+    if (employerId) {
+      options['params'] = {employerId: employerId};
+    }
+    return this.http.get(this.endPoint + '/' + rowID,
+      options)
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  deleteFile(rowID: number, employerId: number): Promise<any> {
+    const options = this.getTokenHeader();
+
+    if (employerId) {
+      options['params'] = {employerId: employerId};
+    }
+    return this.http.delete(this.endPoint + '/' + rowID, options)
       .toPromise()
       .then(response => response)
       .catch(() => null);

@@ -1,5 +1,6 @@
 export class Document {
-  file_name: string;
-  type: string;
-  date: string;
+  name: string;
+  created_at: string;
+  description: string;
+  ext: string;
 }
