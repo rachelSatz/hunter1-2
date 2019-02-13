@@ -42,7 +42,8 @@ export class EmployersComponent extends DataTableComponent implements OnInit, On
 
   fetchItems(): void {
     if (this.selectUnit.currentOrganizationID) {
-      this.employerService.getEmployers(this.selectUnit.currentOrganizationID).then(response => this.setItems(response));
+      this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
+      this.employerService.getEmployers(this.searchCriteria).then(response => this.setItems(response));
     }
   }
 

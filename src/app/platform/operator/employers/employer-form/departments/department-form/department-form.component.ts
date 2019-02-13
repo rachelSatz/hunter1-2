@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm  } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
@@ -61,13 +60,6 @@ export class DepartmentFormComponent implements OnInit {
       }
     }
   }
-
-  // openBankAccountDialog(): void {
-  //   this.dialog.open(BankAccountComponent, {
-  //     width: '655px',
-  //     panelClass: 'dialog-file'
-  //   });
-  // }
 
   loadBanks(): void {
     this.generalService.getBanks(true).then(banks => {

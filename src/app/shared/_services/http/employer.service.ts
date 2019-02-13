@@ -28,10 +28,10 @@ export class EmployerService extends BaseHttpService {
     .then(response => response as Employer);
   }
 
-  getEmployers(organizationId: number): Promise<Employer[]> {
+  getEmployers(searchCriteria: Object): Promise<Employer[]> {
     const request = this.getTokenHeader();
 
-    request['params'] = {organizationId: organizationId};
+    request['params'] = searchCriteria;
 
     return this.http.get(this.endPoint , request)
     .toPromise()

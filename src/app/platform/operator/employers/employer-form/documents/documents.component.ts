@@ -1,22 +1,30 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DataTableComponent} from '../../../../../shared/data-table/data-table.component';
-import {ActivatedRoute} from '@angular/router';
-import {DepartmentService} from '../../../../../shared/_services/http/department.service';
-import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
-import {DataTableHeader} from '../../../../../shared/data-table/classes/data-table-header';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import * as FileSaver from 'file-saver';
+
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
+import { DocumentService } from 'app/shared/_services/http/document.service';
+import {NotificationService} from '../../../../../shared/_services/notification.service';
+import {HelpersService} from '../../../../../shared/_services/helpers.service';
+import {SendFileEmailComponent} from '../../../../process/process-upload/payment/send-file-email/send-file-email.component';
+import {MatDialog} from '@angular/material';
+import {AddDocumentComponent} from './add-document/add-document.component';
 
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.css']
+  styles: ['.row-image { width: 30px; height: auto; }' ]
 })
 export class DocumentsComponent extends DataTableComponent implements OnInit , OnDestroy {
 
   constructor(route: ActivatedRoute,
     private documentService: DocumentService,
-    private selectUnit: SelectUnitService) {
-    super(route);
+    private selectUnit: SelectUnitService,
+    protected notificationService: NotificationService,
+    private dialog: MatDialog) {
+    super(route, notificationService);
     this.paginationData.limit = 5;
   }
 
@@ -27,7 +35,7 @@ readonly headers: DataTableHeader[] =  [
   ];
 
   ngOnInit() {
-    this.documentService.getDepartments(this.selectUnit.currentEmployerID)
+    this.documentService.getDocuments(this.selectUnit.currentEmployerID)
       .then(response => this.setItems(response));
     super.ngOnInit();
   }
@@ -37,11 +45,10 @@ readonly headers: DataTableHeader[] =  [
   }
 
   file(rowId: number, type: string): any {
-    this.compensationService.downloadPdfFile(rowId).then(response => {
+    this.documentService.downloadFile(rowId).then(response => {
       if (response) {
         const byteCharacters = atob(response);
         const byteNumbers = new Array(byteCharacters.length);
-        console.log(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
           byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
@@ -57,6 +64,13 @@ readonly headers: DataTableHeader[] =  [
         type =  type === 'show' ?  'להציג' : 'להוריד';
         this.notificationService.error('', ' אין אפשרות ' + type +  ' קובץ ');
       }
+    });
+  }
+
+  addDocument() {
+    this.dialog.open(AddDocumentComponent, {
+      width: '550px',
+      panelClass: 'send-email-dialog'
     });
   }
 }

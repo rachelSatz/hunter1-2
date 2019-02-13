@@ -30,7 +30,9 @@ const routes: Routes = [
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
       { path: 'feedback/employees', loadChildren: 'app/platform/feedback/employees/employees.module#EmployeesModule' },
       { path: 'feedback/files', loadChildren: 'app/platform/feedback/files/files.module#FilesModule' },
-      { path: 'operator/employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' }
+      { path: 'operator/employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },
+      // { path: 'operator/employers/contacts', loadChildren: 'app/platform/operator/' +
+      //     'employers/employer-form/contacts/contacts.component#ContactsModule' }
 
     ]
   }

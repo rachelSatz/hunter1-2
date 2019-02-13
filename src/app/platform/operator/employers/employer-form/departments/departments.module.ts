@@ -9,8 +9,8 @@ import { DepartmentService } from 'app/shared/_services/http/department.service'
 const routes: Routes = [
   { path: '', component: DepartmentsComponent },
   { path: 'form',
-     loadChildren: 'app/platform/operator/employers/employer-form' +
-       '/departments/department-form/department-form.module#DepartmentFormModule'}];
+     loadChildren:
+       './department-form/department-form.module#DepartmentFormModule'}];
 
 @NgModule({
   imports: [
