@@ -1,17 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as FileSaver from 'file-saver';
-import {DocumentService} from '../../../../../shared/_services/http/document.service';
+import { MatDialog } from '@angular/material';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DocumentService } from 'app/shared/_services/http/document.service';
-import {NotificationService} from '../../../../../shared/_services/notification.service';
-import {HelpersService} from '../../../../../shared/_services/helpers.service';
-import {SendFileEmailComponent} from '../../../../process/process-upload/payment/send-file-email/send-file-email.component';
-import {MatDialog} from '@angular/material';
-import {AddDocumentComponent} from './add-document/add-document.component';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { AddDocumentComponent } from './add-document/add-document.component';
 
 @Component({
   selector: 'app-documents',
