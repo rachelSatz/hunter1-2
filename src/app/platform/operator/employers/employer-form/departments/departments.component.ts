@@ -1,9 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ActivatedRoute } from '@angular/router';
+
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+
 import { DepartmentService } from 'app/shared/_services/http/department.service';
-import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+
+import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 
 
 @Component({

@@ -1,15 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material';
+
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
+import {NewTaskFormComponent} from './new-task-form/new-task-form.component';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.css']
+  styleUrls: ['./tasks.component.css'],
+  styles: ['.row-image { width: 30px; height: auto; }' ]
+
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent extends DataTableComponent implements OnInit , OnDestroy {
 
-  constructor() { }
+  readonly headers: DataTableHeader[] =  [
+    { column: 'subject', label: 'נושא המשימה' },
+    { column: 'createdBy', label: 'יוצר המשימה' },
+    { column: 'createdAt', label: 'תאריך יצירה' },
+    { column: 'executive', label: 'מבצע המשימה' },
+    { column: 'executionDate', label: 'לביצוע עד' },
+    { column: 'options', label: 'אפשרויות' }
+  ];
 
-  ngOnInit() {
+  constructor(route: ActivatedRoute, public dialog: MatDialog) {
+    super(route);
+    this.paginationData.limit = 5;
   }
 
+  ngOnInit() {
+    // this.setItems(this.headers);
+    super.ngOnInit();
+  }
+
+
+  createTask() {
+    const dialogRef = this.dialog.open(NewTaskFormComponent, {
+      width: '650px',
+      height: '800px'
+    });
+
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+  }
 }

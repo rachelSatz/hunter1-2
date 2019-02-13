@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportsComponent implements OnInit {
 
+  month = [];
+
   constructor() { }
 
   ngOnInit() {
+    for (let i = 0; i < 31; i++) {
+      this.month[i] = i + 1;
+    }
   }
-
 }

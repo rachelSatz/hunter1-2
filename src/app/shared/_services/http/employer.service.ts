@@ -128,4 +128,15 @@ export class EmployerService extends BaseHttpService {
       .toPromise()
       .then(response =>  response as boolean);
   }
+
+  getOperator(id: number): Promise<any> {
+    return this.http.get(this.endPoint + '/operators' + '?employerId=' + id, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as any);
+  }
+
+  getProjects(): Promise<[]> {
+    return this.http.get(this.endPoint + '/projects', this.getTokenHeader()).toPromise()
+      .then( response => response as []);
+  }
 }

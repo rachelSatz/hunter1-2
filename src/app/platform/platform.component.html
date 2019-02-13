@@ -10,7 +10,7 @@
       <div *ngFor="let el of agentBarEl" class="d-flex pointer">
         <span class="w-100 py-3" [routerLink]="['/platform', 'operator', el.link]"
               [ngClass]="{'selected':  el.link === router.url.split('/')[3]}">{{el.label}}</span>
-    </div>
+      </div>
     </div>
     <div *ngIf="agentBarActive" (click)="agentBarActive = !agentBarActive">
       <p class="py-5 mt-2"></p>
@@ -46,7 +46,7 @@
                   <span>{{ link.label }}</span>
                   <mat-menu #subMenu yPosition="above" [overlapTrigger]="false">
                     <button mat-menu-item class="dropdown-item" *ngFor="let subLink of link.subMenuLinks"
-                            [routerLink]="'/platform/' + link.url + '/' + subLink.url" >{{ subLink.label }}</button>
+                            (click)="navigate(link.url, subLink.url)">{{ subLink.label }}</button>
                   </mat-menu>
                 </li>
               </ng-container>
