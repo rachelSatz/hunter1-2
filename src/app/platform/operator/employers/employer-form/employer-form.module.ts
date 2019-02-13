@@ -19,8 +19,7 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import {AddDocumentComponent} from './documents/add-document/add-document.component';
 
 const routes: Routes = [
-  { path: ':id', component: EmployerFormComponent, resolve: { employer: EmployersResolve },
-   children: [
+  { path: '', component: EmployerFormComponent, children: [
       { path: 'comments', loadChildren: './comments/comments.module#CommentsModule' },
       { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule' },
       { path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule' },
@@ -29,7 +28,8 @@ const routes: Routes = [
       { path: 'finance', loadChildren: './finance/finance.module#FinanceModule' },
       { path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule' },
       { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' }
-    ]}
+    ]},
+  { path: ':id', component: EmployerFormComponent, resolve: { employer: EmployersResolve } }
   ];
 
 @NgModule({

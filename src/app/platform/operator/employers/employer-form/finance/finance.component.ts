@@ -9,6 +9,7 @@ import {
   TAX
 } from 'app/shared/_models/employer-financial-details.model';
 import {NgForm} from '@angular/forms';
+import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-finance',
@@ -43,11 +44,11 @@ export class FinanceComponent implements OnInit {
     return { id: e, name: PAYMENT_TYPE[e] };
   });
 
-  constructor(private employerService: EmployerService) { }
+  constructor(private employerService: EmployerService,
+              private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
-    // employerId
-    this.employerService.getEmployerFinance(5).then(response =>
+    this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(response =>
       this.financialDetails = response);
   }
 
@@ -76,7 +77,7 @@ export class FinanceComponent implements OnInit {
         this.employerService.updateFinancialDetails(this.financialDetails.id, form.value)
           .then(response => response);
       } else {
-        this.employerService.saveFinancialDetails(form.value)
+        this.employerService.saveFinancialDetails(this.selectUnit.currentEmployerID, form.value)
           .then(response => response);
       }
     }

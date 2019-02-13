@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as FileSaver from 'file-saver';
+import {DocumentService} from '../../../../../shared/_services/http/document.service';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
@@ -18,6 +19,7 @@ import {AddDocumentComponent} from './add-document/add-document.component';
   styles: ['.row-image { width: 30px; height: auto; }' ]
 })
 export class DocumentsComponent extends DataTableComponent implements OnInit , OnDestroy {
+
 
   constructor(route: ActivatedRoute,
     private documentService: DocumentService,
