@@ -13,8 +13,9 @@
   color: #00ADEE;
 }
 
-.header-border {
+.header-border > span {
   border-bottom: 2px solid #E5E5E5 ;
 }
+
 
 

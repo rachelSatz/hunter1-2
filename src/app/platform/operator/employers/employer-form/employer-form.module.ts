@@ -4,22 +4,17 @@ import { EmployerFormComponent } from './employer-form.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
-import {
-  MatButtonModule,
-  MatCheckboxModule,
-  MatFormFieldModule,
-  MatIconModule,
-  MatInputModule,
-  MatRadioModule,
-  MatOptionModule,
-  MatSelectModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule,
+         MatInputModule, MatRadioModule, MatOptionModule, MatSelectModule } from '@angular/material';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { DepartmentFormComponent } from './departments/department-form/department-form.component';
 
 
 const routes: Routes = [
-  { path: '', component: EmployerFormComponent, children: [
+  { path: '', component: EmployerFormComponent},
+  { path: ':id', component: EmployerFormComponent, resolve: { employer: EmployersResolve }, children: [
       { path: 'comments', loadChildren: './comments/comments.module#CommentsModule' },
       { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule' },
       { path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule' },
@@ -28,8 +23,7 @@ const routes: Routes = [
       { path: 'finance', loadChildren: './finance/finance.module#FinanceModule' },
       { path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule' },
       { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' }
-    ]},
-  { path: ':id', component: EmployerFormComponent, resolve: { employer: EmployersResolve } }
+    ] }
   ];
 
 @NgModule({

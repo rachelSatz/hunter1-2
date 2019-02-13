@@ -101,7 +101,7 @@ export class PlatformComponent implements OnInit {
               public helpers: HelpersService) {}
 
   ngOnInit() {
-    this.isAgent =  this.userSession.roleName !== 'employer' ? true : false;
+    this.isAgent =  this.userSession.roleName !== 'employer';
     this.getOrganizations(false);
     this.setActiveUrl(this.router.url);
 
@@ -188,4 +188,16 @@ export class PlatformComponent implements OnInit {
     this.selectUnit.changeDepartment(departmentID);
   }
 
+  navigate(link, subLink) {
+    if ( subLink === 'employers' ||  subLink === 'contacts') {
+     this.router.navigate(['/platform', subLink]);
+      return;
+    } else {
+      if (subLink === 'new/0') {
+        this.router.navigate(['/platform', link, 'new', 0]);
+      } else {
+      this.router.navigate(['/platform', link, subLink]);
+      }
+    }
+  }
 }

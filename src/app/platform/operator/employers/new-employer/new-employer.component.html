@@ -3,20 +3,33 @@
   <p class="f-12 bold mt-5">פרטים</p>
   <form  #form="ngForm" (ngSubmit)="submit(form)"  [formGroup]="newEmployerForm">
     <div formGroupName="employerDetails">
-      <mat-form-field>
-        <input matInput placeholder="שם מעסיק" formControlName="name">
-      </mat-form-field>
+      <div>
+        <mat-form-field class="pl-5">
+          <mat-select matInput placeholder="ארגון" formControlName="organization">
+            <mat-option *ngFor="let organization of organizations" [value]="organization.id" (onSelectionChange)="getOperator(organization.id)">
+              {{organization.value}}
+            </mat-option>
+          </mat-select>
+          <mat-error>שדה חובה</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="שם מעסיק" formControlName="name">
+          <mat-error>שדה חובה</mat-error>
+        </mat-form-field>
+      </div>
       <div>
         <mat-form-field>
-          <input matInput placeholder="מספר ח.פ" formControlName="businessNumber">
+          <input matInput placeholder="מספר ח.פ" formControlName="businessNumber" maxlength="9">
+          <mat-error>ח.פ אינו תקין</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-5">
-          <input matInput placeholder="מספר תיק ניכויים" formControlName="deductionNumber">
+          <input matInput placeholder="מספר תיק ניכויים" formControlName="deductionNumber" maxlength="9">
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
           <input matInput placeholder="כתובת מייל" formControlName="email">
+          <mat-error>כתובת מייל לא תקינה</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-5">
           <input matInput placeholder="טלפון" formControlName="address">
@@ -27,72 +40,104 @@
       </div>
       <div>
         <mat-form-field>
-          <input matInput placeholder="פרוייקט" formControlName="project">
-        </mat-form-field>
-        <mat-form-field class="mr-5">
-          <input matInput placeholder="מנהל תיק" formControlName="operator">
-        </mat-form-field>
-        <mat-form-field class="mr-5">
-          <input matInput placeholder="סטטוס" formControlName="status">
-        </mat-form-field>
-      </div>
-    </div>
-    <p class="f-12 bold mt-5">אנשי קשר</p>
-    <div  formGroupName="contactDetails">
-      <div>
-        <mat-form-field>
-          <input matInput placeholder="שם פרטי" formControlName="firstName">
-        </mat-form-field>
-        <mat-form-field class="mr-5">
-          <input matInput placeholder="שם משפחה" formControlName="lastName">
-        </mat-form-field>
-        <mat-form-field class="mr-5">
-          <mat-select placeholder="מין" formControlName="gender">
-            <mat-option>זכר</mat-option>
-            <mat-option>נקבה</mat-option>
+          <mat-select matInput placeholder="פרוייקט" formControlName="project">
+            <mat-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</mat-option>
           </mat-select>
+          <mat-error>שדה חובה</mat-error>
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <mat-select matInput placeholder="מנהל תיק" formControlName="operator">
+            <mat-option *ngFor="let operator of operators" [value]="operator.id">{{operator.name}}</mat-option>
+          </mat-select>
+          <mat-error>שדה חובה</mat-error>
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <mat-select matInput placeholder="סטטוס" formControlName="status">
+            <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
+          </mat-select>
+          <mat-error>שדה חובה</mat-error>
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <input matInput placeholder="מספר טלפון" formControlName="phone">
+          <input matInput placeholder="סוג מזהה לשליחה" formControlName="identifierType" maxlength="9">
+          <mat-error>שדה חובה</mat-error>
         </mat-form-field>
-        <mat-form-field class="mr-5">
-          <input matInput placeholder="טלפון נייד" formControlName="mobile">
-        </mat-form-field>
-        <mat-form-field class="mr-5">
-          <input matInput placeholder="פקס" formControlName="fax">
-        </mat-form-field>
-      </div>
-      <mat-form-field>
-        <input matInput placeholder="כתובת מייל" formControlName="email">
-      </mat-form-field>
-      <mat-form-field class="mr-5">
-        <input matInput placeholder="כתובת" formControlName="address">
-      </mat-form-field>
-    </div>
-    <mat-form-field class="w-25">
-      <input matInput placeholder="הוספת הערות" formControlName="comments">
-    </mat-form-field>
-    <p class="f-12 bold mt-5">סליקה</p>
-    <div formGroupName="defrayal">
-      <div>
-        <mat-form-field>
-          <input matInput placeholder="ח.פ" formControlName="businessNumber" maxlength="9">
-        </mat-form-field>
-        <mat-form-field class="mr-5">
+        <mat-form-field  class="mr-5">
           <input matInput placeholder="מספר מזהה לשליחה" formControlName="sendingNumber" maxlength="9">
+          <mat-error>שדה חובה</mat-error>
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
           <input matInput placeholder="קוד מוסד(5)" formControlName="institutionCode5" maxlength="5">
+          <mat-error>שדה חובה</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-5">
           <input matInput placeholder="קוד מוסד(8)" formControlName="institutionCode8" maxlength="8">
+          <mat-error>שדה חובה</mat-error>
         </mat-form-field>
       </div>
     </div>
-    <button type="submit" class="btn blue-btn">שמור</button>
+      <p class="bold h5 mt-5">כרטיס מחלקה</p>
+      <div formGroupName="department">
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="מספר מחלקה" formControlName="number" maxlength="9">
+          </mat-form-field>
+          <mat-form-field class="mr-5">
+            <input matInput placeholder="שם מחלקה" formControlName="name" maxlength="9" required>
+            <mat-error>שדה חובה</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+        <div class="mt-5" formGroupName="payingBank">
+          <p class="bold">חשבון בנק משלם</p>
+          <mat-form-field>
+            <mat-select matInput placeholder="בחר בנק" formControlName="name" required>
+              <mat-option *ngFor="let bank of banks; let index = index" [value]="bank.id" (onSelectionChange)="getBranches(index, 1)">
+                {{bank.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error>שדה חובה</mat-error>
+          </mat-form-field>
+          <mat-form-field class="mr-5">
+            <mat-select matInput placeholder="בחר סניף" formControlName="branch" required>
+              <mat-option *ngFor="let branch of branches1" [value]="branch.id">{{branch.name}}</mat-option>
+            </mat-select>
+            <mat-error>שדה חובה</mat-error>
+          </mat-form-field>
+          <mat-form-field class="mr-5">
+            <input matInput placeholder="מספר חשבון" formControlName="number" required maxlength="8">
+            <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="mt-5" formGroupName="receivingBank">
+          <p class="bold">חשבון להחזר כספים</p>
+          <mat-form-field>
+            <mat-select matInput placeholder="בחר בנק" formControlName="name" required>
+              <mat-option *ngFor="let bank of banks; let index = index" [value]="bank.id" (onSelectionChange)="getBranches(index, 2)">
+                {{bank.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error>שדה חובה</mat-error>
+          </mat-form-field>
+          <mat-form-field class="mr-5">
+            <mat-select matInput placeholder="בחר סניף" formControlName="branch" required>
+              <mat-option *ngFor="let branch of branches2" [value]="branch.id">{{branch.name}}</mat-option>
+            </mat-select>
+            <mat-error>שדה חובה</mat-error>
+          </mat-form-field>
+          <mat-form-field class="mr-5">
+            <input matInput placeholder="מספר חשבון" formControlName="number" required maxlength="8">
+            <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
+          </mat-form-field>
+        </div>
+    <mat-form-field id="comments">
+      <input matInput placeholder="הוספת הערות" formControlName="comments">
+    </mat-form-field>
+    <div class="mt-3 pb-3">
+      <button type="submit" class="btn blue-btn">שמור</button>
+    </div>
   </form>
 </div>

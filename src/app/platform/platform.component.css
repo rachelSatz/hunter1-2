@@ -51,7 +51,7 @@ bd-select {
 
 .agentBar {
   height: 100%;
-  position: absolute;
+  position: fixed;
   background-color: #3D4252;
   width: 110px;
   color: #ffffff;
@@ -62,7 +62,7 @@ bd-select {
 .closedAgentBar {
   height: 100%;
   text-align: center;
-  position: absolute;
+  position: fixed;
   background-color: #3D4252;
   width: 50px;
   color: #ffffff;

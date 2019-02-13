@@ -209,6 +209,9 @@ export class GeneralHttpService extends BaseHttpService {
       .catch(() => null);
   }
 
+  newBank(bank: object): void {
+    // this.http.post(this.apiUrl + '/generals' + '/' + rowID + '/downloadFilesInquirie', {'content_type': contentType)
+  }
 
 
 }

@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm  } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { Department } from 'app/shared/_models/department.model';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { EmployerBankAccount } from 'app/shared/_models/employer-bank-account.model';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+
+import { Department } from 'app/shared/_models/department.model';
+import { EmployerBankAccount } from 'app/shared/_models/employer-bank-account.model';
 
 
 @Component({

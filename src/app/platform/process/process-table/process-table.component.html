@@ -1,15 +1,15 @@
 <div class="col-12 f-12 mb-lg-5">
   <div class="float-left">
     <mat-form-field>
-      <mat-select placeholder="חודש שכר" [(ngModel)]="searchCriteria['month']" name="month" class="ml-3" (selectionChange)="search()" >
-        <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1" >
+      <mat-select placeholder="חודש שכר" [(ngModel)]="searchCriteria['month']" name="month" class="ml-3" (selectionChange)="search()">
+        <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1">
           {{month}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field class="mr-3">
-    <mat-select placeholder="שנה" [(ngModel)]="searchCriteria['year']" name="year" (selectionChange)="search()" >
-      <mat-option *ngFor="let year of years" [value]="year" >
+    <mat-select placeholder="שנה" [(ngModel)]="searchCriteria['year']" name="year" (selectionChange)="search()">
+      <mat-option *ngFor="let year of years" [value]="year">
         {{year}}
       </mat-option>
     </mat-select>
@@ -48,7 +48,7 @@
       <td>{{ item.total  }}</td>
       <td (click)="item.status === 'Error_Loading' ? messageError(item.error_details) :moveProcess(item)">{{ processStatus[item.status] }}</td>
       <td>
-        <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)" >
+        <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)">
         </i>
       </td>
     </tr>

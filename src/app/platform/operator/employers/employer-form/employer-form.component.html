@@ -43,7 +43,7 @@
     </form>
   </div>
   <div>
-    <div class="d-flex border-bottom mt-5 pt-5 text-center" id="headers">
+    <div class="d-flex header-border mt-5 pt-5 text-center" id="headers">
       <span *ngFor="let header of headers" [ngClass]="{ 'active': header.link === router.url.split('/')[6] }" [routerLink]="[header.link]">{{header.label}}</span>
     </div>
   </div>

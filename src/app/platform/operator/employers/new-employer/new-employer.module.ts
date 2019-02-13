@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { NewEmployerComponent } from './new-employer.component';
 import { RouterModule, Routes } from '@angular/router';
 import { MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule } from '@angular/material';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 
 const routes: Routes = [
   { path: '', component: NewEmployerComponent }
@@ -15,8 +17,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
+    BdSelectModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule
   ],
-  declarations: [NewEmployerComponent]
+  declarations: [NewEmployerComponent],
+  providers: [GeneralHttpService]
 })
 export class NewEmployerModule { }

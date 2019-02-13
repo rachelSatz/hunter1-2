@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
-import {Employer} from '../../_models/employer.model';
-import {Organization} from '../../_models/organization.model';
-import {User} from '../../_models/user.model';
+import { Organization } from '../../_models/organization.model';
 
 @Injectable()
 export class OrganizationService extends BaseHttpService {
@@ -19,6 +17,13 @@ export class OrganizationService extends BaseHttpService {
 
   getOrganizations(): Promise<Organization[]> {
     return this.http.get(this.endPoint, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Organization[])
+      .catch(() => []);
+  }
+
+  getOrganizationsNameAndId(): Promise<Organization[]> {
+    return this.http.get(this.endPoint + '/organizationsForSelector', this.getTokenHeader())
       .toPromise()
       .then(response => response as Organization[])
       .catch(() => []);
