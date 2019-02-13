@@ -22,14 +22,16 @@
     <tbody>
     <ng-container *ngIf="!isSearching">
       <tr *ngFor="let item of paginatedItems" class="pointer">
-        <td>{{ types[item.type] }}</td>
+        <td>{{ item.type }}</td>
         <td>{{ item.first_name + ' ' + item.last_name}}</td>
         <td>{{ item.phone }}</td>
         <td>{{ item.mobile }}</td>
         <td>{{ item.email }}</td>
-        <td>{{ item.comment }}</td>
         <td>
+          <span></span>
+          <img src="/assets/img/icons/check.svg" [routerLink]="['./', 'form', item.id]" class="row-image">
           <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+          <i class="fa fa-file"></i>
         </td>
       </tr>
     </ng-container>

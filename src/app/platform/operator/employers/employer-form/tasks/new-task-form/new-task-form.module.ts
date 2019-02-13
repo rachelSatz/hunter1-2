@@ -4,7 +4,7 @@ import { NewTaskFormComponent } from './new-task-form.component';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
   ],
   declarations: [NewTaskFormComponent],
 })

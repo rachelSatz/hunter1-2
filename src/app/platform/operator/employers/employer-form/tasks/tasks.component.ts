@@ -10,7 +10,7 @@ import {NewTaskFormComponent} from './new-task-form/new-task-form.component';
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
-  styles: ['.row-image { width: 30px; height: auto; }' ]
+  styles: ['.row-image { width: 20px; height: auto; }' ]
 
 })
 export class TasksComponent extends DataTableComponent implements OnInit , OnDestroy {
@@ -30,7 +30,7 @@ export class TasksComponent extends DataTableComponent implements OnInit , OnDes
   }
 
   ngOnInit() {
-    // this.setItems(this.headers);
+    this.setItems(this.headers);
     super.ngOnInit();
   }
 

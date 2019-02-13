@@ -26,14 +26,26 @@
           <input matInput type="text" placeholder="כתובת" [(ngModel)]="employer.address" (change)="saveChanges = true" formControlName="address">
         </mat-form-field>
         <mat-form-field class="mr-3">
-          <input matInput placeholder="פרוייקט" (change)="saveChanges = true" formControlName="project">
+          <mat-select matInput placeholder="פרוייקט" (change)="saveChanges = true" formControlName="project">
+            <mat-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</mat-option>
+          </mat-select>
         </mat-form-field>
-        <mat-form-field class="mr-3">
-          <input matInput placeholder="מנהל תיק"  [(ngModel)]="employerName" (change)="saveChanges = true" formControlName="operator">
+
+
+
+        <mat-form-field class="mr-3" *ngIf="operator">
+          <mat-select matInput placeholder="מנהל תיק"  [(ngModel)]="operator.name" (selectionChange)="saveChanges = true"
+                      formControlName="operator">
+            <mat-option *ngFor="let operator of operators" [value]="operator.name">
+              {{operator.name}}</mat-option>
+          </mat-select>
         </mat-form-field>
+
+
+
         <mat-form-field class="mr-3">
-          <mat-select placeholder="סטטוס"  [(ngModel)]="employer.status" formControlName="status" (selectionChange)="saveChanges = true">
-            <mat-option *ngFor="let status of statuses" [value]="employer.status">
+          <mat-select placeholder="סטטוס"  [(ngModel)]="status.name" formControlName="status" (selectionChange)="saveChanges = true">
+            <mat-option *ngFor="let status of statuses" [value]="status.name">
               {{status.name}}
             </mat-option>
           </mat-select>
@@ -44,7 +56,7 @@
   </div>
   <div>
     <div class="d-flex header-border mt-5 pt-5 text-center" id="headers">
-      <span *ngFor="let header of headers" [ngClass]="{ 'active': header.link === router.url.split('/')[6] }" [routerLink]="[header.link]">{{header.label}}</span>
+      <span *ngFor="let header of headers" routerLinkActive="active" [routerLink]="[header.link]">{{header.label}}</span>
     </div>
   </div>
   <router-outlet></router-outlet>

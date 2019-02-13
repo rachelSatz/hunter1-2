@@ -9,7 +9,6 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
   selector: 'app-new-employer',
   templateUrl: './new-employer.component.html',
   styleUrls: ['./new-employer.component.css'],
-  providers: [FormBuilder]
 })
 export class NewEmployerComponent implements OnInit {
 
@@ -26,6 +25,7 @@ export class NewEmployerComponent implements OnInit {
     {name: 'לא פעיל', id: 'inactive'},
     {name: 'בהקמה',   id: 'onProcess'},
   ];
+
 
   constructor(private fb: FormBuilder, private generalHttpService: GeneralHttpService,
               private organizationService: OrganizationService, private employerService: EmployerService) { }
@@ -91,7 +91,6 @@ export class NewEmployerComponent implements OnInit {
   getOperator(organizationId) {
     this.employerService.getOperator(organizationId).then(response => {
       this.operators = response;
-      console.log(this.operators);
     });
   }
 
@@ -101,7 +100,6 @@ export class NewEmployerComponent implements OnInit {
     this.submitFormGroup(this.newEmployerForm.controls['payingBank']);
     this.submitFormGroup(this.newEmployerForm.controls['receivingBank']);
     const fixed = JSON.stringify(form.value);
-    console.log(fixed);
   }
 
 

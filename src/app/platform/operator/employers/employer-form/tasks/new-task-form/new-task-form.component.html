@@ -2,12 +2,48 @@
 <p class="h5 bold mt-5">יצירת משימה חדשה</p>
 <form class="mt-3">
   <mat-form-field>
-    <input matInput placeholder="נושא המשימה" name="subject">
+    <input matInput placeholder="נושא המשימה" name="subject" required>
   </mat-form-field>
-  <p class="grey-color f-12">בחר סטטוס</p>
+  <p class="grey-color f-14">בחר סטטוס</p>
   <div class="d-flex status status-bar">
-    <div class="active" (click)="setStage(1)" [ngClass]="{'first-next-active': stage > 1}">טרם בוצע</div>
-    <div class="pointer" (click)="setStage(2)" [ngClass]="{'middle-active': stage === 2}">בטיפול</div>
-    <div class="pointer" (click)="setStage(3)">טופל</div>
+    <div class="pointer" (click)="setStage(1)" [ngClass]="{'active': stage === 1}">טרם בוצע</div>
+    <div class="pointer" (click)="setStage(2)" [ngClass]="{'active': stage === 2}">בטיפול</div>
+    <div class="pointer" (click)="setStage(3)" [ngClass]="{'active': stage === 3}">טופל</div>
+  </div>
+  <div>
+    <p class="grey-color f-14 mt-5">לביצוע עד</p>
+    <div class="d-flex">
+      <div>
+        <mat-form-field class="date-picker">
+          <input matInput [matDatepicker]="date" name="date" placeholder="תאריך">
+          <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+          <mat-datepicker #date></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="mr-5">
+        <mat-form-field>
+          <input matInput placeholder="בשעה" name="hour">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-select matInput placeholder="מבצע המשימה" name="executive">
+
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="mr-5">
+      <mat-select matInput placeholder="עובד משוייך" name="employee">
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <p class="grey-color f-14">תיאור המשימה</p>
+  <textarea class="form-control" placeholder="הוספת תיאור"></textarea>
+  <mat-form-field class="w-100 mt-5">
+    <input matInput  placeholder="הוספת הערה">
+  </mat-form-field>
+  <div class="mt-4 text-center">
+    <button type="submit" class="btn blue-btn">יצירה</button>
   </div>
 </form>
