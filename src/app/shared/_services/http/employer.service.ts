@@ -124,7 +124,7 @@ export class EmployerService extends BaseHttpService {
   }
 
   saveFinancialDetails(employerId: number, financialDetails: EmployerFinancialDetails): Promise<boolean> {
-    return this.http.post(this.endPoint + '/updateFinanceDetails', {financialDetails: financialDetails, employerId: employerId}, this.getTokenHeader())
+    return this.http.post(this.endPoint + '/saveFinanceDetails', {financialDetails: financialDetails, employerId: employerId}, this.getTokenHeader())
       .toPromise()
       .then(response =>  response as boolean);
   }

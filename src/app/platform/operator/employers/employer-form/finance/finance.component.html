@@ -1,10 +1,10 @@
 <form #form="ngForm">
   <div [style.visibility]='hidden'>
     <mat-form-field hidden>
-      <input matInput type="text" name="id" [(ngModel)]="financialDetails.id">
+      <input *ngIf="financialDetails.id" matInput type="text" name="id" [(ngModel)]="financialDetails.id">
     </mat-form-field>
     <mat-form-field hidden>
-      <input matInput type="text" name="pay_employer_id" [(ngModel)]="financialDetails.pay_employer.id">
+      <input *ngIf="financialDetails.pay_employer.id" matInput type="text" name="pay_employer_id" [(ngModel)]="financialDetails.pay_employer.id">
     </mat-form-field>
   </div>
   <div class="row mt-lg-5">
@@ -97,6 +97,7 @@
     <mat-divider class="mt-3"></mat-divider>
       <button class="btn blue-btn mt-3 d-flex justify-content-start" (click)="addProductRow()" *ngIf="last1 && index1 < 1">הוספת מוצר</button>
   </div>
+  <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
   <div class="d-flex justify-content-end">
     <button class="btn blue-btn mt-3 mb-5" (click)="submit(form)">שלח</button>
   </div>

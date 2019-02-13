@@ -10,15 +10,30 @@ import {
 } from 'app/shared/_models/employer-financial-details.model';
 import {NgForm} from '@angular/forms';
 import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-finance',
   templateUrl: './finance.component.html',
-  styleUrls: ['./finance.component.css']
+  styleUrls: ['./finance.component.css'],
+  animations: [
+    trigger('fade', [
+      state('inactive', style({
+        display: 'none',
+        height: '0'
+      })),
+      state('active', style({
+        display: '*',
+        height: '*'
+      })),
+      transition('active => inactive', animate('200ms')),
+      transition('inactive => active', animate('200ms'))
+    ])
+  ]
 })
 export class FinanceComponent implements OnInit {
   financialDetails: EmployerFinancialDetails;
-  hasServerError: boolean;
+  hasServerError = false;
   rowIndex: number;
   additionalPayment: boolean;
 
@@ -75,15 +90,21 @@ export class FinanceComponent implements OnInit {
     if (form.valid) {
       if (this.financialDetails.id) {
         this.employerService.updateFinancialDetails(this.financialDetails.id, form.value)
-          .then(response => response);
+          .then(response => {
+              if (response['message'] !== 'success') {
+                this.hasServerError = true;
+                }
+          });
+        }
       } else {
         this.employerService.saveFinancialDetails(this.selectUnit.currentEmployerID, form.value)
-          .then(response => response);
+          .then(response => {
+            if (response['message'] !== 'success') {
+              this.hasServerError = true;
+            }
+          });
       }
     }
-  }
-
-
 }
 
 
