@@ -9,8 +9,7 @@ import { ProductService } from 'app/shared/_services/http/product.service';
 
 const routes: Routes = [{ path: '', component: ContactsComponent },
   { path: 'form',
-    loadChildren: 'app/platform/operator/employers/employer-form/contacts/' +
-      'contact-form/contact-form.module#ContactFormModule'}];
+    loadChildren: './contact-form/contact-form.module#ContactFormModule'}];
 
 @NgModule({
   imports: [

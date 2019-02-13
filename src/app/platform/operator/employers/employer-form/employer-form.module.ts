@@ -16,7 +16,7 @@ import {
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-
+import {AddDocumentComponent} from './documents/add-document/add-document.component';
 
 const routes: Routes = [
   { path: '', component: EmployerFormComponent, children: [
@@ -38,12 +38,12 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
+    MatFormFieldModule, MatInputModule,
+    MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
     BdSelectModule, MatOptionModule
   ],
   declarations: [EmployerFormComponent],
-  providers: [EmployerService, EmployersResolve, GeneralHttpService]
-
+  providers: [EmployerService, EmployersResolve, GeneralHttpService],
 })
 
 export class EmployerFormModule { }

@@ -4,6 +4,8 @@ import 'rxjs/add/operator/toPromise';
 
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
+import { Document } from 'app/shared/_models/document.model';
+
 
 @Injectable()
 export class  DocumentService extends BaseHttpService {
@@ -25,5 +27,13 @@ export class  DocumentService extends BaseHttpService {
       .toPromise()
       .then(response => response as Document[])
       .catch(() => []);
+  }
+
+  downloadFile(rowID: number): Promise<string> {
+    return this.http.post(this.endPoint + '/' + rowID + '/downloadFile',
+      this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
   }
 }

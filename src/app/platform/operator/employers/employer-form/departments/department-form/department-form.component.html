@@ -44,7 +44,7 @@
           <mat-error [@fade]="bankIDWithdrawalSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
         </div>
         <div class="mx-3 bd-select-container">
-          <bd-select name="branch_id_withdrawal"  [items]="bankBranchesWithdrawal" #branchIDWithdrawalSelect="ngModel" [ngModel]="department.bank_account_withdrawal.branch_id"  placeholder="בחר סניף" required></bd-select>
+          <bd-select name="branch_id_withdrawal"  [items]="bankBranchesWithdrawal" #branchIDWithdrawalSelect="ngModel" [(ngModel)]="department.bank_account_withdrawal.branch_id"  placeholder="בחר סניף" required></bd-select>
           <mat-error [@fade]="branchIDWithdrawalSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
         </div>
         <mat-form-field>
