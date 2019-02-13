@@ -45,7 +45,9 @@ export class EmployerFormComponent implements OnInit {
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
     this.employersResolve.resolve(this.route.snapshot).then( response => {
       this.employer = response;
-      this.employerName = response.operator['first_name'] + ' ' + response.operator['last_name'];
+      if (response.operator !== null) {
+        this.employerName = response.operator['first_name'] + ' ' + response.operator['last_name'];
+      }
     });
     this.initForm();
   }

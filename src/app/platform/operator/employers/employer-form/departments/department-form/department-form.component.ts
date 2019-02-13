@@ -62,13 +62,6 @@ export class DepartmentFormComponent implements OnInit {
     }
   }
 
-  // openBankAccountDialog(): void {
-  //   this.dialog.open(BankAccountComponent, {
-  //     width: '655px',
-  //     panelClass: 'dialog-file'
-  //   });
-  // }
-
   loadBanks(): void {
     this.generalService.getBanks(true).then(banks => {
       this.banks = banks;

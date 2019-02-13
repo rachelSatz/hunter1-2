@@ -9,8 +9,6 @@ import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule,
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { DepartmentFormComponent } from './departments/department-form/department-form.component';
-
 
 const routes: Routes = [
   { path: '', component: EmployerFormComponent},
@@ -26,18 +24,19 @@ const routes: Routes = [
     ] }
   ];
 
+
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
+    MatFormFieldModule, MatInputModule,
+    MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
     BdSelectModule, MatOptionModule
   ],
   declarations: [EmployerFormComponent],
-  providers: [EmployerService, EmployersResolve, GeneralHttpService]
-
+  providers: [EmployerService, EmployersResolve, GeneralHttpService],
 })
 
 export class EmployerFormModule { }

@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-start mt-lg-5">
-  <button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת מחלקה חדשה</button>
+  <button class="btn blue-btn" (click)="addDocument()">הוספת קובץ</button>
 </div>
 <div class="w-50">
   <table class="table table-hover mt-3 data-table">
@@ -16,16 +16,17 @@
     <ng-container *ngIf="!isSearching">
       <tr *ngFor="let item of paginatedItems" class="pointer">
         <td>{{ item.name }}</td>
-        <td>{{ item.id }}</td>
+        <td>{{ item.created_at }}</td>
+        <td>{{ item.description }}</td>
         <td>
-          <i class="fa fa-download fa-lg ml-2" (click)="file(item.id, 'download')"></i>
-          <i class="fa fa-eye fa-lg" (click)="file(item.id, 'show')"></i>
-          <i class="fa fa-trash fa-lg" (click)="deleteFile(item.id, 'show')"></i>
+          <i class="fa fa-download fa-lg ml-2" (click)="file(item, 'download')"></i>
+          <i class="fa fa-eye fa-lg" (click)="file(item, 'show')"></i>
+          <i class="fa fa-trash fa-lg" (click)="deleteFile(item.id)"></i>
         </td>
       </tr>
     </ng-container>
     <tr *ngIf="!isSearching && items.length === 0">
-      <td colspan="9" class="text-center bold">טבלת מחלקות ריקה.</td>
+      <td colspan="9" class="text-center bold">טבלת מסמכים ריקה.</td>
     </tr>
     </tbody>
   </table>

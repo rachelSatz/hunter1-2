@@ -90,8 +90,6 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     return { id: e, name: CompensationSendingMethods[e] };
   });
   employers = [];
-  // employees = [];
-  // departments = [];
   companies = [];
   users = [];
   sourceTypes = Object.keys(CompensationSendingMethods).map(function(e) {
@@ -116,13 +114,15 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     { column: 'validity_status', label: 'תקינות' }
   ];
 
-  constructor(protected route: ActivatedRoute, private compensationService: CompensationService,
-              private dialog: MatDialog, private departmentService: DepartmentService,
-              private productService: ProductService, private employerService: EmployerService,
+  constructor(protected route: ActivatedRoute,
+              private compensationService: CompensationService,
+              private dialog: MatDialog,
+              private departmentService: DepartmentService,
+              private productService: ProductService,
+              private employerService: EmployerService,
               protected notificationService: NotificationService,
               private selectUnit: SelectUnitService,
-              private helpers: HelpersService
-              ) {
+              private helpers: HelpersService) {
     super(route, notificationService);
   }
 

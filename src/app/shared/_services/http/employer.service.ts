@@ -28,10 +28,10 @@ export class EmployerService extends BaseHttpService {
     .then(response => response as Employer);
   }
 
-  getEmployers(organizationId: number): Promise<Employer[]> {
+  getEmployers(searchCriteria: Object): Promise<Employer[]> {
     const request = this.getTokenHeader();
 
-    request['params'] = {organizationId: organizationId};
+    request['params'] = searchCriteria;
 
     return this.http.get(this.endPoint , request)
     .toPromise()
@@ -118,13 +118,13 @@ export class EmployerService extends BaseHttpService {
 
 
   updateFinancialDetails(id: number, financialDetails: EmployerFinancialDetails): Promise<boolean> {
-    return this.http.post(this.endPoint + '/' + id + '/saveFinanceDetails', {financialDetails: financialDetails}, this.getTokenHeader())
+    return this.http.post(this.endPoint + '/' + id + '/updateFinanceDetails', {financialDetails: financialDetails}, this.getTokenHeader())
       .toPromise()
       .then(response =>  response as boolean);
   }
 
-  saveFinancialDetails(financialDetails: EmployerFinancialDetails): Promise<boolean> {
-    return this.http.post(this.endPoint + '/saveFinanceDetails', {financialDetails: financialDetails}, this.getTokenHeader())
+  saveFinancialDetails(employerId: number, financialDetails: EmployerFinancialDetails): Promise<boolean> {
+    return this.http.post(this.endPoint + '/updateFinanceDetails', {financialDetails: financialDetails, employerId: employerId}, this.getTokenHeader())
       .toPromise()
       .then(response =>  response as boolean);
   }
