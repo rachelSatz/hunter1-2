@@ -41,4 +41,16 @@ export class  DocumentService extends BaseHttpService {
       .then(response => response)
       .catch(() => null);
   }
+
+  deleteFile(rowID: number, employerId: number): Promise<any> {
+    const options = this.getTokenHeader();
+
+    if (employerId) {
+      options['params'] = {employerId: employerId};
+    }
+    return this.http.delete(this.endPoint + '/' + rowID, options)
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
 }

@@ -34,10 +34,15 @@ readonly headers: DataTableHeader[] =  [
   ];
 
   ngOnInit() {
-    this.documentService.getDocuments(this.selectUnit.currentEmployerID)
-      .then(response => this.setItems(response));
+    this.fetchItems();
     super.ngOnInit();
   }
+
+  fetchItems() {
+    this.documentService.getDocuments(this.selectUnit.currentEmployerID)
+      .then(response => this.setItems(response));
+  }
+
 
   ngOnDestroy() {
     super.ngOnDestroy();
@@ -63,6 +68,19 @@ readonly headers: DataTableHeader[] =  [
       }else {
         type =  type === 'show' ?  'להציג' : 'להוריד';
         this.notificationService.error('', ' אין אפשרות ' + type +  ' קובץ ');
+      }
+    });
+  }
+
+  deleteFile(id: number) {
+    this.notificationService.warning('האם ברצונך למחוק את הקובץ?')
+      .then(confirmation => {
+      if (confirmation.value) {
+        this.documentService.deleteFile(id, this.selectUnit.currentEmployerID).then(response => {
+          if (response) {
+            this.fetchItems();
+          }
+        });
       }
     });
   }
