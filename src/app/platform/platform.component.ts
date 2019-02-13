@@ -52,7 +52,7 @@ export class PlatformComponent implements OnInit {
   isAgent = false;
 
   readonly agentBarEl = [
-    { id: 1, icon: 'question-circle' , label: 'תור עבודה', link: ''},
+    { id: 1, icon: 'question-circle' , label: 'תור עבודה', link: 'work-queue'},
     { id: 2, icon: 'list-ul' , label: 'משימות',    link: ''},
     { id: 3, icon: 'users' ,   label: 'מעסיקים',   link: 'employers'},
     { id: 4, icon: 'file' ,    label: 'מסמכים',    link: ''},
