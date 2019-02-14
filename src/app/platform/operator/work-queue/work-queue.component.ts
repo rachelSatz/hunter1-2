@@ -12,7 +12,9 @@ export class WorkQueueComponent implements OnInit {
     {label: 'משימות מערכת', link: 'system-tasks'},
     {label: 'שיחת טלפון', link: 'phone-call'},
     {label: 'מיילים',   link: 'emails'},
-    {label: 'תפעול שוטף', link: 'ongoing-operation'}
+    {label: 'תפעול שוטף', link: 'ongoing-operation'},
+    {label: 'הדרכה', link: 'guidance'},
+    {label: 'הפסקה', link: 'interruption'}
   ];
 
   constructor() { }

@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ongoing-operation.component.css']
 })
 export class OngoingOperationComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {

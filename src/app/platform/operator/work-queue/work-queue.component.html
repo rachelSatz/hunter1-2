@@ -1,11 +1,19 @@
-<nav mat-tab-nav-bar>
-  <a mat-tab-link
-     *ngFor="let link of headers"
-     [routerLink]="link.link"
-     routerLinkActive #rla="routerLinkActive"
-     [active]="rla.isActive">
-    {{link.label}}
-  </a>
-</nav>
+<!--<nav mat-tab-nav-bar>-->
+  <!--<a mat-tab-link-->
+     <!--*ngFor="let link of headers"-->
+     <!--[routerLink]="link.link"-->
+     <!--routerLinkActive #rla="routerLinkActive"-->
+     <!--[active]="rla.isActive">-->
+    <!--{{link.label}}-->
+  <!--</a>-->
+<!--</nav>-->
 
+<!--<router-outlet></router-outlet>-->
+
+<div>
+  <div class="d-flex header-border mt-5 pt-5 text-center" id="headers">
+    <span id="headers2" *ngFor="let header of headers" routerLinkActive="active"
+          [routerLink]="[header.link]">{{header.label}}</span>
+  </div>
+</div>
 <router-outlet></router-outlet>

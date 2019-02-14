@@ -38,7 +38,6 @@ const routes: Routes = [
       { path: 'operator/work-queue', loadChildren: 'app/platform/operator/work-queue/work-queue.module#WorkQueueModule'}
       // { path: 'operator/employers/contacts', loadChildren: 'app/platform/operator/' +
       //     'employers/employer-form/contacts/contacts.component#ContactsModule' }
-
     ]
   }
 ];

@@ -1,0 +1,19 @@
+#aaa {
+  width: 710px;
+  height: 360px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: none;
+  box-shadow: 0px 0px 2px #aaaaaa;
+  margin:60px 110px;
+}
+
+.header-title {
+  font-weight: bold;
+  font-size: 20px;
+  margin: 20px 110px;
+}
+
