@@ -4,11 +4,13 @@ import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { isNumber } from 'util';
 
+import { PlatformComponent } from 'app/platform/platform.component';
+
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+
 import { Employer } from 'app/shared/_models/employer.model';
-import { PlatformComponent } from 'app/platform/platform.component';
 
 
 @Component({
@@ -31,24 +33,18 @@ import { PlatformComponent } from 'app/platform/platform.component';
   ]
 })
 export class EmployerFormComponent implements OnInit {
+
   hasServerError: boolean;
   employer = new Employer();
-
   banks = [];
-  bankBranches = [];
-
   employerForm: FormGroup;
   message: string;
 
   @ViewChild('form') form: NgForm;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private employerService: EmployerService,
-              private generalService: GeneralHttpService,
-              private fb: FormBuilder,
-              private selectUnit: SelectUnitService,
-              private  platformComponent: PlatformComponent) {}
+              private router: Router, private employerService: EmployerService, private generalService: GeneralHttpService,
+              private fb: FormBuilder, private selectUnit: SelectUnitService, private  platformComponent: PlatformComponent) {}
 
   ngOnInit() {
     this.loadBanks();
@@ -93,7 +89,6 @@ export class EmployerFormComponent implements OnInit {
   }
 
   addBank(account?: Object): void {
-    console.log(account);
     const bankControl = {
       'id': [account  ? account['id'] : null],
       'is_primary': [account  ? +account['is_primary'] : false],
@@ -139,9 +134,6 @@ export class EmployerFormComponent implements OnInit {
         account['controls']['is_primary'].reset();
       }
     });
-
-
-    console.log(this.employerForm.value);
   }
 
   getArrControls(): any[] {
@@ -167,7 +159,7 @@ export class EmployerFormComponent implements OnInit {
     if (message) {
       this.platformComponent.getOrganizations(true, true);
       this.handleResponse(response);
-    }else {
+    } else {
       this.message = 'ח.פ קיים לארגון זה.' ;
       this.hasServerError = true;
     }
@@ -202,7 +194,6 @@ export class EmployerFormComponent implements OnInit {
     if (!options || options.touch !== false) {
       isTriggered = (isTriggered || control.touched);
     }
-
     return (hasErrors && isTriggered);
   }
 }

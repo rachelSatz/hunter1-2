@@ -11,6 +11,7 @@ import { ContactService } from 'app/shared/_services/http/contact.service';
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
+  styles: ['.operator-container {margin-right: 60px}'],
   animations: [
     trigger('fade', [
       state('inactive', style({
@@ -28,6 +29,7 @@ import { ContactService } from 'app/shared/_services/http/contact.service';
 })
 export class ContactFormComponent implements OnInit {
 
+  pathEmployers = false;
   contact = new Contact();
   hasServerError: boolean;
   entities = [];
@@ -42,6 +44,9 @@ export class ContactFormComponent implements OnInit {
                private contactService: ContactService) {}
 
   ngOnInit() {
+    if (this.router.url.split('/')[3] === 'employers') {
+      this.pathEmployers = true;
+    }
     if (this.route.snapshot.data.contact) {
       this.contact = this.route.snapshot.data.contact;
     }

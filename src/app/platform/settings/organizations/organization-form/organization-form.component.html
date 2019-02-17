@@ -1,12 +1,14 @@
-<form #form="ngForm" (ngSubmit)="submit(form)">
-  <p class="h4 mb-4">יצירת ארגון חדש</p>
-  <div class="row col-12 mb-4">
-    <mat-form-field class="col-12 col-lg-4">
-      <input matInput placeholder="שם ארגון" name="name" [ngModel]="organization.name" required>
-      <mat-error>שדה חובה.</mat-error>
-    </mat-form-field>
-  </div>
-  <div>
-    <button class="btn blue-btn" type="submit">שלח</button>
-  </div>
-</form>
+<div class="mr-5 px-4">
+  <form #form="ngForm" (ngSubmit)="submit(form)">
+    <p class="h4 mb-4">יצירת ארגון חדש</p>
+    <div class="row col-12 mb-4">
+      <mat-form-field class="col-12 col-lg-4">
+        <input matInput placeholder="שם ארגון" name="name" [ngModel]="organization.name" required>
+        <mat-error>שדה חובה.</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <button class="btn blue-btn" type="submit">שלח</button>
+    </div>
+  </form>
+</div>

@@ -18,12 +18,13 @@ export class EmployerFormComponent implements OnInit {
 
   employerForm: FormGroup;
   employer: Employer;
+  operators = [];
   operator: string;
   operatorId;
-  saveChanges = false;
   projects = [];
-  operators = [];
+  project = {id: null, name: null};
   status: object;
+  saveChanges = false;
 
   headers = [
     {label: 'הערות',    link: 'comments'   },
@@ -50,17 +51,23 @@ export class EmployerFormComponent implements OnInit {
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
     this.employersResolve.resolve(this.route.snapshot).then( response => {
       this.employer = response;
-      this.getStatus();
+      this.setStatus();
       if (response.operator !== null) {
         this.operatorId = response.operator.id;
       }
+      this.project.name = response.project_id;
+      this.project.name = response.project_name;
     });
-    this.employerService.getProjects().then(response => this.projects = response);
+    this.employerService.getProjects().then(response => {
+      this.projects = response;
+    });
     this.employerService.getOperator(this.selectUnit.currentEmployerID).then(response => {
       this.operators = response;
-      this.getOperator();
+      // this.setValue('operators', this.operatorId, 'operator');
+      this.setOperator();
     });
     this.initForm();
+    this.router.navigate(['comments'], {relativeTo: this.route}).then();
   }
 
   initForm(): void {
@@ -78,15 +85,16 @@ export class EmployerFormComponent implements OnInit {
     ;
   }
 
-  getOperator() {
+  setOperator() {
     for (let i = 0; i < this.operators.length; i++) {
       if (this.operators[i].id === this.operatorId) {
         this.operator = this.operators[i];
+        console.log(this.operator);
       }
     }
   }
 
-  getStatus() {
+  setStatus() {
     for (let i = 0; i < this.statuses.length; i++) {
       if (this.statuses[i].id === this.employer.status) {
         this.status = this.statuses[i];
@@ -94,8 +102,16 @@ export class EmployerFormComponent implements OnInit {
     }
   }
 
-  submit(valid) {
-    console.log(valid);
+  // setValue(array, id, item) {
+  //   for (let i = 0; i < array.length; i++) {
+  //     if (this[array][i].id === id) {
+  //       this[item] = this[array][i];
+  //     }
+  //   }
+  // }
+
+  submit(form) {
+    console.log(form.value);
   }
 
 }

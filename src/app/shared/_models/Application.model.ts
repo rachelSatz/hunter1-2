@@ -1,11 +1,11 @@
-import { Contact } from "./contact.model";
+import { Contact } from './contact.model';
 
 export class Application {
   id: number;
   Comments: string;
   SentToManufacturer: boolean;
   UpdatedAt: string;
-  contacts:Contact[]
+  contacts: Contact[]
   constructor() {
     this.contacts = [];
   }

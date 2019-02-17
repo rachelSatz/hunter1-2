@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { WorkQueueComponent } from './work-queue.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule, MatInputModule, MatOptionModule,
-          MatRadioModule, MatSelectModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule,
+        MatInputModule, MatOptionModule, MatRadioModule, MatSelectModule } from '@angular/material';
 import { MatTabsModule } from '@angular/material/tabs';
-
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 
 import {EmployerFormComponent} from '../employers/employer-form/employer-form.component';

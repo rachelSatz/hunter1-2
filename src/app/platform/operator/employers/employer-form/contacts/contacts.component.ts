@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
@@ -10,12 +10,14 @@ import { EntityTypes } from 'app/shared/_models/contact.model';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
-  styles: ['.row-image { width: 30px; height: auto; }' ]
+  styles: ['.row-image { width: 30px; height: auto;} .operator-container {margin-right: 60px} ']
 })
 export class ContactsComponent extends DataTableComponent implements OnInit , OnDestroy {
 
+  pathEmployers = false;
+
   constructor(route: ActivatedRoute,
-              private contactService: ContactService,
+              private contactService: ContactService, private router: Router,
               private selectUnit: SelectUnitService) {
     super(route);
     this.paginationData.limit = 5;
@@ -33,6 +35,9 @@ export class ContactsComponent extends DataTableComponent implements OnInit , On
 
 
   ngOnInit() {
+    if (this.router.url.split('/')[3] === 'employers') {
+      this.pathEmployers = true;
+    }
     this.contactService.getContacts(0, this.selectUnit.currentEmployerID)
       .then(response => this.setItems(response));
     super.ngOnInit();

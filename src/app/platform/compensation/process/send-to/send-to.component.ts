@@ -1,19 +1,18 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, NgForm} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocompleteSelectedEvent,
-  MatAutocomplete} from '@angular/material';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { FormControl, NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { map, startWith } from 'rxjs/operators';
+import {MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef,
+        MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 
 import { Compensation } from 'app/shared/_models/compensation.model';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
 
 export interface Contact {
   id: number;
@@ -101,7 +100,6 @@ export class SendToComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
     const validEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     // Add our fruit
     if ((value || '').trim()) {

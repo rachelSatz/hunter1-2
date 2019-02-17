@@ -50,6 +50,7 @@ bd-select {
 }
 
 .agentBar {
+  z-index: 9999;
   height: 100%;
   position: fixed;
   background-color: #3D4252;
@@ -60,6 +61,7 @@ bd-select {
 
 
 .closedAgentBar {
+  z-index: 9999;
   height: 100%;
   text-align: center;
   position: fixed;

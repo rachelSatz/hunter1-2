@@ -1,45 +1,46 @@
-<div class="d-flex w-75">
-  <div class="p-2 mt-3 mr-3 w-50">
-    <button (click)="createTask()" class="btn blue-btn text-center">
-      הוספת משימה
-    </button>
+<div [ngClass]="{'operator-container': !pathEmployers }">
+  <div class="d-flex w-75">
+    <div class="p-2 mt-3 mr-3 w-50">
+      <button (click)="createTask()" class="btn blue-btn text-center">
+        הוספת משימה
+      </button>
+    </div>
+    <mat-form-field class="ml-3 mt-3">
+      <input matInput placeholder="חפש" [(ngModel)]="searchCriteria['task']" (change)="search()">
+      <i matSuffix class="fa fa-search"></i>
+    </mat-form-field>
   </div>
-  <mat-form-field class="ml-3 mt-3">
-    <input matInput placeholder="חפש" [(ngModel)]="searchCriteria['task']" (change)="search()">
-    <i matSuffix class="fa fa-search"></i>
-  </mat-form-field>
-</div>
-<div class="w-50">
-  <table class="table table-hover mt-3 data-table">
-    <thead>
-    <tr class="table-headers">
-      <th *ngFor="let header of headers" (click)="sort(header)">
-        <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
-        <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
-      </th>
-    </tr>
-    </thead>
-    <tbody>
-    <ng-container *ngIf="!isSearching">
-      <tr *ngFor="let item of paginatedItems" class="pointer">
-        <td>{{ item.type }}</td>
-        <td>{{ item.first_name + ' ' + item.last_name}}</td>
-        <td>{{ item.phone }}</td>
-        <td>{{ item.mobile }}</td>
-        <td>{{ item.email }}</td>
-        <td>
-          <span></span>
-          <img src="/assets/img/icons/check.svg" [routerLink]="['./', 'form', item.id]" class="row-image">
-          <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
-          <i class="fa fa-file"></i>
-        </td>
+  <div class="w-50">
+    <table class="table table-hover mt-3 data-table">
+      <thead>
+      <tr class="table-headers">
+        <th *ngFor="let header of headers" (click)="sort(header)">
+          <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
+          <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
+        </th>
       </tr>
-    </ng-container>
-    <tr *ngIf="!isSearching && items.length === 0">
-      <td colspan="7" class="text-center bold">טבלת משימות ריקה.</td>
-    </tr>
-    </tbody>
-  </table>
-  <!--<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>-->
+      </thead>
+      <tbody>
+      <ng-container *ngIf="!isSearching">
+        <tr *ngFor="let item of paginatedItems" class="pointer">
+          <td>{{ item.type }}</td>
+          <td>{{ item.first_name + ' ' + item.last_name}}</td>
+          <td>{{ item.phone }}</td>
+          <td>{{ item.mobile }}</td>
+          <td>{{ item.email }}</td>
+          <td>
+            <span></span>
+            <img src="/assets/img/icons/check.svg" [routerLink]="['./', 'form', item.id]" class="row-image">
+            <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+            <i class="fa fa-file"></i>
+          </td>
+        </tr>
+      </ng-container>
+      <tr *ngIf="!isSearching && items.length === 0">
+        <td colspan="7" class="text-center bold">טבלת משימות ריקה.</td>
+      </tr>
+      </tbody>
+    </table>
+    <!--<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>-->
+  </div>
 </div>
-

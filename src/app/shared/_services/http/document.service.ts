@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { Document } from 'app/shared/_models/document.model';
+import {Process} from '../../_models/process.model';
 
 
 @Injectable()
@@ -51,6 +52,15 @@ export class  DocumentService extends BaseHttpService {
     return this.http.delete(this.endPoint + '/' + rowID, options)
       .toPromise()
       .then(response => response)
+      .catch(() => null);
+  }
+
+  uploadFile(employerId, description: string, file: File) {
+    const data = new FormData();
+    data.append('file', file);
+    data.append('description', description);
+    data.append('employerId', employerId);
+    return this.http.post(this.endPoint , data, this.getTokenHeader()).toPromise().then(response => response)
       .catch(() => null);
   }
 }

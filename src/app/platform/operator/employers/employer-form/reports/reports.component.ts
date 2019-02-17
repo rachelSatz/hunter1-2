@@ -8,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class ReportsComponent implements OnInit {
 
   month = [];
+  files = false;
+  records = false;
+  sendToEmployer = 15;
+  broadcastToCashBox = 15;
 
   constructor() { }
 
@@ -15,5 +19,9 @@ export class ReportsComponent implements OnInit {
     for (let i = 0; i < 31; i++) {
       this.month[i] = i + 1;
     }
+  }
+
+  submit(form) {
+    console.log(form.value);
   }
 }

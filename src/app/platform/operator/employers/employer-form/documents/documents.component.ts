@@ -3,12 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import * as FileSaver from 'file-saver';
 import { MatDialog } from '@angular/material';
 
+import { AddDocumentComponent } from './add-document/add-document.component';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
+
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { AddDocumentComponent } from './add-document/add-document.component';
 
 @Component({
   selector: 'app-documents',
@@ -18,19 +19,16 @@ import { AddDocumentComponent } from './add-document/add-document.component';
 export class DocumentsComponent extends DataTableComponent implements OnInit , OnDestroy {
 
 
-  constructor(route: ActivatedRoute,
-    private documentService: DocumentService,
-    private selectUnit: SelectUnitService,
-    protected notificationService: NotificationService,
-    private dialog: MatDialog) {
+  constructor(route: ActivatedRoute, private documentService: DocumentService, private selectUnit: SelectUnitService,
+    protected notificationService: NotificationService, private dialog: MatDialog) {
     super(route, notificationService);
     this.paginationData.limit = 5;
   }
 
 readonly headers: DataTableHeader[] =  [
-    { column: 'filename', label: 'שם הקובץ' },
-    { column: 'date', label: 'תאריך העלאה' },
-    { column: 'description', label: 'סוג' },
+    { column: 'filename',     label: 'שם הקובץ' },
+    { column: 'date',         label: 'תאריך העלאה' },
+    { column: 'description',  label: 'סוג' },
   ];
 
   ngOnInit() {
@@ -87,8 +85,9 @@ readonly headers: DataTableHeader[] =  [
 
   addDocument() {
     this.dialog.open(AddDocumentComponent, {
-      width: '550px',
-      panelClass: 'send-email-dialog'
+      width: '400px',
+      height: '500px'
     });
   }
+
 }

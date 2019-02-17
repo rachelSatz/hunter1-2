@@ -1,7 +1,7 @@
 <div class="mr-5 px-4">
   <p class="h4 mb-4">טבלת מעסיקים</p>
   <div class="bold pointer py-4" >
-    <span [routerLink]="['./', 'new']"> <i class="fa fa-plus px-2"></i>הקמת מעסיק</span>
+    <span class="blue-color" [routerLink]="['./', 'new']"> <i class="fa fa-plus px-2"></i>הקמת מעסיק</span>
   </div>
   <mat-form-field class="ml-3">
     <input matInput placeholder="חפש" [(ngModel)]="searchCriteria['employer']" (change)="search()">

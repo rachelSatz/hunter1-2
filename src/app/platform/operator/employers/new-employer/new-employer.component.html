@@ -91,43 +91,31 @@
           </mat-form-field>
         </div>
       </div>
-        <div class="mt-5" formGroupName="payingBank">
-          <p class="bold">חשבון בנק משלם</p>
-          <mat-form-field>
-            <mat-select matInput placeholder="בחר בנק" formControlName="name" required>
-              <mat-option *ngFor="let bank of banks; let index = index" [value]="bank.id" (onSelectionChange)="getBranches(index, 1)">
-                {{bank.name}}
-              </mat-option>
-            </mat-select>
-            <mat-error>שדה חובה</mat-error>
-          </mat-form-field>
-          <mat-form-field class="mr-5">
-            <mat-select matInput placeholder="בחר סניף" formControlName="branch" required>
-              <mat-option *ngFor="let branch of branches1" [value]="branch.id">{{branch.name}}</mat-option>
-            </mat-select>
-            <mat-error>שדה חובה</mat-error>
-          </mat-form-field>
+    <p class="bold mt-5">חשבון בנק משלם</p>
+    <div class="d-flex" formGroupName="payingBank">
+          <div class="bd-width">
+            <bd-select  [items]="banks" formControlName="name" required [(ngModel)]="selectedBank1" placeholder="בחר בנק" (onSelect)="getBranches(1)"></bd-select>
+            <mat-error class="f-12" [@fade]="!selectedBank1 && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+          </div>
+          <div class="bd-width mr-5">
+            <bd-select [items]="branches1" formControlName="branch" [(ngModel)]="selectedBranch1"  placeholder="בחר סניף" required></bd-select>
+            <mat-error class="f-12" [@fade]="!selectedBranch1 && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+          </div>
           <mat-form-field class="mr-5">
             <input matInput placeholder="מספר חשבון" formControlName="number" required maxlength="8">
             <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
           </mat-form-field>
         </div>
-        <div class="mt-5" formGroupName="receivingBank">
-          <p class="bold">חשבון להחזר כספים</p>
-          <mat-form-field>
-            <mat-select matInput placeholder="בחר בנק" formControlName="name" required>
-              <mat-option *ngFor="let bank of banks; let index = index" [value]="bank.id" (onSelectionChange)="getBranches(index, 2)">
-                {{bank.name}}
-              </mat-option>
-            </mat-select>
-            <mat-error>שדה חובה</mat-error>
-          </mat-form-field>
-          <mat-form-field class="mr-5">
-            <mat-select matInput placeholder="בחר סניף" formControlName="branch" required>
-              <mat-option *ngFor="let branch of branches2" [value]="branch.id">{{branch.name}}</mat-option>
-            </mat-select>
-            <mat-error>שדה חובה</mat-error>
-          </mat-form-field>
+    <p class="bold mt-5">חשבון להחזר כספים</p>
+    <div class="d-flex" formGroupName="receivingBank">
+          <div class="bd-width">
+             <bd-select [items]="banks" formControlName="name" [(ngModel)]="selectedBank2" placeholder="בחר בנק" (onSelect)="getBranches(2)" required></bd-select>
+            <mat-error class="f-12" [@fade]="!selectedBank2 && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+          </div>
+          <div class="bd-width mr-5">
+            <bd-select [items]="branches2" formControlName="branch"  [(ngModel)]="selectedBranch2" placeholder="בחר סניף" required></bd-select>
+            <mat-error class="f-12" [@fade]="!selectedBranch2 && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+          </div>
           <mat-form-field class="mr-5">
             <input matInput placeholder="מספר חשבון" formControlName="number" required maxlength="8">
             <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
@@ -137,6 +125,7 @@
       <input matInput placeholder="הוספת הערות" formControlName="comments">
     </mat-form-field>
     <div class="mt-3 pb-3">
+      <p class="alert alert-danger w-50" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
       <button type="submit" class="btn blue-btn">שמור</button>
     </div>
   </form>

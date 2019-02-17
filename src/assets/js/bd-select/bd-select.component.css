@@ -88,3 +88,8 @@
   background-color: #5897fb;
   color: #fff;
 }
+
+.required > #selectedItem {
+  color: red;
+  border-bottom: 1px solid red;
+}
