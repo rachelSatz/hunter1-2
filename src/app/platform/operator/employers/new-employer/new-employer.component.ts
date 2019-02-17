@@ -1,23 +1,44 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-new-employer',
   templateUrl: './new-employer.component.html',
   styleUrls: ['./new-employer.component.css'],
+  animations: [
+    trigger('fade', [
+      state('inactive', style({
+        display: 'none',
+        opacity: '0'
+      })),
+      state('active', style({
+        display: 'block',
+        opacity: '1'
+      })),
+      transition('active => inactive', animate('300ms ease-in')),
+      transition('inactive => active', animate('300ms ease-in'))
+    ]),
+  ]
 })
 export class NewEmployerComponent implements OnInit {
 
   banks = [];
+  selectedBank1: number;
+  selectedBank2: number;
   operators;
   projects = [];
   organizations = [];
   branches1;
   branches2;
+  selectedBranch1;
+  selectedBranch2;
   newEmployerForm: FormGroup;
   hasServerError = false;
   statuses = [
@@ -27,8 +48,9 @@ export class NewEmployerComponent implements OnInit {
   ];
 
 
-  constructor(private fb: FormBuilder, private generalHttpService: GeneralHttpService,
-              private organizationService: OrganizationService, private employerService: EmployerService) { }
+  constructor(private fb: FormBuilder, private generalHttpService: GeneralHttpService, private router: Router,
+              private organizationService: OrganizationService, private employerService: EmployerService,
+              private helpers: HelpersService) { }
 
   ngOnInit() {
     this.initForm();
@@ -80,11 +102,12 @@ export class NewEmployerComponent implements OnInit {
     );
   }
 
-  getBranches(index, bank) {
+  getBranches(bank) {
     if (bank === 1) {
-      this.branches1 = this.banks[index].bank_branches;
+      console.log(this.banks[this.selectedBank1])
+      this.branches1 = this.banks[this.selectedBank1].bank_branches;
     } else {
-      this.branches2 = this.banks[index].bank_branches;
+      this.branches2 = this.banks[this.selectedBank2].bank_branches;
     }
   }
 
@@ -95,11 +118,18 @@ export class NewEmployerComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
-    this.submitFormGroup(this.newEmployerForm.controls['employerDetails']);
-    this.submitFormGroup(this.newEmployerForm.controls['department']);
-    this.submitFormGroup(this.newEmployerForm.controls['payingBank']);
-    this.submitFormGroup(this.newEmployerForm.controls['receivingBank']);
-    const fixed = JSON.stringify(form.value);
+    console.log(this.newEmployerForm.value)
+    // this.helpers.setPageSpinner(true);
+    // if (this.newEmployerForm.valid) {
+    //   this.hasServerError = true;
+    //   this.submitFormGroup(this.newEmployerForm.controls['employerDetails']);
+    //   this.submitFormGroup(this.newEmployerForm.controls['department']);
+    //   this.submitFormGroup(this.newEmployerForm.controls['payingBank']);
+    //   this.submitFormGroup(this.newEmployerForm.controls['receivingBank']);
+    //   this.router.navigate(['/platform', 'employers']).then();
+    // }
+    //
+
   }
 
 

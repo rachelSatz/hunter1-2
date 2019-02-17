@@ -27,6 +27,7 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { DepositsReportService } from 'app/shared/_services/http/deposits-report.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { FormComponent } from './form/form.component';
+import { AddFileComponent } from './add-file/add-file.component';
 
 
 const routes: Routes = [
@@ -46,7 +47,7 @@ const routes: Routes = [
     DataTableModule,
     PipesModule
   ],
-  declarations: [DepositsReportComponent, FormComponent],
+  declarations: [DepositsReportComponent, FormComponent, AddFileComponent],
   providers: [ DepartmentService, ProductService, NotificationService, ContactService, EmployerService,
     FilterItemsPipe, GeneralHttpService, DepositsReportService],
   entryComponents: [FormComponent]

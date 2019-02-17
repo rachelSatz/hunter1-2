@@ -1,7 +1,7 @@
 <div class="mr-5 px-4" *ngIf="employer">
   <p class="h5 bold py-3">כרטיס מעסיק</p>
   <div class="d-flex mt-5">
-    <form #form="ngForm" (ngSubmit)="submit(form.valid)"  [formGroup]="employerForm">
+    <form #form="ngForm" (ngSubmit)="submit(form)"  [formGroup]="employerForm">
   <div class="w-50 d-flex">
     <div class="mb-3">
       <mat-form-field>
@@ -26,13 +26,10 @@
           <input matInput type="text" placeholder="כתובת" [(ngModel)]="employer.address" (change)="saveChanges = true" formControlName="address">
         </mat-form-field>
         <mat-form-field class="mr-3">
-          <mat-select matInput placeholder="פרוייקט" (change)="saveChanges = true" formControlName="project">
-            <mat-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</mat-option>
+          <mat-select matInput placeholder="פרוייקט" [(ngModel)]="project.name" (selectionChange)="saveChanges = true" formControlName="project">
+            <mat-option *ngFor="let project of projects" [value]="project.name">{{project.name}}</mat-option>
           </mat-select>
         </mat-form-field>
-
-
-
         <mat-form-field class="mr-3" *ngIf="operator">
           <mat-select matInput placeholder="מנהל תיק"  [(ngModel)]="operator.name" (selectionChange)="saveChanges = true"
                       formControlName="operator">
@@ -40,9 +37,6 @@
               {{operator.name}}</mat-option>
           </mat-select>
         </mat-form-field>
-
-
-
         <mat-form-field class="mr-3">
           <mat-select placeholder="סטטוס"  [(ngModel)]="status.name" formControlName="status" (selectionChange)="saveChanges = true">
             <mat-option *ngFor="let status of statuses" [value]="status.name">

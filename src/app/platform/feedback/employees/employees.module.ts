@@ -19,7 +19,6 @@ import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
-import {InquiriesComponent} from '../shared/inquiries/inquiries.component';
 
 const routes: Routes = [{
   path: '', component: EmployeesComponent
@@ -39,8 +38,8 @@ const routes: Routes = [{
     MatCheckboxModule, MatAutocompleteModule,
   ],
   exports: [],
-  declarations: [EmployeesComponent, SendApplicationComponent, InquiriesComponent],
-  entryComponents: [SendApplicationComponent, InquiriesComponent],
+  declarations: [EmployeesComponent, SendApplicationComponent],
+  entryComponents: [SendApplicationComponent],
   providers: [NotificationService, FeedbackService, ContactService, HelpersService, GeneralHttpService],
 })
 export class EmployeesModule { }

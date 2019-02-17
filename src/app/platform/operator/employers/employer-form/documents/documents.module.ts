@@ -6,18 +6,19 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DocumentService } from 'app/shared/_services/http/document.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { AddDocumentComponent } from './add-document/add-document.component';
+import { MatDialogModule } from '@angular/material';
 
-const routes: Routes = [{path: '', component: DocumentsComponent }]
+const routes: Routes = [{path: '', component: DocumentsComponent }];
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    DataTableModule
+    DataTableModule, MatDialogModule
   ],
   declarations: [DocumentsComponent, AddDocumentComponent],
-  providers: [DocumentService, NotificationService],
-  entryComponents: [AddDocumentComponent]
+  entryComponents: [AddDocumentComponent],
+  providers: [DocumentService, NotificationService]
 
 })
 export class DocumentsModule {

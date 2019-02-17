@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
 import { UserSessionService } from '../shared/_services/user-session.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-platform',
@@ -52,12 +53,14 @@ export class PlatformComponent implements OnInit {
   isAgent = false;
 
   readonly agentBarEl = [
-    { id: 1, icon: 'question-circle' , label: 'תור עבודה', link: 'work-queue'},
-    { id: 2, icon: 'list-ul' , label: 'משימות',    link: ''},
-    { id: 3, icon: 'users' ,   label: 'מעסיקים',   link: 'employers'},
-    { id: 4, icon: 'file' ,    label: 'מסמכים',    link: ''},
-    { id: 5, icon: 'user' ,    label: 'אנשי קשר',  link: ''},
-    { id: 6, icon: 'bell' ,    label: 'התראות',    link: ''}
+    { id: 1, icon: 'building' ,        label: 'ארגונים',   link: 'organizations'},
+    { id: 2, icon: 'question-circle' , label: 'תור עבודה', link: 'work-queue'},
+    { id: 3, icon: 'list-ul' ,         label: 'משימות',    link: 'tasks'},
+    { id: 4, icon: 'user' ,            label: 'מעסיקים',   link: 'employers'},
+    { id: 5, icon: 'users' ,           label: 'משתמשים',   link: 'users'},
+    { id: 6, icon: 'file' ,            label: 'מסמכים',    link: ''},
+    { id: 7, icon: 'user' ,            label: 'אנשי קשר',  link: 'contacts'},
+    { id: 8, icon: 'bell' ,            label: 'התראות',    link: ''}
     ];
 
   readonly menuLinks = [
@@ -84,12 +87,8 @@ export class PlatformComponent implements OnInit {
       { url: 'invoices', label: 'חשבונות חייבים' }
     ]},
     { url: 'settings', label: 'הגדרות', subMenuLinks: [
-      // { url: 'employees', label: 'עובדים' },
-      { url: 'organizations', label: 'ארגונים' },
       { url: 'employers', label: 'מעסיקים' },
-      // { url: 'agents', label: 'סוכנים' },
       { url: 'contacts', label: 'אנשי קשר' },
-      { url: 'users', label: 'משתמשים' }
       ]},
   ];
 
@@ -131,9 +130,7 @@ export class PlatformComponent implements OnInit {
   }
 
   private setActiveUrl(url: string): void {
-      this.activeUrl = url.substr(10).indexOf('/') !== -1 ? url.substr(10, url.substr(10).indexOf('/')) :
-        this.activeUrl = url.substr(10);
-
+    this.activeUrl = url.split('/')[2];
   }
 
   getImage(link: Object): string {
@@ -192,6 +189,7 @@ export class PlatformComponent implements OnInit {
   navigate(link, subLink) {
     if ( subLink === 'employers' ||  subLink === 'contacts') {
      this.router.navigate(['/platform', subLink]);
+      this.activeUrl = 'settings';
       return;
     } else {
       if (subLink === 'new/0') {
