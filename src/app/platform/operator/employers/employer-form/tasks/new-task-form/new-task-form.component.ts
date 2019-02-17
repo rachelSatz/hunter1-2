@@ -1,6 +1,9 @@
 import { Component,  OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 
+import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+
 @Component({
   selector: 'app-new-task-form',
   templateUrl: './new-task-form.component.html',
@@ -11,18 +14,18 @@ export class NewTaskFormComponent implements OnInit {
   stage = 1;
   curDate;
   employee;
-  executive;
-  executives = [
-    {name: 'tim', id: 1},
-    {name: 'bock', id: 2},
-    {name: 'choi', id: 3}
-    ];
+  operator;
+  operators = [];
+  employees = [];
 
-  constructor( public dialogRef: MatDialogRef<NewTaskFormComponent>) { }
+  constructor( public dialogRef: MatDialogRef<NewTaskFormComponent>, private employerService: EmployerService,
+               private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
     this.curDate = new Date();
-    console.log(this.curDate);
+    this.employerService.getOperator(this.selectUnit.currentEmployerID).then(response => {
+      this.operators = response;
+    });
   }
 
 

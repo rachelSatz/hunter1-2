@@ -94,12 +94,10 @@
     <p class="bold mt-5">חשבון בנק משלם</p>
     <div class="d-flex" formGroupName="payingBank">
           <div class="bd-width">
-            <bd-select  [items]="banks" formControlName="name" required [(ngModel)]="selectedBank1" placeholder="בחר בנק" (onSelect)="getBranches(1)"></bd-select>
-            <mat-error class="f-12" [@fade]="!selectedBank1 && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+            <bd-select  [items]="banks" formControlName="name" required [(ngModel)]="selectedBank1"  placeholder="בחר בנק" (onSelect)="getBranches(1)" [error]="!selectedBank1 && form.submitted"></bd-select>
           </div>
           <div class="bd-width mr-5">
-            <bd-select [items]="branches1" formControlName="branch" [(ngModel)]="selectedBranch1"  placeholder="בחר סניף" required></bd-select>
-            <mat-error class="f-12" [@fade]="!selectedBranch1 && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+            <bd-select [items]="branches1" formControlName="branch" [(ngModel)]="selectedBranch1"  placeholder="בחר סניף" [error]="!selectedBranch1 && form.submitted"></bd-select>
           </div>
           <mat-form-field class="mr-5">
             <input matInput placeholder="מספר חשבון" formControlName="number" required maxlength="8">
@@ -109,12 +107,10 @@
     <p class="bold mt-5">חשבון להחזר כספים</p>
     <div class="d-flex" formGroupName="receivingBank">
           <div class="bd-width">
-             <bd-select [items]="banks" formControlName="name" [(ngModel)]="selectedBank2" placeholder="בחר בנק" (onSelect)="getBranches(2)" required></bd-select>
-            <mat-error class="f-12" [@fade]="!selectedBank2 && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+             <bd-select [items]="banks" formControlName="name" [(ngModel)]="selectedBank2" placeholder="בחר בנק" (onSelect)="getBranches(2)" required [error]="!selectedBank2 && form.submitted"></bd-select>
           </div>
           <div class="bd-width mr-5">
-            <bd-select [items]="branches2" formControlName="branch"  [(ngModel)]="selectedBranch2" placeholder="בחר סניף" required></bd-select>
-            <mat-error class="f-12" [@fade]="!selectedBranch2 && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+            <bd-select [items]="branches2" formControlName="branch"  [(ngModel)]="selectedBranch2" placeholder="בחר סניף" required [error]="!selectedBranch2 && form.submitted"></bd-select>
           </div>
           <mat-form-field class="mr-5">
             <input matInput placeholder="מספר חשבון" formControlName="number" required maxlength="8">

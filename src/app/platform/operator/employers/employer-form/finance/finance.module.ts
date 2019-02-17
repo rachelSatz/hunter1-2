@@ -12,7 +12,7 @@ import {
   MatSelectModule
 } from '@angular/material';
 import {MatDividerModule} from '@angular/material/divider';
-import { BdSelectModule } from '../../../../../../assets/js/bd-select/bd-select.module';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 
 const routes: Routes = [{ path: '', component: FinanceComponent }];

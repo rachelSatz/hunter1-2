@@ -89,7 +89,13 @@
   color: #fff;
 }
 
-.required > #selectedItem {
+.error > #selectedItem {
   color: red;
   border-bottom: 1px solid red;
+}
+
+#hasError {
+  color: red;
+  font-size: 12px;
+  margin-top: 0.25rem !important;
 }

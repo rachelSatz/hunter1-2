@@ -9,8 +9,7 @@
     <br>
     <div>
       <div class="row">
-          <bd-select  class="col-6" [ngModel]="groupId" name="groupId" #groupIdSelect="ngModel" value="group_id" [items]="data.groups"  placeholder="בחר קבוצה" required></bd-select>
-          <p class="alert red-color col-6" [@fade]="groupIdSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+          <bd-select  class="col-6" [ngModel]="groupId" name="groupId" #groupIdSelect="ngModel" value="group_id" [items]="data.groups"  placeholder="בחר קבוצה" required [error]="groupIdSelect.errors && form.submitted"></bd-select>
       </div>
       <div>
         <a (click)="newGroup()" class="bold f-12">> העבר לקבוצה חדשה</a>

@@ -35,6 +35,7 @@ export class NewEmployerComponent implements OnInit {
   operators;
   projects = [];
   organizations = [];
+  selectedOrganization;
   branches1;
   branches2;
   selectedBranch1;

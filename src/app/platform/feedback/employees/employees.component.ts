@@ -12,13 +12,13 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { SendApplicationComponent } from './send-application/send-application.component';
 import { InquiryFormComponent } from '../shared/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
+import { InquiriesComponent } from '../shared/inquiries/inquiries.component';
 
 import { Month } from 'app/shared/_const/month-bd-select';
 import { ProductType } from 'app/shared/_models/product.model';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
-import {InquiriesComponent} from '../shared/inquiries/inquiries.component';
 
 export interface DialogData {
   test: string;
@@ -158,7 +158,7 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
   }
 
   openInquiriesDetailsDialog(id: number): void {
-    const dialog = this.dialog.open(InquiriesComponent, {
+    this.dialog.open(InquiriesComponent, {
       data: {'id': id, 'contentType': 'groupthing'},
       width: '550px',
       panelClass: 'dialog-file'
