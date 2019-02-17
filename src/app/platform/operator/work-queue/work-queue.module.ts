@@ -14,6 +14,7 @@ import {SystemTasksComponent} from './system-tasks/system-tasks.component';
 import {PhoneCallComponent} from './phone-call/phone-call.component';
 import {OngoingOperationComponent} from './ongoing-operation/ongoing-operation.component';
 import {EmailsComponent} from './emails/emails.component';
+import {NotificationService} from 'app/shared/_services/notification.service';
 
 // const routes: Routes = [
 //   { path: '', component: WorkQueueComponent},
@@ -47,7 +48,9 @@ const routes: Routes = [
   ],
   // declarations: [WorkQueueComponent]
 
-  declarations: [WorkQueueComponent, SystemTasksComponent, PhoneCallComponent, EmailsComponent, OngoingOperationComponent]
+  declarations: [WorkQueueComponent, SystemTasksComponent, PhoneCallComponent, EmailsComponent, OngoingOperationComponent],
+  providers: [NotificationService]
+
 })
 export class WorkQueueModule { }
 
