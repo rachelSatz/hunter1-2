@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
-import { MatDialog } from '@angular/material';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
@@ -47,7 +46,6 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 export class EmployersComponent extends DataTableComponent  implements OnInit , OnDestroy {
 
   sub = new Subscription;
-  extraSearchCriteria = 'inactive';
   employerStatus = EmployerStatus;
 
   readonly headers: DataTableHeader[] =  [
@@ -63,27 +61,28 @@ export class EmployersComponent extends DataTableComponent  implements OnInit , 
   ];
 
   constructor(route: ActivatedRoute,
-              private employerService: EmployerService) {
+              private employerService: EmployerService,
+              private  selectUnit: SelectUnitService) {
     super(route);
     this.paginationData.limit = 12;
   }
 
   ngOnInit() {
-    this.fetchItems();
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+      this.fetchItems();
+    }));
     super.ngOnInit();
   }
 
   fetchItems(): void {
-    this.searchCriteria['organizationId'] = 0;
-    this.employerService.getAllEmployers( this.searchCriteria).then(response => this.setItems(response));
-  }
+    if (this.selectUnit.currentOrganizationID) {
+      this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
+    }else {
+      this.searchCriteria['organizationId'] = 0;
+    }
 
-  toggleExtraSearch() {
-   if (this.extraSearchCriteria === 'active') {
-     this.extraSearchCriteria = 'inactive';
-   } else {
-        this.extraSearchCriteria = 'active';
-   }
+    this.employerService.getAllEmployers( this.searchCriteria).then(
+      response => this.setItems(response));
   }
 
   ngOnDestroy() {

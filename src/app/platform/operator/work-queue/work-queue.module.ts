@@ -7,7 +7,7 @@ import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule, 
           MatRadioModule, MatSelectModule } from '@angular/material';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { BdSelectModule } from 'app/assets/js/bd-select/bd-select.module';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 
 import {EmployerFormComponent} from '../employers/employer-form/employer-form.component';
 import {SystemTasksComponent} from './system-tasks/system-tasks.component';
@@ -17,10 +17,10 @@ import {OngoingOperationComponent} from './ongoing-operation/ongoing-operation.c
 
 const routes: Routes = [
   { path: '', component: WorkQueueComponent},
-  { path: 'system-tasks', loadChildren: 'system-tasks/system-tasks.module#SystemTasksModule'},
-  { path: 'phone-call', loadChildren: 'phone-call/phone-call.module#PhoneCallModule'},
-  { path: 'emails', loadChildren: 'emails/emails.module#EmailsModule'},
-  { path: 'ongoing-operation', loadChildren: 'ongoing-operation/ongoing-operation.module#OngoingOperationModule'}
+  // { path: 'system-tasks', loadChildren: 'system-tasks/system-tasks.module#SystemTasksModule'},
+  // { path: 'phone-call', loadChildren: 'phone-call/phone-call.module#PhoneCallModule'},
+  // { path: 'emails', loadChildren: 'emails/emails.module#EmailsModule'},
+  // { path: 'ongoing-operation', loadChildren: 'ongoing-operation/ongoing-operation.module#OngoingOperationModule'}
 
 ];
 

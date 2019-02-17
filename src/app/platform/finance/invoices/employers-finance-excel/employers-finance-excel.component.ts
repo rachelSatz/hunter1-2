@@ -62,7 +62,7 @@ export class EmployersFinanceExcelComponent implements OnInit {
 
   downloadExampleFile(fileName: string, type: string): void {
     this.invoiceService.downloadExampleFile(fileName).then(response => {
-      const byteCharacters = atob(response);
+      const byteCharacters = atob(response['data']);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);

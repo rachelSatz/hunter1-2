@@ -64,6 +64,7 @@ export class PlatformComponent implements OnInit {
         { url: 'dashboard', label: 'דף הבית' },
         { url: 'compensations', label: 'יתרות לפיצויים', subMenuLinks: [
         { url: 'process', label: 'מעקב יתרות לפיצויים' },
+        { url: 'deposits-report', label: 'מעקב דוח הפקדות' },
         { url: 'dashboard', label: 'מצג סטטוסים' }
       ]},
     { url: 'process', label: 'תהליכים', subMenuLinks: [

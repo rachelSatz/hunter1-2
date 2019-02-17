@@ -78,7 +78,7 @@ export class ExcelEmployersComponent implements OnInit {
 
   downloadExampleFile(fileName: string, type: string): void {
     this.compensationService.downloadExampleFile(fileName).then(response => {
-      const byteCharacters = atob(response);
+      const byteCharacters = atob(response['data']);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);

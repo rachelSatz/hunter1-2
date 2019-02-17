@@ -13,7 +13,8 @@ import { AddDocumentComponent } from './add-document/add-document.component';
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
-  styles: ['.row-image { width: 30px; height: auto; }' ]
+  styles: ['.row-image { width: 30px; height: auto; }' ],
+  styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
 export class DocumentsComponent extends DataTableComponent implements OnInit , OnDestroy {
 

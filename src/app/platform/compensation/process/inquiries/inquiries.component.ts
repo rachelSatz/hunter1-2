@@ -2,9 +2,8 @@ import { Component, OnInit, Inject} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import * as FileSaver from 'file-saver';
-import {Compensation} from '../../../../shared/_models/compensation.model';
-import {forEach} from '@angular/router/src/utils/collection';
-import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
+
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 
 
 

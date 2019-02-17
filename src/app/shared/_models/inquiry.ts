@@ -5,7 +5,7 @@ export class Inquiry {
   reminder_date: string;
   content: string;
   receivers: InquiryReceiver;
-  has_file_inquiry: boolean;
+  has_documents: boolean;
 }
 
 export class InquiryReceiver {

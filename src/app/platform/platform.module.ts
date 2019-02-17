@@ -23,8 +23,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', loadChildren: 'app/platform/dashboard/dashboard.module#DashboardModule' },
       { path: 'compensations/process', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
-      { path: 'compensations/dashboard', loadChildren: 'app/platform/compensation/dashboard/dashboard.module#DashboardModule' },
-      // { path: 'settings/contacts', loadChildren: 'app/platform/settings/contacts/contacts.module#ContactsModule' },
+      { path: 'compensations/dashboard', loadChildren:
+          'app/platform/compensation/dashboard/dashboard.module#DashboardModule' },
+      { path: 'compensations/deposits-report', loadChildren:
+          'app/platform/compensation/deposits-report/deposits-report.module#DepositsReportModule' },
       { path: 'contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
       { path: 'employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },
       { path: 'settings/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
@@ -36,9 +38,6 @@ const routes: Routes = [
       { path: 'feedback/files', loadChildren: 'app/platform/feedback/files/files.module#FilesModule' },
       { path: 'operator/employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },
       { path: 'operator/work-queue', loadChildren: 'app/platform/operator/work-queue/work-queue.module#WorkQueueModule'}
-      // { path: 'operator/employers/contacts', loadChildren: 'app/platform/operator/' +
-      //     'employers/employer-form/contacts/contacts.component#ContactsModule' }
-
     ]
   }
 ];

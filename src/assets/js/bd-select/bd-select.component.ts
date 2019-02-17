@@ -168,9 +168,11 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
         this.selectedItem.push(item);
       }
 
-      output = this.selectedItem.map(outputItem => {
-        return outputItem[this.value] ? outputItem[this.value] : outputItem;
-      });
+      if (this.selectedItem != null) {
+        output = this.selectedItem.map(outputItem => {
+          return outputItem[this.value] ? outputItem[this.value] : outputItem;
+        });
+      }
     }
 
     this.propagateChange(output);
