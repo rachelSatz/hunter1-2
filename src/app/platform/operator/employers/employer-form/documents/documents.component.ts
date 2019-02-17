@@ -10,15 +10,17 @@ import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
-  styles: ['.row-image { width: 30px; height: auto; }' ]
+  styles: ['.row-image { width: 30px; height: auto; }' ],
+  styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
 export class DocumentsComponent extends DataTableComponent implements OnInit , OnDestroy {
 
-
+  sub = new Subscription;
   constructor(route: ActivatedRoute, private documentService: DocumentService, private selectUnit: SelectUnitService,
     protected notificationService: NotificationService, private dialog: MatDialog) {
     super(route, notificationService);
@@ -55,8 +57,7 @@ readonly headers: DataTableHeader[] =  [
           byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
         const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray],
-          {type: 'application/' + item.ext.replace('.', '')});
+        const blob = new Blob([byteArray], {type: 'application/' + response['ext']});
         const fileURL = URL.createObjectURL(blob);
         if (type === 'show') {
           window.open(fileURL);
@@ -84,10 +85,16 @@ readonly headers: DataTableHeader[] =  [
   }
 
   addDocument() {
-    this.dialog.open(AddDocumentComponent, {
+    const dialog = this.dialog.open(AddDocumentComponent, {
       width: '400px',
       height: '500px'
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(created => {
+      if (created) {
+        this.fetchItems();
+      }
+    }));
   }
 
 }

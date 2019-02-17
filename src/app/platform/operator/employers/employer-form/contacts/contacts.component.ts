@@ -10,6 +10,7 @@ import { EntityTypes } from 'app/shared/_models/contact.model';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
+  styleUrls: ['../../../../../shared/data-table/data-table.component.css'],
   styles: ['.row-image { width: 30px; height: auto;} .operator-container {margin-right: 60px} ']
 })
 export class ContactsComponent extends DataTableComponent implements OnInit , OnDestroy {

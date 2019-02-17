@@ -1,4 +1,3 @@
-import {UserUnitPermission} from './user-unit-permission.model';
 
 export class Compensation {
   id: number;
@@ -22,6 +21,7 @@ export class Compensation {
   status: string;
   event_code: string;
   answerings_manufacturer: string;
+  has_file_feedbake: boolean;
 
   constructor() {
     this.files.push(new File());

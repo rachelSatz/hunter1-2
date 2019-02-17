@@ -8,7 +8,6 @@ import { BdSelectModule } from '../../../../assets/js/bd-select/bd-select.module
 import { EmployersComponent } from './employers.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import {AddDocumentComponent} from './employer-form/documents/add-document/add-document.component';
 
 const routes: Routes = [
   { path: '', component: EmployersComponent },

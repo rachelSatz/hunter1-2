@@ -44,7 +44,7 @@ export class AddDocumentComponent implements OnInit {
           this.hasServerError = true;
         }
       });
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 
   close() {
