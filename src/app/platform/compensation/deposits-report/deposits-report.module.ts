@@ -50,6 +50,6 @@ const routes: Routes = [
   declarations: [DepositsReportComponent, FormComponent, AddFileComponent],
   providers: [ DepartmentService, ProductService, NotificationService, ContactService, EmployerService,
     FilterItemsPipe, GeneralHttpService, DepositsReportService],
-  entryComponents: [FormComponent]
+  entryComponents: [FormComponent, AddFileComponent]
 })
 export class DepositsReportModule { }

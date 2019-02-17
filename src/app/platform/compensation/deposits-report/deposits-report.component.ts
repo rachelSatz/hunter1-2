@@ -12,9 +12,9 @@ import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header
 import { DepositsReportService } from 'app/shared/_services/http/deposits-report.service';
 import { FormComponent } from './form/form.component';
 import { Status } from 'app/shared/_models/deposits-report.model';
-import {CommentsFormComponent} from '../../feedback/shared/comments-form/comments-form.component';
-// import { CommentsComponent } from '../comments/comments.component';
-// import {CommentsFormComponent} from '../../feedback/shared/comments-form/comments-form.component';
+import { CommentsFormComponent } from '../../feedback/shared/comments-form/comments-form.component';
+import { AddFileComponent } from './add-file/add-file.component';
+
 
 @Component({
   selector: 'app-deposits-report',
@@ -32,8 +32,6 @@ export class DepositsReportComponent extends DataTableComponent implements OnIni
     { column: null, label: 'העבר לטיפול' }, { column: null, label: 'פניות' },
     { column: null, label: 'הערות' }, {column: null, label: 'פרטים' }
   ];
-
-// , { column: null, label: 'הורדה' }
 
   constructor(protected route: ActivatedRoute,
               private depositsReportService: DepositsReportService,
@@ -112,11 +110,11 @@ export class DepositsReportComponent extends DataTableComponent implements OnIni
   }
 
   openDetailsDialog(item: object): void {
-    // this.dialog.open(CommentsFormComponent, {
-    //   // data: { companies: this.companies, departmentId: this.selectUnit.currentDepartmentID ,
-    //   //   employerID: this.selectUnit.currentEmployerID},
-    //   width: '450px'
-    // });
+    this.dialog.open(AddFileComponent, {
+      // data: { companies: this.companies, departmentId: this.selectUnit.currentDepartmentID ,
+      //   employerID: this.selectUnit.currentEmployerID},
+      width: '450px'
+    });
   }
 
   openInquiriesDialog(item: object): void {
