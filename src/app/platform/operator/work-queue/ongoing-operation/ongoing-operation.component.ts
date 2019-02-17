@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../../../../shared/_services/notification.service';
 import { MatDialog } from '@angular/material';
 import { SkipTaskComponent } from './skip-task/skip-task.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ongoing-operation',
@@ -9,7 +10,7 @@ import { SkipTaskComponent } from './skip-task/skip-task.component';
   styleUrls: ['./ongoing-operation.component.css']
 })
 export class OngoingOperationComponent implements OnInit {
-  constructor(private dialog: MatDialog,
+  constructor(route: ActivatedRoute, private dialog: MatDialog,
               protected  notificationService: NotificationService) { }
 
   ngOnInit() {
@@ -21,8 +22,8 @@ export class OngoingOperationComponent implements OnInit {
 
   skipTaskDialog(): void {
     this.dialog.open(SkipTaskComponent, {
-      width: '1350px',
-      height: '680px'
+      width: '660px',
+      height: '315px'
     });
   }
 }
