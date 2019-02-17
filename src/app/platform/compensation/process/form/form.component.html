@@ -6,28 +6,27 @@
 </div>
 <form #form="ngForm">
   <div class="mt-5 mb-3">
-    <mat-checkbox name="has_clearing" class="ml-3"  [(ngModel)]="hasClearing">דרך מסלקה</mat-checkbox>
+    <mat-checkbox  name="has_clearing" class="ml-3"  [(ngModel)]="hasClearing">דרך מסלקה</mat-checkbox>
     <mat-checkbox name="has_clearing_employer" [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>
   </div>
-  <div class="d-flex" [@fade]="hasClearingEmployer ? 'inactive' : 'active' ">
-    <!--<bd-select [items]="data.departments" placeholder="בחר מחלקה" (onSelect)="loadEmployees($event)" class="w-50 ml-3" ></bd-select>-->
-    <!--<div class="w-50">-->
-      <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel ng-required="!hasClearingEmployer" (onScroll)="checkLoadEmployees($event)"></bd-select>
+  <div class="row" [@fade]="hasClearingEmployer ? 'inactive' : 'active' ">
+      <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel [required]="!hasClearingEmployer" (onScroll)="checkLoadEmployees($event)"></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && employeesModel.errors ? 'active' : 'inactive'">יש לבחור עובד.</p>
-    <!--</div>-->
   </div>
-  <div class="d-flex mt-4" [@fade]="hasClearing || hasClearingEmployer? 'inactive' : 'active' ">
-      <bd-select  class="w-50 ml-3" [items]="data.companies" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel" (onSelect)="loadProducts($event)" ngModel  ng-required='hasClearing' ></bd-select>
-      <!--<p class="alert alert-danger" [@fade]="form.submitted && companyModel.errors ? 'active' : 'inactive'">יש לבחור חברה מנהלת.</p>-->
-
-    <div class="w-50">
-      <bd-select [items]="productTypes" placeholder="סוג מוצר*" name="product_type" #productModel="ngModel" ngModel  ng-required='hasClearing' ></bd-select>
+  <div class="row  mt-4" [@fade]="hasClearing || hasClearingEmployer? 'inactive' : 'active' ">
+    <div class="col-5 p-0">
+      <bd-select [items]="data.companies" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel" (onSelect)="loadProducts($event)" ngModel  [required]='!hasClearing && !hasClearingEmployer' ></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted && companyModel.errors ? 'active' : 'inactive'">יש לבחור חברה מנהלת.</p>
+    </div>
+    <div class="offset-1 col-5">
+      <bd-select [items]="productTypes" placeholder="סוג מוצר*" name="product_type" #productModel="ngModel" ngModel  [required]='!hasClearing && !hasClearingEmployer' ></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && productModel.errors ? 'active' : 'inactive'">יש לבחור סוג מוצר.</p>
     </div>
   </div>
 
-  <div class="d-flex mt-4" [@fade]="(hasClearing && hasClearingEmployer) || !hasClearingEmployer? 'inactive' : 'active' ">
-    <bd-select  class="w-50 ml-3" [items]="data.companies" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel"  ngModel  ng-required='hasClearing' multiple="true" ></bd-select>
+  <div class="row mt-4 p-0" [@fade]="(!hasClearing && hasClearingEmployer) ? 'active' :'inactive'" [ngClass]="(!hasClearing && hasClearingEmployer) ? 'active' :'inactive'">
+    <bd-select  class="w-50 ml-3" [items]="data.companies" placeholder="חברה מנהלת*" name="company" #company1Model="ngModel"  ngModel  [required]='(!hasClearing && hasClearingEmployer)' multiple="true" ></bd-select>
+    <p class="alert alert-danger" [@fade]="form.submitted && companyModel.errors ? 'active' : 'inactive'">יש לבחור חברה מנהלת.</p>
   </div>
 
   <mat-form-field class="w-50 my-3">
@@ -37,9 +36,6 @@
     <mat-error>שדה חובה.</mat-error>
   </mat-form-field>
   <div class="d-flex">
-    <!--<mat-form-field class="w-50 ml-3">-->
-      <!--<input type="email" matInput placeholder="מייל לשליחה" name="send_email" ngModel>-->
-    <!--</mat-form-field>-->
     <mat-form-field class="w-50">
       <input type="number" matInput placeholder="יתרה צפויה" name="projected_balance" ngModel>
     </mat-form-field>
@@ -48,12 +44,9 @@
     <label for="comment">הערות:</label>
     <textarea class="form-control" rows="5" id="comment" name="comments"  ngModel></textarea>
   </div>
-  <!--<mat-form-field class="w-100">-->
-    <!--<textarea matInput placeholder="הערות" name="contents" ngModel></textarea>-->
-  <!--</mat-form-field>-->
-  <div class="mb-3">
-    <mat-checkbox name="has_deposit_report" ngModel>כלול דו"ח הפקדות</mat-checkbox>
-  </div>
+  <!--<div class="mb-3" [@fade]="haDepositReport ? 'inactive' : 'active' ">-->
+    <!--<mat-checkbox name="include_has_deposit_report" ngModel>כלול דו"ח הפקדות</mat-checkbox>-->
+  <!--</div>-->
 
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">{{message}}</p>
 <div mat-dialog-actions class="justify-content-center">

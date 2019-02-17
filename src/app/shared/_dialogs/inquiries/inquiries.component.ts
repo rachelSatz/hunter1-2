@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocompleteSelectedEvent,
   MatAutocomplete} from '@angular/material';
-import { GeneralHttpService } from '../../../../shared/_services/http/general-http.service';
+import { GeneralHttpService } from '../../_services/http/general-http.service';
 import * as FileSaver from 'file-saver';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 

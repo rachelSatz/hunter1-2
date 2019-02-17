@@ -18,7 +18,7 @@
     <tr *ngFor="let inquiry of inquiries">
       <td class="w-25">{{ inquiry.reminder_date | date: 'dd/MM/yy HH:mm' }}</td>
       <td class="w-25 ltr">
-        <ng-container *ngFor="let receiver of inquiry.receivers; let last = last">{{ receiver.email | truncate: 30 }} </ng-container>
+        <ng-container *ngFor="let receiver of inquiry.receivers; let last = last">{{ receiver.email | slice: 30 }} </ng-container>
       </td>
       <td class="w-50">{{ inquiry.content }}</td>
       <td class="w-50"> <i *ngIf="inquiry.has_file_inquiry" class="fa fa-download fa-lg ml-2" (click)="downloadFilesInquirie(inquiry.id)" ></i></td>

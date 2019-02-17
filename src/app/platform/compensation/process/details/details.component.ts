@@ -71,7 +71,7 @@ export class DetailsComponent  extends DataTableComponent implements OnInit {
   downloadFile(fileName: string, type: string): void {
     this.spin = true;
     this.compensationService.downloadFile(this.compensation.id, fileName).then(response => {
-      const byteCharacters = atob(response);
+      const byteCharacters = atob(response['data']);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
@@ -88,7 +88,6 @@ export class DetailsComponent  extends DataTableComponent implements OnInit {
       this.hasServerError = false;
       this.compensationService.deleteFile(this.compensation.id, fileName).then(response => {
         if (response) {
-          // console.log(response['file_list'])
           this.compensation.files = response['file_list'];
           this.dialogRef.close(this.compensation);
         } else {

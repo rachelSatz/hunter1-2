@@ -9,14 +9,14 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
-import { InquiryFormComponent} from '../shared/inquiry-form/inquiry-form.component';
-import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
+import { InquiryFormComponent} from '../../../shared/_dialogs/inquiry-form/inquiry-form.component';
+import { CommentsFormComponent } from '../../../shared/_dialogs/comments-form/comments-form.component';
 import { Subscription } from 'rxjs';
 import { Month } from 'app/shared/_const/month-bd-select';
 import { FormComponent } from './form/form.component';
 import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { ProductType } from 'app/shared/_models/product.model';
-import { InquiriesComponent} from '../shared/inquiries/inquiries.component';
+import { InquiriesComponent} from '../../../shared/_dialogs/inquiries/inquiries.component';
 
 @Component({
   selector: 'app-files',

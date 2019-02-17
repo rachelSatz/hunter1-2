@@ -136,8 +136,8 @@ export class EmployerService extends BaseHttpService {
       .then(response => response as any);
   }
 
-  getProjects(): Promise<[]> {
+  getProjects(): Promise<any> {
     return this.http.get(this.endPoint + '/projects', this.getTokenHeader()).toPromise()
-      .then( response => response as []);
+      .then( response => response );
   }
 }

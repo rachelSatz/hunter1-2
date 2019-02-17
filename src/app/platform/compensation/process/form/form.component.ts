@@ -14,6 +14,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
+  styles: ['.inactive { display: none !important}'],
   animations: [
     trigger('fade', [
       state('inactive', style({
@@ -64,7 +65,6 @@ export class FormComponent implements OnInit {
     this.departmentService.getEmployees(this.data.departmentId, this.scrollIndex)
     .then(response => {
       this.employees = [ ...this.employees, ...response];
-      console.log( this.employees);
     });
   }
 
@@ -101,12 +101,5 @@ export class FormComponent implements OnInit {
         });
       }
     }
-  }
-
-  checkedEmployer(event: any): void {
-      const c = event.checked;
-      if (c && this.data.employerID === 0) {
-        this.notificationService.error('', 'יש לבחור מעסיק.');
-      }
   }
 }

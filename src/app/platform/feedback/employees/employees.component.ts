@@ -10,9 +10,9 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
 import { SendApplicationComponent } from './send-application/send-application.component';
-import { InquiryFormComponent } from '../shared/inquiry-form/inquiry-form.component';
-import { CommentsFormComponent } from '../shared/comments-form/comments-form.component';
-import { InquiriesComponent } from '../shared/inquiries/inquiries.component';
+import { InquiryFormComponent } from '../../../shared/_dialogs/inquiry-form/inquiry-form.component';
+import { CommentsFormComponent } from '../../../shared/_dialogs/comments-form/comments-form.component';
+import { InquiriesComponent } from '../../../shared/_dialogs/inquiries/inquiries.component';
 
 import { Month } from 'app/shared/_const/month-bd-select';
 import { ProductType } from 'app/shared/_models/product.model';
