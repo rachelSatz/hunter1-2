@@ -38,8 +38,8 @@ const routes: Routes = [
     MatChipsModule, MatIconModule, MatAutocompleteModule, MatDatepickerModule, MatNativeDateModule,
     BdSelectModule
   ],
-  declarations: [FilesComponent, FormComponent, InquiriesComponent],
+  declarations: [FilesComponent, FormComponent],
   providers: [NotificationService, FeedbackService, ContactService, HelpersService, GeneralHttpService],
-  entryComponents: [FormComponent, InquiriesComponent]
+  entryComponents: [FormComponent]
 })
 export class FilesModule { }

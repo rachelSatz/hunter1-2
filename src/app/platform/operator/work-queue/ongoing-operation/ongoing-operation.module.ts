@@ -1,11 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OngoingOperationComponent } from './ongoing-operation.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { SkipTaskComponent } from './skip-task/skip-task.component';
+import { RouterModule, Routes } from '@angular/router';
 
-@NgModule({
+const routes: Routes = [{path: '', component: OngoingOperationComponent}];
+
+    @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule.forChild(routes),
+    MatDialogModule
   ],
-  declarations: [OngoingOperationComponent]
+  declarations: [OngoingOperationComponent, SkipTaskComponent],
+  entryComponents: [SkipTaskComponent]
 })
 export class OngoingOperationModule { }
