@@ -27,6 +27,7 @@ export class InquiriesComponent implements OnInit {
   inquiries = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+              private dialogRef: MatDialogRef<InquiriesComponent>,
               private dialog: MatDialog,
               private generalService: GeneralHttpService) { }
 
@@ -49,5 +50,7 @@ export class InquiriesComponent implements OnInit {
       });
     });
   }
-
+  close() {
+    this.dialogRef.close();
+  }
 }

@@ -8,14 +8,14 @@
         <i class="w-100 fa fa-search"></i>
       </div>
       <div *ngFor="let el of agentBarEl" class="d-flex pointer">
-        <span class="w-100 py-3" [routerLink]="['/platform', 'operator', el.link]"
+        <span class="w-100 py-3" *ngIf="checkRole(el)" [routerLink]="['/platform', 'operator', el.link]"
               routerLinkActive="selected">{{el.label}}</span>
       </div>
     </div>
     <div *ngIf="agentBarActive" (click)="agentBarActive = !agentBarActive">
       <p class="py-5 mt-2"></p>
       <div *ngFor="let el of agentBarEl"  class="d-flex pointer">
-        <span class="w-100 py-3"><i class="w-100 fa fa-{{el.icon}}"></i></span>
+        <span class="w-100 py-3" *ngIf="checkRole(el)"><i class="w-100 fa fa-{{el.icon}}"></i></span>
       </div>
     </div>
   </div>
@@ -37,7 +37,6 @@
                     </figure>
                     <p>{{ link.label }}</p>
                   </a>
-
                 </li>
                 <li [matMenuTriggerFor]="subMenu" class="nav-item pointer" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="link.subMenuLinks">
                   <figure>

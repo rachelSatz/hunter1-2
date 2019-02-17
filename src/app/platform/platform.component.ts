@@ -53,14 +53,14 @@ export class PlatformComponent implements OnInit {
   isAgent = false;
 
   readonly agentBarEl = [
-    { id: 1, icon: 'building' ,        label: 'ארגונים',   link: 'organizations'},
-    { id: 2, icon: 'question-circle' , label: 'תור עבודה', link: 'work-queue'},
-    { id: 3, icon: 'list-ul' ,         label: 'משימות',    link: 'tasks'},
-    { id: 4, icon: 'user' ,            label: 'מעסיקים',   link: 'employers'},
-    { id: 5, icon: 'users' ,           label: 'משתמשים',   link: 'users'},
-    { id: 6, icon: 'file' ,            label: 'מסמכים',    link: ''},
-    { id: 7, icon: 'user' ,            label: 'אנשי קשר',  link: 'contacts'},
-    { id: 8, icon: 'bell' ,            label: 'התראות',    link: ''}
+    { id: 1, icon: 'building' ,        label: 'ארגונים',   link: 'organizations', role: 'admin'   },
+    { id: 2, icon: 'question-circle' , label: 'תור עבודה', link: 'work-queue',    role: 'operator'},
+    { id: 3, icon: 'list-ul' ,         label: 'משימות',    link: 'tasks',         role: 'operator'},
+    { id: 4, icon: 'user' ,            label: 'מעסיקים',   link: 'employers',     role: 'operator'},
+    { id: 5, icon: 'users' ,           label: 'משתמשים',   link: 'users',         role: 'admin'   },
+    { id: 6, icon: 'file' ,            label: 'מסמכים',    link: '',              role: 'operator'},
+    { id: 7, icon: 'user' ,            label: 'אנשי קשר',  link: 'contacts',      role: 'operator'},
+    { id: 8, icon: 'bell' ,            label: 'התראות',    link: '',              role: 'operator'}
     ];
 
   readonly menuLinks = [
@@ -197,6 +197,14 @@ export class PlatformComponent implements OnInit {
       } else {
       this.router.navigate(['/platform', link, subLink]);
       }
+    }
+  }
+
+  checkRole(role) {
+    if (this.userSession.roleName === 'admin') {
+      return true;
+    } else {
+      return role !== 'admin';
     }
   }
 }

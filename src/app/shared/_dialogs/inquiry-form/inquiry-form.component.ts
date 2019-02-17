@@ -137,4 +137,7 @@ export class InquiryFormComponent implements OnInit {
     return this.contacts.filter(contact => contact.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  close() {
+    this.dialogRef.close();
+  }
 }
