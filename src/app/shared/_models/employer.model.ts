@@ -29,6 +29,8 @@ export class Employer {
   department: Department[];
   operator;
   deduction_number: number;
+  project_id: number;
+  project_name: string;
 
   constructor() {
     this.bank_accounts.push(new EmployerBankAccount());

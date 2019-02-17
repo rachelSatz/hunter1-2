@@ -1,5 +1,5 @@
-import {Component,  OnInit} from '@angular/core';
-import { MatDialogRef} from '@angular/material';
+import { Component,  OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-new-task-form',
@@ -10,6 +10,13 @@ export class NewTaskFormComponent implements OnInit {
 
   stage = 1;
   curDate;
+  employee;
+  executive;
+  executives = [
+    {name: 'tim', id: 1},
+    {name: 'bock', id: 2},
+    {name: 'choi', id: 3}
+    ];
 
   constructor( public dialogRef: MatDialogRef<NewTaskFormComponent>) { }
 
@@ -18,16 +25,21 @@ export class NewTaskFormComponent implements OnInit {
     console.log(this.curDate);
   }
 
-  getStage() {
-    if (this.stage === 1) {
-      return 1;
-    }
-  }
 
   setStage(stage) {
     this.stage = stage;
-    console.log(stage);
-    this.getStage();
+  }
+
+  createNewTask(form) {
+    if (form.valid) {
+      console.log(form.value);
+      console.log(this.stage);
+      this.dialogRef.close();
+    }
+  }
+
+  close() {
+    this.dialogRef.close();
   }
 
 }

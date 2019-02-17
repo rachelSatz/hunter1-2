@@ -9,7 +9,7 @@
       </div>
       <div *ngFor="let el of agentBarEl" class="d-flex pointer">
         <span class="w-100 py-3" [routerLink]="['/platform', 'operator', el.link]"
-              [ngClass]="{'selected':  el.link === router.url.split('/')[3]}">{{el.label}}</span>
+              routerLinkActive="selected">{{el.label}}</span>
       </div>
     </div>
     <div *ngIf="agentBarActive" (click)="agentBarActive = !agentBarActive">

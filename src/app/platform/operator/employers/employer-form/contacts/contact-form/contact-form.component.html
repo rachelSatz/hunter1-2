@@ -1,44 +1,46 @@
-<form #form="ngForm" (ngSubmit)="submit(form)" class="col-12 col-lg-6 p-0">
-  <div class="row mt-3">
-    <div class="col-12 col-lg-4">
-      <bd-select class="w-100" [items]="entityTypes" name="type" #typeSelect="ngModel" [(ngModel)]="contact.type" (onSelect)="loadEntities($event)" placeholder="סוג גורם" required></bd-select>
-      <p class="alert alert-danger" [@fade]="typeSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+<div [ngClass]="{'operator-container': !pathEmployers }">
+  <form #form="ngForm" (ngSubmit)="submit(form)" class="col-12 col-lg-6 p-0">
+    <div class="row mt-3">
+      <div class="col-12 col-lg-4">
+        <bd-select class="w-100" [items]="entityTypes" name="type" #typeSelect="ngModel" [(ngModel)]="contact.type" (onSelect)="loadEntities($event)" placeholder="סוג גורם" required></bd-select>
+        <p class="alert alert-danger" [@fade]="typeSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+      </div>
+      <div class="col-12 col-lg-4" [@fade]="contact.type !== 'employer' ? 'active' : 'inactive'">
+        <bd-select class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel" [ngModel]="contact.entity_id" placeholder="שם גורם" required></bd-select>
+        <p class="alert alert-danger" [@fade]="entityIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+      </div>
     </div>
-    <div class="col-12 col-lg-4" [@fade]="contact.type !== 'employer' ? 'active' : 'inactive'">
-      <bd-select class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel" [ngModel]="contact.entity_id" placeholder="שם גורם" required></bd-select>
-      <p class="alert alert-danger" [@fade]="entityIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+    <div class="row mt-3">
+      <mat-form-field class="col-lg-4">
+        <input matInput placeholder="שם פרטי" name="first_name" [ngModel]="contact.first_name" required>
+      <mat-error>שדה חובה.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-lg-4">
+        <input matInput placeholder="שם משפחה" name="last_name" [ngModel]="contact.last_name" required>
+      <mat-error>שדה חובה.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-lg-4">
+        <input matInput placeholder="תפקיד" name="role" [ngModel]="contact.role">
+      </mat-form-field>
     </div>
-  </div>
-  <div class="row mt-3">
-    <mat-form-field class="col-lg-4">
-      <input matInput placeholder="שם פרטי" name="first_name" [ngModel]="contact.first_name" required>
-    <mat-error>שדה חובה.</mat-error>
-    </mat-form-field>
-    <mat-form-field class="col-lg-4">
-      <input matInput placeholder="שם משפחה" name="last_name" [ngModel]="contact.last_name" required>
-    <mat-error>שדה חובה.</mat-error>
-    </mat-form-field>
-    <mat-form-field class="col-lg-4">
-      <input matInput placeholder="תפקיד" name="role" [ngModel]="contact.role">
-    </mat-form-field>
-  </div>
-  <div class="border-bottom row mb-1">
-    <mat-form-field class="col-lg-4">
-      <input matInput placeholder="טלפון" type="number" name="phone" [ngModel]="contact.phone" required>
-      <mat-error>שדה חובה.</mat-error>
-    </mat-form-field>
-    <mat-form-field class="col-lg-4">
-      <input matInput placeholder="נייד" name="mobile" type="number" [ngModel]="contact.mobile" required>
-      <mat-error>שדה חובה.</mat-error>
-    </mat-form-field>
-    <mat-form-field class="col-lg-4">
-      <input matInput placeholder="כתובת מייל" type="email" name="email" [ngModel]="contact.email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
-      <mat-error>שדה חובה.</mat-error>
-    </mat-form-field>
-    <mat-form-field class="col-12">
-      <input matInput placeholder="הערות" type="email" name="comment" [ngModel]="contact.comment">
-    </mat-form-field>
-  </div>
-  <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
-  <button class="btn blue-btn" type="submit">שמור</button>
-</form>
+    <div class="border-bottom row mb-1">
+      <mat-form-field class="col-lg-4">
+        <input matInput placeholder="טלפון" type="number" name="phone" [ngModel]="contact.phone" required>
+        <mat-error>שדה חובה.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-lg-4">
+        <input matInput placeholder="נייד" name="mobile" type="number" [ngModel]="contact.mobile" required>
+        <mat-error>שדה חובה.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-lg-4">
+        <input matInput placeholder="כתובת מייל" type="email" name="email" [ngModel]="contact.email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+        <mat-error>שדה חובה.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-12">
+        <input matInput placeholder="הערות" type="email" name="comment" [ngModel]="contact.comment">
+      </mat-form-field>
+    </div>
+    <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
+    <button class="btn blue-btn" type="submit">שמור</button>
+  </form>
+</div>

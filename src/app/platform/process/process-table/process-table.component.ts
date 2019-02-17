@@ -1,15 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+
 import { ProcessService } from 'app/shared/_services/http/process.service';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+
+import { Subscription } from 'rxjs';
+import * as FileSaver from 'file-saver';
 import { Process, ProcessStatus, ProcessType } from 'app/shared/_models/process.model';
 import { MONTHS } from 'app/shared/_const/months';
-import { Subscription } from 'rxjs';
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import * as FileSaver from 'file-saver';
-import { NotificationService } from 'app/shared/_services/notification.service';
-import { ProcessDataService } from 'app/shared/_services/process-data-service';
 
 @Component({
   selector: 'app-process-table',
