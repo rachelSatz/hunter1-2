@@ -1,18 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 import * as FileSaver from 'file-saver';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FormComponent } from './form/form.component';
-
 import { ExcelComponent } from './excel/compensation/compensation.component';
-
 import { EmployeesComponent } from './excel/employees/employees.component';
 import { DetailsComponent } from './details/details.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';

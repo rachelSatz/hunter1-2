@@ -46,4 +46,7 @@ export class CommentsFormComponent implements OnInit {
       }
     });
   }
+  close() {
+    this.dialogRef.close();
+  }
 }
