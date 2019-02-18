@@ -23,7 +23,7 @@ export class OngoingOperationComponent implements OnInit {
   skipTaskDialog(): void {
     this.dialog.open(SkipTaskComponent, {
       width: '660px',
-      height: '315px'
+      height: '240px'
     });
   }
 }

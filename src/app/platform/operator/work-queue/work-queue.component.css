@@ -19,17 +19,14 @@
 /*}*/
 .status-bar {
   border: 1px solid #b3b3b3;
-  border-radius: 15px;
 }
 
 .status > span {
   width: 34%;
   height: 30px;
   text-align: center;
-  border-radius: 15px;
   vertical-align: middle;
   padding: 3px;
-
 }
 
 .active {
