@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as FileSaver from 'file-saver';
 import { MatDialog } from '@angular/material';
@@ -27,6 +27,8 @@ export class DocumentsComponent extends DataTableComponent implements OnInit , O
     this.paginationData.limit = 5;
   }
 
+
+
 readonly headers: DataTableHeader[] =  [
     { column: 'filename',     label: 'שם הקובץ' },
     { column: 'date',         label: 'תאריך העלאה' },
@@ -34,6 +36,9 @@ readonly headers: DataTableHeader[] =  [
   ];
 
   ngOnInit() {
+    if (this.documentService.file) {
+      this.paginatedItems[this.paginatedItems.length + 2] = this.documentService.file;
+    }
     this.fetchItems();
     super.ngOnInit();
   }
@@ -96,5 +101,4 @@ readonly headers: DataTableHeader[] =  [
       }
     }));
   }
-
 }

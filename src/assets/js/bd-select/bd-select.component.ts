@@ -62,6 +62,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   @Input() placeholder = 'בחר פריטים';
   @Input() searchPlaceholder = 'חפש...';
   @Input() searchableProperties = false;
+  @Input() error = false;
 
   @Output() onSelect: EventEmitter<Object | Object[]> = new EventEmitter();
   @Output() onDeselect: EventEmitter<boolean> = new EventEmitter();
@@ -73,6 +74,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   @ViewChild('optionsEle') optionsElement: ElementRef;
 
   filterValue: string;
+
 
   unfilteredItems = [];
 

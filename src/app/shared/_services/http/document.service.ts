@@ -11,6 +11,8 @@ import {Process} from '../../_models/process.model';
 @Injectable()
 export class  DocumentService extends BaseHttpService {
 
+  file: File;
+
   readonly endPoint = this.apiUrl + '/documents';
 
   constructor(userSession: UserSessionService, private http: HttpClient) {
@@ -56,6 +58,7 @@ export class  DocumentService extends BaseHttpService {
   }
 
   uploadFile(employerId, description: string, file: File) {
+    this.file = file;
     const data = new FormData();
     data.append('file', file);
     data.append('description', description);

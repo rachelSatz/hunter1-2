@@ -1,31 +1,42 @@
 #headers > span {
-  width: 11%;
+  /*width: 16%;*/
   padding-left: 5px;
   padding-right: 5px;
   font-weight: bold;
   font-size: 20px;
   cursor: pointer;
 }
-/*#aaa {*/
-  /*width: 710px;*/
-  /*height: 360px;*/
-  /*padding: 12px 20px;*/
-  /*box-sizing: border-box;*/
-  /*border: 2px solid #ccc;*/
-  /*border-radius: 4px;*/
-  /*font-size: 16px;*/
-  /*resize: none;*/
-  /*box-shadow: 0px 0px 2px #aaaaaa;*/
-  /*margin:60px 110px;}*/
 
-.active {
-  /*border-bottom: 1.5px solid #00ADEE;*/
-  background-color: #00ADEE;
-  border-radius: 30px;
-  color: white;
+
+/*.active {*/
+  /*!*border-bottom: 1.5px solid #00ADEE;*!*/
+  /*background-color: #00ADEE;*/
+  /*border-radius: 30px;*/
+  /*color: white;*/
+
+/*}*/
+.status-bar {
+  border: 1px solid #b3b3b3;
+  border-radius: 15px;
+}
+
+.status > span {
+  width: 34%;
+  height: 30px;
+  text-align: center;
+  border-radius: 15px;
+  vertical-align: middle;
+  padding: 3px;
 
 }
 
-/*.header-border {*/
-  /*border-bottom: 2px solid #E5E5E5 ;*/
-/*}*/
+.active {
+  background-color: #00ADEE;
+  color: #ffffff;
+}
+
+.date-picker {
+  width: 180px;
+}
+
+

@@ -1,14 +1,15 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, NgForm} from '@angular/forms';
-import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocompleteSelectedEvent,
-  MatAutocomplete} from '@angular/material';
+import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef,
+        MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Observable} from 'rxjs';
+
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import { GeneralHttpService } from '../../_services/http/general-http.service';
 
-import { Observable} from 'rxjs';
-import { GeneralHttpService } from '../../../../shared/_services/http/general-http.service';
 export interface Contact {
   id: number;
   name: string;
@@ -135,4 +136,5 @@ export class InquiryFormComponent implements OnInit {
 
     return this.contacts.filter(contact => contact.name.toLowerCase().indexOf(filterValue) === 0);
   }
+
 }

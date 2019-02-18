@@ -14,10 +14,7 @@ import { FormComponent } from './form/form.component';
 import { ExcelComponent } from './excel/compensation/compensation.component';
 
 import { EmployeesComponent } from './excel/employees/employees.component';
-import { CommentsComponent } from './comments/comments.component';
 import { DetailsComponent } from './details/details.component';
-import { SendToComponent } from './send-to/send-to.component';
-import { InquiriesComponent } from './inquiries/inquiries.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
@@ -32,6 +29,9 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 'app/shared/_models/compensation.model';
 import { ProductType } from 'app/shared/_models/product.model';
+import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
+import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
+import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
 
 
 @Component({
@@ -247,9 +247,9 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     });
   }
 
-  openCommentsDialog(item: Object): void {
-    const dialog = this.dialog.open(CommentsComponent, {
-      data: item,
+  openCommentsDialog(item: any): void {
+    const dialog = this.dialog.open(CommentsFormComponent, {
+      data: {'id': item.id, 'contentType': 'compensation'},
       width: '450px'
     });
 
@@ -261,8 +261,9 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
   openSendToDialog(item: Object): void {
-    this.dialog.open(SendToComponent, {
-      data: item,
+    this.dialog.open(InquiryFormComponent, {
+      data: {'id': item['id'], 'contentType': 'compensation',
+        'employerId': this.selectUnit.currentEmployerID, 'companyId': 5},
       width: '500px'
     });
   }
@@ -293,7 +294,8 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
     }
 
     this.dialog.open(InquiriesComponent, {
-      data: compensation['id'],
+      data: {'id': compensation['id'], 'contentType': 'compensation',
+        'employerId': this.selectUnit.currentEmployerID, 'companyId': 5},
       width: '800px'
     });
   }

@@ -1,11 +1,14 @@
-<div id="selectedItem" (click)="openDropdown()">
-  <span id="placeholder" [@placeholder]="selectedItem ? 'active' : 'inactive'">{{ placeholder }}</span>
-  <div id="multipleSelectedItems" *ngIf="selectedItem && multiple">
-    <span *ngFor="let item of selectedItem; let last = last">{{ last ? getLabel(item) : getLabel(item) + ',' }}</span>
+<div [ngClass]="{'error': error}">
+  <div id="selectedItem" class="required" (click)="openDropdown()">
+    <span id="placeholder" [@placeholder]="selectedItem ? 'active' : 'inactive'">{{ placeholder }}</span>
+    <div id="multipleSelectedItems" *ngIf="selectedItem && multiple">
+      <span   *ngFor="let item of selectedItem; let last = last">{{ last ? getLabel(item) : getLabel(item) + ',' }}</span>
+    </div>
+    <span *ngIf="selectedItem && getLabel(selectedItem) && !multiple">{{ getLabel(selectedItem) }}</span>
+    <i class="fa fa-chevron-down"></i>
   </div>
-  <span *ngIf="selectedItem && getLabel(selectedItem) && !multiple">{{ getLabel(selectedItem) }}</span>
-  <i class="fa fa-chevron-down"></i>
 </div>
+<p id="hasError" [@slideToggle]="error ? 'active' : 'inactive'">שדה חובה.</p>
 <div id="dropdown" [@slideToggle]="isSelectOpened ? 'active' : 'inactive'">
   <div id="filterInput">
     <input (keyup)="filter()" [placeholder]="searchPlaceholder" [(ngModel)]="filterValue"  class="w-100" #filterValueEle>

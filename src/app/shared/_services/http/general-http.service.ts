@@ -208,10 +208,4 @@ export class GeneralHttpService extends BaseHttpService {
       .then(response => response)
       .catch(() => null);
   }
-
-  newBank(bank: object): void {
-    // this.http.post(this.apiUrl + '/generals' + '/' + rowID + '/downloadFilesInquirie', {'content_type': contentType)
-  }
-
-
 }

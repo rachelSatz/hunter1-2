@@ -20,7 +20,6 @@ import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 
 import { ProcessComponent } from './process.component';
 import { FormComponent } from './form/form.component';
-import { CommentsComponent } from './comments/comments.component';
 import { DetailsComponent } from './details/details.component';
 import { AddFileComponent } from './add-file/add-file.component';
 import { ExcelComponent } from './excel/compensation/compensation.component';
@@ -51,11 +50,8 @@ const routes: Routes = [
   declarations: [
     ProcessComponent,
     FormComponent,
-    CommentsComponent,
     DetailsComponent,
     AddFileComponent,
-    SendToComponent,
-    InquiriesComponent,
     ExcelComponent,
     EmployeesComponent,
     ErrorMessageComponent
@@ -64,13 +60,10 @@ const routes: Routes = [
     FilterItemsPipe, GeneralHttpService],
   entryComponents: [
     FormComponent,
-    CommentsComponent,
     DetailsComponent,
     AddFileComponent,
-    SendToComponent,
     ExcelComponent,
     EmployeesComponent,
-    InquiriesComponent,
     ErrorMessageComponent
   ],
 })

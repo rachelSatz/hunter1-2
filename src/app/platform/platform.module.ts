@@ -6,8 +6,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatChipsModule, MatFormFieldModule, MatIconModule, MatInputModule } from '@angular/material';
 
 import { PlatformComponent } from './platform.component';
-import { InquiryFormComponent } from './feedback/shared/inquiry-form/inquiry-form.component';
-import { CommentsFormComponent } from './feedback/shared/comments-form/comments-form.component';
+import { InquiryFormComponent } from '../shared/_dialogs/inquiry-form/inquiry-form.component';
+import { CommentsFormComponent } from '../shared/_dialogs/comments-form/comments-form.component';
 
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -15,6 +15,7 @@ import { ProcessDataService } from 'app/shared/_services/process-data-service';
 
 import { IsAuthenticatedGuard } from 'app/shared/_guards/is-authenticated.guard';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
+import { InquiriesComponent } from '../shared/_dialogs/inquiries/inquiries.component';
 
 const routes: Routes = [
   {
@@ -57,8 +58,8 @@ const routes: Routes = [
     MatFormFieldModule,
     MatInputModule
   ],
-  declarations: [PlatformComponent, InquiryFormComponent, CommentsFormComponent],
-  entryComponents: [InquiryFormComponent, CommentsFormComponent],
+  declarations: [PlatformComponent, InquiryFormComponent, CommentsFormComponent, InquiriesComponent],
+  entryComponents: [InquiryFormComponent, CommentsFormComponent, InquiriesComponent],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, DatePipe]
 })
 export class PlatformModule {}

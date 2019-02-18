@@ -9,7 +9,7 @@ import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header
 import { ExcelEmployersComponent } from './excel-employers/excel-employers.component';
 import { MatDialog } from '@angular/material';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 
 @Component({

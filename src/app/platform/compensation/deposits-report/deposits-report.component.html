@@ -1,5 +1,4 @@
 <p class="h4 mb-4">מעקב דוח הפקדות</p>
-
 <div class="d-flex filter-row mb-1">
   <mat-form-field class="ml-3">
     <input matInput placeholder="חפש עובד" [(ngModel)]="searchCriteria['employee']" (change)="search()">
@@ -52,7 +51,7 @@
       <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
       <td>{{ statuses[item.status] }}</td>
       <td>
-        <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
+        <img src="/assets/img/icons/forward_green.png" (click)="openInquiriesFormDialog(item)">
       </td>
       <td>
         <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiry_count }}</span>
@@ -60,9 +59,9 @@
       <td>
         <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
       </td>
-      <td>
-        <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
-      </td>
+      <!--<td>-->
+        <!--<img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">-->
+      <!--</td>-->
     </tr>
   </ng-container>
   <tr *ngIf="!isSearching && items.length === 0">

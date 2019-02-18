@@ -64,7 +64,7 @@ export class PlatformComponent implements OnInit {
     ];
 
   readonly menuLinks = [
-        { url: 'dashboard', label: 'דף הבית' },
+        { url: 'dashboard',     label: 'דף הבית' },
         { url: 'compensations', label: 'יתרות לפיצויים', subMenuLinks: [
         { url: 'process', label: 'מעקב יתרות לפיצויים' },
         { url: 'deposits-report', label: 'מעקב דוח הפקדות' },
@@ -79,16 +79,16 @@ export class PlatformComponent implements OnInit {
     //   { url: 'table/employees', label: 'טבלת עובדים' },
     //   { url: 'table/files', label: 'טבלת קבצים' }
     // ]},
-    { url: 'feedback', label: 'תשלומים והיזונים', subMenuLinks: [
+    { url: 'feedback',    label: 'תשלומים והיזונים', subMenuLinks: [
       { url: 'employees', label: 'לפי עובד' },
-      { url: 'files', label: 'לפי קובץ' }
+      { url: 'files',     label: 'לפי קובץ' }
     ]},
-    { url: 'finance', label: 'פיננסים', subMenuLinks: [
-      { url: 'invoices', label: 'חשבונות חייבים' }
+    { url: 'finance',     label: 'פיננסים', subMenuLinks: [
+      { url: 'invoices',  label: 'חשבונות חייבים' }
     ]},
-    { url: 'settings', label: 'הגדרות', subMenuLinks: [
+    { url: 'settings',    label: 'הגדרות', subMenuLinks: [
       { url: 'employers', label: 'מעסיקים' },
-      { url: 'contacts', label: 'אנשי קשר' },
+      { url: 'contacts',  label: 'אנשי קשר' },
       ]},
   ];
 
