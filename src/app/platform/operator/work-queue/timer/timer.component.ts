@@ -18,7 +18,6 @@ export class TimerComponent implements OnInit, OnDestroy  {
   constructor(public dialog: MatDialog,
               private timerService: TimerService,
               protected route: ActivatedRoute) {
-
     this.intervals();
   }
 
@@ -28,18 +27,23 @@ export class TimerComponent implements OnInit, OnDestroy  {
       switch (this.path) {
         case 'phone-call': {
           this.text = 'זמן טיפול בשיחת טלפון';
+          this.timerService.reset();
+          this.timerService.setPath(1);
           break;
         }
         case 'emails': {
           this.text = 'זמן טיפול במיילים';
+          this.timerService.reset();
           break;
         }
         case 'guidance': {
           this.text = 'זמן הדרכה';
+          this.timerService.reset();
           break;
         }
         case 'interruption': {
           this.text = 'זמן הפסקה';
+          this.timerService.reset();
           break;
         }
       }
@@ -70,6 +74,6 @@ export class TimerComponent implements OnInit, OnDestroy  {
     });
   }
   ngOnDestroy() {
-    this.timerService.reset();
+    // this.timerService.setPath(1);
   }
 }

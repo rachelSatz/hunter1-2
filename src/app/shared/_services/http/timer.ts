@@ -7,8 +7,23 @@ export class TimerService {
   second = new BehaviorSubject<number>(0);
   minute = new BehaviorSubject<number>(0);
   hour = new BehaviorSubject<number>(0);
+  id = new BehaviorSubject<number>(0);
 
   constructor() {
+    this.setIntervals();
+  }
+
+  public getSecondsObservable() {
+    return this.second.asObservable();
+  }
+  public getMinutesObservable() {
+    return this.minute.asObservable();
+  }
+  public getHoursObservable() {
+    return this.hour.asObservable();
+  }
+
+  setIntervals() {
     setInterval(() => {
       const newVal = this.second.getValue() + 1;
       this.second.next(newVal);
@@ -25,21 +40,14 @@ export class TimerService {
       this.hour.next(hourVal);
     }, 600000);
   }
-
-  public getSecondsObservable() {
-    return this.second.asObservable();
-  }
-  public getMinutesObservable() {
-    return this.minute.asObservable();
-  }
-  public getHoursObservable() {
-    return this.hour.asObservable();
-  }
-
   reset() {
     this.second.next(0);
     this.minute.next(0);
     this.hour.next(0);
+  }
+
+  setPath(id: number): void {
+    this.id.next(id);
   }
 
 }
