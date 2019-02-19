@@ -10,10 +10,12 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./ongoing-operation.component.css']
 })
 export class OngoingOperationComponent implements OnInit {
-  constructor(route: ActivatedRoute, private dialog: MatDialog,
+  text: string;
+  constructor(protected route: ActivatedRoute, private dialog: MatDialog,
               protected  notificationService: NotificationService) { }
 
   ngOnInit() {
+    this.text = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';
   }
   taskCompletedDialog(): void {
     const title = 'המשימה סומנה כטופלה';

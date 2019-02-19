@@ -10,9 +10,8 @@ import {
 import { MatTabsModule } from '@angular/material/tabs';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { SystemTasksComponent } from './system-tasks/system-tasks.component';
-import { PhoneCallComponent } from './phone-call/phone-call.component';
 import { OngoingOperationComponent } from './ongoing-operation/ongoing-operation.component';
-import { EmailsComponent } from './emails/emails.component';
+import { TimerComponent } from './timer/timer.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import {SkipTaskComponent} from './ongoing-operation/skip-task/skip-task.component';
 import {DatePickerModule} from 'app/shared/app-date-picker/app-date-picker.module';
@@ -22,7 +21,7 @@ import {TimerService} from '../../../shared/_services/http/timer';
 //   { path: '', component: WorkQueueComponent},
 //   { path: 'system-tasks', loadChildren: './system-tasks/system-tasks.module#SystemTasksModule'},
 //   { path: 'phone-call', loadChildren: 'phone-call/phone-call.module#PhoneCallModule'},
-//   { path: 'emails', loadChildren: 'emails/emails.module#EmailsModule'},
+//   { path: 'timer', loadChildren: 'timer/timer.module#EmailsModule'},
 //   { path: 'ongoing-operation', loadChildren: 'ongoing-operation/ongoing-operation.module#OngoingOperationModule'}
 //
 // ];
@@ -30,11 +29,11 @@ const routes: Routes = [
   {
     path: '', component: WorkQueueComponent, children: [
       { path: 'system-tasks', component: SystemTasksComponent},
-      { path: 'phone-call', component: PhoneCallComponent},
-      { path: 'emails', component: EmailsComponent},
+      { path: 'phone-call', component: TimerComponent},
+      { path: 'emails', component: TimerComponent},
       { path: 'ongoing-operation', component: OngoingOperationComponent},
-      { path: 'guidance', component: OngoingOperationComponent},
-      { path: 'interruption', component: OngoingOperationComponent}
+      { path: 'guidance', component: TimerComponent},
+      { path: 'interruption', component: TimerComponent}
     ]
   }
 ];
@@ -49,7 +48,7 @@ const routes: Routes = [
     BdSelectModule, MatOptionModule, MatTabsModule, DatePickerModule
   ],
 
-  declarations: [WorkQueueComponent, SystemTasksComponent, PhoneCallComponent, EmailsComponent, OngoingOperationComponent,
+  declarations: [WorkQueueComponent, SystemTasksComponent, TimerComponent, OngoingOperationComponent,
     SkipTaskComponent],
   providers: [NotificationService, TimerService],
   entryComponents: [SkipTaskComponent]
