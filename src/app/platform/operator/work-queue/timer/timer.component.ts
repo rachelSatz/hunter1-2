@@ -2,6 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { TimerService } from '../../../../shared/_services/http/timer';
 import { ActivatedRoute } from '@angular/router';
+import {OperatorTasksService} from '../../../../shared/_services/http/operator-tasks';
+import {Time} from '@angular/common';
+import {Timestamp} from 'rxjs';
 
 @Component({
   selector: 'app-emails',
@@ -14,10 +17,12 @@ export class TimerComponent implements OnInit, OnDestroy  {
   hours: string;
   path: string;
   text: string;
+  task_timer_id: number;
 
   constructor(public dialog: MatDialog,
               private timerService: TimerService,
-              protected route: ActivatedRoute) {
+              protected route: ActivatedRoute,
+              private operatorTasks: OperatorTasksService) {
     this.intervals();
   }
 
@@ -28,22 +33,26 @@ export class TimerComponent implements OnInit, OnDestroy  {
         case 'phone-call': {
           this.text = 'זמן טיפול בשיחת טלפון';
           this.timerService.reset();
-          this.timerService.setPath(1);
+          this.newTaskTimer('phone-call');
+          // this.timerService.setPath(1);
           break;
         }
         case 'emails': {
           this.text = 'זמן טיפול במיילים';
           this.timerService.reset();
+          this.newTaskTimer('emails');
           break;
         }
         case 'guidance': {
           this.text = 'זמן הדרכה';
           this.timerService.reset();
+          this.newTaskTimer('guidance');
           break;
         }
         case 'interruption': {
           this.text = 'זמן הפסקה';
           this.timerService.reset();
+          this.newTaskTimer('interruption');
           break;
         }
       }
@@ -73,7 +82,22 @@ export class TimerComponent implements OnInit, OnDestroy  {
       }
     });
   }
+  newTaskTimer(taskType: string): void {
+    this.operatorTasks.newTaskTimer(taskType).then(
+      response => {
+        if (response > 0 ) {
+          this.task_timer_id = response;
+        }
+      });
+  }
+  updateTaskTimer(duration: Date): void {
+    this.operatorTasks.updateTaskTimer(this.task_timer_id, duration).then(
+      response => response);
+  }
   ngOnDestroy() {
+    Date.now();
+    const time = new Date();
     // this.timerService.setPath(1);
+    this.updateTaskTimer(time);
   }
 }

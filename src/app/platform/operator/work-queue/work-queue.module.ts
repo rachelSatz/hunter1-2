@@ -16,6 +16,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import {SkipTaskComponent} from './ongoing-operation/skip-task/skip-task.component';
 import {DatePickerModule} from 'app/shared/app-date-picker/app-date-picker.module';
 import {TimerService} from '../../../shared/_services/http/timer';
+import {OperatorTasksService} from '../../../shared/_services/http/operator-tasks';
 
 // const routes: Routes = [
 //   { path: '', component: WorkQueueComponent},
@@ -50,7 +51,7 @@ const routes: Routes = [
 
   declarations: [WorkQueueComponent, SystemTasksComponent, TimerComponent, OngoingOperationComponent,
     SkipTaskComponent],
-  providers: [NotificationService, TimerService],
+  providers: [NotificationService, TimerService, OperatorTasksService],
   entryComponents: [SkipTaskComponent]
 
 
