@@ -90,13 +90,15 @@ export class TimerComponent implements OnInit, OnDestroy  {
         }
       });
   }
-  updateTaskTimer(duration: Date): void {
-    this.operatorTasks.updateTaskTimer(this.task_timer_id, duration).then(
-      response => response);
+  updateTaskTimer(duration: string): void {
+    if (this.task_timer_id > 0) {
+      this.operatorTasks.updateTaskTimer(this.task_timer_id, duration).then(
+        response => response);
+    }
   }
+
   ngOnDestroy() {
-    Date.now();
-    const time = new Date();
+    const time = this.hours + ':' + this.minutes + ':' + this.seconds;
     // this.timerService.setPath(1);
     this.updateTaskTimer(time);
   }

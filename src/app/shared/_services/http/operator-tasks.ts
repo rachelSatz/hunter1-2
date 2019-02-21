@@ -39,8 +39,8 @@ export class OperatorTasksService extends BaseHttpService {
       .catch(() => 0);
   }
 
-  updateTaskTimer(id: number, duration: Date): Promise<any> {
-    return this.http.post(this.endPoint + id + '/updateTaskTimer', { 'duration': duration }, this.getTokenHeader())
+  updateTaskTimer(id: number, duration: string): Promise<any> {
+    return this.http.post(this.endPoint  + '/' + id + '/updateTaskTimer', { 'duration': duration }, this.getTokenHeader())
       .toPromise()
       .then(response => response as any)
       .catch(() => 0);
