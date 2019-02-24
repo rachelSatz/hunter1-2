@@ -1,40 +1,27 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog} from '@angular/material';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { interval, Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
+import * as FileSaver from 'file-saver';
 
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
-import { ProcessService } from 'app/shared/_services/http/process.service';
-import { EmailComponent } from './email/email.component';
-import { Router } from '@angular/router';
-import { ProcessDetails } from 'app/shared/_models/process-details.model';
-import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
-
-import * as FileSaver from 'file-saver';
-import { interval, Subscription } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
-import {Process} from 'app/shared/_models/process.model';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import { ProcessDetails } from 'app/shared/_models/process-details.model';
+import { Process } from 'app/shared/_models/process.model';
+import { EmailComponent } from './email/email.component';
+import { fade } from 'app/shared/_animations/animation';
 
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styles: ['.thborder { border-bottom: 2px solid #dee2e6 }' ],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: 'block',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('0ms ease-in')),
-      transition('inactive => active', animate('300ms ease-in'))
-    ])
-  ]})
+  animations: [ fade ]
+ })
 
 export class PaymentComponent implements OnInit , OnDestroy {
 
@@ -129,6 +116,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
 
   openDialogSendFileEmail(): void {
     this.dialog.open(SendFileEmailComponent, {
+      data: {processId : this.processId},
       width: '550px',
       panelClass: 'send-email-dialog'
     });

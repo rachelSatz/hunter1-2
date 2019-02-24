@@ -1,28 +1,15 @@
 import { Component, OnInit, Inject} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import {Compensation, AnswerManufacturer} from 'app/shared/_models/compensation.model';
+import { Compensation, AnswerManufacturer } from 'app/shared/_models/compensation.model';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-error-message',
   templateUrl: './error-message.component.html',
   styles: ['.tableHeight { height: 200px; overflow-y: auto }', '.colorTh { color: #fff; background-color: #808080}'],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: '*',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('0ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class ErrorMessageComponent implements OnInit {
 

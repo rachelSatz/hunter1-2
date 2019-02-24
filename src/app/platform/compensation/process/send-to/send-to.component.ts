@@ -1,18 +1,17 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, NgForm } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { map, startWith } from 'rxjs/operators';
 import {MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef,
         MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material';
+import { FormControl, NgForm } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
-import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-
 import { Compensation } from 'app/shared/_models/compensation.model';
+import { fade } from 'app/shared/_animations/animation';
 
 export interface Contact {
   id: number;
@@ -25,20 +24,7 @@ export interface Email {
 @Component({
   selector: 'app-send-to',
   templateUrl: './send-to.component.html',
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0',
-      })),
-      state('active', style({
-        display: '*',
-        opacity: '1',
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 
 export class SendToComponent implements OnInit {
@@ -66,9 +52,7 @@ export class SendToComponent implements OnInit {
     this.filteredContacts = this.contactCtrl.valueChanges.pipe(
       startWith(null),
       map((contact: string | null) => contact ? this._filter(contact) : this.contacts.slice()));
-
   }
-
 
   ngOnInit() {
     this.helpers.setPageSpinner(true);
@@ -80,7 +64,6 @@ export class SendToComponent implements OnInit {
       this.contacts = types;
       this.helpers.setPageSpinner(false);
     });
-
   }
 
   submit(form: NgForm): void {
@@ -108,7 +91,6 @@ export class SendToComponent implements OnInit {
       }
     }
 
-    // Reset the input value
     if (input && validEmailRegEx.test(value.trim())) {
       input.value = '';
     }
@@ -120,24 +102,6 @@ export class SendToComponent implements OnInit {
     if (index >= 0) {
       this.Emails.splice(index, 1);
     }
-  }
-
-  removeContact(contact: Contact): void {
-    const index = this.contactsAdd.indexOf(contact);
-
-    if (index >= 0) {
-      this.contactsAdd.splice(index, 1);
-    }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    // this.contactsAdd.push(event.option.viewValue);
-    this.contactInput.nativeElement.value = '';
-    this.contactCtrl.setValue(null);
-    if (this.contactsAdd.indexOf(event.option.value) === -1) {
-      this.contactsAdd.push(event.option.value);
-    }
-
   }
 
   private _filter(value: string): Contact[] {

@@ -37,7 +37,7 @@
         <td (click)="openUpdateAccountNumberDialog(item.file_total, item.file_id, item.payment_identifier)">{{ item.payment_identifier }}</td>
         <td >{{ item.payment_additional_info.account_number }}</td>
         <td (click)="openUpdatePayDateDialog(item.payment_date, item.file_id)">{{ item.payment_date  }}</td>
-        <td>{{ item.file_total }}</td>
+        <td>{{ item.file_total | number: '1.2-2' }}</td>
         <td>{{ item.file_id }}</td>
         <td>
           <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item.file_id)">

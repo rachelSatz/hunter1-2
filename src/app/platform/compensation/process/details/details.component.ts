@@ -1,36 +1,21 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import {  MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
 import * as FileSaver from 'file-saver';
 
-
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import { Compensation } from 'app/shared/_models/compensation.model';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import {FilterItemsPipe} from '../../../../shared/_pipes/filter-items.pipe';
+import { Compensation } from 'app/shared/_models/compensation.model';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['../../../../shared/data-table/data-table.component.css'],
-  styles: ['table td { word-wrap:break-word }'],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: '*',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('0ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  styles: ['table td { word-wrap:break-word }', 'table {  table-layout:fixed }'],
+  animations: [ fade ]
 })
 export class DetailsComponent  extends DataTableComponent implements OnInit {
 
@@ -49,8 +34,7 @@ export class DetailsComponent  extends DataTableComponent implements OnInit {
     super(route);
   }
 
-
-    ngOnInit() {
+  ngOnInit() {
       this.setItems(this.compensation.files);
   }
 
@@ -67,7 +51,6 @@ export class DetailsComponent  extends DataTableComponent implements OnInit {
     }
   }
 
-
   downloadFile(fileName: string, type: string): void {
     this.spin = true;
     this.compensationService.downloadFile(this.compensation.id, fileName).then(response => {
@@ -82,7 +65,6 @@ export class DetailsComponent  extends DataTableComponent implements OnInit {
       this.spin = false;
     });
   }
-
 
   deleteFile(fileName: string): void {
       this.hasServerError = false;

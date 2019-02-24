@@ -19,7 +19,7 @@ import { MONTHS } from 'app/shared/_const/months';
   templateUrl: './process-table.component.html',
   styleUrls: ['../../../shared/data-table/data-table.component.css', './process-table.component.css']
 })
-export class ProcessTableComponent extends DataTableComponent implements OnInit, OnDestroy {
+export class ProcessTableComponent extends DataTableComponent  implements OnInit, OnDestroy {
 
   processStatus = ProcessStatus;
   processType = ProcessType;
@@ -96,8 +96,8 @@ export class ProcessTableComponent extends DataTableComponent implements OnInit,
 
   moveProcess(process: Process): void {
     const status = this.processStatus[process.status];
-   if (status === this.processStatus.Loading || status ===  this.processStatus.Can_Be_Processed
-   || status === this.processStatus.Done_Processing) {
+   if (status === this.processStatus.loading || status ===  this.processStatus.can_be_processed
+   || status === this.processStatus.done_processing) {
      const date = new Date(process.date);
      const data = {
        'pageNumber': 1,

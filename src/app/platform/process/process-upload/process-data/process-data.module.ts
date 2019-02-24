@@ -7,7 +7,7 @@ import { MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule,
          MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatTooltipModule } from '@angular/material';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { ProcessDataComponent } from './process-data.component';
-import { SelectDepComponent } from './select-dep/select-dep.component';
+import {FileDepositionComponent} from './file-deposition/file-deposition.component';
 
 const routes
 
@@ -25,7 +25,7 @@ const routes
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule,
     MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, FileDropModule, MatButtonModule
 ],
-  declarations: [ProcessDataComponent , SelectDepComponent],
-  entryComponents: [SelectDepComponent]
+  declarations: [ProcessDataComponent, FileDepositionComponent],
+  entryComponents: [FileDepositionComponent]
 })
 export class ProcessDataModule {}

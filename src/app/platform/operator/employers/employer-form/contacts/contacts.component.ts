@@ -18,10 +18,13 @@ export class ContactsComponent extends DataTableComponent implements OnInit , On
   pathEmployers = false;
 
   constructor(route: ActivatedRoute,
-              private contactService: ContactService, private router: Router,
+              private contactService: ContactService,
+              private router: Router,
               private selectUnit: SelectUnitService) {
     super(route);
-    this.paginationData.limit = 5;
+    if (this.router.url.includes( 'operator')) {
+      this.paginationData.limit = 5;
+    }
   }
 
   types = EntityTypes;

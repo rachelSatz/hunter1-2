@@ -1,34 +1,20 @@
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { NgForm  } from '@angular/forms';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
+import { EmployerBankAccount } from 'app/shared/_models/employer-bank-account.model';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-
 import { Department } from 'app/shared/_models/department.model';
-import { EmployerBankAccount } from 'app/shared/_models/employer-bank-account.model';
+import { fade } from 'app/shared/_animations/animation';
 
 
 @Component({
   selector: 'app-department-form',
   templateUrl: './department-form.component.html',
   styleUrls: ['./department-form.component.css'],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        height: '0'
-      })),
-      state('active', style({
-        display: '*',
-        height: '*'
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class DepartmentFormComponent implements OnInit {
 

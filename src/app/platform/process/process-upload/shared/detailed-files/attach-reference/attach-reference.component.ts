@@ -1,26 +1,14 @@
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Component, Inject, OnInit } from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import { NgForm } from '@angular/forms';
+
+import { fade } from 'app/shared/_animations/animation';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-attach-reference',
   templateUrl: './attach-reference.component.html',
-  animations: [
-  trigger('fade', [
-    state('inactive', style({
-      display: 'none',
-      opacity: '0'
-    })),
-    state('active', style({
-      display: 'block',
-      opacity: '1'
-    })),
-    transition('active => inactive', animate('0ms ease-in')),
-    transition('inactive => active', animate('300ms ease-in'))
-  ])
-],
+  animations: [ fade ]
 })
 export class AttachReferenceComponent implements OnInit {
 
@@ -34,6 +22,7 @@ export class AttachReferenceComponent implements OnInit {
 
   ngOnInit() {
   }
+
   submit(form: NgForm): void {
     this.hasServerError = false;
     if (this.uploadedFile) {

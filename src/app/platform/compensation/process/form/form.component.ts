@@ -1,34 +1,20 @@
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import { ProductService } from 'app/shared/_services/http/product.service';
-
-import { ProductType } from 'app/shared/_models/product.model';
+import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { ProductService } from 'app/shared/_services/http/product.service';
+import { ProductType } from 'app/shared/_models/product.model';
+import { fade } from 'app/shared/_animations/animation';
 
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styles: ['.inactive { display: none !important}'],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: 0
-      })),
-      state('active', style({
-        display: '*',
-        opacity: 1
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class FormComponent implements OnInit {
 
@@ -41,7 +27,7 @@ export class FormComponent implements OnInit {
   hasClearingEmployer = false;
   scrollIndex = 1;
 
-  dateFilter = (date: Date) =>   (!this.hasClearingEmployer  ||
+  dateFilter = (date: Date) =>  (!this.hasClearingEmployer  ||
     (new Date(date.getFullYear() , date.getMonth() + 1 , 0).getDate() ===  date.getDate()))
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<FormComponent>,

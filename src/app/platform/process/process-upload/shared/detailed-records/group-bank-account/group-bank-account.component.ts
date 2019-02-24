@@ -1,32 +1,18 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { ActivatedRoute } from '@angular/router';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import {NotificationService} from '../../../../../../shared/_services/notification.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-group-bank-account',
   templateUrl: './group-bank-account.component.html',
   styleUrls: ['../../../../../../shared/data-table/data-table.component.css'],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        height: '0'
-      })),
-      state('active', style({
-        display: '*',
-        height: '*'
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class GroupBankAccountComponent extends DataTableComponent implements OnInit , OnDestroy {
 

@@ -1,29 +1,16 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import {PaymentType} from 'app/shared/_models/process.model';
-import {NgForm} from '@angular/forms';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {ProcessService} from '../../../../../../shared/_services/http/process.service';
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import { PaymentType } from 'app/shared/_models/process.model';
+import { NgForm  } from '@angular/forms';
+import { fade } from 'app/shared/_animations/animation';
 
 
 @Component({
   selector: 'app-update-type-payment',
   templateUrl: './update-payment-type.component.html',
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        height: '0'
-      })),
-      state('active', style({
-        display: '*',
-        height: '*'
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class UpdatePaymentTypeComponent implements OnInit {
 
@@ -45,9 +32,7 @@ export class UpdatePaymentTypeComponent implements OnInit {
     if (form.valid) {
       console.log(this.type);
       this.processService.update('paymentType', this.type, this.data.file_id).then(response => {
-        // if (response) {
           this.dialogRef.close();
-        // }
       });
     }
   }

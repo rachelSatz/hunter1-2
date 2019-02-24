@@ -1,29 +1,17 @@
-import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
 import * as FileSaver from 'file-saver';
-import { HelpersService} from 'app/shared/_services/helpers.service';
+
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { InvoiceService } from '../../../../shared/_services/http/invoice.service';
+import { InvoiceService } from 'app/shared/_services/http/invoice.service';
+import { HelpersService} from 'app/shared/_services/helpers.service';
+import { fade } from 'app/shared/_animations/animation';
 
 
 @Component({
   selector: 'app-employers-finance-excel',
   templateUrl: './employers-finance-excel.component.html',
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: '*',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('0ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class EmployersFinanceExcelComponent implements OnInit {
   uploadedFile: File;
@@ -41,8 +29,8 @@ export class EmployersFinanceExcelComponent implements OnInit {
 
   ngOnInit() {
     this.typeDoc = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel';
-
   }
+
   submit(): void {
     if (this.uploadedFile !== undefined ) {
       this.helpers.setPageSpinner(true);

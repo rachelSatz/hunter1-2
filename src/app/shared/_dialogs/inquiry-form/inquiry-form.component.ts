@@ -1,14 +1,15 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, NgForm} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef,
         MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material';
+import { FormControl, NgForm} from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Observable} from 'rxjs';
 
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
-import { GeneralHttpService } from '../../_services/http/general-http.service';
+import { fade } from 'app/shared/_animations/animation';
+
 
 export interface Contact {
   id: number;
@@ -21,26 +22,11 @@ export interface Email {
 @Component({
   selector: 'app-inquiry-form',
   templateUrl: './inquiry-form.component.html',
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0',
-      })),
-      state('active', style({
-        display: '*',
-        opacity: '1',
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class InquiryFormComponent implements OnInit {
   hasServerError: boolean;
   uploadedFile: File [];
-  contactCtrl = new FormControl();
-  filteredContacts: Observable<Contact[]>;
   contactsAdd: Contact[] = [];
   comments = '';
   selectable = true;
@@ -69,7 +55,6 @@ export class InquiryFormComponent implements OnInit {
       this.contacts = types;
       this.helpers.setPageSpinner(false);
     });
-
   }
 
   submit(form: NgForm): void {
@@ -89,16 +74,13 @@ export class InquiryFormComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
     const validEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    // Add our fruit
     if ((value || '').trim()) {
       if (validEmailRegEx.test(value.trim())) {
         this.Emails.push({name: value.trim()});
       }
     }
 
-    // Reset the input value
     if (input && validEmailRegEx.test(value.trim())) {
       input.value = '';
     }
@@ -110,31 +92,6 @@ export class InquiryFormComponent implements OnInit {
     if (index >= 0) {
       this.Emails.splice(index, 1);
     }
-  }
-
-  removeContact(contact: Contact): void {
-    const index = this.contactsAdd.indexOf(contact);
-
-    if (index >= 0) {
-      this.contactsAdd.splice(index, 1);
-    }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    // this.contactsAdd.push(event.option.viewValue);
-    this.contactInput.nativeElement.value = '';
-    this.contactCtrl.setValue(null);
-    if (this.contactsAdd.indexOf(event.option.value) === -1) {
-      this.contactsAdd.push(event.option.value);
-    }
-
-  }
-
-  private _filter(value: string): Contact[] {
-    console.log(value);
-    const filterValue =  value['name'] === undefined ? value.toLowerCase() : value['name'].toLowerCase();
-
-    return this.contacts.filter(contact => contact.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
   close() {

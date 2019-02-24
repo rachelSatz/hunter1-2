@@ -1,36 +1,21 @@
+import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { isNumber } from 'util';
 
 import { PlatformComponent } from 'app/platform/platform.component';
-
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-
 import { Employer } from 'app/shared/_models/employer.model';
+import { fade } from 'app/shared/_animations/animation';
 
 
 @Component({
   selector: 'app-employer-form',
   templateUrl: './employer-form.component.html',
   styleUrls: ['./employer-form.component.css'],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        height: '0'
-      })),
-      state('active', style({
-        display: '*',
-        height: '*'
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class EmployerFormComponent implements OnInit {
 

@@ -1,31 +1,18 @@
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-new-employer',
   templateUrl: './new-employer.component.html',
   styleUrls: ['./new-employer.component.css'],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: 'block',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('300ms ease-in')),
-      transition('inactive => active', animate('300ms ease-in'))
-    ]),
-  ]
+  animations: [ fade ]
 })
 export class NewEmployerComponent implements OnInit {
 
@@ -35,7 +22,6 @@ export class NewEmployerComponent implements OnInit {
   operators;
   projects = [];
   organizations = [];
-  selectedOrganization;
   branches1;
   branches2;
   selectedBranch1;
@@ -49,9 +35,11 @@ export class NewEmployerComponent implements OnInit {
   ];
 
 
-  constructor(private fb: FormBuilder, private generalHttpService: GeneralHttpService, private router: Router,
-              private organizationService: OrganizationService, private employerService: EmployerService,
-              private helpers: HelpersService) { }
+  constructor(private fb: FormBuilder,
+              private generalHttpService: GeneralHttpService,
+              private router: Router,
+              private organizationService: OrganizationService,
+              private employerService: EmployerService) { }
 
   ngOnInit() {
     this.initForm();

@@ -1,27 +1,14 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocompleteSelectedEvent,
-  MatAutocomplete} from '@angular/material';
-import { GeneralHttpService } from '../../_services/http/general-http.service';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
 import * as FileSaver from 'file-saver';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-inquiries',
   templateUrl: './inquiries.component.html',
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0',
-      })),
-      state('active', style({
-        display: '*',
-        opacity: '1',
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class InquiriesComponent implements OnInit {
   inquiries = [];
@@ -36,6 +23,7 @@ export class InquiriesComponent implements OnInit {
       this.inquiries = response
     );
   }
+
   downloadFilesInquirie(id: number): void {
     this.generalService.downloadFilesInquirie(id, this.data.contentType).then(response => {
       response.forEach(item => {
@@ -50,6 +38,7 @@ export class InquiriesComponent implements OnInit {
       });
     });
   }
+
   close() {
     this.dialogRef.close();
   }

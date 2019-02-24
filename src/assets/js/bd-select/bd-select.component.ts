@@ -10,45 +10,14 @@ import {
   OnChanges
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { isArray } from 'rxjs/util/isArray';
+import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'bd-select' ,
   templateUrl: './bd-select.component.html',
   styleUrls: ['./bd-select.component.css'],
-  animations: [
-    trigger('slideToggle', [
-      state('inactive', style({
-        display: 'none',
-        height: '0',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: 'block',
-        height: '*',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('100ms ease-in')),
-      transition('inactive => active', animate('300ms ease-out'))
-    ]),
-    trigger('placeholder', [
-      state('inactive', style({
-        fontSize: '*',
-        top: '*',
-        color: '*',
-        fontWeight: 'normal'
-      })),
-      state('active', style({
-        fontSize: '12px',
-        top: '-12px',
-        color: '#3f51b5',
-        fontWeight: 'bold'
-      })),
-      transition('active => inactive', animate('300ms ease-in')),
-      transition('inactive => active', animate('300ms ease-in'))
-    ])
-  ],
+  animations: [ slideToggle, placeholder],
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: BdSelectComponent, multi: true }
   ]

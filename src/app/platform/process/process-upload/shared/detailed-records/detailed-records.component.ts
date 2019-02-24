@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { GroupBankAccountComponent } from './group-bank-account/group-bank-account.component';
 import { ProductType } from 'app/shared/_models/product.model';
 import { DepositStatus, DepositType } from 'app/shared/_models/monthly-transfer-block';
+import {HelpersService} from '../../../../../shared/_services/helpers.service';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
               private dialog: MatDialog,
               private processDataService: ProcessDataService,
               private  monthlyTransferBlockService: MonthlyTransferBlockService ,
-              protected  notificationService: NotificationService) {
+              protected  notificationService: NotificationService,
+              private helpers: HelpersService) {
   super(route , notificationService);
 }
   employees = [];
@@ -47,23 +49,19 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
   productType = ProductType;
 
   ngOnInit() {
+
     this.monthlyTransferBlockService.getEntity(this.processDataService.activeProcess.processID)
       .then(response => {
         this.employees = response['employees'];
         this.products = response['products'];
       });
-
     this.searchCriteria['processId'] = this.processDataService.activeProcess.processID;
+    this.helpers.setPageSpinner(true);
     this.monthlyTransferBlockService.getMonthlyList(this.searchCriteria)
-      .then(response => this.setItems(response));
-
-    // this.fetchItems();
+      .then(response => {this.setItems(response);  this.helpers.setPageSpinner(false); });
     super.ngOnInit();
   }
 
-  fetchItems() {
-
-  }
 
   openGroupTransferDialog(): void {
     if (this.checkedRowItems()) {

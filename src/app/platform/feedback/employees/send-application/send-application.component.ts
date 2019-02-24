@@ -1,26 +1,23 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { DialogData} from '../employees.component';
-import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { Month } from 'app/shared/_const/month-bd-select';
+import { DepositType, EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
+import { ProductType } from 'app/shared/_models/product.model';
+import { ClauseType } from 'app/shared/_models/transfer_clause.model';
 
 @Component({
   selector: 'app-send-application',
   templateUrl: './send-application.component.html',
-  styleUrls: ['./send-application.component.css'],
-  providers: [GeneralHttpService]
+  styleUrls: ['./send-application.component.css']
 })
 export class SendApplicationComponent implements OnInit {
-  commentContent: string;
-  months = Month;
-  monthSearch;
-
-  readonly years = [2016, 2017, 2018, 2019];
 
   constructor(public dialogRef: MatDialogRef<SendApplicationComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private generalHttpService: GeneralHttpService) {}
+              @Inject(MAT_DIALOG_DATA) public data: any) {}
 
+  productType = ProductType;
+  depositTypes = DepositType;
+  employeeStatuses = EmployeeStatus;
+  clause_types = ClauseType;
   ngOnInit() {
   }
 
