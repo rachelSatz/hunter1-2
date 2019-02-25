@@ -1,44 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { UserSessionService } from '../shared/_services/user-session.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import { fade, slideInOut } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-platform',
   templateUrl: './platform.component.html',
   styleUrls: ['./platform.component.css'],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: 'block',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('100ms ease-in')),
-      transition('inactive => active', animate('300ms ease-in'))
-    ]),
-    trigger('slideInOut', [
-      state('in', style({
-        display: 'none',
-        width: '0',
-        opacity: '0'
-      })),
-      state('out', style({
-        display: 'block',
-        width: '*',
-        opacity: '1'
-      })),
-      transition('in => out', animate('400ms ease-in-out')),
-      transition('out => in', animate('400ms ease-in-out'))
-    ]),
-  ]
+  animations: [ fade , slideInOut ]
 })
 export class PlatformComponent implements OnInit {
 
@@ -53,14 +26,14 @@ export class PlatformComponent implements OnInit {
   isAgent = false;
 
   readonly agentBarEl = [
-    { id: 1, icon: 'building' ,        label: 'ארגונים',   link: 'organizations', role: 'admin'   },
-    { id: 2, icon: 'question-circle' , label: 'תור עבודה', link: 'work-queue',    role: 'operator'},
-    { id: 3, icon: 'list-ul' ,         label: 'משימות',    link: 'tasks',         role: 'operator'},
-    { id: 4, icon: 'user' ,            label: 'מעסיקים',   link: 'employers',     role: 'operator'},
-    { id: 5, icon: 'users' ,           label: 'משתמשים',   link: 'users',         role: 'admin'   },
-    { id: 6, icon: 'file' ,            label: 'מסמכים',    link: '',              role: 'operator'},
-    { id: 7, icon: 'user' ,            label: 'אנשי קשר',  link: 'contacts',      role: 'operator'},
-    { id: 8, icon: 'bell' ,            label: 'התראות',    link: '',              role: 'operator'}
+    { id: 1, icon: 'building', label: 'ארגונים', link: 'organizations', role: 'admin'},
+    { id: 2, icon: 'question-circle', label: 'תור עבודה', link: 'work-queue', role: 'operator'},
+    { id: 3, icon: 'list-ul', label: 'משימות', link: 'tasks', role: 'operator'},
+    { id: 4, icon: 'user', label: 'מעסיקים', link: 'employers', role: 'operator'},
+    { id: 5, icon: 'users', label: 'משתמשים', link: 'users', role: 'admin'},
+    { id: 6, icon: 'file', label: 'מסמכים', link: '', role: 'operator'},
+    { id: 7, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
+    { id: 8, icon: 'bell', label: 'התראות', link: '', role: 'operator'}
     ];
 
   readonly menuLinks = [
@@ -74,11 +47,6 @@ export class PlatformComponent implements OnInit {
       { url: 'new/0', label: 'צור תהליך חדש' },
       { url: 'table', label: 'תהליכים' }
     ]},
-    // { url: 'feedback', label: 'היזונים חוזרים', subMenuLinks: [
-    //   { url: 'graph', label: 'גרף' },
-    //   { url: 'table/employees', label: 'טבלת עובדים' },
-    //   { url: 'table/files', label: 'טבלת קבצים' }
-    // ]},
     { url: 'feedback',    label: 'תשלומים והיזונים', subMenuLinks: [
       { url: 'employees', label: 'לפי עובד' },
       { url: 'files',     label: 'לפי קובץ' }

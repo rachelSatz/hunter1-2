@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import * as FileSaver from 'file-saver';
 
 import { HelpersService} from 'app/shared/_services/helpers.service';
@@ -8,24 +7,12 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { PlatformComponent } from '../../../platform.component';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-excel-employers-dialog',
   templateUrl: './excel-employers.component.html',
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: '*',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('0ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class ExcelEmployersComponent implements OnInit {
 
@@ -58,7 +45,7 @@ export class ExcelEmployersComponent implements OnInit {
         this.message = response['message'];
         if (this.message === undefined) {
           this.message = 'שגיאה';
-          const byteCharacters = atob(response.toString());
+          const byteCharacters = atob(response['data']);
           const byteNumbers = new Array(byteCharacters.length);
           for (let i = 0; i < byteCharacters.length; i++) {
             byteNumbers[i] = byteCharacters.charCodeAt(i);

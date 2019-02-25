@@ -1,31 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-
 import { User } from 'app/shared/_models/user.model';
+import { fade } from 'app/shared/_animations/animation';
 
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css'],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: 'block',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('300ms ease-in')),
-      transition('inactive => active', animate('300ms ease-in'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class CommentsComponent implements OnInit {
   user: User;

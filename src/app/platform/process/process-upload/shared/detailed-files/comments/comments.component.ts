@@ -1,25 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: '*',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('0ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class CommentsComponent implements OnInit {
   comments = [];

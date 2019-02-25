@@ -1,9 +1,12 @@
-import {Component, OnInit, Inject} from '@angular/core';
-import { FeedbackService } from 'app/shared/_services/http/feedback.service';
-import {MAT_DIALOG_DATA, MatDialog} from '@angular/material';
-import {Subscription} from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
 import * as FileSaver from 'file-saver';
-import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
+import { Subscription } from 'rxjs';
+
+import { FeedbackService } from 'app/shared/_services/http/feedback.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { Status } from 'app/shared/_models/file-feedback.model';
+import { ProductType } from 'app/shared/_models/product.model';
 
 @Component({
   selector: 'app-form',
@@ -14,12 +17,11 @@ export class FormComponent implements OnInit {
   sub = new Subscription();
   fileName: string;
   spin: boolean;
-  // employerId = this.selectUnit.currentEmployerID;
+  productType = ProductType;
+  statuses = Status;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-              private feedbackService: FeedbackService,
-              private dialog: MatDialog,
-              private selectUnit: SelectUnitService) { }
+              private feedbackService: FeedbackService) { }
 
   ngOnInit() {
     console.log(this.data);

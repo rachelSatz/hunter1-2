@@ -1,37 +1,24 @@
 import {ActivatedRoute, Router} from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { UserService } from 'app/shared/_services/http/user.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 
-import { User } from 'app/shared/_models/user.model';
 import { UserUnitPermission } from 'app/shared/_models/user-unit-permission.model';
-import { EntityRoles } from 'app/shared/_models/user.model';
 import { ModuleTypes } from 'app/shared/_models/user-module.model';
-import { Employer } from 'app/shared/_models/employer.model';
 import { Department } from 'app/shared/_models/department.model';
+import { Employer } from 'app/shared/_models/employer.model';
+import { EntityRoles } from 'app/shared/_models/user.model';
+import { User } from 'app/shared/_models/user.model';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
   styles: [`.check-module { width: 140px; }` ],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: 0
-      })),
-      state('active', style({
-        display: '*',
-        opacity: 1
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class UserFormComponent implements OnInit {
 
@@ -57,33 +44,30 @@ export class UserFormComponent implements OnInit {
     this.organizationService.getOrganizations().then(response => this.organizations = response);
     if (this.route.snapshot.data.user) {
       this.user = new User(this.route.snapshot.data.user);
-      // this.user.units[0].departments = [ '2' ];
        console.log(this.user);
     }
   }
 
- selectedEmployer(organizationID: number): Employer[] {
-   const selectedOrganization = this.organizations.find(o => {
-     return +o.id === +organizationID;
-   });
-   return selectedOrganization ? selectedOrganization.employer : [];
- }
+  selectedEmployer(organizationID: number): Employer[] {
+    const selectedOrganization = this.organizations.find(o => {
+      return +o.id === +organizationID;
+    });
+    return selectedOrganization ? selectedOrganization.employer : [];
+  }
 
-   selectedDepartment(organizationID: number, employerID: number): Department[] {
-      const selectedEmployer = this.selectedEmployer(organizationID);
+  selectedDepartment(organizationID: number, employerID: number): Department[] {
+     const selectedEmployer = this.selectedEmployer(organizationID);
 
-      if (selectedEmployer) {
-        const selectedDepartment  = (<Employer[]>selectedEmployer).find(e => {
-        return +e.id === +employerID;
-      });
-       if (selectedDepartment) {
-         return selectedDepartment.department;
-       }
+     if (selectedEmployer) {
+       const selectedDepartment  = (<Employer[]>selectedEmployer).find(e => {
+       return +e.id === +employerID;
+     });
+      if (selectedDepartment) {
+        return selectedDepartment.department;
       }
-      return [];
-   }
-
-
+     }
+     return [];
+  }
 
   submit(form: NgForm): void {
     this.hasServerError = false;

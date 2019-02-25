@@ -17,7 +17,7 @@ export class Process {
   details: ProcessDetails;
   stepStatus: StepStatus;
   fileName: string;
-  total: string;
+  total: number;
   processKind: number;
   errorMessage: string;
   KodSochnut: number;
@@ -77,43 +77,43 @@ export enum StepStatus {
   transmitted = 0,
   partiallyTransmitted = 1,
   notTransmitted = 2,
-  Loading= 3,
+  loading= 3,
 }
 
 export enum ValidityStatus {
-  Invalid_file = -1,
-  Waiting_for_treatment = 0,
-  Collection = 1,
-  Finish = 2,
+  invalid_file = -1,
+  waiting_for_treatment = 0,
+  collection = 1,
+  finish = 2,
   problem = 3,
-  Error = 4,
-  NotRelevant = 5,
+  error = 4,
+  notRelevant = 5,
 }
 
 export enum ProcessStatus {
-  Loading = 'בטעינה',
-  Can_Be_Processed = 'מעבד',
-  Done_Processing = 'מעובד',
-  Transmitted = 'שודר',
-  Feedbacked_Once = 'פידבק ראשון' ,
-  Finished = 'הסתיים'  ,
-  Error_Loading = 'שגיאת טעינה',
-  Error_Transmiting = 'שגיאת שליחה',
+  loading = 'בטעינה',
+  can_be_processed = 'מעבד',
+  done_processing = 'מעובד',
+  transmitted = 'שודר',
+  feedbacked_once = 'פידבק ראשון' ,
+  finished = 'הסתיים'  ,
+  error_loading = 'שגיאת טעינה',
+  error_transmiting = 'שגיאת שליחה',
 }
 
 export enum ProcessType {
-  Employer_Payment = 'תשלומי מעסיק',
-  Regular_Fix = 'תיקון סוג 2',
-  Positive_Negative_Fix = 'תיקון 6+1',
-  Direct_Employer = 'ישיר',
-  Manual_Payment = 'פידבק ראשון' ,
+  employer_payment = 'תשלומי מעסיק',
+  regular_fix = 'תיקון סוג 2',
+  positive_negative_fix = 'תיקון 6+1',
+  direct_employer = 'ישיר',
+  manual_payment = 'פידבק ראשון' ,
 }
 
 export enum PaymentType {
-  Bank_Transfer = 'העברה בנקאית',
-  Check = 'צק',
-  Direct_Debit = 'הוראת קבע',
-  Masav = 'מס"ב',
+  bank_transfer = 'העברה בנקאית',
+  check = 'צק',
+  direct_debit = 'הוראת קבע',
+  masav = 'מס"ב',
 }
 
 export enum FilesStatus {

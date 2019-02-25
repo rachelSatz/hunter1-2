@@ -39,7 +39,7 @@ export enum StatusLabel {
   menualyFullyPaid = 'נפרע במלואו ידנית',
   retransmit = 'לשדר מחדש',
   check = 'לבדיקת מתפעל',
-  Irrelevant = 'קובץ לא רלוונטי',
+  irrelevant = 'קובץ לא רלוונטי',
 
 }
 
@@ -52,7 +52,7 @@ export enum ApplicationStatusLabel {
   menualyFullyPaid = 'נפרע במלואו ידנית',
   retransmit = 'לשדר מחדש',
   check = 'לבדיקת מתפעל',
-  Irrelevant = 'קובץ לא רלוונטי',
+  irrelevant = 'קובץ לא רלוונטי',
 
 }
 

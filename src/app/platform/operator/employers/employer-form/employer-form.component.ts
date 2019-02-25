@@ -43,8 +43,11 @@ export class EmployerFormComponent implements OnInit {
     {name: 'בהקמה',   id: 'onProcess'},
   ];
 
-  constructor(private router: Router,  private fb: FormBuilder,  private route: ActivatedRoute,
-              private selectUnit: SelectUnitService, private employersResolve: EmployersResolve,
+  constructor(private router: Router,
+              private fb: FormBuilder,
+              private route: ActivatedRoute,
+              private selectUnit: SelectUnitService,
+              private employersResolve: EmployersResolve,
               private employerService: EmployerService) { }
 
   ngOnInit() {

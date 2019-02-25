@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
+import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
-import { ContactsComponent } from './contacts.component';
-import { ContactService } from 'app/shared/_services/http/contact.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
+import { ContactService } from 'app/shared/_services/http/contact.service';
+import { ContactsComponent } from './contacts.component';
 
 const routes: Routes = [{ path: '', component: ContactsComponent },
   { path: 'form',
@@ -18,6 +19,6 @@ const routes: Routes = [{ path: '', component: ContactsComponent },
     DataTableModule
   ],
   declarations: [ContactsComponent],
-  providers: [ContactService, ProductService]
+  providers: [ContactService, ProductService, NotificationService]
 })
 export class ContactsModule { }

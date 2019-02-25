@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { AgentService } from 'app/shared/_services/http/agent.service';
@@ -9,24 +8,12 @@ import { ContactService } from 'app/shared/_services/http/contact.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { Contact, EntityTypes } from 'app/shared/_models/contact.model';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        height: '0'
-      })),
-      state('active', style({
-        display: '*',
-        height: '*'
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class ContactFormComponent implements OnInit {
 
@@ -75,7 +62,8 @@ export class ContactFormComponent implements OnInit {
         this.contactService.updateContact(form.value, this.contact.id).then(response => this.handleResponse(response));
       } else {
         if (this.selectUnit.currentEmployerID) {
-          this.contactService.newContact(form.value, this.selectUnit.currentEmployerID).then(response => this.handleResponse(response));
+          this.contactService.newContact(form.value, this.selectUnit.currentEmployerID).
+          then(response => this.handleResponse(response));
         }else {
           this.notificationService.error('יש לבחור מעסיק.', 'יש לבחור מעסיק');
         }

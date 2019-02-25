@@ -1,41 +1,29 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Subscription } from 'rxjs';
 
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
-
 import { Month } from 'app/shared/_const/month-bd-select';
 import { Process } from 'app/shared/_models/process.model';
+import { FileDepositionComponent } from './file-deposition/file-deposition.component';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-process-data',
   templateUrl: './process-data.component.html',
   styleUrls: ['./process-data.component.css'],
   providers: [ProcessService, NotificationService],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: 'block',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('0ms ease-in')),
-      transition('inactive => active', animate('300ms ease-in'))
-    ])
-  ],
+  animations: [ fade ]
 })
-export class ProcessDataComponent implements OnInit {
+export class ProcessDataComponent implements OnInit, OnDestroy {
 
   @ViewChild('fileInput') fileInput: ElementRef;
-
+  sub = new Subscription;
   selectedType: 'positive' | 'negative';
   pageNumber = 1;
   monthValid = true;
@@ -59,9 +47,12 @@ export class ProcessDataComponent implements OnInit {
   processFile: File;
   fileTypeError = false;
 
-  constructor(private router: Router, private route: ActivatedRoute,
-              private dialog: MatDialog, private processService: ProcessService,
-              private notificationService: NotificationService, private selectUnitService: SelectUnitService,
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private dialog: MatDialog,
+              private processService: ProcessService,
+              private notificationService: NotificationService,
+              private selectUnitService: SelectUnitService,
               public processDataService: ProcessDataService) {}
 
   ngOnInit() {
@@ -145,45 +136,70 @@ export class ProcessDataComponent implements OnInit {
       this.isSubmitting = true;
       this.hasServerError = false;
 
-      let text = 'במידה ובוצע תשלום לקופות, הנתונים ילקחו ';
-      text += 'מתוך קובץ ה-XML בהתאם לפרטים שהוזנו בתוכנית השכר. ';
-      text += 'במידה והתשלום לא בוצע לקופות הנך מועבר לקבלת הנחיית תשלום. ';
-      text += 'ניתן יהיה לערוך את פרטי התשלום לפני שידור הנתונים לקופות.';
+      if (this.selectedType === 'positive') {
+        let text = 'במידה ובוצע תשלום לקופות, הנתונים ילקחו ';
+        text += 'מתוך קובץ ה-XML בהתאם לפרטים שהוזנו בתוכנית השכר. ';
+        text += 'במידה והתשלום לא בוצע לקופות הנך מועבר לקבלת הנחיית תשלום. ';
+        text += 'ניתן יהיה לערוך את פרטי התשלום לפני שידור הנתונים לקופות.';
 
-      const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+        const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
-      this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
-        if (confirmation['dismiss'] === 'cancel' || confirmation.value) {
-          const isDirect = !!confirmation.value;
-          const data = {
-            'month': this.months[form.value.month - 1].id,
-            'year': form.value['year'],
-            'processName': form.value['processName'],
-            'departmentId': this.selectUnitService.currentDepartmentID,
-            'isDirect': isDirect,
-            'type': this.selectedType,
-            'processId': '',
-            'pageNumber': 1
-          };
-          this.processService.newProcess(data,
-            this.route.snapshot.params.status === '1' ? this.process.file : this.processFile ).then(response => {
-            data['processId'] = response['processId'];
-            data['file'] = this.route.snapshot.params.status === '1' ? this.process.file : this.processFile;
-            data['monthName'] = this.months[form.value.month - 1].name;
-
-            this.processDataService.setProcess(data);
-
-            this.router.navigate(['./payment', response['processId']], {relativeTo: this.route});
-            if (response['processId'] > 0) {
-            } else {
-              this.hasServerError = true;
-            }
+        this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
+          if (confirmation['dismiss'] === 'cancel' || confirmation.value) {
+            const isDirect = !!confirmation.value;
+            this.sendFile(isDirect, form, null);
+          } else {
             this.isSubmitting = false;
-          });
-        } else {
-          this.isSubmitting = false;
           }
-      });
+        });
+      }else {
+        const dialog = this.dialog.open(FileDepositionComponent, {
+          width: '550px',
+          panelClass: 'send-email-dialog'
+        });
+
+        this.sub.add(dialog.afterClosed().subscribe(res => {
+          this.sendFile( null, form, res);
+        }));
+      }
     }
+    }
+
+  sendFile(isDirect: any, form: NgForm, fileDeposition: File): void {
+     const data = {
+       'month': this.months[form.value.month - 1].id,
+       'year': form.value['year'],
+       'processName': form.value['processName'],
+       'departmentId': this.selectUnitService.currentDepartmentID,
+       'isDirect': isDirect,
+       'type': this.selectedType,
+       'processId': '',
+       'pageNumber': 1
+     };
+      this.processService.newProcess(data,
+        this.route.snapshot.params.status === '1' ? this.process.file : this.processFile , fileDeposition ).then(response => {
+        if (response['processId']) {
+          data['processId'] = response['processId'];
+          data['file'] = this.route.snapshot.params.status === '1' ? this.process.file : this.processFile;
+          data['monthName'] = this.months[form.value.month - 1].name;
+
+          this.processDataService.setProcess(data);
+
+          this.router.navigate(['./payment', response['processId']], {relativeTo: this.route});
+          if (response['processId'] > 0) {
+          } else {
+            this.hasServerError = true;
+          }
+          this.isSubmitting = false;
+        }else {
+          this.isSubmitting = false;
+          this.notificationService.error('העלאת הקובץ נכשלה');
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }
+

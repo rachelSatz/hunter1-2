@@ -38,7 +38,7 @@
 <div class="d-flex mt-2" *ngIf="process_details">
   <div class="w-25">
     <span class="f-14">סכום לתשלום:</span>
-    <span class="bold mr-1 f-14">{{ process_details.total }}</span>
+    <span class="bold mr-1 f-14">{{ process_details.total | number: '1.2-2'}}</span>
   </div>
   <div class="w-25">
     <span class="f-14">מספר תהליך:</span>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -46,6 +46,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.pageSubscription = this.route.queryParams.subscribe(message => {
       if (this.items.length > 0) {
         this.setCurrentPage(+message['page']);
+        // this.searchCriteria['page'] = +message['page'];
+        // this.fetchItems();
+
       }
     });
 

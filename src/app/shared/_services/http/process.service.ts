@@ -58,7 +58,7 @@ export class ProcessService extends BaseHttpService {
       .catch(() => null);
   }
 
-  newProcess(values: any, file?: File): Promise<boolean> {
+  newProcess(values: any, file?: File, fileDeposition?: File ): Promise<boolean> {
     const formData = new FormData();
     formData.append('departmentId', values.departmentId);
     formData.append('isDirect', values.isDirect);
@@ -70,6 +70,9 @@ export class ProcessService extends BaseHttpService {
 
     if (file) {
       formData.append('file', file);
+    }
+    if (fileDeposition) {
+      formData.append('attachments', fileDeposition);
     }
 
     return this.http.post(this.endPoint + '/UploadFile',  formData, this.getTokenHeader())
@@ -347,9 +350,9 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
     }
   }
 
-  sendEmail(from: string, toEmails: any[], formatName: string, formatData: any): Promise<string> {
-    return this.http.post(this.apiUrl + '/generals' + '/sendEmail' ,
-      {sender: from, to: toEmails, formatName: formatName, formatData: formatData},
+  sendEmail(processId: number, recipient: any[]): Promise<string> {
+    return this.http.post(this.endPoint + '/SendPaymentsInstruction' ,
+      {processId: processId, recipient: recipient},
       this.getTokenHeader())
       .toPromise()
       .then(response => response)

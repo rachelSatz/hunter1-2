@@ -1,24 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import {ActivatedRoute} from '@angular/router';
-import {FormControl} from '@angular/forms';
-
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ActivatedRoute } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material';
-import { NotificationService } from 'app/shared/_services/notification.service';
-import {InvoiceService} from '../../../shared/_services/http/invoice.service';
-import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
-import {INVOICE_TYPES, STATUS, ALL_STATUS} from 'app/shared/_models/invoice.model';
-import {SelectUnitService} from '../../../shared/_services/select-unit.service';
-import {Subscription} from 'rxjs';
-import {HelpersService} from '../../../shared/_services/helpers.service';
-import {RemarksFormComponent} from './remarks-form/remarks-form.component';
-import {EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
-import {CompensationSendingMethods, CompensationStatus} from '../../../shared/_models/compensation.model';
-import {FilterItemsPipe} from '../../../shared/_pipes/filter-items.pipe';
+import { Subscription} from 'rxjs';
 
+import { EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
+import { ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
+import { INVOICE_TYPES, STATUS, ALL_STATUS} from 'app/shared/_models/invoice.model';
+import { SelectUnitService} from 'app/shared/_services/select-unit.service';
+import { RemarksFormComponent} from './remarks-form/remarks-form.component';
+import { InvoiceService} from 'app/shared/_services/http/invoice.service';
+import { HelpersService} from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-invoices',
@@ -29,12 +23,10 @@ export class InvoicesComponent extends DataTableComponent implements OnInit, OnD
   employers = [];
   departments = [];
   invoices = [];
-  invoiceTypes = INVOICE_TYPES;
   invoice_status = STATUS;
   selectStatus = Object.keys(ALL_STATUS).map(function(e) {
     return { id: e, name: ALL_STATUS[e] };
   });
-  error_description = ''
   invoice_all_status = ALL_STATUS;
   sub = new Subscription;
 
@@ -60,25 +52,14 @@ export class InvoicesComponent extends DataTableComponent implements OnInit, OnD
 
   ngOnInit() {
     this.fetchItems();
-    // for (const status in this.invoice_status) {
-    //   this.statusSelectOptions.push({ value: status, label: this.invoice_status[status] });
-    // }
     super.ngOnInit();
   }
+
   fetchItems(): void {
-    // const organizationId = this.selectUnit.currentOrganizationID;
-    // const employerId = this.selectUnit.currentEmployerID;
-
-    // this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
-    // this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
-
-
-
       this.invoiceService.getInvoices(this.searchCriteria).then(response => {
           this.setItems(response) ;
         });
       }
-
 
   valueDateChange(keyCode: Date): void {
     this.searchCriteria['request_created_at'] =
@@ -115,4 +96,3 @@ export class InvoicesComponent extends DataTableComponent implements OnInit, OnD
     this.sub.unsubscribe();
   }
 }
-// file_count', JSON.stringify(file_count)

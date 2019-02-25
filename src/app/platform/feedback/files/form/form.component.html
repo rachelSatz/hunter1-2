@@ -1,63 +1,45 @@
-<p class="bold m-0">חברת ביטוח בע"מ</p>
+<p class="bold m-0">{{ data.employer_name }}</p>
 <div class="d-flex p-2">
   <span class="header-width bold f-14">שם תהליך</span>
-  <!--<span class="header-width bold f-14">שם מעסיק</span>-->
   <span class="header-width bold f-14">סוג מוצר</span>
-  <!--<span class="header-width bold f-14">מספר קופה בשכר</span>-->
-  <span class="header-width bold f-14">חודש שכר</span>
-  <!--<span class="header-width bold f-14">חודש שידור</span>-->
+  <span class="header-width bold f-14">חודש שידור</span>
   <span class="header-width bold f-14">סכום</span>
 </div>
 <div class="d-flex p-2 border-bottom">
   <span class="header-width f-14">{{ data.process_name }}</span>
-  <span class="header-width f-14">{{ data.product_type}}</span>
-  <!--<span class="header-width f-14"></span>-->
-  <span class="header-width f-14">{{ data.date}}</span>
-  <span class="header-width f-14">{{ data.amount }}</span>
+  <span class="header-width f-14">{{ productType[data.product_type] }}</span>
+  <span class="header-width f-14">{{ data.sent_date | date: 'MM/yy' }}</span>
+  <span class="header-width f-14">{{ data.amount | number: '1.2-2'}}</span>
 </div>
 <div class="d-flex p-2 mt-3">
   <span class="header-width bold f-14">בנק</span>
   <span class="header-width bold f-14">סניף בנק</span>
   <span class="header-width bold f-14">חשבון</span>
-  <!--<span class="header-width bold f-14">קופה בשכר</span>-->
   <span class="header-width bold f-14">סכום שהתקבל</span>
   <span class="header-width bold f-14">קוד אוצר</span>
 </div>
 <div class="d-flex p-2 border-bottom">
-  <span class="header-width f-14">{{ data.product_bank_account.bank.name }}</span>
-  <span class="header-width f-14">{{ data.product_bank_account.branch.name }}</span>
-  <span class="header-width f-14">{{ data.product_bank_account.number }}</span>
-  <span class="header-width f-14">{{ data.group_thing_feedback.total_deposit_manufacturer_account}}</span>
+  <span class="header-width f-14">{{ data.product_bank_account.bank_name }}</span>
+  <span class="header-width f-14">{{ data.product_bank_account.branch_name }}</span>
+  <span class="header-width f-14">{{ data.product_bank_account.account_number }}</span>
+   <span class="header-width f-14">{{ data.group_thing_feedback[0].total_deposit_manufacturer_account}}</span>
   <span class="header-width f-14">{{ data.product_code}}</span>
-</div>
-<div class="d-flex p-2 mt-2">
-  <span class="header-width bold f-14">יצירת הפנייה</span>
-  <span class="header-width bold f-14">עדכון אחרון</span>
-  <span class="header-width bold f-14">סטטוס פנייה</span>
-</div>
-<div class="d-flex p-2 border-bottom" *ngFor="let inquiry of data.inquiries">
-    <span class="header-width f-14">{{ inquiry.created_at | date: 'dd/MM/yy HH:mm'}}</span>
-    <span class="header-width f-14">{{ inquiry.updated_at | date: 'dd/MM/yy HH:mm'}}</span>
-    <span class="header-width f-14"></span>
 </div>
 <div class="d-flex p-2">
   <span class="header-width bold f-14">תאריך שידור</span>
-  <span class="header-width bold f-14">היזון ראשוני</span>
-  <span class="header-width bold f-14">היזון חודשי</span>
   <span class="header-width bold f-14">סטטוס</span>
   <span class="header-width bold f-14">שם קובץ שנשלח</span>
-  <button class="btn blue-btn" (click)="downloadFile(data.id)">הורד קובץ</button>
 </div>
 <div class="d-flex p-2 border-bottom">
-  <span class="header-width f-14">{{ data.status }}</span>
-  <span class="header-width f-14">{{ data.status }}</span>
-  <span class="header-width f-14">{{ data.status }}</span>
-  <span class="header-width f-14">{{ data.status }}</span>
-  <span class="header-width f-14">{{ data.file_name }}</span>
-</div>
-<div class="float-left ml-2 mt-5">
-  <span class="ml-3">
-    <button class="btn blue-btn" (click)="openCommentsDialog(item.id)">הערות</button>
+  <span class="header-width f-14">{{ data.sent_date  }}</span>
+  <span class="header-width f-14">{{ statuses[data.status]}}</span>
+  <span class="header-width f-14">{{ data.file_name }}
+    <i class="fa fa-download fa-lg ml-2" (click)="downloadFile(data.id)" title="הורד קובץ"></i>
   </span>
-  <button class="btn blue-btn" (click)="openInquiresDialog(item.id)">שלח פניה</button>
 </div>
+<!--<div class="float-left ml-2 mt-5">-->
+  <!--<span class="ml-3">-->
+    <!--<button class="btn blue-btn" (click)="openCommentsDialog(item.id)">הערות</button>-->
+  <!--</span>-->
+  <!--<button class="btn blue-btn" (click)="openInquiresDialog(item.id)">שלח פניה</button>-->
+<!--</div>-->

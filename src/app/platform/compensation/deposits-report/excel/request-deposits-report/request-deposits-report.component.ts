@@ -8,13 +8,12 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { Compensation } from 'app/shared/_models/compensation.model';
 import { fade } from 'app/shared/_animations/animation';
 
-
 @Component({
-  selector: 'app-excel',
-  templateUrl: './compensation.component.html',
+  selector: 'app-request-deposits-report',
+  templateUrl: './request-deposits-report.component.html',
   animations: [ fade ]
 })
-export class ExcelComponent implements OnInit {
+export class RequestDepositsReportComponent implements OnInit {
 
   uploadedFile: File;
   files = [];
@@ -24,21 +23,20 @@ export class ExcelComponent implements OnInit {
   exampleFileType = 'xlsx';
   exampleFileName = 'compensationExample.xlsx';
 
-
   constructor(@Inject(MAT_DIALOG_DATA)  public compensation: Compensation,
               private compensationService: CompensationService,
-              private dialogRef: MatDialogRef<ExcelComponent>,
+              private dialogRef: MatDialogRef<RequestDepositsReportComponent>,
               private selectUnit: SelectUnitService,
-              private  helpers: HelpersService) { }
+              private  helpers: HelpersService) {}
 
   ngOnInit() {
     this.typeDoc = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel';
   }
 
-  submit(val: string): void {
+  submit(): void {
     if (this.uploadedFile) {
       this.helpers.setPageSpinner(true);
-      this.compensationService.uploadCompensation(this.uploadedFile, this.selectUnit.currentEmployerID, val).then(response => {
+      this.compensationService.uploadCompensation(this.uploadedFile, this.selectUnit.currentEmployerID, 'dep').then(response => {
         this.helpers.setPageSpinner(false);
         this.message = response['message'];
         if (this.message  !== 'הצליח') {
@@ -76,7 +74,7 @@ export class ExcelComponent implements OnInit {
       }
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], {type: 'application/' + type});
-      FileSaver.saveAs(blob, fileName);
+      FileSaver.saveAs(blob, 'deposits-report.' + type);
     });
   }
 }

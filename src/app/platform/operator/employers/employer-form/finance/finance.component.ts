@@ -1,35 +1,28 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import {
   CURRENCY,
-  EmployerFinancialDetails, EmployerFinancialPayments, EmployerFinancialProduct,
+  EmployerFinancialDetails,
+  EmployerFinancialPayments,
+  EmployerFinancialProduct,
   LANGUAGE,
   PAYMENT_METHOD,
-  PAYMENT_TERMS, PAYMENT_TYPE, PRODUCT_TYPES,
+  PAYMENT_TERMS,
+  PAYMENT_TYPE,
+  PRODUCT_TYPES,
   TAX
 } from 'app/shared/_models/employer-financial-details.model';
-import {NgForm} from '@angular/forms';
-import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { fade } from 'app/shared/_animations/animation';
+
 
 @Component({
   selector: 'app-finance',
   templateUrl: './finance.component.html',
   styleUrls: ['./finance.component.css'],
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        height: '0'
-      })),
-      state('active', style({
-        display: '*',
-        height: '*'
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class FinanceComponent implements OnInit {
   financialDetails: EmployerFinancialDetails = new EmployerFinancialDetails();

@@ -21,7 +21,7 @@ export class Compensation {
   status: string;
   event_code: string;
   answerings_manufacturer: string;
-  has_file_feedbake: boolean;
+  has_file_feedback: boolean;
 
   constructor() {
     this.files.push(new File());

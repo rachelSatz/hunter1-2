@@ -20,15 +20,12 @@ import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 
 import { ProcessComponent } from './process.component';
 import { FormComponent } from './form/form.component';
-import { CommentsComponent } from './comments/comments.component';
 import { DetailsComponent } from './details/details.component';
 import { AddFileComponent } from './add-file/add-file.component';
 import { ExcelComponent } from './excel/compensation/compensation.component';
-import { SendToComponent } from './send-to/send-to.component';
-import { InquiriesComponent } from './inquiries/inquiries.component';
 import { EmployeesComponent } from './excel/employees/employees.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
-import { GeneralHttpService } from '../../../shared/_services/http/general-http.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 
 
 const routes: Routes = [
@@ -51,11 +48,8 @@ const routes: Routes = [
   declarations: [
     ProcessComponent,
     FormComponent,
-    CommentsComponent,
     DetailsComponent,
     AddFileComponent,
-    SendToComponent,
-    InquiriesComponent,
     ExcelComponent,
     EmployeesComponent,
     ErrorMessageComponent
@@ -64,13 +58,10 @@ const routes: Routes = [
     FilterItemsPipe, GeneralHttpService],
   entryComponents: [
     FormComponent,
-    CommentsComponent,
     DetailsComponent,
     AddFileComponent,
-    SendToComponent,
     ExcelComponent,
     EmployeesComponent,
-    InquiriesComponent,
     ErrorMessageComponent
   ],
 })

@@ -9,6 +9,7 @@ export class DepositsReport {
   last_name: string;
   identifier: string;
   company_name: string;
+  company_id: number;
   validity_date: string;
   created_at: string;
   updated_at: string;

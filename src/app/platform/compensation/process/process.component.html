@@ -79,7 +79,7 @@
       <td>
         <p class="mb-0">{{ statuses[item.status]  }}</p>
         <img src="/assets/img/icons/details_grey.png" (click)="openErrorMessageDialog(item)" class="mt-1"
-             *ngIf=" item.has_file_feedbake === 'feedback_a' || item.status === 'feedback_b' ?
+             *ngIf=" item.has_file_feedback === 'feedback_a' || item.status === 'feedback_b' ?
              (item.feedback_level === 'record' && (item.code_error !== null ||
              (item.error_details !== '' && item.error_details !== null)) ||
              (item.answerings_manufacturer !== null && item.answerings_manufacturer !== ''))
@@ -97,9 +97,9 @@
         <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
       </td>
       <td>
-        <span *ngIf="!item.has_file_feedbake">טרם</span>
-        <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, 'download')" *ngIf="item.has_file_feedbake"></i>
-        <i class="fa fa-eye fa-lg" (click)="PdfFile(item.id, 'show')" *ngIf="item.has_file_feedbake"></i>
+        <span *ngIf="!item.has_file_feedback">טרם</span>
+        <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, 'download')" *ngIf="item.has_file_feedback"></i>
+        <i class="fa fa-eye fa-lg" (click)="PdfFile(item.id, 'show')" *ngIf="item.has_file_feedback"></i>
       </td>
       <td>
         <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">

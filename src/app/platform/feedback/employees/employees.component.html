@@ -18,52 +18,55 @@
 </div>
   <p class="h5 bold py-5">מעקב ברמת עובד</p>
     <mat-form-field class="ml-3">
-      <input matInput placeholder="חיפוש לפי שם/ת.ז" [(ngModel)]="searchCriteria['searchValue']" (change)="search()">
+      <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['searchValue']" (change)="search()">
       <i matSuffix class="fa fa-search"></i>
     </mat-form-field>
+    <button class="btn blue-btn h-75" *ngIf="isSearchActive()" (click)="myResetSearch()">אפס חיפוש</button>
+
   <div [@slideToggle]="extraSearchCriteria" class="d-flex align-items-center flex-wrap mb-3 filter-row">
-    <mat-form-field class="ml-3">
-      <input matInput placeholder="לפי חברה מנהלת" [(ngModel)]="searchCriteria['companyName']" (change)="search()">
-      <i matSuffix class="fa fa-search"></i>
-    </mat-form-field>
-    <mat-form-field>
+    <!--<mat-form-field class="ml-3">-->
+      <!--<input matInput placeholder="לפי חברה מנהלת" [(ngModel)]="searchCriteria['companyName']" (change)="search()">-->
+      <!--<i matSuffix class="fa fa-search"></i>-->
+    <!--</mat-form-field>-->
+    <mat-form-field class="mr-3">
       <mat-select name="sortByStatus" placeholder="לפי סוג המוצר" [(ngModel)]="searchCriteria['productType']" (selectionChange)="search()">
-        <mat-option *ngFor="let type of selectProductType" [value]="type.name">
+        <mat-option *ngFor="let type of selectProductType" [value]="type.id">
           {{type.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="mr-3">
-      <input matInput placeholder="לפי קוד אוצר" type="text" [(ngModel)]="searchCriteria['productCode']" (change)="search()">
-      <i matSuffix class="fa fa-search"></i>
-    </mat-form-field>
-    <mat-form-field class="mr-3">
-      <input matInput placeholder="לפי סכום" [(ngModel)]="searchCriteria['recordAmount']" (change)="search()">
-      <i matSuffix class="fa fa-search"></i>
-    </mat-form-field>
+
+    <!--<mat-form-field class="mr-3">-->
+      <!--<input matInput placeholder="לפי קוד אוצר" type="text" [(ngModel)]="searchCriteria['productCode']" (change)="search()">-->
+      <!--<i matSuffix class="fa fa-search"></i>-->
+    <!--</mat-form-field>-->
+    <!--<mat-form-field class="mr-3">-->
+      <!--<input matInput placeholder="לפי סכום" [(ngModel)]="searchCriteria['recordAmount']" (change)="search()">-->
+      <!--<i matSuffix class="fa fa-search"></i>-->
+    <!--</mat-form-field>-->
     <mat-form-field class="mr-3">
       <mat-select name="sortByStatus" placeholder="לפי סטטוס" [(ngModel)]="searchCriteria['recordStatus']" (selectionChange)="search()">
-        <mat-option *ngFor="let status of statusLabel" [value]="status.name">
+        <mat-option *ngFor="let status of statusLabel" [value]="status.id">
           {{status.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
-      <mat-select name="sortByStatus" placeholder="לפי סטטוס פניה" [(ngModel)]="searchCriteria['enquiryStatus']" (selectionChange)="search()">
-        <mat-option *ngFor="let status of statusLabel" [value]="status.name">
-          {{status.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <!--<mat-form-field class="mr-3">-->
+      <!--<mat-select name="sortByStatus" placeholder="לפי סטטוס פניה" [(ngModel)]="searchCriteria['enquiryStatus']" (selectionChange)="search()">-->
+        <!--<mat-option *ngFor="let status of statusLabel" [value]="status.name">-->
+          <!--{{status.name}}-->
+        <!--</mat-option>-->
+      <!--</mat-select>-->
+    <!--</mat-form-field>-->
     <mat-form-field class="mr-3">
       <input matInput class="pointer" (click)="datePickerRequest.open()" [matDatepicker]="datePickerRequest" placeholder="לפי תאריך יצירה" name="dateRequest"
-             [(ngModel)]="searchCriteria['create_date']" readonly>
+             [(ngModel)]="searchCriteria['create_date']"  (dateChange)="valueDateChange($event.value,'create_date')"  readonly>
       <mat-datepicker-toggle matSuffix [for]="datePickerRequest"></mat-datepicker-toggle>
       <mat-datepicker #datePickerRequest></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="mr-3">
       <input matInput class="pointer" (click)="datePickerRequest2.open()" [matDatepicker]="datePickerRequest2" placeholder="לפי תאריך עדכון" name="dateUpdate"
-             [(ngModel)]="searchCriteria['update_date']" readonly>
+             [(ngModel)]="searchCriteria['update_date']"  (dateChange)="valueDateChange($event.value,'update_date')" readonly>
       <mat-datepicker-toggle matSuffix [for]="datePickerRequest2"></mat-datepicker-toggle>
       <mat-datepicker #datePickerRequest2></mat-datepicker>
     </mat-form-field>
@@ -89,25 +92,26 @@
       <td>{{ employee.personal_id }}</td>
       <td>{{ employee.salary_month | date:'MM'}}</td>
       <td>{{ employee.company_name}}</td>
-      <td>{{ employee.product_type}}</td>
+      <td>{{ productTypes[employee.product_type]}}</td>
       <td>{{ employee.product_code}}</td>
-      <td>{{ employee.amount}}</td>
-      <td></td>
-      <td></td>
+      <td>{{ employee.amount | number: '1.2-2'}}</td>
+      <!--<td></td>-->
+      <!--<td></td>-->
       <td>{{ employee.deposit_month | date: 'dd/MM/yyyy' }}</td>
       <td>{{ employee.status}}</td>
-      <td></td>
+      <!--<td></td>-->
       <td >
-        <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog()">
+        <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog(employee)">
       </td>
       <td>
-        <button class="btn btn1 blue-btn" (click)="openInquiresDialog()">שלח</button>
+        <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(employee)">
+        <!--<button class="btn btn1 blue-btn" (click)="openInquiresDialog()">שלח</button>-->
       </td>
       <td>
-        <span class="grey-circle" (click)="openInquiriesDetailsDialog(item)"></span>
+        <span class="grey-circle" (click)="openInquiriesDetailsDialog(employee.id)">{{ employee.inquiries.length }}</span>
       </td>
       <td>
-        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog()">
+        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(employee.id)">
       </td>
     </tr>
   </ng-container>

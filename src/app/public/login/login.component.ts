@@ -1,29 +1,16 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { AppHttpService } from 'app/shared/_services/http/app-http.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { HelpersService} from 'app/shared/_services/helpers.service';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: 'block',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('300ms ease-in')),
-      transition('inactive => active', animate('300ms ease-in'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class LoginComponent {
 

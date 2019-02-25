@@ -10,6 +10,9 @@ export class EmployerBankAccount {
   bank_id: number;
   branch_id: number;
   type: string;
+  account_number: string;
+  branch_name: string;
+  bank_name: string;
 
   constructor() {
     this.id = 0;

@@ -50,10 +50,10 @@ export class EmployerService extends BaseHttpService {
       .then(response => response as Employer[]);
   }
    
-  newEmployer(employer: Employer): Promise<Employer> {
-    return this.http.post(this.endPoint, employer, this.getTokenHeader())
+  newEmployer(employer: any, department: any): Promise<any> {
+    return this.http.post(this.endPoint, {employer: employer , department: department}, this.getTokenHeader())
     .toPromise()
-    .then(response => response as Employer);
+    .then(response => response as any);
   }
   saveNewEmployer(employer: Employer, organizationID: number): Promise<any> {
     employer.organizationId = organizationID;
@@ -131,7 +131,7 @@ export class EmployerService extends BaseHttpService {
   }
 
   getOperator(id: number): Promise<any> {
-    return this.http.get(this.endPoint + '/operators' + '?employerId=' + id, this.getTokenHeader())
+    return this.http.get(this.endPoint + '/operators' + '?organizationId=' + id, this.getTokenHeader())
       .toPromise()
       .then(response => response as any);
   }

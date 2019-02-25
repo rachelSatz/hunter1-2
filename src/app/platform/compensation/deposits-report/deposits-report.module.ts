@@ -28,6 +28,9 @@ import { DepositsReportService } from 'app/shared/_services/http/deposits-report
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { FormComponent } from './form/form.component';
 import { AddFileComponent } from './add-file/add-file.component';
+import { RequestDepositsReportComponent } from './excel/request-deposits-report/request-deposits-report.component';
+import { CompensationService } from 'app/shared/_services/http/compensation.service';
+import { DocumentService } from 'app/shared/_services/http/document.service';
 
 
 const routes: Routes = [
@@ -47,9 +50,9 @@ const routes: Routes = [
     DataTableModule,
     PipesModule
   ],
-  declarations: [DepositsReportComponent, FormComponent, AddFileComponent],
+  declarations: [DepositsReportComponent, FormComponent, AddFileComponent, RequestDepositsReportComponent],
   providers: [ DepartmentService, ProductService, NotificationService, ContactService, EmployerService,
-    FilterItemsPipe, GeneralHttpService, DepositsReportService],
-  entryComponents: [FormComponent]
+    FilterItemsPipe, GeneralHttpService, DepositsReportService, CompensationService, DocumentService],
+  entryComponents: [FormComponent, AddFileComponent, RequestDepositsReportComponent]
 })
 export class DepositsReportModule { }

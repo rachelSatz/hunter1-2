@@ -8,7 +8,7 @@
   <li *ngFor="let comment of comments" class="d-flex">
     <span>{{ comment.updated_at | date: 'HH:mm dd/MM/yy' }}</span>
     <span class="mr-3 ml-1 bold">{{ comment.username + ':'}}</span>
-    <span [title]=comment.content>{{ comment.content |  slice : 10 }}</span>
+    <span [title]=comment.content>{{ comment.content |  slice :0:10 }}</span>
   </li>
 </ul>
 <div class="py-4">

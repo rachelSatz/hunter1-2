@@ -1,18 +1,24 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { Subscription } from 'rxjs';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DepositsReportService } from 'app/shared/_services/http/deposits-report.service';
 import { FormComponent } from './form/form.component';
 import { Status } from 'app/shared/_models/deposits-report.model';
-import { CommentsFormComponent } from '../../../shared/_dialogs/comments-form/comments-form.component';
+import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
+import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
+import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
+import { RequestDepositsReportComponent } from './excel/request-deposits-report/request-deposits-report.component';
+import {DetailsComponent} from '../process/details/details.component';
+import {AddFileComponent} from './add-file/add-file.component';
 
 
 @Component({
@@ -29,10 +35,8 @@ export class DepositsReportComponent extends DataTableComponent implements OnIni
     { column: 'personal_id', label: 'ת"ז' }, { column: 'company_name', label: 'חברה מנהלת' },
     { column: 'validity_date', label: 'תאריך נכונות' }, { column: 'status', label: 'סטטוס' },
     { column: null, label: 'העבר לטיפול' }, { column: null, label: 'פניות' },
-    { column: null, label: 'הערות' }, {column: null, label: 'פרטים' }
+    { column: null, label: 'הערות' }, { column: null, label: 'פרטים' }
   ];
-
-// , { column: null, label: 'הורדה' }
 
   constructor(protected route: ActivatedRoute,
               private depositsReportService: DepositsReportService,
@@ -91,7 +95,7 @@ export class DepositsReportComponent extends DataTableComponent implements OnIni
 
     const dialog = this.dialog.open(FormComponent, {
         data: { companies: this.companies, departmentId: this.selectUnit.currentDepartmentID ,
-          employerID: this.selectUnit.currentEmployerID},
+          departmentID: this.selectUnit.currentDepartmentID},
         width: '450px'
       });
 
@@ -102,28 +106,27 @@ export class DepositsReportComponent extends DataTableComponent implements OnIni
     }));
   }
 
-  openCommentsDialog(): void {
+  openCommentsDialog(item: any): void {
     this.dialog.open(CommentsFormComponent, {
-      // data: { companies: this.companies, departmentId: this.selectUnit.currentDepartmentID ,
-      //   employerID: this.selectUnit.currentEmployerID},
+      data: {'id': item.id, 'contentType': 'depositsreport'},
       width: '450px'
     });
   }
 
-  openDetailsDialog(item: object): void {
-    // this.dialog.open(CommentsFormComponent, {
-    //   // data: { companies: this.companies, departmentId: this.selectUnit.currentDepartmentID ,
-    //   //   employerID: this.selectUnit.currentEmployerID},
-    //   width: '450px'
-    // });
+  openInquiriesDialog(item: any): void {
+    this.dialog.open(InquiriesComponent, {
+      data: {'id': item.id, 'contentType': 'depositsreport',
+        'employerId': this.selectUnit.currentEmployerID, 'companyId': item.company_id},
+      width: '800px'
+    });
   }
 
-  openInquiriesDialog(item: object): void {
-    // this.dialog.open(CommentsFormComponent, {
-    //   // data: { companies: this.companies, departmentId: this.selectUnit.currentDepartmentID ,
-    //   //   employerID: this.selectUnit.currentEmployerID},
-    //   width: '450px'
-    // });
+  openInquiriesFormDialog(item: any): void {
+    this.dialog.open(InquiryFormComponent, {
+      data: {'id': item.id, 'contentType': 'depositsreport',
+        'employerId': this.selectUnit.currentEmployerID, 'companyId': 5},
+      width: '450px'
+    });
   }
 
   manualChangingStatus(): void {
@@ -139,5 +142,33 @@ export class DepositsReportComponent extends DataTableComponent implements OnIni
         this.fetchItems();
       }
     });
+  }
+
+  openExcelDialog(): void {
+    if (this.selectUnit.currentEmployerID > 0) {
+      const dialog = this.dialog.open(RequestDepositsReportComponent, {
+        width: '450px'
+      });
+
+      this.sub.add(dialog.afterClosed().subscribe(() => {
+        this.fetchItems();
+      }));
+
+    }else {
+      this.notificationService.error('לא נבחר מעסיק', 'יש לבחור מעסיק');
+    }
+  }
+
+  openDetailsDialog(item: Object): void {
+    const dialog = this.dialog.open(AddFileComponent, {
+      data: item,
+      width: '680px'
+    });
+
+    this.sub.add(dialog.afterClosed().subscribe(created => {
+      if (created) {
+        this.fetchItems();
+      }
+    }));
   }
 }

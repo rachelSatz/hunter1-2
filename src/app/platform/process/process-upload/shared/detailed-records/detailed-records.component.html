@@ -52,11 +52,11 @@
         <td>{{ item.product_code }}</td>
         <td>{{ item.salary_month | date: 'MM/yy' }}</td>
         <td>{{ item.salary_month | date: 'MM/yy' }}</td>
-        <td>{{ item.salary }}</td>
-        <td>{{ item.sum_compensation }}</td>
-        <td>{{ item.sum_employer_benefits }}</td>
-        <td>{{ item.sum_employee_benefits }}</td>
-        <td>{{ item.amount }}</td>
+        <td>{{ item.salary | number: '1.2-2' }}</td>
+        <td>{{ item.sum_compensation | number: '1.2-2'}}</td>
+        <td>{{ item.sum_employer_benefits | number: '1.2-2' }}</td>
+        <td>{{ item.sum_employee_benefits | number: '1.2-2'}}</td>
+        <td>{{ item.amount | number: '1.2-2'}}</td>
       </tr>
     </ng-container>
     </tbody>

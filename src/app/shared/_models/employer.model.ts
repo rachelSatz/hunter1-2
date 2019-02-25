@@ -41,8 +41,23 @@ export class Employer {
 }
 
 export enum EmployerStatus {
-  'active' = 'מעסיק פעיל',
-  'inactive' = 'מעסיק לא פעיל',
-  'on_process' = 'בהקמה'
+  active = 'מעסיק פעיל',
+  inactive = 'מעסיק לא פעיל',
+  on_process = 'בהקמה'
+}
+
+export enum IdentifierTypes {
+  private_company = 'ח.פ',
+  public_company = 'ח"צ',
+  id = 'ת.ז',
+  passport = 'דרכון',
+  licenced_practitioner = 'עוסק מורשה',
+  voluntary_association = 'עמותה',
+  cooperative_association = 'אגודה שיתופית',
+  govermental_company = ' חברה ממשלתית',
+  cooperation = 'איגוד',
+  partnership = 'שותפות',
+  licence_holder = 'מספר בעל רישיון',
+  entity_without_registrar = 'יישות ללא רשם',
 }
 

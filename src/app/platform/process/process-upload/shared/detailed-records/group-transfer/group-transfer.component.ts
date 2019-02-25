@@ -1,28 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
+import { fade } from 'app/shared/_animations/animation';
 
 
 @Component({
   selector: 'app-group-transfer',
   templateUrl: './group-transfer.component.html',
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        height: '0'
-      })),
-      state('active', style({
-        display: '*',
-        height: '*'
-      })),
-      transition('active => inactive', animate('200ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class GroupTransferComponent implements OnInit {
 
@@ -60,8 +47,6 @@ export class GroupTransferComponent implements OnInit {
           this.dialogRef.close();
         }
       });
-    } else {
-
     }
   }
 }

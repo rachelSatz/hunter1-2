@@ -45,7 +45,7 @@
       <td>{{ item.department_name }}</td>
       <td>{{ item.date | date:'MM'}}</td>
       <td>{{ item.date | date:'yyyy' }}</td>
-      <td>{{ item.total  }}</td>
+      <td>{{ item.total | number: '1.2-2'}}</td>
       <td (click)="item.status === 'Error_Loading' ? messageError(item.error_details) :moveProcess(item)">{{ processStatus[item.status] }}</td>
       <td>
         <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)">

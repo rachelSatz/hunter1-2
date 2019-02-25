@@ -1,28 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, Inject, OnInit } from '@angular/core';
 import * as FileSaver from 'file-saver';
 
-import { HelpersService} from 'app/shared/_services/helpers.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
+import { HelpersService} from 'app/shared/_services/helpers.service';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  animations: [
-    trigger('fade', [
-      state('inactive', style({
-        display: 'none',
-        opacity: '0'
-      })),
-      state('active', style({
-        display: '*',
-        opacity: '1'
-      })),
-      transition('active => inactive', animate('0ms')),
-      transition('inactive => active', animate('200ms'))
-    ])
-  ]
+  animations: [ fade ]
 })
 export class EmployeesComponent implements OnInit {
 
@@ -53,7 +40,7 @@ export class EmployeesComponent implements OnInit {
         if (this.message  !== 'הצליח') {
           if (this.message === undefined) {
             this.message = 'שגיאה';
-            const byteCharacters = atob(response.toString());
+            const byteCharacters = atob(response['data']);
             const byteNumbers = new Array(byteCharacters.length);
             for (let i = 0; i < byteCharacters.length; i++) {
               byteNumbers[i] = byteCharacters.charCodeAt(i);

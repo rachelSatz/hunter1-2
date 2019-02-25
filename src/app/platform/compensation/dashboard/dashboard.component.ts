@@ -17,7 +17,8 @@ import {Subscription} from 'rxjs';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
-  constructor(private employerService: EmployerService, private userService: UserService,
+  constructor(private employerService: EmployerService,
+              private userService: UserService,
               private compensationService: CompensationService,
               private selectUnit: SelectUnitService) {}
 
