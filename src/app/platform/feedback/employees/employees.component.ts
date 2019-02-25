@@ -128,4 +128,9 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
       formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
     this.search();
   }
+
+  myResetSearch(): void {
+    this.resetSearch();
+    this.searchCriteria['salaryYear'] = this.year;
+  }
 }

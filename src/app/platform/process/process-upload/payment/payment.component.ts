@@ -71,7 +71,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
     this.process_details = response;
     if (this.process_details.status !== null) {
       switch (this.process_details.status) {
-        case 'Can_Be_Processed': {
+        case 'can_be_processed': {
           this.process_percent = 100;
           let time = 1000;
           if (this.processDataService.activeProcess.returnDetails) {
@@ -85,16 +85,16 @@ export class PaymentComponent implements OnInit , OnDestroy {
 
           break;
         }
-        case 'Loading': {
+        case 'loading': {
           this.process_percent = this.process_details.percent;
           break;
         }
-        case 'Error_Loading': {
+        case 'error_loading': {
           this.notificationService.error('אירעה שגיאה בהעלאת הקובץ');
           this.sub.unsubscribe();
           break;
         }
-        case 'Done_Processing': {
+        case 'done_processing': {
           this.pageNumber = 2;
           this.sub.unsubscribe();
           break;

@@ -11,7 +11,8 @@ import { EntityTypes } from 'app/shared/_models/contact.model';
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['../../../../../shared/data-table/data-table.component.css'],
-  styles: ['.row-image { width: 30px; height: auto;} .operator-container {margin-right: 60px} ']
+  styles: ['.row-image { width: 30px; height: auto;} .operator-container {margin-right: 60px}' +
+  ' .operator-table {width: 50%} ']
 })
 export class ContactsComponent extends DataTableComponent implements OnInit , OnDestroy {
 
@@ -39,7 +40,7 @@ export class ContactsComponent extends DataTableComponent implements OnInit , On
 
 
   ngOnInit() {
-    if (this.router.url.split('/')[3] === 'employers') {
+    if (this.router.url.includes( 'operator')) {
       this.pathEmployers = true;
     }
     this.contactService.getContacts(0, this.selectUnit.currentEmployerID)

@@ -37,8 +37,8 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
   months = Month;
   statuses = Status;
 
-  statusLabel = Object.keys(StatusLabel).map(function(e) {
-    return { id: e, name: StatusLabel[e] };
+  list_status = Object.keys(Status).map(function(e) {
+    return { id: e, name: Status[e] };
   });
   selectProductType = Object.keys(ProductType).map(function(e) {
     return { id: e, name: ProductType[e] };

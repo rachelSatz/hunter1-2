@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
 
 import { DashboardComponent } from './dashboard.component';
+import {TimerService} from '../../shared/_services/http/timer';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ChartsModule
   ],
-  declarations: [DashboardComponent]
+  declarations: [DashboardComponent],
+  providers: [TimerService]
 })
 export class DashboardModule {}

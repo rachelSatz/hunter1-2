@@ -18,3 +18,13 @@ export enum EntityTypes {
   company = 'חברה מנהלת',
   employer = 'מעסיק'
 }
+
+export enum Type {
+  deposits_report = 'דוח הפקדות',
+  payments_instructions = 'קבלת מסב',
+  pending = 'שיוך כספים',
+  compensation = 'יתרות לפיצוים',
+  employee_repayment = 'בקשה לפירעון עובד',
+  file_repayment = 'בקשה לפירעון מעסיק'
+}
+

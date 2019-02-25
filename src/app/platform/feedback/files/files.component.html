@@ -43,15 +43,15 @@
       <!--<i matSuffix class="fa fa-search"></i>-->
     <!--</mat-form-field>-->
     <mat-form-field class="mr-3">
-      <mat-select name="sortByStatus" placeholder="לפי סטטוס" [(ngModel)]="searchCriteria['recordStatus']" (selectionChange)="search()">
-        <mat-option *ngFor="let status of statusLabel" [value]="status.name">
+      <mat-select name="sortByStatus" placeholder="לפי סטטוס" [(ngModel)]="searchCriteria['status']" (selectionChange)="search()">
+        <mat-option *ngFor="let status of list_status" [value]="status.id">
           {{status.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field class="mr-3">
       <mat-select name="sortByStatus" placeholder="לפי סוג המוצר" [(ngModel)]="searchCriteria['productType']" (selectionChange)="search()">
-        <mat-option *ngFor="let type of selectProductType" [value]="type.name">
+        <mat-option *ngFor="let type of selectProductType" [value]="type.id">
           {{type.name}}
         </mat-option>
       </mat-select>

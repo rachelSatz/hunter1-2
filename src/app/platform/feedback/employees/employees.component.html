@@ -21,6 +21,8 @@
       <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['searchValue']" (change)="search()">
       <i matSuffix class="fa fa-search"></i>
     </mat-form-field>
+    <button class="btn blue-btn h-75" *ngIf="isSearchActive()" (click)="myResetSearch()">אפס חיפוש</button>
+
   <div [@slideToggle]="extraSearchCriteria" class="d-flex align-items-center flex-wrap mb-3 filter-row">
     <!--<mat-form-field class="ml-3">-->
       <!--<input matInput placeholder="לפי חברה מנהלת" [(ngModel)]="searchCriteria['companyName']" (change)="search()">-->
@@ -33,6 +35,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
     <!--<mat-form-field class="mr-3">-->
       <!--<input matInput placeholder="לפי קוד אוצר" type="text" [(ngModel)]="searchCriteria['productCode']" (change)="search()">-->
       <!--<i matSuffix class="fa fa-search"></i>-->

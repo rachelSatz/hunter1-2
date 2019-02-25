@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
+import { EmployerStatus, IdentifierTypes } from 'app/shared/_models/employer.model';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade } from 'app/shared/_animations/animation';
@@ -17,29 +18,31 @@ import { fade } from 'app/shared/_animations/animation';
 export class NewEmployerComponent implements OnInit {
 
   banks = [];
-  selectedBank1: number;
-  selectedBank2: number;
+  selectedBankD: number;
+  selectedBankW: number;
   operators;
   projects = [];
   organizations = [];
-  branches1;
-  branches2;
-  selectedBranch1;
-  selectedBranch2;
+  branchesD;
+  branchesW;
+  selectedBranchD;
+  selectedBranchW;
   newEmployerForm: FormGroup;
   hasServerError = false;
-  statuses = [
-    {name: 'פעיל',    id: 'active'},
-    {name: 'לא פעיל', id: 'inactive'},
-    {name: 'בהקמה',   id: 'onProcess'},
-  ];
-
+  identifierTypes = Object.keys(IdentifierTypes).map(function(e) {
+    return { id: e, name: IdentifierTypes[e] };
+  });
+  statuses = Object.keys(EmployerStatus).map(function(e) {
+    return { id: e, name: EmployerStatus[e] };
+  });
 
   constructor(private fb: FormBuilder,
               private generalHttpService: GeneralHttpService,
               private router: Router,
               private organizationService: OrganizationService,
-              private employerService: EmployerService) { }
+              private employerService: EmployerService,
+              private  helpers: HelpersService
+             ) { }
 
   ngOnInit() {
     this.initForm();
@@ -72,31 +75,37 @@ export class NewEmployerComponent implements OnInit {
           'institutionCode8':  [null, [Validators.pattern('^\\d{8}$'), Validators.required]],
         }),
         'department': this.fb.group({
-          'number': [],
-          'name': [null, Validators.required]
+          'name': ['כללי', Validators.required]
         }),
           'payingBank': this.fb.group({
             'name': [null, Validators.required],
-            'branch': [null, Validators.required],
-            'number': [null, [Validators.pattern('^\\d{5,8}$'), Validators.required]],
+            'branchId': [null, Validators.required],
+            'accountNumber': [null, [Validators.pattern('^\\d{5,8}$'), Validators.required]],
+            'ownerId': [null],
+            'ownerType': ['department'],
+            'type': ['deposit'],
+            'isPrimary': [true]
           }),
           'receivingBank': this.fb.group({
             'name': [null, Validators.required],
-            'branch': [null, Validators.required],
-            'number': [null, [Validators.pattern('^\\d{5,8}$'), Validators.required]],
+            'branchId': [null, Validators.required],
+            'accountNumber': [null, [Validators.pattern('^\\d{5,8}$'), Validators.required]],
+            'ownerId': [null],
+            'ownerType': ['department'],
+            'type': ['withdrawal'],
+            'isPrimary': [true],
           }),
 
-        'comments':  [],
+        'comments':  [''],
       }
     );
   }
 
   getBranches(bank) {
     if (bank === 1) {
-      console.log(this.banks[this.selectedBank1])
-      this.branches1 = this.banks[this.selectedBank1].bank_branches;
+      this.branchesD = this.banks.find( b => b.id === this.selectedBankD).bank_branches;
     } else {
-      this.branches2 = this.banks[this.selectedBank2].bank_branches;
+      this.branchesW = this.banks.find( b => b.id === this.selectedBankW).bank_branches;
     }
   }
 
@@ -107,23 +116,42 @@ export class NewEmployerComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
-    console.log(this.newEmployerForm.value)
-    // this.helpers.setPageSpinner(true);
-    // if (this.newEmployerForm.valid) {
-    //   this.hasServerError = true;
-    //   this.submitFormGroup(this.newEmployerForm.controls['employerDetails']);
-    //   this.submitFormGroup(this.newEmployerForm.controls['department']);
-    //   this.submitFormGroup(this.newEmployerForm.controls['payingBank']);
-    //   this.submitFormGroup(this.newEmployerForm.controls['receivingBank']);
-    //   this.router.navigate(['/platform', 'employers']).then();
-    // }
-    //
-
-  }
-
-
-  submitFormGroup(subForm) {
-   const parsedSubForm = JSON.stringify(subForm.value);
-   console.log(parsedSubForm);
+     if (this.newEmployerForm.valid) {
+       this.helpers.setPageSpinner(true);
+       this.employerService.newEmployer( this.newEmployerForm.controls['employerDetails'].value,
+         this.newEmployerForm.controls['department'].value)
+         .then(response => {
+           if (response) {
+             const employerId = response['employer_id'];
+             const departmentId = response['department_id'];
+             if (employerId === 0) {
+               this.helpers.setPageSpinner(false);
+               this.hasServerError = true;
+             } else {
+               this.newEmployerForm.controls['payingBank'].value['ownerId'] = departmentId;
+               this.generalHttpService.addNewBankAccount(this.newEmployerForm.controls['payingBank'].value)
+                 .then(response => {
+                   if (response) {
+                     this.newEmployerForm.controls['receivingBank'].value['ownerId'] = departmentId;
+                     this.generalHttpService.addNewBankAccount(this.newEmployerForm.controls['receivingBank'].value)
+                       .then(response => {
+                         if (response) {
+                           const comments = this.newEmployerForm.controls['comments'].value;
+                           if (comments !== '') {
+                             this.generalHttpService.newComment(employerId, this.newEmployerForm.controls['comments'].value, 'employer');
+                           }
+                           if (this.router.url.includes( 'operator')) {
+                             this.router.navigate(['/platform', 'operator' , 'employers']);
+                           }else {
+                             this.router.navigate(['/platform', 'employers']);
+                           }
+                         }
+                       });
+                   }
+                 });
+             }
+           }
+         });
+    }
   }
 }
