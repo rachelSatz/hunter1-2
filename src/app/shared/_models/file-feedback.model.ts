@@ -7,6 +7,7 @@ export class FileFeedback {
   updated_at: Date;
   amount: number;
   employer_name: string;
+  product_name: string;
   product_code: string;
   product_type: string;
   company_name: string;
