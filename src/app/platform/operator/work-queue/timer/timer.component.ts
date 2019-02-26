@@ -27,6 +27,7 @@ export class TimerComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit() {
+
     this.path = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';
     if (this.path !== '') {
       switch (this.path) {
@@ -60,6 +61,7 @@ export class TimerComponent implements OnInit, OnDestroy  {
   }
 
   intervals(): void {
+    // this.timerService.setIntervals();
     this.timerService.getSecondsObservable().subscribe(val => {
       if (val < 10) {
         this.seconds = '0' + val.toString();

@@ -171,11 +171,12 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
        'year': form.value['year'],
        'processName': form.value['processName'],
        'departmentId': this.selectUnitService.currentDepartmentID,
-       'isDirect': isDirect,
        'type': this.selectedType,
+       'isDirect': isDirect,
        'processId': '',
        'pageNumber': 1
      };
+
       this.processService.newProcess(data,
         this.route.snapshot.params.status === '1' ? this.process.file : this.processFile , fileDeposition ).then(response => {
         if (response['processId']) {

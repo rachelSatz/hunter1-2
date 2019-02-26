@@ -40,6 +40,7 @@ export class TimerService {
       this.hour.next(hourVal);
     }, 600000);
   }
+
   reset() {
     this.second.next(0);
     this.minute.next(0);

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
+import { Employer, EmployerStatus, IdentifierTypes } from 'app/shared/_models/employer.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
-import { Employer } from 'app/shared/_models/employer.model';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class EmployerFormComponent implements OnInit {
   status: object;
   saveChanges = false;
 
+
   headers = [
     {label: 'הערות',    link: 'comments'   },
     {label: 'מחלקות',   link: 'departments'},
@@ -37,17 +39,20 @@ export class EmployerFormComponent implements OnInit {
     {label: 'דוחות',    link: 'reports'    },
   ];
 
-  statuses = [
-    {name: 'לא פעיל', id: 'inactive'},
-    {name: 'פעיל',    id: 'active'},
-    {name: 'בהקמה',   id: 'onProcess'},
-  ];
+  statuses = Object.keys(EmployerStatus).map(function(e) {
+    return { id: e, name: EmployerStatus[e] };
+  });
+
+  identifierTypes = Object.keys(IdentifierTypes).map(function(e) {
+    return { id: e, name: IdentifierTypes[e] };
+  });
 
   constructor(private router: Router,
               private fb: FormBuilder,
               private route: ActivatedRoute,
               private selectUnit: SelectUnitService,
               private employersResolve: EmployersResolve,
+              private notificationService: NotificationService,
               private employerService: EmployerService) { }
 
   ngOnInit() {
@@ -55,18 +60,19 @@ export class EmployerFormComponent implements OnInit {
     this.employersResolve.resolve(this.route.snapshot).then( response => {
       this.employer = response;
       this.setStatus();
+
       if (response.operator !== null) {
         this.operatorId = response.operator.id;
       }
-      this.project.name = response.project_id;
+      this.project.id = response.project_id;
       this.project.name = response.project_name;
     });
     this.employerService.getProjects().then(response => {
       this.projects = response;
     });
-    this.employerService.getOperator(this.selectUnit.currentEmployerID).then(response => {
+    this.employerService.getOperator( this.selectUnit.currentEmployerID, 'employerId').then(response => {
       this.operators = response;
-      // this.setValue('operators', this.operatorId, 'operator');
+      // this.employerForm['operators'] = this.operatorId
       this.setOperator();
     });
     this.initForm();
@@ -75,24 +81,26 @@ export class EmployerFormComponent implements OnInit {
 
   initForm(): void {
     this.employerForm = this.fb.group({
-      'employerName': [null , Validators.required],
+      'name': [null , Validators.required],
       'businessNumber': [null , Validators.required],
       'deductionNumber': [],
       'email': [null , [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
       'phone': [null,  Validators.required],
       'address': [],
-      'project': [null,  Validators.required],
-      'operator': [null,  Validators.required],
+      'project': [this.project,  Validators.required],
+      'operator': [this.operator,  Validators.required],
       'status': [null,  Validators.required],
-    })
-    ;
+      'identifierType':    [null, Validators.required],
+      'sendingNumber':     [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
+      'institutionCode5':  [null, [Validators.pattern('^\\d{5}$'), Validators.required]],
+      'institutionCode8':  [null, [Validators.pattern('^\\d{8}$'), Validators.required]]
+    });
   }
 
   setOperator() {
     for (let i = 0; i < this.operators.length; i++) {
       if (this.operators[i].id === this.operatorId) {
         this.operator = this.operators[i];
-        console.log(this.operator);
       }
     }
   }
@@ -105,16 +113,17 @@ export class EmployerFormComponent implements OnInit {
     }
   }
 
-  // setValue(array, id, item) {
-  //   for (let i = 0; i < array.length; i++) {
-  //     if (this[array][i].id === id) {
-  //       this[item] = this[array][i];
-  //     }
-  //   }
-  // }
-
-  submit(form) {
-    console.log(form.value);
+  submit(form: NgForm) {
+    if (form.valid) {
+      this.employerService.updateEmployer( form.value, this.employer.id).then(
+        response => {
+          if (response) {
+            this.notificationService.success('נשמר בהצלחה.');
+          } else {
+            this.notificationService.warning('נכשל.');
+          }
+        }
+      );
+    }
   }
-
 }

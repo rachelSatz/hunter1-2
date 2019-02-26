@@ -130,8 +130,8 @@ export class EmployerService extends BaseHttpService {
       .then(response =>  response as boolean);
   }
 
-  getOperator(id: number): Promise<any> {
-    return this.http.get(this.endPoint + '/operators' + '?organizationId=' + id, this.getTokenHeader())
+  getOperator(id: number, type?: string): Promise<any> {
+    return this.http.get(this.endPoint + '/operators?'  + type + '=' + id, this.getTokenHeader())
       .toPromise()
       .then(response => response as any);
   }
@@ -140,4 +140,17 @@ export class EmployerService extends BaseHttpService {
     return this.http.get(this.endPoint + '/projects', this.getTokenHeader()).toPromise()
       .then( response => response );
   }
+
+  updateMonthlyReports(report: any, employerId: number): Promise<any> {
+    return this.http.post(this.endPoint + '/' + employerId +  '/updateMonthlyReports', report , this.getTokenHeader())
+      .toPromise()
+      .then( response => response );
+  }
+
+  monthlyReports(employerId: number): Promise<any> {
+    return this.http.put(this.endPoint + '/' + employerId +  '/monthlyReports' , this.getTokenHeader())
+      .toPromise()
+      .then( response => response );
+  }
+
 }

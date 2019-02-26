@@ -23,7 +23,7 @@ export class NewTaskFormComponent implements OnInit {
 
   ngOnInit() {
     this.curDate = new Date();
-    this.employerService.getOperator(this.selectUnit.currentEmployerID).then(response => {
+    this.employerService.getOperator(this.selectUnit.currentEmployerID, 'employerId').then(response => {
       this.operators = response;
     });
   }

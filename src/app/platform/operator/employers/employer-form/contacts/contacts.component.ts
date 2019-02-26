@@ -40,7 +40,7 @@ export class ContactsComponent extends DataTableComponent implements OnInit , On
 
 
   ngOnInit() {
-    if (this.router.url.includes( 'operator')) {
+    if (this.router.url.includes( 'employers')) {
       this.pathEmployers = true;
     }
     this.contactService.getContacts(0, this.selectUnit.currentEmployerID)

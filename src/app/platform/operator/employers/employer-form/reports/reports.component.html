@@ -3,21 +3,21 @@
 </div>
 <form #form="ngForm" (ngSubmit)="submit(form)">
   <div class="mt-4">
-    <mat-checkbox [(ngModel)]="files" name="file">היזונים חוזרים ברמת קובץ</mat-checkbox>
+    <mat-checkbox [(ngModel)]="sendFileFeedback" name="sendFileFeedback">היזונים חוזרים ברמת קובץ</mat-checkbox>
   </div>
   <div class="mt-4">
-    <mat-checkbox [(ngModel)]="records" name="records">היזונים חוזרים ברמת עובד</mat-checkbox>
+    <mat-checkbox [(ngModel)]="sendRecordFeedback" name="sendRecordFeedback">היזונים חוזרים ברמת עובד</mat-checkbox>
   </div>
   <div class="mt-3 field-width">
     <mat-form-field>
-      <mat-select placeholder="יום שידור קבצים לקופות" [(ngModel)]="broadcastToCashBox" name="broadcast-day">
+      <mat-select placeholder="יום שידור קבצים לקופות" [(ngModel)]="transmissionDay" name="transmissionDay">
         <mat-option *ngFor="let day of month"  [value]="day" >{{day}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
   <div class="field-width">
     <mat-form-field>
-      <mat-select placeholder="יום שליחת היזונים למעסיק" [(ngModel)]="sendToEmployer" name="day">
+      <mat-select placeholder="יום שליחת היזונים למעסיק" [(ngModel)]="feedbacksDay" name="feedbacksDay">
         <mat-option *ngFor="let day of month" [value]="day">
           {{day}}
         </mat-option>

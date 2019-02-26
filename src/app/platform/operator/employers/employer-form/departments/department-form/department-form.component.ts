@@ -43,7 +43,7 @@ export class DepartmentFormComponent implements OnInit {
       }
       if (this.department.bank_account_withdrawal == null) {
         this.department.bank_account_withdrawal = new EmployerBankAccount;
-        this.department.bank_account_withdrawal.type = 'Withdrawal';
+        this.department.bank_account_withdrawal.type = 'withdrawal';
       }
     }
   }
@@ -93,8 +93,15 @@ export class DepartmentFormComponent implements OnInit {
 
   private handleResponse(response: boolean): void {
     if (response) {
-      this.router.navigate(['platform', 'operator', 'employers',
-        'form', this.selectUnit.currentEmployerID, 'departments']);
+      if (this.router.url.includes( 'operator')) {
+        this.router.navigate(['platform', 'operator', 'employers',
+          'form', this.selectUnit.currentEmployerID, 'departments']);
+      }else {
+        this.router.navigate(['platform', 'employers',
+          'form', this.selectUnit.currentEmployerID, 'departments']);
+      }
+
+
     } else {
       this.hasServerError = true;
     }

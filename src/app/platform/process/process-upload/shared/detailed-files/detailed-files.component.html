@@ -42,8 +42,7 @@
         <td>
           <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item.file_id)">
         </td>
-        <td>{{ filesStatus[item.status] }}</td>
-
+        <td>{{ statuses[item.status] }}</td>
         <td>
            <i *ngIf="item.ref_path !== null" class="fa fa-download fa-lg ml-2" (click)="downloadFile(item.file_id, item.file_name)"></i>
         </td>

@@ -110,7 +110,7 @@ export class NewEmployerComponent implements OnInit {
   }
 
   getOperator(organizationId) {
-    this.employerService.getOperator(organizationId).then(response => {
+    this.employerService.getOperator(organizationId, 'organizationId').then(response => {
       this.operators = response;
     });
   }

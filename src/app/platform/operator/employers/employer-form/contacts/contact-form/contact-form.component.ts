@@ -78,12 +78,16 @@ export class ContactFormComponent implements OnInit {
 
   private handleResponse(response: boolean): void {
     if (response) {
-      console.log(this.router);
       if (this.router.url.includes( 'operator')) {
         this.router.navigate(['platform', 'operator', 'employers',
           'form', this.selectUnit.currentEmployerID, 'contacts']);
       } else {
-        this.router.navigate([ 'platform', 'contacts']);
+        if (this.router.url.includes( 'employers')) {
+          this.router.navigate(['platform', 'employers',
+            'form', this.selectUnit.currentEmployerID, 'contacts']);
+        }else {
+          this.router.navigate([ 'platform', 'contacts']);
+        }
       }
 
     } else {

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {EmployerService} from '../../../../../shared/_services/http/employer.service';
+import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-reports',
@@ -8,20 +10,21 @@ import { Component, OnInit } from '@angular/core';
 export class ReportsComponent implements OnInit {
 
   month = [];
-  files = false;
-  records = false;
-  sendToEmployer = 15;
-  broadcastToCashBox = 15;
+  sendFileFeedback = false;
+  sendRecordFeedback = false;
+  feedbacksDay = 15;
+  transmissionDay = 15;
 
-  constructor() { }
+  constructor( private employerService: EmployerService, private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
     for (let i = 0; i < 31; i++) {
       this.month[i] = i + 1;
     }
+    this.employerService.monthlyReports(this.selectUnit.currentEmployerID);
   }
 
   submit(form) {
-    console.log(form.value);
+    this.employerService.updateMonthlyReports(form.value, this.selectUnit.currentEmployerID);
   }
 }
