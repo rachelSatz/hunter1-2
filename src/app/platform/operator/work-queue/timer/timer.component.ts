@@ -18,6 +18,7 @@ export class TimerComponent implements OnInit, OnDestroy  {
   path: string;
   text: string;
   task_timer_id: number;
+  id: number;
 
   constructor(public dialog: MatDialog,
               private timerService: TimerService,
@@ -35,7 +36,7 @@ export class TimerComponent implements OnInit, OnDestroy  {
           this.text = 'זמן טיפול בשיחת טלפון';
           this.timerService.reset();
           this.newTaskTimer('phone-call');
-          // this.timerService.setPath(1);
+          // this.timerService.setPath(2);
           break;
         }
         case 'emails': {

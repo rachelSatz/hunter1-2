@@ -16,6 +16,9 @@ export class EmployerFinancialDetails {
   direct_debit_commission: string;
 
   constructor() {
+      this.id = 0;
+      this.employer = new Employer();
+      this.pay_employer = new Employer();
       this.financial_product.push(new EmployerFinancialProduct());
   }
 }

@@ -1,10 +1,10 @@
 <form #form="ngForm">
   <div [style.visibility]='hidden'>
     <mat-form-field hidden>
-      <input *ngIf="financialDetails.id" matInput type="text" name="id" [(ngModel)]="financialDetails.id">
+      <input matInput  type="text" name="id" [(ngModel)]="financialDetails.id">
     </mat-form-field>
     <mat-form-field hidden>
-      <input *ngIf="financialDetails.pay_employer.id" matInput type="text" name="pay_employer_id" [(ngModel)]="financialDetails.pay_employer.id">
+      <input matInput type="text" name="pay_employer_id" [(ngModel)]="financialDetails.pay_employer.id">
     </mat-form-field>
   </div>
   <div class="row mt-lg-5">

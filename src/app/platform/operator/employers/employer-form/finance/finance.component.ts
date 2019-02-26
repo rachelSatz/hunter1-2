@@ -25,7 +25,7 @@ import { fade } from 'app/shared/_animations/animation';
   animations: [ fade ]
 })
 export class FinanceComponent implements OnInit {
-  financialDetails: EmployerFinancialDetails;
+  financialDetails: EmployerFinancialDetails = new EmployerFinancialDetails();
   hasServerError = false;
   rowIndex: number;
   additionalPayment: boolean;
@@ -56,8 +56,12 @@ export class FinanceComponent implements OnInit {
               private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
-    this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(response =>
-      this.financialDetails = response);
+    this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(response => {
+      if (response.id) {
+        this.financialDetails = response;
+      }
+    });
+
   }
 
 
