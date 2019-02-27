@@ -12,7 +12,7 @@ import { fade } from 'app/shared/_animations/animation';
 export class AddDocumentComponent implements OnInit {
 
   uploadedFile: File;
-  description: string;
+  description = '';
   hasServerError;
 
   constructor(public dialogRef: MatDialogRef<AddDocumentComponent>, private selectUnit: SelectUnitService,
@@ -22,8 +22,6 @@ export class AddDocumentComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.description);
-    console.log(this.uploadedFile);
     this.documentService.uploadFile(this.selectUnit.currentEmployerID, this.description, this.uploadedFile)
       .then(response => {
         if (!response) {

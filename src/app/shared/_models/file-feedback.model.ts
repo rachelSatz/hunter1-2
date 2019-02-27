@@ -38,6 +38,7 @@ export class GroupThingFeedback {
 }
 
 export enum Status {
+  no_sent = 'לא שודר',
   sent = 'שודר',
   sent_failed = 'שגיאת שידור',
   feedback_a =  'פידבק A',

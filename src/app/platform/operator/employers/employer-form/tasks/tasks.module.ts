@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatNativeDateModule, MatTooltipModule } from '@angular/material';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { NewTaskFormComponent } from './new-task-form/new-task-form.component';
+import { TaskService } from 'app/shared/_services/http/task.service';
 
 const routes: Routes = [{ path: '', component: TasksComponent }];
 
@@ -18,6 +19,7 @@ const routes: Routes = [{ path: '', component: TasksComponent }];
     MatNativeDateModule,
     MatTooltipModule, MatFormFieldModule, MatDialogModule
   ],
+  providers: [TaskService],
   declarations: [TasksComponent, NewTaskFormComponent],
   entryComponents: [NewTaskFormComponent]
 })

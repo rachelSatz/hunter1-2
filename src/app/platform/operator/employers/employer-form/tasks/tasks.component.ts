@@ -5,13 +5,13 @@ import { MatDialog } from '@angular/material';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { NewTaskFormComponent } from './new-task-form/new-task-form.component';
+import { TaskService } from 'app/shared/_services/http/task.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.css'],
-  styles: ['.row-image { width: 20px; height: auto; }' ]
-
+  styleUrls: ['../../../../../shared/data-table/data-table.component.css'],
 })
 export class TasksComponent extends DataTableComponent implements OnInit , OnDestroy {
 
@@ -26,19 +26,23 @@ export class TasksComponent extends DataTableComponent implements OnInit , OnDes
     { column: 'options', label: 'אפשרויות' }
   ];
 
-  constructor(route: ActivatedRoute, public dialog: MatDialog, private router: Router) {
+  constructor(route: ActivatedRoute,
+              public dialog: MatDialog,
+              private router: Router,
+              private taskService: TaskService,
+              private selectUnit: SelectUnitService) {
     super(route);
     this.paginationData.limit = 5;
   }
 
   ngOnInit() {
-    if (this.router.url.split('/')[3] === 'employers') {
+    if (this.router.url.includes('employers')) {
       this.pathEmployers = true;
     }
-    this.setItems(this.headers);
+    this.taskService.getTasks(this.selectUnit.currentEmployerID)
+      .then(response => this.setItems(response));
     super.ngOnInit();
   }
-
 
   createTask() {
     const dialogRef = this.dialog.open(NewTaskFormComponent, {

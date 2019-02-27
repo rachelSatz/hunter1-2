@@ -76,9 +76,13 @@
       <span class="bold blue-color pointer">{{ extraSearchCriteria === 'active' ? 'הצג פחות >' : 'חיפוש מורחב >' }}</span>
     </div>
   </div>
+<button *ngIf="checkedItems.length > 0"  class="btn blue-btn h-75" (click)="manualChangingStatus()">שינוי סטטוס לנפרע ידני</button>
 <table class="table table-hover mt-3 data-table">
   <thead>
   <tr class="table-headers">
+    <th *ngIf="items.length > 0">
+      <mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>
+    </th>
     <th *ngFor="let header of headers" (click)="sort(header)">
       <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
       <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
@@ -87,7 +91,10 @@
   </thead>
   <tbody>
   <ng-container *ngIf="!isSearching">
-    <tr class="pointer" *ngFor="let employee of paginatedItems">
+    <tr class="pointer" *ngFor="let employee of paginatedItems"  [ngClass]="{ 'checked': employee.isChecked }">
+      <td>
+        <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
+      </td>
       <td>{{ employee.name }}</td>
       <td>{{ employee.personal_id }}</td>
       <td>{{ employee.salary_month | date:'MM'}}</td>
@@ -95,17 +102,13 @@
       <td>{{ productTypes[employee.product_type]}}</td>
       <td>{{ employee.product_code}}</td>
       <td>{{ employee.amount | number: '1.2-2'}}</td>
-      <!--<td></td>-->
-      <!--<td></td>-->
       <td>{{ employee.deposit_month | date: 'dd/MM/yyyy' }}</td>
-      <td>{{ employee.status}}</td>
-      <!--<td></td>-->
+      <td>{{ statuses[employee.status]}}</td>
       <td >
         <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog(employee)">
       </td>
       <td>
         <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(employee)">
-        <!--<button class="btn btn1 blue-btn" (click)="openInquiresDialog()">שלח</button>-->
       </td>
       <td>
         <span class="grey-circle" (click)="openInquiriesDetailsDialog(employee.id)">{{ employee.inquiries.length }}</span>

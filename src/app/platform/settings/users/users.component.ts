@@ -15,7 +15,7 @@ import { EntityRoles } from '../../../shared/_models/user.model';
 })
 export class UsersComponent extends DataTableComponent  implements OnInit {
 
-  employers = [];
+  // employers = [];
   user = [];
   role =  Object.keys(EntityRoles).map(function(e) {
     return { id: e, name: EntityRoles[e] };
@@ -32,7 +32,7 @@ export class UsersComponent extends DataTableComponent  implements OnInit {
   }
 
   ngOnInit() {
-    this.employerService.getEmployers(this.selectUnit.currentOrganizationID ).then(response => this.employers = response);
+    // this.employerService.getEmployers(this.selectUnit.currentOrganizationID ).then(response => this.employers = response);
     this.fetchItems();
     super.ngOnInit();
   }

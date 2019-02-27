@@ -61,7 +61,9 @@ export class ProcessService extends BaseHttpService {
   newProcess(values: any, file?: File, fileDeposition?: File ): Promise<boolean> {
     const formData = new FormData();
     formData.append('departmentId', values.departmentId);
-    formData.append('isDirect', values.isDirect);
+    if (values.isDirect != null) {
+      formData.append('isDirect', values.isDirect);
+    }
     formData.append('month', values.month);
     formData.append('processName', values.processName);
     formData.append('year', values.year);

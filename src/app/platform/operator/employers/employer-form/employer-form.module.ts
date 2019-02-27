@@ -6,9 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
 import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule,
          MatInputModule, MatRadioModule, MatOptionModule, MatSelectModule } from '@angular/material';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
-import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 const routes: Routes = [
   { path: '', component: EmployerFormComponent},
@@ -36,7 +37,7 @@ const routes: Routes = [
     BdSelectModule, MatOptionModule
   ],
   declarations: [EmployerFormComponent],
-  providers: [EmployerService, EmployersResolve, GeneralHttpService],
+  providers: [EmployerService, EmployersResolve, GeneralHttpService, NotificationService],
 })
 
 export class EmployerFormModule { }

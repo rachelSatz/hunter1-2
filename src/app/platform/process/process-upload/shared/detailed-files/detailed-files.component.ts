@@ -18,6 +18,7 @@ import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { ProductType } from 'app/shared/_models/product.model';
+import { Status } from 'app/shared/_models/file-feedback.model';
 
 @Component({
   selector: 'app-detailed-files',
@@ -46,14 +47,14 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   }
 
   paymentType = PaymentType;
-  filesStatus = FilesStatus;
   productType = ProductType;
   spin: boolean;
   sub = new Subscription;
+  statuses = Status;
 
   ngOnInit() {
     this.processService.getFilesList(this.processDataService.activeProcess.processID)
-      .then( response => this.setItems(response));
+      .then( response => {  console.log(response); this.setItems(response);});
     super.ngOnInit();
   }
 

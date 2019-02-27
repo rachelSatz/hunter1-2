@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
-import { Contact, EntityTypes } from 'app/shared/_models/contact.model';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { Contact, EntityTypes, Type } from 'app/shared/_models/contact.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { fade } from 'app/shared/_animations/animation';
-import {NotificationService} from '../../../../../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -21,8 +21,13 @@ export class ContactFormComponent implements OnInit {
   contact = new Contact();
   hasServerError: boolean;
   entities = [];
+  // types = Type;
   entityTypes = Object.keys(EntityTypes).map(function(e) {
     return { id: e, name: EntityTypes[e] };
+  });
+
+  types = Object.keys(Type).map(function(e) {
+    return { id: e, name: Type[e] };
   });
 
   constructor( private route: ActivatedRoute,
@@ -78,12 +83,16 @@ export class ContactFormComponent implements OnInit {
 
   private handleResponse(response: boolean): void {
     if (response) {
-      console.log(this.router);
       if (this.router.url.includes( 'operator')) {
         this.router.navigate(['platform', 'operator', 'employers',
           'form', this.selectUnit.currentEmployerID, 'contacts']);
       } else {
-        this.router.navigate([ 'platform', 'contacts']);
+        if (this.router.url.includes( 'employers')) {
+          this.router.navigate(['platform', 'employers',
+            'form', this.selectUnit.currentEmployerID, 'contacts']);
+        }else {
+          this.router.navigate([ 'platform', 'contacts']);
+        }
       }
 
     } else {

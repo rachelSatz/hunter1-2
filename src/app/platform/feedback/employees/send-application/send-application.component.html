@@ -6,61 +6,53 @@
   <span class="header-width bold f-14">סוג תקבול</span>
   <span class="header-width bold f-14">סוג מוצר</span>
   <span class="header-width bold f-14">קוד אוצר</span>
-  <!--<span class="header-width bold f-14">יצירת הפניה</span>-->
-  <!--<span class="header-width bold f-14">סטטוס</span>-->
 </div>
 <div class="d-flex p-2 border-bottom">
   <span class="header-width f-14">{{ employeeStatuses[data.employee_status]}}</span>
   <span class="header-width f-14">{{ depositTypes[data.deposit_type]}}</span>
   <span class="header-width f-14">{{ productType[data.product_type]}}</span>
   <span class="header-width f-14">{{ data.product_code}}</span>
-  <!--<span class="header-width bold f-14">יצירת הפניה</span>-->
-  <!--<span class="header-width bold f-14">סטטוס</span>-->
 </div>
 <div class="d-flex p-2 mt-3">
   <span class="header-width bold f-14">שכר</span>
-  <!--<span class="header-width bold f-14">גורם מטפל</span>-->
   <span class="header-width bold f-14">חודש שכר</span>
   <span class="header-width bold f-14">חודש הפרשה</span>
-  <!--<span class="header-width bold f-14">עדכון אחרון</span>-->
 </div>
 <div class="d-flex p-2 border-bottom">
   <span class="header-width f-14">{{ data.salary}}</span>
-  <!--<span class="header-width f-14"></span>-->
   <span class="header-width f-14">{{ data.salary_month |  date: 'MM/yy'}}</span>
   <span class="header-width f-14">{{ data.salary_month |  date: 'dd/MM/yy'}}</span>
-  <!--<span class="header-width f-14"></span>-->
 </div>
 <div class="d-flex p-2 mt-2">
   <span class="header-width bold f-14">סעיף הפרשה</span>
   <span class="header-width bold f-14">סכום</span>
-  <!--<span class="header-width bold f-14">קטגוריה</span>-->
-  <!--<span class="header-width bold f-14">סוג השגיאה</span>-->
+  <span class="header-width bold f-14">קטגוריה</span>
+  <span class="header-width bold f-14">סוג השגיאה</span>
   <span class="header-width bold f-14">פרטים</span>
 </div>
 <div class="d-flex p-2 mt-2" *ngFor="let transfer of data.transfer_clause;">
   <span class="header-width f-14">{{ clause_types[transfer.clause_type] }}</span>
   <span class="header-width f-14">{{ transfer.transfer_sum }}</span>
-  <!--<span class="header-width f-14">{{ transfer }}</span>-->
-  <!--<span class="header-width f-14">{{ transfer.error_details }}</span>-->
+  <span class="header-width f-14">{{ feedBackStatus[transfer.status] }}</span>
+  <span class="header-width f-14">{{ transfer.error_type }}</span>
   <span class="header-width f-14">{{ transfer.comments }}</span>
 </div>
 <p class="bold border-bottom mt-3 f-14">אופן רישום הזכויות</p>
 <div class="d-flex p-2">
   <span class="header-width bold f-14">סעיף הפרשה</span>
-  <!--<span class="header-width bold f-14">שכר מחושב</span>-->
-  <!--<span class="header-width bold f-14">מס' פוליסה</span>-->
-  <!--<span class="header-width bold f-14">אחוז הפרשה / מצופה</span>-->
-  <!--<span class="header-width bold f-14">סכום פרמיה / מצופה</span>-->
-  <!--<span class="header-width bold f-14">פרטים</span>-->
+  <span class="header-width bold f-14">שכר מחושב</span>
+  <span class="header-width bold f-14">מס' פוליסה</span>
+  <span class="header-width bold f-14">אחוז הפרשה / מצופה</span>
+  <span class="header-width bold f-14">סכום פרמיה / מצופה</span>
+  <span class="header-width bold f-14">פרטים</span>
 </div>
 <div class="d-flex p-2 mt-2" *ngFor="let transfer of data.transfer_clause;">
   <span class="header-width f-14">{{ clause_types[transfer.clause_type] }}</span>
-  <!--<span class="header-width f-14">{{  transfer.salary_calculated }}</span>>-->
- <!--<span class="header-width f-14">{{ transfer.account_number }}</span>-->
-  <!--<span class="header-width f-14">{{ transfer.rate_provision_expected }}</span>-->
-  <!--<span class="header-width f-14">{{ transfer.amount_provision_expected }}</span>-->
-  <!--<span class="header-width f-14">{{ transfer.comments }}</span>-->
+  <span class="header-width f-14">{{  transfer.salary_calculated }}</span>
+  <span class="header-width f-14">{{ transfer.account_number }}</span>
+  <span class="header-width f-14">{{ transfer.rate_provision_expected }}</span>
+  <span class="header-width f-14">{{ transfer.amount_provision_expected }}</span>
+  <span class="header-width f-14">{{ transfer.error_details	 }}</span>
 </div>
 <!--<div class="mt-5">-->
   <!--<textarea name="subject" placeholder="הערות" [(ngModel)]="commentContent" class="text-extra mt-2"></textarea>-->

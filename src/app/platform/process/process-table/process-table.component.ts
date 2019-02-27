@@ -99,8 +99,12 @@ export class ProcessTableComponent extends DataTableComponent  implements OnInit
    if (status === this.processStatus.loading || status ===  this.processStatus.can_be_processed
    || status === this.processStatus.done_processing) {
      const date = new Date(process.date);
+     let pageNumber = 1;
+     if (status !== this.processStatus.loading) {
+       pageNumber = 3;
+     }
      const data = {
-       'pageNumber': 1,
+       'pageNumber': pageNumber,
        'processName': process.name,
        'year': date.getFullYear(),
        'month': date.getMonth(),

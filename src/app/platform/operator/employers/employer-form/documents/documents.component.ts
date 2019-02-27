@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as FileSaver from 'file-saver';
 import { MatDialog } from '@angular/material';
 
@@ -15,13 +15,17 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
-  styles: ['.row-image { width: 30px; height: auto; }' ],
   styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
 export class DocumentsComponent extends DataTableComponent implements OnInit , OnDestroy {
 
+  pathEmployers = false;
   sub = new Subscription;
-  constructor(route: ActivatedRoute, private documentService: DocumentService, private selectUnit: SelectUnitService,
+
+  constructor(route: ActivatedRoute,
+              private documentService: DocumentService,
+              private router: Router,
+              private selectUnit: SelectUnitService,
     protected notificationService: NotificationService, private dialog: MatDialog) {
     super(route, notificationService);
     this.paginationData.limit = 5;
@@ -36,9 +40,12 @@ readonly headers: DataTableHeader[] =  [
   ];
 
   ngOnInit() {
-    if (this.documentService.file) {
-      this.paginatedItems[this.paginatedItems.length + 2] = this.documentService.file;
+    if (this.router.url.includes('employers')) {
+      this.pathEmployers = true;
     }
+    // if (this.documentService.file) {
+    //   this.paginatedItems[this.paginatedItems.length + 2] = this.documentService.file;
+    // }
     this.fetchItems();
     super.ngOnInit();
   }

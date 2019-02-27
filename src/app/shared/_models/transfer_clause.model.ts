@@ -22,3 +22,9 @@ export enum ClauseType {
   other_employee = 'שונות עובד',
   other_employer = 'שונות מעביד',
 }
+
+export enum  FeedBackStatus{
+  record_received = 'רשומה נקלטה',
+  record_processing_manufacture = 'רשומה בטיפול יצרן',
+  record_transferred_employer = 'רשומה הועברה לטיפול מעסיק'
+}
