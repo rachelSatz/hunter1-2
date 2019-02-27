@@ -1,16 +1,12 @@
 <div [ngClass]="{'operator-container': !pathEmployers }">
-  <div class="d-flex w-75">
-    <div class="p-2 mt-3 mr-3 w-50">
-      <button (click)="createTask()" class="btn blue-btn text-center">
-        הוספת משימה
-      </button>
-    </div>
-    <mat-form-field class="ml-3 mt-3">
-      <input matInput placeholder="חפש" [(ngModel)]="searchCriteria['task']" (change)="search()">
-      <i matSuffix class="fa fa-search"></i>
-    </mat-form-field>
+  <div class="d-flex justify-content-start mt-lg-5">
+    <button class="btn blue-btn" (click)="createTask()"> הוספת משימה</button>
+    <!--<mat-form-field class="ml-3 mt-3">-->
+      <!--<input matInput placeholder="חפש" [(ngModel)]="searchCriteria['task']" (change)="search()">-->
+      <!--<i matSuffix class="fa fa-search"></i>-->
+    <!--</mat-form-field>-->
   </div>
-  <div class="w-50">
+  <div [ngClass]="{'operator-table': pathEmployers }">
     <table class="table table-hover mt-3 data-table">
       <thead>
       <tr class="table-headers">

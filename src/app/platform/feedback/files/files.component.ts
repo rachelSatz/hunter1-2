@@ -13,12 +13,11 @@ import { Subscription } from 'rxjs';
 
 import { Month } from 'app/shared/_const/month-bd-select';
 import { FormComponent } from './form/form.component';
-import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
 import { ProductType } from 'app/shared/_models/product.model';
 import { InquiriesComponent} from 'app/shared/_dialogs/inquiries/inquiries.component';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
-import {Status} from '../../../shared/_models/file-feedback.model';
-import {formatDate} from '@angular/common';
+import { Status } from 'app/shared/_models/file-feedback.model';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-files',

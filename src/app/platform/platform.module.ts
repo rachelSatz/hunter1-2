@@ -42,7 +42,8 @@ const routes: Routes = [
       { path: 'operator/employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },
       { path: 'operator/work-queue', loadChildren: 'app/platform/operator/work-queue/work-queue.module#WorkQueueModule'},
       { path: 'operator/contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
-      { path: 'operator/tasks', loadChildren: 'app/platform/operator/employers/employer-form/tasks/tasks.module#TasksModule'}
+      { path: 'operator/tasks', loadChildren: 'app/platform/operator/employers/employer-form/tasks/tasks.module#TasksModule'},
+      { path: 'operator/documents', loadChildren: 'app/platform/operator/employers/employer-form/documents/documents.module#DocumentsModule'}
     ]
   }
 ];

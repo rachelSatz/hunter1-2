@@ -12,7 +12,7 @@ import { fade } from 'app/shared/_animations/animation';
 export class AddDocumentComponent implements OnInit {
 
   uploadedFile: File;
-  description: string;
+  description = '';
   hasServerError;
 
   constructor(public dialogRef: MatDialogRef<AddDocumentComponent>, private selectUnit: SelectUnitService,

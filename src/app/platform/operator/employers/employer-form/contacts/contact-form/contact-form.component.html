@@ -2,10 +2,13 @@
   <form #form="ngForm" (ngSubmit)="submit(form)" class="col-12 col-lg-6 p-0">
     <div class="row mt-3">
       <div class="col-12 col-lg-4">
-        <bd-select class="w-100" [items]="entityTypes" name="type" #typeSelect="ngModel" [(ngModel)]="contact.type" (onSelect)="loadEntities($event)" placeholder="סוג גורם" required [error]="typeSelect.errors && form.submitted"></bd-select>
+        <bd-select class="w-100" [items]="entityTypes" name="entity_type" #entityTypeSelect="ngModel" [(ngModel)]="contact.entity_type" (onSelect)="loadEntities($event)" placeholder="סוג גורם" required [error]="entityTypeSelect.errors && form.submitted"></bd-select>
       </div>
-      <div class="col-12 col-lg-4" [@fade]="contact.type !== 'employer' ? 'active' : 'inactive'">
+      <div class="col-12 col-lg-4" [@fade]="contact.entity_type !== 'employer' ? 'active' : 'inactive'">
         <bd-select class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel" [ngModel]="contact.entity_id" placeholder="שם גורם" required [error]="entityIDSelect.errors && form.submitted"></bd-select>
+      </div>
+      <div class="col-12 col-lg-4">
+        <bd-select class="w-100" [items]="types" name="type" #typeSelect="ngModel" [(ngModel)]="contact.type" (onSelect)="loadEntities($event)" placeholder="סוג איש קשר" required [error]="typeSelect.errors && form.submitted" [multiple]="true"></bd-select>
       </div>
     </div>
     <div class="row mt-3">

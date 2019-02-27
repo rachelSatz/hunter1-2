@@ -93,3 +93,14 @@
   min-width: 40px;
   border-radius: 0;
 }
+
+
+.operator-container
+{
+  margin-right: 60px
+}
+
+.operator-table
+{
+  width: 50%
+}

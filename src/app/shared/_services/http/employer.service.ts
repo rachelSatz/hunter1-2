@@ -142,13 +142,13 @@ export class EmployerService extends BaseHttpService {
   }
 
   updateMonthlyReports(report: any, employerId: number): Promise<any> {
-    return this.http.post(this.endPoint + '/' + employerId +  '/updateMonthlyReports', report , this.getTokenHeader())
+    return this.http.put(this.endPoint + '/' + employerId +  '/monthlyReports', report , this.getTokenHeader())
       .toPromise()
       .then( response => response );
   }
 
   monthlyReports(employerId: number): Promise<any> {
-    return this.http.put(this.endPoint + '/' + employerId +  '/monthlyReports' , this.getTokenHeader())
+    return this.http.get(this.endPoint + '/' + employerId +  '/monthlyReports' , this.getTokenHeader())
       .toPromise()
       .then( response => response );
   }

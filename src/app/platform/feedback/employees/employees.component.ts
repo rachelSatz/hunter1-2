@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
@@ -17,9 +16,9 @@ import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.comp
 
 import { Month } from 'app/shared/_const/month-bd-select';
 import { ProductType } from 'app/shared/_models/product.model';
-import { StatusLabel } from 'app/shared/_models/employee-feedback.model';
+import { Status } from 'app/shared/_models/employee-feedback.model';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
-import {formatDate} from '@angular/common';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -36,8 +35,9 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
   year = (new Date()).getFullYear();
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
   months = Month;
-  statusLabel = Object.keys(StatusLabel).map(function(e) {
-    return { id: e, name: StatusLabel[e] };
+  statuses = Status;
+  statusLabel = Object.keys(Status).map(function(e) {
+      return { id: e, name: Status[e] };
   });
   extraSearchCriteria = 'inactive';
   selectProductType = Object.keys(ProductType).map(function(e) {

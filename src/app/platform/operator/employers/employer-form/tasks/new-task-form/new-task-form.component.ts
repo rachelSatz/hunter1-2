@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import {TaskService} from '../../../../../../shared/_services/http/task.service';
 
 @Component({
   selector: 'app-new-task-form',
@@ -18,7 +19,9 @@ export class NewTaskFormComponent implements OnInit {
   operators = [];
   employees = [];
 
-  constructor( public dialogRef: MatDialogRef<NewTaskFormComponent>, private employerService: EmployerService,
+  constructor( public dialogRef: MatDialogRef<NewTaskFormComponent>,
+               private employerService: EmployerService,
+               private taskService: TaskService,
                private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
@@ -35,9 +38,11 @@ export class NewTaskFormComponent implements OnInit {
 
   createNewTask(form) {
     if (form.valid) {
-      console.log(form.value);
-      console.log(this.stage);
-      this.dialogRef.close();
+      // console.log(form.value);
+      // console.log(this.stage);
+      this.taskService.createTask(form.value).then(response => {
+        this.dialogRef.close();
+      });
     }
   }
 

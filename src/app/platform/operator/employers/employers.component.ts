@@ -13,7 +13,7 @@ import { EmployerStatus } from 'app/shared/_models/employer.model';
 @Component({
   selector: 'app-employers',
   templateUrl: './employers.component.html',
-  styleUrls: ['../../../shared/data-table/data-table.component.css', './employers.component.css'],
+  styleUrls: ['../../../shared/data-table/data-table.component.css'],
   animations: [ slideToggle, placeholder]
 })
 export class EmployersComponent extends DataTableComponent  implements OnInit , OnDestroy {
