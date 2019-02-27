@@ -104,7 +104,9 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
   openInquiresDialog(item: any): void {
     this.dialog.open(InquiryFormComponent, {
       data: {'id': item.id, 'contentType': 'monthlytransferblock',
-        'employerId': this.selectUnitService.currentEmployerID, 'companyId': item.company_id},
+        'employerId': this.selectUnitService.currentEmployerID, 'companyId': item.company_id,
+        'file_name': '', 'product_code': item.product_code,
+        'product_type': item.product_type, 'employee_id': item.personal_id, 'employee_name': item.name},
       width: '550px',
     });
   }

@@ -16,6 +16,8 @@ import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { IsAuthenticatedGuard } from 'app/shared/_guards/is-authenticated.guard';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { InquiriesComponent } from '../shared/_dialogs/inquiries/inquiries.component';
+import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
+import { TimerService } from '../shared/_services/http/timer';
 
 const routes: Routes = [
   {
@@ -60,6 +62,6 @@ const routes: Routes = [
   ],
   declarations: [PlatformComponent, InquiryFormComponent, CommentsFormComponent, InquiriesComponent],
   entryComponents: [InquiryFormComponent, CommentsFormComponent, InquiriesComponent],
-  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, DatePipe]
+  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, DatePipe, TimerService, OperatorTasksService]
 })
 export class PlatformModule {}

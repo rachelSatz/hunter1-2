@@ -26,8 +26,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="show" class="test">
-    <!--<span>00:00:00</span>-->
+  <div *ngIf="show" class="timer-box">
     <span >{{hours}}:{{minutes}}:{{seconds}}</span>
     <div><button class="btn blue-btn btn-sm" (click)="stopTimer()">סיום</button></div>
   </div>
