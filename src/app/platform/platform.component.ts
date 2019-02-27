@@ -42,7 +42,8 @@ export class PlatformComponent implements OnInit {
     { id: 5, icon: 'users', label: 'משתמשים', link: 'users', role: 'admin'},
     { id: 6, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
     { id: 7, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
-    { id: 8, icon: 'bell', label: 'התראות', link: '', role: 'operator'}
+    { id: 8, icon: 'bell', label: 'התראות', link: '', role: 'operator'},
+    { id: 9, icon: 'user', label: 'קופות', link: 'products', role: 'admin'}
     ];
 
   readonly menuLinks = [
