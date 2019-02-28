@@ -21,11 +21,10 @@ export class ContactFormComponent implements OnInit {
   contact = new Contact();
   hasServerError: boolean;
   entities = [];
-  // types = Type;
   entityTypes = Object.keys(EntityTypes).map(function(e) {
     return { id: e, name: EntityTypes[e] };
   });
-
+  e_types = Type;
   types = Object.keys(Type).map(function(e) {
     return { id: e, name: Type[e] };
   });
@@ -42,11 +41,18 @@ export class ContactFormComponent implements OnInit {
       this.pathEmployers = true;
     }
     if (this.route.snapshot.data.contact) {
+      const data_type = this.route.snapshot.data.contact['type'];
+      let type = [];
+      for (let i = 0; i < data_type.length; i++) {
+        type.push({id:data_type[i], name: this.e_types[data_type[i]]});
+      }
+
+      this.route.snapshot.data.contact['type'] =type;
       this.contact = this.route.snapshot.data.contact;
     }
 
     if (this.contact.id) {
-      this.loadEntities(this.contact.type);
+      this.loadEntities( this.contact.entity_type);
     }
   }
 

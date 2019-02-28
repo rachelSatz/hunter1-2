@@ -1,8 +1,9 @@
 export class Contact {
   id: number;
+  entity_type: EntityTypes;
   entity_id: number;
   entity_name: string;
-  type: EntityTypes;
+  type: any;
   first_name: string;
   last_name: string;
   phone: string;

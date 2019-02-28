@@ -5,6 +5,7 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { ContactService } from 'app/shared/_services/http/contact.service';
+import { EntityTypes } from 'app/shared/_models/contact.model';
 
 @Component({
   selector: 'app-contacts',
@@ -14,6 +15,7 @@ import { ContactService } from 'app/shared/_services/http/contact.service';
 export class ContactsComponent extends DataTableComponent implements OnInit , OnDestroy {
 
   pathEmployers = false;
+  entity_types = EntityTypes;
 
   constructor(route: ActivatedRoute,
               private contactService: ContactService,
@@ -39,7 +41,7 @@ export class ContactsComponent extends DataTableComponent implements OnInit , On
     if (this.router.url.includes( 'employers')) {
       this.pathEmployers = true;
     }
-    this.contactService.getContacts(0, this.selectUnit.currentEmployerID)
+    this.contactService.getContacts(this.selectUnit.currentOrganizationID, this.selectUnit.currentEmployerID)
       .then(response => this.setItems(response));
     super.ngOnInit();
   }

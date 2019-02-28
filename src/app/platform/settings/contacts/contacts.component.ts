@@ -16,7 +16,7 @@ import {Subscription} from 'rxjs';
 })
 export class ContactsComponent extends DataTableComponent implements OnInit, OnDestroy  {
 
-  types = EntityTypes;
+  entity_types = EntityTypes;
   sub = new Subscription;
 
   readonly headers: DataTableHeader[] =  [
