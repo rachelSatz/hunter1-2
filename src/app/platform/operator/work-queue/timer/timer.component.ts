@@ -35,7 +35,7 @@ export class TimerComponent implements OnInit, OnDestroy  {
         case 'phone-call': {
           this.text = 'זמן טיפול בשיחת טלפון';
           this.timerService.reset();
-          this.newTaskTimer('phone-call');
+          this.newTaskTimer('phone_call');
           // this.timerService.setPath(2);
           break;
         }

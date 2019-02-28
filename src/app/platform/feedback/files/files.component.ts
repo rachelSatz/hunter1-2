@@ -104,7 +104,9 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
 
   openInquiresDialog(item: any): void {
     this.dialog.open(InquiryFormComponent, {
-      data: {'id': item.id, 'contentType': 'groupthing', 'employerId': this.selectUnit.currentEmployerID, 'companyId': item.company_id},
+      data: {'id': item.id, 'contentType': 'groupthing', 'employerId': this.selectUnit.currentEmployerID,
+        'companyId': item.company_id, 'file_name': item.file_name, 'product_code': item.product_code,
+        'product_name': item.product_name},
       width: '550px',
     });
   }

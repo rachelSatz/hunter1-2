@@ -6,6 +6,8 @@ import { OrganizationService } from 'app/shared/_services/http/organization.serv
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade, slideInOut } from 'app/shared/_animations/animation';
+import {TimerService} from '../shared/_services/http/timer';
+import {OperatorTasksService} from '../shared/_services/http/operator-tasks';
 
 @Component({
   selector: 'app-platform',
@@ -25,6 +27,13 @@ export class PlatformComponent implements OnInit {
   agentBarActive = true;
   isAgent = false;
 
+  // timer
+  seconds: string;
+  minutes: string;
+  hours: string;
+  show = false;
+  task_timer_id: number;
+
   readonly agentBarEl = [
     { id: 1, icon: 'building', label: 'ארגונים', link: 'organizations', role: 'admin'},
     { id: 2, icon: 'question-circle', label: 'תור עבודה', link: 'work-queue', role: 'operator'},
@@ -33,7 +42,8 @@ export class PlatformComponent implements OnInit {
     { id: 5, icon: 'users', label: 'משתמשים', link: 'users', role: 'admin'},
     { id: 6, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
     { id: 7, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
-    { id: 8, icon: 'bell', label: 'התראות', link: '', role: 'operator'}
+    { id: 8, icon: 'bell', label: 'התראות', link: '', role: 'operator'},
+    { id: 9, icon: 'user', label: 'קופות', link: 'products', role: 'admin'}
     ];
 
   readonly menuLinks = [
@@ -66,9 +76,20 @@ export class PlatformComponent implements OnInit {
               private userSession: UserSessionService,
               private organizationService: OrganizationService,
               private selectUnit: SelectUnitService,
-              public helpers: HelpersService) {}
+              public helpers: HelpersService,
+              public timerService: TimerService,
+              private operatorTasks: OperatorTasksService) {}
 
   ngOnInit() {
+    this.intervals();
+    this.seconds =  this.timerService.second.toString();
+    // this.timerService.getSecondsObservable().subscribe(val => {
+    //   if (val < 10) {
+    //     this.seconds = '0' + val.toString();
+    //   } else {
+    //     this.seconds = val.toString();
+    //   }
+    // });
     this.isAgent =  this.userSession.roleName !== 'employer';
     this.getOrganizations(false);
     this.setActiveUrl(this.router.url);
@@ -173,6 +194,46 @@ export class PlatformComponent implements OnInit {
       return true;
     } else {
       return role !== 'admin';
+    }
+  }
+  intervals(): void {
+    if (this.timerService.second.value > 0) {
+      this.show = true;
+      this.timerService.getSecondsObservable().subscribe(val => {
+        if (val < 10) {
+          this.seconds = '0' + val.toString();
+        } else {
+          this.seconds = val.toString();
+        }
+      });
+
+      this.timerService.getMinutesObservable().subscribe(val => {
+        if (val < 10) {
+          this.minutes = '0' + val.toString();
+        } else {
+          this.minutes = val.toString();
+        }
+      });
+      this.timerService.getHoursObservable().subscribe(val => {
+        if (val < 10) {
+          this.hours = '0' + val.toString();
+        } else {
+          this.hours = val.toString();
+        }
+      });
+    }
+  }
+  stopTimer(): void {
+    const time = this.hours + ':' + this.minutes + ':' + this.seconds;
+    this.updateTaskTimer(time);
+    this.timerService.reset();
+    this.router.navigate(['platform', 'operator', 'work-queue']);
+  }
+
+  updateTaskTimer(duration: string): void {
+    if (this.task_timer_id > 0) {
+      this.operatorTasks.updateTaskTimer(this.task_timer_id, duration).then(
+        response => response);
     }
   }
 }

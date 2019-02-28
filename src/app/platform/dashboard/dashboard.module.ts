@@ -16,7 +16,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ChartsModule
   ],
-  declarations: [DashboardComponent],
-  providers: [TimerService]
+  declarations: [DashboardComponent]
 })
 export class DashboardModule {}

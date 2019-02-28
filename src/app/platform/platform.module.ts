@@ -16,7 +16,8 @@ import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { IsAuthenticatedGuard } from 'app/shared/_guards/is-authenticated.guard';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { InquiriesComponent } from '../shared/_dialogs/inquiries/inquiries.component';
-import {TimerService} from '../shared/_services/http/timer';
+import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
+import { TimerService } from '../shared/_services/http/timer';
 
 const routes: Routes = [
   {
@@ -43,7 +44,8 @@ const routes: Routes = [
       { path: 'operator/work-queue', loadChildren: 'app/platform/operator/work-queue/work-queue.module#WorkQueueModule'},
       { path: 'operator/contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
       { path: 'operator/tasks', loadChildren: 'app/platform/operator/employers/employer-form/tasks/tasks.module#TasksModule'},
-      { path: 'operator/documents', loadChildren: 'app/platform/operator/employers/employer-form/documents/documents.module#DocumentsModule'}
+      { path: 'operator/documents', loadChildren: 'app/platform/operator/employers/employer-form/documents/documents.module#DocumentsModule'},
+      { path: 'operator/products', loadChildren: 'app/platform/operator/products/products.module#ProductsModule' }
     ]
   }
 ];
@@ -62,6 +64,6 @@ const routes: Routes = [
   ],
   declarations: [PlatformComponent, InquiryFormComponent, CommentsFormComponent, InquiriesComponent],
   entryComponents: [InquiryFormComponent, CommentsFormComponent, InquiriesComponent],
-  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, DatePipe, TimerService]
+  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, DatePipe, TimerService, OperatorTasksService]
 })
 export class PlatformModule {}
