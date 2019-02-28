@@ -9,7 +9,8 @@ import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from '../../../shared/_services/notification.service';
 
 const routes: Routes = [
-  { path: '', component: ProductsComponent}
+  { path: '', component: ProductsComponent},
+  { path: 'form', loadChildren: 'app/platform/operator/products/product-form/product-form.module#ProductFormModule' }
 ];
 @NgModule({
   imports: [

@@ -6,7 +6,7 @@ import {NotificationService} from '../../../shared/_services/notification.servic
 import {MatDialog} from '@angular/material';
 import {DataTableHeader} from '../../../shared/data-table/classes/data-table-header';
 import {ProductService} from '../../../shared/_services/http/product.service';
-import {CompaniesProduct} from '../../../shared/_models/product.model';
+import {ExtendedProduct} from '../../../shared/_models/product.model';
 
 @Component({
   selector: 'app-products',
@@ -16,7 +16,7 @@ import {CompaniesProduct} from '../../../shared/_models/product.model';
 
 })
 export class ProductsComponent extends DataTableComponent implements OnInit, OnDestroy {
-  products: CompaniesProduct[];
+  products: ExtendedProduct[];
 
   readonly headers: DataTableHeader[] =  [
     { column: 'created_at', label: 'שם חברה מנהלת' },

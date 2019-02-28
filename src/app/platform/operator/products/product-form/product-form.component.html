@@ -1,0 +1,43 @@
+<div class="mr-5 px-4">
+  <!--<p>dfgdfgdfg bdfgdf gdf</p>-->
+  <form #form="ngForm">
+    <p class="h4 mb-4">{{ product.name + ' ' + product.code }}</p>
+    <p class="h5 mb-4">{{ product.company_name }}</p>
+    <div class="row">
+      <div class="col-12 col-lg-4">
+        <bd-select class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel" [ngModel]="product.company_id" placeholder="חברה מנהלת" required [error]="entityIDSelect.errors && form.submitted"></bd-select>
+      </div>
+    </div>
+    <div class="border-bottom w-75">
+      <p class="grey-color bold f-14 mt-5 mb-0">פיננסי</p>
+    </div>
+    <div id="accounts" class="border-bottom mb-lg-3">
+      <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center" [ngClass]="{'disabledInput' : !isEdit}">
+          <div class="bd-select-container">
+            <bd-select name="bank_id"  [items]="banks" #bankIDSelect="ngModel" [(ngModel)]="product.bank_account.bank_id" placeholder="בחר בנק" (onSelect)="selectedBankBranch()" required></bd-select>
+            <mat-error [@fade]="bankIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+          </div>
+          <div class="mx-3 bd-select-container">
+            <bd-select name="branch_id"  [items]="bankBranchesDeposit" #branchIDSelect="ngModel" [(ngModel)]="product.bank_account.branch_id"  placeholder="בחר סניף" required></bd-select>
+            <mat-error [@fade]="branchIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+          </div>
+          <mat-form-field>
+            <input matInput type="text" name="number" placeholder="מס' חשבון" [(ngModel)]="product.bank_account.number" maxlength="8" pattern="^\d{5,8}$" required>
+            <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <img src="/assets/img/icons/edit_grey.png" class="row-image" (click)="isEdit = true">
+        </div>
+      </div>
+    </div>
+    <div (click)="addBank">הוספת חשבון נוסף +</div>
+
+
+    <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
+    <div class="mt-3">
+      <button class="btn blue-btn" type="submit">שמירה</button>
+    </div>
+  </form>
+</div>
