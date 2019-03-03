@@ -67,7 +67,6 @@
         </mat-form-field>
       </div>
       <div class="bd-select-container">
-        <bd-select [items]="paymentTypesItems" placeholder="שיטת חיוב" #paymentTypesSelect="ngModel" [name]="'payment_type' + index1 + index" [(ngModel)]="payments.payment_type" required></bd-select>
       </div>
       <mat-form-field class="mr-3">
         <input matInput type="text" [name]="'payment_amount' + index1 + index" [(ngModel)]="payments.payment_amount" placeholder="סכום לתשלום" required>

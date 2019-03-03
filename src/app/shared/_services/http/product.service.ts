@@ -7,6 +7,7 @@ import { UserSessionService } from '../user-session.service';
 
 import { Company } from 'app/shared/_models/company.model';
 import {ExtendedProduct} from 'app/shared/_models/product.model';
+import {EmployerFinancialDetails} from '../../_models/employer-financial-details.model';
 
 @Injectable()
 export class ProductService extends BaseHttpService {
@@ -47,5 +48,18 @@ export class ProductService extends BaseHttpService {
     return this.http.get(this.endPoint + '/' + id, this.getTokenHeader())
       .toPromise()
       .then(response => response as ExtendedProduct);
+  }
+
+  updateProduct(id: number, productDetails: ExtendedProduct): Promise<boolean> {
+    return this.http.post(this.endPoint + '/' + id + '/updateProduct', {productDetails: productDetails}, this.getTokenHeader())
+      .toPromise()
+      .then(response =>  response as boolean);
+  }
+
+  saveProduct(productDetails: ExtendedProduct): Promise<boolean> {
+    return this.http.post(this.endPoint + '/saveProduct',
+      {productDetails: productDetails}, this.getTokenHeader())
+      .toPromise()
+      .then(response =>  response as boolean);
   }
 }

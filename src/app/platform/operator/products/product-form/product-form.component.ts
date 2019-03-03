@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { fade } from '../../../../shared/_animations/animation';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ProductService} from '../../../../shared/_services/http/product.service';
-import {ExtendedProduct, Product} from '../../../../shared/_models/product.model';
-import {EntityTypes} from '../../../../shared/_models/contact.model';
-import {NgForm} from '@angular/forms';
-import {GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
-import {BankAccount} from '../../../../shared/_models/bank.model';
+import { ActivatedRoute, Router} from '@angular/router';
+import { ProductService} from '../../../../shared/_services/http/product.service';
+import { ExtendedProduct, Product} from '../../../../shared/_models/product.model';
+import { EntityTypes} from '../../../../shared/_models/contact.model';
+import {FormArray, NgForm} from '@angular/forms';
+import { GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
+import { BankAccount} from '../../../../shared/_models/bank.model';
 import {EmployerFinancialProduct} from '../../../../shared/_models/employer-financial-details.model';
 
 @Component({
@@ -34,9 +34,6 @@ export class ProductFormComponent implements OnInit {
     this.loadBanks();
     if (this.route.snapshot.data.product) {
       this.product = this.route.snapshot.data.product.data;
-      // if (this.product.bank_account == null) {
-      //   this.product.bank_account = new BankAccount[];
-      // }
     }
 
     if (this.product.id) {
@@ -54,34 +51,48 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
-  addBankRow(): void {
+  addBankRow(index: number): void {
     this.product.bank_account.push(new BankAccount());
   }
-  // selectedBankBranch(val?: string): void {
-  //   const  bankId = this.product.bank_account.bank_id;
-  //   const  branchId = this.product.bank_account.branch_id;
-  //
-  //   const selectedBank = this.banks.find(bank => {
-  //     return +bank.id === +bankId;
-  //   });
-  //
-  //   if (!selectedBank.bank_branches.find( b => {
-  //     return +b.id === +branchId; })) {
-  //       this.product.bank_account.branch_id = 0;
-  //   }
-  //   if (val === 'Withdrawal') {
-  //     this.bankBranchesDeposit = selectedBank ? selectedBank.bank_branches : [];
-  //   }
-  // }
+
+  selectedBankBranch(index?: number): void {
+    const bankId = this.product.bank_account[index].bank_id;
+    const branchId = this.product.bank_account[index].branch_id;
+
+    const selectedBank = this.banks.find(bank => {
+      return +bank.id === +bankId;
+    });
+
+     if (!selectedBank.bank_branches.find( b => {
+      return +b.id === +branchId; })) {
+      this.product.bank_account[index].branch_id = 0;
+    }
+
+      this.bankBranchesDeposit = selectedBank ? selectedBank.bank_branches : [];
+
+  }
+  primaryBankChecked(index: number, isChecked: boolean): void {
+    if (!isChecked) {
+      return;
+    } else {
+      if (this.product.bank_account.find( b => b.is_primary === true).id ) {
+        this.product.bank_account.find( b => b.is_primary === true).is_primary = false;
+      }
+      this.product.bank_account[index].is_primary = isChecked;
+    }
+
+
+  }
   submit(form: NgForm): void {
     this.hasServerError = false;
     if (form.valid) {
-      // if (this.product.id) {
-      //   this.productService.updateProduct(form.value, this.contact.id).then(response => this.handleResponse(response));
-      // } else {
-      //     this.productService.newProduct(form.value, ).
-      //     then(response => this.handleResponse(response));
-      // }
+      if (this.product.id) {
+        this.productService.updateProduct(this.product.id, form.value)
+          .then(response => this.handleResponse(response));
+      } else {
+          this.productService.saveProduct(form.value).
+          then(response => this.handleResponse(response));
+      }
     }
   }
   private handleResponse(isSaved: boolean): void {
