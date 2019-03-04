@@ -6,6 +6,7 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DocumentService } from 'app/shared/_services/http/document.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { AddDocumentComponent } from './add-document/add-document.component';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { MatDialogModule } from '@angular/material';
 
 const routes: Routes = [{path: '', component: DocumentsComponent }];
@@ -14,7 +15,9 @@ const routes: Routes = [{path: '', component: DocumentsComponent }];
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    DataTableModule, MatDialogModule
+    DataTableModule,
+    MatDialogModule,
+    BdSelectModule
   ],
   declarations: [DocumentsComponent, AddDocumentComponent],
   entryComponents: [AddDocumentComponent],

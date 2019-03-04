@@ -16,10 +16,10 @@ export class SelectUnitService {
 
   unitSubject: Subject<number> = new Subject();
   unitObjSubject: Subject<object> = new Subject();
-  // changeOrganization(id: number): void {
-  //   this.currentOrganizationID = id;
-  //   this.unitSubject.next(id);
-  // }
+  changeOrganization(id: number): void {
+    this.currentOrganizationID = id;
+    this.unitSubject.next(id);
+  }
   //
   // changeEmployer(id: number): void {
   //   this.currentEmployerID = id;

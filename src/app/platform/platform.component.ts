@@ -83,13 +83,6 @@ export class PlatformComponent implements OnInit {
   ngOnInit() {
     this.intervals();
     this.seconds =  this.timerService.second.toString();
-    // this.timerService.getSecondsObservable().subscribe(val => {
-    //   if (val < 10) {
-    //     this.seconds = '0' + val.toString();
-    //   } else {
-    //     this.seconds = val.toString();
-    //   }
-    // });
     this.isAgent =  this.userSession.roleName !== 'employer';
     this.getOrganizations(false);
     this.setActiveUrl(this.router.url);
@@ -99,6 +92,18 @@ export class PlatformComponent implements OnInit {
         this.setActiveUrl(event.url);
       }
     });
+  }
+
+  restNav(): void {
+    this.agentBarActive = !this.agentBarActive;
+    if (this.agentBarActive ) {
+        this.selectUnit.changeOrganizationEmployerDepartment
+        (this.organizationId, this.employerId['id']
+          ? this.employerId : this.employerId['id'],
+          this.departmentId['id']  ? this.departmentId : this.departmentId['id']);
+    } else {
+      this.selectUnit.changeOrganizationEmployerDepartment(0,0, 0);
+    }
   }
 
   getOrganizations(is_loadEmployer: boolean, is_Employer?: boolean): void {
@@ -114,7 +119,6 @@ export class PlatformComponent implements OnInit {
       } else {
         this.loadEmployers(this.organizationId);
       }
-
     });
   }
 

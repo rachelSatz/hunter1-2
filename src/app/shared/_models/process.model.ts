@@ -54,6 +54,7 @@ export class ViewProcess {
   file_total: number;
   group_id: number;
   status: string;
+  status_sent: string;
   ref_path: string;
   payment_ref_number: string;
   group_thing_sum: string;

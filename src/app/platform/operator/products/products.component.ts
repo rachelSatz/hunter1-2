@@ -36,7 +36,7 @@ export class ProductsComponent extends DataTableComponent implements OnInit, OnD
     super.ngOnInit();
   }
 
-  fetchItems(): void {
+  fetchItems() {
     this.productService.getAllProducts(this.searchCriteria).then(response => {
       this.setItems(response);
       this.products = response;

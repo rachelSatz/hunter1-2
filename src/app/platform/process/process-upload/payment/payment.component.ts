@@ -58,13 +58,18 @@ export class PaymentComponent implements OnInit , OnDestroy {
     this.processDataService.activeProcess.pageNumber = 2;
 
 
-
-    this.sub = this.inter.pipe(
-      startWith(0),
-      switchMap(() => this.processService.getUploadFile(this.processId))
-    ).subscribe(response => {
-      this.set_process(response);
-    });
+    if (this.processDataService.activeProcess.status == 'can_be_processed' ||
+      this.processDataService.activeProcess.status == 'done_processing')
+    {
+      this.processService.getUploadFileDone(this.processId).then( response => this.set_process(response));
+    }else {
+      this.sub = this.inter.pipe(
+        startWith(0),
+        switchMap(() => this.processService.getUploadFile(this.processId))
+      ).subscribe(response => {
+        this.set_process(response);
+      });
+    }
   }
 
   set_process(response): void {
@@ -124,7 +129,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
 
   downloadMasav(): void {
     this.processService.downloadMasav(this.processId).then(response => {
-      const byteCharacters = atob(response);
+      const byteCharacters = atob(response['data']);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);

@@ -33,32 +33,29 @@ export class EmployersComponent extends DataTableComponent  implements OnInit , 
 
   ];
 
-  constructor(route: ActivatedRoute,
+  constructor(protected route: ActivatedRoute,
               private employerService: EmployerService,
-              private  selectUnit: SelectUnitService) {
+              private selectUnit: SelectUnitService) {
     super(route);
     this.paginationData.limit = 12;
   }
 
   ngOnInit() {
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-      this.fetchItems();
-    }));
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
+
     super.ngOnInit();
   }
 
-  fetchItems(): void {
-    if (this.selectUnit.currentOrganizationID) {
+  fetchItems() {
       this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
-    }else {
-      this.searchCriteria['organizationId'] = 0;
-    }
+      this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
 
-    this.employerService.getAllEmployers( this.searchCriteria).then(
-      response => this.setItems(response));
+      this.employerService.getAllEmployers(this.searchCriteria).then(
+        response => this.setItems(response));
   }
 
   ngOnDestroy() {
+    this.sub.unsubscribe();
     super.ngOnDestroy();
   }
 }

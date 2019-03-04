@@ -1,6 +1,18 @@
+<form #form="ngForm" (ngSubmit)="submit(form)">
 <div class="dialog-header d-flex">
   <span class="w-100">הוספת מסמך</span>
   <i class="fa fa-close pointer" (click)="close()"></i>
+</div>
+<div *ngIf="!data" class="row mt-3">
+    <bd-select   class="col-8" [items]="organizations" name="organization" #organizationSelect="ngModel"
+               [(ngModel)]="organizationId"
+               placeholder="ארגון"
+               (onSelect)="loadEmployers($event)"
+               required [error]="organizationSelect.errors && form.submitted"></bd-select>
+    <bd-select  class="col-8 mt-2" [items]="employers" name="employerId" #employerIdSelect="ngModel"
+               [(ngModel)]="employerId"
+               placeholder="מעסיק"
+               required [error]="(employerIdSelect.errors || employerId == 0)  && form.submitted"></bd-select>
 </div>
   <mat-form-field class="w-100 mt-4">
     <input matInput [(ngModel)]="description" type="text" placeholder="תיאור" name="description">
@@ -14,5 +26,6 @@
   </div>
 <p class="alert alert-danger my-3" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר</p>
 <div class="pt-3 mt-5 text-center">
-  <button (click)="submit()" class="btn blue-btn">הוספה</button>
+  <button class="btn blue-btn" type="submit">שמור</button>
 </div>
+</form>

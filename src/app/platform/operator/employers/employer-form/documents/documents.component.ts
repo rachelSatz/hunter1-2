@@ -28,12 +28,12 @@ export class DocumentsComponent extends DataTableComponent implements OnInit , O
               private selectUnit: SelectUnitService,
     protected notificationService: NotificationService, private dialog: MatDialog) {
     super(route, notificationService);
-    this.paginationData.limit = 5;
   }
 
 
 
 readonly headers: DataTableHeader[] =  [
+    { column: 'employerName',     label: 'שם מעסיק' },
     { column: 'filename',     label: 'שם הקובץ' },
     { column: 'date',         label: 'תאריך העלאה' },
     { column: 'description',  label: 'סוג' },
@@ -42,10 +42,9 @@ readonly headers: DataTableHeader[] =  [
   ngOnInit() {
     if (this.router.url.includes('employers')) {
       this.pathEmployers = true;
+      this.paginationData.limit = 5;
     }
-    // if (this.documentService.file) {
-    //   this.paginatedItems[this.paginatedItems.length + 2] = this.documentService.file;
-    // }
+
     this.fetchItems();
     super.ngOnInit();
   }
@@ -61,7 +60,7 @@ readonly headers: DataTableHeader[] =  [
   }
 
   file(item: any, type: string): any {
-    this.documentService.downloadFile(item.id, this.selectUnit.currentEmployerID).then(response => {
+    this.documentService.downloadFile(item.id, item.employer_id).then(response => {
       if (response) {
         const byteCharacters = atob(response['data']);
         const byteNumbers = new Array(byteCharacters.length);
@@ -98,8 +97,9 @@ readonly headers: DataTableHeader[] =  [
 
   addDocument() {
     const dialog = this.dialog.open(AddDocumentComponent, {
-      width: '400px',
-      height: '500px'
+      data: this.pathEmployers,
+      width: '500px',
+      height: '550px'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(created => {

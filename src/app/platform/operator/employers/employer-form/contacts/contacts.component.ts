@@ -6,6 +6,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { EntityTypes } from 'app/shared/_models/contact.model';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-contacts',
@@ -14,20 +15,22 @@ import { EntityTypes } from 'app/shared/_models/contact.model';
 })
 export class ContactsComponent extends DataTableComponent implements OnInit , OnDestroy {
 
+  sub = new Subscription;
+
   pathEmployers = false;
   entity_types = EntityTypes;
+  location: string;
 
   constructor(route: ActivatedRoute,
               private contactService: ContactService,
               private router: Router,
               private selectUnit: SelectUnitService) {
     super(route);
-    if (this.router.url.includes( 'operator')) {
-      this.paginationData.limit = 5;
-    }
   }
 
   readonly headers: DataTableHeader[] =  [
+    { column: 'organization_name', label: 'ארגון' },
+    { column: 'employer_name', label: 'מעסיק' },
     { column: 'type', label: 'סוג גורם' },
     { column: 'name', label: 'שם מלא' },
     { column: 'phone', label: 'טלפון' },
@@ -39,15 +42,31 @@ export class ContactsComponent extends DataTableComponent implements OnInit , On
 
   ngOnInit() {
     if (this.router.url.includes( 'employers')) {
-      this.pathEmployers = true;
+        this.pathEmployers = true;
+        this.location = 'employers';
+        this.paginationData.limit = 4;
     }
-    this.contactService.getContacts(this.selectUnit.currentOrganizationID, this.selectUnit.currentEmployerID)
-      .then(response => this.setItems(response));
+    else if (this.router.url.includes( 'operator')) {
+      this.location = 'operator'
+    } else {
+        this.location = 'settings'
+    }
+
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
+
     super.ngOnInit();
+  }
+
+  fetchItems() {
+    this.contactService.getContacts(this.selectUnit.currentOrganizationID,
+      this.selectUnit.currentEmployerID,
+      this.location)
+      .then(response => this.setItems(response));
   }
 
   ngOnDestroy() {
     super.ngOnDestroy();
+    this.sub.unsubscribe()
   }
 
 }

@@ -72,7 +72,7 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
     super.ngOnInit();
   }
 
-  fetchItems(): void {
+  fetchItems() {
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
     const departmentId = this.selectUnit.currentDepartmentID;

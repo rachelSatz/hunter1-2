@@ -1,8 +1,9 @@
 <div class="d-flex">
   <div *ngIf="isAgent" class="text-center" [className]="agentBarActive? 'closedAgentBar': 'agentBar'">
+    <!--[routerLink]="!agentBarActive ? ['/platform', 'operator', 'work-queue']: ['/platform', 'dashboard']"-->
     <div *ngIf="!agentBarActive">
       <div class="d-flex pointer home-page-color">
-        <span class="w-100 py-3" (click)="agentBarActive = !agentBarActive" [routerLink]="['/platform', 'dashboard']">חזרה לסליקה</span>
+        <span class="w-100 py-3" (click)=" restNav()" [routerLink]="['/platform', 'dashboard']">חזרה לסליקה</span>
       </div>
       <div class="d-flex pointer py-3">
         <i class="w-100 fa fa-search"></i>
@@ -12,7 +13,7 @@
               routerLinkActive="selected">{{el.label}}</span>
       </div>
     </div>
-    <div *ngIf="agentBarActive" (click)="agentBarActive = !agentBarActive">
+    <div *ngIf="agentBarActive" (click)="restNav()" [routerLink]="['/platform', 'operator', 'work-queue']">
       <p class="py-5 mt-2"></p>
       <div *ngFor="let el of agentBarEl"  class="d-flex pointer">
         <span class="w-100 py-3" *ngIf="checkRole(el)"><i class="w-100 fa fa-{{el.icon}}"></i></span>
@@ -54,7 +55,8 @@
           <div class="d-flex" [@fade]="!agentBarActive? 'inactive' : 'active'">
             <bd-select [items]="helpers.organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
             <bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
-            <bd-select [items]="departments" class="ml-3" [(ngModel)]="departmentId" placeholder="מחלקה" (onSelect)="selectDepartment($event)"  [ngClass]="{'disable': employerId === undefined || employerId['id'] === 0}"></bd-select>
+            <bd-select [items]="departments" class="ml-3" [(ngModel)]="departmentId" placeholder="מחלקה" (onSelect)="selectDepartment($event)"
+                       [ngClass]="{'disable': employerId === undefined || employerId['id'] === 0}"></bd-select>
           </div>
           <a class="navbar-brand" (click)="logout()">
             <img src="/assets/img/logo.svg" class="logo" alt="לוגו של סמארטי">

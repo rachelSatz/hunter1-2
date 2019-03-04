@@ -31,16 +31,18 @@ export class ContactsComponent extends DataTableComponent implements OnInit, OnD
   }
 
   ngOnInit() {
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
+    // this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
     super.ngOnInit();
   }
 
-  fetchItems(): void {
-    this.contactService.getContacts(this.selectUnit.currentOrganizationID, this.selectUnit.currentEmployerID)
-      .then(response => this.setItems(response));
-  }
+  // fetchItems() {
+  //   this.contactService.getContacts( this.selectUnit.currentOrganizationID,
+  //     this.selectUnit.currentEmployerID)
+  //     .then(response => this.setItems(response));
+  // }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.sub.unsubscribe();
   }
 }

@@ -40,7 +40,7 @@ export class EmployersComponent extends DataTableComponent implements OnInit, On
     super.ngOnInit();
   }
 
-  fetchItems(): void {
+  fetchItems() {
     if (this.selectUnit.currentOrganizationID) {
       this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
       this.employerService.getEmployers(this.searchCriteria).then(response => this.setItems(response));

@@ -92,7 +92,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   }
 
 
-  fetchItems(): void {
+  fetchItems() {
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
     const departmentId = this.selectUnit.currentDepartmentID;

@@ -22,9 +22,7 @@ export class  DocumentService extends BaseHttpService {
   getDocuments(employerId: number): Promise<Document[]> {
     const options = this.getTokenHeader();
 
-    if (employerId) {
-      options['params'] = {employerId: employerId};
-    }
+    options['params'] = {employerId: employerId};
 
     return this.http.get(this.endPoint, options)
       .toPromise()

@@ -16,6 +16,8 @@
       <tbody>
       <ng-container *ngIf="!isSearching">
         <tr *ngFor="let item of paginatedItems" class="pointer">
+          <td>{{ item.organization_name }}</td>
+          <td>{{ item.employer_name }}</td>
           <td>{{ entity_types[item.entity_type] }}</td>
           <td>{{ item.first_name + ' ' + item.last_name}}</td>
           <td>{{ item.phone }}</td>

@@ -74,7 +74,7 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
   }
 
 
-  fetchItems(): void {
+  fetchItems() {
     const organizationId = this.selectUnitService.currentOrganizationID;
     const employerId = this.selectUnitService.currentEmployerID;
     const departmentId = this.selectUnitService.currentDepartmentID;
