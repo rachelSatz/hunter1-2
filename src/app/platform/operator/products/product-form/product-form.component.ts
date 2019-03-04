@@ -23,9 +23,7 @@ export class ProductFormComponent implements OnInit {
   banks = [];
   isEdit = false;
   bankBranchesDeposit = [];
-  entityTypes = Object.keys(EntityTypes).map(function(e) {
-    return { id: e, name: EntityTypes[e] };
-  });
+
   constructor(private route: ActivatedRoute, private productService: ProductService,
               private router: Router,
               private generalService: GeneralHttpService) { }
@@ -34,11 +32,12 @@ export class ProductFormComponent implements OnInit {
     this.loadBanks();
     if (this.route.snapshot.data.product) {
       this.product = this.route.snapshot.data.product.data;
+      if (this.product.bank_account === null || this.product.bank_account.length === 0) {
+        this.product.bank_account.push(new BankAccount());
+      }
     }
-
-    if (this.product.id) {
       this.loadEntities();
-    }
+
   }
 
   loadEntities(): void {
