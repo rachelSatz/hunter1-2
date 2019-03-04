@@ -59,14 +59,12 @@ export class SendFileEmailComponent implements OnInit {
       this.Emails.forEach(email => this.emailsList.push(email.name));
 
       this.processService.sendEmail( this.data.processId, this.emailsList).then(response => {
-        if (response) {
-          if (response['result'] === 'Message_Sent') {
+        if (response == "Ok") {
             this.notificationService.success('נשלח בהצלחה.');
             this.dialogRef.close();
           } else {
             this.notificationService.error('שליחה נכשלה');
           }
-        }
       });
     } else {
       this.notificationService.error('הוסף מייל');

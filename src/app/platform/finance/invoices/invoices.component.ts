@@ -55,7 +55,7 @@ export class InvoicesComponent extends DataTableComponent implements OnInit, OnD
     super.ngOnInit();
   }
 
-  fetchItems(): void {
+  fetchItems() {
       this.invoiceService.getInvoices(this.searchCriteria).then(response => {
           this.setItems(response) ;
         });

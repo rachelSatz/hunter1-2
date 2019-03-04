@@ -8,11 +8,12 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { fade } from 'app/shared/_animations/animation';
+import {HelpersService} from '../../../../../../shared/_services/helpers.service';
 
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
-  styles: ['.operator-container {margin-right: 60px}'],
+  styles: ['.operator-container {margin-right: 60px} .disabledInput { pointer-events: none; opacity: 0.4; }'],
   animations: [ fade ]
 })
 export class ContactFormComponent implements OnInit {
@@ -21,6 +22,9 @@ export class ContactFormComponent implements OnInit {
   contact = new Contact();
   hasServerError: boolean;
   entities = [];
+  navigate: any;
+  employers = [];
+  location: string;
   entityTypes = Object.keys(EntityTypes).map(function(e) {
     return { id: e, name: EntityTypes[e] };
   });
@@ -28,27 +32,37 @@ export class ContactFormComponent implements OnInit {
   types = Object.keys(Type).map(function(e) {
     return { id: e, name: Type[e] };
   });
+  employerId =0;
+  organizations = [];
 
   constructor( private route: ActivatedRoute,
                private selectUnit: SelectUnitService,
                private router: Router,
                private productService: ProductService,
                private contactService: ContactService,
-               protected notificationService: NotificationService) {}
+               protected notificationService: NotificationService,
+               private helpers: HelpersService) {}
 
   ngOnInit() {
-    if (this.router.url.split('/')[3] === 'employers') {
+    this.organizations = this.helpers.organizations;
+    if (this.router.url.includes( 'employers')) {
       this.pathEmployers = true;
+      this.navigate = ['platform', 'employers',
+        'form', this.selectUnit.currentEmployerID, 'contacts'];
+      this.location = 'employers'
     }
-    if (this.route.snapshot.data.contact) {
-      const data_type = this.route.snapshot.data.contact['type'];
-      let type = [];
-      for (let i = 0; i < data_type.length; i++) {
-        type.push({id:data_type[i], name: this.e_types[data_type[i]]});
-      }
+    else if (this.router.url.includes( 'operator')) {
+      this.location = 'operator';
+      this.navigate =['platform', 'operator', 'contacts'];
+    } else {
+      this.navigate = ['platform', 'contacts'];
+      this.location = 'settings'
+    }
 
-      this.route.snapshot.data.contact['type'] =type;
+
+    if (this.route.snapshot.data.contact) {
       this.contact = this.route.snapshot.data.contact;
+      this.employerId =  this.contact.employer_id;
     }
 
     if (this.contact.id) {
@@ -70,15 +84,29 @@ export class ContactFormComponent implements OnInit {
     }
   }
 
+  loadEmployers(organizationID: number): void {
+    this.employers = this.helpers.organizations.find(o => o.id === organizationID).employer
+    this.employers.sort((a, b) => a.id - b.id);
+  }
+
+
   submit(form: NgForm): void {
     this.hasServerError = false;
-    if (this.selectUnit.currentEmployerID !== 0) {
+    if ( this.location !== 'operator'){
+      this.employerId = this.selectUnit.currentEmployerID;
+    }
+
+    if(this.contact.id) {
+      this.employerId = this.contact.employer_id;
+    }
+
+    if (this.employerId !== 0) {
       if (form.valid) {
         if (this.contact.id) {
-          this.contactService.updateContact(form.value, this.contact.id)
+          this.contactService.updateContact(this.contact, this.contact.id)
             .then(response => this.handleResponse(response));
         } else {
-          this.contactService.newContact(form.value, this.selectUnit.currentEmployerID)
+          this.contactService.newContact(this.contact, this.employerId)
             .then(response => this.handleResponse(response));
         }
       }
@@ -89,18 +117,7 @@ export class ContactFormComponent implements OnInit {
 
   private handleResponse(response: boolean): void {
     if (response) {
-      if (this.router.url.includes( 'operator')) {
-        this.router.navigate(['platform', 'operator', 'employers',
-          'form', this.selectUnit.currentEmployerID, 'contacts']);
-      } else {
-        if (this.router.url.includes( 'employers')) {
-          this.router.navigate(['platform', 'employers',
-            'form', this.selectUnit.currentEmployerID, 'contacts']);
-        }else {
-          this.router.navigate([ 'platform', 'contacts']);
-        }
-      }
-
+        this.router.navigate(this.navigate);
     } else {
       this.hasServerError = true;
     }

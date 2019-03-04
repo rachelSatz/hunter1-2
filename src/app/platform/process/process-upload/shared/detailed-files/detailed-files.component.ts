@@ -19,11 +19,12 @@ import { Subscription } from 'rxjs';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { ProductType } from 'app/shared/_models/product.model';
 import { Status } from 'app/shared/_models/file-feedback.model';
+import {HelpersService} from '../../../../../shared/_services/helpers.service';
 
 @Component({
   selector: 'app-detailed-files',
   templateUrl: './detailed-files.component.html',
-  styleUrls: ['../../../../../shared/data-table/data-table.component.css', './details-files.component.css']
+  styleUrls: ['../../../../../shared/data-table/data-table.component.css', './detailed-files.component.css']
 })
 export class DetailedFilesComponent extends DataTableComponent implements OnInit, OnDestroy {
 
@@ -35,14 +36,15 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
     { column: 'account', label: 'מס חשבון/צק' }, { column: 'date_pay', label: 'תאריך תשלום' },
     { column: 'amount', label: 'סכום' }, { column: 'number', label: 'מספר מזהה' },
     { column: 'comment', label: 'הערות' }, { column: 'status', label: 'סטטוס' },
-    { column: 'file', label: 'אסמכתא' }
+    { column: 'file', label: 'אסמכתא' }, { column: 'broadcast_lock', label: 'נעילת שידור' }
   ];
 
   constructor(protected route: ActivatedRoute,
               private dialog: MatDialog,
               private  processService: ProcessService,
               private processDataService: ProcessDataService,
-              protected  notificationService: NotificationService) {
+              protected  notificationService: NotificationService,
+              private helpers: HelpersService ) {
   super(route , notificationService);
   }
 
@@ -53,19 +55,19 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   statuses = Status;
 
   ngOnInit() {
+    this.helpers.setPageSpinner(true);
+
     this.processService.getFilesList(this.processDataService.activeProcess.processID)
-      .then( response => {  console.log(response); this.setItems(response);});
+      .then( response => {
+        this.helpers.setPageSpinner(false);
+        this.setItems(response);
+      });
     super.ngOnInit();
   }
 
-  // fetchItems() {
-  //
-  // }
-
-
-
   openDialogAttachReference(): void {
     if (this.checkedRowItems()) {
+      if (this.isLockedBroadcast()) {
       const dialog = this.dialog.open(AttachReferenceComponent, {
         data: {'file_id': this.checkedItems.map(item => item.file_id)},
         width: '550px',
@@ -75,6 +77,9 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
       this.sub.add(dialog.afterClosed().subscribe(() => {
         this.fetchItems();
       }));
+    }else {
+        this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
+      }
     }
   }
 
@@ -113,17 +118,20 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
    }
 
    openUpdatePayDateDialog(date: string, file_id: number): void {
-
      if (file_id !== -1 || this.checkedRowItems()) {
-       const dialog = this.dialog.open(UpdatePaymentDateComponent, {
-         data: {'date': date, 'file_id': file_id === -1 ? this.checkedItems.map(item => item.file_id) : [ file_id ]},
-         width: '550px',
-         panelClass: 'dialog-file'
-       });
+       if (this.isLockedBroadcast()) {
+         const dialog = this.dialog.open(UpdatePaymentDateComponent, {
+           data: {'date': date, 'file_id': file_id === -1 ? this.checkedItems.map(item => item.file_id) : [file_id]},
+           width: '550px',
+           panelClass: 'dialog-file'
+         });
 
-       this.sub.add(dialog.afterClosed().subscribe(() => {
-         this.fetchItems();
-       }));
+         this.sub.add(dialog.afterClosed().subscribe(() => {
+           this.fetchItems();
+         }));
+       }else {
+         this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
+       }
      }
    }
 
@@ -140,24 +148,61 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
       const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלונטית?' : 'האם ברצונך למחוק שורת אלו?';
       const typeData = type ? 'notRelevant' : 'delete';
       if (this.checkedRowItems()) {
+        if(this.isLockedBroadcast()){
+          const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
-        const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
-
-        this.notificationService.warning(title, body, buttons).then(confirmation => {
-          if (confirmation.value) {
-            this.processService.update(typeData, '', this.checkedItems.map(item => item.file_id))
-              .then(response => {
-                if (response) {
-                  this.checkedItems = [];
-                  this.isCheckAll = false;
-                  this.fetchItems();
-                } else {
-                  this.notificationService.error('', 'הפעולה נכשלה');
-                }
-              });
-          }
-        });
+          this.notificationService.warning(title, body, buttons).then(confirmation => {
+            if (confirmation.value) {
+              this.processService.update(typeData, '', this.checkedItems.map(item => item.file_id))
+                .then(response => {
+                  if (response) {
+                    this.checkedItems = [];
+                    this.isCheckAll = false;
+                    this.fetchItems();
+                  } else {
+                    this.notificationService.error('', 'הפעולה נכשלה');
+                  }
+                });
+            }
+          });
+        } else {
+          this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
+        }
       }
+  }
+
+  openSent(): void {
+    if (this.checkedRowItems()) {
+      if(this.isUnLockedBroadcast()){
+        this.processService.getFilesList(this.processDataService.activeProcess.processID).then( r => {
+            if(r)
+            {
+              if(r) {
+                this.notificationService.success('', 'ממתין לאישור מנהל');
+              }else {
+                this.notificationService.success('', 'נפתח בצלחה');
+              }
+            }
+          }
+        );
+      } else {
+        this.notificationService.error('', 'יש לבחור רק נעולים');
+      }
+    }
+  }
+
+  isLockedBroadcast(): boolean {
+    if (this.checkedItems.find(item => item.status == 'sent')) {
+      return false;
+    }
+    return true;
+  }
+
+  isUnLockedBroadcast(): boolean {
+    if (this.checkedItems.find(item => item.status == 'not_sent')) {
+      return false;
+    }
+    return true;
   }
 
   getTitle(employer_products: EmployerProduct[]): string[] {

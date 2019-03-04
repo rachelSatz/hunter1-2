@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
 
-  fetchItems(): void {
+  fetchItems() {
     this.compensationService.getFollow(this.searchCriteria).then(response => {
       this.response_time = response['response_time'];
       this.request = response['request'];

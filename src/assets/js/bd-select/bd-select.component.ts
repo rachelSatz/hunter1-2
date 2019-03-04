@@ -212,20 +212,28 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
       const iteratedItem = item[this.value].toString();
       if (values.indexOf(iteratedItem) !== -1) {
          items.push(iteratedItem);
-        this.selectedItem = this.selectedItem.filter(outputItem => {
-          if (outputItem[this.value]) {
-            return outputItem[this.value];
-          }
-        });
+         if(this.selectedItem) {
+           this.selectedItem = this.selectedItem.filter(outputItem => {
+             if (outputItem[this.value]) {
+               return outputItem[this.value];
+             }
+           });
+         }else {
+           this.selectedItem = []
+         }
          this.selectedItem.push(item);
       }
     });
+    if ( this.items.length ===0) {
+      this.selectedItem = values
+    }
 
-     this.onSelect.emit(items);
+    this.onSelect.emit(items);
   }
 
   writeValue(value: any): void {
-    if (value && typeof value !== 'object') {
+  // && typeof value !== 'object'
+    if (value ) {
       if (!this.setSelectedItem(value)) {
          this.selectedItem = value;
       }

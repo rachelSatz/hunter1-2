@@ -322,6 +322,8 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .pipe( map((response: Response) => response));
   }
 
+
+
   getUploadFileDone(processId: number): Promise<ProcessDetails> {
     const options = this.getTokenHeader();
     options['params'] = {processId: processId};

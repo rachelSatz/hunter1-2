@@ -2,9 +2,10 @@
   <button [matMenuTriggerFor]="menu" class="btn blue-btn float-left mb-1">פעולות</button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="openUpdatePayDateDialog('', -1)">עדכון תאריך תשלום</button>
-    <button mat-menu-item (click)=openWarningMessageComponentDialog(false)>מחיקת שורה</button>
+    <!--<button mat-menu-item (click)=openWarningMessageComponentDialog(false)>מחיקת שורה</button>-->
     <button mat-menu-item (click)=openDialogAttachReference()>צירוף אסמכתא</button>
     <button mat-menu-item (click)=openWarningMessageComponentDialog(true)>הפוך ללא רלוונטי</button>
+    <button mat-menu-item (click)=openSent()>פתחית נעילת שידור</button>
   </mat-menu>
   <table class="table table-hover mt-3 data-table">
     <thead>
@@ -20,7 +21,7 @@
     </thead>
     <tbody>
     <ng-container *ngIf="!isSearching">
-      <tr *ngFor="let item of paginatedItems" class="pointer">
+      <tr *ngFor="let item of paginatedItems" class="pointer" >
         <td>
           <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
         </td>
@@ -33,20 +34,23 @@
         </td>
         <td>{{ productType[item.product_type] }}</td>
         <td>{{ item.product_code }}</td>
-        <td (click)="openUpdateTypePayDialog(paymentType[item.payment_type], item.file_id)">{{ paymentType[item.payment_type] }}</td>
-        <td (click)="openUpdateAccountNumberDialog(item.file_total, item.file_id, item.payment_identifier)">{{ item.payment_identifier }}</td>
-        <td >{{ item.payment_additional_info.account_number }}</td>
-        <td (click)="openUpdatePayDateDialog(item.payment_date, item.file_id)">{{ item.payment_date  }}</td>
+        <td (click)="openUpdateTypePayDialog(paymentType[item.payment_type], item.file_id)"  [ngClass]="{'disabled': item.status == 'sent'}">{{ paymentType[item.payment_type] }}</td>
+        <td (click)="openUpdateAccountNumberDialog(item.file_total, item.file_id, item.payment_identifier)" [ngClass]="{'disabled': item.status == 'sent'}">{{ item.payment_identifier }}</td>
+        <td>{{ item.payment_additional_info.account_number }}</td>
+        <td (click)="openUpdatePayDateDialog(item.payment_date, item.file_id)" [ngClass]="{'disabled': item.status == 'sent'}">{{ item.payment_date  }}</td>
         <td>{{ item.file_total | number: '1.2-2' }}</td>
         <td>{{ item.file_id }}</td>
         <td>
           <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item.file_id)">
         </td>
-        <td>{{ statuses[item.status] }}</td>
+        <td>{{ statuses[item.status_sent] }}</td>
         <td>
-           <i *ngIf="item.ref_path !== null" class="fa fa-download fa-lg ml-2" (click)="downloadFile(item.file_id, item.file_name)"></i>
+           <i *ngIf="item.ref_path !== null" class="fa fa-download fa-lg ml-2" (click)="downloadFile(item.file_id)"></i>
         </td>
-
+        <td>
+          <i *ngIf="item.status == 'sent'" class="fa fa-lock"></i>
+          <i *ngIf="item.status == 'not_sent'" class="fa fa-unlock"></i>
+        </td>
       </tr>
     </ng-container>
     <tr *ngIf="!isSearching && items.length === 0">

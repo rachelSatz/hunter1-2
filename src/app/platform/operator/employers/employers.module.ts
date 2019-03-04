@@ -4,10 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { MatDialogModule } from '@angular/material';
 
-import { BdSelectModule } from '../../../../assets/js/bd-select/bd-select.module';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployersComponent } from './employers.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 const routes: Routes = [
   { path: '', component: EmployersComponent },
@@ -24,6 +23,6 @@ const routes: Routes = [
     BdSelectModule
   ],
   declarations: [EmployersComponent],
-  providers: [EmployerService, SelectUnitService]
+  providers: [EmployerService]
 })
 export class EmployersModule { }

@@ -11,6 +11,7 @@ export class Contact {
   email: string;
   role: string;
   employer_id: number;
+  organization_id:number;
   comment: string;
 }
 

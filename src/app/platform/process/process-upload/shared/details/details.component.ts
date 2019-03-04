@@ -10,7 +10,8 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  providers: [NotificationService]
+  providers: [NotificationService],
+  styles: [ '.disabled { pointer-events: none; opacity: 0.4; }' ]
 })
 export class DetailsComponent extends DataTableComponent implements OnInit {
 

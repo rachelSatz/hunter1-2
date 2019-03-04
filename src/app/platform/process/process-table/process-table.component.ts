@@ -53,7 +53,7 @@ export class ProcessTableComponent extends DataTableComponent  implements OnInit
     super.ngOnInit();
   }
 
-  fetchItems(): void {
+  fetchItems() {
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
     const departmentId = this.selectUnit.currentDepartmentID;
@@ -109,7 +109,9 @@ export class ProcessTableComponent extends DataTableComponent  implements OnInit
        'year': date.getFullYear(),
        'month': date.getMonth(),
        'monthName':  this.months[date.getMonth()],
-       'processId': process.id
+       'processId': process.id,
+       'type': process.total > 0 ? 'positive' : 'negative',
+       'status': process.status
      };
 
      this.processDataService.setProcess(data);

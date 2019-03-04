@@ -37,7 +37,7 @@ export class UsersComponent extends DataTableComponent  implements OnInit {
     super.ngOnInit();
   }
 
-  fetchItems(): void {
+  fetchItems() {
     this.userService.getUsers(this.searchCriteria).then(response => {
       this.setItems(response);
       this.user = response;

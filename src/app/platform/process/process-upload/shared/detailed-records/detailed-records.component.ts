@@ -65,25 +65,31 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
 
   openGroupTransferDialog(): void {
     if (this.checkedRowItems()) {
-      this.monthlyTransferBlockService.groupList( this.processDataService.activeProcess.processID).then(items => {
-        const ids = this.checkedItems.map(item => item.id);
-        const dialog = this.dialog.open(GroupTransferComponent, {
-          data: {'ids': ids
-            , 'groups': items, 'processId': this.processDataService.activeProcess.processID},
-          width: '550px',
-          panelClass: 'dialog-file'
+      if (this.isLockedBroadcast()) {
+        this.monthlyTransferBlockService.groupList(this.processDataService.activeProcess.processID).then(items => {
+          const ids = this.checkedItems.map(item => item.id);
+          const dialog = this.dialog.open(GroupTransferComponent, {
+            data: {
+              'ids': ids
+              , 'groups': items, 'processId': this.processDataService.activeProcess.processID
+            },
+            width: '550px',
+            panelClass: 'dialog-file'
+          });
+          this.sub.add(dialog.afterClosed().subscribe((data) => {
+            this.checkedItems = [];
+            this.isCheckAll = false;
+            if (data && data !== null && data !== '') {
+              this.openBankAccountDialog(data, ids);
+              this.fetchItems();
+            } else {
+              this.fetchItems();
+            }
+          }));
         });
-        this.sub.add(dialog.afterClosed().subscribe((data) => {
-          this.checkedItems = [];
-          this.isCheckAll = false;
-          if (data && data !== null && data !== '') {
-            this.openBankAccountDialog(data, ids);
-            this.fetchItems();
-          }else {
-            this.fetchItems();
-          }
-        }));
-      });
+      }else {
+        this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
+      }
     }
   }
   openBankAccountDialog(data: object, ids: object): void {
@@ -107,24 +113,34 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
     const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלונטית?' : 'האם ברצונך למחוק שורת אלו?';
     const typeData = type ? 'notRelevant' : 'delete';
     if (this.checkedRowItems()) {
+      if (this.isLockedBroadcast()) {
+        const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
-      const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
-
-      this.notificationService.warning( title, body, buttons).then(confirmation => {
-        if (confirmation.value) {
-          this.monthlyTransferBlockService.update( typeData, '' , this.checkedItems.map(item => item.id))
-            .then( response => {
-              if (response) {
-                this.checkedItems = [];
-                this.isCheckAll = false;
-                this.fetchItems();
-              } else {
-                this.notificationService.error( '', 'הפעולה נכשלה');
-              }
-            });
-        }
-      });
+        this.notificationService.warning(title, body, buttons).then(confirmation => {
+          if (confirmation.value) {
+            this.monthlyTransferBlockService.update(typeData, '', this.checkedItems.map(item => item.id))
+              .then(response => {
+                if (response) {
+                  this.checkedItems = [];
+                  this.isCheckAll = false;
+                  this.fetchItems();
+                } else {
+                  this.notificationService.error('', 'הפעולה נכשלה');
+                }
+              });
+          }
+        });
+      }else {
+        this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
+      }
     }
+  }
+
+  isLockedBroadcast(): boolean {
+    if (this.checkedItems.find(item => item.status == 'sent')) {
+      return false;
+    }
+    return true;
   }
 
   ngOnDestroy() {

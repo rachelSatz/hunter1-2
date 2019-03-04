@@ -15,13 +15,13 @@ export class  ContactService extends BaseHttpService {
     super(userSession);
   }
 
-  getContacts(organizationId: number, employerId: number): Promise<Contact[]> {
+  getContacts(organizationId: number, employerId: number, location: string): Promise<Contact[]> {
     const options = this.getTokenHeader();
 
     if (employerId) {
-      options['params'] = {employerId: employerId};
+      options['params'] = {employerId: employerId, location: location};
     }else {
-      options['params'] = {organizationId : organizationId};
+      options['params'] = {organizationId : organizationId, location: location};
     }
 
     return this.http.get(this.endPoint, options)

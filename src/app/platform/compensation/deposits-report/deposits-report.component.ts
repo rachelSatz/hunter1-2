@@ -64,7 +64,7 @@ export class DepositsReportComponent extends DataTableComponent implements OnIni
     super.ngOnInit();
   }
 
-  fetchItems(): void {
+  fetchItems() {
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
     const departmentId = this.selectUnit.currentDepartmentID;

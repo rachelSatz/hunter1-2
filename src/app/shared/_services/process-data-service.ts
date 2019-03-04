@@ -20,6 +20,7 @@ export class ProcessDataService {
     this.activeProcess.file = data['file'];
     this.activeProcess.pageIndex = 2;
     this.activeProcess.returnDetails = data['returnDetails'];
+    this.activeProcess.status = data['status'];
   }
 }
 
