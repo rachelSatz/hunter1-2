@@ -9,13 +9,13 @@ import {Plan, PlanType} from '../../_models/plan';
 
 
 @Injectable()
-export class PlanService extends BaseHttpService {
+export class PlanService {
 
-  readonly endPoint = this.apiUrl + '/plan';
-
-  constructor(private userSession: UserSessionService, private http: HttpClient) {
-    super();
-  }
+  // readonly endPoint = this.apiUrl + '/plan';
+  //
+  // constructor(private userSession: UserSessionService, private http: HttpClient) {
+  //   super();
+  // }
 
   // getPlan(id: number): Promise<Plan> {
   //   return this.http.get(this.endPoint + '/' + id, { headers: this.getTokenHeaders(this.userSession.getToken()) })
