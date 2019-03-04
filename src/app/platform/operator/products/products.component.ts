@@ -7,6 +7,7 @@ import {MatDialog} from '@angular/material';
 import {DataTableHeader} from '../../../shared/data-table/classes/data-table-header';
 import {ProductService} from '../../../shared/_services/http/product.service';
 import {ExtendedProduct, ProductType} from '../../../shared/_models/product.model';
+import {ValidityMethods} from '../../../shared/_models/compensation.model';
 
 @Component({
   selector: 'app-products',
@@ -17,7 +18,9 @@ import {ExtendedProduct, ProductType} from '../../../shared/_models/product.mode
 })
 export class ProductsComponent extends DataTableComponent implements OnInit, OnDestroy {
   products: ExtendedProduct[];
-  // types = ProductType;
+  types = Object.keys(ProductType).map(function(e) {
+    return { id: e, name: ProductType[e] };
+  });
 
   readonly headers: DataTableHeader[] =  [
     { column: 'company_name', label: 'שם חברה מנהלת' },
