@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-operator',
   templateUrl: './operator.component.html',
-  styleUrls: ['./operator.component.css']
+  styleUrls: ['../../../shared/data-table/data-table.component.css', './operator.component.css']
 })
 export class OperatorComponent implements OnInit {
 
