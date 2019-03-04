@@ -6,7 +6,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Company } from 'app/shared/_models/company.model';
-import {CompaniesProduct, Product} from 'app/shared/_models/product.model';
+import {ExtendedProduct} from 'app/shared/_models/product.model';
+import {EmployerFinancialDetails} from '../../_models/employer-financial-details.model';
 
 @Injectable()
 export class ProductService extends BaseHttpService {
@@ -31,7 +32,7 @@ export class ProductService extends BaseHttpService {
     .catch(() => []);
   }
 
-  getAllProducts(searchCriteria?: Object): Promise<CompaniesProduct[]> {
+  getAllProducts(searchCriteria?: Object): Promise<ExtendedProduct[]> {
     const request = this.getTokenHeader();
     if (searchCriteria) {
       request['params'] = searchCriteria;
@@ -39,7 +40,26 @@ export class ProductService extends BaseHttpService {
 
     return this.http.get(this.endPoint + '/allProducts', request)
       .toPromise()
-      .then(response => response as CompaniesProduct[])
+      .then(response => response as ExtendedProduct[])
       .catch(() => null);
+  }
+
+  getProduct(id: number): Promise<ExtendedProduct> {
+    return this.http.get(this.endPoint + '/' + id, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as ExtendedProduct);
+  }
+
+  updateProduct(id: number, productDetails: ExtendedProduct): Promise<boolean> {
+    return this.http.post(this.endPoint + '/' + id + '/updateProduct', {productDetails: productDetails}, this.getTokenHeader())
+      .toPromise()
+      .then(response =>  response as boolean);
+  }
+
+  saveProduct(productDetails: ExtendedProduct): Promise<boolean> {
+    return this.http.post(this.endPoint + '/saveProduct',
+      {productDetails: productDetails}, this.getTokenHeader())
+      .toPromise()
+      .then(response =>  response as boolean);
   }
 }
