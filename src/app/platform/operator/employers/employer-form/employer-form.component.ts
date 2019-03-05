@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
@@ -15,7 +15,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
   templateUrl: './employer-form.component.html',
   styleUrls: ['./employer-form.component.css']
 })
-export class EmployerFormComponent implements OnInit {
+export class EmployerFormComponent implements OnInit, OnDestroy {
 
   employerForm: FormGroup;
   employer: Employer;
@@ -125,5 +125,9 @@ export class EmployerFormComponent implements OnInit {
         }
       );
     }
+  }
+
+  ngOnDestroy() {
+    this.selectUnit.currentEmployerID = 0;
   }
 }

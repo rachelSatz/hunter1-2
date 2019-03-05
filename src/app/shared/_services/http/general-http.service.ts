@@ -91,7 +91,7 @@ export class GeneralHttpService extends BaseHttpService {
     return this.http.post(this.endPoint + '/' + rowID + '/downloadFilesInquirie', {'content_type': contentType},
       this.getTokenHeader())
       .toPromise()
-      .then(response => response)
+      .then(response => response as any[])
       .catch(() => null);
   }
 
