@@ -36,10 +36,12 @@ export const fade =
     trigger('fade', [
       state('inactive', style({
         display: 'none',
+        'pointer-events': 'none',
         opacity: '0'
       })),
       state('active', style({
         display: '*',
+        'pointer-events': 'auto',
         opacity: '1'
       })),
       transition('active => inactive', animate('0ms')),

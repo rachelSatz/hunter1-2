@@ -14,7 +14,7 @@ import { fade } from 'app/shared/_animations/animation';
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['../../../../shared/data-table/data-table.component.css'],
-  styles: ['table td { word-wrap:break-word }', 'table {  table-layout:fixed }'],
+  styles: ['table td { word-wrap:break-word } table {  table-layout:fixed } .displayNone { display: none}'],
   animations: [ fade ]
 })
 export class DetailsComponent  extends DataTableComponent implements OnInit {

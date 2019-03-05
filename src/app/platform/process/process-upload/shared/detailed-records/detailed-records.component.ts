@@ -55,11 +55,15 @@ export class DetailedRecordsComponent  extends DataTableComponent implements OnI
         this.employees = response['employees'];
         this.products = response['products'];
       });
+
+    super.ngOnInit();
+  }
+
+  fetchItems() {
     this.searchCriteria['processId'] = this.processDataService.activeProcess.processID;
     this.helpers.setPageSpinner(true);
     this.monthlyTransferBlockService.getMonthlyList(this.searchCriteria)
       .then(response => {this.setItems(response);  this.helpers.setPageSpinner(false); });
-    super.ngOnInit();
   }
 
 
