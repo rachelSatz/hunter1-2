@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { DatePipe } from '@angular/common';
 
 import { ProcessService } from 'app/shared/_services/http/process.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
@@ -44,6 +45,7 @@ export class BroadcastComponent implements OnInit {
               private processService: ProcessService,
               public  processDataService: ProcessDataService,
               private notificationService: NotificationService,
+              private userSession : UserSessionService,
               private dataPipe: DatePipe) {}
 
   ngOnInit() {

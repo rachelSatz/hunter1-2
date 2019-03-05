@@ -8,7 +8,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { fade } from 'app/shared/_animations/animation';
-import {HelpersService} from '../../../../../../shared/_services/helpers.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-contact-form',
