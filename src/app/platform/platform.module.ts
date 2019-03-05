@@ -46,6 +46,7 @@ const routes: Routes = [
       { path: 'operator/tasks', loadChildren: 'app/platform/operator/employers/employer-form/tasks/tasks.module#TasksModule'},
       { path: 'operator/documents', loadChildren: 'app/platform/operator/employers/employer-form/documents/documents.module#DocumentsModule'},
       { path: 'operator/products', loadChildren: 'app/platform/operator/products/products.module#ProductsModule' }
+      // { path: 'operator/plans', loadChildren: 'app/platform/operator/plans/plans.module#PlansModule' }
     ]
   }
 ];

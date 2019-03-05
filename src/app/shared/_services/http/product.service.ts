@@ -37,7 +37,6 @@ export class ProductService extends BaseHttpService {
     if (searchCriteria) {
       request['params'] = searchCriteria;
     }
-
     return this.http.get(this.endPoint + '/allProducts', request)
       .toPromise()
       .then(response => response as ExtendedProduct[])

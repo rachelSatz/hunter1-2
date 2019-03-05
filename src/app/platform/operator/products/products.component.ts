@@ -6,7 +6,8 @@ import {NotificationService} from '../../../shared/_services/notification.servic
 import {MatDialog} from '@angular/material';
 import {DataTableHeader} from '../../../shared/data-table/classes/data-table-header';
 import {ProductService} from '../../../shared/_services/http/product.service';
-import {ExtendedProduct} from '../../../shared/_models/product.model';
+import {ExtendedProduct, ProductType} from '../../../shared/_models/product.model';
+import {ValidityMethods} from '../../../shared/_models/compensation.model';
 
 @Component({
   selector: 'app-products',
@@ -17,12 +18,15 @@ import {ExtendedProduct} from '../../../shared/_models/product.model';
 })
 export class ProductsComponent extends DataTableComponent implements OnInit, OnDestroy {
   products: ExtendedProduct[];
+  types = Object.keys(ProductType).map(function(e) {
+    return { id: e, name: ProductType[e] };
+  });
 
   readonly headers: DataTableHeader[] =  [
-    { column: 'created_at', label: 'שם חברה מנהלת' },
-    { column: 'updated_at', label: 'שם קופה' },
-    { column: 'username', label: 'מספר קופה באוצר' },
-    { column: 'employer_name', label: 'ח.פ. חברה מנהלת' }
+    { column: 'company_name', label: 'שם חברה מנהלת' },
+    { column: 'product_name', label: 'שם קופה' },
+    { column: 'product_code', label: 'מספר קופה באוצר' },
+    { column: 'company_code', label: 'ח.פ. חברה מנהלת' }
   ];
   constructor(protected route: ActivatedRoute,
               protected notificationService: NotificationService,
