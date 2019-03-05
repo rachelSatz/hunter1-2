@@ -1,0 +1,47 @@
+#wrapper {
+  min-height: 700px;
+}
+
+#taskPrioritization {
+  background-color: #ececec;
+}
+
+.task-item {
+  height: 50px;
+  width: 90%;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.task-item-amount {
+  width: 35px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.task-item-content {
+  background-color: #fff;
+  flex-grow: 1;
+  box-shadow: 4px 4px 4px #cbcbcb;
+}
+
+.task-item-content > span {
+  width: 80%;
+}
+
+#selectNewTask {
+  width: 300px;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}

@@ -1,7 +1,9 @@
+<!--<div>dfgdfgdfz</div>-->
+
 <div class="container mt-5 data-table">
   <div class="d-flex justify-content-between align-items-center data-table-actions">
     <span class="title">תוכניות עבודה</span>
-    <a routerLink="./form" class="create-button">
+    <a [routerLink]="['./', 'form']"  class="create-button">
       <i class="fa fa-plus-circle"></i>
     </a>
   </div>
@@ -41,7 +43,7 @@
     </ng-container>
     <tr *ngIf="isSearching">
       <td colspan="5">
-        <mat-spinner class="m-auto"></mat-spinner>
+        <!--<mat-spinner class="m-auto"></mat-spinner>-->
       </td>
     </tr>
     <tr *ngIf="!isSearching && items.length === 0">
@@ -49,6 +51,6 @@
     </tr>
     </tbody>
   </table>
-  <app-pagination [data]="paginationData" (isLinkClicked)="paginateItems()" *ngIf="items.length > 0"></app-pagination>
+  <!--<app-pagination [data]="paginationData" (isLinkClicked)="paginateItems()" *ngIf="items.length > 0"></app-pagination>-->
 </div>
 
