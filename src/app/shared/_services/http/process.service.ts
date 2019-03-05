@@ -389,5 +389,12 @@ getManufacturerByprocess(processID: number): Promise<Manufacturer[]> {
       .then(response => response)
       .catch(() => null);
   }
+
+  unlockProcessFiles(processId: number): Promise<Object> {
+      return this.http.post(this.endPoint + '/UnlockProcessFiles', {processId: processId}, this.getTokenHeader())
+        .toPromise()
+        .then(response => response as Object)
+        .catch(() => []);
+  }
 }
 

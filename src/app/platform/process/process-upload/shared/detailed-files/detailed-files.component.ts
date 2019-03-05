@@ -55,15 +55,18 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   statuses = Status;
 
   ngOnInit() {
-    this.helpers.setPageSpinner(true);
+    super.ngOnInit();
+  }
 
+  fetchItems () {
+    this.helpers.setPageSpinner(true);
     this.processService.getFilesList(this.processDataService.activeProcess.processID)
       .then( response => {
         this.helpers.setPageSpinner(false);
         this.setItems(response);
       });
-    super.ngOnInit();
   }
+
 
   openDialogAttachReference(): void {
     if (this.checkedRowItems()) {
@@ -174,14 +177,15 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   openSent(): void {
     if (this.checkedRowItems()) {
       if(this.isUnLockedBroadcast()){
-        this.processService.getFilesList(this.processDataService.activeProcess.processID).then( r => {
-            if(r)
+        this.processService.unlockProcessFiles(this.processDataService.activeProcess.processID).then( r => {
+            if(r['authorized'] == false && r['success'] == 'Message_Sent')
             {
-              if(r) {
                 this.notificationService.success('', 'ממתין לאישור מנהל');
-              }else {
-                this.notificationService.success('', 'נפתח בצלחה');
-              }
+            } else  if(r['authorized'] == true && r['success'] == true) {
+              this.notificationService.success('', 'נפתח בצלחה');
+              this.fetchItems();
+            } else {
+              this.notificationService.error('שגיאה', r['success']);
             }
           }
         );
