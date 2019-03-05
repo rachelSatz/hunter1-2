@@ -1,6 +1,6 @@
 export class Contact {
   id: number;
-  entity_type: EntityTypes;
+  entity_type: any;
   entity_id: number;
   entity_name: string;
   type: any;
@@ -11,7 +11,7 @@ export class Contact {
   email: string;
   role: string;
   employer_id: number;
-  organization_id:number;
+  organization_id: number;
   comment: string;
 }
 

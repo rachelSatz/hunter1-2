@@ -13,7 +13,7 @@ const routes: Routes = [{path: '', component: OngoingOperationComponent}];
     RouterModule.forChild(routes),
     MatDialogModule
   ],
-  declarations: [OngoingOperationComponent, SkipTaskComponent],
+  declarations: [SkipTaskComponent],
   entryComponents: [SkipTaskComponent]
 })
 export class OngoingOperationModule { }

@@ -20,6 +20,7 @@ export class ProcessDetails {
   employer_name: string;
   employer_business_number: string;
   percent: number;
+  sent_status: string;
 
   constructor() {
     this.employer_name = '';

@@ -1,89 +1,89 @@
-<div class="mr-5 px-4">
-<div id="wrapper" class="row">
-  <form class="col-md" #f="ngForm" (ngSubmit)="submit(f.valid)">
-    <h3 class="mb-5">הגדרות תוכנית עבודה</h3>
-    <mat-form-field class="w-75 mb-3">
-      <mat-select [(ngModel)]="plan.type" name="type" #type="ngModel" placeholder="סוג התוכנית" required>
-        <mat-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="type.errors && f.submitted">יש לבחור סוג לתוכנית.</mat-error>
-    </mat-form-field>
+<!--<div class="mr-5 px-4">-->
+<!--<div id="wrapper" class="row">-->
+  <!--<form class="col-md" #f="ngForm" (ngSubmit)="submit(f.valid)">-->
+    <!--<h3 class="mb-5">הגדרות תוכנית עבודה</h3>-->
+    <!--<mat-form-field class="w-75 mb-3">-->
+      <!--<mat-select [(ngModel)]="plan.type" name="type" #type="ngModel" placeholder="סוג התוכנית" required>-->
+        <!--<mat-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</mat-option>-->
+      <!--</mat-select>-->
+      <!--<mat-error *ngIf="type.errors && f.submitted">יש לבחור סוג לתוכנית.</mat-error>-->
+    <!--</mat-form-field>-->
 
-    <mat-form-field class="w-75 mb-3">
-      <mat-select [(ngModel)]="plan.posNeg" name="posNeg" [value]="type.posNeg" #posNeg="ngModel" placeholder="חיובי / שלילי" (change)="getTypes($event.value)" required>
-        <mat-option [value]="'positive'">חיובי</mat-option>
-        <mat-option [value]="'negative'">שלילי</mat-option>
-      </mat-select>
-      <mat-error *ngIf="posNeg.errors && f.submitted">יש לבחור חיובי או שלילי.</mat-error>
-    </mat-form-field>
+    <!--<mat-form-field class="w-75 mb-3">-->
+      <!--<mat-select [(ngModel)]="plan.posNeg" name="posNeg" [value]="type.posNeg" #posNeg="ngModel" placeholder="חיובי / שלילי" (change)="getTypes($event.value)" required>-->
+        <!--<mat-option [value]="'positive'">חיובי</mat-option>-->
+        <!--<mat-option [value]="'negative'">שלילי</mat-option>-->
+      <!--</mat-select>-->
+      <!--<mat-error *ngIf="posNeg.errors && f.submitted">יש לבחור חיובי או שלילי.</mat-error>-->
+    <!--</mat-form-field>-->
 
-    <mat-form-field class="w-75 mb-3">
-      <input matInput type="text" name="name" [(ngModel)]="plan.name" placeholder="שם התוכנית" #name="ngModel" required>
-      <mat-error *ngIf="name.errors && f.submitted">יש לבחור שם לתוכנית.</mat-error>
-    </mat-form-field>
-    <mat-form-field class="w-75 mb-3">
-      <mat-select [(ngModel)]="plan.operators" name="operators" placeholder="בחר עובדים *" multiple>
-        <mat-option *ngFor="let operator of operators" [value]="operator.id">{{ operator.username }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <p class="h5">בחר טווח חודשי שכר *</p>
-    <div class="d-flex w-75 mb-3">
-      <mat-form-field class="w-50 ml-3">
-        <input matInput [matDatepicker]="salaryStartDate" (dateChange)="setDate($event.value, 'salaryStartDate')" [ngModel]="plan.salaryStartDate" name="salaryStartDate" placeholder="חודש התחלה">
-        <mat-datepicker-toggle matSuffix [for]="salaryStartDate"></mat-datepicker-toggle>
-        <mat-datepicker #salaryStartDate [startView]="'year'"></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field class="w-50">
-        <input matInput [matDatepicker]="salaryEndDate" (dateChange)="setDate($event.value, 'salaryEndDate')" [ngModel]="plan.salaryEndDate" name="salaryEndDate" placeholder="חודש סיום">
-        <mat-datepicker-toggle matSuffix [for]="salaryEndDate"></mat-datepicker-toggle>
-        <mat-datepicker #salaryEndDate [startView]="'year'"></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <p class="h5">בחר טווח שעות עבודת התוכנית *</p>
-    <div class="d-flex w-75 mb-3">
-      <mat-form-field class="w-50">
-        <mat-select [(ngModel)]="plan.startTime" name="startTime" placeholder="שעה התחלה">
-          <mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">{{ timestamp }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="w-50 mr-3">
-        <mat-select [(ngModel)]="plan.endTime" name="endTime" placeholder="שעת סיום">
-          <mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">{{ timestamp }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="d-flex justify-content-center fixed-bottom">
-      <img src="/assets/img/spinner.svg" class="mr-auto ml-auto mb-3" *ngIf="isSubmitting">
-    </div>
-    <p class="alert alert-danger d-flex align-items-center" *ngIf="isSubmitFailed && !isSubmitting">
-      <i class="fa fa-exclamation-circle ml-1"></i>
-      <span> השמירה נכשלה, אנא נסה שנית.</span>
-    </p>
-    <button *ngIf="!(plan.name && plan.type && plan.posNeg && plan.operators &&
-                plan.startTime && plan.endTime && plan.salaryStartDate &&
-                plan.salaryEndDate && plan.taskCategories)" type="submit" class="grey-btn" disabled>{{ plan.id ? 'עדכן תוכנית' : 'צור תוכנית' }}</button>
-    <button *ngIf="plan.name && plan.type && plan.posNeg && plan.operators &&
-                plan.startTime && plan.endTime && plan.salaryStartDate &&
-                plan.salaryEndDate && plan.taskCategories" type="submit" class="blue-btn">{{ plan.id ? 'עדכן תוכנית' : 'צור תוכנית' }}</button>
-  </form>
-  <div id="taskPrioritization" class="col-md">
-    <p class="h5 mt-5 mb-3 text-center bold">סדר תיעדוף משימות</p>
-    <!--<ul [dragula]="'bag'" [dragulaModel]="plan.taskCategories" #bag>-->
-      <!--<li class="d-flex align-items-center mb-3 task-item" *ngFor="let task of plan.taskCategories; let index = index" [attr.data-index]="index + 1" [attr.data-id]="task.id">-->
-        <!--<span class="ml-3 bold task-item-priority">{{ index + 1 }}.</span>-->
-        <!--<div class="d-flex align-items-center task-item-content h-100">-->
-          <!--<input class="task-item-amount ml-3 mr-3" type="number" (change)="task.amount < 1 ? task.amount = 1 : ''" [(ngModel)]="task.amount">-->
-          <!--<span>{{ task.category.name }}</span>-->
-          <!--<i class="fa fa-times" (click)="removeTaskCategory(task.category, index)"></i>-->
-        <!--</div>-->
-      <!--</li>-->
-    <!--</ul>-->
-    <mat-menu id="selectNewTask" #appMenu="matMenu">
-      <button mat-menu-item *ngFor="let category of taskCategories" (click)="addTaskCategory(category)">{{ category.name }}</button>
-    </mat-menu>
-    <div class="text-center">
-      <button class="btn btn-primary" [matMenuTriggerFor]="appMenu">הוסף סוג משימה</button>
-    </div>
-  </div>
-</div>
-</div>
+    <!--<mat-form-field class="w-75 mb-3">-->
+      <!--<input matInput type="text" name="name" [(ngModel)]="plan.name" placeholder="שם התוכנית" #name="ngModel" required>-->
+      <!--<mat-error *ngIf="name.errors && f.submitted">יש לבחור שם לתוכנית.</mat-error>-->
+    <!--</mat-form-field>-->
+    <!--<mat-form-field class="w-75 mb-3">-->
+      <!--<mat-select [(ngModel)]="plan.operators" name="operators" placeholder="בחר עובדים *" multiple>-->
+        <!--<mat-option *ngFor="let operator of operators" [value]="operator.id">{{ operator.username }}</mat-option>-->
+      <!--</mat-select>-->
+    <!--</mat-form-field>-->
+    <!--<p class="h5">בחר טווח חודשי שכר *</p>-->
+    <!--<div class="d-flex w-75 mb-3">-->
+      <!--<mat-form-field class="w-50 ml-3">-->
+        <!--<input matInput [matDatepicker]="salaryStartDate" (dateChange)="setDate($event.value, 'salaryStartDate')" [ngModel]="plan.salaryStartDate" name="salaryStartDate" placeholder="חודש התחלה">-->
+        <!--<mat-datepicker-toggle matSuffix [for]="salaryStartDate"></mat-datepicker-toggle>-->
+        <!--<mat-datepicker #salaryStartDate [startView]="'year'"></mat-datepicker>-->
+      <!--</mat-form-field>-->
+      <!--<mat-form-field class="w-50">-->
+        <!--<input matInput [matDatepicker]="salaryEndDate" (dateChange)="setDate($event.value, 'salaryEndDate')" [ngModel]="plan.salaryEndDate" name="salaryEndDate" placeholder="חודש סיום">-->
+        <!--<mat-datepicker-toggle matSuffix [for]="salaryEndDate"></mat-datepicker-toggle>-->
+        <!--<mat-datepicker #salaryEndDate [startView]="'year'"></mat-datepicker>-->
+      <!--</mat-form-field>-->
+    <!--</div>-->
+    <!--<p class="h5">בחר טווח שעות עבודת התוכנית *</p>-->
+    <!--<div class="d-flex w-75 mb-3">-->
+      <!--<mat-form-field class="w-50">-->
+        <!--<mat-select [(ngModel)]="plan.startTime" name="startTime" placeholder="שעה התחלה">-->
+          <!--<mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">{{ timestamp }}</mat-option>-->
+        <!--</mat-select>-->
+      <!--</mat-form-field>-->
+      <!--<mat-form-field class="w-50 mr-3">-->
+        <!--<mat-select [(ngModel)]="plan.endTime" name="endTime" placeholder="שעת סיום">-->
+          <!--<mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">{{ timestamp }}</mat-option>-->
+        <!--</mat-select>-->
+      <!--</mat-form-field>-->
+    <!--</div>-->
+    <!--<div class="d-flex justify-content-center fixed-bottom">-->
+      <!--<img src="/assets/img/spinner.svg" class="mr-auto ml-auto mb-3" *ngIf="isSubmitting">-->
+    <!--</div>-->
+    <!--<p class="alert alert-danger d-flex align-items-center" *ngIf="isSubmitFailed && !isSubmitting">-->
+      <!--<i class="fa fa-exclamation-circle ml-1"></i>-->
+      <!--<span> השמירה נכשלה, אנא נסה שנית.</span>-->
+    <!--</p>-->
+    <!--<button *ngIf="!(plan.name && plan.type && plan.posNeg && plan.operators &&-->
+                <!--plan.startTime && plan.endTime && plan.salaryStartDate &&-->
+                <!--plan.salaryEndDate && plan.taskCategories)" type="submit" class="grey-btn" disabled>{{ plan.id ? 'עדכן תוכנית' : 'צור תוכנית' }}</button>-->
+    <!--<button *ngIf="plan.name && plan.type && plan.posNeg && plan.operators &&-->
+                <!--plan.startTime && plan.endTime && plan.salaryStartDate &&-->
+                <!--plan.salaryEndDate && plan.taskCategories" type="submit" class="blue-btn">{{ plan.id ? 'עדכן תוכנית' : 'צור תוכנית' }}</button>-->
+  <!--</form>-->
+  <!--<div id="taskPrioritization" class="col-md">-->
+    <!--<p class="h5 mt-5 mb-3 text-center bold">סדר תיעדוף משימות</p>-->
+    <!--&lt;!&ndash;<ul [dragula]="'bag'" [dragulaModel]="plan.taskCategories" #bag>&ndash;&gt;-->
+      <!--&lt;!&ndash;<li class="d-flex align-items-center mb-3 task-item" *ngFor="let task of plan.taskCategories; let index = index" [attr.data-index]="index + 1" [attr.data-id]="task.id">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="ml-3 bold task-item-priority">{{ index + 1 }}.</span>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="d-flex align-items-center task-item-content h-100">&ndash;&gt;-->
+          <!--&lt;!&ndash;<input class="task-item-amount ml-3 mr-3" type="number" (change)="task.amount < 1 ? task.amount = 1 : ''" [(ngModel)]="task.amount">&ndash;&gt;-->
+          <!--&lt;!&ndash;<span>{{ task.category.name }}</span>&ndash;&gt;-->
+          <!--&lt;!&ndash;<i class="fa fa-times" (click)="removeTaskCategory(task.category, index)"></i>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+    <!--<mat-menu id="selectNewTask" #appMenu="matMenu">-->
+      <!--<button mat-menu-item *ngFor="let category of taskCategories" (click)="addTaskCategory(category)">{{ category.name }}</button>-->
+    <!--</mat-menu>-->
+    <!--<div class="text-center">-->
+      <!--<button class="btn btn-primary" [matMenuTriggerFor]="appMenu">הוסף סוג משימה</button>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+<!--</div>-->

@@ -49,10 +49,8 @@ const routes: Routes = [
     BdSelectModule, MatOptionModule, MatTabsModule, DatePickerModule
   ],
 
-  declarations: [WorkQueueComponent, SystemTasksComponent, TimerComponent, OngoingOperationComponent,
-    SkipTaskComponent],
-  providers: [NotificationService, TimerService, OperatorTasksService],
-  entryComponents: [SkipTaskComponent]
+  declarations: [WorkQueueComponent, SystemTasksComponent, TimerComponent, OngoingOperationComponent],
+  providers: [NotificationService, TimerService, OperatorTasksService]
 
 
 })
