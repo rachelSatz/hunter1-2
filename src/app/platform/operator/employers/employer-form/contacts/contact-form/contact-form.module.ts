@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -9,11 +9,14 @@ import {
   MatIconModule,
   MatInputModule,
   MatRadioModule,
-  MatSelectModule
+  MatSelectModule,
+  MatAutocompleteModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { ContactResolve } from 'app/shared/_resolves/contact.resolve';
 import { ContactFormComponent } from './contact-form.component';
+
 
 
 const routes: Routes = [
@@ -29,8 +32,11 @@ const routes: Routes = [
     FormsModule,
     MatFormFieldModule, MatInputModule,
     MatCheckboxModule, MatRadioModule,
-    MatSelectModule, MatButtonModule, MatIconModule,
-    BdSelectModule
+    MatProgressSpinnerModule,
+    MatSelectModule, MatButtonModule,
+    MatIconModule, MatAutocompleteModule,
+    BdSelectModule,
+    ReactiveFormsModule
   ],
   declarations: [ContactFormComponent],
   providers: [ContactResolve]

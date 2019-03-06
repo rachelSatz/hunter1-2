@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
@@ -60,4 +62,22 @@ export class  ContactService extends BaseHttpService {
       .then(response => response as any[])
       .catch(() => []);
   }
+
+
+  // search(filter: {name: string} = {name: ''}, page = 1): Observable<IContactResponse> {
+  //   const r = this.getTokenHeader();
+  //   r['params'] = {'name':  filter.name , 'location' : 'search'};
+  //
+  //     return this.http.get<IContactResponse>(this.endPoint + '/aaa', r)
+  //       .pipe(
+  //         tap((response: IContactResponse) => {
+  //           response.results = response.results
+  //             .map(contact => new Contact(contact.id, contact.email))
+  //             // Not filtering in the server since in-memory-web-api has somewhat restricted api
+  //             .filter(contact => contact.email.includes(filter.name));
+  //
+  //           return response;
+  //         })
+  //       );
+  //   }
 }

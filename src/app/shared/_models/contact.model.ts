@@ -13,7 +13,18 @@ export class Contact {
   employer_id: number;
   organization_id: number;
   comment: string;
+
+  // constructor(public id: number, public email: string) {}
+  // constructor(){}
 }
+
+
+
+// export interface IContactResponse {
+//   total: number;
+//   results: Contact[];
+// }
+
 
 export enum EntityTypes {
   agent = 'סוכן',

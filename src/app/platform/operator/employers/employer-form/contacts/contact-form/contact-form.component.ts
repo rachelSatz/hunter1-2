@@ -9,6 +9,9 @@ import { ProductService } from 'app/shared/_services/http/product.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { fade } from 'app/shared/_animations/animation';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+// import { Observable } from 'rxjs';
+// import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-contact-form',
@@ -20,7 +23,11 @@ export class ContactFormComponent implements OnInit {
 
   pathEmployers = false;
   contact = new Contact();
+  // isLoading = false;
+
   hasServerError: boolean;
+  // filteredUsers: Contact[] =[];
+  // usersForm :FormGroup;
   entities = [];
   navigate: any;
   employers = [];
@@ -68,7 +75,29 @@ export class ContactFormComponent implements OnInit {
     if (this.contact.id) {
       this.loadEntities( this.contact.entity_type);
     }
+
+    // this.usersForm = this.fb.group({
+    //   userInput: null
+    // });
+    //
+    // this.usersForm
+    //   .get('userInput')
+    //   .valueChanges
+    //   .pipe(
+    //     debounceTime(300),
+    //     tap(() => this.isLoading = true),
+    //     switchMap(value => this.contactService.search({name: value}, 1)
+    //       .pipe(
+    //         finalize(() => this.isLoading = false),
+    //       )
+    //     )
+    //   )
+    //   .subscribe(cons =>  this.filteredUsers = cons.results);
   }
+
+  // displayFn(constant: Contact) {
+  //   if (constant) { return constant.email; }
+  // }
 
   loadEntities(type: string): void {
     if (type === 'agent') {

@@ -1,5 +1,29 @@
+
+<!--<form class="example-form" [formGroup]='usersForm'>-->
+  <!--<mat-form-field class="example-full-width">-->
+    <!--<input matInput placeholder="Choose a user" [matAutocomplete]="auto" formControlName='userInput'>-->
+  <!--</mat-form-field>-->
+  <!--<span>Your choice is: {{usersForm.get('userInput').value | json}}</span>-->
+
+  <!--<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">-->
+    <!--<mat-option *ngFor="let user of (filteredUsers | async)?.results" [value]="user">-->
+      <!--<span>{{ user.name }}</span>-->
+      <!--<small> | ID: {{user.id}}</small>-->
+    <!--</mat-option>-->
+  <!--</mat-autocomplete>-->
+<!--</form>-->
+<!--<span> הזן כתובת מייל למציאת איש קשר </span>-->
+<!--<mat-form-field class="col-lg-4">-->
+  <!--<input matInput placeholder="כתובת מייל" type="email" name="email" [(ngModel)]="contact.email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>-->
+  <!--<mat-error>שדה חובה.</mat-error>-->
+<!--</mat-form-field>-->
+<!--<button class="btn blue-btn" type="submit" onclick="showContact()">הצג</button>-->
+
+
 <div [ngClass]="{'operator-container': !pathEmployers }">
   <form #form="ngForm" (ngSubmit)="submit(form)" class="col-12 col-lg-6 p-0">
+
+
     <div *ngIf="location == 'operator'" class="row mt-3" [ngClass]="{'disabledInput': contact.id }">
       <div class="col-12 col-lg-4">
         <bd-select class="w-100" [items]="organizations" name="organization" #organizationSelect="ngModel"

@@ -153,4 +153,9 @@ export class EmployerService extends BaseHttpService {
       .then( response => response );
   }
 
+  getEmployerBankAccount(employerId: number): Promise<any> {
+    return this.http.get(this.endPoint + '/' + employerId +  '/employerBankAccount' , this.getTokenHeader())
+      .toPromise()
+      .then( response => response );
+  }
 }
