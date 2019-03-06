@@ -41,13 +41,14 @@
     <p class="h5">בחר טווח שעות עבודת התוכנית *</p>
     <div class="d-flex w-75 mb-3">
       <mat-form-field class="w-50">
-        <mat-select [(ngModel)]="plan.startTime" name="startTime" placeholder="שעה התחלה">
+        <mat-select [(ngModel)]="plan.startTime" name="startTime" placeholder="שעה התחלה" required>
           <mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">{{ timestamp }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="w-50 mr-3">
-        <mat-select [(ngModel)]="plan.endTime" name="endTime" placeholder="שעת סיום">
+        <mat-select [(ngModel)]="plan.endTime" name="endTime" placeholder="שעת סיום" required>
           <mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">{{ timestamp }}</mat-option>
+          <mat-error *ngIf="plan.startTime < plan.endTime">תאריך סיום לא יכול להיות קטן מתאריך התחלה</mat-error>
         </mat-select>
       </mat-form-field>
     </div>
@@ -86,3 +87,4 @@
   </div>
 </div>
 </div>
+

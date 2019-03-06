@@ -49,15 +49,14 @@ export class ProductService extends BaseHttpService {
       .then(response => response as ExtendedProduct);
   }
 
-  updateProduct(id: number, productDetails: ExtendedProduct): Promise<boolean> {
-    return this.http.post(this.endPoint + '/' + id + '/updateProduct', {productDetails: productDetails}, this.getTokenHeader())
+  updateProduct(id: number, product: ExtendedProduct): Promise<boolean> {
+    return this.http.post(this.endPoint + '/' + id + '/updateProduct', product, this.getTokenHeader())
       .toPromise()
       .then(response =>  response as boolean);
   }
 
-  saveProduct(productDetails: ExtendedProduct): Promise<boolean> {
-    return this.http.post(this.endPoint + '/saveProduct',
-      {productDetails: productDetails}, this.getTokenHeader())
+  saveProduct(product: ExtendedProduct): Promise<boolean> {
+    return this.http.post(this.endPoint + '/saveProduct', product, this.getTokenHeader())
       .toPromise()
       .then(response =>  response as boolean);
   }

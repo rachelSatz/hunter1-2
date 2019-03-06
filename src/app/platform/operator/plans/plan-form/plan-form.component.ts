@@ -3,8 +3,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TaskService} from '../../../../shared/_services/http/task.service';
 import {PlanService} from '../../../../shared/_services/http/plan.service';
 import {User} from '../../../../shared/_models/user.model';
-import {Plan, PlanType, TimerType, TIMESTAMPS} from '../../../../shared/_models/plan';
+import {Plan, PlanType, PlanTypeLabel, TimerType, TIMESTAMPS} from '../../../../shared/_models/plan';
 import {Subscription} from 'rxjs';
+import {Status} from '../../../../shared/_models/file-feedback.model';
+import {UserService} from '../../../../shared/_services/http/user.service';
 
 @Component({
   selector: 'app-plan-form',
@@ -13,7 +15,9 @@ import {Subscription} from 'rxjs';
 })
 export class PlanFormComponent implements OnInit, OnDestroy  {
   plan = new Plan();
-  types: PlanType[] = [];
+  types = Object.keys(PlanTypeLabel).map(function(e) {
+    return { id: e, name: PlanTypeLabel[e] };
+  });
   operators: User[] = [];
 
   timestamps = [];
@@ -25,10 +29,13 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
 
   sub: Subscription;
   constructor(private router: Router, private route: ActivatedRoute,
-              private taskService: TaskService, private planService: PlanService) { }
+              private taskService: TaskService, private planService: PlanService,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.timestamps = TIMESTAMPS;
+    this.userService.getUsers().then(response => this.operators = response);
+
   }
 
   ngOnDestroy(): void {

@@ -18,7 +18,7 @@
     <!--</div>-->
     <div class="row mt-3">
       <div class="col-12 col-lg-4">
-        <bd-select  class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel" [ngModel]="product.company_id" placeholder="חברה מנהלת" required [error]="entityIDSelect.errors && form.submitted"></bd-select>
+        <bd-select  class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel" [(ngModel)]="product.company_id" placeholder="חברה מנהלת" required [error]="entityIDSelect.errors && form.submitted"></bd-select>
       </div>
 
     </div>

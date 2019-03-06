@@ -13,9 +13,10 @@ import {
   MatRadioModule,
   MatSelectModule
 } from '@angular/material';
-import {BdSelectModule} from '../../../../../assets/js/bd-select/bd-select.module';
-import {TaskService} from '../../../../shared/_services/http/task.service';
-import {PlanService} from '../../../../shared/_services/http/plan.service';
+import { BdSelectModule } from '../../../../../assets/js/bd-select/bd-select.module';
+import { TaskService } from 'app/shared/_services/http/task.service';
+import { PlanService } from 'app/shared/_services/http/plan.service';
+import { UserService } from 'app/shared/_services/http/user.service';
 
 const routes: Routes = [
   { path: '', component: PlanFormComponent },
@@ -29,7 +30,7 @@ const routes: Routes = [
     BdSelectModule, MatDividerModule, MatMenuModule
   ],
   declarations: [PlanFormComponent],
-  providers: [TaskService, PlanService]
+  providers: [TaskService, PlanService, UserService]
 })
 export class PlanFormModule {
 }

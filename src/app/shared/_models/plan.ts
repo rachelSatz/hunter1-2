@@ -3,7 +3,7 @@ import { User } from './user.model';
 export class Plan {
   id: number;
   name: string;
-  type: PlanType;
+  type: string;
   posNeg: string;
   operators: User[];
   startTime: string;
@@ -15,7 +15,7 @@ export class Plan {
   taskCategories: PlanTask[];
 
   constructor() {
-    this.type = new PlanType();
+    // this.type = new PlanType();
     this.operators = [];
     this.taskCategories = [];
   }
@@ -23,6 +23,13 @@ export class Plan {
 export class PlanType {
   id: number;
   name: string;
+}
+
+export enum PlanTypeLabel {
+  repayments = 'מרתון פרעונות',
+  payments = 'גבייה',
+  handle_errors = 'טיפול בשגויים'
+
 }
 
 export class PlanTask {
