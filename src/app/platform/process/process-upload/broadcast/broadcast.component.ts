@@ -45,7 +45,7 @@ export class BroadcastComponent implements OnInit {
               private processService: ProcessService,
               public  processDataService: ProcessDataService,
               private notificationService: NotificationService,
-              private userSession : UserSessionService,
+              public userSession: UserSessionService,
               private dataPipe: DatePipe) {}
 
   ngOnInit() {
