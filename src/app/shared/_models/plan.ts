@@ -2,17 +2,16 @@ import { User } from './user.model';
 
 export class Plan {
   id: number;
-  name: string;
   type: string;
-  posNeg: string;
+  sub_type: string;
+  name: string;
+  salary_start_date: string;
+  salary_end_date: string;
+  start_time: string;
+  end_time: string;
   operators: User[];
-  startTime: string;
-  endTime: string;
-  salaryStartDate: string;
-  salaryEndDate: string;
   isActive: boolean;
-  isEmployerSpecific: boolean;
-  taskCategories: PlanTask[];
+  taskCategories: TaskType[];
 
   constructor() {
     // this.type = new PlanType();
@@ -24,12 +23,24 @@ export class PlanType {
   id: number;
   name: string;
 }
+export class TaskType {
+  id: string;
+  name: string;
+}
 
 export enum PlanTypeLabel {
   repayments = 'מרתון פרעונות',
   payments = 'גבייה',
   handle_errors = 'טיפול בשגויים'
 
+}
+export enum PlanCategoryLabel {
+  record_level = 'רמת רשומה',
+  file_level = 'רמת קובץ',
+  file_max_amount = 'סכום גבוה בקובץ',
+  file_min_amount = 'סכום נמוך בקובץ',
+  employees_max_amount = 'מספר עובדים גבוה',
+  employees_min_amount = 'מספר עובדים נמוך'
 }
 
 export class PlanTask {

@@ -10,14 +10,14 @@
     </mat-form-field>
 
     <mat-form-field class="w-75 mb-3">
-      <mat-select [(ngModel)]="plan.posNeg" name="posNeg" [value]="type.posNeg" #posNeg="ngModel" placeholder="חיובי / שלילי" required>
+      <mat-select [(ngModel)]="plan.sub_type" name="sub_type" [value]="type.sub_type" #posNeg="ngModel" placeholder="חיובי / שלילי" required>
         <mat-option [value]="'positive'">חיובי</mat-option>
         <mat-option [value]="'negative'">שלילי</mat-option>
       </mat-select>
       <mat-error *ngIf="posNeg.errors && f.submitted">יש לבחור חיובי או שלילי.</mat-error>
     </mat-form-field>
     <mat-form-field class="w-75 mb-3">
-      <input matInput type="text" name="name" [(ngModel)]="plan.name" placeholder="שם התוכנית" #name="ngModel" required>
+      <input matInput type="text" name="name" [(ngModel)]="plan.name" placeholder="שם התוכנית" #name="ngModel">
       <mat-error *ngIf="name.errors && f.submitted">יש לבחור שם לתוכנית.</mat-error>
     </mat-form-field>
     <mat-form-field class="w-75 mb-3">
@@ -28,27 +28,27 @@
     <p class="h5">בחר טווח חודשי שכר *</p>
     <div class="d-flex w-75 mb-3">
       <mat-form-field class="w-50 ml-3">
-        <input matInput [matDatepicker]="salaryStartDate" [ngModel]="plan.salaryStartDate" name="salaryStartDate" placeholder="חודש התחלה">
-        <mat-datepicker-toggle matSuffix [for]="salaryStartDate"></mat-datepicker-toggle>
-        <mat-datepicker #salaryStartDate [startView]="'year'"></mat-datepicker>
+        <input matInput [matDatepicker]="salary_start_date" [(ngModel)]="plan.salary_start_date" name="salary_start_date" placeholder="חודש התחלה">
+        <mat-datepicker-toggle matSuffix [for]="salary_start_date"></mat-datepicker-toggle>
+        <mat-datepicker #salary_start_date [startView]="'year'"></mat-datepicker>
       </mat-form-field>
       <mat-form-field class="w-50">
-        <input matInput [matDatepicker]="salaryEndDate" [ngModel]="plan.salaryEndDate" name="salaryEndDate" placeholder="חודש סיום">
-        <mat-datepicker-toggle matSuffix [for]="salaryEndDate"></mat-datepicker-toggle>
-        <mat-datepicker #salaryEndDate [startView]="'year'"></mat-datepicker>
+        <input matInput [matDatepicker]="salary_end_date" [(ngModel)]="plan.salary_end_date" name="salary_end_date" placeholder="חודש סיום">
+        <mat-datepicker-toggle matSuffix [for]="salary_end_date"></mat-datepicker-toggle>
+        <mat-datepicker #salary_end_date [startView]="'year'"></mat-datepicker>
       </mat-form-field>
     </div>
     <p class="h5">בחר טווח שעות עבודת התוכנית *</p>
     <div class="d-flex w-75 mb-3">
       <mat-form-field class="w-50">
-        <mat-select [(ngModel)]="plan.startTime" name="startTime" placeholder="שעה התחלה" required>
+        <mat-select [(ngModel)]="plan.start_time" name="start_time" placeholder="שעה התחלה" required>
           <mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">{{ timestamp }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="w-50 mr-3">
-        <mat-select [(ngModel)]="plan.endTime" name="endTime" placeholder="שעת סיום" required>
+        <mat-select [(ngModel)]="plan.end_time" name="endTime" placeholder="שעת סיום" required>
           <mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">{{ timestamp }}</mat-option>
-          <mat-error *ngIf="plan.startTime < plan.endTime">תאריך סיום לא יכול להיות קטן מתאריך התחלה</mat-error>
+          <mat-error *ngIf="plan.start_time < plan.end_time">תאריך סיום לא יכול להיות קטן מתאריך התחלה</mat-error>
         </mat-select>
       </mat-form-field>
     </div>
@@ -59,15 +59,19 @@
       <i class="fa fa-exclamation-circle ml-1"></i>
       <span> השמירה נכשלה, אנא נסה שנית.</span>
     </p>
-    <button *ngIf="!(plan.name && plan.type && plan.posNeg && plan.operators &&
-                plan.startTime && plan.endTime && plan.salaryStartDate &&
-                plan.salaryEndDate && plan.taskCategories)" type="submit" class="grey-btn" disabled>{{ plan.id ? 'עדכן תוכנית' : 'צור תוכנית' }}</button>
-    <button *ngIf="plan.name && plan.type && plan.posNeg && plan.operators &&
-                plan.startTime && plan.endTime && plan.salaryStartDate &&
-                plan.salaryEndDate && plan.taskCategories" type="submit" class="blue-btn">{{ plan.id ? 'עדכן תוכנית' : 'צור תוכנית' }}</button>
+    <div class="mt-3">
+
+    <!--<button *ngIf="!(plan.type && plan.sub_type && plan.operators &&-->
+                <!--plan.start_time && plan.end_time && plan.salary_start_date &&-->
+                <!--plan.salary_end_date )" (click)="submit(form)" type="submit" class="grey-btn" disabled>{{ plan.id ? 'עדכן תוכנית' : 'צור תוכנית' }}</button>-->
+
+    <button (click)="submit(form)" type="submit" class="btn blue-btn">{{ plan.id ? 'עדכן תוכנית' : 'צור תוכנית' }}</button>
+    </div>
+
   </form>
   <div id="taskPrioritization" class="col-md">
     <p class="h5 mt-5 mb-3 text-center bold">סדר תיעדוף משימות</p>
+
     <!--<ul [dragula]="'bag'" [dragulaModel]="plan.taskCategories" #bag>-->
       <!--<li class="d-flex align-items-center mb-3 task-item" *ngFor="let task of plan.taskCategories; let index = index" [attr.data-index]="index + 1" [attr.data-id]="task.id">-->
         <!--<span class="ml-3 bold task-item-priority">{{ index + 1 }}.</span>-->
@@ -78,12 +82,18 @@
         <!--</div>-->
       <!--</li>-->
     <!--</ul>-->
-    <mat-menu id="selectNewTask" #appMenu="matMenu">
-      <button mat-menu-item *ngFor="let category of taskCategories" (click)="addTaskCategory(category)">{{ category.name }}</button>
-    </mat-menu>
-    <div class="text-center">
-      <button class="btn btn-primary" [matMenuTriggerFor]="appMenu">הוסף סוג משימה</button>
+    <div cdkDropList #todoList="cdkDropList"
+      [cdkDropListData]="planCategories" [cdkDropListConnectedTo]="[doneList]"
+      class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of planCategories" cdkDrag>{{item.name}}</div>
     </div>
+
+    <!--<mat-menu id="selectNewTask" #appMenu="matMenu">-->
+      <!--<button mat-menu-item *ngFor="let category of taskCategories" (click)="addTaskCategory(category)">{{ category.name }}</button>-->
+    <!--</mat-menu>-->
+    <!--<div class="text-center">-->
+      <!--<button class="btn btn-primary" [matMenuTriggerFor]="appMenu">הוסף סוג משימה</button>-->
+    <!--</div>-->
   </div>
 </div>
 </div>

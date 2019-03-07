@@ -17,6 +17,7 @@ import { BdSelectModule } from '../../../../../assets/js/bd-select/bd-select.mod
 import { TaskService } from 'app/shared/_services/http/task.service';
 import { PlanService } from 'app/shared/_services/http/plan.service';
 import { UserService } from 'app/shared/_services/http/user.service';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const routes: Routes = [
   { path: '', component: PlanFormComponent },
@@ -27,7 +28,7 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatDatepickerModule,
-    BdSelectModule, MatDividerModule, MatMenuModule
+    BdSelectModule, MatDividerModule, MatMenuModule, DragDropModule
   ],
   declarations: [PlanFormComponent],
   providers: [TaskService, PlanService, UserService]
