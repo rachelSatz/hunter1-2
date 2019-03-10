@@ -16,35 +16,23 @@ import { BdSelectModule} from '../../../../assets/js/bd-select/bd-select.module'
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {PlanService} from '../../../shared/_services/http/plan.service';
-import {PublicComponent} from '../../../public/public.component';
-import {GuestGuard} from '../../../shared/_guards/guest.guard';
-import {LoginComponent} from '../../../public/login/login.component';
-import {RegisterComponent} from '../../../public/register/register.component';
-import {PlanFormComponent} from './plan-form/plan-form.component';
-// import { DragulaModule } from 'ng2-dragula';
+
 
 const routes: Routes = [
   { path: '', component: PlansComponent},
   { path: 'form', loadChildren: 'app/platform/operator/plans/plan-form/plan-form.module#PlanFormModule' }
 ];
-// const routes: Routes = [
-//   {
-//     path: '', component: PlansComponent, children: [
-//       { path: 'form', component: PlanFormComponent}
-//     ]
-//   }
-// ];
+
 @NgModule({
   imports: [
     CommonModule,
+    DataTableModule,
     RouterModule.forChild(routes),
     FormsModule,
     HttpClientModule,
     RouterModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule, MatNativeDateModule, MatDatepickerModule
-    // DragulaModule,
-    // SharedModule
-
+    MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule,
+    MatNativeDateModule, MatDatepickerModule
   ],
   declarations: [PlansComponent],
   providers: [PlanService]

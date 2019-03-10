@@ -18,10 +18,13 @@ import { TaskService } from 'app/shared/_services/http/task.service';
 import { PlanService } from 'app/shared/_services/http/plan.service';
 import { UserService } from 'app/shared/_services/http/user.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { PlanResolve } from 'app/shared/_resolves/plan';
 
 const routes: Routes = [
   { path: '', component: PlanFormComponent },
+  { path: ':id', component: PlanFormComponent, resolve: { plan: PlanResolve}}
 ];
+
 @NgModule({
   imports: [
     CommonModule,
@@ -31,7 +34,7 @@ const routes: Routes = [
     BdSelectModule, MatDividerModule, MatMenuModule, DragDropModule
   ],
   declarations: [PlanFormComponent],
-  providers: [TaskService, PlanService, UserService]
+  providers: [TaskService, PlanService, UserService, PlanResolve]
 })
 export class PlanFormModule {
 }

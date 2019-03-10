@@ -8,6 +8,7 @@ import {Subscription} from 'rxjs';
 import {Status} from '../../../../shared/_models/file-feedback.model';
 import {UserService} from '../../../../shared/_services/http/user.service';
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList} from '@angular/cdk/drag-drop';
+import {BankAccount} from '../../../../shared/_models/bank.model';
 
 @Component({
   selector: 'app-plan-form',
@@ -36,7 +37,14 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
 
   ngOnInit() {
     this.timestamps = TIMESTAMPS;
-    this.userService.getUsers().then(response => this.operators = response);
+    if (this.route.snapshot.data.plan) {
+      this.plan = this.route.snapshot.data.plan;
+    }
+    if (this.plan != null && this.plan.user_plan.length > 0) {
+      this.operators = this.plan.user_plan;
+    } else {
+      this.userService.getUsers().then(response => this.operators = response);
+    }
 
   }
   drop(event: CdkDragDrop<string[]>) {

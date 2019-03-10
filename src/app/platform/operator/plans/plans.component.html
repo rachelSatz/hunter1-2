@@ -7,15 +7,15 @@
       <i class="fa fa-plus-circle"></i>
     </a>
   </div>
-  <div class="alert alert-success" *ngIf="savedPlan">
-    <i class="fa fa-check-circle-o ml-1"></i>
-    <span>התוכנית {{ savedPlan }} נשמרה בהצלחה!</span>
-  </div>
-  <table class="table table-bordered table-striped">
+  <!--<div class="alert alert-success" *ngIf="savedPlan">-->
+    <!--<i class="fa fa-check-circle-o ml-1"></i>-->
+    <!--<span>התוכנית {{ savedPlan }} נשמרה בהצלחה!</span>-->
+  <!--</div>-->
+  <table class="table table-hover mt-3 data-table">
     <thead>
-    <tr class="headers">
-      <th *ngFor="let header of headers" (click)="sort(header.column)">
-        <span>{{ header.label }}</span>
+    <tr class="table-headers">
+      <th *ngFor="let header of headers" (click)="sort(header)">
+        <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
         <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
       </th>
       <th>הגדרות</th>
@@ -23,34 +23,34 @@
     </thead>
     <tbody>
     <ng-container *ngIf="!isSearching">
-      <tr *ngFor="let item of paginatedItems">
+      <tr *ngFor="let item of paginatedItems" class="pointer">
         <td>{{ item.name }}</td>
-        <td>{{ item.startTime }} - {{ item.endTime }}</td>
-        <td>{{ item.salaryStartDate | date: 'MM/yy' }} - {{ item.salaryEndDate | date: 'MM/yy' }}</td>
+        <td>{{ item.start_time }} - {{ item.end_time }}</td>
+        <td>{{ item.salary_start_date | date: 'MM/yy' }} - {{ item.salary_end_date | date: 'MM/yy' }}</td>
         <td>
-          <mat-select [(ngModel)]="item.isActive" (selectionChange)="activatePlan(item)">
+          <mat-select [(ngModel)]="item.is_active" [value]="false" (valueChange)="activatePlan(item)" >
             <mat-option [value]="true">פעיל</mat-option>
             <mat-option [value]="false">לא פעיל</mat-option>
           </mat-select>
         </td>
         <td class="row-actions">
-          <a [routerLink]="'./form/' + item.id">
+          <a [routerLink]="['./', 'form', item.id]">
             <i class="fa fa-cog ml-4"></i>
           </a>
-          <i class="fa fa-trash-o" (click)="askToRemove(item, items)"></i>
+          <!--<i class="fa fa-trash-o" (click)="askToRemove(item, items)"></i>-->
         </td>
       </tr>
     </ng-container>
-    <tr *ngIf="isSearching">
-      <td colspan="5">
-        <!--<mat-spinner class="m-auto"></mat-spinner>-->
-      </td>
-    </tr>
+    <!--<tr *ngIf="isSearching">-->
+      <!--<td colspan="5">-->
+        <!--&lt;!&ndash;<mat-spinner class="m-auto"></mat-spinner>&ndash;&gt;-->
+      <!--</td>-->
+    <!--</tr>-->
     <tr *ngIf="!isSearching && items.length === 0">
       <td colspan="5">טבלת התוכניות ריקה.</td>
     </tr>
     </tbody>
   </table>
-  <!--<app-pagination [data]="paginationData" (isLinkClicked)="paginateItems()" *ngIf="items.length > 0"></app-pagination>-->
+  <app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
 </div>
 

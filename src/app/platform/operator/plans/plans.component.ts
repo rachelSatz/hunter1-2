@@ -2,15 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import {DataTableComponent} from '../../../shared/data-table/data-table.component';
 import {ActivatedRoute} from '@angular/router';
 import {PlanService} from '../../../shared/_services/http/plan.service';
+import {Plan} from '../../../shared/_models/plan';
 
 @Component({
   selector: 'app-plans',
   templateUrl: './plans.component.html',
-  styleUrls: ['./plans.component.css']
+  styleUrls: ['../../../shared/data-table/data-table.component.css', './plans.component.css']
 })
 export class PlansComponent extends DataTableComponent implements OnInit {
 
   savedPlan: string;
+  plans: Plan[];
 
   readonly headers = [
     { column: 'name', label: 'שם התוכנית' }, { column: null, label: 'זמן התוכנית' },
@@ -23,6 +25,12 @@ export class PlansComponent extends DataTableComponent implements OnInit {
 
 
   ngOnInit() {
+    this.planService.getPlans().then(response => {
+      this.setItems(response);
+      this.plans = response;
+    });
   }
-
+  activatePlan(plan: Plan): void {
+    this.planService.activatePlan(plan);
+  }
 }

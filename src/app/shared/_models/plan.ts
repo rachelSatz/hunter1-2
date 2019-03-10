@@ -9,14 +9,16 @@ export class Plan {
   salary_end_date: string;
   start_time: string;
   end_time: string;
-  operators: User[];
-  isActive: boolean;
-  taskCategories: TaskType[];
+  is_active: boolean;
+  user_plan: User[];
+  plan_category: PlanCategory[];
+  // taskCategories: TaskType[];
 
   constructor() {
     // this.type = new PlanType();
-    this.operators = [];
-    this.taskCategories = [];
+    this.user_plan = [];
+    this.plan_category = [];
+    // this.taskCategories = [];
   }
 }
 export class PlanType {
@@ -26,6 +28,10 @@ export class PlanType {
 export class TaskType {
   id: string;
   name: string;
+}
+export class PlanCategory {
+  type: string;
+  priority: string;
 }
 
 export enum PlanTypeLabel {

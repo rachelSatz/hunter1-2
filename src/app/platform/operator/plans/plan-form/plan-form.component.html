@@ -14,14 +14,14 @@
         <mat-option [value]="'positive'">חיובי</mat-option>
         <mat-option [value]="'negative'">שלילי</mat-option>
       </mat-select>
-      <mat-error *ngIf="posNeg.errors && f.submitted">יש לבחור חיובי או שלילי.</mat-error>
+      <!--<mat-error *ngIf="sub_type.errors && f.submitted">יש לבחור חיובי או שלילי.</mat-error>-->
     </mat-form-field>
     <mat-form-field class="w-75 mb-3">
       <input matInput type="text" name="name" [(ngModel)]="plan.name" placeholder="שם התוכנית" #name="ngModel">
-      <mat-error *ngIf="name.errors && f.submitted">יש לבחור שם לתוכנית.</mat-error>
+      <!--<mat-error *ngIf="name.errors && f.submitted">יש לבחור שם לתוכנית.</mat-error>-->
     </mat-form-field>
     <mat-form-field class="w-75 mb-3">
-      <mat-select [(ngModel)]="plan.operators" name="operators" placeholder="בחר עובדים *" multiple>
+      <mat-select [(ngModel)]="plan.user_plan" name="operators" placeholder="בחר עובדים *" multiple>
         <mat-option *ngFor="let operator of operators" [value]="operator.id">{{ operator.username }}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -71,29 +71,11 @@
   </form>
   <div id="taskPrioritization" class="col-md">
     <p class="h5 mt-5 mb-3 text-center bold">סדר תיעדוף משימות</p>
-
-    <!--<ul [dragula]="'bag'" [dragulaModel]="plan.taskCategories" #bag>-->
-      <!--<li class="d-flex align-items-center mb-3 task-item" *ngFor="let task of plan.taskCategories; let index = index" [attr.data-index]="index + 1" [attr.data-id]="task.id">-->
-        <!--<span class="ml-3 bold task-item-priority">{{ index + 1 }}.</span>-->
-        <!--<div class="d-flex align-items-center task-item-content h-100">-->
-          <!--<input class="task-item-amount ml-3 mr-3" type="number" (change)="task.amount < 1 ? task.amount = 1 : ''" [(ngModel)]="task.amount">-->
-          <!--<span>{{ task.category.name }}</span>-->
-          <!--<i class="fa fa-times" (click)="removeTaskCategory(task.category, index)"></i>-->
-        <!--</div>-->
-      <!--</li>-->
-    <!--</ul>-->
     <div cdkDropList #todoList="cdkDropList"
       [cdkDropListData]="planCategories" [cdkDropListConnectedTo]="[doneList]"
       class="example-list" (cdkDropListDropped)="drop($event)">
       <div class="example-box" *ngFor="let item of planCategories" cdkDrag>{{item.name}}</div>
     </div>
-
-    <!--<mat-menu id="selectNewTask" #appMenu="matMenu">-->
-      <!--<button mat-menu-item *ngFor="let category of taskCategories" (click)="addTaskCategory(category)">{{ category.name }}</button>-->
-    <!--</mat-menu>-->
-    <!--<div class="text-center">-->
-      <!--<button class="btn btn-primary" [matMenuTriggerFor]="appMenu">הוסף סוג משימה</button>-->
-    <!--</div>-->
   </div>
 </div>
 </div>
