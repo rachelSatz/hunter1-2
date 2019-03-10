@@ -79,7 +79,6 @@ export class BroadcastComponent implements OnInit {
     this.processDataService.activeProcess = new Process();
     this.processDataService.activeProcess.type = 'negative';
     this.router.navigate(['/platform', 'process', 'new', 2]);
-
   }
 
   transfer() {

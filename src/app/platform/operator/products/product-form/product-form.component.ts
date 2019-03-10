@@ -81,11 +81,12 @@ export class ProductFormComponent implements OnInit {
   submit(form: NgForm): void {
     this.hasServerError = false;
     if (form.valid) {
+
       if (this.product.id) {
-        this.productService.updateProduct(this.product.id, form.value)
+        this.productService.updateProduct(this.product.id, this.product)
           .then(response => this.handleResponse(response));
       } else {
-          this.productService.saveProduct(form.value).
+          this.productService.saveProduct(this.product).
           then(response => this.handleResponse(response));
       }
     }

@@ -13,9 +13,11 @@ import {
   MatRadioModule,
   MatSelectModule
 } from '@angular/material';
-import {BdSelectModule} from '../../../../../assets/js/bd-select/bd-select.module';
-import {TaskService} from '../../../../shared/_services/http/task.service';
-import {PlanService} from '../../../../shared/_services/http/plan.service';
+import { BdSelectModule } from '../../../../../assets/js/bd-select/bd-select.module';
+import { TaskService } from 'app/shared/_services/http/task.service';
+import { PlanService } from 'app/shared/_services/http/plan.service';
+import { UserService } from 'app/shared/_services/http/user.service';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const routes: Routes = [
   { path: '', component: PlanFormComponent },
@@ -26,10 +28,10 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatDatepickerModule,
-    BdSelectModule, MatDividerModule, MatMenuModule
+    BdSelectModule, MatDividerModule, MatMenuModule, DragDropModule
   ],
   declarations: [PlanFormComponent],
-  providers: [TaskService, PlanService]
+  providers: [TaskService, PlanService, UserService]
 })
 export class PlanFormModule {
 }
