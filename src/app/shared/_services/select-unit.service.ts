@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import {Organization} from '../_models/organization.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,36 +11,80 @@ export class SelectUnitService {
   currentEmployerID: number;
   currentDepartmentID: number;
 
-  currentOrganizations: any;
-  currentEmployers: any;
-  currentDepartments: any;
-
+   // currentEmployers: any;
+  // currentDepartments: any;
+  // companies: any;
   unitSubject: Subject<number> = new Subject();
   unitObjSubject: Subject<object> = new Subject();
-  changeOrganization(id: number): void {
-    this.currentOrganizationID = id;
-    this.unitSubject.next(id);
+
+  setOrganization(organizations: any): void {
+    sessionStorage.setItem('organizations', JSON.stringify(organizations));
   }
-  //
-  // changeEmployer(id: number): void {
-  //   this.currentEmployerID = id;
-  //   this.unitSubject.next(id);
-  // }
+
+  setCompanies(companies: any): void {
+    sessionStorage.setItem('companies', JSON.stringify(companies));
+  }
+
+  getOrganization(): any {
+    return  this.getSessionStorage('organizations');
+  }
+
+  getCompanies(): any {
+    if (sessionStorage.getItem('companies')) {
+      return this.getSessionStorage('companies');
+    }
+    return [];
+  }
+
 
   changeDepartment(id: number): void {
+    sessionStorage.setItem('departmentID', JSON.stringify(id));
     this.currentDepartmentID = id;
     this.unitSubject.next(id);
   }
 
-  changeEmployersDepartments( employers: any, departments: any): void {
-    this.currentEmployers = employers;
-    this.currentDepartments = departments;
-    this.unitObjSubject.next(employers);
-    this.unitObjSubject.next(departments);
+  getEntityStorage(): any {
+    if (sessionStorage.getItem('organizationID')) {
+      this.changeOrganizationEmployerDepartment(
+        this.getSessionStorage('organizationID'),
+        this.getSessionStorage('employerID'),
+        this.getSessionStorage('departmentID'))
+      return 0;
+    }
+
+    return null;
+  }
+
+  getSessionStorage(val: string) : any {
+    if (sessionStorage.getItem(val)) {
+      return JSON.parse(sessionStorage.getItem(val));
+    }
+    return 0;
+  }
+
+
+  // changeEmployersDepartments( employers: any, departments: any): void {
+  //   // this.currentEmployers = employers;
+  //   // this.currentDepartments = departments;
+  //   this.unitObjSubject.next(employers);
+  //   this.unitObjSubject.next(departments);
+  // }
+
+  logout(): void {
+    this.changeOrganizationEmployerDepartment(0,0,0);
+    sessionStorage.removeItem('organizationID');
+    sessionStorage.removeItem('employerID');
+    sessionStorage.removeItem('departmentID');
+    sessionStorage.removeItem('Organizations');
+
   }
 
 
   changeOrganizationEmployerDepartment(organizationId: number, employerId: number, departmentId: number): void {
+    sessionStorage.setItem('organizationID', JSON.stringify(organizationId));
+    sessionStorage.setItem('employerID', JSON.stringify(employerId));
+    sessionStorage.setItem('departmentID', JSON.stringify(departmentId));
+
     this.currentEmployerID = employerId;
     this.currentOrganizationID = organizationId;
     this.currentDepartmentID = departmentId;
@@ -48,12 +93,12 @@ export class SelectUnitService {
     this.unitSubject.next(departmentId);
   }
 
-  changeOrganizationEmployer(organizationId: number, employerId: number): void {
-    this.currentEmployerID = employerId;
-    this.currentOrganizationID = organizationId;
-    this.unitSubject.next(organizationId);
-    this.unitSubject.next(employerId);
-  }
+  // changeOrganizationEmployer(organizationId: number, employerId: number): void {
+  //   this.currentEmployerID = employerId;
+  //   this.currentOrganizationID = organizationId;
+  //   this.unitSubject.next(organizationId);
+  //   this.unitSubject.next(employerId);
+  // }
 
 }
 

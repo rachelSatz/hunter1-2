@@ -56,11 +56,11 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field class="mr-3">
-          <input matInput placeholder="קוד מוסד(5)"  [(ngModel)]="employer.institution_code_5" formControlName="institutionCode5" maxlength="5">
+          <input matInput placeholder="קוד מוסד(5)"  [(ngModel)]="employer.institution_code_5" formControlName="institutionCode5" maxlength="5" (change)="saveChanges = true">
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-3">
-          <input matInput placeholder="קוד מוסד(8)"  [(ngModel)]="employer.institution_code_8" formControlName="institutionCode8" maxlength="8">
+          <input matInput placeholder="קוד מוסד(8)"  [(ngModel)]="employer.institution_code_8" formControlName="institutionCode8" maxlength="8" (change)="saveChanges = true">
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
         <button [disabled]="!saveChanges" class="btn blue-btn mr-5" type="submit">שמור שינויים</button>

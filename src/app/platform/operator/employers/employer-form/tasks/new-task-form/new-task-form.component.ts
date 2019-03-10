@@ -32,9 +32,9 @@ export class NewTaskFormComponent implements OnInit {
   }
 
 
-  setStage(stage) {
-    this.stage = stage;
-  }
+  // setStage(stage) {
+  //   this.stage = stage;
+  // }
 
   createNewTask(form) {
     if (form.valid) {

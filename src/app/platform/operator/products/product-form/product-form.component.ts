@@ -1,13 +1,12 @@
+import { NgForm} from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { fade } from '../../../../shared/_animations/animation';
 import { ActivatedRoute, Router} from '@angular/router';
-import { ProductService} from '../../../../shared/_services/http/product.service';
-import { ExtendedProduct, Product} from '../../../../shared/_models/product.model';
-import { EntityTypes} from '../../../../shared/_models/contact.model';
-import {FormArray, NgForm} from '@angular/forms';
-import { GeneralHttpService} from '../../../../shared/_services/http/general-http.service';
-import { BankAccount} from '../../../../shared/_models/bank.model';
-import {EmployerFinancialProduct} from '../../../../shared/_models/employer-financial-details.model';
+
+import { fade } from 'app/shared/_animations/animation';
+import { BankAccount} from 'app/shared/_models/bank.model';
+import { ExtendedProduct} from 'app/shared/_models/product.model';
+import { ProductService} from 'app/shared/_services/http/product.service';
+import { GeneralHttpService} from 'app/shared/_services/http/general-http.service';
 
 @Component({
   selector: 'app-product-from',
@@ -21,8 +20,8 @@ export class ProductFormComponent implements OnInit {
   entities = [];
   product = new ExtendedProduct;
   banks = [];
-  isEdit = false;
   bankBranchesDeposit = [];
+  checked: boolean;
 
   constructor(private route: ActivatedRoute, private productService: ProductService,
               private router: Router,
@@ -36,8 +35,7 @@ export class ProductFormComponent implements OnInit {
         this.product.bank_account.push(new BankAccount());
       }
     }
-      this.loadEntities();
-
+    this.loadEntities();
   }
 
   loadEntities(): void {
@@ -72,15 +70,13 @@ export class ProductFormComponent implements OnInit {
   }
   primaryBankChecked(index: number, isChecked: boolean): void {
     if (!isChecked) {
+      this.checked = false;
       return;
     } else {
-      if (this.product.bank_account.find( b => b.is_primary === true).id ) {
-        this.product.bank_account.find( b => b.is_primary === true).is_primary = false;
-      }
+      this.product.bank_account.forEach( b => b.is_primary = false);
+      this.checked = true;
       this.product.bank_account[index].is_primary = isChecked;
     }
-
-
   }
   submit(form: NgForm): void {
     this.hasServerError = false;

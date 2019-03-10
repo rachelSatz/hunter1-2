@@ -1,0 +1,29 @@
+<form #form="ngForm" (ngSubmit)="submit(form)" class="col-12 col-lg-6 p-0">
+  <div class="row mt-lg-5">
+    <div class="col-12 col-lg-4">
+      <bd-select class="w-100" [items]="companies" name="company"
+                 (onSelect)="selectedProducts()"
+                 #companySelect="ngModel"
+                 [(ngModel)]="this.employerProductBankAccount.company_id"
+                 placeholder="חברה מנהלת"
+                 required [error]="companySelect.errors && form.submitted"></bd-select>
+    </div>
+    <div class="col-12 col-lg-4">
+      <bd-select class="w-100" [items]="products" name="product" #productSelect="ngModel"
+                 [(ngModel)]="this.employerProductBankAccount.product_id"
+                 (onSelect)="selectedBankAccounts()"
+                 placeholder="קופה"
+                 required [error]="productSelect.errors && form.submitted"></bd-select>
+    </div>
+    <div class="col-12 col-lg-4">
+      <bd-select class="w-100" [items]="bankAccounts" name="bank_account"
+                 #bankAccountSelect="ngModel"
+                 [(ngModel)]="this.employerProductBankAccount.bank_account_id"
+                 placeholder="בנקים" required
+                 [error]="bankAccountSelect.errors && form.submitted"></bd-select>
+    </div>
+    <div class="mt-4 text-center">
+      <button type="submit" class="btn blue-btn">הוספה</button>
+    </div>
+  </div>
+</form>

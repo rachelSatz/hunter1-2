@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployersComponent } from './employers.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { ProductService } from 'app/shared/_services/http/product.service';
 
 const routes: Routes = [
   { path: '', component: EmployersComponent },
@@ -23,6 +24,6 @@ const routes: Routes = [
     BdSelectModule
   ],
   declarations: [EmployersComponent],
-  providers: [EmployerService]
+  providers: [EmployerService, ProductService]
 })
 export class EmployersModule { }

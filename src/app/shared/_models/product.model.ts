@@ -8,6 +8,11 @@ export class Product {
   name: string;
   code: number;
   type: string;
+  bank_account: BankAccount[] = [];
+
+  constructor() {
+    this.bank_account.push(new BankAccount());
+  }
 }
 
 export enum ProductType {

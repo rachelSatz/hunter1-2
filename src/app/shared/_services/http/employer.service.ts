@@ -153,8 +153,21 @@ export class EmployerService extends BaseHttpService {
       .then( response => response );
   }
 
+  getEmployerBankAccounts(employerId: number): Promise<any> {
+    return this.http.get(this.endPoint + '/' + employerId +  '/employerBankAccounts' , this.getTokenHeader())
+      .toPromise()
+      .then( response => response );
+  }
+
   getEmployerBankAccount(employerId: number): Promise<any> {
     return this.http.get(this.endPoint + '/' + employerId +  '/employerBankAccount' , this.getTokenHeader())
+      .toPromise()
+      .then( response => response );
+  }
+
+  setDefaultEmployerBA(employerId: number, employerBank: any): Promise<any> {
+    return this.http.put(this.endPoint + '/setDefaultEmployerBA' , {employerId: employerId,
+      bankAccountId: employerBank.bank_account_id , employerBankId: employerBank.id, product_id:employerBank.product_id },this.getTokenHeader())
       .toPromise()
       .then( response => response );
   }

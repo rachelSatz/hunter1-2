@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DefrayalComponent } from './defrayal.component';
 import { RouterModule, Routes } from '@angular/router';
-import {DataTableModule} from '../../../../../shared/data-table/data-table.module';
+import { DefrayalComponent } from './defrayal.component';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 
-const routes: Routes = [{ path: '', component: DefrayalComponent }];
+const routes: Routes = [{ path: '', component: DefrayalComponent},
+  { path: 'form',
+    loadChildren: './defrayal-form/defrayal-form.module#DefrayalFormModule'}];
 
 
 @NgModule({

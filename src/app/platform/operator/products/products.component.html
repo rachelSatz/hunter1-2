@@ -12,16 +12,6 @@
     <button class="btn blue-btn h-75 mr-2" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
 
   </div>
-
-  <!--<div class="d-flex my-3">-->
-    <!--&lt;!&ndash;<bd-select class="w-25" [items]="user" label="username" placeholder="שם משתמש" [(ngModel)]="searchCriteria['user_id']" (onSelect)="search()"></bd-select>&ndash;&gt;-->
-    <!--<bd-select [items]="types" placeholder="סוג מוצר" class="mx-3 w-25" [(ngModel)]="searchCriteria['product_type']" (onSelect)="search()"></bd-select>-->
-    <!--<mat-form-field class="ml-3 w-25">-->
-      <!--<input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">-->
-      <!--<i matSuffix class="fa fa-search"></i>-->
-    <!--</mat-form-field>-->
-    <!--<button class="btn blue-btn h-75 mr-2" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>-->
-  <!--</div>-->
   <div class="d-flex justify-content-end mt-4">
     <button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת קופה</button>
   </div>

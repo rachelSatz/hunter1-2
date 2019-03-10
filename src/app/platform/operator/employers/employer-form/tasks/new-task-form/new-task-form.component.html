@@ -10,12 +10,30 @@
   </mat-form-field>
   <p class="grey-color f-14">בחר סטטוס</p>
   <div class="d-flex status status-bar">
-    <div class="pointer" (click)="setStage(1)" [ngClass]="{'active': stage === 1}">טרם בוצע</div>
-    <div class="pointer" (click)="setStage(2)" [ngClass]="{'active': stage === 2}">בטיפול</div>
-    <div class="pointer" (click)="setStage(3)" [ngClass]="{'active': stage === 3}">טופל</div>
+    <div class="pointer" (click)="stage = 1;" [ngClass]="{'active': stage === 1}">טרם בוצע</div>
+    <div class="pointer" (click)="stage = 2;" [ngClass]="{'active': stage === 2}">בטיפול</div>
+    <div class="pointer" (click)="stage = 3;" [ngClass]="{'active': stage === 3}">טופל</div>
+  </div>
+
+  <div  class=" mt-5">
+    <!--<mat-form-field>-->
+      <!--<mat-select matInput placeholder="יוצר המשימה" [(ngModel)]="operator" name="executive" required>-->
+        <!--<mat-option *ngFor="let operator of operators" [value]="operator.id">-->
+          <!--{{operator.name}}-->
+        <!--</mat-option>-->
+      <!--</mat-select>-->
+      <!--<mat-error>שדה חובה</mat-error>-->
+    <!--</mat-form-field>-->
+    <mat-form-field>
+      <mat-select matInput placeholder="עובד משוייך" [(ngModel)]="employee" name="employee">
+        <mat-option *ngFor="let employee of operators" [value]="employee.id">
+          {{employee.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div>
-    <p class="grey-color f-14 mt-5">לביצוע עד</p>
+    <p class="grey-color f-14">לביצוע עד</p>
     <div class="d-flex">
       <div>
         <mat-form-field class="date-picker">
@@ -30,23 +48,6 @@
         </mat-form-field>
       </div>
     </div>
-  </div>
-  <div>
-    <mat-form-field>
-      <mat-select matInput placeholder="יוצר המשימה" [(ngModel)]="operator" name="executive" required>
-        <mat-option *ngFor="let operator of operators" [value]="operator.id">
-          {{operator.name}}
-        </mat-option>
-      </mat-select>
-      <mat-error>שדה חובה</mat-error>
-    </mat-form-field>
-    <mat-form-field class="mr-5">
-      <mat-select matInput placeholder="עובד משוייך" [(ngModel)]="employee" name="employee">
-        <mat-option *ngFor="let employee of operators" [value]="employee.id">
-          {{employee.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
   </div>
   <p class="grey-color f-14">תיאור המשימה</p>
   <textarea class="form-control"  placeholder="הוספת תיאור" ngModel name="description"></textarea>

@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map'
 
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Company } from 'app/shared/_models/company.model';
-import {ExtendedProduct} from 'app/shared/_models/product.model';
-import {EmployerFinancialDetails} from '../../_models/employer-financial-details.model';
+import { ExtendedProduct } from 'app/shared/_models/product.model';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ProductService extends BaseHttpService {
@@ -60,5 +62,17 @@ export class ProductService extends BaseHttpService {
       {productDetails: productDetails}, this.getTokenHeader())
       .toPromise()
       .then(response =>  response as boolean);
+  }
+
+  // getFullCompanies(): Promise<Company[]> {
+  //   return this.http.get(this.endPoint + '/FullCompany', this.getTokenHeader())
+  //     .toPromise()
+  //     .then(response => response as Company[])
+  //     .catch(() => []);
+  // }
+
+  getFullCompanies(): Observable<Company[]> {
+    return this.http.get(this.endPoint + '/FullCompany', this.getTokenHeader())
+          .map((response: Response) => response as any);
   }
 }

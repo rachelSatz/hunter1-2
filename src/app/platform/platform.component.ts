@@ -22,8 +22,8 @@ export class PlatformComponent implements OnInit {
   employers = [];
   departments = [];
   organizationId: number;
-  employerId: object;
-  departmentId: object;
+  employerId: any;
+  departmentId: any;
   agentBarActive = true;
   isAgent = false;
 
@@ -76,17 +76,26 @@ export class PlatformComponent implements OnInit {
   constructor(private router: Router,
               private userSession: UserSessionService,
               private organizationService: OrganizationService,
-              private selectUnit: SelectUnitService,
+              public selectUnit: SelectUnitService,
               public helpers: HelpersService,
               public timerService: TimerService,
               private operatorTasks: OperatorTasksService) {}
 
   ngOnInit() {
-    this.intervals();
     this.seconds =  this.timerService.second.toString();
-    this.isAgent =  this.userSession.roleName !== 'employer';
-    this.getOrganizations(false);
+    this.isAgent =  this.userSession.getRole() !== 'employer';
+    this.organizations = this.selectUnit.getOrganization()
+    this.selectUnit.getEntityStorage();
+    if(!this.selectUnit.currentOrganizationID)
+      this.getOrganizations(false);
+    else
+    {
+      this.organizationId = this.selectUnit.currentOrganizationID;
+      this.employerId = this.selectUnit.currentEmployerID;
+      this.departmentId = this.selectUnit.currentDepartmentID;
+    }
     this.setActiveUrl(this.router.url);
+
 
     this.router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
@@ -99,9 +108,9 @@ export class PlatformComponent implements OnInit {
     this.agentBarActive = !this.agentBarActive;
     if (this.agentBarActive ) {
         this.selectUnit.changeOrganizationEmployerDepartment
-        (this.organizationId, this.employerId['id']
-          ? this.employerId : this.employerId['id'],
-          this.departmentId['id']  ? this.departmentId : this.departmentId['id']);
+        (this.organizationId, this.employerId['id'] || this.employerId['id'] == 0
+          ? this.employerId['id'] : this.employerId  ,
+          this.departmentId['id'] || this.departmentId['id'] == 0  ? this.departmentId['id']:  this.departmentId);
     } else {
       this.selectUnit.changeOrganizationEmployerDepartment(0,0, 0);
     }
@@ -111,9 +120,10 @@ export class PlatformComponent implements OnInit {
     this._is_Employer = is_Employer;
     this.helpers.setPageSpinner(true);
     this.organizationService.getOrganizations().then(response => {
-      this.helpers.organizations = response;
+      this.selectUnit.setOrganization(response);
+      this.organizations = response;
       if (!this._is_Employer) {
-        this.organizationId = this.helpers.organizations.length > 0 ? this.helpers.organizations[0].id : 0;
+        this.organizationId = response.length > 0 ? response[0].id : 0;
       }
       if (!is_loadEmployer) {
         this.helpers.setPageSpinner(false);
@@ -135,11 +145,13 @@ export class PlatformComponent implements OnInit {
 
   logout(): void {
     this.userSession.logout();
+    this.selectUnit.logout();
+    this.selectUnit.changeOrganizationEmployerDepartment(0,0, 0);
     this.router.navigate(['/']);
   }
 
   loadEmployers(organizationID: number): void {
-    this.employers = this.helpers.organizations.find(o => o.id === organizationID).employer;
+    this.employers = this.selectUnit.getOrganization().find(o => o.id === organizationID).employer;
     if (this.employers.length > 1) {
       if (!this.employers.some(e => e.id === 0)) {
         this.employers.push({'id': 0, 'name': 'כלל המעסיקים'});
@@ -155,7 +167,7 @@ export class PlatformComponent implements OnInit {
 
   loadDepartments(employerID: number): void {
     if (employerID > 0) {
-      this.employers = this.helpers.organizations.find(o => o.id === this.organizationId).employer;
+      this.employers = this.selectUnit.getOrganization().find(o => o.id === this.organizationId).employer;
       this.departments = this.employers.find(e => e.id === employerID).department;
       if (this.departments.length > 1) {
         if (!this.departments.some(d => d.id === 0)) {
@@ -169,7 +181,7 @@ export class PlatformComponent implements OnInit {
     }
     if (!this._is_Employer) {
       this.departmentId = this.departments.length > 0 ? this.departments[0] : 0;
-      this.selectUnit.changeEmployersDepartments(this.employers, this.departments);
+      // this.selectUnit.changeEmployersDepartments(this.employers, this.departments);
       this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, employerID,
         this.departments.length > 0 ? this.departmentId['id'] : 0);
     }
@@ -195,39 +207,13 @@ export class PlatformComponent implements OnInit {
   }
 
   checkRole(role) {
-    if (this.userSession.roleName === 'admin') {
+    if (role == this.userSession.getRole() || this.userSession.getRole() == 'admin') {
       return true;
     } else {
-      return role !== 'admin';
+      return false;
     }
   }
-  intervals(): void {
-    if (this.timerService.second.value > 0) {
-      this.show = true;
-      this.timerService.getSecondsObservable().subscribe(val => {
-        if (val < 10) {
-          this.seconds = '0' + val.toString();
-        } else {
-          this.seconds = val.toString();
-        }
-      });
 
-      this.timerService.getMinutesObservable().subscribe(val => {
-        if (val < 10) {
-          this.minutes = '0' + val.toString();
-        } else {
-          this.minutes = val.toString();
-        }
-      });
-      this.timerService.getHoursObservable().subscribe(val => {
-        if (val < 10) {
-          this.hours = '0' + val.toString();
-        } else {
-          this.hours = val.toString();
-        }
-      });
-    }
-  }
   stopTimer(): void {
     const time = this.hours + ':' + this.minutes + ':' + this.seconds;
     this.updateTaskTimer(time);

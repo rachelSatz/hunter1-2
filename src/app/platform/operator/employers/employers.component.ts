@@ -7,6 +7,7 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
+import { ProductService } from 'app/shared/_services/http/product.service';
 import { EmployerStatus } from 'app/shared/_models/employer.model';
 
 
@@ -35,14 +36,15 @@ export class EmployersComponent extends DataTableComponent  implements OnInit , 
 
   constructor(protected route: ActivatedRoute,
               private employerService: EmployerService,
-              private selectUnit: SelectUnitService) {
+              private selectUnit: SelectUnitService,
+              private productService: ProductService) {
     super(route);
     this.paginationData.limit = 12;
   }
 
   ngOnInit() {
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
-
+    this.productService.getFullCompanies().subscribe(response => this.selectUnit.setCompanies(response));
     super.ngOnInit();
   }
 

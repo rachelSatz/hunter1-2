@@ -28,8 +28,7 @@ export class AddDocumentComponent implements OnInit {
               private helpers: HelpersService) { }
 
   ngOnInit() {
-    this.organizations = this.helpers.organizations;
-
+    this.organizations = this.selectUnit.getOrganization();
   }
 
 
@@ -49,7 +48,7 @@ export class AddDocumentComponent implements OnInit {
   }
 
   loadEmployers(organizationID: number): void {
-    this.employers = this.helpers.organizations.find(o => o.id === organizationID).employer
+    this.employers = this.organizations.find(o => o.id === organizationID).employer
     this.employers.sort((a, b) => a.id - b.id);
   }
 

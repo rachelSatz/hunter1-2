@@ -1,9 +1,7 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef,
-        MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material';
-import { FormControl, NgForm} from '@angular/forms';
+import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocomplete} from '@angular/material';
+import { NgForm} from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Observable} from 'rxjs';
 
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
@@ -36,9 +34,6 @@ export class InquiryFormComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   Emails: Email[] = [];
   contacts: Contact[] = [];
-
-  @ViewChild('contactInput') contactInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog,
               private dialogRef: MatDialogRef<InquiryFormComponent>,

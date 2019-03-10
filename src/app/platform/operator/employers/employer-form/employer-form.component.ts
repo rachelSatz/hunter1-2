@@ -7,6 +7,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import {HelpersService} from '../../../../shared/_services/helpers.service';
 
 
 
@@ -23,7 +24,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   operator: string;
   operatorId;
   projects = [];
-  project = {id: null, name: null};
+  project = {id: 0, name: ''};
   status: object;
   saveChanges = false;
 
@@ -57,26 +58,25 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
-    this.employersResolve.resolve(this.route.snapshot).then( response => {
-      this.employer = response;
-      this.setStatus();
+    if (this.route.snapshot.data.employer) {
+        this.employer = this.route.snapshot.data.employer;
+        this.setStatus();
 
-      if (response.operator !== null) {
-        this.operatorId = response.operator.id;
-      }
-      this.project.id = response.project_id;
-      this.project.name = response.project_name;
-    });
+        if ( this.employer.operator !== null) {
+          this.operatorId =  this.employer.operator.id;
+        }
+
+        this.project.id =  this.employer.project_id;
+        this.project.name = this.employer.project_name;
+    }
     this.employerService.getProjects().then(response => {
       this.projects = response;
     });
     this.employerService.getOperator( this.selectUnit.currentEmployerID, 'employerId').then(response => {
       this.operators = response;
-      // this.employerForm['operators'] = this.operatorId
       this.setOperator();
     });
     this.initForm();
-    this.router.navigate(['comments'], {relativeTo: this.route}).then();
   }
 
   initForm(): void {

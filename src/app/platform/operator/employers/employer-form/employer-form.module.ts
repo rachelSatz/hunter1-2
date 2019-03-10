@@ -14,6 +14,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 const routes: Routes = [
   { path: '', component: EmployerFormComponent},
   { path: ':id', component: EmployerFormComponent, resolve: { employer: EmployersResolve }, children: [
+      { path: '' , redirectTo: 'comments', pathMatch: 'full'},
       { path: 'comments', loadChildren: './comments/comments.module#CommentsModule' },
       { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule' },
       { path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule' },

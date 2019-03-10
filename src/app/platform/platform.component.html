@@ -9,14 +9,14 @@
         <i class="w-100 fa fa-search"></i>
       </div>
       <div *ngFor="let el of agentBarEl" class="d-flex pointer">
-        <span class="w-100 py-3" *ngIf="checkRole(el)" [routerLink]="['/platform', 'operator', el.link]"
+        <span class="w-100 py-3" *ngIf="checkRole(el.role)" [routerLink]="['/platform', 'operator', el.link]"
               routerLinkActive="selected">{{el.label}}</span>
       </div>
     </div>
     <div *ngIf="agentBarActive" (click)="restNav()" [routerLink]="['/platform', 'operator', 'work-queue']">
       <p class="py-5 mt-2"></p>
       <div *ngFor="let el of agentBarEl"  class="d-flex pointer">
-        <span class="w-100 py-3" *ngIf="checkRole(el)"><i class="w-100 fa fa-{{el.icon}}"></i></span>
+        <span class="w-100 py-3" *ngIf="checkRole(el.role)"><i class="w-100 fa fa-{{el.icon}}"></i></span>
       </div>
     </div>
   </div>
@@ -53,7 +53,7 @@
             </ul>
           </div>
           <div class="d-flex" [@fade]="!agentBarActive? 'inactive' : 'active'">
-            <bd-select [items]="helpers.organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
+            <bd-select [items]="organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
             <bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
             <bd-select [items]="departments" class="ml-3" [(ngModel)]="departmentId" placeholder="מחלקה" (onSelect)="selectDepartment($event)"
                        [ngClass]="{'disable': employerId === undefined || employerId['id'] === 0}"></bd-select>

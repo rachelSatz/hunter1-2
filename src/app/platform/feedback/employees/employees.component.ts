@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -29,7 +29,7 @@ import { formatDate } from '@angular/common';
   animations: [ slideToggle, placeholder]
 })
 
-export class EmployeesComponent extends DataTableComponent implements OnInit {
+export class EmployeesComponent extends DataTableComponent implements OnInit , OnDestroy {
 
   sub = new Subscription();
   year = (new Date()).getFullYear();
@@ -135,4 +135,10 @@ export class EmployeesComponent extends DataTableComponent implements OnInit {
     this.resetSearch();
     this.searchCriteria['salaryYear'] = this.year;
   }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.sub.unsubscribe();
+  }
+
 }

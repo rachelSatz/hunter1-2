@@ -51,7 +51,7 @@ export class ContactFormComponent implements OnInit {
                private helpers: HelpersService) {}
 
   ngOnInit() {
-    this.organizations = this.helpers.organizations;
+    this.organizations = this.selectUnit.getOrganization();
     if (this.router.url.includes( 'employers')) {
       this.pathEmployers = true;
       this.navigate = ['platform', 'employers',
@@ -114,7 +114,7 @@ export class ContactFormComponent implements OnInit {
   }
 
   loadEmployers(organizationID: number): void {
-    this.employers = this.helpers.organizations.find(o => o.id === organizationID).employer
+    this.employers = this.organizations.find(o => o.id === organizationID).employer
     this.employers.sort((a, b) => a.id - b.id);
   }
 

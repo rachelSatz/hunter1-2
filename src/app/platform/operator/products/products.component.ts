@@ -1,13 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {placeholder, slideToggle} from '../../../shared/_animations/animation';
-import {DataTableComponent} from '../../../shared/data-table/data-table.component';
-import {ActivatedRoute} from '@angular/router';
-import {NotificationService} from '../../../shared/_services/notification.service';
-import {MatDialog} from '@angular/material';
-import {DataTableHeader} from '../../../shared/data-table/classes/data-table-header';
-import {ProductService} from '../../../shared/_services/http/product.service';
-import {ExtendedProduct, ProductType} from '../../../shared/_models/product.model';
-import {ValidityMethods} from '../../../shared/_models/compensation.model';
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { ProductService } from 'app/shared/_services/http/product.service';
+import { placeholder, slideToggle } from 'app/shared/_animations/animation';
+import { ExtendedProduct, ProductType } from 'app/shared/_models/product.model';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 
 @Component({
   selector: 'app-products',
@@ -30,8 +29,7 @@ export class ProductsComponent extends DataTableComponent implements OnInit, OnD
   ];
   constructor(protected route: ActivatedRoute,
               protected notificationService: NotificationService,
-              public productService: ProductService,
-              private dialog: MatDialog) {
+              public productService: ProductService) {
     super(route);
   }
 
@@ -45,6 +43,10 @@ export class ProductsComponent extends DataTableComponent implements OnInit, OnD
       this.setItems(response);
       this.products = response;
     });
+  }
+
+  OnDestroy() {
+    super.ngOnDestroy();
   }
 }
 

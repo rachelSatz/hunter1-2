@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class UserSessionService {
 
-  roleName: string;
+  // roleName: string;
 
   loginStatus: Subject<boolean> = new Subject;
   role: Subject<string> = new Subject;
@@ -14,8 +14,17 @@ export class UserSessionService {
   }
 
   setRole(role: string): void {
-    this.roleName = role
+    sessionStorage.setItem('role', JSON.stringify(role));
+    // this.roleName = role
     this.role.next( role);
+  }
+
+  getRole(): any {
+    if (sessionStorage.getItem('role')) {
+      return JSON.parse(sessionStorage.getItem('role'));
+    }
+
+    return null;
   }
 
   login(user?: Object): void {

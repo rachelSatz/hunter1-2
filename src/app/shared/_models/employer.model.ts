@@ -36,8 +36,6 @@ export class Employer {
     this.bank_accounts.push(new EmployerBankAccount());
     this.bankBranch = new BankBranch;
   }
-
-
 }
 
 export enum EmployerStatus {
