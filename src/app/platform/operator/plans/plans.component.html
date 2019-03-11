@@ -28,7 +28,7 @@
         <td>{{ item.start_time }} - {{ item.end_time }}</td>
         <td>{{ item.salary_start_date | date: 'MM/yy' }} - {{ item.salary_end_date | date: 'MM/yy' }}</td>
         <td>
-          <mat-select [(ngModel)]="item.is_active" [value]="false" (valueChange)="activatePlan(item)" >
+          <mat-select [(ngModel)]="item.is_active" [value]="false" (selectionChange)="activatePlan(item)" >
             <mat-option [value]="true">פעיל</mat-option>
             <mat-option [value]="false">לא פעיל</mat-option>
           </mat-select>

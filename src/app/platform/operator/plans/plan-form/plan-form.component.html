@@ -10,7 +10,7 @@
     </mat-form-field>
 
     <mat-form-field class="w-75 mb-3">
-      <mat-select [(ngModel)]="plan.sub_type" name="sub_type" [value]="type.sub_type" #posNeg="ngModel" placeholder="חיובי / שלילי" required>
+      <mat-select [(ngModel)]="plan.sub_type" name="sub_type" [value]="type.sub_type" #sub_type="ngModel" placeholder="חיובי / שלילי" required>
         <mat-option [value]="'positive'">חיובי</mat-option>
         <mat-option [value]="'negative'">שלילי</mat-option>
       </mat-select>
@@ -21,10 +21,16 @@
       <!--<mat-error *ngIf="name.errors && f.submitted">יש לבחור שם לתוכנית.</mat-error>-->
     </mat-form-field>
     <mat-form-field class="w-75 mb-3">
-      <mat-select [(ngModel)]="plan.user_plan" name="operators" placeholder="בחר עובדים *" multiple>
+      <mat-select [(ngModel)]="plan.user_plan" name="user_plan"  multiple>
         <mat-option *ngFor="let operator of operators" [value]="operator.id">{{ operator.username }}</mat-option>
       </mat-select>
     </mat-form-field>
+    <!--<div class="col-12 col-lg-4">-->
+    <!--<bd-select class="w-100" [items]="operators" name="type" #typeSelect="ngModel"-->
+               <!--[(ngModel)]="plan.user_plan"-->
+               <!--placeholder="סוג איש קשר" label="username"-->
+               <!--[multiple]="true"></bd-select>-->
+  <!--</div>-->
     <p class="h5">בחר טווח חודשי שכר *</p>
     <div class="d-flex w-75 mb-3">
       <mat-form-field class="w-50 ml-3">
@@ -72,9 +78,9 @@
   <div id="taskPrioritization" class="col-md">
     <p class="h5 mt-5 mb-3 text-center bold">סדר תיעדוף משימות</p>
     <div cdkDropList #todoList="cdkDropList"
-      [cdkDropListData]="planCategories" [cdkDropListConnectedTo]="[doneList]"
+      [cdkDropListData]="categoriesData" [cdkDropListConnectedTo]="[doneList]"
       class="example-list" (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of planCategories" cdkDrag>{{item.name}}</div>
+      <div  class="example-box" *ngFor="let item of categoriesData" cdkDrag>{{ showLabel ? categoryLabel[item.name] : item.name}}</div>
     </div>
   </div>
 </div>

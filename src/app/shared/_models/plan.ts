@@ -1,12 +1,14 @@
 import { User } from './user.model';
+import {Time} from '@angular/common';
+import {Timestamp} from 'rxjs';
 
 export class Plan {
   id: number;
   type: string;
   sub_type: string;
   name: string;
-  salary_start_date: string;
-  salary_end_date: string;
+  salary_start_date: Date;
+  salary_end_date: Date;
   start_time: string;
   end_time: string;
   is_active: boolean;
