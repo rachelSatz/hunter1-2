@@ -6,6 +6,7 @@ import { MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatNativeDate
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { NewTaskFormComponent } from './new-task-form/new-task-form.component';
 import { TaskService } from 'app/shared/_services/http/task.service';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const routes: Routes = [{ path: '', component: TasksComponent }];
 
@@ -15,6 +16,8 @@ const routes: Routes = [{ path: '', component: TasksComponent }];
     CommonModule,
     RouterModule.forChild(routes),
     DataTableModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatTooltipModule, MatFormFieldModule, MatDialogModule

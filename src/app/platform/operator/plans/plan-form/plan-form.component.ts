@@ -15,7 +15,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList} from '@ang
   styleUrls: ['./plan-form.component.css']
 })
 export class PlanFormComponent implements OnInit, OnDestroy  {
-  plan = new Plan();
+  plan = new Plan;
   types = Object.keys(PlanTypeLabel).map(function(e) {
     return { id: e, name: PlanTypeLabel[e] };
   });

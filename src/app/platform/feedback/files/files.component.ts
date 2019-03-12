@@ -60,7 +60,8 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
 
   constructor(route: ActivatedRoute, private router: Router,
               protected notificationService: NotificationService,
-              private dialog: MatDialog, private feedbackService: FeedbackService,
+              private dialog: MatDialog,
+              private feedbackService: FeedbackService,
               private selectUnit: SelectUnitService) {
     super(route, notificationService);
     this.searchCriteria['deposit_year'] = this.year;

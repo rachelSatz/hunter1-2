@@ -7,6 +7,7 @@ import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header
 import { NewTaskFormComponent } from './new-task-form/new-task-form.component';
 import { TaskService } from 'app/shared/_services/http/task.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import {TaskModel} from '../../../../../shared/_models/task.model';
 
 @Component({
   selector: 'app-tasks',
@@ -32,24 +33,29 @@ export class TasksComponent extends DataTableComponent implements OnInit , OnDes
               private taskService: TaskService,
               private selectUnit: SelectUnitService) {
     super(route);
-    this.paginationData.limit = 5;
+
   }
 
   ngOnInit() {
     if (this.router.url.includes('employers')) {
       this.pathEmployers = true;
+      this.paginationData.limit = 5;
     }
+
     this.taskService.getTasks(this.selectUnit.currentEmployerID)
       .then(response => this.setItems(response));
+
     super.ngOnInit();
   }
 
-  createTask() {
-    const dialogRef = this.dialog.open(NewTaskFormComponent, {
+  createOrEditTask(item : any) {
+    if (!item)
+      item = new TaskModel();
+   this.dialog.open(NewTaskFormComponent, {
+      data: item,
       width: '650px',
       height: '810px'
     });
-
   }
 
   ngOnDestroy() {

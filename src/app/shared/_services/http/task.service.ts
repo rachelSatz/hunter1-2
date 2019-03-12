@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
+import { TaskModel } from '../../_models/task.model';
 
 @Injectable()
 export class TaskService extends BaseHttpService {
@@ -13,10 +14,13 @@ export class TaskService extends BaseHttpService {
     super(userSession);
   }
 
-  getTasks(employerID: number): Promise<any> {
-    return this.http.get(this.endPoint, this.getTokenHeader())
+  getTasks(employerID: number): Promise<TaskModel[]> {
+    const header = this.getTokenHeader();
+    if (employerID != 0)
+      header['params'] = {employerID: employerID};
+    return this.http.get(this.endPoint, header)
       .toPromise()
-      .then(response => response)
+      .then(response => response as TaskModel[])
       .catch(() => []);
   }
 

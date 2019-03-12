@@ -51,16 +51,29 @@ export class ProductService extends BaseHttpService {
       .then(response => response as ExtendedProduct);
   }
 
-  updateProduct(id: number, product: ExtendedProduct): Promise<boolean> {
-    return this.http.post(this.endPoint + '/' + id + '/updateProduct', product, this.getTokenHeader())
-      .toPromise()
-      .then(response =>  response as boolean);
-  }
+  // updateProduct(id: number, product: ExtendedProduct): Promise<boolean> {
+  //   return this.http.post(this.endPoint + '/' + id + '/updateProduct', product, this.getTokenHeader())
+  //     .toPromise()
+  //     .then(response =>  response as boolean);
+  // }
+  //
+  // saveProduct(product: ExtendedProduct): Promise<boolean> {
+  //   return this.http.post(this.endPoint + '/saveProduct', product, this.getTokenHeader())
+  //     .toPromise()
+  //     .then(response =>  response as boolean);
+  // }
 
-  saveProduct(product: ExtendedProduct): Promise<boolean> {
-    return this.http.post(this.endPoint + '/saveProduct', product, this.getTokenHeader())
-      .toPromise()
-      .then(response =>  response as boolean);
+  createUpdateProduct(id: number, product: ExtendedProduct): Promise<any> {
+    if (id == 0) {
+      return this.http.post(this.endPoint + '/' + id + '/createUpdateProduct', product, this.getTokenHeader())
+        .toPromise()
+        .then(response => response);
+    } else
+    {
+      return this.http.put(this.endPoint + '/' + id + '/createUpdateProduct', product, this.getTokenHeader())
+        .toPromise()
+        .then(response => response);
+    }
   }
 
   // getFullCompanies(): Promise<Company[]> {

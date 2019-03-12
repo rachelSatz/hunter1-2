@@ -44,6 +44,10 @@ export class UserFormComponent implements OnInit {
     this.organizationService.getOrganizations().then(response => this.organizations = response);
     if (this.route.snapshot.data.user) {
       this.user = new User(this.route.snapshot.data.user);
+      if (!this.user.units) {
+        this.user.units = [];
+        this.user.units.push(new UserUnitPermission());
+      }
     }
   }
 

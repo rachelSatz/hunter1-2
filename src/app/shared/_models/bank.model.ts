@@ -17,6 +17,7 @@ export class BankAccount {
   is_primary: boolean;
   bank_id: number;
   branch_id: number;
+  is_active: boolean;
   type: string;
   account_number: string;
   branch_number: string;
@@ -24,11 +25,4 @@ export class BankAccount {
   branch_name: string;
   bank_name: string;
 
-
-  constructor() {
-    this.id = 0;
-    this.account_number = '0';
-    this.is_primary = false;
-    this.type = 'deposit';
-  }
 }

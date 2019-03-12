@@ -4,9 +4,10 @@ import { ActivatedRoute, Router} from '@angular/router';
 
 import { fade } from 'app/shared/_animations/animation';
 import { BankAccount} from 'app/shared/_models/bank.model';
-import { ExtendedProduct} from 'app/shared/_models/product.model';
+import {ExtendedProduct, ProductType} from 'app/shared/_models/product.model';
 import { ProductService} from 'app/shared/_services/http/product.service';
 import { GeneralHttpService} from 'app/shared/_services/http/general-http.service';
+import {NotificationService} from '../../../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-product-from',
@@ -22,10 +23,15 @@ export class ProductFormComponent implements OnInit {
   banks = [];
   bankBranchesDeposit = [];
   checked: boolean;
+  types = Object.keys(ProductType).map(function(e) {
+    return { id: e, name: ProductType[e] };
+  });
 
-  constructor(private route: ActivatedRoute, private productService: ProductService,
+  constructor(private route: ActivatedRoute,
+              private productService: ProductService,
               private router: Router,
-              private generalService: GeneralHttpService) { }
+              private generalService: GeneralHttpService,
+              protected notificationService: NotificationService) { }
 
   ngOnInit() {
     this.loadBanks();
@@ -48,26 +54,40 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
-  addBankRow(index: number): void {
+  addBankRow(): void {
     this.product.bank_account.push(new BankAccount());
   }
 
-  selectedBankBranch(index?: number): void {
-    const bankId = this.product.bank_account[index].bank_id;
-    const branchId = this.product.bank_account[index].branch_id;
-
-    const selectedBank = this.banks.find(bank => {
-      return +bank.id === +bankId;
-    });
-
-     if (!selectedBank.bank_branches.find( b => {
-      return +b.id === +branchId; })) {
-      this.product.bank_account[index].branch_id = 0;
+  deleteBankRow(index: number): void {
+    if (!this.product.bank_account[index].id)
+      this.product.bank_account.splice(index, 1);
+    else
+    {
+      this.product.bank_account[index].is_active = false;
     }
-
-      this.bankBranchesDeposit = selectedBank ? selectedBank.bank_branches : [];
-
   }
+
+  selectedBankBranch(index?: number): any {
+    const bank_account = this.product.bank_account[index];
+    const bankId = bank_account.bank_id;
+    const branchId = bank_account.branch_id;
+
+    if (this.banks.length > 0 && bankId) {
+      const selectedBank = this.banks.find(bank => {
+        return +bank.id === +bankId;
+      });
+
+      if (!selectedBank.bank_branches.find(b => {
+        return +b.id === +branchId;
+      })) {
+        this.product.bank_account[index].branch_id = 0;
+      }
+
+      return selectedBank ? selectedBank.bank_branches : [];
+    }
+    return [];
+  }
+
   primaryBankChecked(index: number, isChecked: boolean): void {
     if (!isChecked) {
       this.checked = false;
@@ -78,25 +98,31 @@ export class ProductFormComponent implements OnInit {
       this.product.bank_account[index].is_primary = isChecked;
     }
   }
+
   submit(form: NgForm): void {
     this.hasServerError = false;
     if (form.valid) {
-
-      if (this.product.id) {
-        this.productService.updateProduct(this.product.id, this.product)
-          .then(response => this.handleResponse(response));
+      if( this.checked ||  this.product.bank_account.some(b => b.is_primary == true)) {
+        const id = this.product.id ? this.product.id : 0;
+        this.productService.createUpdateProduct(id, this.product).then(response => this.handleResponse(response));
       } else {
-          this.productService.saveProduct(this.product).
-          then(response => this.handleResponse(response));
+        this.notificationService.error('', 'חייב לבחור לפחות בנק אחד דיפולט');
       }
     }
   }
-  private handleResponse(isSaved: boolean): void {
-    if (isSaved) {
+
+  private handleResponse(response: any): void {
+    const message = response['message'];
+    if (message == 'success') {
       this.router.navigate(['platform', 'operator', 'products']);
     } else {
-      this.hasServerError = true;
+      let mes = '';
+      if (message == 'like') {
+           mes = 'ישנם שתי חשבונות בנק זהים';
+      } else if (message == 'code_exists') {
+        mes = 'קוד קופה קיים';
+      }
+      this.notificationService.error('', mes);
     }
   }
-
 }
