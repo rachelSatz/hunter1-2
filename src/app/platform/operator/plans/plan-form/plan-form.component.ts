@@ -1,17 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TaskService} from '../../../../shared/_services/http/task.service';
-import {PlanService} from '../../../../shared/_services/http/plan.service';
-import {User} from '../../../../shared/_models/user.model';
-import {Plan, PlanCategoryLabel, PlanType, PlanTypeLabel, TimerType, TIMESTAMPS} from '../../../../shared/_models/plan';
-import {Subscription} from 'rxjs';
-import {Status} from '../../../../shared/_models/file-feedback.model';
-import {UserService} from '../../../../shared/_services/http/user.service';
-import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList} from '@angular/cdk/drag-drop';
-import {BankAccount} from '../../../../shared/_models/bank.model';
-import {Type} from '../../../../shared/_models/contact.model';
+import { Component, OnDestroy, OnInit} from '@angular/core';
+import { ActivatedRoute, Router} from '@angular/router';
+import { TaskService} from 'app/shared/_services/http/task.service';
+import { PlanService} from 'app/shared/_services/http/plan.service';
+import { User} from 'app/shared/_models/user.model';
+import { Plan, PlanCategoryLabel, PlanType, PlanTypeLabel, TimerType, TIMESTAMPS } from '../../../../shared/_models/plan';
+import { Subscription} from 'rxjs';
+import { UserService} from '../../../../shared/_services/http/user.service';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList } from '@angular/cdk/drag-drop';
 import {FormControl} from '@angular/forms';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-plan-form',
@@ -23,12 +19,8 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
   types = Object.keys(PlanTypeLabel).map(function(e) {
     return { id: e, name: PlanTypeLabel[e] };
   });
-  toppings = new FormControl();
-  test: string;
   operators: User[] = [];
-  operatorsList = []
   timestamps = [];
-  taskCategories: TimerType[] = [];
   isSubmitFailed = false;
   isSubmitting = false;
   sub: Subscription;
@@ -38,7 +30,6 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     return { id: e, name: PlanCategoryLabel[e] };
   });
   categoriesData = [];
-
   constructor(private router: Router, private route: ActivatedRoute,
               private taskService: TaskService, private planService: PlanService,
               private userService: UserService) { }
@@ -48,11 +39,11 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     if (this.route.snapshot.data.plan) {
       this.plan = this.route.snapshot.data.plan;
     }
-    this.userService.getUsers().then(response => this.operators = response);
-    this.toppings.setValue(this.plan.user_plan);
-    console.log(this.toppings)
+    this.userService.usersList().then(response => this.operators = response);
+
     if (this.plan.plan_category.length > 0) {
       this.categoriesData = this.plan.plan_category;
+      this.categoriesData.sort((a, b) => a.id - b.id);
       this.showLabel = true;
     } else {
       this.categoriesData = this.planCategories;
@@ -71,7 +62,7 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     this.categoriesData = event.container.data;
   }
 
-  submit(isValid: boolean): void {
+  submit(): void {
     if (this.categoriesData.length === 0) {
       this.categoriesData = this.planCategories;
     }

@@ -85,7 +85,7 @@
         </div>
       </mat-checkbox>
       <div class="text-center mt-5 pb-5">
-        <button class="btn blue-btn" [disabled]="((!valid || !dateValid) && !isRefund) || (process_details.sent_status == 'sent') || (userSession.roleName != 'admin')" (click)="transfer();
+        <button class="btn blue-btn" [disabled]="((!valid || !dateValid) && !isRefund) || (process_details.sent_status == 'sent') || (userSession.getRole() != 'admin')" (click)="transfer();
         processDataService.activeProcess.pageNumber = 5">שידור לקופות</button>
       </div>
     </div>

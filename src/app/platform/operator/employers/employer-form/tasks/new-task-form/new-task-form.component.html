@@ -16,7 +16,7 @@
   </div>
   <div  class=" mt-5">
     <mat-form-field>
-      <mat-select matInput placeholder="עובד משוייך" [(ngModel)]="data.assigneeId" name="assigneeId" required>
+      <mat-select matInput placeholder="עובד משוייך" [(ngModel)]="data.assignee_id" name="assigneeId" required>
         <mat-option *ngFor="let employee of operators" [value]="employee.id">
           {{employee.name}}
         </mat-option>
