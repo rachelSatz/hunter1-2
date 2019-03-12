@@ -33,25 +33,15 @@ export class PlanService extends BaseHttpService {
       .toPromise().then(response => response as PlanType[]);
   }
 
-<<<<<<< HEAD
-  newPlan(plan: Plan, categories: any): Promise<boolean> {
-    return this.http.post(this.endPoint, {plan: plan, categories: categories},  this.getTokenHeader())
-=======
   create(plan: Plan, categories: string[]): Promise<boolean> {
     return this.http.post(this.endPoint, {data: plan, categories: categories},  this.getTokenHeader())
->>>>>>> bd20923ea4819314f573121c9b455e53efbde8e1
       .toPromise()
       .then(() => true)
       .catch((response) => response.status === 201);
   }
 
-<<<<<<< HEAD
-  updatePlan(plan: Plan, categories: any): Promise<boolean> {
-    return this.http.post(this.endPoint + '/' + plan.id, {plan: plan, categories: categories}, this.getTokenHeader())
-=======
   update(plan: Plan, categories: string[]): Promise<boolean> {
     return this.http.put(this.endPoint + '/' + plan.id, {data: plan, categories: categories}, this.getTokenHeader())
->>>>>>> bd20923ea4819314f573121c9b455e53efbde8e1
       .toPromise()
       .then(() => true)
       .catch((response) => response.status === 200);
