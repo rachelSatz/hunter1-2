@@ -8,6 +8,10 @@ import {Subscription} from 'rxjs';
 import {Status} from '../../../../shared/_models/file-feedback.model';
 import {UserService} from '../../../../shared/_services/http/user.service';
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList} from '@angular/cdk/drag-drop';
+import {BankAccount} from '../../../../shared/_models/bank.model';
+import {Type} from '../../../../shared/_models/contact.model';
+import {FormControl} from '@angular/forms';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-plan-form',
@@ -19,12 +23,17 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
   types = Object.keys(PlanTypeLabel).map(function(e) {
     return { id: e, name: PlanTypeLabel[e] };
   });
+  toppings = new FormControl();
+  test: string;
   operators: User[] = [];
+  operatorsList = []
   timestamps = [];
   taskCategories: TimerType[] = [];
   isSubmitFailed = false;
   isSubmitting = false;
   sub: Subscription;
+  showLabel = false
+  categoryLabel = PlanCategoryLabel;
   planCategories = Object.keys(PlanCategoryLabel).map(function(e) {
     return { id: e, name: PlanCategoryLabel[e] };
   });
@@ -36,9 +45,20 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
 
   ngOnInit() {
     this.timestamps = TIMESTAMPS;
+    if (this.route.snapshot.data.plan) {
+      this.plan = this.route.snapshot.data.plan;
+    }
     this.userService.getUsers().then(response => this.operators = response);
-
+    this.toppings.setValue(this.plan.user_plan);
+    console.log(this.toppings)
+    if (this.plan.plan_category.length > 0) {
+      this.categoriesData = this.plan.plan_category;
+      this.showLabel = true;
+    } else {
+      this.categoriesData = this.planCategories;
+    }
   }
+
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -56,13 +76,13 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
       this.categoriesData = this.planCategories;
     }
     if (this.plan.id) {
-        this.planService.updatePlan(this.plan, this.categoriesData).then(response => {
+        this.planService.update(this.plan, this.categoriesData).then(response => {
           if (response) {
           } else {
           }
         });
       } else {
-        this.planService.newPlan(this.plan, this.categoriesData).then(response => {
+        this.planService.create(this.plan, this.categoriesData).then(response => {
           if (response) {
 
           } else {

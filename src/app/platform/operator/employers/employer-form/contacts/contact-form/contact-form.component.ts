@@ -36,6 +36,7 @@ export class ContactFormComponent implements OnInit {
     return { id: e, name: EntityTypes[e] };
   });
   e_types = Type;
+
   types = Object.keys(Type).map(function(e) {
     return { id: e, name: Type[e] };
   });

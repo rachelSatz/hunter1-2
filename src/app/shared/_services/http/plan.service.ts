@@ -3,18 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 
 import { BaseHttpService } from './base-http.service';
-import { UserSessionService } from '../user-session.service';
 import {Plan, PlanType} from '../../_models/plan';
+import {UserSessionService} from '../user-session.service';
 
 
 
 @Injectable()
 export class PlanService extends BaseHttpService {
 
-  readonly endPoint = this.apiUrl + '/plan';
+  readonly endPoint = this.apiUrl + '/plans';
 
-  constructor(private http: HttpClient) {
-    super();
+  constructor(userSession: UserSessionService, private http: HttpClient) {
+    super(userSession);
   }
 
   getPlan(id: number): Promise<Plan> {
@@ -23,7 +23,8 @@ export class PlanService extends BaseHttpService {
   }
 
   getPlans(): Promise<Plan[]> {
-    return this.http.get(this.endPoint,  this.getTokenHeader()).toPromise()
+    return this.http.get(this.endPoint,  this.getTokenHeader())
+      .toPromise()
       .then(response => response as Plan[]);
   }
 
@@ -32,26 +33,36 @@ export class PlanService extends BaseHttpService {
       .toPromise().then(response => response as PlanType[]);
   }
 
+<<<<<<< HEAD
   newPlan(plan: Plan, categories: any): Promise<boolean> {
     return this.http.post(this.endPoint, {plan: plan, categories: categories},  this.getTokenHeader())
+=======
+  create(plan: Plan, categories: string[]): Promise<boolean> {
+    return this.http.post(this.endPoint, {data: plan, categories: categories},  this.getTokenHeader())
+>>>>>>> bd20923ea4819314f573121c9b455e53efbde8e1
       .toPromise()
       .then(() => true)
       .catch((response) => response.status === 201);
   }
 
+<<<<<<< HEAD
   updatePlan(plan: Plan, categories: any): Promise<boolean> {
     return this.http.post(this.endPoint + '/' + plan.id, {plan: plan, categories: categories}, this.getTokenHeader())
+=======
+  update(plan: Plan, categories: string[]): Promise<boolean> {
+    return this.http.put(this.endPoint + '/' + plan.id, {data: plan, categories: categories}, this.getTokenHeader())
+>>>>>>> bd20923ea4819314f573121c9b455e53efbde8e1
       .toPromise()
       .then(() => true)
       .catch((response) => response.status === 200);
   }
 
-  // activatePlan(plan: Plan): Promise<boolean> {
-  //   return this.http.put(this.endPoint + '/activate/' + plan.id, { active: plan.isActive },
-  //     { headers: this.getTokenHeader() }).toPromise()
-  //     .then(() => true)
-  //     .catch((response) => response.status === 200);
-  // }
+  activatePlan(plan: Plan): Promise<boolean> {
+    return this.http.post(this.endPoint + '/' + plan.id + '/activate', { active: plan.is_active },
+      this.getTokenHeader()).toPromise()
+      .then(() => true)
+      .catch((response) => response.status === 200);
+  }
 
   // remove(plan: Plan): Promise<boolean> {
   //   return this.http.delete(this.endPoint + '/' + plan.id,
