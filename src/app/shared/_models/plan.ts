@@ -7,12 +7,13 @@ export class Plan {
   type: string;
   sub_type: string;
   name: string;
-  salary_start_date: Date;
-  salary_end_date: Date;
+  salary_start_date: any;
+  salary_end_date: any;
   start_time: string;
   end_time: string;
   is_active: boolean;
-  user_plan: User[];
+  user_plan: any;
+  users: any;
   plan_category: PlanCategory[];
   // taskCategories: TaskType[];
 

@@ -31,6 +31,7 @@ export class PlansComponent extends DataTableComponent implements OnInit {
     });
   }
   activatePlan(plan: Plan): void {
-    this.planService.activatePlan(plan);
+    this.planService.activatePlan(plan).then(res => this.notificationService.info(res));
+
   }
 }

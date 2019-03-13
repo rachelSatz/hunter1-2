@@ -19,6 +19,7 @@ import { PlanService } from 'app/shared/_services/http/plan.service';
 import { UserService } from 'app/shared/_services/http/user.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PlanResolve } from 'app/shared/_resolves/plan';
+import {NotificationService} from '../../../../shared/_services/notification.service';
 
 const routes: Routes = [
   { path: '', component: PlanFormComponent },
@@ -34,7 +35,7 @@ const routes: Routes = [
     BdSelectModule, MatDividerModule, MatMenuModule, DragDropModule, ReactiveFormsModule
   ],
   declarations: [PlanFormComponent],
-  providers: [TaskService, PlanService, UserService, PlanResolve]
+  providers: [TaskService, PlanService, UserService, PlanResolve, NotificationService]
 })
 export class PlanFormModule {
 }

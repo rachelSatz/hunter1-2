@@ -47,11 +47,11 @@ export class PlanService extends BaseHttpService {
       .catch(() => []);
   }
 
-  activatePlan(plan: Plan): Promise<boolean> {
+  activatePlan(plan: Plan): Promise<any> {
     return this.http.post(this.endPoint + '/' + plan.id + '/activate', { active: plan.is_active },
       this.getTokenHeader()).toPromise()
-      .then(() => true)
-      .catch((response) => response.status === 200);
+      .then(response => response)
+      .catch(() => []);
   }
 
   // remove(plan: Plan): Promise<boolean> {
