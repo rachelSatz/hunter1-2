@@ -55,21 +55,21 @@ export class ContactFormComponent implements OnInit {
     }
   }
 
-  submit(form: NgForm): void {
-    this.hasServerError = false;
-    if (form.valid) {
-      if (this.contact.id) {
-        this.contactService.updateContact(form.value, this.contact.id).then(response => this.handleResponse(response));
-      } else {
-        if (this.selectUnit.currentEmployerID) {
-          this.contactService.newContact(form.value, this.selectUnit.currentEmployerID).
-          then(response => this.handleResponse(response));
-        }else {
-          this.notificationService.error('יש לבחור מעסיק.', 'יש לבחור מעסיק');
-        }
-      }
-    }
-  }
+  // submit(form: NgForm): void {
+  //   this.hasServerError = false;
+  //   if (form.valid) {
+  //     if (this.contact.id) {
+  //       this.contactService.updateContact(form.value, this.contact.id).then(response => this.handleResponse(response));
+  //     } else {
+  //       if (this.selectUnit.currentEmployerID) {
+  //         this.contactService.newContact(form.value, this.selectUnit.currentEmployerID).
+  //         then(response => this.handleResponse(response));
+  //       }else {
+  //         this.notificationService.error('יש לבחור מעסיק.', 'יש לבחור מעסיק');
+  //       }
+  //     }
+  //   }
+  // }
 
   private handleResponse(isSaved: boolean): void {
     if (isSaved) {

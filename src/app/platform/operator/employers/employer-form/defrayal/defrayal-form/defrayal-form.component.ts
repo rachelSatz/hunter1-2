@@ -3,10 +3,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 import { EmployerProductBankAccount } from 'app/shared/_models/employer-product-bank-account';
+import { NotificationService } from 'app/shared/_services/notification.service';
 import  {SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { Company } from 'app/shared/_models/company.model';
-import {NotificationService} from '../../../../../../shared/_services/notification.service';
 
 
 

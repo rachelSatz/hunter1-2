@@ -15,7 +15,6 @@ import {
 import { DepartmentFormComponent } from './department-form.component';
 import { DepartmentsResolve } from 'app/shared/_resolves/department.resolve';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
-import { EmployerFormModule } from '../../employer-form.module';
 
 
 const routes: Routes = [

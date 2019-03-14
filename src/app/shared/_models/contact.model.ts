@@ -13,9 +13,7 @@ export class Contact {
   employer_id: number;
   organization_id: number;
   comment: string;
-
-  // constructor(public id: number, public email: string) {}
-  // constructor(){}
+  employer_contact_id: number;
 }
 
 
@@ -38,6 +36,6 @@ export enum Type {
   pending = 'שיוך כספים',
   compensation = 'יתרות לפיצוים',
   employee_repayment = 'בקשה לפירעון עובד',
-  file_repayment = 'בקשה לפירעון מעסיק'
+  file_repayment = 'בקשה לפירעון קובץ'
 }
 

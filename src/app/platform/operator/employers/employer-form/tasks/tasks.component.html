@@ -1,6 +1,6 @@
 <div [ngClass]="{'operator-container': !pathEmployers }">
   <div class="d-flex justify-content-start mt-lg-5">
-    <button class="btn blue-btn" (click)="createOrEditTask(null)"> הוספת משימה</button>
+    <button class="btn blue-btn" *ngIf="pathEmployers" (click)="createOrEditTask(null)"> הוספת משימה</button>
     <!--<mat-form-field class="ml-3 mt-3">-->
       <!--<input matInput placeholder="חפש" [(ngModel)]="searchCriteria['task']" (change)="search()">-->
       <!--<i matSuffix class="fa fa-search"></i>-->
@@ -19,10 +19,11 @@
       <tbody>
       <ng-container *ngIf="!isSearching">
         <tr *ngFor="let item of paginatedItems" class="pointer">
+          <td>{{ item.employer['name'] }}</td>
           <td>{{ item.subject }}</td>
-          <td>{{ item.reporter_name }}</td>
+          <td>{{ item.reporter['name'] }}</td>
           <td>{{ item.created_at | date: 'HH:mm:ss dd/MM/yy' }}</td>
-          <td>{{ item.assignee_name }}</td>
+          <td>{{ item.assignee['name'] }}</td>
           <td>{{ item.due_date | date: 'HH:mm:ss dd/MM/yy' }}</td>
           <td>
             <!--<span></span>-->

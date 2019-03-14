@@ -1,6 +1,6 @@
 <div class="d-flex">
   <span class="grey-color f-12 w-100">{{ curDate | date: 'dd/MM/yy HH:mm '}}</span>
-  <i class="fa fa-close pointer" (click)="close()"></i>
+  <i class="fa fa-close pointer" (click)="close(false)"></i>
 </div>
 <p class="h5 bold mt-5">יצירת משימה חדשה</p>
 <form #form="ngForm" (ngSubmit)="createNewTask(form)" class="mt-3">
@@ -10,13 +10,13 @@
   </mat-form-field>
   <p class="grey-color f-14">בחר סטטוס</p>
   <div class="d-flex status status-bar">
-    <div class="pointer" (click)="status = 'not_started';" [ngClass]="{'active': status === 'not_started'}">טרם בוצע</div>
-    <div class="pointer" (click)="status = 'in_progress';" [ngClass]="{'active': status === 'in_progress'}">בטיפול</div>
-    <div class="pointer" (click)="status = 'done';" [ngClass]="{'active': status === 'done'}">טופל</div>
+    <div class="pointer" (click)="status = 'not_started';" [ngClass]="{'active': status == 'not_started'}">טרם בוצע</div>
+    <div class="pointer" (click)="status = 'in_progress';" [ngClass]="{'active': status == 'in_progress'}">בטיפול</div>
+    <div class="pointer" (click)="status = 'done';" [ngClass]="{'active': status == 'done'}">טופל</div>
   </div>
   <div  class=" mt-5">
     <mat-form-field>
-      <mat-select matInput placeholder="עובד משוייך" [(ngModel)]="data.assigneeId" name="assigneeId" required>
+      <mat-select matInput placeholder="עובד משוייך" [(ngModel)]="data.assignee['id']" name="assigneeId" required>
         <mat-option *ngFor="let employee of operators" [value]="employee.id">
           {{employee.name}}
         </mat-option>
@@ -29,17 +29,20 @@
     <div class="d-flex">
       <div>
           <mat-form-field>
-          <input matInput [owlDateTimeTrigger]="dt" [owlDateTime]="dt" ngModel name="date" placeholder="תאריך">
+          <input matInput [owlDateTimeTrigger]="dt" [owlDateTime]="dt" [(ngModel)]="data.due_date" name="date" placeholder="תאריך">
           </mat-form-field>
           <owl-date-time #dt></owl-date-time>
       </div>
     </div>
   </div>
   <p class="grey-color f-14">תיאור המשימה</p>
-  <textarea class="form-control"  placeholder="הוספת תיאור" ngModel name="description"></textarea>
+  <textarea class="form-control"  placeholder="הוספת תיאור" [(ngModel)]="data.description" name="description"></textarea>
   <mat-form-field class="w-100 mt-5">
-    <input matInput  placeholder="הוספת הערה" ngModel name="comment">
+    <input matInput  placeholder="הוספת הערה" [(ngModel)]="data.comments[0].content" name="comment">
   </mat-form-field>
+  <input type="hidden" [(ngModel)]="data.comments[0].id" name="comment_id">
+  <input type="hidden" [(ngModel)]="data.id" name="id">
+
   <div class="mt-4 text-center">
     <button type="submit" class="btn blue-btn">יצירה</button>
   </div>

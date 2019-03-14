@@ -19,6 +19,7 @@ export class TasksComponent extends DataTableComponent implements OnInit , OnDes
   pathEmployers = false;
 
   readonly headers: DataTableHeader[] =  [
+    { column: 'employer', label: 'מעסיק' },
     { column: 'subject', label: 'נושא המשימה' },
     { column: 'createdBy', label: 'יוצר המשימה' },
     { column: 'createdAt', label: 'תאריך יצירה' },
@@ -42,20 +43,33 @@ export class TasksComponent extends DataTableComponent implements OnInit , OnDes
       this.paginationData.limit = 5;
     }
 
-    this.taskService.getTasks(this.selectUnit.currentEmployerID)
-      .then(response => this.setItems(response));
-
+    this.fetchItems();
     super.ngOnInit();
   }
 
-  createOrEditTask(item : any) {
-    if (!item)
-      item = new TaskModel();
-   this.dialog.open(NewTaskFormComponent, {
+  fetchItems() {
+    this.taskService.getTasks(this.selectUnit.currentEmployerID)
+      .then(response => this.setItems(response));
+  }
+
+  createOrEditTask(item: any) {
+   if (!item) {
+     item = new TaskModel();
+     item.employer['id'] = this.selectUnit.currentEmployerID;
+   }
+
+   const dialog = this.dialog.open(NewTaskFormComponent, {
       data: item,
       width: '650px',
       height: '810px'
     });
+
+    dialog.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.fetchItems();
+        }
+      });
   }
 
   ngOnDestroy() {

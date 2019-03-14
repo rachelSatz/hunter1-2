@@ -72,7 +72,9 @@
 
 #options {
   max-height: 280px;
-  overflow: auto;
+  /*overflow: auto;*/
+  /*overflow: visible;*/
+  overflow-x: auto;
   list-style-type: none;
   margin: 0;
   padding: 0;

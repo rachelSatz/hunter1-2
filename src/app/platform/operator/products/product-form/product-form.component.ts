@@ -4,10 +4,10 @@ import { ActivatedRoute, Router} from '@angular/router';
 
 import { fade } from 'app/shared/_animations/animation';
 import { BankAccount} from 'app/shared/_models/bank.model';
-import {ExtendedProduct, ProductType} from 'app/shared/_models/product.model';
 import { ProductService} from 'app/shared/_services/http/product.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { ExtendedProduct, ProductType } from 'app/shared/_models/product.model';
 import { GeneralHttpService} from 'app/shared/_services/http/general-http.service';
-import {NotificationService} from '../../../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-product-from',
