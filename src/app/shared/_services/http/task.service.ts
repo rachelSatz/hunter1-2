@@ -16,8 +16,9 @@ export class TaskService extends BaseHttpService {
 
   getTasks(employerID: number): Promise<TaskModel[]> {
     const header = this.getTokenHeader();
-    if (employerID != 0)
+    if (employerID !== 0) {
       header['params'] = {employerID: employerID};
+    }
     return this.http.get(this.endPoint, header)
       .toPromise()
       .then(response => response as TaskModel[])

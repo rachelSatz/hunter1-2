@@ -40,8 +40,6 @@ export class NewTaskFormComponent implements OnInit {
         this.data.comments.push(new Comment());
       }
 
-    } else {
-      this.data = new TaskModel();
     }
 
     this.employerService.getOperator(this.data.employer['id'], 'employerId').then(response => {
@@ -53,7 +51,8 @@ export class NewTaskFormComponent implements OnInit {
     if (form.valid) {
       form.value['status'] = this.status;
       form.value['employerId'] = this.selectUnit.currentEmployerID;
-      form.value['dueDate'] = this.convertDate.transform( form.value['date'], 'yyyy-MM-dd HH:mm:ss');
+      form.value['dueDate'] = this.convertDate.transform( form.value['date']  , 'yyyy-MM-dd');
+      form.value['dueDate'] = form.value['dueDate'] + ' ' + form.value['hour']
       this.taskService.createTask(form.value).then(response => {
         if (response.includes('Could not update')) {
           this.notificationService.error('', 'אירעה שגיאה');

@@ -1,17 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TaskService} from '../../../../shared/_services/http/task.service';
-import {PlanService} from '../../../../shared/_services/http/plan.service';
-import {User} from '../../../../shared/_models/user.model';
-import {Plan, PlanCategoryLabel, PlanType, PlanTypeLabel, TimerType, TIMESTAMPS} from '../../../../shared/_models/plan';
-import {Subscription} from 'rxjs';
-import {Status} from '../../../../shared/_models/file-feedback.model';
-import {UserService} from '../../../../shared/_services/http/user.service';
-import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList} from '@angular/cdk/drag-drop';
-import {BankAccount} from '../../../../shared/_models/bank.model';
-import {Type} from '../../../../shared/_models/contact.model';
-import {FormControl} from '@angular/forms';
-import {forEach} from '@angular/router/src/utils/collection';
+import { Component, OnDestroy, OnInit} from '@angular/core';
+import { ActivatedRoute, Router} from '@angular/router';
+import { TaskService} from 'app/shared/_services/http/task.service';
+import { PlanService} from 'app/shared/_services/http/plan.service';
+import { User} from 'app/shared/_models/user.model';
+import { Plan, PlanCategoryLabel, PlanType, PlanTypeLabel, TimerType, TIMESTAMPS } from '../../../../shared/_models/plan';
+import { Subscription} from 'rxjs';
+import { UserService} from '../../../../shared/_services/http/user.service';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList } from '@angular/cdk/drag-drop';
+import {FormControl, NgForm} from '@angular/forms';
+import {DatePipe, Time} from '@angular/common';
+import {NotificationService} from '../../../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-plan-form',
@@ -23,12 +21,8 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
   types = Object.keys(PlanTypeLabel).map(function(e) {
     return { id: e, name: PlanTypeLabel[e] };
   });
-  toppings = new FormControl();
-  test: string;
   operators: User[] = [];
-  operatorsList = []
   timestamps = [];
-  taskCategories: TimerType[] = [];
   isSubmitFailed = false;
   isSubmitting = false;
   sub: Subscription;
@@ -38,26 +32,35 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     return { id: e, name: PlanCategoryLabel[e] };
   });
   categoriesData = [];
-
   constructor(private router: Router, private route: ActivatedRoute,
               private taskService: TaskService, private planService: PlanService,
-              private userService: UserService) { }
+              private userService: UserService,
+              public datePipe: DatePipe,
+              protected notificationService: NotificationService) { }
 
   ngOnInit() {
     this.timestamps = TIMESTAMPS;
     if (this.route.snapshot.data.plan) {
       this.plan = this.route.snapshot.data.plan;
     }
-    this.userService.getUsers().then(response => this.operators = response);
-    this.toppings.setValue(this.plan.user_plan);
-    console.log(this.toppings)
+    this.userService.usersList().then(response => this.operators = response);
+    // this.plan.user_plan = Object.keys(this.plan.user_plan).map(key => ( {key: 'id'}));
     if (this.plan.plan_category.length > 0) {
       this.categoriesData = this.plan.plan_category;
+      this.categoriesData.sort((a, b) => a.id - b.id);
       this.showLabel = true;
     } else {
       this.categoriesData = this.planCategories;
     }
   }
+  // checktime(start: string , end: string): boolean {
+  //   const startTime = +start;
+  //   const endTime = +end;
+  //   if (startTime > endTime) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
@@ -71,24 +74,29 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     this.categoriesData = event.container.data;
   }
 
-  submit(isValid: boolean): void {
-    if (this.categoriesData.length === 0) {
-      this.categoriesData = this.planCategories;
-    }
-    if (this.plan.id) {
-        this.planService.update(this.plan, this.categoriesData).then(response => {
-          if (response) {
-          } else {
-          }
-        });
-      } else {
-        this.planService.create(this.plan, this.categoriesData).then(response => {
-          if (response) {
-
-          } else {
-          }
-        });
+  submit(form: NgForm): void {
+    if (form.valid) {
+      if (this.categoriesData.length === 0) {
+        this.categoriesData = this.planCategories;
       }
+      this.plan.salary_start_date = this.datePipe.transform(this.plan.salary_start_date, 'yyyy-MM-dd');
+      this.plan.salary_end_date = this.datePipe.transform(this.plan.salary_end_date, 'yyyy-MM-dd');
+      if (this.plan.id) {
+        this.planService.update(this.plan, this.categoriesData)
+          .then(response => this.handleResponse(response));
+      } else {
+        this.planService.create(this.plan, this.categoriesData)
+          .then(response => this.handleResponse(response));
+      }
+    }
+  }
+
+  private handleResponse(response: string): void {
+    if (response === 'success') {
+      this.router.navigate(['platform', 'operator', 'plans']);
+    } else {
+      this.notificationService.error(response);
+    }
   }
   ngOnDestroy(): void {
   }

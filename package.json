@@ -25,6 +25,7 @@
     "@angular/router": "7.0.2",
     "@angular/upgrade": "7.0.2",
     "@fortawesome/fontawesome-free": "^5.5.0",
+    "@types/history": "^4.7.2",
     "@types/slideout": "^0.1.19",
     "angular2-signaturepad": "^2.8.0",
     "bootstrap": "^4.2.1",

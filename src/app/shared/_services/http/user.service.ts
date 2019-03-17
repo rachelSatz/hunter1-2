@@ -46,10 +46,16 @@ export class UserService extends BaseHttpService {
       .catch(() => false);
   }
 
+
   updateUser(user: User, id: number): Promise<boolean> {
     return this.http.put(this.endPoint  + '/' + id, user, this.getTokenHeader())
       .toPromise()
       .then(response => response as boolean);
   }
 
+  usersList(): Promise<User[]> {
+    return this.http.get(this.endPoint + '/usersList', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as User[]);
+  }
 }
