@@ -7,11 +7,8 @@ import { Contact, EntityTypes, Type } from 'app/shared/_models/contact.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
-import { fade } from 'app/shared/_animations/animation';
 import { HelpersService } from 'app/shared/_services/helpers.service';
-// import { Observable } from 'rxjs';
-// import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
-
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-contact-form',
@@ -23,11 +20,8 @@ export class ContactFormComponent implements OnInit {
 
   pathEmployers = false;
   contact = new Contact();
-  // isLoading = false;
 
   hasServerError: boolean;
-  // filteredUsers: Contact[] =[];
-  // usersForm :FormGroup;
   entities = [];
   navigate: any;
   employers = [];
@@ -35,13 +29,13 @@ export class ContactFormComponent implements OnInit {
   entityTypes = Object.keys(EntityTypes).map(function(e) {
     return { id: e, name: EntityTypes[e] };
   });
-  e_types = Type;
-
   types = Object.keys(Type).map(function(e) {
     return { id: e, name: Type[e] };
   });
   employerId = 0;
   organizations = [];
+  disabled: boolean;
+  is_update: boolean;
 
   constructor( private route: ActivatedRoute,
                private selectUnit: SelectUnitService,
@@ -65,9 +59,10 @@ export class ContactFormComponent implements OnInit {
       this.navigate = ['platform', 'contacts'];
       this.location = 'settings';
     }
-
-
+    this.disabled = false;
     if (this.route.snapshot.data.contact) {
+      this.disabled = true;
+      this.is_update = true;
       this.contact = this.route.snapshot.data.contact;
       this.employerId =  this.contact.employer_id;
     }
@@ -75,29 +70,7 @@ export class ContactFormComponent implements OnInit {
     if (this.contact.id) {
       this.loadEntities( this.contact.entity_type);
     }
-
-    // this.usersForm = this.fb.group({
-    //   userInput: null
-    // });
-    //
-    // this.usersForm
-    //   .get('userInput')
-    //   .valueChanges
-    //   .pipe(
-    //     debounceTime(300),
-    //     tap(() => this.isLoading = true),
-    //     switchMap(value => this.contactService.search({name: value}, 1)
-    //       .pipe(
-    //         finalize(() => this.isLoading = false),
-    //       )
-    //     )
-    //   )
-    //   .subscribe(cons =>  this.filteredUsers = cons.results);
   }
-
-  // displayFn(constant: Contact) {
-  //   if (constant) { return constant.email; }
-  // }
 
   loadEntities(type: string): void {
     if (type === 'agent') {
@@ -118,21 +91,40 @@ export class ContactFormComponent implements OnInit {
     this.employers.sort((a, b) => a.id - b.id);
   }
 
+  showContact(email): void {
+    if (email.valid) {
+      this.contactService.getContactByEmail( email.value, this.contact.id ? this.contact.id : 0).then(
+        response => {
+          this.disabled = true;
+          if (response) {
+            this.is_update = true;
+            this.contact = response;
+          } else {
+            if ( !this.is_update) {
+              this.contact = new Contact();
+              this.contact.email = email.value;
+            }
+          }
+        });
+    }
+  }
 
-  submit(form: NgForm): void {
+  submit(form: NgForm, type: string): void {
+    if (type === 'show') { return this.showContact( form.controls.email); }
     this.hasServerError = false;
     if ( this.location !== 'operator') {
       this.employerId = this.selectUnit.currentEmployerID;
     }
-
-    if (this.contact.id) {
+    
+    if (this.contact.id && this.contact.employer_id) {
       this.employerId = this.contact.employer_id;
     }
 
     if (this.employerId !== 0) {
       if (form.valid) {
         if (this.contact.id) {
-          this.contactService.updateContact(this.contact, this.contact.id)
+          this.contact.employer_id =  this.employerId;
+          this.contactService.updateContact(this.contact)
             .then(response => this.handleResponse(response));
         } else {
           this.contactService.newContact(this.contact, this.employerId)

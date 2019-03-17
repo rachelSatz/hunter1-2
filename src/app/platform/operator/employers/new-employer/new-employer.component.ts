@@ -80,7 +80,7 @@ export class NewEmployerComponent implements OnInit {
           'payingBank': this.fb.group({
             'name': [null, Validators.required],
             'branchId': [null, Validators.required],
-            'accountNumber': [null, [Validators.pattern('^\\d{5,8}$'), Validators.required]],
+            'accountNumber': [null, [Validators.pattern('^\\d{5,9}$'), Validators.required]],
             'ownerId': [null],
             'ownerType': ['department'],
             'type': ['deposit'],
@@ -89,7 +89,7 @@ export class NewEmployerComponent implements OnInit {
           'receivingBank': this.fb.group({
             'name': [null, Validators.required],
             'branchId': [null, Validators.required],
-            'accountNumber': [null, [Validators.pattern('^\\d{5,8}$'), Validators.required]],
+            'accountNumber': [null, [Validators.pattern('^\\d{5,9}$'), Validators.required]],
             'ownerId': [null],
             'ownerType': ['department'],
             'type': ['withdrawal'],

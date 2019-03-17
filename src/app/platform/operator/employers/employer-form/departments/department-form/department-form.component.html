@@ -25,7 +25,7 @@
             <mat-error [@fade]="branchIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
           </div>
           <mat-form-field>
-            <input matInput type="text" name="number" placeholder="מס' חשבון" [(ngModel)]="department.bank_account_deposit.number" maxlength="8" pattern="^\d{5,8}$" required>
+            <input matInput type="text" name="number" placeholder="מס' חשבון" [(ngModel)]="department.bank_account_deposit.number" maxlength="9" pattern="^\d{5,9}$" required>
             <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
           </mat-form-field>
         </div>
@@ -48,7 +48,7 @@
           <mat-error [@fade]="branchIDWithdrawalSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
         </div>
         <mat-form-field>
-          <input matInput type="text" name="number_withdrawal" placeholder="מס' חשבון" [(ngModel)]="department.bank_account_withdrawal.number" maxlength="8" pattern="^\d{5,8}$" required>
+          <input matInput type="text" name="number_withdrawal" placeholder="מס' חשבון" [(ngModel)]="department.bank_account_withdrawal.number" maxlength="9" pattern="^\d{5,9}$" required>
           <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
         </mat-form-field>
       </div>

@@ -29,6 +29,6 @@ export class TaskService extends BaseHttpService {
     return this.http.post(this.endPoint, from, this.getTokenHeader())
       .toPromise()
       .then(response => response)
-      .catch(() => []);
+      .catch(() => null);
   }
 }

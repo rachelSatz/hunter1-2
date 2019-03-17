@@ -97,7 +97,7 @@
             <bd-select [items]="branchesD" formControlName="branchId" [(ngModel)]="selectedBranchD"  placeholder="בחר סניף" [error]="!selectedBranchD && form.submitted"></bd-select>
           </div>
           <mat-form-field class="mr-5">
-            <input matInput placeholder="מספר חשבון" formControlName="accountNumber" required maxlength="8">
+            <input matInput placeholder="מספר חשבון" formControlName="accountNumber" required maxlength="9">
             <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
           </mat-form-field>
         </div>
@@ -110,7 +110,7 @@
             <bd-select [items]="branchesW" formControlName="branchId"  [(ngModel)]="selectedBranchW" placeholder="בחר סניף" required [error]="!selectedBranchW && form.submitted"></bd-select>
           </div>
           <mat-form-field class="mr-5">
-            <input matInput placeholder="מספר חשבון" formControlName="accountNumber" required maxlength="8">
+            <input matInput placeholder="מספר חשבון" formControlName="accountNumber" required maxlength="9">
             <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
           </mat-form-field>
         </div>

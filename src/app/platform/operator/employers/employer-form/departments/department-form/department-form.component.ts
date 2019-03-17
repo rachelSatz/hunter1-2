@@ -43,9 +43,9 @@ export class DepartmentFormComponent implements OnInit {
       }
       if (this.department.bank_account_withdrawal == null) {
         this.department.bank_account_withdrawal = new EmployerBankAccount;
-        this.department.bank_account_withdrawal.type = 'withdrawal';
       }
     }
+    this.department.bank_account_withdrawal.type = 'withdrawal';
   }
 
   loadBanks(): void {

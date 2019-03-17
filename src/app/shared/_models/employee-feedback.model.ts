@@ -13,13 +13,14 @@ export class EmployeeFeedback extends EmployeePayment {
 }
 
 export enum Status {
+  not_sent = 'לא שודר',
   sent = 'שודר',
-  fully_paid = 'נפרע במלאו',
-  paid_failed = 'לא נפרע'
+  fully_defrayed = 'נפרע במלאו',
+  not_defrayed = 'לא נפרע'
 }
 
-export enum StatusManual {
-  fully_paid_manual = 'נפרע במלאו ידני'
+export enum ManualStatus {
+  fully_defrayed_manual = 'נפרע במלאו ידני'
 }
 
 export enum ApplicationStatusLabel {

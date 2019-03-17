@@ -7,13 +7,14 @@ import { map, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { Contact } from 'app/shared/_models/contact.model';
+import {SelectUnitService} from '../select-unit.service';
 
 @Injectable()
 export class  ContactService extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/contacts';
 
-  constructor(userSession: UserSessionService, private http: HttpClient) {
+  constructor(userSession: UserSessionService, private http: HttpClient, private selectUnit: SelectUnitService) {
     super(userSession);
   }
 
@@ -32,11 +33,20 @@ export class  ContactService extends BaseHttpService {
     .catch(() => []);
   }
 
-  getContact(contactID: number): Promise<Contact> {
-    return this.http.get(this.endPoint + '/' + contactID, this.getTokenHeader())
+  getContact(contactId: number): Promise<Contact> {
+    return this.http.get(this.endPoint + '/' + contactId, this.getTokenHeader())
     .toPromise()
     .then(response => response as Contact)
     .catch(() => null);
+  }
+
+  getContactByEmail(email: string, contactId: number): Promise<Contact> {
+    const options = this.getTokenHeader();
+    options['params'] = {email: email};
+    return this.http.get(this.endPoint + '/' + contactId + '/ContactByEmail', options)
+      .toPromise()
+      .then(response => response as Contact)
+      .catch(() => null);
   }
 
   newContact(contact: Contact, employerId: number): Promise<boolean> {
@@ -47,8 +57,8 @@ export class  ContactService extends BaseHttpService {
     .catch(() => false);
   }
 
-  updateContact(contact: Contact, contactID: number): Promise<boolean> {
-    return this.http.put(this.endPoint + '/' + contactID, contact, this.getTokenHeader())
+  updateContact(contact: Contact): Promise<boolean> {
+    return this.http.put(this.endPoint + '/' + contact.id, contact, this.getTokenHeader())
     .toPromise()
     .then(() => true)
     .catch(() => false);
@@ -62,22 +72,4 @@ export class  ContactService extends BaseHttpService {
       .then(response => response as any[])
       .catch(() => []);
   }
-
-
-  // search(filter: {name: string} = {name: ''}, page = 1): Observable<IContactResponse> {
-  //   const r = this.getTokenHeader();
-  //   r['params'] = {'name':  filter.name , 'location' : 'search'};
-  //
-  //     return this.http.get<IContactResponse>(this.endPoint + '/aaa', r)
-  //       .pipe(
-  //         tap((response: IContactResponse) => {
-  //           response.results = response.results
-  //             .map(contact => new Contact(contact.id, contact.email))
-  //             // Not filtering in the server since in-memory-web-api has somewhat restricted api
-  //             .filter(contact => contact.email.includes(filter.name));
-  //
-  //           return response;
-  //         })
-  //       );
-  //   }
 }

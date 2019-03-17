@@ -45,11 +45,10 @@ export class ContactsComponent extends DataTableComponent implements OnInit , On
         this.pathEmployers = true;
         this.location = 'employers';
         this.paginationData.limit = 4;
-    }
-    else if (this.router.url.includes( 'operator')) {
-      this.location = 'operator'
+    } else if (this.router.url.includes( 'operator')) {
+      this.location = 'operator';
     } else {
-        this.location = 'settings'
+        this.location = 'settings';
     }
 
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
@@ -63,10 +62,17 @@ export class ContactsComponent extends DataTableComponent implements OnInit , On
       this.location)
       .then(response => this.setItems(response));
   }
+  //
+  // aaa(item: any) {
+  //   // this.selectUnit.currentEmployerID
+  //   this.selectUnit.currentEmployerID = item.employer_id;
+  //   this.router.navigate(['./', 'form', item.id]);
+  //   // [routerLink]="['./', 'form']"
+  // }
 
   ngOnDestroy() {
     super.ngOnDestroy();
-    this.sub.unsubscribe()
+    this.sub.unsubscribe();
   }
 
 }
