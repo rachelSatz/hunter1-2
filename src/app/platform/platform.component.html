@@ -20,6 +20,10 @@
       </div>
     </div>
   </div>
+  <div *ngIf="showTimer" class="navbartest">
+    <a class="active" (click)="stopTimer()">סיום</a>
+    <p>{{hours}}:{{minutes}}:{{seconds}}</p>
+  </div>
   <div class="container-fluid">
     <header>
       <div id="mainMenu">
@@ -72,8 +76,8 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-  <!--<div *ngIf="!show" class="timer-box">-->
-    <!--<span >{{hours}}:{{minutes}}:{{seconds}}</span>-->
-    <!--<div><button class="btn blue-btn btn-sm" (click)="stopTimer()">סיום</button></div>-->
-  <!--</div>-->
 </div>
+<!--<div class="timer-box flexbox-centering">-->
+  <!--<span >{{hours}}:{{minutes}}:{{seconds}}</span>-->
+  <!--<div><button class="btn blue-btn btn-sm" (click)="stopTimer()">סיום</button></div>-->
+<!--</div>-->

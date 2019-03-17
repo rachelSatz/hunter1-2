@@ -40,7 +40,7 @@ export class ContactFormComponent implements OnInit {
   types = Object.keys(Type).map(function(e) {
     return { id: e, name: Type[e] };
   });
-  employerId =0;
+  employerId = 0;
   organizations = [];
 
   constructor( private route: ActivatedRoute,
@@ -57,14 +57,13 @@ export class ContactFormComponent implements OnInit {
       this.pathEmployers = true;
       this.navigate = ['platform', 'employers',
         'form', this.selectUnit.currentEmployerID, 'contacts'];
-      this.location = 'employers'
-    }
-    else if (this.router.url.includes( 'operator')) {
+      this.location = 'employers';
+    } else if (this.router.url.includes( 'operator')) {
       this.location = 'operator';
-      this.navigate =['platform', 'operator', 'contacts'];
+      this.navigate = ['platform', 'operator', 'contacts'];
     } else {
       this.navigate = ['platform', 'contacts'];
-      this.location = 'settings'
+      this.location = 'settings';
     }
 
 
@@ -115,18 +114,18 @@ export class ContactFormComponent implements OnInit {
   }
 
   loadEmployers(organizationID: number): void {
-    this.employers = this.organizations.find(o => o.id === organizationID).employer
+    this.employers = this.organizations.find(o => o.id === organizationID).employer;
     this.employers.sort((a, b) => a.id - b.id);
   }
 
 
   submit(form: NgForm): void {
     this.hasServerError = false;
-    if ( this.location !== 'operator'){
+    if ( this.location !== 'operator') {
       this.employerId = this.selectUnit.currentEmployerID;
     }
 
-    if(this.contact.id) {
+    if (this.contact.id) {
       this.employerId = this.contact.employer_id;
     }
 
@@ -140,7 +139,7 @@ export class ContactFormComponent implements OnInit {
             .then(response => this.handleResponse(response));
         }
       }
-    }else {
+    } else {
       this.notificationService.error( 'יש לבחור מעסיק');
     }
   }

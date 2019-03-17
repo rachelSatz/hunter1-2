@@ -12,7 +12,7 @@ export class TimerService {
 
 
   constructor() {
-    // this.setIntervals();
+    this.setIntervals();
   }
 
   public getSecondsObservable() {

@@ -1,10 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { TimerService } from '../../../../shared/_services/http/timer';
-import { ActivatedRoute } from '@angular/router';
-import {OperatorTasksService} from '../../../../shared/_services/http/operator-tasks';
+import { TimerService } from 'app/shared/_services/http/timer';
+import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
+import {OperatorTasksService} from 'app/shared/_services/http/operator-tasks';
 import {Time} from '@angular/common';
 import {Timestamp} from 'rxjs';
+import {SelectUnitService} from 'app/shared/_services/select-unit.service';
+import {TaskTimer, TaskTimerLabels} from 'app/shared/_models/timer.model';
 
 @Component({
   selector: 'app-emails',
@@ -17,20 +19,23 @@ export class TimerComponent implements OnInit, OnDestroy  {
   hours: string;
   path: string;
   text: string;
-  task_timer_id: number;
+  task_timer_id: any;
   id: number;
+  taskObj = new TaskTimer;
 
   constructor(public dialog: MatDialog,
               private timerService: TimerService,
               protected route: ActivatedRoute,
-              private operatorTasks: OperatorTasksService) {
+              private operatorTasks: OperatorTasksService,
+              public selectUnit: SelectUnitService,
+              private router: Router) {
     this.intervals();
   }
 
   ngOnInit() {
-
     this.path = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';
     if (this.path !== '') {
+      this.taskObj.path = this.path;
       switch (this.path) {
         case 'phone-call': {
           this.text = 'זמן טיפול בשיחת טלפון';
@@ -90,6 +95,8 @@ export class TimerComponent implements OnInit, OnDestroy  {
       response => {
         if (response > 0 ) {
           this.task_timer_id = response;
+          this.taskObj.id = response;
+          this.selectUnit.setTaskTimer(this.taskObj);
         }
       });
   }
@@ -101,8 +108,13 @@ export class TimerComponent implements OnInit, OnDestroy  {
   }
 
   ngOnDestroy() {
-    const time = this.hours + ':' + this.minutes + ':' + this.seconds;
-    // this.timerService.setPath(1);
-    this.updateTaskTimer(time);
+    // this.router.events.subscribe(a =>
+    // if (a instanceof NavigationStart) {
+    //   a.url
+    // });
+    // if (Object.values(TaskTimerLabels).some(a => a === url)) {
+    //   const time = this.hours + ':' + this.minutes + ':' + this.seconds;
+    //   this.updateTaskTimer(time);
+    // }
   }
 }

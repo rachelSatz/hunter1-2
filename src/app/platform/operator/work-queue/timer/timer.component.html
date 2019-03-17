@@ -1,7 +1,29 @@
-<div class="mr-5 px-4 mt-md-5">
-  <!--<span class="red-box">זמן טיפול בשיחת טלפון</span>-->
-<!--<h3>Counter: {{counter}}</h3>-->
+<!--<div class="mr-5 px-4 mt-md-5">-->
+
+<!--</div>-->
+<!--<div class="red-box">{{ text }}</div>-->
+<!--<div class="ticker">{{hours}}:{{minutes}}:{{seconds}}</div>-->
+
+<div id="content">
+  <div class="d-flex justify-content-center mt-3">
+    <div class="circle" [ngClass]="{ 'timeOutCircle': inTimeOut }">
+      <div class="mt-4" style="margin-top: 4.5rem!important;">
+        <span class="f-20 bold">{{ text }}</span>
+      </div>
+      <div class="d-flex justify-content-center">
+        <span class="f-34 bold">{{ seconds }}</span>
+        <span class="f-34 bold">:</span>
+        <span class="f-34 bold">{{ minutes }}</span>
+        <span class="f-34 bold">:</span>
+        <span class="f-34 bold">{{ hours }}</span>
+      </div>
+    </div>
+  </div>
+  <!--<div class="d-flex justify-content-between mt-5">-->
+    <!--<button mat-button class="white-btn" *ngIf="!inTimeOut" (click)="timeOut()">הפסקה</button>-->
+    <!--<button (click)="startTimer()" *ngIf="inTimeOut" mat-button class="green-btn">סיום הפסקה</button>-->
+    <!--<button mat-button class="green-btn" [ngClass]="{'white-btn': inTimeOut}" (click)="openExitDialog()">יציאה</button>-->
+  <!--</div>-->
 </div>
-<div class="red-box">{{ text }}</div>
-<div class="ticker">{{hours}}:{{minutes}}:{{seconds}}</div>
+
 

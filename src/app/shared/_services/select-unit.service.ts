@@ -36,6 +36,14 @@ export class SelectUnitService {
     return [];
   }
 
+  setTaskTimer(task: any): void {
+    sessionStorage.setItem('task', JSON.stringify(task));
+  }
+
+  getTaskTimer(): any {
+    return this.getSessionStorage('task');
+  }
+
 
   changeDepartment(id: number): void {
     sessionStorage.setItem('departmentID', JSON.stringify(id));
@@ -48,14 +56,14 @@ export class SelectUnitService {
       this.changeOrganizationEmployerDepartment(
         this.getSessionStorage('organizationID'),
         this.getSessionStorage('employerID'),
-        this.getSessionStorage('departmentID'))
+        this.getSessionStorage('departmentID'));
       return 0;
     }
 
     return null;
   }
 
-  getSessionStorage(val: string) : any {
+  getSessionStorage(val: string): any {
     if (sessionStorage.getItem(val)) {
       return JSON.parse(sessionStorage.getItem(val));
     }
