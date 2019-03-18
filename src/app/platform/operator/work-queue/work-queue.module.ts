@@ -34,7 +34,7 @@ const routes: Routes = [
       { path: 'emails', component: TimerComponent},
       { path: 'ongoing-operation', component: OngoingOperationComponent},
       { path: 'guidance', component: TimerComponent},
-      { path: 'interruption', component: TimerComponent}
+      { path: 'break', component: TimerComponent}
     ]
   }
 ];

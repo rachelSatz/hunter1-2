@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import { timeInterval } from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
+import {SelectUnitService} from '../select-unit.service';
 
 @Injectable()
 export class TimerService {
@@ -12,7 +13,7 @@ export class TimerService {
 
 
   constructor() {
-    this.setIntervals();
+      this.setIntervals();
   }
 
   public getSecondsObservable() {

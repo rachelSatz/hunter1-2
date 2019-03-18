@@ -35,13 +35,17 @@ export class TimerComponent implements OnInit, OnDestroy  {
   ngOnInit() {
     this.path = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';
     if (this.path !== '') {
-      this.taskObj.path = this.path;
       switch (this.path) {
+        case 'system-tasks': {
+          this.text = 'זמן טיפול במשימות מערכת';
+          this.timerService.reset();
+          this.newTaskTimer('system_tasks');
+          break;
+        }
         case 'phone-call': {
           this.text = 'זמן טיפול בשיחת טלפון';
           this.timerService.reset();
           this.newTaskTimer('phone_call');
-          // this.timerService.setPath(2);
           break;
         }
         case 'emails': {
@@ -50,24 +54,31 @@ export class TimerComponent implements OnInit, OnDestroy  {
           this.newTaskTimer('emails');
           break;
         }
+        case 'ongoing-operation': {
+          this.text = 'תפעול שוטף';
+          this.timerService.reset();
+          this.newTaskTimer('ongoing_operation');
+          break;
+        }
         case 'guidance': {
           this.text = 'זמן הדרכה';
           this.timerService.reset();
           this.newTaskTimer('guidance');
+
           break;
         }
-        case 'interruption': {
+        case 'break': {
           this.text = 'זמן הפסקה';
           this.timerService.reset();
-          this.newTaskTimer('interruption');
+          this.newTaskTimer('break');
           break;
         }
       }
     }
+    this.taskObj.text = this.text;
   }
 
   intervals(): void {
-    // this.timerService.setIntervals();
     this.timerService.getSecondsObservable().subscribe(val => {
       if (val < 10) {
         this.seconds = '0' + val.toString();
@@ -108,13 +119,17 @@ export class TimerComponent implements OnInit, OnDestroy  {
   }
 
   ngOnDestroy() {
-    // this.router.events.subscribe(a =>
-    // if (a instanceof NavigationStart) {
-    //   a.url
-    // });
-    // if (Object.values(TaskTimerLabels).some(a => a === url)) {
-    //   const time = this.hours + ':' + this.minutes + ':' + this.seconds;
-    //   this.updateTaskTimer(time);
-    // }
+    const arrr = true;
+    this.router.events.subscribe(a => {
+      if (a instanceof NavigationStart) {
+        if (Object.values(TaskTimerLabels).some(c => c === a.url)) {
+          const time = this.hours + ':' + this.minutes + ':' + this.seconds;
+          this.updateTaskTimer(time);
+          this.selectUnit.clearTaskTimer();
+        }
+      }
+    });
+
+
   }
 }

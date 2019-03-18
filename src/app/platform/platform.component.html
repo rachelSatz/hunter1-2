@@ -22,7 +22,7 @@
   </div>
   <div *ngIf="showTimer" class="navbartest">
     <a class="active" (click)="stopTimer()">סיום</a>
-    <p>{{hours}}:{{minutes}}:{{seconds}}</p>
+    <p>{{ timerText + '-' }}{{hours}}:{{minutes}}:{{seconds}} </p>
   </div>
   <div class="container-fluid">
     <header>

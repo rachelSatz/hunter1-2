@@ -33,7 +33,8 @@ export class PlatformComponent implements OnInit {
   minutes: string;
   hours: string;
   showTimer = true;
-
+  timerText = '';
+  browserRefresh = false;
   readonly agentBarEl = [
     { id: 1, icon: 'building', label: 'ארגונים', link: 'organizations', role: 'admin'},
     { id: 2, icon: 'question-circle', label: 'תור עבודה', link: 'work-queue', role: 'operator'},
@@ -85,6 +86,8 @@ export class PlatformComponent implements OnInit {
         if (Object.values(TaskTimerLabels).some(a => a === val.url)) {
           this.timerService.reset();
           this.dispalyTimer(val.url, '');
+        } else if (this.selectUnit.getTaskTimer() !== 0) {
+          this.timerEvents();
         }
       }
       if (val instanceof NavigationEnd) {
@@ -95,10 +98,16 @@ export class PlatformComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.intervals();
+    if (this.selectUnit.getTaskTimer() !== 0) {
+      this.timerEvents();
+    } else {
+      this.showTimer = false;
+    }
+
     this.isAgent =  this.userSession.getRole() !== 'employer';
     this.organizations = this.selectUnit.getOrganization();
     this.selectUnit.getEntityStorage();
+
     if (!this.selectUnit.currentOrganizationID) {
       this.getOrganizations(false);
     } else {
@@ -116,20 +125,29 @@ export class PlatformComponent implements OnInit {
       }
     });
   }
+  timerEvents(): void {
+    this.timerText =  this.selectUnit.getTaskTimer()['text'];
+    this.intervals();
+    this.dispalyTimer(this.router.routerState.snapshot.url, '');
+  }
 
   dispalyTimer(url: string, urlAfterRedirects: string): void {
-    if (Object.values(TaskTimerLabels).some(a => a === url)) {
-      this.showTimer = false;
-    }  else if (url === '/platform' && urlAfterRedirects === '/platform/dashboard') {
-      this.showTimer = false;
-    } else if (url === '/platform/operator/work-queue' && urlAfterRedirects === '/platform/operator/work-queue') {
-      this.showTimer = false;
+    if (this.selectUnit.getTaskTimer() !== 0) {
+      if (Object.values(TaskTimerLabels).some(a => a === url)) {
+        this.showTimer = false;
+      }  else if (url === '/platform/operator/work-queue' && urlAfterRedirects === '/platform/operator/work-queue') {
+        this.showTimer = false;
+      } else if (this.browserRefresh) {
+        this.showTimer = false;
+      } else {
+        this.showTimer = true;
+      }
     } else {
-      this.showTimer = true;
+      this.showTimer = false;
     }
+
   }
   intervals(): void {
-    // this.timerService.setIntervals();
     this.timerService.getSecondsObservable().subscribe(val => {
       if (val < 10) {
         this.seconds = '0' + val.toString();
@@ -266,6 +284,7 @@ export class PlatformComponent implements OnInit {
     const time = this.hours + ':' + this.minutes + ':' + this.seconds;
     this.updateTaskTimer(time);
     this.timerService.reset();
+    this.selectUnit.clearTaskTimer();
     this.router.navigate(['platform', 'operator', 'work-queue']);
   }
 

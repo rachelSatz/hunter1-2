@@ -115,7 +115,7 @@ export class ContactFormComponent implements OnInit {
     if ( this.location !== 'operator') {
       this.employerId = this.selectUnit.currentEmployerID;
     }
-    
+
     if (this.contact.id && this.contact.employer_id) {
       this.employerId = this.contact.employer_id;
     }

@@ -44,6 +44,9 @@ export class SelectUnitService {
     return this.getSessionStorage('task');
   }
 
+  clearTaskTimer(): void {
+    sessionStorage.removeItem('task');
+  }
 
   changeDepartment(id: number): void {
     sessionStorage.setItem('departmentID', JSON.stringify(id));
@@ -84,6 +87,7 @@ export class SelectUnitService {
     sessionStorage.removeItem('employerID');
     sessionStorage.removeItem('departmentID');
     sessionStorage.removeItem('Organizations');
+    sessionStorage.removeItem('task');
 
   }
 
