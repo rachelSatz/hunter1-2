@@ -14,6 +14,7 @@ import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { Process } from 'app/shared/_models/process.model';
 import { EmailComponent } from './email/email.component';
 import { fade } from 'app/shared/_animations/animation';
+import {InformationMessageComponent} from './information-message/information-message.component';
 
 
 @Component({
@@ -46,6 +47,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
   file: boolean;
   inter = <any>interval(5000);
   sub = new Subscription;
+  showInfoMessage = true;
 
   ngOnInit() {
     this.process_details = new ProcessDetails;
@@ -57,10 +59,8 @@ export class PaymentComponent implements OnInit , OnDestroy {
 
     this.processDataService.activeProcess.pageNumber = 2;
 
-
-    if (this.processDataService.activeProcess.status == 'can_be_processed' ||
-      this.processDataService.activeProcess.status == 'done_processing')
-    {
+    if (this.processDataService.activeProcess.status === 'can_be_processed' ||
+      this.processDataService.activeProcess.status === 'done_processing') {
       this.processService.getUploadFileDone(this.processId).then( response => this.set_process(response));
     }else {
       this.sub = this.inter.pipe(
@@ -91,6 +91,10 @@ export class PaymentComponent implements OnInit , OnDestroy {
           break;
         }
         case 'loading': {
+          if (this.process_details.percent > 0 && this.showInfoMessage) {
+            this.openInformationMessage();
+            this.showInfoMessage = false;
+          }
           this.process_percent = this.process_details.percent;
           break;
         }
@@ -106,6 +110,14 @@ export class PaymentComponent implements OnInit , OnDestroy {
         }
       }
     }
+  }
+
+  openInformationMessage(): void {
+    this.dialog.open(InformationMessageComponent, {
+      data: this.processId,
+      width: '550px',
+      panelClass: 'information-message'
+    });
   }
 
   openDialog(): void {

@@ -31,7 +31,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
   isSubmitting = false;
   hasServerError: boolean;
 
-  process: Process;
+  process = new Process;
 
   readonly months = Month;
 
@@ -41,11 +41,16 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
     {'id': 2018, 'name': '2018'},
     {'id': 2019, 'name': '2019'}
   ];
+  readonly types = [
+    {'id': 'positive', 'name': 'חיובי'},
+    {'id': 'negative', 'name': 'שלילי'}
+  ];
 
   public files: any[] = [];
   spin: boolean ;
   processFile: File;
   fileTypeError = false;
+  currentYear = new Date().getFullYear();
 
   constructor(private router: Router,
               private route: ActivatedRoute,
