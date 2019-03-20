@@ -84,6 +84,12 @@
             בשידור לקופות הקבצים יועברו על פי הנתונים הקיימים ופיולה זואינה ניתנת לביטול.</p>
         </div>
       </mat-checkbox>
+      <span (click)="back()" class="float-right">
+           <p class="pointer mt-5 grey-color">
+             <i class="fa fa-angle-right ml-1"></i>
+             <span>חזור</span>
+           </p>
+         </span>
       <div class="text-center mt-5 pb-5">
         <button class="btn blue-btn" [disabled]="((!valid || !dateValid) && !isRefund) || (process_details.sent_status == 'sent') || (userSession.getRole() != 'admin')" (click)="transfer();
         processDataService.activeProcess.pageNumber = 5">שידור לקופות</button>

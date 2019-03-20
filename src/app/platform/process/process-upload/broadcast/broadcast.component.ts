@@ -100,7 +100,11 @@ export class BroadcastComponent implements OnInit {
      this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
    }
   }
-
+  back(): void {
+    this.processDataService.activeProcess.pageNumber = 3;
+    this.router.navigate(['/platform', 'process', 'new', 1 , 'payment', this.processDataService.activeProcess.processID],
+      { relativeTo: this.route });
+  }
   update(data) {
     this.paymentDate = this.dataPipe.transform(data, 'dd/MM/yyyy');
     this.dateValid = !this.paymentDate.includes('-');

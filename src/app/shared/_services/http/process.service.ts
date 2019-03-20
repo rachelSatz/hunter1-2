@@ -58,6 +58,15 @@ export class ProcessService extends BaseHttpService {
       .catch(() => null);
   }
 
+  downloadExcel(id: number): Promise<string> {
+    const processId = {'processId': id}
+    return this.http.post(this.endPoint + '/downloadMasavExcel', processId, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+
   newProcess(values: any, file?: File, fileDeposition?: File ): Promise<boolean> {
     const formData = new FormData();
     formData.append('departmentId', values.departmentId);
