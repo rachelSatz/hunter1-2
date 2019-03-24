@@ -36,7 +36,6 @@ export class BroadcastComponent implements OnInit {
   isRefund: boolean;
   employer;
   department;
-  processID = 1;
   process_details: ProcessDetails;
   paymentDate = '--/--/--';
 
@@ -82,7 +81,7 @@ export class BroadcastComponent implements OnInit {
   }
 
   transfer() {
-    this.processService.transfer( this.processID)
+    this.processService.transfer( this.processId)
       .then(response => {
         if (!response.ok) {
           this.notificationService.error('', 'לא הצליח לשדר קובץ');
