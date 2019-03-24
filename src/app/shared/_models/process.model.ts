@@ -39,6 +39,9 @@ export class Process {
 constructor() {
     this.employer = new Employer();
     this.codeFile = 0;
+    this.type = 'positive';
+    this.year = new Date().getFullYear();
+    this.month = new Date().getMonth();
   }
 }
 

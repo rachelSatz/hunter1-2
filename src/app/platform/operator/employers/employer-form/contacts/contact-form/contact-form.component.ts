@@ -113,7 +113,7 @@ export class ContactFormComponent implements OnInit {
     if (type === 'show') { return this.showContact( form.controls.email); }
     this.hasServerError = false;
     if ( this.location !== 'operator') {
-      this.employerId =  this.selectUnit.currentEmployerID;
+      this.employerId = this.selectUnit.currentEmployerID;
     }
 
     if (this.contact.id && this.contact.employer_id) {
@@ -131,7 +131,7 @@ export class ContactFormComponent implements OnInit {
             .then(response => this.handleResponse(response));
         }
       }
-    }else {
+    } else {
       this.notificationService.error( 'יש לבחור מעסיק');
     }
   }
