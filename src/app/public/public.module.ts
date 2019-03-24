@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { MatFormFieldModule, MatInputModule, MatButtonModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatButtonModule, MatDialogModule } from '@angular/material';
 
 import { PublicComponent } from './public.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-
-import { AppHttpService } from 'app/shared/_services/http/app-http.service';
-
 import { GuestGuard } from 'app/shared/_guards/guest.guard';
+import { RegisterComponent } from './register/register.component';
+import { AppHttpService } from 'app/shared/_services/http/app-http.service';
+import { NotificationService } from '../shared/_services/notification.service';
+import { ForgotPasswordComponent } from './login/forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {
@@ -26,10 +26,13 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule,
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatButtonModule
   ],
-  declarations: [PublicComponent, LoginComponent, RegisterComponent],
-  providers: [GuestGuard, AppHttpService]
+  declarations: [PublicComponent, LoginComponent, RegisterComponent, ForgotPasswordComponent],
+  providers: [GuestGuard, AppHttpService, NotificationService],
+  entryComponents: [ForgotPasswordComponent]
 })
 export class PublicModule {}

@@ -29,7 +29,10 @@
         <td>{{ item.first_name + ' ' + item.last_name}}</td>
         <td>{{ item.email }}</td>
         <td>
-          <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+          <img title="עריכת משתמש" src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+          <i *ngIf="!item.is_registered" class="fa fa-envelope" aria-hidden="true"
+             (click)="register(item)" title="שליחת מייל לעדכון סיסמה"></i>
+
         </td>
       </tr>
     </ng-container>

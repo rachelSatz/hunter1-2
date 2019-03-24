@@ -28,20 +28,22 @@ export class UserFormComponent implements OnInit {
   departments = [];
   employers = [];
   employees = [];
-
+  message: string;
   moduleTypes = ModuleTypes;
 
-  roles = Object.keys(EntityRoles).map(function(e) {
-    return { id: e, name: EntityRoles[e] };
+  roles = Object.keys(EntityRoles).map(function (e) {
+    return {id: e, name: EntityRoles[e]};
   });
 
   constructor(private route: ActivatedRoute, private employerService: EmployerService,
               private router: Router,
               private userService: UserService, private organizationService: OrganizationService
-              ) {}
+  ) {
+  }
 
   ngOnInit() {
-    this.organizationService.getOrganizations().then(response => this.organizations = response);
+    this.organizationService.getOrganizations().then(
+      response => this.organizations = response);
     if (this.route.snapshot.data.user) {
       this.user = new User(this.route.snapshot.data.user);
       if (!this.user.units) {
@@ -51,34 +53,52 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  selectedEmployer(organizationID: number): Employer[] {
-    const selectedOrganization = this.organizations.find(o => {
-      return +o.id === +organizationID;
-    });
-    return selectedOrganization ? selectedOrganization.employer : [];
+  selectedEmployer(permission: UserUnitPermission, index: number): Employer[] {
+    if (this.organizations.length > 0) {
+      const selectedOrganization = this.organizations.find(o => {
+        return +o.id === +permission.organization_id;
+      });
+
+      this.employers = selectedOrganization ? selectedOrganization.employer : [];
+      if (!this.employers.some(n => n.id === permission.employer_id)) {
+        permission.employer_id = 0;
+        if ( permission.departments) {
+          const a = new UserUnitPermission();
+          a.employer_id = permission.employer_id;
+          a.organization_id = permission.organization_id;
+          this.user.units[index] = a;
+        }
+      }
+      return this.employers;
+    }
+    this.employers = [];
+    return [];
   }
 
-  selectedDepartment(organizationID: number, employerID: number): Department[] {
-     const selectedEmployer = this.selectedEmployer(organizationID);
+  selectedDepartment(permission: UserUnitPermission): Department[] {
+    const selectedEmployer = this.employers;
 
-     if (selectedEmployer) {
-       const selectedDepartment  = (<Employer[]>selectedEmployer).find(e => {
-       return +e.id === +employerID;
-     });
+    if (selectedEmployer) {
+      const selectedDepartment = (<Employer[]>selectedEmployer).find(e => {
+        return +e.id === +permission.employer_id;
+      });
       if (selectedDepartment) {
         return selectedDepartment.department;
       }
-     }
-     return [];
+    }
+    return [];
   }
 
   submit(form: NgForm): void {
     this.hasServerError = false;
     if (form.valid) {
-      if (this.user.id) {
-        this.userService.updateUser(this.user, this.user.id).then(response => this.handleResponse(response));
-      } else {
-        this.userService.saveNewUser(this.user).then(response => this.handleResponse(response));
+      if (this.user.modules.some(m => m.isEnabled) &&
+        ((this.user.units.length > 0 && this.user.units[0].organization_id) || this.user.role === 'admin')) {
+        if (this.user.id) {
+          this.userService.updateUser(this.user, this.user.id).then(response => this.handleResponse(response));
+        } else {
+          this.userService.saveNewUser(this.user).then(response => this.handleResponse(response));
+        }
       }
     }
   }
@@ -91,11 +111,18 @@ export class UserFormComponent implements OnInit {
     this.user.units.splice(index, 1);
   }
 
-  private handleResponse(isSaved: boolean): void {
-    if (isSaved) {
-      this.router.navigate(['platform', 'settings', 'users']);
-    } else {
+  private handleResponse(isSaved: any): void {
+    this.message = isSaved['message'];
+    if (this.message === 'username_exist') {
       this.hasServerError = true;
+      this.message = 'שם משתמש קיים';
+    } else {
+      if (this.message === 'failed') {
+        this.hasServerError = true;
+        this.message = 'שגיאת שרת, נסה שנית או צור קשר.';
+      } else {
+        this.router.navigate(['platform', 'settings', 'users']);
+      }
     }
   }
 }

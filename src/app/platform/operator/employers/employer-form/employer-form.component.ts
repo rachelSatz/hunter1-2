@@ -7,7 +7,6 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import {HelpersService} from '../../../../shared/_services/helpers.service';
 
 
 

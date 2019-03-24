@@ -13,6 +13,7 @@ export class User {
   email: string;
   units: UserUnitPermission[] = [];
   modules: UserModule[] = [];
+  is_registered: boolean;
 
   constructor(user: User) {
     this.units.push(new UserUnitPermission());

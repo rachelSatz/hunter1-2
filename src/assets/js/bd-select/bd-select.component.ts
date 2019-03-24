@@ -219,13 +219,13 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
              }
            });
          }else {
-           this.selectedItem = []
+           this.selectedItem = [];
          }
          this.selectedItem.push(item);
       }
     });
-    if ( this.items.length ===0) {
-      this.selectedItem = values
+    if ( this.items.length === 0) {
+      this.selectedItem = values;
     }
 
     this.onSelect.emit(items);

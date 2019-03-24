@@ -7,6 +7,7 @@ import { OrganizationService } from 'app/shared/_services/http/organization.serv
 import { EmployerStatus, IdentifierTypes } from 'app/shared/_models/employer.model';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import { PlatformComponent } from '../../../platform.component';
 import { fade } from 'app/shared/_animations/animation';
 
 @Component({
@@ -41,8 +42,8 @@ export class NewEmployerComponent implements OnInit {
               private router: Router,
               private organizationService: OrganizationService,
               private employerService: EmployerService,
-              private  helpers: HelpersService
-             ) { }
+              private  helpers: HelpersService,
+              private  platformComponent: PlatformComponent) { }
 
   ngOnInit() {
     this.initForm();
@@ -140,6 +141,7 @@ export class NewEmployerComponent implements OnInit {
                            if (comments !== '') {
                              this.generalHttpService.newComment(employerId, this.newEmployerForm.controls['comments'].value, 'employer');
                            }
+                           this.platformComponent.getOrganizations(true, true);
                            if (this.router.url.includes( 'operator')) {
                              this.router.navigate(['/platform', 'operator' , 'employers']);
                            }else {

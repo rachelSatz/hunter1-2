@@ -59,10 +59,9 @@ export class ProductFormComponent implements OnInit {
   }
 
   deleteBankRow(index: number): void {
-    if (!this.product.bank_account[index].id)
+    if (!this.product.bank_account[index].id) {
       this.product.bank_account.splice(index, 1);
-    else
-    {
+    } else {
       this.product.bank_account[index].is_active = false;
     }
   }
@@ -102,7 +101,7 @@ export class ProductFormComponent implements OnInit {
   submit(form: NgForm): void {
     this.hasServerError = false;
     if (form.valid) {
-      if( this.checked ||  this.product.bank_account.some(b => b.is_primary == true)) {
+      if ( this.checked ||  this.product.bank_account.some(b => b.is_primary === true)) {
         const id = this.product.id ? this.product.id : 0;
         this.productService.createUpdateProduct(id, this.product).then(response => this.handleResponse(response));
       } else {
@@ -113,13 +112,13 @@ export class ProductFormComponent implements OnInit {
 
   private handleResponse(response: any): void {
     const message = response['message'];
-    if (message == 'success') {
+    if (message === 'success') {
       this.router.navigate(['platform', 'operator', 'products']);
     } else {
       let mes = '';
-      if (message == 'like') {
+      if (message === 'like') {
            mes = 'ישנם שתי חשבונות בנק זהים';
-      } else if (message == 'code_exists') {
+      } else if (message === 'code_exists') {
         mes = 'קוד קופה קיים';
       }
       this.notificationService.error('', mes);

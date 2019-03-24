@@ -6,6 +6,7 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Compensation } from 'app/shared/_models/compensation.model';
+import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
 
 
 @Injectable()
@@ -114,13 +115,6 @@ export class CompensationService extends BaseHttpService {
       .catch(() => null);
   }
 
-  // downloadPdfFile(rowID: number): any {
-  //   return this.http.get(this.endPoint + '/' + rowID + '/downloadPdfFile', this.getTokenHeader())
-  //     .toPromise()
-  //     .then(response => response)
-  //     .catch(() => null);
-  // }
-
   getFollow(searchCriteria?: Object): Promise<Object> {
     const request = this.getTokenHeader();
 
@@ -156,27 +150,6 @@ export class CompensationService extends BaseHttpService {
         .then(response => response as Object)
         .catch(() => []);
     }
-  }
-
-  getErrorMessage(compensationID: number): Promise<Compensation> {
-    return this.http.get(this.endPoint + '/' + compensationID + '/getErrorMessage', this.getTokenHeader())
-      .toPromise()
-      .then(response => response as Compensation)
-      .catch(() => null);
-  }
-
-
-  getMasav(): Promise<any> {
-    const request = this.getBlobOptions();
-
-    const x = ['1', 'l', '3'];
-    request['params'] = x;
-
-
-    return this.http.get(this.endPoint + '/masav', request)
-    .toPromise()
-    .then(response => response as any)
-    .catch(() => null);
   }
 }
 

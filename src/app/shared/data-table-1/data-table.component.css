@@ -1,0 +1,84 @@
+app-side-filters {
+	position: absolute;
+	top: 0;
+	right: -225px;
+	padding-left: 10px;
+	font-size: 13px;
+	z-index: 1;
+}
+
+app-side-filters ::ng-deep #filtersWrapper {
+	height: 700px;
+	width: 230px;
+	padding: 0 10px;
+	border-left: 2px solid #ccc;
+}
+
+.saved-message > i {
+	font-size: 22px;
+}
+
+.saved-message > span {
+	vertical-align: top;
+}
+
+.table {
+  border: none;
+}
+
+.table-header {
+	padding: 5px !important;
+  vertical-align: middle;
+  text-align: center !important;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-color: #000000;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+::ng-deep .mat-checkbox-inner-container {
+	margin-left: 0 !important;
+}
+
+::ng-deep .mat-checkbox-layout {
+	margin-bottom: 0 !important;
+}
+
+::ng-deep tr.checked > td {
+	background-color: rgba(0, 0, 0, .075);
+}
+
+::ng-deep td {
+	padding: 0.5rem;
+	text-align: center !important;
+	font-size: 14px;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+::ng-deep .row-actions > a {
+	text-decoration: none;
+}
+
+::ng-deep .row-actions i, ::ng-deep .row-icon {
+	margin-left: 4px;
+	cursor: pointer;
+	color: #3db060;
+	font-size: 22px;
+	vertical-align: middle;
+}
+
+::ng-deep .row-actions > img {
+	height: 25px;
+	width: 25px;
+	cursor: pointer;
+}
+
+::ng-deep td  .row-image {
+  width: 30px;
+  height: auto;
+}
+

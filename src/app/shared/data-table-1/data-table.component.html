@@ -1,0 +1,35 @@
+<h2 class="mb-3">{{ tableName }}</h2>
+<ng-content select=".table-header"></ng-content>
+<ng-content select=".new-item-btn"></ng-content>
+<button mat-button class="green-btn" [routerLink]="formUrl" *ngIf="formUrl">פריט חדש</button>
+<div class="d-flex justify-content-between align-items-center">
+	<mat-form-field *ngIf="hasActionsSearch">
+		<input matInput placeholder="חפש" [(ngModel)]="criteria.keyword" (keyup)="search()">
+		<i matSuffix class="fa fa-search"></i>
+	</mat-form-field>
+	<span *ngIf="hasCheckColumn">
+		נבחרו {{ criteria.isCheckAll ? paginationData.totalItems - criteria.checkedItems.length: criteria.checkedItems.length}}  רשומות
+	</span>
+	<mat-slide-toggle color="primary" (change)="toggleActiveStatus($event.checked)" labelPosition="before" [checked]="isActive" *ngIf="hasActiveSwitch">
+		<span class="bold">הצג פעילים</span>
+	</mat-slide-toggle>
+</div>
+<app-side-filters [columns]="columns" (searchSubmitted)="extendedSearch($event)"></app-side-filters>
+<p class="alert alert-success mb-3" *ngIf="savedItem">{{ savedItem }} נשמר בהצלחה.</p>
+<table class="table table-bordered table-hover">
+	<thead>
+	<tr>
+		<th *ngIf="hasCheckColumn" class="pointer table-header">
+			<mat-checkbox (change)="checkAll($event.checked)" [ngModel]="criteria.isCheckAll" *ngIf="items.length > 0 && !disableCheckAll"></mat-checkbox>
+		</th>
+		<th *ngFor="let column of columns" (click)="sort(column)" class="pointer table-header">
+			<span [matTooltip]="'מיין לפי ' + column.label">{{ column.label }}</span>
+			<i [@rotate]="rotateSortingIcon()" class="fa fa-chevron-down" [@fade]="criteria.sort.column === column.name ? 'active' : 'inactive'"></i>
+		</th>
+		<th class="table-header" *ngIf="hasActionsHeader">פעולות</th>
+	</tr>
+	</thead>
+	<ng-content></ng-content>
+</table>
+<p *ngIf="items.length === 0" class="text-center bold">{{ isLoading ? 'בטעינה...' : 'אין פריטים לתצוגה.' }}</p>
+<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>

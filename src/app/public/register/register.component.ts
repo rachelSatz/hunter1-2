@@ -37,6 +37,7 @@ export class RegisterComponent implements OnInit {
       this.appHttp.register(form.value.password, this.route.snapshot.queryParams.token).then(response => {
         if (response.token) {
           this.userSession.login({username: '', token: response['token']});
+          this.userSession.setRole(response['role']);
           this.router.navigate(['/platform']);
         } else {
           this.hasServerError = true;

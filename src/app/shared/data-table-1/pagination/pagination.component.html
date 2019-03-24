@@ -1,0 +1,49 @@
+<div class="d-flex align-content-center justify-content-between justify-content-lg-end">
+  <div class="mb-3 mb-lg-0 text-center text-lg-right">
+    <span>
+      <span>מציג</span>
+      <span class="bold">{{ getCurrentItems() }} - {{ getMaxShownItems() }}</span>
+      <span>מתוך</span>
+      <span class="bold">{{ data.totalItems }}</span>
+      <span>רשומות</span>
+    </span>
+  </div>
+  <ul [class]="'justify-content-center pagination '  + theme + '-theme'">
+    <li class="page-item" *ngIf="data.currentPage > 1">
+      <a class="page-link" routerLink="./" [queryParams]="{ page: 1 }">
+        <i class="fa fa-angle-double-right"></i>
+      </a>
+    </li>
+	  <li class="page-item" *ngIf="data.currentPage > 1">
+		  <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage - 1 }">
+			  <i class="fa fa-angle-right"></i>
+		  </a>
+	  </li>
+    <li class="page-item" *ngIf="data.currentPage - 2 >= 1">
+      <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage - 2 }">{{ data.currentPage - 2 }}</a>
+    </li>
+    <li class="page-item" *ngIf="data.currentPage - 1 >= 1">
+      <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage - 1 }">{{ data.currentPage - 1 }}</a>
+    </li>
+    <li class="page-item active" *ngIf="data.totalPages > 1">
+      <a class="page-link">{{ data.currentPage }}</a>
+    </li>
+    <li class="page-item" *ngIf="data.currentPage + 1 <= data.totalPages">
+      <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage + 1 }">{{ data.currentPage + 1 }}</a>
+    </li>
+    <li class="page-item" *ngIf="data.currentPage + 2 <= data.totalPages">
+      <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage + 2 }">{{ data.currentPage + 2 }}</a>
+    </li>
+	  <li class="page-item" *ngIf="data.currentPage < data.totalPages">
+		  <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage + 1 }">
+			  <i class="fa fa-angle-left"></i>
+		  </a>
+	  </li>
+    <li class="page-item" *ngIf="data.currentPage < data.totalPages">
+      <a class="page-link" routerLink="./" [queryParams]="{ page: data.totalPages }">
+        <i class="fa fa-angle-double-left"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+

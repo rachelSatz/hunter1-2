@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
-import { UsersComponent } from './users.component';
-
-import {DataTableModule} from '../../../shared/data-table/data-table.module';
-import { UserService } from '../../../shared/_services/http/user.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { AppHttpService } from 'app/shared/_services/http/app-http.service';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { UserService } from 'app/shared/_services/http/user.service';
+import { UsersComponent } from './users.component';
 
 const routes: Routes = [
   { path: '', component: UsersComponent },
@@ -24,7 +24,7 @@ const routes: Routes = [
     DataTableModule,
   ],
   declarations: [UsersComponent],
-  providers: [UserService, EmployerService ]
+  providers: [UserService, EmployerService, AppHttpService]
 })
 
 export class UsersModule { }

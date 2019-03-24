@@ -10,11 +10,12 @@
     <input matInput type="password" name="password" #password="ngModel" ngModel placeholder="סיסמה" required>
     <mat-error *ngIf="password.errors">יש להזין סיסמה.</mat-error>
   </mat-form-field>
+  <a class="underline blue-color f-12 float-left" (click)="forgotPassword(form)">שכחתי סיסמה</a>
   <p class="alert alert-danger my-3" [@fade]="hasServerError ? 'active' : 'inactive'">
     <i class="fa fa-exclamation-circle ml-2"></i>
     <span>שם משתמש או סיסמה לא נכונים.</span>
   </p>
-  <div class="text-center">
+  <div class="text-center mt-4">
     <button type="submit" class="btn blue-btn btn-lg f-18 bold" [disabled]="isSubmitting">התחברות</button>
   </div>
 </form>

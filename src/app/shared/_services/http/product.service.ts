@@ -64,12 +64,11 @@ export class ProductService extends BaseHttpService {
   // }
 
   createUpdateProduct(id: number, product: ExtendedProduct): Promise<any> {
-    if (id == 0) {
+    if (id === 0) {
       return this.http.post(this.endPoint + '/' + id + '/createUpdateProduct', product, this.getTokenHeader())
         .toPromise()
         .then(response => response);
-    } else
-    {
+    } else {
       return this.http.put(this.endPoint + '/' + id + '/createUpdateProduct', product, this.getTokenHeader())
         .toPromise()
         .then(response => response);

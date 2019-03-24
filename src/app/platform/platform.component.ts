@@ -86,10 +86,9 @@ export class PlatformComponent implements OnInit {
     this.isAgent =  this.userSession.getRole() !== 'employer';
     this.organizations = this.selectUnit.getOrganization()
     this.selectUnit.getEntityStorage();
-    if(!this.selectUnit.currentOrganizationID)
+    if (!this.selectUnit.currentOrganizationID)
       this.getOrganizations(false);
-    else
-    {
+    else {
       this.organizationId = this.selectUnit.currentOrganizationID;
       this.employerId = this.selectUnit.currentEmployerID;
       this.departmentId = this.selectUnit.currentDepartmentID;
@@ -162,7 +161,7 @@ export class PlatformComponent implements OnInit {
       this.employerId = this.employers.length > 0 ? this.employers[0] : 0;
       this.organizationId = organizationID;
     }
-    this.loadDepartments(this.employerId['id']);
+    this.loadDepartments(this.employerId['id'] ? this.employerId['id'] : 0);
   }
 
   loadDepartments(employerID: number): void {

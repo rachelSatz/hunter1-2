@@ -67,7 +67,7 @@ export class BroadcastComponent implements OnInit {
 
   dateUpdate() {
     const dialogRef = this.dialog.open(DateUpdateComponent, {
-      height: '230px',
+      height: '250px',
       width: '550px',
     });
     dialogRef.afterClosed().subscribe(
@@ -84,7 +84,7 @@ export class BroadcastComponent implements OnInit {
   transfer() {
     this.processService.transfer( this.processID)
       .then(response => {
-        if (response['result'] === 'false') {
+        if (!response.ok) {
           this.notificationService.error('', 'לא הצליח לשדר קובץ');
         }else {
           this.pageNumber = 2;

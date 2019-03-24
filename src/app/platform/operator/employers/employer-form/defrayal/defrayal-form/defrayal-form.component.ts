@@ -35,14 +35,14 @@ export class DefrayalFormComponent implements OnInit {
     if (this.router.url.includes( 'employers')) {
       this.navigate = ['platform', 'employers',
         'form', this.selectUnit.currentEmployerID, 'defrayal'];
-      this.location = 'employers'
+      this.location = 'employers';
     }
     else if (this.router.url.includes( 'operator')) {
       this.location = 'operator';
-      this.navigate =['platform', 'operator', 'defrayal'];
+      this.navigate = ['platform', 'operator', 'defrayal'];
     } else {
       this.navigate = ['platform', 'defrayal'];
-      this.location = 'settings'
+      this.location = 'settings';
     }
     this.companies = this.selectUnit.getCompanies();
     if (this.route.snapshot.data.employerBankAccount) {
@@ -57,9 +57,8 @@ export class DefrayalFormComponent implements OnInit {
   }
 
   selectedProducts(): void {
-    this.products = this.companies.find(c => c.id == this.employerProductBankAccount.company_id).product;
-    if ( !this.products.some(p => p.id == this.employerProductBankAccount.product_id))
-    {
+    this.products = this.companies.find(c => c.id === this.employerProductBankAccount.company_id).product;
+    if ( !this.products.some(p => p.id === this.employerProductBankAccount.product_id)) {
       this.employerProductBankAccount.product_id = 0;
       this.employerProductBankAccount.bank_account_id = 0;
     }

@@ -1,5 +1,5 @@
 export class UserUnitPermission {
-  organizationID: number;
-  employerID: number;
+  organization_id: number;
+  employer_id: number;
   departments: any;
 }

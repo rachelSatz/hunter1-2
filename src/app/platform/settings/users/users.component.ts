@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { DataTableHeader } from '../../../shared/data-table/classes/data-table-header';
 import { ActivatedRoute } from '@angular/router';
 
-import { UserService } from '../../../shared/_services/http/user.service';
-import { DataTableComponent } from '../../../shared/data-table/data-table.component';
-import { EmployerService } from 'app/shared/_services/http/employer.service';
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { EntityRoles } from '../../../shared/_models/user.model';
+import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { AppHttpService } from 'app/shared/_services/http/app-http.service';
+import { UserService } from 'app/shared/_services/http/user.service';
+import { EntityRoles } from 'app/shared/_models/user.model';
 
 @Component({
   selector: 'app-users',
@@ -15,7 +14,6 @@ import { EntityRoles } from '../../../shared/_models/user.model';
 })
 export class UsersComponent extends DataTableComponent  implements OnInit {
 
-  // employers = [];
   user = [];
   role =  Object.keys(EntityRoles).map(function(e) {
     return { id: e, name: EntityRoles[e] };
@@ -26,13 +24,13 @@ export class UsersComponent extends DataTableComponent  implements OnInit {
     { column: 'name', label: 'שם מלא' }, { column: 'email', label: 'מייל' }
   ];
 
-  constructor(route: ActivatedRoute, private userService: UserService, private employerService: EmployerService,
-              private selectUnit: SelectUnitService) {
+  constructor(route: ActivatedRoute,
+              private userService: UserService,
+              private appHttp: AppHttpService) {
     super(route);
   }
 
   ngOnInit() {
-    // this.employerService.getEmployers(this.selectUnit.currentOrganizationID ).then(response => this.employers = response);
     this.fetchItems();
     super.ngOnInit();
   }
@@ -41,6 +39,17 @@ export class UsersComponent extends DataTableComponent  implements OnInit {
     this.userService.getUsers(this.searchCriteria).then(response => {
       this.setItems(response);
       this.user = response;
+    });
+  }
+
+  register(item: any): void {
+  this.appHttp.forgotPassword(item.username, item.email).then(
+    response => {
+      if (response['message'] === 'No User Found' || response['message'] !== 'Message_Sent') {
+      this.notificationService.error(
+        response['message'] === 'No User Found' ?
+          'השם משתמש או המייל שגוי' : 'קימת בעיה בשליחת המייל');
+      }
     });
   }
 }
