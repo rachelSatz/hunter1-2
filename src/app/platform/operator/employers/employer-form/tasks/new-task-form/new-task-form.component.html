@@ -56,9 +56,9 @@
   <p class="grey-color f-14">תיאור המשימה</p>
   <textarea class="form-control"  placeholder="הוספת תיאור" [(ngModel)]="data.description" name="description"></textarea>
   <mat-form-field class="w-100 mt-5">
-    <input matInput  placeholder="הוספת הערה" [(ngModel)]="data.comments[0].content" name="comment">
+    <input matInput  placeholder="הוספת הערה" [(ngModel)]="data.comments[0]['content']" name="comment">
   </mat-form-field>
-  <input type="hidden" [(ngModel)]="data.comments[0].id" name="comment_id">
+  <input type="hidden" [(ngModel)]="data.comments[0]['id']" name="comment_id">
   <input type="hidden" [(ngModel)]="data.id" name="id">
 
   <div class="mt-4 text-center">

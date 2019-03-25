@@ -273,7 +273,7 @@ export class ProcessComponent extends DataTableComponent implements OnInit, OnDe
   PdfFile(rowId: number, type: string): any {
       this.compensationService.downloadPdfFile(rowId).then(response => {
         if (response) {
-          const byteCharacters = atob(response);
+          const byteCharacters = atob(response['data']);
           const byteNumbers = new Array(byteCharacters.length);
           console.log(byteCharacters.length);
           for (let i = 0; i < byteCharacters.length; i++) {

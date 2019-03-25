@@ -8,7 +8,7 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Company } from 'app/shared/_models/company.model';
-import { ExtendedProduct } from 'app/shared/_models/product.model';
+import {ExtendedProduct, RedirectedProduct} from 'app/shared/_models/product.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -85,5 +85,26 @@ export class ProductService extends BaseHttpService {
   getFullCompanies(): Observable<Company[]> {
     return this.http.get(this.endPoint + '/FullCompany', this.getTokenHeader())
           .map((response: Response) => response as any);
+  }
+
+  getRedirectedProduct(productId: number): Promise<RedirectedProduct[]> {
+    return this.http.get(this.endPoint + '/' + productId + '/getRedirectedTo', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as RedirectedProduct[])
+      .catch(() => []);
+  }
+
+  addRedirectedProduct(redirectedProductCode: string, productId: number): Promise<any> {
+    return this.http.post(this.endPoint + '/' + redirectedProductCode + '/addRedirectedProduct',
+      {productId: productId}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+  }
+
+  deleteRedirectedProduct(redirectedProductCode: string): Promise<any> {
+    return this.http.post(this.endPoint + '/' + redirectedProductCode + '/deleteRedirectedProduct',
+       this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
   }
 }
