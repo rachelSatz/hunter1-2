@@ -8,11 +8,14 @@ import { ProductService} from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ExtendedProduct, ProductType } from 'app/shared/_models/product.model';
 import { GeneralHttpService} from 'app/shared/_services/http/general-http.service';
+import {InquiriesComponent} from '../../../../shared/_dialogs/inquiries/inquiries.component';
+import {MatDialog} from '@angular/material';
+import {RedirectedProductComponent} from './redirected-product/redirected-product.component';
 
 @Component({
   selector: 'app-product-from',
   templateUrl: './product-form.component.html',
-  styles: [`.check-module { width: 140px; }` ],
+  styles: ['.check-module { width: 140px; }'],
   animations: [ fade ]
 })
 export class ProductFormComponent implements OnInit {
@@ -26,12 +29,14 @@ export class ProductFormComponent implements OnInit {
   types = Object.keys(ProductType).map(function(e) {
     return { id: e, name: ProductType[e] };
   });
+  allProducts = [];
 
   constructor(private route: ActivatedRoute,
               private productService: ProductService,
               private router: Router,
               private generalService: GeneralHttpService,
-              protected notificationService: NotificationService) { }
+              protected notificationService: NotificationService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadBanks();
@@ -42,6 +47,9 @@ export class ProductFormComponent implements OnInit {
       }
     }
     this.loadEntities();
+    this.productService.getProductsList().then(response =>
+      this.allProducts = response
+    );
   }
 
   loadEntities(): void {
@@ -123,5 +131,13 @@ export class ProductFormComponent implements OnInit {
       }
       this.notificationService.error('', mes);
     }
+  }
+
+  openRedirectedProductDialog(productId: number): void {
+    this.dialog.open(RedirectedProductComponent, {
+      data: {productId : productId, allProducts: this.allProducts},
+      width: '650px',
+      panelClass: 'dialog-file'
+    });
   }
 }

@@ -1,0 +1,32 @@
+<div class="dialog-header">
+    <span class="pointer" (click)="close()">
+    <i class="fa fa-close"></i>
+  </span>
+  <span>קופות שנותבו</span>
+</div>
+<div class="pre-scrollable d-flex justify-content-center align-items-center">
+  <table *ngIf="redirectedProducts.length > 0" class="table new-table my-1 dialog-table  pre-scrollable">
+    <thead>
+    <tr>
+      <th>מס' קופה שנותבה</th>
+      <th>מחיקה</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let redirectedProduct of redirectedProducts">
+      <td class="w-25">{{ redirectedProduct.code }}</td>
+      <td class="w-25">
+        <i class="fa fa-trash fa-2x pointer blue-color" title="מחיקה" (click)="deleteRedirectedProduct(redirectedProduct.code)"></i>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<form #form="ngForm">
+<div class="d-flex justify-content-center align-items-start mt-3">
+  <div class="row">
+    <bd-select class="col-6" [items]="allProducts" placeholder="הוספת קופה" name="redirectedId" ngModel></bd-select>
+  </div>
+  <button class="btn-sm blue-btn mr-4" (click)="submit(form)">שמירה</button>
+</div>
+</form>

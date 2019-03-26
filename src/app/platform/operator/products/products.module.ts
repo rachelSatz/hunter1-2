@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material';
 import { BdSelectModule } from '../../../../assets/js/bd-select/bd-select.module';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { NotificationService } from '../../../shared/_services/notification.service';
+import { RedirectedProductComponent } from './product-form/redirected-product/redirected-product.component';
 
 const routes: Routes = [
   { path: '', component: ProductsComponent},
@@ -20,7 +21,8 @@ const routes: Routes = [
     MatDialogModule,
     BdSelectModule
   ],
-  declarations: [ProductsComponent],
+  declarations: [ProductsComponent, RedirectedProductComponent],
+  entryComponents: [RedirectedProductComponent],
   providers: [ProductService, NotificationService]
 })
 export class ProductsModule { }

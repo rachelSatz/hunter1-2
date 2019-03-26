@@ -7,6 +7,9 @@
                     required [error]="entityIDSelect.errors && form.submitted"></bd-select>
       </div>
     </div>
+    <div style="margin-right: 700px">
+      <button class="btn blue-btn" (click)="openRedirectedProductDialog(product.id)">קופות שנותבו</button>
+    </div>
     <div class="d-flex align-items-center mb-3">
       <mat-form-field>
         <input matInput type="text" name="name" [(ngModel)]="product.name" placeholder="שם קופה" required>

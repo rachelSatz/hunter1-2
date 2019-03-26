@@ -166,6 +166,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
       FileSaver.saveAs(blob, this.fileName);
       this.spin = false;
     });
+
   }
 
 

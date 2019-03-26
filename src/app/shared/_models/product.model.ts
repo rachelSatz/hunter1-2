@@ -36,3 +36,13 @@ export class ExtendedProduct {
     this.bank_account.push(new BankAccount());
   }
 }
+
+export class RedirectedProduct {
+  id: number;
+  code: string;
+}
+
+export class AllProducts {
+  id: number;
+  name: string;
+}

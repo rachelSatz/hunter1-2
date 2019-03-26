@@ -1,0 +1,7 @@
+::ng-deep .dialog-file .mat-dialog-container {
+  overflow: visible;
+}
+
+.new-table {
+  width: 80%!important;
+}
