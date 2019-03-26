@@ -18,16 +18,16 @@
 			<label class="bold f-12">{{ column.label }}</label>
 			<div>
         <mat-form-field class="w-25">
-          <input matInput [name]="column.name + '[from]'" [max]="getMaxDate(column.name + '[to]')" class="pointer"
-                 (click)="datePickerFrom.open()" [matDatepicker]="datePickerFrom"
-                 placeholder=" מ תאריך" ngModel readonly>
+          <input matInput [name]="column.name + '[from]'" [max]="searchCriteria[column.name + '[to]']" class="pointer"
+                 (click)="datePickerFrom.open()" [matDatepicker]="datePickerFrom" (dateChange)="valueDateChange($event)"
+                 placeholder=" מ תאריך" ngModel [(ngModel)]="searchCriteria[column.name + '[from]']" readonly>
           <mat-datepicker-toggle matSuffix [for]="datePickerFrom"></mat-datepicker-toggle>
           <mat-datepicker #datePickerFrom></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="w-25">
-          <input matInput [name]="column.name + '[to]'"  [min]="searchCriteria['dateFrom']" class="pointer"
+          <input matInput [name]="column.name + '[to]'"  [min]="searchCriteria[column.name + '[from]']" class="pointer"
                  (click)="datePickerTo.open()" [matDatepicker]="datePickerTo"
-                 placeholder="עד תאריך" ngModel readonly>
+                 placeholder="עד תאריך" ngModel [(ngModel)]="searchCriteria[column.name + '[to]']" readonly>
           <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
           <mat-datepicker #datePickerTo></mat-datepicker>
         </mat-form-field>

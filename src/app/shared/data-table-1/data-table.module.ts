@@ -11,6 +11,7 @@ import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
 import { DataTableComponent } from './data-table.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { SideFiltersComponent } from './side-filters/side-filters.component';
+import {DatePickerModule} from '../app-date-picker/app-date-picker.module';
 
 @NgModule({
 	imports: [
@@ -21,7 +22,7 @@ import { SideFiltersComponent } from './side-filters/side-filters.component';
 		RouterModule,
 		PipesModule,
 		BdSelectModule,
-		// this.DateInputModule
+    DatePickerModule
 	],
 	exports: [
 		CommonModule,
@@ -33,7 +34,6 @@ import { SideFiltersComponent } from './side-filters/side-filters.component';
 		PaginationComponent,
 		SideFiltersComponent,
 		BdSelectModule,
-		// this.DateInputModule,
 		DataTableComponent
 	],
 	declarations: [DataTableComponent, PaginationComponent, SideFiltersComponent],

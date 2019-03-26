@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import { NgForm } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {slideToggle} from '../../_animations/animation';
+import {formatDate} from '@angular/common';
 
 @Component({
 	selector: 'app-side-filters',
@@ -26,12 +27,24 @@ export class SideFiltersComponent implements OnInit {
 
 	@Input() columns;
 	@Output() searchSubmitted = new EventEmitter<Object>();
-
+  searchCriteria = {};
 	showFilters = 'inactive';
 
 	ngOnInit() {
 		this.columns = this.columns.filter(column => column.searchable !== false);
+		// for ( const column in 	this.columns) {
+    //   if (!this.columns[column].searchOptions && this.columns[column].searchOptions.isDate) {
+    //     this.searchCriteria[column['name'] + '[from]'] = '2019-01-01';
+    //     this.searchCriteria[column['name'] + '[to]'] = '2019-01-01';
+    //   }
+    // }
 	}
+
+
+  valueDateChange(keyCode: Date, val?: string): void {
+    this.searchCriteria['created_at[from]'] =
+      formatDate(keyCode['value'], 'yyyy-MM-dd', 'en-US', '+0530').toString();
+  }
 
 	search(): void {
 		const values = {};
@@ -53,8 +66,6 @@ export class SideFiltersComponent implements OnInit {
 		this.showFilters = (this.showFilters === 'active') ? 'inactive' : 'active';
 	}
 
-  getMaxDate(): void {
-    // this.dataTable.
-	 // return
-	}
+  getDateMinOrMax(name, val): void {
+ 	}
 }
