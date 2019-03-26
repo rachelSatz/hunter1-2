@@ -1,31 +1,49 @@
 <div class="mb-2 d-flex justify-content-between align-items-center grey-text pointer">
-	<span class="ml-1 grey-text" *ngIf="showFilters === 'inactive'" (click)="setFilters()">סינון מורחב</span>
-	<span class="grey-text" (click)="reset()" *ngIf="showFilters === 'active'">נקה</span>
-	<i [@rotate]="showFilters" class="fa fa-chevron-left pointer" aria-hidden="true" (click)="setFilters()"></i>
+	<span class="ml-1 grey-text" *ngIf="showFilters === 'inactive'" (click)="setFilters()">סינון מורחב
+    <i [@rotate]="showFilters" class="fa fa-chevron-left pointer" aria-hidden="true" (click)="setFilters()"></i>
+  </span>
+	<span class="grey-text" (click)="reset()" *ngIf="showFilters === 'active'"> נקה
+    <i [@rotate]="showFilters" class="fa fa-chevron-left pointer" aria-hidden="true" (click)="setFilters()"></i>
+  </span>
 </div>
-<form #form="ngForm" id="filtersWrapper" (ngSubmit)="search()" [@slide]="showFilters">
+<form #form="ngForm" id="filtersWrapper" (ngSubmit)="search()" [@slideToggle]="showFilters">
 	<p class="mb-4 text-center bold">סינון מורחב</p>
-	<div *ngFor="let column of columns" class="mt-2">
+	<div *ngFor="let column of columns" class="fa-w-10 d-inline-block mr-3" [ngClass]="{ 'input': !column.searchOptions, 'bdSelectable': column.searchOptions && !column.searchOptions.isDate }">
 		<div *ngIf="!column.searchOptions">
-			<mat-form-field class="w-100">
+			<mat-form-field class="">
 				<input matInput type="text" [placeholder]="column.label" [name]="column.name" ngModel>
 			</mat-form-field>
 		</div>
 		<div *ngIf="column.searchOptions && column.searchOptions.isDate">
 			<label class="bold f-12">{{ column.label }}</label>
 			<div>
-				<mat-form-field class="w-100">
-					<input appDateInput matInput type="text" placeholder="מתאריך" [name]="column.name + '[from]'" ngModel>
-				</mat-form-field>
-				<mat-form-field class="w-100">
-					<input appDateInput matInput type="text" placeholder="עד תאריך" [name]="column.name + '[to]'" ngModel>
-				</mat-form-field>
+        <mat-form-field class="w-25">
+          <input matInput [name]="column.name + '[from]'" [max]="getMaxDate(column.name + '[to]')" class="pointer"
+                 (click)="datePickerFrom.open()" [matDatepicker]="datePickerFrom"
+                 placeholder=" מ תאריך" ngModel readonly>
+          <mat-datepicker-toggle matSuffix [for]="datePickerFrom"></mat-datepicker-toggle>
+          <mat-datepicker #datePickerFrom></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="w-25">
+          <input matInput [name]="column.name + '[to]'"  [min]="searchCriteria['dateFrom']" class="pointer"
+                 (click)="datePickerTo.open()" [matDatepicker]="datePickerTo"
+                 placeholder="עד תאריך" ngModel readonly>
+          <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
+          <mat-datepicker #datePickerTo></mat-datepicker>
+        </mat-form-field>
+
+				<!--<mat-form-field class="w-100">-->
+					<!--<input appDateInput matInput type="text" placeholder="מתאריך" [name]="column.name + '[from]'" ngModel>-->
+				<!--</mat-form-field>-->
+				<!--<mat-form-field class="w-100">-->
+					<!--<input appDateInput matInput type="text" placeholder="עד תאריך" [name]="column.name + '[to]'" ngModel>-->
+				<!--</mat-form-field>-->
 			</div>
 		</div>
-		<div *ngIf="column.searchOptions && column.searchOptions.labels" class="mt-2">
-			<bd-select [placeholder]="column.label" [items]="column.searchOptions.labels" outputField="id" [name]="column.name" ngModel></bd-select>
+		<div *ngIf="column.searchOptions && column.searchOptions.labels">
+			<bd-select [placeholder]="column.subLabel ? column.subLabel : column.label" [items]="column.searchOptions.labels" outputField="id" [name]="column.name" ngModel></bd-select>
 		</div>
 	</div>
-	<button type="submit" class="mt-2 green-btn" mat-button>חפש</button>
+	<button type="submit" class="mr-5 mt-3 blue-btn" mat-button>חפש</button>
 </form>
 

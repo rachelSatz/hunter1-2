@@ -23,7 +23,6 @@ export class UserSessionService {
     if (sessionStorage.getItem('role')) {
       return JSON.parse(sessionStorage.getItem('role'));
     }
-
     return null;
   }
 

@@ -1,23 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import {slideToggle} from '../../_animations/animation';
 
 @Component({
 	selector: 'app-side-filters',
 	templateUrl: './side-filters.component.html',
 	animations: [
-		trigger('slide', [
-			state('inactive', style({
-				display: 'none',
-				width: '0'
-			})),
-			state('active', style({
-				display: '*',
-				width: '*'
-			})),
-			transition('active => inactive', animate('200ms')),
-			transition('inactive => active', animate('200ms'))
-		]),
+    slideToggle,
 		trigger('rotate', [
 			state('inactive', style({
 				transform: 'rotate(0deg)'
@@ -61,5 +51,10 @@ export class SideFiltersComponent implements OnInit {
 
 	setFilters(): void {
 		this.showFilters = (this.showFilters === 'active') ? 'inactive' : 'active';
+	}
+
+  getMaxDate(): void {
+    // this.dataTable.
+	 // return
 	}
 }
