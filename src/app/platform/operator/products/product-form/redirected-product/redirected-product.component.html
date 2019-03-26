@@ -4,8 +4,8 @@
   </span>
   <span>קופות שנותבו</span>
 </div>
-<div class="pre-scrollable">
-  <table class="table my-2 dialog-table  pre-scrollable">
+<div class="pre-scrollable d-flex justify-content-center align-items-center">
+  <table *ngIf="redirectedProducts.length > 0" class="table new-table my-1 dialog-table  pre-scrollable">
     <thead>
     <tr>
       <th>מס' קופה שנותבה</th>
@@ -16,27 +16,17 @@
     <tr *ngFor="let redirectedProduct of redirectedProducts">
       <td class="w-25">{{ redirectedProduct.code }}</td>
       <td class="w-25">
-        <i class="fa fa-close fa-2x pointer blue-color" title="מחיקה" (click)="deleteRedirectedProduct(redirectedProduct.id)"></i>
+        <i class="fa fa-trash fa-2x pointer blue-color" title="מחיקה" (click)="deleteRedirectedProduct(redirectedProduct.code)"></i>
       </td>
     </tr>
     </tbody>
   </table>
 </div>
-<!--<div>-->
-  <!--<button class="btn blue-btn" (click)="addRedirectedProduct(redirectedProduct.id)">הוספת קופה</button>-->
-<!--</div>-->
-<!--<div>-->
-  <!--<i class="fa fa-plus-circle fa-2x pointer blue-color" title="הוספת קופה" (click)="addRedirectedProduct(redirectedProduct.id)"></i>-->
-<!--</div>-->
-<form #form="ngForm" (ngSubmit)="register(form)" novalidate>
-  <mat-form-field class="w-25">
-    <i matPrefix class="fa fa-plus-circle"></i>
-    <input matInput type="password" name="password" #password="ngModel" ngModel placeholder="הוספת קופה" maxlength="5">
-
-  </mat-form-field>
-  <button class="btn-sm blue-btn mr-3" type="submit" (click)="submit(form)">שמירה</button>
-
-  <!--<div class="mt-3">-->
-    <!--<button class="btn blue-btn" type="submit" (click)="submit(form)">שמירה</button>-->
-  <!--</div>-->
+<form #form="ngForm">
+<div class="d-flex justify-content-center align-items-start mt-3">
+  <div class="row">
+    <bd-select class="col-6" [items]="allProducts" placeholder="הוספת קופה" name="redirectedId" ngModel></bd-select>
+  </div>
+  <button class="btn-sm blue-btn mr-4" (click)="submit(form)">שמירה</button>
+</div>
 </form>

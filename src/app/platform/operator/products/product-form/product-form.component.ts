@@ -29,6 +29,7 @@ export class ProductFormComponent implements OnInit {
   types = Object.keys(ProductType).map(function(e) {
     return { id: e, name: ProductType[e] };
   });
+  allProducts = [];
 
   constructor(private route: ActivatedRoute,
               private productService: ProductService,
@@ -46,6 +47,9 @@ export class ProductFormComponent implements OnInit {
       }
     }
     this.loadEntities();
+    this.productService.getProductsList().then(response =>
+      this.allProducts = response
+    );
   }
 
   loadEntities(): void {
@@ -131,8 +135,9 @@ export class ProductFormComponent implements OnInit {
 
   openRedirectedProductDialog(productId: number): void {
     this.dialog.open(RedirectedProductComponent, {
-      data: {productId : productId},
-      width: '450px'
-      });
+      data: {productId : productId, allProducts: this.allProducts},
+      width: '650px',
+      panelClass: 'dialog-file'
+    });
   }
 }

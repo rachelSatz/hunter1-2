@@ -8,7 +8,7 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Company } from 'app/shared/_models/company.model';
-import {ExtendedProduct, RedirectedProduct} from 'app/shared/_models/product.model';
+import {AllProducts, ExtendedProduct, RedirectedProduct} from 'app/shared/_models/product.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -94,16 +94,25 @@ export class ProductService extends BaseHttpService {
       .catch(() => []);
   }
 
-  addRedirectedProduct(redirectedProductCode: string, productId: number): Promise<any> {
-    return this.http.post(this.endPoint + '/' + redirectedProductCode + '/addRedirectedProduct',
-      {productId: productId}, this.getTokenHeader())
+  getProductsList(): Promise<AllProducts[]> {
+    const request = this.getTokenHeader();
+
+    return this.http.get(this.endPoint + '/getProductsList', request)
+      .toPromise()
+      .then(response => response as AllProducts[])
+      .catch(() => []);
+  }
+
+  addRedirectedProduct(redirectedId: string, productId: number): Promise<any> {
+    return this.http.post(this.endPoint + '/' + productId + '/redirectTo',
+      {redirectedId: redirectedId}, this.getTokenHeader())
       .toPromise()
       .then(response => response);
   }
 
-  deleteRedirectedProduct(redirectedProductCode: string): Promise<any> {
-    return this.http.post(this.endPoint + '/' + redirectedProductCode + '/deleteRedirectedProduct',
-       this.getTokenHeader())
+  deleteRedirectedProduct(productId: number, redirectedProductCode: string): Promise<any> {
+    return this.http.post(this.endPoint  + '/removeRedirected', {productId: productId, code: redirectedProductCode}
+       , this.getTokenHeader())
       .toPromise()
       .then(response => response);
   }
