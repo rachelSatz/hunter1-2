@@ -26,7 +26,7 @@ export class SelectUnitService {
   }
 
   getOrganization(): any {
-    return  this.getSessionStorage('organizations');
+    return  this.getSessionStorage('organizations')['items'];
   }
 
   getCompanies(): any {
