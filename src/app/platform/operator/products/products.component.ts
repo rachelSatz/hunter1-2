@@ -1,10 +1,10 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { ExtendedProduct, ProductType } from 'app/shared/_models/product.model';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 
@@ -15,38 +15,43 @@ import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header
   animations: [ slideToggle, placeholder ]
 
 })
-export class ProductsComponent extends DataTableComponent implements OnInit, OnDestroy {
-  products: ExtendedProduct[];
+export class ProductsComponent implements OnInit, OnDestroy {
+
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+
+  products: any;
   types = Object.keys(ProductType).map(function(e) {
     return { id: e, name: ProductType[e] };
   });
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'company_name', label: 'שם חברה מנהלת' },
-    { column: 'product_name', label: 'שם קופה' },
-    { column: 'product_code', label: 'מספר קופה באוצר' },
-    { column: 'company_code', label: 'ח.פ. חברה מנהלת' }
+  readonly columns =  [
+    { name: 'company_name', label: 'שם חברה מנהלת', searchable: false},
+    { name: 'name', label: 'שם קופה', searchable: false},
+    { name: 'code', label: 'מספר קופה באוצר', searchable: false},
+    { name: 'company_code', label: 'ח.פ. חברה מנהלת', searchable: false}
   ];
   constructor(protected route: ActivatedRoute,
               protected notificationService: NotificationService,
               public productService: ProductService) {
-    super(route);
   }
 
   ngOnInit() {
     this.fetchItems();
-    super.ngOnInit();
   }
 
   fetchItems() {
-    this.productService.getAllProducts(this.searchCriteria).then(response => {
-      this.setItems(response);
+    this.dataTable.criteria.filters['limit'] =  this.dataTable.limit;
+    this.productService.getAllProducts(this.dataTable.criteria).then(response => {
+      // this.setItems(response);
+      this.setResponse(response);
       this.products = response;
     });
   }
 
-  OnDestroy() {
-    super.ngOnDestroy();
+  setResponse(response: any): void {
+    this.dataTable.setItems(response);
+  }
+  ngOnDestroy(): void {
   }
 }
 

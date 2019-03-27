@@ -10,6 +10,8 @@ import { UserSessionService } from '../user-session.service';
 import { Company } from 'app/shared/_models/company.model';
 import {AllProducts, ExtendedProduct, RedirectedProduct} from 'app/shared/_models/product.model';
 import { Observable } from 'rxjs';
+import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
+import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
 
 @Injectable()
 export class ProductService extends BaseHttpService {
@@ -34,14 +36,14 @@ export class ProductService extends BaseHttpService {
     .catch(() => []);
   }
 
-  getAllProducts(searchCriteria?: Object): Promise<ExtendedProduct[]> {
+  getAllProducts(criteria: DataTableCriteria): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
-    if (searchCriteria) {
-      request['params'] = searchCriteria;
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
     }
     return this.http.get(this.endPoint + '/allProducts', request)
       .toPromise()
-      .then(response => response as ExtendedProduct[])
+      .then(response => response as DataTableResponse)
       .catch(() => null);
   }
 

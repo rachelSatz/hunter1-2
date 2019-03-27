@@ -1,46 +1,67 @@
 <div class="mr-5 px-4">
-  <p class="h4 mb-4">קופות</p>
-
-  <div class="d-flex align-items-center">
-    <div class="mx-3 bd-select-container">
-      <bd-select [items]="types" placeholder="סוג מוצר" class="mx-3 w-25" [(ngModel)]="searchCriteria['product_type']" (onSelect)="search()"></bd-select>
+  <app-data-table tableName="קופות" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false" >
+    <div class="table-header">
+      <div class="row mt-4 mr-1">
+        <div class="float-left">
+        </div>
+      </div>
     </div>
-    <mat-form-field class="ml-3 w-25">
-      <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">
-      <i matSuffix class="fa fa-search"></i>
-    </mat-form-field>
-    <button class="btn blue-btn h-75 mr-2" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
+    <tr *ngFor="let item of dataTable.items" class="pointer" >
+      <td>{{ item.company_name }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.code}}</td>
+      <td>{{ item.company_code }}</td>
+      <td>
+        <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+      </td>
+    </tr>
+  </app-data-table>
 
-  </div>
-  <div class="d-flex justify-content-end mt-4">
-    <button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת קופה</button>
-  </div>
-  <table class="table table-hover mt-3 data-table">
-    <thead>
-    <tr class="table-headers">
-      <th *ngFor="let header of headers" (click)="sort(header)">
-        <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
-        <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
-      </th>
-      <th>פעולות</th>
-    </tr>
-    </thead>
-    <tbody>
-    <ng-container *ngIf="!isSearching">
-      <tr *ngFor="let item of paginatedItems" class="pointer">
-        <td>{{ item.company_name }}</td>
-        <td>{{ item.name }}</td>
-        <td>{{ item.code}}</td>
-        <td>{{ item.company_code }}</td>
-        <td>
-          <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
-        </td>
-      </tr>
-    </ng-container>
-    <tr *ngIf="!isSearching && items.length === 0">
-      <td colspan="9" class="text-center bold">טבלת משתמשים ריקה.</td>
-    </tr>
-    </tbody>
-  </table>
-  <app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
-</div>
+
+
+
+
+
+  <!--<p class="h4 mb-4">קופות</p>-->
+  <!--<div class="d-flex align-items-center">-->
+    <!--<div class="mx-3 bd-select-container">-->
+      <!--<bd-select [items]="types" placeholder="סוג מוצר" class="mx-3 w-25" [(ngModel)]="searchCriteria['product_type']" (onSelect)="search()"></bd-select>-->
+    <!--</div>-->
+    <!--<mat-form-field class="ml-3 w-25">-->
+      <!--<input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">-->
+      <!--<i matSuffix class="fa fa-search"></i>-->
+    <!--</mat-form-field>-->
+    <!--<button class="btn blue-btn h-75 mr-2" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>-->
+  <!--</div>-->
+  <!--<div class="d-flex justify-content-end mt-4">-->
+    <!--<button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת קופה</button>-->
+  <!--</div>-->
+  <!--<table class="table table-hover mt-3 data-table">-->
+    <!--<thead>-->
+    <!--<tr class="table-headers">-->
+      <!--<th *ngFor="let header of headers" (click)="sort(header)">-->
+        <!--<span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>-->
+        <!--<i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>-->
+      <!--</th>-->
+      <!--<th>פעולות</th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--<ng-container *ngIf="!isSearching">-->
+      <!--<tr *ngFor="let item of paginatedItems" class="pointer">-->
+        <!--<td>{{ item.company_name }}</td>-->
+        <!--<td>{{ item.name }}</td>-->
+        <!--<td>{{ item.code}}</td>-->
+        <!--<td>{{ item.company_code }}</td>-->
+        <!--<td>-->
+          <!--<img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">-->
+        <!--</td>-->
+      <!--</tr>-->
+    <!--</ng-container>-->
+    <!--<tr *ngIf="!isSearching && items.length === 0">-->
+      <!--<td colspan="9" class="text-center bold">טבלת משתמשים ריקה.</td>-->
+    <!--</tr>-->
+    <!--</tbody>-->
+  <!--</table>-->
+  <!--<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>-->
+<!--</div>-->
