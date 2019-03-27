@@ -30,7 +30,7 @@ import { DataTableComponent } from 'app/shared/data-table-1/data-table.component
 @Component({
 selector: 'app-process',
   templateUrl: './process.component.html',
-  styleUrls: ['../../../shared/data-table/data-table.component.css', './process.component.css'],
+  styleUrls: ['./process.component.css'],
   animations: [ slideToggle, placeholder ]
 })
 export class ProcessComponent implements OnInit, OnDestroy {

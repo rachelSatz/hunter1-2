@@ -13,13 +13,13 @@ span {
 }
 
 .blue-theme .page-link {
-	color: #3eaf61;
-	border-color: #3eaf61;
+	color: #00adee;
+	border-color: #00adee;
 }
 
 .green-theme .page-link {
-	color: #3eaf61;
-	border-color: #3eaf61;
+	color: #00adee;
+	border-color: #00adee;
 }
 
 .page-item.active .page-link {
@@ -27,9 +27,9 @@ span {
 }
 
 .blue-theme .page-item.active .page-link {
-	background-color: #3eaf61;
+	background-color: #00adee;
 }
 
 .green-theme .page-item.active .page-link {
-	background-color: #3eaf61;
+	background-color: #00adee;
 }

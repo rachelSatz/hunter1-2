@@ -17,27 +17,21 @@
 		<div *ngIf="column.searchOptions && column.searchOptions.isDate">
 			<label class="bold f-12">{{ column.label }}</label>
 			<div>
-        <mat-form-field class="w-25">
-          <input matInput [name]="column.name + '[from]'" [max]="searchCriteria[column.name + '[to]']" class="pointer"
+        <mat-form-field class="w-100">
+          <input matInput [name]="column.name + '[from]'" [id]="column.name + '[from]'"
+                 [max]="searchCriteria[column.name + '[to]']" class="pointer"
                  (click)="datePickerFrom.open()" [matDatepicker]="datePickerFrom" (dateChange)="valueDateChange($event)"
                  placeholder=" מ תאריך" ngModel [(ngModel)]="searchCriteria[column.name + '[from]']" readonly>
           <mat-datepicker-toggle matSuffix [for]="datePickerFrom"></mat-datepicker-toggle>
           <mat-datepicker #datePickerFrom></mat-datepicker>
         </mat-form-field>
-        <mat-form-field class="w-25">
+        <mat-form-field class="w-100">
           <input matInput [name]="column.name + '[to]'"  [min]="searchCriteria[column.name + '[from]']" class="pointer"
-                 (click)="datePickerTo.open()" [matDatepicker]="datePickerTo"
+                 (click)="datePickerTo.open()" [matDatepicker]="datePickerTo" (dateChange)="valueDateChange($event)"
                  placeholder="עד תאריך" ngModel [(ngModel)]="searchCriteria[column.name + '[to]']" readonly>
           <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
           <mat-datepicker #datePickerTo></mat-datepicker>
         </mat-form-field>
-
-				<!--<mat-form-field class="w-100">-->
-					<!--<input appDateInput matInput type="text" placeholder="מתאריך" [name]="column.name + '[from]'" ngModel>-->
-				<!--</mat-form-field>-->
-				<!--<mat-form-field class="w-100">-->
-					<!--<input appDateInput matInput type="text" placeholder="עד תאריך" [name]="column.name + '[to]'" ngModel>-->
-				<!--</mat-form-field>-->
 			</div>
 		</div>
 		<div *ngIf="column.searchOptions && column.searchOptions.labels">

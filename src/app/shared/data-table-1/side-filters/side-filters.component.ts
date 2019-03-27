@@ -41,9 +41,9 @@ export class SideFiltersComponent implements OnInit {
 	}
 
 
-  valueDateChange(keyCode: Date, val?: string): void {
-    this.searchCriteria['created_at[from]'] =
-      formatDate(keyCode['value'], 'yyyy-MM-dd', 'en-US', '+0530').toString();
+  valueDateChange(event): void {
+    this.searchCriteria[event.targetElement.id] =
+      formatDate(event['value'], 'yyyy-MM-dd', 'en-US', '+0530').toString();
   }
 
 	search(): void {
