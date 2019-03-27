@@ -1,8 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {ProductService} from '../../../../../shared/_services/http/product.service';
-import {NotificationService} from '../../../../../shared/_services/notification.service';
-import {NgForm} from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+import { ProductService } from 'app/shared/_services/http/product.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 @Component({
   selector: 'app-redirected-product',
@@ -35,7 +36,9 @@ export class RedirectedProductComponent implements OnInit {
     });
   }
 
-
+  close() {
+    this.dialogRef.close();
+  }
 
   submit(form: NgForm): void {
     if (form.value['redirectedId'] !== '') {

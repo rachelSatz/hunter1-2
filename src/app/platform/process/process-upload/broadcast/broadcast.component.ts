@@ -53,7 +53,7 @@ export class BroadcastComponent implements OnInit {
       this.process_details = response;
     });
 
-    this. process_details = new ProcessDetails;
+    this.process_details = new ProcessDetails;
     this.type = this.processDataService.activeProcess.type;
     this.processId = this.processDataService.activeProcess.processID;
     this.isRefund = this.type !== 'positive';
@@ -83,7 +83,7 @@ export class BroadcastComponent implements OnInit {
   transfer() {
     this.processService.transfer( this.processId)
       .then(response => {
-        if (!response.ok) {
+        if (response.ok === false) {
           this.notificationService.error('', 'לא הצליח לשדר קובץ');
         }else {
           this.pageNumber = 2;

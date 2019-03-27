@@ -1,4 +1,5 @@
 import { NgForm} from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
 
@@ -8,9 +9,7 @@ import { ProductService} from 'app/shared/_services/http/product.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ExtendedProduct, ProductType } from 'app/shared/_models/product.model';
 import { GeneralHttpService} from 'app/shared/_services/http/general-http.service';
-import {InquiriesComponent} from '../../../../shared/_dialogs/inquiries/inquiries.component';
-import {MatDialog} from '@angular/material';
-import {RedirectedProductComponent} from './redirected-product/redirected-product.component';
+import { RedirectedProductComponent } from './redirected-product/redirected-product.component';
 
 @Component({
   selector: 'app-product-from',
