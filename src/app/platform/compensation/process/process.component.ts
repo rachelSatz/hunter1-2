@@ -31,6 +31,7 @@ import { DataTableComponent } from 'app/shared/data-table-1/data-table.component
 selector: 'app-process',
   templateUrl: './process.component.html',
   styleUrls: ['./process.component.css'],
+  // styles: ['::ng-deep table td { word-wrap: unset !important; } ::ng-deep table {  table-layout:auto !important;  }'],
   animations: [ slideToggle, placeholder ]
 })
 export class ProcessComponent implements OnInit, OnDestroy {
@@ -38,8 +39,6 @@ export class ProcessComponent implements OnInit, OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   sub = new Subscription;
-  // searchCriteria = { };
-  // extraSearchCriteria = 'inactive';
 
   productTypes = ProductType;
 
@@ -80,7 +79,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
     { name: 'request', label: 'פניות' , searchable: false},
     { name: 'comment', label: 'הערות' , searchable: false},
     { name: 'download', label: 'הורדה', searchable: false },
-    { name: 'details', label: 'פרטים' , searchable: false },
+    { name: 'null', label: 'פרטים' , searchable: false },
     { name: 'validity', label: 'תקינות' , searchOptions: { labels: this.validity } }
   ];
 
@@ -98,19 +97,13 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.productService.getCompanies().then(response => {
-      const column = this.searchColumn(this.nameCompany);
+      const column = this.dataTable.searchColumn(this.nameCompany);
       this.companies = response;
       column['searchOptions'].labels = this.companies;
     });
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
-    this.dataTable.hasActionsHeader = false;
     this.dataTable.placeHolderSearch = 'חפש עובד';
   }
-
-  searchColumn(val) {
-    return this.columns.find(iteratedColumn => iteratedColumn.name === val);
-  }
-
 
   fetchItems() {
     const organizationId = this.selectUnit.currentOrganizationID;
@@ -130,16 +123,10 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
   setResponse(response: any): void {
     const users  = response.items.map(item => ({id: item['user_id'], name: item['username']}));
-    const column = this.searchColumn(this.nameUserId);
+    const column = this.dataTable.searchColumn(this.nameUserId);
     column['searchOptions'].labels =  users.filter((x) => users.indexOf(x) === 0);
     this.dataTable.setItems(response);
   }
-
-  // valueDateChange(keyCode: Date): void {
-  //   this.searchCriteria['date_request'] =
-  //     formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
-  //   this.dataTable.search();
-  // }
 
   sendCompensations(): void {
     if (this.dataTable.criteria.checkedItems.length === 0) {
@@ -286,10 +273,6 @@ export class ProcessComponent implements OnInit, OnDestroy {
     path += (item[balance] - item.projected_balance === 0) ? 'check' : 'times';
     return path + '.svg';
   }
-
-  // toggleExtraSearch(): void {
-  //   this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
-  // }
 
   PdfFile(rowId: number, type: string): any {
       this.compensationService.downloadPdfFile(rowId).then(response => {

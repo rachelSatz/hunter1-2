@@ -5,6 +5,8 @@ import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { DepositsReport } from 'app/shared/_models/deposits-report.model';
+import { DataTableResponse } from '../../data-table-1/classes/data-table-response';
+import { DataTableCriteria } from '../../data-table-1/classes/data-table-criteria';
 
 
 @Injectable()
@@ -17,17 +19,17 @@ export class DepositsReportService extends BaseHttpService {
     super(userSession);
   }
 
-  getDepositsReport(searchCriteria?: Object): Promise<DepositsReport[]> {
+  getDepositsReport(criteria: DataTableCriteria): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
 
-    if (searchCriteria) {
-      request['params'] = searchCriteria;
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
     }
 
     return this.http.get(this.endPoint, request)
       .toPromise()
-      .then(response => response as DepositsReport[])
-      .catch(() => []);
+      .then(response => response as DataTableResponse)
+      .catch(() => null);
   }
 
   newDepositsReport(depositsReport: DepositsReport): Promise<any> {

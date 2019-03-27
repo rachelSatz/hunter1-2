@@ -1,4 +1,5 @@
 export class DataTableColumn {
-	name: string;
+  sortName?: string;
+  name: string;
 	label: string;
 }

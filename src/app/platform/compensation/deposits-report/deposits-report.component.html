@@ -1,73 +1,42 @@
-<p class="h4 mb-4">מעקב דוח הפקדות</p>
-<div class="d-flex filter-row mb-1">
-  <mat-form-field class="ml-3">
-    <input matInput placeholder="חפש עובד" [(ngModel)]="searchCriteria['employee']" (change)="search()">
-    <i matSuffix class="fa fa-search"></i>
-  </mat-form-field>
-
-  <bd-select [items]="companies" placeholder="חברה מנהלת" class="mx-3 mt-2" [(ngModel)]="searchCriteria['company']" (onSelect)="search()"></bd-select>
-  <bd-select [items]="selectStatuses" placeholder="סטטוס" class="mx-3 mt-2" [(ngModel)]="searchCriteria['status']" (onSelect)="search()" ></bd-select>
-  <bd-select [items]="users" placeholder="יוצר בקשה"  class="mx-3 mt-2" [(ngModel)]="searchCriteria['user_id']" (onSelect)="search()" ></bd-select>
-
-  <button class="btn blue-btn h-75" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
-</div>
-
-<div class="row mt-4 mr-1">
-  <div class="float-left">
-    <button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2">פעולות</button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="openFormDialog()">בקשה חדשה</button>
-      <button mat-menu-item (click)="openExcelDialog()"> העלאת קובץ בקשות </button>
-      <button mat-menu-item (click)="manualChangingStatus()">שינוי סטטוס</button>
-    </mat-menu>
+<app-data-table tableName="מעקב דוח הפקדות" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true" [hasActionsHeader]="false">
+  <div class="table-header">
+    <div class="row mt-4 mr-1">
+      <div class="float-left">
+        <button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2">פעולות</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="openFormDialog()">בקשה חדשה</button>
+          <button mat-menu-item (click)="openExcelDialog()"> העלאת קובץ בקשות </button>
+          <button mat-menu-item (click)="manualChangingStatus()">שינוי סטטוס</button>
+        </mat-menu>
+      </div>
+    </div>
   </div>
-</div>
-<table class="table table-hover mt-3 data-table">
-  <thead>
-  <tr class="table-headers">
-    <th *ngIf="items.length > 0">
-      <mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>
-    </th>
-    <th *ngFor="let header of headers; let index = index;" (click)="index < 12 &&  sort(header)">
-      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
-      <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
-    </th>
-  </tr>
-  </thead>
-  <tbody>
-  <ng-container *ngIf="!isSearching">
-    <tr *ngFor="let item of paginatedItems" class="pointer" [ngClass]="{ 'checked': item.isChecked }">
-      <td>
-        <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
-      </td>
-      <td>{{ item.created_at | date: 'dd/MM/yy' }}</td>
-      <td>{{ item.updated_at | date: 'dd/MM/yy' }}</td>
-      <td>{{ item.username }}</td>
-      <td>{{ item.employer_name }}</td>
-      <td>{{ item.department_name }}</td>
-      <td>{{  item.first_name ?  item.first_name  + ' ' +item.last_name:  '' }}</td>
-      <td>{{ item.identifier }}</td>
-      <td>{{ item.company_name }}</td>
-      <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
-      <td>{{ statuses[item.status] }}</td>
-      <td>
-        <img src="/assets/img/icons/forward_green.png" (click)="openInquiriesFormDialog(item)">
-      </td>
-      <td>
-        <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiry_count }}</span>
-      </td>
-      <td>
-        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
-      </td>
-      <td>
-        <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
-      </td>
+  <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
+    <td class="check-column">
+      <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
+    </td>
+    <td>{{ item.created_at | date: 'dd/MM/yy' }}</td>
+    <td>{{ item.updated_at | date: 'dd/MM/yy' }}</td>
+    <td>{{ item.username }}</td>
+    <td>{{ item.employer_name }}</td>
+    <td>{{ item.department_name }}</td>
+    <td>{{  item.first_name ?  item.first_name  + ' ' +item.last_name:  '' }}</td>
+    <td>{{ item.identifier }}</td>
+    <td>{{ item.company_name }}</td>
+    <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
+    <td>{{ statuses[item.status] }}</td>
+    <td>
+    <img src="/assets/img/icons/forward_green.png" (click)="openInquiriesFormDialog(item)">
+    </td>
+    <td>
+    <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiry_count }}</span>
+    </td>
+    <td>
+    <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
+    </td>
+    <td>
+    <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
+    </td>
     </tr>
-  </ng-container>
-  <tr *ngIf="!isSearching && items.length === 0">
-    <td colspan="19" class="text-center bold">טבלת הבקשות ריקה.</td>
-  </tr>
-  </tbody>
-</table>
-<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
+</app-data-table>
 
