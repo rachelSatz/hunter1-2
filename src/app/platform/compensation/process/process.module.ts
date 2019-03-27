@@ -7,7 +7,6 @@ import { MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule,
 import { MatChipsModule } from '@angular/material/chips';
 
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
-import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -26,6 +25,7 @@ import { ExcelComponent } from './excel/compensation/compensation.component';
 import { EmployeesComponent } from './excel/employees/employees.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
 
 
 const routes: Routes = [

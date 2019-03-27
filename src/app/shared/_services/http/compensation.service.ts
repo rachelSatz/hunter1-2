@@ -7,6 +7,7 @@ import { UserSessionService } from '../user-session.service';
 
 import { Compensation } from 'app/shared/_models/compensation.model';
 import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
 
 
 @Injectable()
@@ -19,17 +20,17 @@ export class CompensationService extends BaseHttpService {
     super(userSession);
   }
 
-  getCompensations(searchCriteria?: Object): Promise<Compensation[]> {
+  getCompensations(criteria: DataTableCriteria): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
 
-    if (searchCriteria) {
-      request['params'] = searchCriteria;
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
     }
 
     return this.http.get(this.endPoint, request)
     .toPromise()
-    .then(response => response as Compensation[])
-    .catch(() => []);
+    .then(response => response as DataTableResponse)
+    .catch(() => null);
   }
 
   newCompensation(compensation: Compensation): Promise<Object> {
@@ -128,10 +129,11 @@ export class CompensationService extends BaseHttpService {
       .catch(() => []);
   }
 
-  manualChangingStatus(compensation_ids: number[], searchCriteria?: Object):  Promise<Compensation[]> {
+
+  manualChangingStatus(compensation_ids: number[], criteria: DataTableCriteria):  Promise<Compensation[]> {
     return this.http.post(this.endPoint + '/updateSentStatus',
       { compensation_ids: compensation_ids,
-        searchCriteria: searchCriteria
+        searchCriteria: this.setDataTableParams(criteria)
       }
     , this.getTokenHeader())
       .toPromise()

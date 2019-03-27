@@ -51,7 +51,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	@Input() disableCheckAll = false;
 	@Input() hasActionsHeader = true;
   @Input() hasActionsSearch = true;
-	@Input() limit = 30;
+  @Input() placeHolderSearch = 'חפש';
+
+	@Input() limit = 15;
 
 	@Output() fetchItems = new EventEmitter<boolean>();
 
