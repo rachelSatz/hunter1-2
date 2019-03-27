@@ -14,7 +14,7 @@
 		<span class="bold">הצג פעילים</span>
 	</mat-slide-toggle>
 </div>
-<app-side-filters [columns]="columns" (searchSubmitted)="extendedSearch($event)"></app-side-filters>
+<app-side-filters  *ngIf="hasExtendedSearch" [columns]="columns" (searchSubmitted)="extendedSearch($event)"></app-side-filters>
 <p class="alert alert-success mb-3" *ngIf="savedItem">{{ savedItem }} נשמר בהצלחה.</p>
 <table class="table table-bordered table-hover">
 	<thead>
@@ -24,7 +24,8 @@
 		</th>
 		<th *ngFor="let column of columns" (click)="sort(column)" class="pointer table-header">
 			<span [matTooltip]="'מיין לפי ' + column.label">{{ column.label }}</span>
-			<i [@rotate]="rotateSortingIcon()" class="fa fa-chevron-down" [@fade]="criteria.sort.column === column.name ? 'active' : 'inactive'"></i>
+			<i [@rotate]="rotateSortingIcon()" class="fa fa-chevron-down"
+         [@fade]="criteria.sort.column === (column.sortName ? column.sortName: column.name) ? 'active' : 'inactive'"></i>
 		</th>
 		<th class="table-header" *ngIf="hasActionsHeader">פעולות</th>
 	</tr>

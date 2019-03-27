@@ -1,41 +1,46 @@
 import {  MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Component, Inject, OnInit } from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import * as FileSaver from 'file-saver';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { Compensation } from 'app/shared/_models/compensation.model';
 import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrls: ['../../../../shared/data-table/data-table.component.css'],
-  styles: ['table td { word-wrap:break-word } table {  table-layout:fixed } .displayNone { display: none}'],
+  styles: ['::ng-deep table td { word-wrap:break-word } ::ng-deep table {  table-layout:fixed } .displayNone { display: none}'],
   animations: [ fade ]
 })
-export class DetailsComponent  extends DataTableComponent implements OnInit {
+export class DetailsComponent implements OnInit {
+
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   uploadedFile: File [];
   spin: boolean;
   hasServerError: boolean;
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'file_name', label: 'שם הקובץ' }, { column: 'file_type', label: 'סוג' },
-    { column: 'file_upload', label: 'תאריך העלאה' },
-    { column: 'null', label: 'אפשריות' }
+  readonly columns =  [
+    { column: 'file_name', label: 'שם הקובץ' , searchable: false },
+    { column: 'file_type', label: 'סוג' , searchable: false},
+    { column: 'file_upload', label: 'תאריך העלאה' , searchable: false }
   ];
 
-  constructor(protected route: ActivatedRoute, @Inject(MAT_DIALOG_DATA) public compensation: Compensation,
-              private dialogRef: MatDialogRef<DetailsComponent>, private compensationService: CompensationService) {
-    super(route);
+  constructor(protected route: ActivatedRoute,
+              @Inject(MAT_DIALOG_DATA) public compensation: Compensation,
+              private dialogRef: MatDialogRef<DetailsComponent>,
+              private compensationService: CompensationService) {
   }
 
   ngOnInit() {
-      this.setItems(this.compensation.files);
+    this.fetchItems();
+  }
+
+  fetchItems() {
+    this.dataTable.setItems(this.compensation.files);
   }
 
   submit(form: NgForm): void {

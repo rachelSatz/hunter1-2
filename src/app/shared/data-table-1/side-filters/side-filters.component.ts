@@ -32,12 +32,6 @@ export class SideFiltersComponent implements OnInit {
 
 	ngOnInit() {
 		this.columns = this.columns.filter(column => column.searchable !== false);
-		// for ( const column in 	this.columns) {
-    //   if (!this.columns[column].searchOptions && this.columns[column].searchOptions.isDate) {
-    //     this.searchCriteria[column['name'] + '[from]'] = '2019-01-01';
-    //     this.searchCriteria[column['name'] + '[to]'] = '2019-01-01';
-    //   }
-    // }
 	}
 
 

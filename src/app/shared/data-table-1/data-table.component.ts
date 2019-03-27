@@ -51,6 +51,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	@Input() disableCheckAll = false;
 	@Input() hasActionsHeader = true;
   @Input() hasActionsSearch = true;
+  @Input() hasExtendedSearch = true;
   @Input() placeHolderSearch = 'חפש';
 
 	@Input() limit = 15;
@@ -110,7 +111,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	}
 
 	search(): void {
-		// this.checkAll(false);
 		this.loadItems();
 	}
 
@@ -120,8 +120,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	}
 
 	sort(column: DataTableColumn): void {
-		this.criteria.sort.column = column.name;
-		this.criteria.sort.direction = (this.criteria.sort.direction === 'DESC') ? 'ASC' : 'DESC';
+		this.criteria.sort.column =  column.sortName ? column.sortName : column.name;
+    this.criteria.sort.direction = (this.criteria.sort.direction === 'DESC') ? 'ASC' : 'DESC';
 		this.loadItems();
 	}
 
@@ -179,8 +179,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	}
 
 	nextItem(currentIndex: number): any {
-
-
 		if (currentIndex === this.paginationData.limit - 1) {
 			if (this.paginationData.currentPage === this.paginationData.totalPages) {
 				return false;
@@ -205,6 +203,10 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
 		return currentIndex - 1;
 	}
+
+  searchColumn(val) {
+    return this.columns.find(iteratedColumn => iteratedColumn.name === val);
+  }
 
 	ngOnDestroy() {
 		this.sub.unsubscribe();

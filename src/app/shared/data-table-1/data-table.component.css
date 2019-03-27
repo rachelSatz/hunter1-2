@@ -1,19 +1,12 @@
 app-side-filters {
-	/*position: absolute;*/
-	/*top: 0;*/
-	/*right: -225px;*/
-	/*padding-left: 10px;*/
 	font-size: 13px;
 	z-index: 1;
 }
 
 app-side-filters ::ng-deep #filtersWrapper {
-	/*height: 700px;*/
-	/*width: 230px;*/
   display: flex;
   align-items: flex-end;
 	padding: 0 10px;
-	/*border-left: 2px solid #ccc;*/
 }
 
 app-side-filters ::ng-deep .bdSelectable {

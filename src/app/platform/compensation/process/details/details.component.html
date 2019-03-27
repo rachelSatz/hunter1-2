@@ -39,32 +39,45 @@
       <input type="file" (change)="uploadedFile = $event.target.files" multiple>
     </label>
   </div>
-    <table [ngClass]="{'displayNone' :items.length === 0}" class="table table-hover data-table">
-      <thead>
-      <tr class="table-headers">
-        <th *ngFor="let header of headers" (click)="sort(header)">
-          <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
-          <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <ng-container *ngIf="!isSearching">
-        <tr *ngFor="let item of paginatedItems" class="pointer">
-          <td>{{ item.file_name }}</td>
-          <td>{{ item.file_type }}</td>
-          <td>{{ item.file_date | date: 'dd/MM/yy' }}</td>
-          <td>
-            <i class="fa fa-download fa-lg ml-2" (click)="downloadFile(item.file_name, item.file_type)" ></i>
-            <i class="fa fa-times-circle fa-lg" (click)="deleteFile(item.file_name)" ></i>
-          </td>
-        </tr>
-      </ng-container>
-      <tr *ngIf="!isSearching && items.length === 0">
-        <td colspan="19" class="text-center bold">טבלת המסמכים ריקה.</td>
-      </tr>
-      </tbody>
-      </table>
+
+  <app-data-table [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false" [hasExtendedSearch]="false" [hasActionsSearch]="false">
+    <tr *ngFor="let item of dataTable.items" class="pointer trtd">
+      <td>{{ item.file_name }}</td>
+      <td>{{ item.file_type }}</td>
+      <td>{{ item.file_date | date: 'dd/MM/yy' }}</td>
+      <td>
+      <i class="fa fa-download fa-lg ml-2" (click)="downloadFile(item.file_name, item.file_type)" ></i>
+      <i class="fa fa-times-circle fa-lg" (click)="deleteFile(item.file_name)" ></i>
+      </td>
+    </tr>
+  </app-data-table>
+
+  <!--<table [ngClass]="{'displayNone' :items.length === 0}" class="table table-hover data-table">-->
+      <!--<thead>-->
+      <!--<tr class="table-headers">-->
+        <!--<th *ngFor="let header of headers" (click)="sort(header)">-->
+          <!--<span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>-->
+          <!--<i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>-->
+        <!--</th>-->
+      <!--</tr>-->
+      <!--</thead>-->
+      <!--<tbody>-->
+      <!--<ng-container *ngIf="!isSearching">-->
+        <!--<tr *ngFor="let item of paginatedItems" class="pointer">-->
+          <!--<td>{{ item.file_name }}</td>-->
+          <!--<td>{{ item.file_type }}</td>-->
+          <!--<td>{{ item.file_date | date: 'dd/MM/yy' }}</td>-->
+          <!--<td>-->
+            <!--<i class="fa fa-download fa-lg ml-2" (click)="downloadFile(item.file_name, item.file_type)" ></i>-->
+            <!--<i class="fa fa-times-circle fa-lg" (click)="deleteFile(item.file_name)" ></i>-->
+          <!--</td>-->
+        <!--</tr>-->
+      <!--</ng-container>-->
+      <!--<tr *ngIf="!isSearching && items.length === 0">-->
+        <!--<td colspan="19" class="text-center bold">טבלת המסמכים ריקה.</td>-->
+      <!--</tr>-->
+      <!--</tbody>-->
+      <!--</table>-->
 
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
 <div mat-dialog-actions class="justify-content-center">

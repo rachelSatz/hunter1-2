@@ -1,3 +1,4 @@
+import {DataTableResponse} from '../data-table-1/classes/data-table-response';
 
 export class Compensation {
   id: number;
@@ -12,7 +13,7 @@ export class Compensation {
   portal_balance: number;
   has_by_safebox: boolean;
   has_file_inquiry: boolean;
-  files: File[] = [];
+  files: DataTableResponse;
   code_error: string;
   error_details: string;
   feedback_level: string;
@@ -25,7 +26,7 @@ export class Compensation {
   reporting_type: string;
 
   constructor() {
-    this.files.push(new File());
+    // this.files.push(new File());
   }
 }
 
