@@ -9,6 +9,7 @@
     <tr *ngFor="let item of dataTable.items" class="pointer" >
       <td>{{ item.company_name }}</td>
       <td>{{ item.name }}</td>
+      <td>{{ typesLabels[item.type]}}</td>
       <td>{{ item.code}}</td>
       <td>{{ item.company_code }}</td>
       <td>

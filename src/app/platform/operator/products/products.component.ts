@@ -20,6 +20,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   products: any;
+  typesLabels = ProductType;
   types = Object.keys(ProductType).map(function(e) {
     return { id: e, name: ProductType[e] };
   });
@@ -27,6 +28,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   readonly columns =  [
     { name: 'company_name', label: 'שם חברה מנהלת', searchable: false},
     { name: 'name', label: 'שם קופה', searchable: false},
+    { name: 'type', label: 'סוג קופה', searchOptions: { labels: this.types } },
     { name: 'code', label: 'מספר קופה באוצר', searchable: false},
     { name: 'company_code', label: 'ח.פ. חברה מנהלת', searchable: false}
   ];
