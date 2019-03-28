@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { PaginationData } from '../classes/pagination-data';
+import {DataTableCriteria} from '../classes/data-table-criteria';
 
 @Component({
 	selector: 'app-pagination',
@@ -9,11 +10,11 @@ import { PaginationData } from '../classes/pagination-data';
 })
 export class PaginationComponent {
 
-	@Input() data: PaginationData;
+	@Input() data:  any;
 	@Input() theme: 'blue' | 'green' = 'blue';
 
 	getCurrentItems(): number {
-		const current = ((this.data.currentPage - 1) * this.data.limit) + 1;
+		const current = ((this.data.paginationData.currentPage - 1) * this.data.limit) + 1;
 		if (current === 1) {
 			return 1;
 		}
@@ -22,10 +23,10 @@ export class PaginationComponent {
 	}
 
 	getMaxShownItems(): number {
-		const max = this.data.currentPage * this.data.limit;
+		const max = this.data.paginationData.currentPage * this.data.limit;
 
-		if (this.data.totalItems < max) {
-			return this.data.totalItems;
+		if (this.data.paginationData.totalItems < max) {
+			return this.data.paginationData.totalItems;
 		}
 
 	 	return max;

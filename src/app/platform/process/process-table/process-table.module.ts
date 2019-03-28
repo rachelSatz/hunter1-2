@@ -5,7 +5,7 @@ import {  RouterModule, Routes } from '@angular/router';
 
 import { ProcessTableComponent } from './process-table.component';
 
-import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 

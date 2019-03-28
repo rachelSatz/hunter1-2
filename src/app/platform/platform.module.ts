@@ -44,7 +44,8 @@ const routes: Routes = [
       { path: 'operator/work-queue', loadChildren: 'app/platform/operator/work-queue/work-queue.module#WorkQueueModule'},
       { path: 'operator/contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
       { path: 'operator/tasks', loadChildren: 'app/platform/operator/employers/employer-form/tasks/tasks.module#TasksModule'},
-      { path: 'operator/documents', loadChildren: 'app/platform/operator/employers/employer-form/documents/documents.module#DocumentsModule'},
+      { path: 'operator/documents', loadChildren:
+          'app/platform/operator/employers/employer-form/documents/documents.module#DocumentsModule'},
       { path: 'operator/products', loadChildren: 'app/platform/operator/products/products.module#ProductsModule' },
       { path: 'operator/plans', loadChildren: 'app/platform/operator/plans/plans.module#PlansModule' }
     ]
@@ -65,6 +66,7 @@ const routes: Routes = [
   ],
   declarations: [PlatformComponent, InquiryFormComponent, CommentsFormComponent, InquiriesComponent],
   entryComponents: [InquiryFormComponent, CommentsFormComponent, InquiriesComponent],
-  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, DatePipe, TimerService, OperatorTasksService]
+  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService,
+    DatePipe, TimerService, OperatorTasksService]
 })
 export class PlatformModule {}

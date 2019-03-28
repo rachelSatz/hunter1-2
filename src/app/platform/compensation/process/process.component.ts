@@ -60,27 +60,27 @@ export class ProcessComponent implements OnInit, OnDestroy {
     return { id: e, name: ValidityMethods[e] };
   });
   nameCompany = 'company';
-  nameUserId = 'userId';
+  nameUserId = 'user_id';
 
   readonly columns  = [
     { name: 'created_at', label: 'תאריך יצירת בקשה', searchOptions: { isDate: true }},
     { name: 'updated_at', label: 'תאריך עדכון בקשה', searchable: false},
-    { name: 'userId', label: 'יוצר הבקשה', searchOptions: { labels: [] } },
-    { name: 'employer_name', label: 'מעסיק' , searchable: false},
-    { name: 'department_name', label: 'מחלקה' , searchable: false  },
-    { name: 'employee', label: 'עובד' , searchable: false},
-    { name: 'personal_id', label: 'ת"ז' , searchable: false},
-    { name: this.nameCompany, label: 'חברה מנהלת' , searchOptions: { labels: [] } },
+    { name: this.nameUserId, label: 'יוצר הבקשה', searchOptions: { labels: [] } },
+    { name: 'employer_name', label: 'מעסיק', sortName: 'department__employer__name', searchable: false},
+    { name: 'department_name', label: 'מחלקה', sortName: 'department__name', searchable: false  },
+    { name: 'employee', label: 'עובד', sortName: 'employee__first_name', searchable: false},
+    { name: 'personal_id', label: 'ת"ז', sortName: 'employee__identifier', searchable: false},
+    { name: this.nameCompany, label: 'חברה מנהלת', sortName: 'company__name', searchOptions: { labels: [] } },
     { name: 'product_type', label: 'סוג מוצר' , searchable: false },
-    { name: 'validity_date', label: 'תאריך נכונות' , searchable: false},
-    { name: 'source_type', label: 'מקור המידע', searchOptions: { labels: this.sourceTypes } },
+    { name: 'validity_date', label: 'תאריך נכונות', searchable: false},
+    { name: 'sending_method', label: 'מקור המידע', searchOptions: { labels: this.sourceTypes } },
     { name: 'status', label: 'סטטוס', searchOptions: { labels: this.selectStatuses }},
-    { name: 'response_time', label: 'העבר לטיפול' , subLabel: 'ימי טיפול', searchOptions: { labels: this.responseTimes }},
-    { name: 'request', label: 'פניות' , searchable: false},
-    { name: 'comment', label: 'הערות' , searchable: false},
-    { name: 'download', label: 'הורדה', searchable: false },
-    { name: 'null', label: 'פרטים' , searchable: false },
-    { name: 'validity', label: 'תקינות' , searchOptions: { labels: this.validity } }
+    { name: 'response_time', label: 'העבר לטיפול' , isSort: false, subLabel: 'ימי טיפול', searchOptions: { labels: this.responseTimes }},
+    { name: 'request', label: 'פניות' , isSort: false, searchable: false},
+    { name: 'comment', label: 'הערות' , isSort: false, searchable: false},
+    { name: 'download', label: 'הורדה' , isSort: false, searchable: false },
+    { name: 'null', label: 'פרטים', isSort: false, searchable: false },
+    { name: 'validity', label: 'תקינות', isSort: false, searchOptions: { labels: this.validity } }
   ];
 
   constructor(protected route: ActivatedRoute,
@@ -92,7 +92,6 @@ export class ProcessComponent implements OnInit, OnDestroy {
               protected notificationService: NotificationService,
               private selectUnit: SelectUnitService,
               private helpers: HelpersService) {
-
   }
 
   ngOnInit() {
@@ -114,7 +113,6 @@ export class ProcessComponent implements OnInit, OnDestroy {
       this.dataTable.criteria.filters['employerId'] = employerId;
       this.dataTable.criteria.filters['organizationId'] = organizationId;
       this.dataTable.criteria.filters['departmentId'] = departmentId;
-      this.dataTable.criteria.filters['limit'] =  this.dataTable.limit;
       this.compensationService.getCompensations(this.dataTable.criteria).then(response => {
         this.setResponse(response);
       });

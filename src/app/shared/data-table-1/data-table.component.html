@@ -25,7 +25,7 @@
 		<th *ngFor="let column of columns" (click)="sort(column)" class="pointer table-header">
 			<span [matTooltip]="'מיין לפי ' + column.label">{{ column.label }}</span>
 			<i [@rotate]="rotateSortingIcon()" class="fa fa-chevron-down"
-         [@fade]="criteria.sort.column === (column.sortName ? column.sortName: column.name) ? 'active' : 'inactive'"></i>
+         [@fade]="(criteria.sort.column_show === column.name) && column.isSort != false ? 'active' : 'inactive'"></i>
 		</th>
 		<th class="table-header" *ngIf="hasActionsHeader">פעולות</th>
 	</tr>
@@ -33,4 +33,4 @@
 	<ng-content></ng-content>
 </table>
 <p *ngIf="items.length === 0" class="text-center bold">{{ isLoading ? 'בטעינה...' : 'אין פריטים לתצוגה.' }}</p>
-<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
+<app-pagination [data]="({paginationData: paginationData, limit: criteria.limit})" *ngIf="items.length > 0"></app-pagination>

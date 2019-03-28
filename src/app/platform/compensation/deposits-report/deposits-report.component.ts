@@ -50,20 +50,20 @@ export class DepositsReportComponent implements OnInit {
   nameUserId = 'user_id';
 
   readonly columns =  [
-    { name: 'created_at', label: 'תאריך יצירת בקשה' , searchable: false },
-    { name: 'updated_at', label: 'תאריך עדכון בקשה' , searchable: false},
-    { name: this.nameUserId, label: 'יוצר הבקשה' , searchOptions: { labels: [] }},
-    { name: 'employer_name', label: 'מעסיק' , sortName: 'department__employer__name', searchable: false},
-    { name: 'department_name', label: 'מחלקה' , sortName: 'department__name' , searchable: false},
-    { name: 'employee_name', label: 'עובד' , sortName: 'employee__first_name', searchable: false},
-    { name: 'personal_id', label: 'ת"ז' , sortName: 'employee__identifier', searchable: false},
-    { name: this.nameCompany, label: 'חברה מנהלת' , sortName: 'company__name', searchOptions: { labels: [] }},
-    { name: 'validity_date', label: 'תאריך נכונות' , searchable: false},
+    { name: 'created_at', label:  'תאריך יצירת בקשה', searchable: false },
+    { name: 'updated_at', label: 'תאריך עדכון בקשה', searchable: false},
+    { name: this.nameUserId, label: 'יוצר הבקשה', searchOptions: { labels: [] }},
+    { name: 'employer_name', label: 'מעסיק', sortName: 'employer__name', searchable: false},
+    { name: 'department_name', label: 'מחלקה', sortName: 'employee__department__name' , searchable: false},
+    { name: 'employee_name', label: 'עובד', sortName: 'employee__first_name', searchable: false},
+    { name: 'personal_id', label: 'ת"ז', sortName: 'employee__identifier', searchable: false},
+    { name: this.nameCompany, label: 'חברה מנהלת', sortName: 'company__name', searchOptions: { labels: [] }},
+    { name: 'validity_date', label: 'תאריך נכונות', searchable: false},
     { name: 'status', label: 'סטטוס', searchOptions: { labels: this.selectStatuses }},
-    { name: 'response_time', label: 'העבר לטיפול' , searchable: false},
-    { name: 'request', label: 'פניות' , searchable: false},
-    { name: 'comment', label: 'הערות' , searchable: false},
-    { name: 'details', label: 'פרטים' , searchable: false}
+    { name: 'response_time', label: 'העבר לטיפול', isSort: false , searchable: false},
+    { name: 'request', label: 'פניות', isSort: false, searchable: false},
+    { name: 'comment', label: 'הערות', isSort: false, searchable: false},
+    { name: 'details', label: 'פרטים', isSort: false, searchable: false}
   ];
 
   ngOnInit() {
@@ -85,8 +85,6 @@ export class DepositsReportComponent implements OnInit {
       this.dataTable.criteria.filters['employerId'] = employerId;
       this.dataTable.criteria.filters['organizationId'] = organizationId;
       this.dataTable.criteria.filters['departmentId'] = departmentId;
-      this.dataTable.criteria.filters['limit'] =  this.dataTable.limit;
-
       this.depositsReportService.getDepositsReport(this.dataTable.criteria).then(response => {
         this.setResponse(response);
       });

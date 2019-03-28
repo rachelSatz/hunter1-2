@@ -14,6 +14,8 @@ import { BankBranch } from '../../_models/bank-branch.model';
 import { Manufacturer } from '../../_models/manufacturer.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
 
 @Injectable()
 export class ProcessService extends BaseHttpService {
@@ -31,22 +33,22 @@ export class ProcessService extends BaseHttpService {
       .then(response => response as Process);
   }
 
-  getProcesses(searchCriteria?: Object): Promise<Process[]> {
+  getProcesses(criteria: DataTableCriteria): Promise<DataTableResponse> {
     const options = this.getTokenHeader();
-    options['params'] = searchCriteria;
+    options['params'] = this.setDataTableParams(criteria);
 
     return this.http.get(this.endPoint, options)
       .toPromise()
-      .then(response => response as Process[]);
+      .then(response => response as DataTableResponse);
   }
 
-  getFilesList(processId: number): Promise<ViewProcess[]> {
+  getFilesList(criteria: DataTableCriteria): Promise<DataTableResponse> {
     const options = this.getTokenHeader();
-    options['params'] = {processId : processId};
+    options['params'] = this.setDataTableParams(criteria);
 
     return this.http.get( this.endPoint + '/FilesList', options)
       .toPromise()
-      .then(response => response as ViewProcess[]);
+      .then(response => response as DataTableResponse);
   }
 
   downloadMasav(id: number): Promise<string> {
