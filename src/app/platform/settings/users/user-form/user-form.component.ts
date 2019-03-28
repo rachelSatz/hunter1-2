@@ -125,4 +125,8 @@ export class UserFormComponent implements OnInit {
       }
     }
   }
+
+  back(): void {
+    this.router.navigate(['platform', 'settings', 'users']);
+  }
 }

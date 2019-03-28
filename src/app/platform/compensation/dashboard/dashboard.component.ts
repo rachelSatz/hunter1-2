@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   sub = new Subscription;
   isSearching: boolean;
-  users = [];
+  users: any;
   sourceType = Object.keys(CompensationSendingMethods).map(function(e) {
     return { id: e, name: CompensationSendingMethods[e] };
   });

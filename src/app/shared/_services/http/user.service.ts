@@ -6,6 +6,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { User } from '../../_models/user.model';
 import { Employer } from '../../_models/employer.model';
+import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
+import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
 
 @Injectable()
 export class UserService extends BaseHttpService {
@@ -21,16 +23,18 @@ export class UserService extends BaseHttpService {
     .then(response => response as Employer[]);
   }
 
-  getUsers(searchCriteria?: Object): Promise<User[]> {
+  getUsers(criteria?: DataTableCriteria): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
 
-    if (searchCriteria) {
-      request['params'] = searchCriteria;
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
     }
 
     return this.http.get(this.endPoint, request)
       .toPromise()
-      .then(response => response as User[]);
+      .then(response => response as DataTableResponse)
+      .catch(() => null);
+
   }
 
   getUser(id: number): Promise<User> {
