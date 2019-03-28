@@ -60,8 +60,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
 	items = [];
 	sub = new Subscription;
-	criteria = new DataTableCriteria;
-	paginationData = new PaginationData(this.limit);
+	criteria = new DataTableCriteria( this.limit);
+	paginationData = new PaginationData();
 	isLoading: boolean;
 	isActive = true;
 	savedItem: string;
@@ -110,19 +110,33 @@ export class DataTableComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	search(): void {
-		this.loadItems();
+	search(event?: KeyboardEvent): void {
+    if (((event && (event.code === 'Enter' || event.code === 'NumpadEnter')) || !event) && !this.isLoading) {
+      this.loadItems();
+    }
 	}
 
 	extendedSearch(values: Object): void {
 		this.criteria.filters = values;
-		this.search();
+
+    if (this.criteria.page  > 1) {
+      this.criteria.page = 1;
+      this.paginationData.currentPage = this.criteria.page;
+
+      const url: string = this.router.url.substring(0, this.router.url.indexOf('?'));
+      this.router.navigateByUrl(url);
+    } else {
+      this.search();
+    }
 	}
 
 	sort(column: DataTableColumn): void {
-		this.criteria.sort.column =  column.sortName ? column.sortName : column.name;
-    this.criteria.sort.direction = (this.criteria.sort.direction === 'DESC') ? 'ASC' : 'DESC';
-		this.loadItems();
+	  if (column.isSort !== false) {
+      this.criteria.sort.column = column.sortName ? column.sortName : column.name;
+      this.criteria.sort.column_show = column.name;
+      this.criteria.sort.direction = (this.criteria.sort.direction === 'DESC') ? 'ASC' : 'DESC';
+      this.loadItems();
+    }
 	}
 
 	checkAll(isChecked: boolean): void {
@@ -179,7 +193,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	}
 
 	nextItem(currentIndex: number): any {
-		if (currentIndex === this.paginationData.limit - 1) {
+		if (currentIndex === this.criteria.limit - 1) {
 			if (this.paginationData.currentPage === this.paginationData.totalPages) {
 				return false;
 			}
@@ -198,7 +212,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 			}
 
 			return this.router.navigate(['./'], { queryParams: { page: this.paginationData.currentPage + 1 } })
-			.then(() => this.paginationData.limit - 1);
+			.then(() => this.criteria.limit - 1);
 		}
 
 		return currentIndex - 1;

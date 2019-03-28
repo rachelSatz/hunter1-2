@@ -1,12 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { ProcessService } from 'app/shared/_services/http/process.service';
-import { PaymentType, FilesStatus, EmployerProduct } from 'app/shared/_models/process.model';
+import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { PaymentType, EmployerProduct } from 'app/shared/_models/process.model';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
+import { ProductType } from 'app/shared/_models/product.model';
+import { Status } from 'app/shared/_models/file-feedback.model';
 
 import { AttachReferenceComponent } from './attach-reference/attach-reference.component';
 import { UpdatePaymentTypeComponent } from './update-payment-type/update-payment-type.component';
@@ -16,27 +19,26 @@ import { CommentsComponent } from './comments/comments.component';
 
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
-import { ProcessDataService } from 'app/shared/_services/process-data-service';
-import { ProductType } from 'app/shared/_models/product.model';
-import { Status } from 'app/shared/_models/file-feedback.model';
-import {HelpersService} from '../../../../../shared/_services/helpers.service';
+
 
 @Component({
   selector: 'app-detailed-files',
   templateUrl: './detailed-files.component.html',
   styleUrls: ['../../../../../shared/data-table/data-table.component.css', './detailed-files.component.css']
 })
-export class DetailedFilesComponent extends DataTableComponent implements OnInit, OnDestroy {
+export class DetailedFilesComponent implements OnInit, OnDestroy {
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'group_id', label: 'מס קבוצה' }, { column: 'company', label: 'חברה מנהלת' },
-    { column: 'product_pay', label: 'קופה בשכר' }, { column: 'product_type', label: 'סוג מוצר' },
-    { column: 'product', label: 'מ"ה' }, { column: 'type_pay', label: 'סוג תשלום' },
-    { column: 'payment_identifier', label: 'מס אסמכתא' },
-    { column: 'account', label: 'מס חשבון/צק' }, { column: 'date_pay', label: 'תאריך תשלום' },
-    { column: 'amount', label: 'סכום' }, { column: 'number', label: 'מספר מזהה' },
-    { column: 'comment', label: 'הערות' }, { column: 'status', label: 'סטטוס' },
-    { column: 'file', label: 'אסמכתא' }, { column: 'broadcast_lock', label: 'נעילת שידור' }
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+
+  readonly columns =  [
+    { name: 'group_id', label: 'מס קבוצה' }, { column: 'company', label: 'חברה מנהלת' },
+    { name: 'product_pay', label: 'קופה בשכר' }, { column: 'product_type', label: 'סוג מוצר' },
+    { name: 'product', label: 'מ"ה' }, { column: 'type_pay', label: 'סוג תשלום' },
+    { name: 'payment_identifier', label: 'מס אסמכתא' },
+    { name: 'account', label: 'מס חשבון/צק' }, { column: 'date_pay', label: 'תאריך תשלום' },
+    { name: 'amount', label: 'סכום' }, { column: 'number', label: 'מספר מזהה' },
+    { name: 'comment', label: 'הערות' }, { column: 'status', label: 'סטטוס' },
+    { name: 'file', label: 'אסמכתא' }, { column: 'broadcast_lock', label: 'נעילת שידור' }
   ];
 
   constructor(protected route: ActivatedRoute,
@@ -45,7 +47,6 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
               private processDataService: ProcessDataService,
               protected  notificationService: NotificationService,
               private helpers: HelpersService ) {
-  super(route , notificationService);
   }
 
   paymentType = PaymentType;
@@ -55,15 +56,16 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   statuses = Status;
 
   ngOnInit() {
-    super.ngOnInit();
+
   }
 
   fetchItems () {
     this.helpers.setPageSpinner(true);
-    this.processService.getFilesList(this.processDataService.activeProcess.processID)
+    this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID
+    this.processService.getFilesList(this.dataTable.criteria)
       .then( response => {
         this.helpers.setPageSpinner(false);
-        this.setItems(response);
+        this.dataTable.setItems(response);
       });
   }
 
@@ -72,7 +74,7 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
       const dialog = this.dialog.open(AttachReferenceComponent, {
-        data: {'file_id': this.checkedItems.map(item => item.file_id)},
+        data: {'file_id': this.dataTable.criteria.checkedItems.map(item => item['file_id'])},
         width: '550px',
         panelClass: 'send-email-dialog'
       });
@@ -87,8 +89,8 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   }
 
   checkedRowItems(): boolean {
-    if (this.checkedItems.length === 0) {
-      this.setNoneCheckedWarning();
+    if (this.dataTable.criteria.checkedItems.length === 0) {
+      this.dataTable.setNoneCheckedWarning();
       return false;
     }
     return true;
@@ -124,7 +126,8 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
      if (file_id !== -1 || this.checkedRowItems()) {
        if (this.isLockedBroadcast()) {
          const dialog = this.dialog.open(UpdatePaymentDateComponent, {
-           data: {'date': date, 'file_id': file_id === -1 ? this.checkedItems.map(item => item.file_id) : [file_id]},
+           data: {'date': date, 'file_id': file_id === -1 ?
+               this.dataTable.criteria.checkedItems.map(item => item['file_id']) : [file_id]},
            width: '550px',
            panelClass: 'dialog-file'
          });
@@ -151,16 +154,16 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
       const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלונטית?' : 'האם ברצונך למחוק שורת אלו?';
       const typeData = type ? 'notRelevant' : 'delete';
       if (this.checkedRowItems()) {
-        if(this.isLockedBroadcast()){
+        if (this.isLockedBroadcast()) {
           const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
           this.notificationService.warning(title, body, buttons).then(confirmation => {
             if (confirmation.value) {
-              this.processService.update(typeData, '', this.checkedItems.map(item => item.file_id))
+              this.processService.update(typeData, '', this.dataTable.criteria.checkedItems.map(item => item['file_id']))
                 .then(response => {
                   if (response) {
-                    this.checkedItems = [];
-                    this.isCheckAll = false;
+                    // this.checkedItems = [];
+                    // this.isCheckAll = false;
                     this.fetchItems();
                   } else {
                     this.notificationService.error('', 'הפעולה נכשלה');
@@ -176,12 +179,11 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
 
   openSent(): void {
     if (this.checkedRowItems()) {
-      if(this.isUnLockedBroadcast()){
+      if (this.isUnLockedBroadcast()) {
         this.processService.unlockProcessFiles(this.processDataService.activeProcess.processID).then( r => {
-            if(r['authorized'] == false && r['success'] == 'Message_Sent')
-            {
+            if (r['authorized'] === false && r['success'] === 'Message_Sent') {
                 this.notificationService.success('', 'ממתין לאישור מנהל');
-            } else  if(r['authorized'] == true && r['success'] == true) {
+            } else  if (r['authorized'] === true && r['success'] === true) {
               this.notificationService.success('', 'נפתח בצלחה');
               this.fetchItems();
             } else {
@@ -196,14 +198,14 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   }
 
   isLockedBroadcast(): boolean {
-    if (this.checkedItems.find(item => item.status == 'sent')) {
+    if (this.dataTable.criteria.checkedItems.find(item => item['status'] === 'sent')) {
       return false;
     }
     return true;
   }
 
   isUnLockedBroadcast(): boolean {
-    if (this.checkedItems.find(item => item.status == 'not_sent')) {
+    if (this.dataTable.criteria.checkedItems.find(item => item['status'] === 'not_sent')) {
       return false;
     }
     return true;
@@ -242,7 +244,6 @@ export class DetailedFilesComponent extends DataTableComponent implements OnInit
   }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
     this.sub.unsubscribe();
   }
 }

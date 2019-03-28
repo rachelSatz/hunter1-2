@@ -14,7 +14,7 @@ import {
 } from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
-import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { CommentsComponent } from '../detailed-files/comments/comments.component';
 import { UpdatePaymentTypeComponent } from '../detailed-files/update-payment-type/update-payment-type.component';

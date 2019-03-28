@@ -1,25 +1,24 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-
-import { ProcessService } from 'app/shared/_services/http/process.service';
-import { ProcessDataService } from 'app/shared/_services/process-data-service';
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { NotificationService } from 'app/shared/_services/notification.service';
-
-import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
-import { Process, ProcessStatus, ProcessType } from 'app/shared/_models/process.model';
+import { Subscription } from 'rxjs';
+
 import { MONTHS } from 'app/shared/_const/months';
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { Process, ProcessStatus, ProcessType } from 'app/shared/_models/process.model';
 
 @Component({
   selector: 'app-process-table',
   templateUrl: './process-table.component.html',
-  styleUrls: ['../../../shared/data-table/data-table.component.css', './process-table.component.css']
+  styleUrls: ['./process-table.component.css']
 })
-export class ProcessTableComponent extends DataTableComponent  implements OnInit, OnDestroy {
+export class ProcessTableComponent implements OnInit, OnDestroy {
+
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   processStatus = ProcessStatus;
   processType = ProcessType;
@@ -29,13 +28,17 @@ export class ProcessTableComponent extends DataTableComponent  implements OnInit
   sub = new Subscription;
 
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'process_name', label: 'שם תהליך' }, { column: 'process_number', label: 'מספר תהליך' },
-    { column: 'type', label: 'סוג תהליך' },
-    { column: 'employer_name', label: 'שם מעסיק' }, { column: 'employer_name', label: 'שם מחלקה' },
-    { column: 'month', label: 'חודש' }, {column: 'year', label: 'שנה' },
-    { column: 'amount', label: 'סכום' }, { column: 'status', label: 'סטטוס ' }
-    , { column: 'download', label: 'הורדה' }
+  readonly columns =  [
+    { name: 'process_name', label: 'שם תהליך' },
+    { name: 'process_number', label: 'מספר תהליך' },
+    { name: 'type', label: 'סוג תהליך' },
+    { name: 'employer_name', label: 'שם מעסיק' },
+    { name: 'employer_name', label: 'שם מחלקה' },
+    { name: 'month', label: 'חודש' },
+    { name: 'year', label: 'שנה' },
+    { name: 'amount', label: 'סכום' },
+    { name: 'status', label: 'סטטוס ' },
+    { name: 'download', label: 'הורדה' }
   ];
 
   constructor(route: ActivatedRoute, private router: Router,
@@ -43,14 +46,11 @@ export class ProcessTableComponent extends DataTableComponent  implements OnInit
               private selectUnit: SelectUnitService,
               protected notificationService: NotificationService,
               public processDataService: ProcessDataService) {
-    super(route, notificationService);
-    this.searchCriteria['year'] = this.year;
   }
 
   ngOnInit() {
+    this.dataTable.criteria.filters['year'] = this.year;
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
-
-    super.ngOnInit();
   }
 
   fetchItems() {
@@ -59,15 +59,15 @@ export class ProcessTableComponent extends DataTableComponent  implements OnInit
     const departmentId = this.selectUnit.currentDepartmentID;
 
     if (organizationId) {
-      this.searchCriteria['departmentId'] = departmentId;
-      this.searchCriteria['employerId'] = employerId;
-      this.searchCriteria['organizationId'] = organizationId;
-      this.processService.getProcesses(this.searchCriteria).then(response => this.setItems(response));
+      this.dataTable.criteria.filters['departmentId'] = departmentId;
+      this.dataTable.criteria.filters['employerId'] = employerId;
+      this.dataTable.criteria.filters['organizationId'] = organizationId;
+      this.processService.getProcesses(this.dataTable.criteria).then(
+        response => this.dataTable.setItems(response));
     }
   }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
     this.sub.unsubscribe();
   }
 
@@ -123,5 +123,4 @@ export class ProcessTableComponent extends DataTableComponent  implements OnInit
   messageError(error: string): void {
     this.notificationService.error('', error);
   }
-
 }

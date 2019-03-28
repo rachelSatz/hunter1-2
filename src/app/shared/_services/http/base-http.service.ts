@@ -43,6 +43,10 @@ export class BaseHttpService {
       formattedParams['page'] = criteria.page;
     }
 
+    if (criteria.limit) {
+      formattedParams['limit'] = criteria.limit;
+    }
+
     return formattedParams;
   }
 }

@@ -4,43 +4,43 @@
       <span>מציג</span>
       <span class="bold">{{ getCurrentItems() }} - {{ getMaxShownItems() }}</span>
       <span>מתוך</span>
-      <span class="bold">{{ data.totalItems }}</span>
+      <span class="bold">{{ data.paginationData.totalItems }}</span>
       <span>רשומות</span>
     </span>
   </div>
   <ul [class]="'justify-content-center pagination '  + theme + '-theme'">
-    <li class="page-item" *ngIf="data.currentPage > 1">
+    <li class="page-item" *ngIf="data.paginationData.currentPage > 1">
       <a class="page-link" routerLink="./" [queryParams]="{ page: 1 }">
         <i class="fa fa-angle-double-right"></i>
       </a>
     </li>
-	  <li class="page-item" *ngIf="data.currentPage > 1">
-		  <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage - 1 }">
+	  <li class="page-item" *ngIf="data.paginationData.currentPage > 1">
+		  <a class="page-link" routerLink="./" [queryParams]="{ page: data.paginationData.currentPage - 1 }">
 			  <i class="fa fa-angle-right"></i>
 		  </a>
 	  </li>
-    <li class="page-item" *ngIf="data.currentPage - 2 >= 1">
-      <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage - 2 }">{{ data.currentPage - 2 }}</a>
+    <li class="page-item" *ngIf="data.paginationData.currentPage - 2 >= 1">
+      <a class="page-link" routerLink="./" [queryParams]="{ page: data.paginationData.currentPage - 2 }">{{ data.paginationData.currentPage - 2 }}</a>
     </li>
-    <li class="page-item" *ngIf="data.currentPage - 1 >= 1">
-      <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage - 1 }">{{ data.currentPage - 1 }}</a>
+    <li class="page-item" *ngIf="data.paginationData.currentPage - 1 >= 1">
+      <a class="page-link" routerLink="./" [queryParams]="{ page: data.paginationData.currentPage - 1 }">{{ data.paginationData.currentPage - 1 }}</a>
     </li>
-    <li class="page-item active" *ngIf="data.totalPages > 1">
-      <a class="page-link">{{ data.currentPage }}</a>
+    <li class="page-item active" *ngIf="data.paginationData.totalPages > 1">
+      <a class="page-link">{{ data.paginationData.currentPage }}</a>
     </li>
-    <li class="page-item" *ngIf="data.currentPage + 1 <= data.totalPages">
-      <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage + 1 }">{{ data.currentPage + 1 }}</a>
+    <li class="page-item" *ngIf="data.paginationData.currentPage + 1 <= data.paginationData.totalPages">
+      <a class="page-link" routerLink="./" [queryParams]="{ page: data.paginationData.currentPage + 1 }">{{ data.paginationData.currentPage + 1 }}</a>
     </li>
-    <li class="page-item" *ngIf="data.currentPage + 2 <= data.totalPages">
-      <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage + 2 }">{{ data.currentPage + 2 }}</a>
+    <li class="page-item" *ngIf="data.paginationData.currentPage + 2 <= data.totalPages">
+      <a class="page-link" routerLink="./" [queryParams]="{ page: data.paginationData.currentPage + 2 }">{{ data.paginationData.currentPage + 2 }}</a>
     </li>
-	  <li class="page-item" *ngIf="data.currentPage < data.totalPages">
-		  <a class="page-link" routerLink="./" [queryParams]="{ page: data.currentPage + 1 }">
+	  <li class="page-item" *ngIf="data.paginationData.currentPage < data.totalPages">
+		  <a class="page-link" routerLink="./" [queryParams]="{ page: data.paginationData.currentPage + 1 }">
 			  <i class="fa fa-angle-left"></i>
 		  </a>
 	  </li>
-    <li class="page-item" *ngIf="data.currentPage < data.totalPages">
-      <a class="page-link" routerLink="./" [queryParams]="{ page: data.totalPages }">
+    <li class="page-item" *ngIf="data.paginationData.currentPage < data.paginationData.totalPages">
+      <a class="page-link" routerLink="./" [queryParams]="{ page: data.paginationData.totalPages }">
         <i class="fa fa-angle-double-left"></i>
       </a>
     </li>
