@@ -186,9 +186,9 @@ export class PlatformComponent implements OnInit {
     this.helpers.setPageSpinner(true);
     this.organizationService.getOrganizations().then(response => {
       this.selectUnit.setOrganization(response);
-      this.organizations = response;
+      this.organizations = response['items'];
       if (!this._is_Employer) {
-        this.organizationId = response.length > 0 ? response[0].id : 0;
+        this.organizationId = response['items'].length > 0 ? response['items'][0].id : 0;
       }
       if (!is_loadEmployer) {
         this.helpers.setPageSpinner(false);

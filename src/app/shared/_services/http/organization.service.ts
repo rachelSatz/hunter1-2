@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { Organization } from '../../_models/organization.model';
+import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
 
 @Injectable()
 export class OrganizationService extends BaseHttpService {
@@ -15,11 +16,11 @@ export class OrganizationService extends BaseHttpService {
   readonly endPoint = this.apiUrl + '/organizations';
 
 
-  getOrganizations(): Promise<Organization[]> {
+  getOrganizations(): Promise<DataTableResponse> {
     return this.http.get(this.endPoint, this.getTokenHeader())
       .toPromise()
-      .then(response => response as Organization[])
-      .catch(() => []);
+      .then(response => response as DataTableResponse)
+      .catch(() => null);
   }
 
   getOrganizationsNameAndId(): Promise<Organization[]> {
