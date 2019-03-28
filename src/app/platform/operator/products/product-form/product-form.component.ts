@@ -132,6 +132,11 @@ export class ProductFormComponent implements OnInit {
     }
   }
 
+  back(): void {
+    this.router.navigate(['platform', 'operator', 'products']);
+
+  }
+
   openRedirectedProductDialog(productId: number): void {
     this.dialog.open(RedirectedProductComponent, {
       data: {productId : productId, allProducts: this.allProducts},

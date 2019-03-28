@@ -50,4 +50,8 @@ export class OrganizationFormComponent implements OnInit {
     }
   }
 
+  back(): void {
+    this.router.navigate(['platform', 'settings', 'organizations']);
+  }
+
 }

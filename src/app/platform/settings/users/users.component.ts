@@ -39,7 +39,6 @@ export class UsersComponent  implements OnInit {
   }
 
   fetchItems() {
-    this.dataTable.criteria.filters['limit'] =  this.dataTable.limit;
     this.userService.getUsers(this.dataTable.criteria).then(response => {
       this.dataTable.setItems(response);
       this.user = response;
