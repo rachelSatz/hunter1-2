@@ -16,7 +16,14 @@ export class OrganizationService extends BaseHttpService {
   readonly endPoint = this.apiUrl + '/organizations';
 
 
-  getOrganizations(): Promise<DataTableResponse> {
+  getOrganizations(): Promise<Organization[]> {
+    return this.http.get(this.endPoint + '/getOrganizations', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Organization[])
+      .catch(() => null);
+  }
+
+  getOrganizationTable(): Promise<DataTableResponse> {
     return this.http.get(this.endPoint, this.getTokenHeader())
       .toPromise()
       .then(response => response as DataTableResponse)

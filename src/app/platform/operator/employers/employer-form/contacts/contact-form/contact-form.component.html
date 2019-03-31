@@ -1,17 +1,24 @@
-
+<!--<div class="row">-->
+  <!--<div class="d-flex mr-auto ml-3">-->
+    <!--<a (click)="back()">-->
+      <!--<p class="f-14 grey-color">-->
+        <!--<i class="fa fa-angle-right ml-1 ml-lg-2"></i>-->
+        <!--<span>חזור</span>-->
+      <!--</p>-->
+    <!--</a>-->
+  <!--</div>-->
+<!--</div>-->
 <div [ngClass]="{'operator-container': !pathEmployers }">
-  <!--(ngSubmit)="submit(form, type)"-->
   <form #form="ngForm"   class="col-12 col-lg-6 p-0">
     <div class="d-flex justify-content-center align-items-center">
-      <mat-form-field class="col-lg-4">
-        <input matInput placeholder="כתובת מייל" type="email"
-               name="email" [(ngModel)]="contact.email" (change)="disabled = false"
-               pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
-        <mat-error>שדה חובה.</mat-error>
-      </mat-form-field>
-      <button class="btn blue-btn" type="submit"  (click)="submit(form, 'show')" >הצג</button>
-    </div>
-
+        <mat-form-field class="col-lg-4">
+          <input matInput placeholder="כתובת מייל" type="email"
+                 name="email" [(ngModel)]="contact.email" (change)="disabled = false"
+                 pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+          <mat-error>שדה חובה.</mat-error>
+        </mat-form-field>
+        <button class="btn blue-btn" type="submit"  (click)="submit(form, 'show')" >הצג</button>
+      </div>
     <div [ngClass]="{'disabledInput': (!contact.id && !disabled) ||  (contact.id && !disabled) }">
       <div *ngIf="location == 'operator'" class="row mt-3" [ngClass]="{'disabledInput': contact.id }">
         <div class="col-12 col-lg-4">

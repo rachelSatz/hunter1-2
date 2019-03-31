@@ -21,7 +21,7 @@ export class OrganizationsComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit() {
-    this.organizationService.getOrganizations().then(response => {
+    this.organizationService.getOrganizationTable().then(response => {
       this.dataTable.setItems(response);
     });
   }

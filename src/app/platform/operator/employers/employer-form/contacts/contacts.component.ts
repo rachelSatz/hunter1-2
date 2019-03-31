@@ -1,19 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { EntityTypes } from 'app/shared/_models/contact.model';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
-export class ContactsComponent extends DataTableComponent implements OnInit , OnDestroy {
+export class ContactsComponent implements OnInit , OnDestroy {
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   sub = new Subscription;
 
@@ -21,57 +21,56 @@ export class ContactsComponent extends DataTableComponent implements OnInit , On
   entity_types = EntityTypes;
   location: string;
 
-  constructor(route: ActivatedRoute,
+  constructor(public route: ActivatedRoute,
               private contactService: ContactService,
               private router: Router,
               private selectUnit: SelectUnitService) {
-    super(route);
   }
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'organization_name', label: 'ארגון' },
-    { column: 'employer_name', label: 'מעסיק' },
-    { column: 'type', label: 'סוג גורם' },
-    { column: 'name', label: 'שם מלא' },
-    { column: 'phone', label: 'טלפון' },
-    { column: 'mobile', label: 'טלפון נייד' },
-    { column: 'email', label: 'כתובת מייל' },
-    { column: 'comment', label: 'הערות' }
+  readonly columns =  [
+    { name: 'organization_name', label: 'ארגון' , searchable: false},
+    { name: 'employer_name', label: 'מעסיק' , searchable: false},
+    { name: 'type', label: 'סוג גורם' , searchable: false},
+    { name: 'name', label: 'שם מלא' , searchable: false},
+    { name: 'phone', label: 'טלפון' , searchable: false},
+    { name: 'mobile', label: 'טלפון נייד' , searchable: false},
+    { name: 'email', label: 'כתובת מייל' , searchable: false},
+    { name: 'comment', label: 'הערות' , searchable: false}
   ];
-
 
   ngOnInit() {
     if (this.router.url.includes( 'employers')) {
         this.pathEmployers = true;
         this.location = 'employers';
-        this.paginationData.limit = 4;
+        this.dataTable.criteria.limit = 4;
     } else if (this.router.url.includes( 'operator')) {
       this.location = 'operator';
     } else {
         this.location = 'settings';
     }
-
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
-
-    super.ngOnInit();
   }
 
   fetchItems() {
-    this.contactService.getContacts(this.selectUnit.currentOrganizationID,
-      this.selectUnit.currentEmployerID,
-      this.location)
-      .then(response => this.setItems(response));
+    const organizationId = this.selectUnit.currentOrganizationID;
+    const employerId = this.selectUnit.currentEmployerID;
+
+    if (employerId) {
+      this.dataTable.criteria.filters['employerId'] = employerId;
+    } else {
+      this.dataTable.criteria.filters['organizationId'] = organizationId;
+    }
+    this.dataTable.criteria.filters['location'] = this.location;
+    this.contactService.getContacts(this.dataTable.criteria)
+      .then(response => {
+        this.setResponse(response);
+      });
   }
-  //
-  // aaa(item: any) {
-  //   // this.selectUnit.currentEmployerID
-  //   this.selectUnit.currentEmployerID = item.employer_id;
-  //   this.router.navigate(['./', 'form', item.id]);
-  //   // [routerLink]="['./', 'form']"
-  // }
+  setResponse(response: any): void {
+    this.dataTable.setItems(response);
+  }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
     this.sub.unsubscribe();
   }
 
