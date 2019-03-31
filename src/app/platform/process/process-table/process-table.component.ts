@@ -29,16 +29,16 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
 
 
   readonly columns =  [
-    { name: 'process_name', label: 'שם תהליך' },
-    { name: 'process_number', label: 'מספר תהליך' },
+    { name: 'name', label: 'שם תהליך' },
+    { name: 'id', label: 'מספר תהליך' },
     { name: 'type', label: 'סוג תהליך' },
-    { name: 'employer_name', label: 'שם מעסיק' },
-    { name: 'employer_name', label: 'שם מחלקה' },
-    { name: 'month', label: 'חודש' },
-    { name: 'year', label: 'שנה' },
-    { name: 'amount', label: 'סכום' },
-    { name: 'status', label: 'סטטוס ' },
-    { name: 'download', label: 'הורדה' }
+    { name: 'employer_name', sortName: 'department__employer__name', label: 'שם מעסיק' },
+    { name: 'department_name', sortName: 'department__name', label: 'שם מחלקה' },
+    { name: 'month', sortName: 'date', label: 'חודש' },
+    { name: 'year', label: 'שנה' , isSort: false },
+    { name: 'total', label: 'סכום' },
+    { name: 'status', label: 'סטטוס ' , isSort: false },
+    { name: 'download', label: 'הורדה', isSort: false }
   ];
 
   constructor(route: ActivatedRoute, private router: Router,

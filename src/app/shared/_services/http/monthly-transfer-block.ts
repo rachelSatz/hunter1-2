@@ -4,6 +4,8 @@ import {UserSessionService} from '../user-session.service';
 import {HttpClient} from '@angular/common/http';
 import {MonthlyTransferBlock} from '../../_models/monthly-transfer-block';
 import {Employee} from '../../_models/employee.model';
+import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
 
 @Injectable()
 export class MonthlyTransferBlockService  extends BaseHttpService {
@@ -18,25 +20,17 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
       .toPromise()
       .then(response => response)
       .catch(() => null);
-
   }
 
-  getMonthlyList(searchCriteria: object): Promise<MonthlyTransferBlock[]> {
+  getMonthlyList(criteria: DataTableCriteria): Promise<DataTableResponse> {
     const options = this.getTokenHeader();
-    options['params'] = searchCriteria;
+    options['params'] = this.setDataTableParams(criteria);
+
     return this.http.get(this.endPoint, options)
       .toPromise()
-      .then(response => response as MonthlyTransferBlock[])
-      .catch(response => null);
-
+      .then(response => response as DataTableResponse)
+      .catch(() => null);
   }
-
-  // updateMTBGroup(rowIDs: number[], groupId: number): Promise<boolean> {
-  //   return this.http.post(this.endPoint + '/updateMTBGroup', {ids: rowIDs, groupId: groupId}, this.getTokenHeader())
-  //     .toPromise()
-  //     .then(response => response)
-  //     .catch(response => response);
-  // }
 
   createMTBGroup(rowIDs: number[], bankAccountId?: number, groupId?: number, process_id?: number): Promise<boolean> {
     return this.http.post(this.endPoint + '/createOrUpdateMTBGroup',

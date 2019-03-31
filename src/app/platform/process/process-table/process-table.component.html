@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<app-data-table tableName="תהליכים" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
+<app-data-table tableName="תהליכים" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false"
                 [hasActionsHeader] = false [hasExtendedSearch]="false">
   <div class="table-header">
     <div class="row mr-1">
@@ -27,10 +27,7 @@
       </div>
     </div>
   </div>
-  <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
-    <td class="check-column">
-      <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
-    </td>
+  <tr *ngFor="let item of dataTable.items" class="pointer">
     <td>{{ item.name }}</td>
     <td>{{ item.id }}</td>
     <td>{{ processType[item.type] }}</td>
