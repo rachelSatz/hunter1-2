@@ -18,30 +18,5 @@
            (click)="register(item)" title="שליחת מייל לעדכון סיסמה"></i>
       </td>
     </tr>
-<<<<<<< HEAD
-    </thead>
-    <tbody>
-    <ng-container *ngIf="!isSearching">
-      <tr *ngFor="let item of paginatedItems" class="pointer">
-        <td>{{ item.username }}</td>
-        <td>{{ item.role }}</td>
-        <td>{{ item.first_name + ' ' + item.last_name}}</td>
-        <td>{{ item.email }}</td>
-        <td>
-          <img title="עריכת משתמש" src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
-          <i *ngIf="!item.is_registered" class="fa fa-envelope grey-color" aria-hidden="true"
-             (click)="register(item)" title="שליחת מייל לעדכון סיסמה"></i>
-
-        </td>
-      </tr>
-    </ng-container>
-    <tr *ngIf="!isSearching && items.length === 0">
-      <td colspan="9" class="text-center bold">טבלת משתמשים ריקה.</td>
-    </tr>
-    </tbody>
-  </table>
-  <app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
-=======
   </app-data-table>
->>>>>>> b50cf5108ab3052a11cff94482ad093e60ed9b57
 </div>

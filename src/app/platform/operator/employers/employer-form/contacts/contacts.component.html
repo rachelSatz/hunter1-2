@@ -1,5 +1,5 @@
 <div class="mr-5 px-4">
-  <app-data-table tableName="אנשי קשר" [columns]="columns" [hasActionsSearch]="false" [hasExtendedSearch]="false" [hasCheckColumn]="false">
+  <app-data-table tableName="אנשי קשר" (fetchItems)="fetchItems()"  [columns]="columns" [hasActionsSearch]="false" [hasExtendedSearch]="false" [hasCheckColumn]="false">
     <div class="table-header">
       <div class="row mt-4 mr-1">
         <div class="ml-3 d-flex mr-auto">
@@ -22,44 +22,3 @@
     </tr>
   </app-data-table>
 </div>
-
-
-<!--<div [ngClass]="{'operator-container': !pathEmployers }">-->
-  <!--<div class="d-flex justify-content-start mt-lg-5">-->
-    <!--<button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת איש קשר</button>-->
-  <!--</div>-->
-  <!--<div  [ngClass]="{'operator-table': pathEmployers }">-->
-    <!--<table class="table table-hover mt-3 data-table">-->
-      <!--<thead>-->
-      <!--<tr class="table-headers">-->
-        <!--<th *ngFor="let header of headers" (click)="sort(header)">-->
-          <!--<span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>-->
-          <!--<i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>-->
-        <!--</th>-->
-        <!--<th>פעולות</th>-->
-      <!--</tr>-->
-      <!--</thead>-->
-      <!--<tbody>-->
-      <!--<ng-container *ngIf="!isSearching">-->
-        <!--<tr *ngFor="let item of paginatedItems" class="pointer">-->
-          <!--<td>{{ item.organization_name }}</td>-->
-          <!--<td>{{ item.employer_name }}</td>-->
-          <!--<td>{{ entity_types[item.entity_type] }}</td>-->
-          <!--<td>{{ item.first_name + ' ' + item.last_name}}</td>-->
-          <!--<td>{{ item.phone }}</td>-->
-          <!--<td>{{ item.mobile }}</td>-->
-          <!--<td>{{ item.email }}</td>-->
-          <!--<td>{{ item.comment }}</td>-->
-          <!--<td>-->
-            <!--<img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.employer_contact_id]" class="row-image">-->
-          <!--</td>-->
-        <!--</tr>-->
-      <!--</ng-container>-->
-      <!--<tr *ngIf="!isSearching && items.length === 0">-->
-        <!--<td colspan="9" class="text-center bold">טבלת אנשי קשר ריקה.</td>-->
-      <!--</tr>-->
-      <!--</tbody>-->
-    <!--</table>-->
-    <!--<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>-->
-  <!--</div>-->
-<!--</div>-->
