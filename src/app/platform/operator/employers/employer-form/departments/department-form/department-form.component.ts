@@ -8,6 +8,7 @@ import { DepartmentService } from 'app/shared/_services/http/department.service'
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { Department } from 'app/shared/_models/department.model';
 import { fade } from 'app/shared/_animations/animation';
+import {PlatformComponent} from '../../../../../platform.component';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class DepartmentFormComponent implements OnInit {
               private generalService: GeneralHttpService,
               private departmentService: DepartmentService,
               private selectUnit: SelectUnitService,
-              private router: Router) {
+              private router: Router,
+              private  platformComponent: PlatformComponent) {
   }
 
   ngOnInit() {
@@ -93,6 +95,7 @@ export class DepartmentFormComponent implements OnInit {
 
   private handleResponse(response: boolean): void {
     if (response) {
+      this.platformComponent.getOrganizations(true, true);
       if (this.router.url.includes( 'operator')) {
         this.router.navigate(['platform', 'operator', 'employers',
           'form', this.selectUnit.currentEmployerID, 'departments']);
