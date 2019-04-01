@@ -1,5 +1,15 @@
 <form #form="ngForm" class="mt-3" (ngSubmit)="submit(form)">
-  <h6 class="bold">כרטיס מחלקה</h6>
+  <div class="row">
+    <h6 class="bold">כרטיס מחלקה</h6>
+    <!--<div class="d-flex mr-auto back-margin">-->
+      <!--<a (click)="back()">-->
+        <!--<p class="f-14 grey-color">-->
+          <!--<i class="fa fa-angle-right ml-1 ml-lg-2"></i>-->
+          <!--<span>חזור</span>-->
+        <!--</p>-->
+      <!--</a>-->
+    <!--</div>-->
+  </div>
   <div class="d-flex w-50 mt-1">
     <mat-form-field class="ml-2 disabledInput" >
       <input matInput placeholder="מספר מחלקה" name="id" [ngModel]="department.id">
@@ -12,8 +22,8 @@
 
   <!--<button class="btn blue-btn ml-1" (click)="openBankAccountDialog()"> הוספת חשבון חדש </button>-->
 
-  <p class="border-bottom f-14 bold ">חשבון בנק משלם</p>
-  <div id="accounts" class="border-bottom mb-lg-3">
+  <p class="border-bottom border-margin f-14 bold ">חשבון בנק משלם</p>
+  <div id="accounts" class="border-bottom mb-lg-3 border-margin" >
       <div class="d-flex align-items-center">
         <div class="d-flex align-items-center" [ngClass]="{'disabledInput' : !isEdit}">
           <div class="bd-select-container">
@@ -36,8 +46,8 @@
       </div>
   </div>
 
-  <p class="border-bottom f-14 bold">חשבון בנק להחזר כספים</p>
-  <div id="accountsWithdrawal" class="border-bottom">
+  <p class="border-bottom border-margin f-14 bold">חשבון בנק להחזר כספים</p>
+  <div id="accountsWithdrawal" class="border-bottom border-margin">
     <div class="d-flex align-items-center">
       <div class="d-flex align-items-center" [ngClass]="{'disabledInput' : !isEditWithdrawal}">
         <div class="bd-select-container">

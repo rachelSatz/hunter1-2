@@ -51,6 +51,7 @@ export class ContactsComponent implements OnInit , OnDestroy {
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
   }
 
+
   fetchItems() {
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;

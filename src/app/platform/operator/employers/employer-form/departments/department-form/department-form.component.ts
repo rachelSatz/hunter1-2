@@ -110,6 +110,17 @@ export class DepartmentFormComponent implements OnInit {
     }
   }
 
+  // back(): void {
+  //   const empId = this.selectUnit.currentEmployerID > 0 ? this.selectUnit.currentEmployerID : this.router.url.slice(25, 26);
+  //   if (this.router.url.includes( 'operator')) {
+  //     this.router.navigate(['platform', 'operator', 'employers',
+  //       'form', empId, 'departments']);
+  //   }else {
+  //     this.router.navigate(['platform', 'employers',
+  //       'form', empId, 'departments']);
+  //   }
+  // }
+
 
   validCopy(): boolean {
     return this.department.bank_account_deposit.bank_id > 0 && this.department.bank_account_deposit.branch_id > 0
