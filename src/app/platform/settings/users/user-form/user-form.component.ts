@@ -17,7 +17,7 @@ import { fade } from 'app/shared/_animations/animation';
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  styles: [`.check-module { width: 140px; }` ],
+  styles: [`.check-module { width: 140px; } .displayNone{ display: none}` ],
   animations: [ fade ]
 })
 export class UserFormComponent implements OnInit {
@@ -30,6 +30,7 @@ export class UserFormComponent implements OnInit {
   employees = [];
   message: string;
   moduleTypes = ModuleTypes;
+  update = false;
 
   roles = Object.keys(EntityRoles).map(function (e) {
     return {id: e, name: EntityRoles[e]};
@@ -45,6 +46,7 @@ export class UserFormComponent implements OnInit {
     this.organizationService.getOrganizations().then(
       response => this.organizations = response);
     if (this.route.snapshot.data.user) {
+      this.update = true;
       this.user = new User(this.route.snapshot.data.user);
       if (!this.user.units) {
         this.user.units = [];
@@ -61,7 +63,7 @@ export class UserFormComponent implements OnInit {
 
       this.employers = selectedOrganization ? selectedOrganization.employer : [];
       if (!this.employers.some(n => n.id === permission.employer_id)) {
-        permission.employer_id = 0;
+        permission.employer_id = null;
         if ( permission.departments) {
           const a = new UserUnitPermission();
           a.employer_id = permission.employer_id;
