@@ -126,6 +126,13 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  back(): void {
+    if (this.router.url.includes( 'operator')) {
+      this.router.navigate(['/platform', 'operator' , 'employers']);
+    }else {
+      this.router.navigate(['/platform', 'employers']);
+    }
+  }
   ngOnDestroy() {
     this.selectUnit.currentEmployerID = 0;
   }

@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -101,6 +101,18 @@ export class NewEmployerComponent implements OnInit {
       }
     );
   }
+  copyBankRow(): void {
+    this.selectedBankW = this.selectedBankD;
+    this.selectedBranchW = this.selectedBranchD;
+    this.getBranches(2);
+    const bankGroup = (<FormGroup>this.newEmployerForm.get('payingBank').value);
+    this.newEmployerForm.controls['receivingBank'].patchValue({'accountNumber': bankGroup['accountNumber']});
+  }
+
+  validCopy(): Boolean {
+    const bankGroup = (<FormGroup>this.newEmployerForm.get('payingBank').value);
+    return this.selectedBankD > 0 && this.selectedBranchD > 0 && bankGroup['accountNumber'] > 0;
+  }
 
   getBranches(bank) {
     if (bank === 1) {
@@ -115,6 +127,7 @@ export class NewEmployerComponent implements OnInit {
       this.operators = response;
     });
   }
+
 
   submit(form: NgForm): void {
      if (this.newEmployerForm.valid) {
