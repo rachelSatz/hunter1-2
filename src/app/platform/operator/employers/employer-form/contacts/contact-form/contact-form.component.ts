@@ -24,7 +24,6 @@ export class ContactFormComponent implements OnInit {
   hasServerError: boolean;
   entities = [];
   navigate: any;
-  navigatePath: string;
   employers = [];
   location: string;
   entityTypes = Object.keys(EntityTypes).map(function(e) {
@@ -146,20 +145,15 @@ export class ContactFormComponent implements OnInit {
   }
 
   back(): void {
-    switch (this.location) {
-      case 'employers': {
-        this.router.navigate(['platform', 'employers',
-          'form', this.selectUnit.currentEmployerID, 'contacts']);
-        break;
-      }
-      case 'operator': {
-        this.router.navigate(['platform', 'operator', 'contacts']);
-        break;
-      }
-      case 'settings': {
-        this.router.navigate(['platform', 'contacts']);
-        break;
-      }
+    if (this.router.url.includes( 'employers') && this.router.url.includes( 'contacts')) {
+      const empId = this.selectUnit.currentEmployerID > 0 ? this.selectUnit.currentEmployerID : this.employerId;
+      this.router.navigate(['platform', 'operator', 'employers',
+        'form', empId, 'contacts']);
+    } else if (this.router.url.includes( 'operator')) {
+      this.router.navigate(['/platform', 'operator', 'contacts']);
+    } else {
+      this.router.navigate(['/platform', 'contacts']);
+
     }
   }
 }
