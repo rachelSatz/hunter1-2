@@ -42,9 +42,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   fetchItems() {
-    this.dataTable.criteria.filters['limit'] =  this.dataTable.limit;
     this.productService.getAllProducts(this.dataTable.criteria).then(response => {
-      // this.setItems(response);
       this.setResponse(response);
       this.products = response;
     });

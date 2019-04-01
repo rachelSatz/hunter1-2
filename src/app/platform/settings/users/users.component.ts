@@ -1,43 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { AppHttpService } from 'app/shared/_services/http/app-http.service';
 import { UserService } from 'app/shared/_services/http/user.service';
 import { EntityRoles } from 'app/shared/_models/user.model';
+import { NotificationService } from '../../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['../../../shared/data-table/data-table.component.css']
 })
-export class UsersComponent extends DataTableComponent  implements OnInit {
+export class UsersComponent  implements OnInit {
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
-  user = [];
+  user: any;
   role =  Object.keys(EntityRoles).map(function(e) {
     return { id: e, name: EntityRoles[e] };
   });
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'user_name', label: 'שם משתמש' }, { column: 'user_type', label: 'סוג משתמש' },
-    { column: 'name', label: 'שם מלא' }, { column: 'email', label: 'מייל' }
+  readonly columns =  [
+    { name: 'user_name', label: 'שם משתמש', searchable: false},
+    { name: 'user_type', label: 'סוג משתמש', searchOptions: { labels: this.role }},
+    { name: 'name', label: 'שם מלא' , searchable: false},
+    { name: 'email', label: 'מייל' , searchable: false}
   ];
 
   constructor(route: ActivatedRoute,
               private userService: UserService,
-              private appHttp: AppHttpService) {
-    super(route);
+              private appHttp: AppHttpService,
+              protected notificationService: NotificationService) {
   }
 
   ngOnInit() {
     this.fetchItems();
-    super.ngOnInit();
+    this.dataTable.placeHolderSearch = 'שם משתמש';
   }
 
   fetchItems() {
-    this.userService.getUsers(this.searchCriteria).then(response => {
-      this.setItems(response);
+    this.userService.getUsers(this.dataTable.criteria).then(response => {
+      this.dataTable.setItems(response);
       this.user = response;
     });
   }

@@ -42,7 +42,7 @@
       <i *ngIf="item.ref_path !== null" class="fa fa-download fa-lg ml-2" (click)="downloadFile(item.file_id)"></i>
       </td>
       <td>
-      <i *ngIf="item.status == 'sent'" class="fa fa-lock"></i>
+      <i *ngIf="item.status == 'sent' || item.status == 'locked'" class="fa fa-lock"></i>
       <i *ngIf="item.status == 'not_sent'" class="fa fa-unlock"></i>
       </td>
       </tr>

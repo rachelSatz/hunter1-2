@@ -12,6 +12,8 @@ import {Employee} from '../../_models/employee.model';
 import {Department} from '../../_models/department.model';
 import {Subject} from 'rxjs';
 import {EmployerFinancialDetails} from '../../_models/employer-financial-details.model';
+import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
+import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
 
 @Injectable()
 export class EmployerService extends BaseHttpService {
@@ -28,26 +30,30 @@ export class EmployerService extends BaseHttpService {
     .then(response => response as Employer);
   }
 
-  getEmployers(searchCriteria: Object): Promise<Employer[]> {
+  getEmployers(criteria: DataTableCriteria): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
 
-    request['params'] = searchCriteria;
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
 
     return this.http.get(this.endPoint , request)
     .toPromise()
-    .then(response => response as Employer[]);
+    .then(response => response as DataTableResponse)
+     .catch(response => null);
   }
 
-  getAllEmployers(searchCriteria: any): Promise<Employer[]> {
+  getAllEmployers(criteria: DataTableCriteria): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
 
-    if (searchCriteria) {
-      request['params'] = searchCriteria;
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
     }
 
     return this.http.get(this.endPoint + '/allEmployers', request)
       .toPromise()
-      .then(response => response as Employer[]);
+      .then(response => response as DataTableResponse)
+      .catch(response => null);
   }
    
   newEmployer(employer: any, department: any): Promise<any> {

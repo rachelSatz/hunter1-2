@@ -5,9 +5,10 @@ import {RouterModule, Routes} from '@angular/router';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { AppHttpService } from 'app/shared/_services/http/app-http.service';
-import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
 import { UserService } from 'app/shared/_services/http/user.service';
 import { UsersComponent } from './users.component';
+import {NotificationService} from '../../../shared/_services/notification.service';
 
 const routes: Routes = [
   { path: '', component: UsersComponent },
@@ -24,7 +25,7 @@ const routes: Routes = [
     DataTableModule,
   ],
   declarations: [UsersComponent],
-  providers: [UserService, EmployerService, AppHttpService]
+  providers: [UserService, EmployerService, AppHttpService, NotificationService]
 })
 
 export class UsersModule { }

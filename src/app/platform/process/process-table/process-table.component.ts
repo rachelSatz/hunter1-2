@@ -97,7 +97,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   moveProcess(process: Process): void {
     const status = this.processStatus[process.status];
    if (status === this.processStatus.loading || status ===  this.processStatus.can_be_processed
-   || status === this.processStatus.done_processing) {
+   || status === this.processStatus.done_processing || status === this.processStatus.transmitted) {
      const date = new Date(process.date);
      let pageNumber = 1;
      if (status !== this.processStatus.loading) {

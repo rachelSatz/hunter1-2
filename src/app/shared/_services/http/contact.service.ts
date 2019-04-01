@@ -8,6 +8,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { Contact } from 'app/shared/_models/contact.model';
 import {SelectUnitService} from '../select-unit.service';
+import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
+import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
 
 @Injectable()
 export class  ContactService extends BaseHttpService {
@@ -18,19 +20,17 @@ export class  ContactService extends BaseHttpService {
     super(userSession);
   }
 
-  getContacts(organizationId: number, employerId: number, location: string): Promise<Contact[]> {
-    const options = this.getTokenHeader();
+  getContacts(criteria?: DataTableCriteria): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
 
-    if (employerId) {
-      options['params'] = {employerId: employerId, location: location};
-    }else {
-      options['params'] = {organizationId : organizationId, location: location};
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
     }
 
-    return this.http.get(this.endPoint, options)
+    return this.http.get(this.endPoint, request)
     .toPromise()
-    .then(response => response as Contact[])
-    .catch(() => []);
+    .then(response => response as DataTableResponse)
+    .catch(() => null);
   }
 
   getContact(contactId: number): Promise<Contact> {

@@ -22,9 +22,9 @@ export class ProactiveInvoiceFormComponent implements OnInit {
               private employerService: EmployerService,  private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
-    this.employerService.getEmployers(this.selectUnit.currentOrganizationID).then(response => this.employers = response);
-
+    // this.employerService.getEmployers(this.dataTable.criteria).then(response => this.employers = response);
   }
+
   submit(form: NgForm): void {
       this.invoiceService.createInvoice(form.value).then(response => {
         this.invoice = response; });

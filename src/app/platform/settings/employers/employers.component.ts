@@ -1,11 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { ExcelEmployersComponent } from './excel-employers/excel-employers.component';
 import { MatDialog } from '@angular/material';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
@@ -17,19 +16,22 @@ import { Subscription } from 'rxjs';
   templateUrl: './employers.component.html',
   styleUrls: ['../../../shared/data-table/data-table.component.css', './employers.component.css']
 })
-export class EmployersComponent extends DataTableComponent implements OnInit, OnDestroy {
+export class EmployersComponent implements OnInit, OnDestroy {
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   sub = new Subscription;
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'entity_name', label: 'שם מלא' }, { column: 'entity_number', label: 'ח.פ' },
-    { column: 'phone', label: 'טלפון' }, { column: 'email', label: 'כתובת מייל' },
-    { column: 'code5', label: 'קוד מוסד 5' }, { column: 'code8', label: 'קוד מוסד 8' }
+  readonly columns =  [
+    { name: 'entity_name', label: 'שם מלא' , searchable: false},
+    { name: 'entity_number', label: 'ח.פ' , searchable: false},
+    { name: 'phone', label: 'טלפון' , searchable: false},
+    { name: 'email', label: 'כתובת מייל' , searchable: false},
+    { name: 'code5', label: 'קוד מוסד 5' , searchable: false},
+    { name: 'code8', label: 'קוד מוסד 8' , searchable: false}
   ];
 
   constructor(route: ActivatedRoute, private employerService: EmployerService, private dialog: MatDialog,
               private selectUnit: SelectUnitService) {
-    super(route);
   }
 
   ngOnInit() {
@@ -37,16 +39,17 @@ export class EmployersComponent extends DataTableComponent implements OnInit, On
       this.fetchItems();
     }));
 
-    super.ngOnInit();
   }
 
   fetchItems() {
     if (this.selectUnit.currentOrganizationID) {
-      this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
-      this.employerService.getEmployers(this.searchCriteria).then(response => this.setItems(response));
+      this.dataTable.criteria.filters['organizationId'] = this.selectUnit.currentOrganizationID;
+      this.employerService.getEmployers(this.dataTable.criteria).then(response => this.setResponse(response));
     }
   }
-
+  setResponse(response: any): void {
+    this.dataTable.setItems(response);
+  }
   openExcelEmployersDialog(): void {
     this.dialog.open(ExcelEmployersComponent, {
       width: '450px',

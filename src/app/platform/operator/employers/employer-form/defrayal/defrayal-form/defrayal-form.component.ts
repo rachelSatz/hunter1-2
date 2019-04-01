@@ -65,21 +65,19 @@ export class DefrayalFormComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
-    if (form.valid){
+    if (form.valid) {
       if ( this.location !== 'operator'){
         // this.employerId = this.selectUnit.currentEmployerID;
       }
-
       this.employerService.setDefaultEmployerBA(this.selectUnit.currentEmployerID,  this.employerProductBankAccount)
         .then(response =>  {
-          if (response)
-            if (response == 'ok')
+            if (response === 'ok') {
               this.router.navigate(this.navigate);
-            else {
-              const c = response == 'exists' ? 'קיים בנק דיפולט לקופה זו': 'בקשה נכשלה';
+            } else {
+              const c = response === 'exists' ? 'קיים בנק דיפולט לקופה זו' : 'בקשה נכשלה';
               this.notificationService.error('', c);
             }
         });
-    };
+    }
   }
 }

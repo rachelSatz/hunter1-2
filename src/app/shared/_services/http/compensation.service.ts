@@ -6,14 +6,14 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Compensation } from 'app/shared/_models/compensation.model';
-import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
-import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
+import { DataTableResponse } from '../../data-table-1/classes/data-table-response';
+import { DataTableCriteria } from '../../data-table-1/classes/data-table-criteria';
 
 
 @Injectable()
 
 export class CompensationService extends BaseHttpService {
-  y= 'p';
+  y = 'p';
   readonly endPoint = this.apiUrl + '/compensations';
 
   constructor(userSession: UserSessionService, private http: HttpClient) {

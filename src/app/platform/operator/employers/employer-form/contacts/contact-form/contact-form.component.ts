@@ -24,6 +24,7 @@ export class ContactFormComponent implements OnInit {
   hasServerError: boolean;
   entities = [];
   navigate: any;
+  navigatePath: string;
   employers = [];
   location: string;
   entityTypes = Object.keys(EntityTypes).map(function(e) {
@@ -50,7 +51,7 @@ export class ContactFormComponent implements OnInit {
     if (this.router.url.includes( 'employers')) {
       this.pathEmployers = true;
       this.navigate = ['platform', 'employers',
-        'form', this.selectUnit.currentEmployerID, 'contacts'];
+                       'form', this.selectUnit.currentEmployerID, 'contacts'];
       this.location = 'employers';
     } else if (this.router.url.includes( 'operator')) {
       this.location = 'operator';
@@ -141,6 +142,24 @@ export class ContactFormComponent implements OnInit {
         this.router.navigate(this.navigate);
     } else {
       this.hasServerError = true;
+    }
+  }
+
+  back(): void {
+    switch (this.location) {
+      case 'employers': {
+        this.router.navigate(['platform', 'employers',
+          'form', this.selectUnit.currentEmployerID, 'contacts']);
+        break;
+      }
+      case 'operator': {
+        this.router.navigate(['platform', 'operator', 'contacts']);
+        break;
+      }
+      case 'settings': {
+        this.router.navigate(['platform', 'contacts']);
+        break;
+      }
     }
   }
 }

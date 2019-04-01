@@ -21,8 +21,7 @@ export class OrganizationsComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit() {
-    this.dataTable.criteria.filters['limit'] =  this.dataTable.limit;
-    this.organizationService.getOrganizations().then(response => {
+    this.organizationService.getOrganizationTable().then(response => {
       this.dataTable.setItems(response);
     });
   }
