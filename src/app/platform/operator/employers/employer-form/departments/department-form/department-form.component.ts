@@ -107,4 +107,15 @@ export class DepartmentFormComponent implements OnInit {
     }
   }
 
+
+  validCopy(): void {
+    return this.department.bank_account_deposit.bank_id > 0 && this.department.bank_account_deposit.branch_id > 0
+    && this.department.bank_account_deposit.number > 0;
+  }
+
+  copyBankRow(): void {
+    this.department.bank_account_withdrawal.bank_id = this.department.bank_account_deposit.bank_id;
+    this.department.bank_account_withdrawal.branch_id = this.department.bank_account_deposit.branch_id;
+    this.department.bank_account_withdrawal.number = this.department.bank_account_deposit.number;
+  }
 }
