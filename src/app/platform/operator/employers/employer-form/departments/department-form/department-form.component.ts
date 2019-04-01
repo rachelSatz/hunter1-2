@@ -108,9 +108,9 @@ export class DepartmentFormComponent implements OnInit {
   }
 
 
-  validCopy(): void {
+  validCopy(): boolean {
     return this.department.bank_account_deposit.bank_id > 0 && this.department.bank_account_deposit.branch_id > 0
-    && this.department.bank_account_deposit.number > 0;
+    && this.department.bank_account_deposit.number !== '0';
   }
 
   copyBankRow(): void {
