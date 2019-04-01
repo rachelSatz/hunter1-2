@@ -12,9 +12,11 @@ import { fade } from 'app/shared/_animations/animation';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styles: ['::ng-deep table td { word-wrap:break-word } ::ng-deep table {  table-layout:fixed } .displayNone { display: none}'],
+  styles: ['.displayNone { display: none}'],
   animations: [ fade ]
 })
+
+// '::ng-deep table td { word-wrap:break-word } ::ng-deep table {  table-layout:fixed }
 export class DetailsComponent implements OnInit {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;

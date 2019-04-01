@@ -1,65 +1,103 @@
 <div class="extend">
-  <div class="d-flex align-items-center">
-    <div class="bd-select-container w-25">
-      <bd-select [items]="employees" placeholder="בחר עובד" [(ngModel)]="searchCriteria['employee_id']" (onSelect)="search()" class="ml-3">
-      </bd-select>
+  <app-data-table [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true" [hasActionsHeader]="false"
+                  [hasExtendedSearch]="false" [hasActionsSearch]="false">
+    <div class="table-header">
+      <div class="row mt-4 mr-1">
+        <div class="ml-3 d-flex mr-auto">
+          <button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>
+          <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="openWarningMessageComponentDialog(true)">הפוך ללא רלוונטי</button>
+          <button mat-menu-item (click)="openGroupTransferDialog()">העבר קבוצה</button>
+          <button mat-menu-item (click)="openWarningMessageComponentDialog(false)">מחק רשומה</button>
+          <!--<button mat-menu-item>תהליך תיקון</button>-->
+          </mat-menu>
+        </div>
+      </div>
     </div>
-    <div class="mx-3 bd-select-container w-25">
-      <bd-select [items]="products" placeholder="בחר קופה" [(ngModel)]="searchCriteria['product_id']" (onSelect)="search()" class="ml-3">
-      </bd-select>
-    </div>
-    <mat-form-field class="ml-3 w-25">
-      <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">
-      <i matSuffix class="fa fa-search"></i>
-    </mat-form-field>
-    <button class="btn blue-btn h-75 mr-2" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>
-  <div class="float-left">
-    <button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="openWarningMessageComponentDialog(true)">הפוך ללא רלוונטי</button>
-      <button mat-menu-item (click)="openGroupTransferDialog()">העבר קבוצה</button>
-      <button mat-menu-item (click)="openWarningMessageComponentDialog(false)">מחק רשומה</button>
-      <!--<button mat-menu-item>תהליך תיקון</button>-->
-    </mat-menu>
-  </div>
-</div>
+    <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
+      <td class="check-column">
+        <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
+      </td>
+      <td>{{ item.first_name + ' ' + item.last_name}}</td>
+      <td>{{ item.personal_id }}</td>
+      <td>{{ depositTypes[item.deposit_type] }}</td>
+      <td>{{ item.employer_product_code }}</td>
+      <td>{{ item.employer_product_name }}</td>
+      <td>{{ productType[item.employer_product_type] }}</td>
+      <td>{{ depositStatus[item.deposit_status] }}</td>
+      <td>{{ item.product_code }}</td>
+      <td>{{ item.salary_month | date: 'MM/yy' }}</td>
+      <td>{{ item.salary_month | date: 'MM/yy' }}</td>
+      <td>{{ item.salary | number: '1.2-2' }}</td>
+      <td>{{ item.sum_compensation | number: '1.2-2'}}</td>
+      <td>{{ item.sum_employer_benefits | number: '1.2-2' }}</td>
+      <td>{{ item.sum_employee_benefits | number: '1.2-2'}}</td>
+      <td>{{ item.amount | number: '1.2-2'}}</td>
+    </tr>
+  </app-data-table>
 
-<table class="table table-hover mt-3 data-table">
-  <thead>
-  <tr class="table-headers">
-    <th *ngIf="items.length > 0">
-      <mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>
-    </th>
-    <th *ngFor="let header of headers" (click)="sort(header)">
-      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
-      <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
-    </th>
-  </tr>
-  </thead>
-  <tbody>
-    <ng-container *ngIf="!isSearching">
-      <tr *ngFor="let item of paginatedItems" class="pointer" [ngClass]="{ 'checked': item.isChecked }">
-        <td>
-          <mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>
-        </td>
-        <td>{{ item.first_name + ' ' + item.last_name}}</td>
-        <td>{{ item.personal_id }}</td>
-        <td>{{ depositTypes[item.deposit_type] }}</td>
-        <td>{{ item.employer_product_code }}</td>
-        <td>{{ item.employer_product_name }}</td>
-        <td>{{ productType[item.employer_product_type] }}</td>
-        <td>{{ depositStatus[item.deposit_status] }}</td>
-        <td>{{ item.product_code }}</td>
-        <td>{{ item.salary_month | date: 'MM/yy' }}</td>
-        <td>{{ item.salary_month | date: 'MM/yy' }}</td>
-        <td>{{ item.salary | number: '1.2-2' }}</td>
-        <td>{{ item.sum_compensation | number: '1.2-2'}}</td>
-        <td>{{ item.sum_employer_benefits | number: '1.2-2' }}</td>
-        <td>{{ item.sum_employee_benefits | number: '1.2-2'}}</td>
-        <td>{{ item.amount | number: '1.2-2'}}</td>
-      </tr>
-    </ng-container>
-    </tbody>
-  </table>
-  <app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
+  <!---->
+  <!--<div class="d-flex align-items-center">-->
+    <!--<div class="bd-select-container w-25">-->
+      <!--<bd-select [items]="employees" placeholder="בחר עובד" [(ngModel)]="searchCriteria['employee_id']" (onSelect)="search()" class="ml-3">-->
+      <!--</bd-select>-->
+    <!--</div>-->
+    <!--<div class="mx-3 bd-select-container w-25">-->
+      <!--<bd-select [items]="products" placeholder="בחר קופה" [(ngModel)]="searchCriteria['product_id']" (onSelect)="search()" class="ml-3">-->
+      <!--</bd-select>-->
+    <!--</div>-->
+    <!--<mat-form-field class="ml-3 w-25">-->
+      <!--<input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">-->
+      <!--<i matSuffix class="fa fa-search"></i>-->
+    <!--</mat-form-field>-->
+    <!--<button class="btn blue-btn h-75 mr-2" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>-->
+  <!--<div class="float-left">-->
+    <!--<button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>-->
+    <!--<mat-menu #menu="matMenu">-->
+      <!--<button mat-menu-item (click)="openWarningMessageComponentDialog(true)">הפוך ללא רלוונטי</button>-->
+      <!--<button mat-menu-item (click)="openGroupTransferDialog()">העבר קבוצה</button>-->
+      <!--<button mat-menu-item (click)="openWarningMessageComponentDialog(false)">מחק רשומה</button>-->
+      <!--&lt;!&ndash;<button mat-menu-item>תהליך תיקון</button>&ndash;&gt;-->
+    <!--</mat-menu>-->
+  <!--</div>-->
+<!--</div>-->
+
+<!--<table class="table table-hover mt-3 data-table">-->
+  <!--<thead>-->
+  <!--<tr class="table-headers">-->
+    <!--<th *ngIf="items.length > 0">-->
+      <!--<mat-checkbox (change)="checkAll($event.checked)" [ngModel]="isCheckAll"></mat-checkbox>-->
+    <!--</th>-->
+    <!--<th *ngFor="let header of headers" (click)="sort(header)">-->
+      <!--<span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>-->
+      <!--<i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>-->
+    <!--</th>-->
+  <!--</tr>-->
+  <!--</thead>-->
+  <!--<tbody>-->
+    <!--<ng-container *ngIf="!isSearching">-->
+      <!--<tr *ngFor="let item of paginatedItems" class="pointer" [ngClass]="{ 'checked': item.isChecked }">-->
+        <!--<td>-->
+          <!--<mat-checkbox (change)="checkItem(item, $event.checked)" [checked]="isCheckAll"></mat-checkbox>-->
+        <!--</td>-->
+        <!--<td>{{ item.first_name + ' ' + item.last_name}}</td>-->
+        <!--<td>{{ item.personal_id }}</td>-->
+        <!--<td>{{ depositTypes[item.deposit_type] }}</td>-->
+        <!--<td>{{ item.employer_product_code }}</td>-->
+        <!--<td>{{ item.employer_product_name }}</td>-->
+        <!--<td>{{ productType[item.employer_product_type] }}</td>-->
+        <!--<td>{{ depositStatus[item.deposit_status] }}</td>-->
+        <!--<td>{{ item.product_code }}</td>-->
+        <!--<td>{{ item.salary_month | date: 'MM/yy' }}</td>-->
+        <!--<td>{{ item.salary_month | date: 'MM/yy' }}</td>-->
+        <!--<td>{{ item.salary | number: '1.2-2' }}</td>-->
+        <!--<td>{{ item.sum_compensation | number: '1.2-2'}}</td>-->
+        <!--<td>{{ item.sum_employer_benefits | number: '1.2-2' }}</td>-->
+        <!--<td>{{ item.sum_employee_benefits | number: '1.2-2'}}</td>-->
+        <!--<td>{{ item.amount | number: '1.2-2'}}</td>-->
+      <!--</tr>-->
+    <!--</ng-container>-->
+    <!--</tbody>-->
+  <!--</table>-->
+  <!--<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>-->
 </div>

@@ -24,21 +24,28 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-detailed-files',
   templateUrl: './detailed-files.component.html',
-  styleUrls: ['../../../../../shared/data-table/data-table.component.css', './detailed-files.component.css']
+  styleUrls: [ './detailed-files.component.css']
 })
 export class DetailedFilesComponent implements OnInit, OnDestroy {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   readonly columns =  [
-    { name: 'group_id', label: 'מס קבוצה' }, { column: 'company', label: 'חברה מנהלת' },
-    { name: 'product_pay', label: 'קופה בשכר' }, { column: 'product_type', label: 'סוג מוצר' },
-    { name: 'product', label: 'מ"ה' }, { column: 'type_pay', label: 'סוג תשלום' },
-    { name: 'payment_identifier', label: 'מס אסמכתא' },
-    { name: 'account', label: 'מס חשבון/צק' }, { column: 'date_pay', label: 'תאריך תשלום' },
-    { name: 'amount', label: 'סכום' }, { column: 'number', label: 'מספר מזהה' },
-    { name: 'comment', label: 'הערות' }, { column: 'status', label: 'סטטוס' },
-    { name: 'file', label: 'אסמכתא' }, { column: 'broadcast_lock', label: 'נעילת שידור' }
+    { name: 'group_id', label: 'מס קבוצה' },
+    { name: 'company' , sortName: 'group__product__company__name', label: 'חברה מנהלת' },
+    { name: 'product_pay', label: 'קופה בשכר' , isSort: false  },
+    { name: 'product_type', label: 'סוג מוצר' , isSort: false},
+    { name: 'product', sortName: 'group__product__code', label: 'מ"ה' },
+    { name: 'payment_type', label: 'סוג תשלום' },
+    { name: 'payment_identifier', label: 'מס אסמכתא', isSort: false},
+    { name: 'account', label: 'מס חשבון/צק' , isSort: false},
+    { name: 'deposit_date', label: 'תאריך תשלום' },
+    { name: 'block_sum', label: 'סכום' },
+    { name: 'id', label: 'מספר מזהה' },
+    { name: 'comment', label: 'הערות' , isSort: false},
+    { name: 'status', label: 'סטטוס' , isSort: false},
+    { name: 'ref_path', label: 'אסמכתא' , isSort: false},
+    { name: 'broadcast_lock', label: 'נעילת שידור' , isSort: false}
   ];
 
   constructor(protected route: ActivatedRoute,
@@ -60,11 +67,9 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   fetchItems () {
-    this.helpers.setPageSpinner(true);
-    this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID
+    this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID;
     this.processService.getFilesList(this.dataTable.criteria)
       .then( response => {
-        this.helpers.setPageSpinner(false);
         this.dataTable.setItems(response);
       });
   }

@@ -24,9 +24,9 @@ export class Compensation {
   answerings_manufacturer: string;
   has_file_feedback: boolean;
   reporting_type: string;
+  xml_name: string;
 
   constructor() {
-    // this.files.push(new File());
   }
 }
 
