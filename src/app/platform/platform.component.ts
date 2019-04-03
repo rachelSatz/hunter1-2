@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import {Router, NavigationStart, NavigationEnd} from '@angular/router';
 
 import { UserSessionService } from 'app/shared/_services/user-session.service';
@@ -212,6 +212,7 @@ export class PlatformComponent implements OnInit {
     this.userSession.logout();
     this.selectUnit.logout();
     this.selectUnit.changeOrganizationEmployerDepartment(0, 0, 0);
+    window.sessionStorage.clear();
     this.router.navigate(['/']);
   }
 
@@ -241,12 +242,10 @@ export class PlatformComponent implements OnInit {
       }
       this.departments.sort((a, b) => a.id - b.id);
     }else {
-      this.employerId = {'id': 0, 'name': 'כלל המעסיקים'};
       this.departments = [];
     }
     if (!this._is_Employer) {
       this.departmentId = this.departments.length > 0 ? this.departments[0] : 0;
-      // this.selectUnit.changeEmployersDepartments(this.employers, this.departments);
       this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, employerID,
         this.departments.length > 0 ? this.departmentId['id'] : 0);
     }

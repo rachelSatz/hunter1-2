@@ -42,7 +42,10 @@ export class EmployersComponent  implements OnInit , OnDestroy {
 
   ngOnInit() {
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
-    this.productService.getFullCompanies().subscribe(response => this.selectUnit.setCompanies(response));
+    const company = this.selectUnit.getCompanies() as any[];
+    if ( company.length <= 0) {
+      this.productService.getFullCompanies().subscribe(response => this.selectUnit.setCompanies(response));
+    }
   }
 
   fetchItems() {

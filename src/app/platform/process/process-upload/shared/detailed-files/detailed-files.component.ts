@@ -1,20 +1,19 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { PaymentType, EmployerProduct } from 'app/shared/_models/process.model';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import { HelpersService } from 'app/shared/_services/helpers.service';
 import { ProductType } from 'app/shared/_models/product.model';
 import { Status } from 'app/shared/_models/file-feedback.model';
 
-import { AttachReferenceComponent } from './attach-reference/attach-reference.component';
-import { UpdatePaymentTypeComponent } from './update-payment-type/update-payment-type.component';
 import { UpdateAccountNumberComponent } from './update-account-number/update-account-number.component';
 import { UpdatePaymentDateComponent } from './update-payment-date/update-payment-date.component';
+import { UpdatePaymentTypeComponent } from './update-payment-type/update-payment-type.component';
+import { AttachReferenceComponent } from './attach-reference/attach-reference.component';
 import { CommentsComponent } from './comments/comments.component';
 
 import * as FileSaver from 'file-saver';
@@ -45,15 +44,16 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
     { name: 'comment', label: 'הערות' , isSort: false},
     { name: 'status', label: 'סטטוס' , isSort: false},
     { name: 'ref_path', label: 'אסמכתא' , isSort: false},
-    { name: 'broadcast_lock', label: 'נעילת שידור' , isSort: false}
+    { name: 'broadcast_lock', label: 'נעילת שידור' , isSort: false},
+    { name: 'records', label: 'פרוט רשומות' , isSort: false}
   ];
 
   constructor(protected route: ActivatedRoute,
               private dialog: MatDialog,
+              private router: Router,
               private  processService: ProcessService,
               private processDataService: ProcessDataService,
-              protected  notificationService: NotificationService,
-              private helpers: HelpersService ) {
+              protected  notificationService: NotificationService) {
   }
 
   paymentType = PaymentType;
@@ -63,7 +63,6 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   statuses = Status;
 
   ngOnInit() {
-
   }
 
   fetchItems () {
@@ -85,7 +84,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
       });
 
       this.sub.add(dialog.afterClosed().subscribe(() => {
-        this.fetchItems();
+        this.endAction();
       }));
     }else {
         this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
@@ -110,7 +109,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
     });
 
      this.sub.add(dialog.afterClosed().subscribe(() => {
-       this.fetchItems();
+       this.endAction();
      }));
 
    }
@@ -123,7 +122,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
      });
 
      this.sub.add(dialog.afterClosed().subscribe(() => {
-       this.fetchItems();
+       this.endAction();
      }));
    }
 
@@ -138,7 +137,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
          });
 
          this.sub.add(dialog.afterClosed().subscribe(() => {
-           this.fetchItems();
+           this.endAction();
          }));
        }else {
          this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
@@ -167,9 +166,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
               this.processService.update(typeData, '', this.dataTable.criteria.checkedItems.map(item => item['file_id']))
                 .then(response => {
                   if (response) {
-                    // this.checkedItems = [];
-                    // this.isCheckAll = false;
-                    this.fetchItems();
+                    this.endAction();
                   } else {
                     this.notificationService.error('', 'הפעולה נכשלה');
                   }
@@ -190,7 +187,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
                 this.notificationService.success('', 'ממתין לאישור מנהל');
             } else  if (r['authorized'] === true && r['success'] === true) {
               this.notificationService.success('', 'נפתח בצלחה');
-              this.fetchItems();
+              this.endAction();
             } else {
               this.notificationService.error('שגיאה', r['success']);
             }
@@ -202,17 +199,45 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
     }
   }
 
+   sentFile(): void {
+    if (this.checkedRowItems()) {
+      if (this.isLockedBroadcast()) {
+        const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+
+        this.notificationService.warning('אשר שידור', '', buttons).then(confirmation => {
+          if (confirmation.value) {
+            this.processService.transfer( this.dataTable.criteria.checkedItems.map(item => item['file_id']), 'filesList')
+              .then(response => {
+                if (response.ok === false) {
+                  this.notificationService.error('', 'השידור נכשל');
+                }else {
+                  this.notificationService.success('', 'שודר בהצלחה');
+                  this.endAction();
+                }
+              });
+          }
+        });
+      } else {
+        this.notificationService.error('', 'אין אפשרות לשדר רשומה ששודרה');
+      }
+    }
+  }
+
+  detailsRecords(fileId: number): void {
+    this.processDataService.activeProcess.returnDetails = true;
+    this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
+    console.log(this.route.parent);
+  }
+
   isLockedBroadcast(): boolean {
     if (this.dataTable.criteria.checkedItems.find(item => item['status'] === 'sent')) {
-      return false;
-    }
+      return false; }
     return true;
   }
 
   isUnLockedBroadcast(): boolean {
     if (this.dataTable.criteria.checkedItems.find(item => item['status'] === 'not_sent')) {
-      return false;
-    }
+      return false; }
     return true;
   }
 
@@ -224,14 +249,19 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
     } else {
       title[0] = employer_products[0].code + ' - ' + employer_products[0].name;
     }
-
     return title;
+  }
+
+  endAction(): void {
+    this.dataTable.criteria.checkedItems = [];
+    this.dataTable.criteria.isCheckAll = false;
+    this.fetchItems();
   }
 
 
 
+
   downloadFile(fileId: number): void {
-    // const type = fileName.split('.').pop();
     this.spin = true;
     this.processService.downloadFile(fileId).then(response => {
       const fileName = response['fileName'];

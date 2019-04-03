@@ -36,6 +36,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   @Output() onSelect: EventEmitter<Object | Object[]> = new EventEmitter();
   @Output() onDeselect: EventEmitter<boolean> = new EventEmitter();
   @Output() onScroll: EventEmitter<boolean> = new EventEmitter();
+  // @Output() elementCreated: EventEmitter<boolean> = new EventEmitter();
 
   @Input() @HostBinding('style.width') width = '100%';
 
@@ -87,6 +88,10 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
 
       }, 500);
     }
+  }
+
+  elementCreated(event: any) {
+    alert('ya');
   }
 
   filter(): void {

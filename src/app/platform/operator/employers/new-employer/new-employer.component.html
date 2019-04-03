@@ -100,7 +100,7 @@
             <input matInput placeholder="מספר חשבון" formControlName="accountNumber" required maxlength="9">
             <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
           </mat-form-field>
-      <i class="fa fa-copy fa-2x pointer blue-color mr-3" (click)="copyBankRow()" *ngIf="validCopy()"></i>
+      <i class="fa fa-copy fa-2x pointer blue-color mr-3 mt-3" title="העתק פרטי חשבון" (click)="copyBankRow()" *ngIf="validCopy()"></i>
     </div>
     <p class="bold mt-5">חשבון להחזר כספים</p>
     <div class="d-flex" formGroupName="receivingBank">
