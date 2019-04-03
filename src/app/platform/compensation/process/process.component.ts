@@ -75,12 +75,13 @@ export class ProcessComponent implements OnInit, OnDestroy {
     { name: 'validity_date', label: 'תאריך נכונות', searchable: false},
     { name: 'sending_method', label: 'מקור המידע', searchOptions: { labels: this.sourceTypes } },
     { name: 'status', label: 'סטטוס', searchOptions: { labels: this.selectStatuses }},
-    { name: 'response_time', label: 'העבר לטיפול' , isSort: false, subLabel: 'ימי טיפול', searchOptions: { labels: this.responseTimes }},
+    { name: 'response_time', label: 'העבר לטיפול' ,
+      isSort: false, subLabel: 'ימי טיפול', searchOptions: { labels: this.responseTimes }},
     { name: 'request', label: 'פניות' , isSort: false, searchable: false},
     { name: 'comment', label: 'הערות' , isSort: false, searchable: false},
     { name: 'download', label: 'הורדה' , isSort: false, searchable: false },
     { name: 'null', label: 'פרטים', isSort: false, searchable: false },
-    { name: 'validity', label: 'תקינות', isSort: false, searchOptions: { labels: this.validity } }
+    { name: 'validity', label: 'תקינות', isSort: false, searchOptions: { labels: this.validity } },
   ];
 
   constructor(protected route: ActivatedRoute,

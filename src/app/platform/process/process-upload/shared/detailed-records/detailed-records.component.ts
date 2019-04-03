@@ -7,7 +7,6 @@ import { DepositStatus, DepositType } from 'app/shared/_models/monthly-transfer-
 import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
-import { HelpersService } from 'app/shared/_services/helpers.service';
 import { ProductType } from 'app/shared/_models/product.model';
 
 import { GroupBankAccountComponent } from './group-bank-account/group-bank-account.component';
@@ -24,33 +23,33 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
+  nameEmployerProductCode = 'employer_product_code';
+  nameEmployeeName = 'employee_name';
+
   readonly columns =  [
-    { name: 'employee_name', sortName: 'employee_chr__employee__first_name', label: 'שם העובד' },
-    { name: 'personal_id',  sortName: 'employee_chr__employee__identifier', label: 'תעודת זהות' },
-    { name: 'deposit_type', label: 'סוג תקבול' },
-    { name: 'employer_product_code', sortName: 'employer_product__code', label: 'מספר קופה בשכר' },
-    { name: 'employer_product_name', sortName: 'employer_product__code', label: 'שם קופה בשכר' },
-    { name: 'employer_product_type', sortName: 'employer_product__type', label: 'סוג קופה' },
-    { name: 'deposit_status', isSort: false , label: 'סטטוס' },
-    { name: 'product_code', sortName: 'employer_product__product__code', label: 'מ"ה' },
-    { name: 'payment_month', label: 'חודש תשלום' },
-    { name: 'payment_month1', isSort: false, label: 'חודש ייחוס' },
-    { name: 'salary', label: 'שכר' },
-    { name: 'sum_compensation', isSort: false, label: 'פיצויים' },
-    { name: 'sum_employer_benefits', isSort: false, label: 'הפרשת מעסיק' },
-    { name: 'sum_employee_benefits', isSort: false, label: 'הפרשת עובד' } ,
-    { name: 'amount', isSort: false, label: 'סה"כ' }
+    { name: this.nameEmployeeName , sortName: 'employee_chr__employee__first_name', label: 'שם העובד' , searchOptions: { labels: [] }},
+    { name: 'personal_id',  sortName: 'employee_chr__employee__identifier', label: 'תעודת זהות' , searchable: false },
+    { name: 'deposit_type', label: 'סוג תקבול' , searchable: false },
+    { name: this.nameEmployerProductCode , sortName: 'employer_product__code', label: 'מספר קופה בשכר',
+      subLabel: 'שם קופה', searchOptions: { labels: [] } },
+    { name: 'employer_product_name', sortName: 'employer_product__code', label: 'שם קופה בשכר' , searchable: false },
+    { name: 'employer_product_type', sortName: 'employer_product__type', label: 'סוג קופה' , searchable: false },
+    { name: 'deposit_status', isSort: false , label: 'סטטוס' , searchable: false },
+    { name: 'product_code', sortName: 'employer_product__product__code', label: 'מ"ה' , searchable: false },
+    { name: 'payment_month', label: 'חודש תשלום' , searchable: false },
+    { name: 'payment_month1', isSort: false, label: 'חודש ייחוס' , searchable: false },
+    { name: 'salary', label: 'שכר' , searchable: false},
+    { name: 'sum_compensation', isSort: false, label: 'פיצויים' , searchable: false },
+    { name: 'sum_employer_benefits', isSort: false, label: 'הפרשת מעסיק' , searchable: false },
+    { name: 'sum_employee_benefits', isSort: false, label:  'הפרשת עובד' , searchable: false } ,
+    { name: 'amount', isSort: false, label: 'סה"כ' , searchable: false }
   ];
 
   constructor(route: ActivatedRoute,
               private dialog: MatDialog,
               private processDataService: ProcessDataService,
               private  monthlyTransferBlockService: MonthlyTransferBlockService ,
-              protected  notificationService: NotificationService,
-              private helpers: HelpersService) { }
-
-  employees = [];
-  products = [];
+              protected  notificationService: NotificationService) { }
   sub = new Subscription;
 
   depositStatus = DepositStatus;
@@ -58,13 +57,13 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   productType = ProductType;
 
   ngOnInit() {
-
     this.monthlyTransferBlockService.getEntity(this.processDataService.activeProcess.processID)
       .then(response => {
-        this.employees = response['employees'];
-        this.products = response['products'];
+        let column = this.dataTable.searchColumn(this.nameEmployeeName);
+        column['searchOptions'].labels = response['employees'];
+        column = this.dataTable.searchColumn(this.nameEmployerProductCode);
+        column['searchOptions'].labels = response['products'];
       });
-
   }
 
   fetchItems() {

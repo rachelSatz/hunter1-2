@@ -81,7 +81,7 @@ export class BroadcastComponent implements OnInit {
   }
 
   transfer() {
-    this.processService.transfer( this.processId)
+    this.processService.transfer( this.processId, 'processId')
       .then(response => {
         if (response.ok === false) {
           this.notificationService.error('', 'לא הצליח לשדר קובץ');
@@ -99,9 +99,11 @@ export class BroadcastComponent implements OnInit {
      this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
    }
   }
+
   back(): void {
     this.processDataService.activeProcess.pageNumber = 3;
-    this.router.navigate(['/platform', 'process', 'new', 1 , 'payment', this.processDataService.activeProcess.processID],
+    this.router.navigate(['/platform', 'process', 'new', 1 , 'payment',
+        this.processDataService.activeProcess.processID],
       { relativeTo: this.route });
   }
   update(data) {

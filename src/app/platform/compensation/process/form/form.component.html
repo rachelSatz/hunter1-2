@@ -10,7 +10,7 @@
     <mat-checkbox name="has_clearing_employer" [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>
   </div>
   <div class="row" [@fade]="hasClearingEmployer ? 'inactive' : 'active' ">
-      <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel [required]="!hasClearingEmployer"  (onScroll)="checkLoadEmployees($event)"></bd-select>
+      <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel [required]="!hasClearingEmployer"  (onScroll)="checkLoadEmployees($event)" (elementCreated)="checkLoadEmployees($event)"></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && employeesModel.errors ? 'active' : 'inactive'">יש לבחור עובד.</p>
   </div>
   <div class="row  mt-4" [@fade]="hasClearing || hasClearingEmployer? 'inactive' : 'active' ">

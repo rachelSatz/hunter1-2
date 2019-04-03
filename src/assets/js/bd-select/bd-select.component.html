@@ -15,7 +15,7 @@
     <i class="fa fa-search"></i>
   </div>
   <ul id="options" (wheel)="onScroll.emit(optionsEle.scrollTop)" #optionsEle>
-    <li *ngFor="let item of items" [value]="item[value]" class="option selectable" [ngClass]="{ 'selected': checkIsSelected(item) }"
+    <li *ngFor="let item of items" [value]="item[value]" class="option selectable"  [ngClass]="{ 'selected': checkIsSelected(item) }"
         (click)="selectOption(item)">{{ getLabel(item) }}</li>
     <li *ngIf="items && items.length === 0" class="option">לא נמצאו תוצאות.</li>
   </ul>
