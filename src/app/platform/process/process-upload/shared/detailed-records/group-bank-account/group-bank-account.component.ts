@@ -1,12 +1,12 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { fade } from 'app/shared/_animations/animation';
+import {NotificationService} from '../../../../../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-group-bank-account',
@@ -14,28 +14,30 @@ import { fade } from 'app/shared/_animations/animation';
   styleUrls: ['../../../../../../shared/data-table/data-table.component.css'],
   animations: [ fade ]
 })
-export class GroupBankAccountComponent extends DataTableComponent implements OnInit , OnDestroy {
+export class GroupBankAccountComponent implements OnInit , OnDestroy {
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'bank', label: 'בנק' }, { column: 'branch', label: 'סניף' },
-    { column: 'account', label: 'מס חשבון' }
+  readonly columns =  [
+    { name: 'bank', label: 'בנק' , searchable: false},
+    { name: 'branch', label: 'סניף' , searchable: false},
+    { name: 'account', label: 'מס חשבון' , searchable: false}
    ];
 
   constructor(protected route: ActivatedRoute, @Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<GroupBankAccountComponent>,
               public mtbService: MonthlyTransferBlockService) {
-    super(route);
   }
 
   hasServerError: boolean;
 
   ngOnInit() {
-    this.setItems(this.data['banks']);
+    this.dataTable.setItems(this.data['banks']);
   }
 
   submit(form: NgForm): void {
     if (this.checkedRowItems()) {
-      this.mtbService.createMTBGroup(this.data.ids,  this.checkedItems.map(item => item.id)[0]).then(response => {
+      this.mtbService.createMTBGroup(this.data.ids,
+        this.dataTable.criteria.checkedItems.map(item => item['id'])[0]).then(response => {
         if (response) {
           this.dialogRef.close();
         }
@@ -44,7 +46,7 @@ export class GroupBankAccountComponent extends DataTableComponent implements OnI
   }
 
   checkedRowItems(): boolean {
-    if (this.checkedItems.length === 0 || this.checkedItems.length > 1) {
+    if (this.dataTable.criteria.checkedItems.length === 0 || this.dataTable.criteria.checkedItems.length > 1) {
      this.hasServerError = true;
       return false;
     }
@@ -52,6 +54,5 @@ export class GroupBankAccountComponent extends DataTableComponent implements OnI
   }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
   }
 }

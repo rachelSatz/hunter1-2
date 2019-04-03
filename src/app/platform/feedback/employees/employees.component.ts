@@ -1,11 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
@@ -14,11 +13,10 @@ import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-f
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
 
-import { Month } from 'app/shared/_const/month-bd-select';
 import { ProductType } from 'app/shared/_models/product.model';
 import { Status } from 'app/shared/_models/employee-feedback.model';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
-import { formatDate } from '@angular/common';
+import { MONTHS } from '../../../shared/_const/months';
 
 
 @Component({
@@ -29,12 +27,13 @@ import { formatDate } from '@angular/common';
   animations: [ slideToggle, placeholder]
 })
 
-export class EmployeesComponent extends DataTableComponent implements OnInit , OnDestroy {
+export class EmployeesComponent implements OnInit , OnDestroy {
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   sub = new Subscription();
   year = (new Date()).getFullYear();
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
-  months = Month;
+  months = MONTHS;
   statuses = Status;
   statusLabel = Object.keys(Status).map(function(e) {
       return { id: e, name: Status[e] };
@@ -45,32 +44,30 @@ export class EmployeesComponent extends DataTableComponent implements OnInit , O
   });
   productTypes = ProductType;
 
-  readonly headers: DataTableHeader[] =  [
-    { column: '', label: 'עובד' },
-    { column: 'process_name', label: 'ת"ז' },
-    { column: 'employer_name', label: 'חודש שכר' },
-    { column: 'code', label: 'חברה מנהלת' },
-    { column: 'date', label: 'סוג מוצר' },
-    { column: 'amount', label: 'קוד אוצר' },
-    { column: 'status', label: 'סכום' },
-    { column: 'status', label: 'תאריך עדכון אחרון' },
-    { column: 'status', label: 'סטטוס' },
-    { column: 'more', label: 'מידע נוסף'},
-    { column: 'send_request', label: 'שלח פנייה'},
-    {column: 'inquiries', label: 'פניות'},
-    { column: 'comments', label: 'הערות'}
+  readonly columns =  [
+    { name: 'name', label: 'עובד', searchable: false},
+    { name: 'personal_id', label: 'ת"ז' , searchable: false},
+    { name: 'month', label: 'חודש שכר' , searchable: false},
+    { name: 'company_name', label: 'חברה מנהלת' , searchable: false},
+    { name: 'product_type', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }},
+    { name: 'product_code', label: 'קוד אוצר' , searchable: false},
+    { name: 'amount', label: 'סכום', searchable: false },
+    { name: 'created_at', label: 'תאריך יצירה' , searchOptions: { isDate: true } },
+    { name: 'updated_at', label: 'תאריך עדכון אחרון' , searchOptions: { isDate: true }},
+    { name: 'status', label: 'סטטוס' , searchOptions: { labels: this.statusLabel } },
+    { name: 'more', label: 'מידע נוסף' , searchable: false},
+    { name: 'send_request', label: 'שלח פנייה', searchable: false},
+    { name: 'inquiries', label: 'פניות', searchable: false},
+    { name: 'comments', label: 'הערות', searchable: false}
   ];
   constructor(public dialog: MatDialog, route: ActivatedRoute,
-              notificationService: NotificationService,
+              private notificationService: NotificationService,
               private feedbackService: FeedbackService,
               private selectUnitService: SelectUnitService) {
-    super(route, notificationService);
-    this.searchCriteria['salaryYear'] = this.year;
   }
 
   ngOnInit() {
     this.sub.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
-    super.ngOnInit();
   }
 
 
@@ -80,11 +77,12 @@ export class EmployeesComponent extends DataTableComponent implements OnInit , O
     const departmentId = this.selectUnitService.currentDepartmentID;
 
     if (departmentId !== 0) {
-      this.searchCriteria['departmentId'] = departmentId;
-      this.searchCriteria['employerId'] = employerId;
-      this.searchCriteria['organizationId'] = organizationId;
-      this.feedbackService.searchEmployeeData(this.searchCriteria).then(response => {
-        this.setItems(response);
+      this.dataTable.criteria.filters['employerId'] = employerId;
+      this.dataTable.criteria.filters['organizationId'] = organizationId;
+      this.dataTable.criteria.filters['departmentId'] = departmentId;
+      this.dataTable.criteria.filters['salaryYear'] = this.year;
+      this.feedbackService.searchEmployeeData(this.dataTable.criteria).then(response => {
+        this.dataTable.setItems(response);
       });
     }else { this.notificationService.warning('יש לבחור מחלקה'); }
   }
@@ -125,19 +123,18 @@ export class EmployeesComponent extends DataTableComponent implements OnInit , O
     });
   }
 
-  valueDateChange(keyCode: Date, val: string): void {
-    this.searchCriteria[val] =
-      formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
-    this.search();
-  }
+  // valueDateChange(keyCode: Date, val: string): void {
+  //   this.searchCriteria[val] =
+  //     formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
+  //   this.search();
+  // }
 
-  myResetSearch(): void {
-    this.resetSearch();
-    this.searchCriteria['salaryYear'] = this.year;
-  }
+  // myResetSearch(): void {
+  //   this.resetSearch();
+  //   this.dataTable.criteria.filters['salaryYear'] = this.year;
+  // }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
     this.sub.unsubscribe();
   }
 

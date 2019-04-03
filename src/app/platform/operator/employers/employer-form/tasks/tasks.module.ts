@@ -7,7 +7,7 @@ import {
   MatDialogModule, MatFormFieldModule,
   MatNativeDateModule, MatTooltipModule } from '@angular/material';
 
-import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
 import { NewTaskFormComponent } from './new-task-form/new-task-form.component';
 import { TaskService } from 'app/shared/_services/http/task.service';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';

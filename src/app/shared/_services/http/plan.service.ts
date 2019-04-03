@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import {Plan, PlanType} from '../../_models/plan';
 import {UserSessionService} from '../user-session.service';
+import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
 
 
 
@@ -22,10 +23,10 @@ export class PlanService extends BaseHttpService {
       .toPromise().then(response => response as Plan);
   }
 
-  getPlans(): Promise<Plan[]> {
+  getPlans(): Promise<DataTableResponse> {
     return this.http.get(this.endPoint,  this.getTokenHeader())
       .toPromise()
-      .then(response => response as Plan[]);
+      .then(response => response as DataTableResponse);
   }
 
   getTypes(): Promise<PlanType[]> {

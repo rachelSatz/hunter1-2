@@ -16,6 +16,7 @@ import { EmailComponent } from './email/email.component';
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { PaymentComponent } from './payment.component';
 import {InformationMessageComponent} from './information-message/information-message.component';
+import {HelpersService} from '../../../../shared/_services/helpers.service';
 
 
 const routes: Routes = [
@@ -35,7 +36,7 @@ const routes: Routes = [
     PipesModule,
     DatePickerModule
   ],
-  providers: [ProcessService, NotificationService],
+  providers: [ProcessService, NotificationService, HelpersService],
   declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent, InformationMessageComponent],
   entryComponents: [ EmailComponent, SendFileEmailComponent, InformationMessageComponent]
 
