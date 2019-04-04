@@ -15,11 +15,7 @@
 			</mat-form-field>
 		</div>
 		<div *ngIf="column.searchOptions && column.searchOptions.isDate">
-<<<<<<< HEAD
 			<label class="bold f-12">{{ column.subLabel ? column.subLabel : column.label }}</label>
-=======
-			<label class="bold f-12">{{ column.subLabel ? column.subLabel : column.label}}</label>
->>>>>>> d733c020781ad10bbcc62b2a479485fb90842554
 			<div>
         <mat-form-field class="w-100">
           <input matInput [name]="column.name + '[from]'" [id]="column.name + '[from]'"

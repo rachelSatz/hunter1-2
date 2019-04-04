@@ -31,7 +31,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   sub = new Subscription();
-  year = (new Date()).getFullYear();
+  year = new Date().getFullYear();
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
   months = MONTHS;
   statuses = Status;
@@ -67,6 +67,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit() {
+    this.dataTable.criteria.filters['year'] = this.year;
     this.sub.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
   }
 
@@ -80,7 +81,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
       this.dataTable.criteria.filters['employerId'] = employerId;
       this.dataTable.criteria.filters['organizationId'] = organizationId;
       this.dataTable.criteria.filters['departmentId'] = departmentId;
-      this.dataTable.criteria.filters['salaryYear'] = this.year;
+      // this.dataTable.criteria.filters['salaryYear'] = this.year;
       this.feedbackService.searchEmployeeData(this.dataTable.criteria).then(response => {
         this.dataTable.setItems(response);
       });

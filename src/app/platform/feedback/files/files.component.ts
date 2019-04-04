@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
@@ -10,13 +10,12 @@ import { InquiryFormComponent} from 'app/shared/_dialogs/inquiry-form/inquiry-fo
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { Subscription } from 'rxjs';
 
-import { Month } from 'app/shared/_const/month-bd-select';
 import { FormComponent } from './form/form.component';
 import { ProductType } from 'app/shared/_models/product.model';
 import { InquiriesComponent} from 'app/shared/_dialogs/inquiries/inquiries.component';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { Status } from 'app/shared/_models/file-feedback.model';
-import { formatDate } from '@angular/common';
+import { MONTHS } from '../../../shared/_const/months';
 
 @Component({
   selector: 'app-files',
@@ -31,9 +30,9 @@ export class FilesComponent implements OnInit, OnDestroy  {
   fileData;
   extraSearchCriteria = 'inactive';
   departmentId;
-  year = (new Date()).getFullYear();
+  year = new Date().getFullYear();
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
-  months = Month;
+  months = MONTHS;
   statuses = Status;
 
   list_status = Object.keys(Status).map(function(e) {
@@ -47,8 +46,10 @@ export class FilesComponent implements OnInit, OnDestroy  {
     {name: 'employer_name', label: 'שם מעסיק', searchable: false},
     {name: 'amount', label: 'סכום', searchable: false},
     {name: 'code', label: 'קוד אוצר', searchable: false},
-    // {name: 'date', label: 'תאריך שידור', searchable: false},
-    // {name: 'last_update', label: 'תאריך עדכון אחרון', searchable: false},
+    {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},
+    {name: 'updated_at', label: 'תאריך עדכון אחרון',  searchOptions: { isDate: true }, isDisplay: false},
+    {name: 'broadcast_date', label: 'תאריך שידור', searchOptions: { isDate: true }, isDisplay: false},
+    {name: 'product_date', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }, isDisplay: false},
     {name: 'status', label: 'סטטוס', searchOptions: { labels: this.list_status } },
     {name: 'more', label: 'מידע נוסף', searchable: false},
     {name: 'send_request', label: 'שלח פנייה', searchable: false},
@@ -65,6 +66,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit() {
+    this.dataTable.criteria.filters['year'] = this.year;
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
   }
 
@@ -74,7 +76,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
     const departmentId = this.selectUnit.currentDepartmentID;
 
     if (departmentId !== 0) {
-      this.dataTable.criteria.filters['deposit_year'] = this.year;
+      // this.dataTable.criteria.filters['deposit_year'] = this.year;
       this.dataTable.criteria.filters['departmentId'] = departmentId;
       this.dataTable.criteria.filters['employerId'] = employerId;
       this.dataTable.criteria.filters['organizationId'] = organizationId;
@@ -88,9 +90,6 @@ export class FilesComponent implements OnInit, OnDestroy  {
     }
   }
 
-  toggleExtraSearch(): void {
-    this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
-  }
 
   openFormDialog(item: any): void {
     this.dialog.open(FormComponent, {
@@ -126,17 +125,4 @@ export class FilesComponent implements OnInit, OnDestroy  {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
-
-  // myResetSearch(): void {
-  //   this.resetSearch();
-  //   this.searchCriteria['deposit_year'] = this.year;
-  // }
-
-  // valueDateChange(keyCode: Date, val: string): void {
-  //   this.searchCriteria[val] =
-  //     formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
-  //   this.search();
-  // }
-
-
 }

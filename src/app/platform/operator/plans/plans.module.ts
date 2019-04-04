@@ -2,11 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlansComponent } from './plans.component';
 import { RouterModule, Routes} from '@angular/router';
-<<<<<<< HEAD
 import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
-=======
-import { DataTableModule} from 'app/shared/data-table/data-table.module';
->>>>>>> d733c020781ad10bbcc62b2a479485fb90842554
 import {
   MatDatepickerModule,
   MatFormFieldModule,
