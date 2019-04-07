@@ -49,7 +49,6 @@ export class ProcessComponent implements OnInit, OnDestroy {
   sendingMethods = CompensationSendingMethods;
   employers = [];
   companies = [];
-  // users = [];
   sourceTypes = Object.keys(CompensationSendingMethods).map(function(e) {
     return { id: e, name: CompensationSendingMethods[e] };
   });

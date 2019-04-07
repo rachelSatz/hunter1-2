@@ -4,7 +4,7 @@ import { FilesComponent } from './files.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes} from '@angular/router';
-import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
 import {
   MatAutocompleteModule,
   MatCheckboxModule, MatChipsModule, MatDatepickerModule,

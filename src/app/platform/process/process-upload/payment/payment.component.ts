@@ -15,6 +15,7 @@ import { Process } from 'app/shared/_models/process.model';
 import { EmailComponent } from './email/email.component';
 import { fade } from 'app/shared/_animations/animation';
 import {InformationMessageComponent} from './information-message/information-message.component';
+import {HelpersService} from '../../../../shared/_services/helpers.service';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class PaymentComponent implements OnInit , OnDestroy {
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
               private router: Router, private processService: ProcessService,
               public  processDataService: ProcessDataService,
-              private notificationService: NotificationService) {}
+              private notificationService: NotificationService,
+              private helpers: HelpersService) {}
 
   data;
   process_percent = 0;
@@ -77,6 +79,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
     if (this.process_details.status !== null) {
       switch (this.process_details.status) {
         case 'can_be_processed': {
+          this.helpers.setPageSpinner(false);
           this.process_percent = 100;
           let time = 1000;
           if (this.processDataService.activeProcess.returnDetails) {
@@ -91,6 +94,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
           break;
         }
         case 'loading': {
+          this.helpers.setPageSpinner(true);
           if (this.process_details.percent > 0 && this.showInfoMessage) {
             this.openInformationMessage();
             this.showInfoMessage = false;
@@ -99,11 +103,13 @@ export class PaymentComponent implements OnInit , OnDestroy {
           break;
         }
         case 'error_loading': {
+          this.helpers.setPageSpinner(false);
           this.notificationService.error('אירעה שגיאה בהעלאת הקובץ');
           this.sub.unsubscribe();
           break;
         }
         case 'done_processing': {
+          this.helpers.setPageSpinner(false);
           this.pageNumber = 2;
           this.sub.unsubscribe();
           break;

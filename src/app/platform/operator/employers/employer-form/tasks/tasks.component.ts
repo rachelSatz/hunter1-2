@@ -1,31 +1,31 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
+import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { NewTaskFormComponent } from './new-task-form/new-task-form.component';
 import { TaskService } from 'app/shared/_services/http/task.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import {TaskModel} from '../../../../../shared/_models/task.model';
+import { TaskModel } from 'app/shared/_models/task.model';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['../../../../../shared/data-table/data-table.component.css'],
 })
-export class TasksComponent extends DataTableComponent implements OnInit , OnDestroy {
+export class TasksComponent implements OnInit , OnDestroy {
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   pathEmployers = false;
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'employer', label: 'מעסיק' },
-    { column: 'subject', label: 'נושא המשימה' },
-    { column: 'createdBy', label: 'יוצר המשימה' },
-    { column: 'createdAt', label: 'תאריך יצירה' },
-    { column: 'executive', label: 'מבצע המשימה' },
-    { column: 'executionDate', label: 'לביצוע עד' },
-    { column: 'options', label: 'אפשרויות' }
+  readonly columns =  [
+    { name: 'employer', label: 'מעסיק' , searchable: false},
+    { name: 'subject', label: 'נושא המשימה' , searchable: false},
+    { name: 'createdBy', label: 'יוצר המשימה' , searchable: false},
+    { name: 'createdAt', label: 'תאריך יצירה' , searchable: false},
+    { name: 'executive', label: 'מבצע המשימה' , searchable: false},
+    { name: 'executionDate', label: 'לביצוע עד' , searchable: false},
+    { name: 'options', label: 'אפשרויות' , searchable: false}
   ];
 
   constructor(route: ActivatedRoute,
@@ -33,23 +33,19 @@ export class TasksComponent extends DataTableComponent implements OnInit , OnDes
               private router: Router,
               private taskService: TaskService,
               private selectUnit: SelectUnitService) {
-    super(route);
-
   }
 
   ngOnInit() {
     if (this.router.url.includes('employers')) {
       this.pathEmployers = true;
-      this.paginationData.limit = 5;
     }
 
     this.fetchItems();
-    super.ngOnInit();
   }
 
   fetchItems() {
     this.taskService.getTasks(this.selectUnit.currentEmployerID)
-      .then(response => this.setItems(response));
+      .then(response => this.dataTable.setItems(response));
   }
 
   createOrEditTask(item: any) {
@@ -73,6 +69,5 @@ export class TasksComponent extends DataTableComponent implements OnInit , OnDes
   }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
   }
 }

@@ -5,6 +5,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { FileFeedback } from '../../_models/file-feedback.model';
 import { MonthlyTransferBlock } from '../../_models/monthly-transfer-block';
+import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
+import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
 
 @Injectable()
 export class FeedbackService extends BaseHttpService {
@@ -15,20 +17,25 @@ export class FeedbackService extends BaseHttpService {
     super(userSession);
   }
 
-  getFileFeedbacks(searchCriteria?: Object): Promise<FileFeedback[]> {
-    
-    const options = this.getTokenHeader();
-    options['params'] = searchCriteria;
+  getFileFeedbacks(criteria: DataTableCriteria): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
 
-    return this.http.get(this.endPoint + '/FilesList', options)
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+
+    return this.http.get(this.endPoint + '/FilesList', request)
     .toPromise()
-    .then(response => response as FileFeedback[]);
+    .then(response => response as DataTableResponse)
+    .catch(() => null);
+
   }
 
-  searchEmployeeData(searchCriteria?: Object): Promise<MonthlyTransferBlock[]> {
+  searchEmployeeData(criteria: DataTableCriteria): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
-    if (searchCriteria) {
-      request['params'] = searchCriteria;
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
     }
 
     return this.http.get(this.endPoint + '/RecordsList', request)

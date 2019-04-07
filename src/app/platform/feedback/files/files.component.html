@@ -1,144 +1,55 @@
-  <div class="col-12 f-12 mb-lg-5">
-    <div class="float-left">
-      <mat-form-field  class="ml-3">
-        <mat-select placeholder="חודש" [(ngModel)]="searchCriteria['deposit_month']" name="month" (selectionChange)="search()">
-          <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1" >
-            {{month.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="שנה" [(ngModel)]="searchCriteria['deposit_year']" name="year" (selectionChange)="search()">
-          <mat-option *ngFor="let year of years" [value]="year">
-            {{year}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
-  <p class="h5 bold py-5">מעקב לפי קובץ</p>
-  <mat-form-field class="ml-3 searchFieldWidth">
-    <input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['searchVal']" (change)="search()">
-    <i matSuffix class="fa fa-search"></i>
-  </mat-form-field>
-  <button class="btn blue-btn h-75" *ngIf="isSearchActive()" (click)="myResetSearch()">אפס חיפוש</button>
-  <div [@slideToggle]="extraSearchCriteria" class="d-flex align-items-center flex-wrap mb-3 filter-row">
-    <!--<mat-form-field class="ml-3">-->
-      <!--<input matInput placeholder="לפי חברה מנהלת" [(ngModel)]="searchCriteria['companyName']" (change)="search()">-->
-      <!--<i matSuffix class="fa fa-search"></i>-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field>-->
-      <!--<mat-select name="sortByStatus" placeholder="לפי סוג המוצר" [(ngModel)]="searchCriteria['productType']" (selectionChange)="search()">-->
-        <!--<mat-option *ngFor="let type of selectProductType" [value]="type.name">-->
-          <!--{{type.name}}-->
-        <!--</mat-option>-->
-      <!--</mat-select>-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field class="mr-3">-->
-      <!--<input matInput placeholder="לפי קוד אוצר" type="text" [(ngModel)]="searchCriteria['productCode']" (change)="search()">-->
-      <!--<i matSuffix class="fa fa-search"></i>-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field class="mr-3">-->
-      <!--<input matInput placeholder="לפי סכום" [(ngModel)]="searchCriteria['recordAmount']" (change)="search()">-->
-      <!--<i matSuffix class="fa fa-search"></i>-->
-    <!--</mat-form-field>-->
-    <mat-form-field class="mr-3">
-      <mat-select name="sortByStatus" placeholder="לפי סטטוס" [(ngModel)]="searchCriteria['status']" (selectionChange)="search()">
-        <mat-option *ngFor="let status of list_status" [value]="status.id">
-          {{status.name}}
+<div class="col-12 f-12 mb-lg-5">
+  <div class="float-left">
+    <mat-form-field>
+      <mat-select placeholder="חודש שכר" [(ngModel)]="dataTable.criteria.filters['month']" name="month" class="ml-3"
+                  (selectionChange)="dataTable.search()">
+        <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1">
+          {{month}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field class="mr-3">
-      <mat-select name="sortByStatus" placeholder="לפי סוג המוצר" [(ngModel)]="searchCriteria['productType']" (selectionChange)="search()">
-        <mat-option *ngFor="let type of selectProductType" [value]="type.id">
-          {{type.name}}
+      <mat-select placeholder="שנה" [(ngModel)]="dataTable.criteria.filters['year']" name="year" (selectionChange)="dataTable.search()">
+        <mat-option *ngFor="let year of years" [value]="year">
+          {{year}}
         </mat-option>
       </mat-select>
-    </mat-form-field >
-    <!--<mat-form-field class="mr-3">-->
-      <!--<mat-select name="sortByStatus" placeholder="לפי סטטוס פניה" [(ngModel)]="searchCriteria['enquiryStatus']" (selectionChange)="search()">-->
-        <!--<mat-option *ngFor="let status of statusLabel" [value]="status.name">-->
-          <!--{{status.name}}-->
-        <!--</mat-option>-->
-      <!--</mat-select>-->
-    <!--</mat-form-field>-->
-    <mat-form-field class="mr-3">
-      <input matInput class="pointer" (click)="datePickerRequest1.open()" [matDatepicker]="datePickerRequest1" placeholder="לפי תאריך יצירה" name="createDate"
-             [(ngModel)]="searchCriteria['create_date']"  (dateChange)="valueDateChange($event.value,'create_date')"  readonly>
-      <mat-datepicker-toggle matSuffix [for]="datePickerRequest1"></mat-datepicker-toggle>
-      <mat-datepicker #datePickerRequest1></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field class="mr-3">
-      <input matInput class="pointer" (click)="datePickerRequest2.open()" [matDatepicker]="datePickerRequest2" placeholder="לפי תאריך עדכון" name="dateUpdate"
-             [(ngModel)]="searchCriteria['update_date']"  (dateChange)="valueDateChange($event.value,'update_date')" readonly>
-      <mat-datepicker-toggle matSuffix [for]="datePickerRequest2"></mat-datepicker-toggle>
-      <mat-datepicker #datePickerRequest2></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field class="mr-3">
-      <input matInput class="pointer" (click)="datePickerRequest3.open()" [matDatepicker]="datePickerRequest3" placeholder="לפי תאריך שידור" name="broadcastDate"
-             [(ngModel)]="searchCriteria['broadcast_date']" (dateChange)="valueDateChange($event.value,'broadcast_date')" readonly>
-      <mat-datepicker-toggle matSuffix [for]="datePickerRequest3"></mat-datepicker-toggle>
-      <mat-datepicker #datePickerRequest3></mat-datepicker>
     </mat-form-field>
   </div>
-  <div class="d-flex justify-content-between">
-    <div class="p-2" (click)="toggleExtraSearch()">
-      <span class="bold blue-color pointer">{{ extraSearchCriteria === 'active' ? 'הצג פחות >' : 'חיפוש מורחב >' }}</span>
+</div>
+<app-data-table tableName="מעקב ברמת עובד" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true" [hasActionsHeader] = false>
+  <div class="table-header">
+    <div class="row mt-4 mr-1">
+      <div class="ml-3 d-flex mr-auto">
+      </div>
     </div>
   </div>
-<!--<div class="float-left">-->
-<!--<button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>-->
-<!--<mat-menu #menu="matMenu">-->
-<!--<button mat-menu-item (click)="openFormDialog()">שלח פנייה</button>-->
-<!--<button mat-menu-item (click)="openDialog()">עדכון סטטוס ידני</button>-->
-<!--</mat-menu>-->
-  <!--<button [matMenuTriggerFor]="menu" class="btn blue-btn h-75 mr-2">פעולות</button>-->
-  <!--<mat-menu #menu="matMenu">-->
-    <!--<button mat-menu-item (click)="openFormDialog()">שלח פנייה</button>-->
-    <!--<button mat-menu-item (click)="openDialog()">עדכון סטטוס ידני</button>-->
-  <!--</mat-menu>-->
-<!--</div>-->
-<table class="table table-hover mt-3 data-table">
-  <thead>
-  <tr class="table-headers">
-    <th *ngFor="let header of headers" (click)="sort(header)">
-      <span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>
-      <i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>
-    </th>
+  <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
+    <td class="check-column">
+      <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
+    </td>
+    <td>{{ item.company_name}}</td>
+    <td>{{ item.employer_name}}</td>
+    <!--<td>{{ item.month }}</td>-->
+    <td>{{ item.amount | number: '1.2-2' }}</td>
+    <td>{{ item.product_code }}</td>
+    <!--<td>{{ item.date | date: 'MM/yy' }}</td>-->
+    <!--<td>{{ item.inquiries.created_at }}</td>-->
+    <!--<td>{{ item.inquiries.updated_at }}</td>-->
+    <td>{{ statuses[item.status] }}</td>
+    <!--<td>{{ item.inquiry_status }}</td>-->
+    <td >
+      <img src="/assets/img/icons/details_grey.png" (click)="openFormDialog(item)">
+    </td>
+    <td>
+      <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(item)">
+      <!--<button class="btn btn1 blue-btn" (click)="openInquiresDialog(item)">שלח</button>-->
+    </td>
+    <td>
+      <span class="grey-circle" (click)="openInquiriesDetailsDialog(item.id)">{{ item.inquiries.length }}</span>
+    </td>
+    <td>
+      <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item.id)">
+    </td>
   </tr>
-  </thead>
-  <tbody>
-  <ng-container *ngIf="!isSearching">
-    <tr *ngFor="let item of paginatedItems" class="pointer">
-      <td>{{ item.company_name}}</td>
-      <td>{{ item.employer_name}}</td>
-      <!--<td>{{ item.month }}</td>-->
-      <td>{{ item.amount | number: '1.2-2' }}</td>
-      <td>{{ item.product_code }}</td>
-      <!--<td>{{ item.date | date: 'MM/yy' }}</td>-->
-      <!--<td>{{ item.inquiries.created_at }}</td>-->
-      <!--<td>{{ item.inquiries.updated_at }}</td>-->
-      <td>{{ statuses[item.status] }}</td>
-      <!--<td>{{ item.inquiry_status }}</td>-->
-      <td >
-        <img src="/assets/img/icons/details_grey.png" (click)="openFormDialog(item)">
-      </td>
-      <td>
-        <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(item)">
-        <!--<button class="btn btn1 blue-btn" (click)="openInquiresDialog(item)">שלח</button>-->
-      </td>
-      <td>
-        <span class="grey-circle" (click)="openInquiriesDetailsDialog(item.id)">{{ item.inquiries.length }}</span>
-      </td>
-      <td>
-        <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item.id)">
-      </td>
-    </tr>
-  </ng-container>
-  <tr *ngIf="!isSearching && items.length === 0">
-    <td colspan="10" class="text-center bold">טבלת מעקב ריקה.</td>
-  </tr>
-  </tbody>
-</table>
-<app-pagination [data]="paginationData" *ngIf="items.length > 0"></app-pagination>
+</app-data-table>

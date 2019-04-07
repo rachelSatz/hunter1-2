@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { TaskModel } from '../../_models/task.model';
+import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
 
 @Injectable()
 export class TaskService extends BaseHttpService {
@@ -14,15 +15,15 @@ export class TaskService extends BaseHttpService {
     super(userSession);
   }
 
-  getTasks(employerID: number): Promise<TaskModel[]> {
-    const header = this.getTokenHeader();
+  getTasks(employerID: number): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
     if (employerID !== 0) {
-      header['params'] = {employerID: employerID};
+      request['params'] = {employerID: employerID};
     }
-    return this.http.get(this.endPoint, header)
+    return this.http.get(this.endPoint, request)
       .toPromise()
-      .then(response => response as TaskModel[])
-      .catch(() => []);
+      .then(response => response as DataTableResponse)
+      .catch(() => null);
   }
 
   createTask(from: any): Promise<any> {

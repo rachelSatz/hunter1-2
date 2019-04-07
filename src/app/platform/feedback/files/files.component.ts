@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
@@ -11,13 +10,12 @@ import { InquiryFormComponent} from 'app/shared/_dialogs/inquiry-form/inquiry-fo
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { Subscription } from 'rxjs';
 
-import { Month } from 'app/shared/_const/month-bd-select';
 import { FormComponent } from './form/form.component';
 import { ProductType } from 'app/shared/_models/product.model';
 import { InquiriesComponent} from 'app/shared/_dialogs/inquiries/inquiries.component';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { Status } from 'app/shared/_models/file-feedback.model';
-import { formatDate } from '@angular/common';
+import { MONTHS } from '../../../shared/_const/months';
 
 @Component({
   selector: 'app-files',
@@ -25,15 +23,16 @@ import { formatDate } from '@angular/common';
   styleUrls: ['../../../shared/data-table/data-table.component.css'],
   animations: [ slideToggle, placeholder ]
 })
-export class FilesComponent extends DataTableComponent implements OnInit, OnDestroy  {
+export class FilesComponent implements OnInit, OnDestroy  {
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   sub = new Subscription();
   fileData;
   extraSearchCriteria = 'inactive';
   departmentId;
-  year = (new Date()).getFullYear();
+  year = new Date().getFullYear();
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
-  months = Month;
+  months = MONTHS;
   statuses = Status;
 
   list_status = Object.keys(Status).map(function(e) {
@@ -42,19 +41,20 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
   selectProductType = Object.keys(ProductType).map(function(e) {
     return { id: e, name: ProductType[e] };
   });
-  readonly headers: DataTableHeader[] = [
-    {column: 'company_name', label: 'חברה מנהלת'},
-    {column: 'employer_name', label: 'שם מעסיק'},
-    {column: 'amount', label: 'סכום'},
-    {column: 'code', label: 'קוד אוצר'},
-    // {column: 'date', label: 'תאריך שידור'},
-    // {column: 'last_update', label: 'תאריך עדכון אחרון'},
-    {column: 'status', label: 'סטטוס'},
-    {column: 'more', label: 'מידע נוסף'},
-    {column: 'send_request', label: 'שלח פנייה'},
-    {column: 'inquiries', label: 'פניות'},
-    {column: 'comments', label: 'הערות'}
-
+  readonly columns = [
+    {name: 'company_name', label: 'חברה מנהלת', searchable: false},
+    {name: 'employer_name', label: 'שם מעסיק', searchable: false},
+    {name: 'amount', label: 'סכום', searchable: false},
+    {name: 'code', label: 'קוד אוצר', searchable: false},
+    {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},
+    {name: 'updated_at', label: 'תאריך עדכון אחרון',  searchOptions: { isDate: true }, isDisplay: false},
+    {name: 'broadcast_date', label: 'תאריך שידור', searchOptions: { isDate: true }, isDisplay: false},
+    {name: 'product_date', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }, isDisplay: false},
+    {name: 'status', label: 'סטטוס', searchOptions: { labels: this.list_status } },
+    {name: 'more', label: 'מידע נוסף', searchable: false},
+    {name: 'send_request', label: 'שלח פנייה', searchable: false},
+    {name: 'inquiries', label: 'פניות', searchable: false},
+    {name: 'comments', label: 'הערות', searchable: false}
   ];
 
 
@@ -63,14 +63,11 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
               private dialog: MatDialog,
               private feedbackService: FeedbackService,
               private selectUnit: SelectUnitService) {
-    super(route, notificationService);
-    this.searchCriteria['deposit_year'] = this.year;
   }
 
   ngOnInit() {
+    this.dataTable.criteria.filters['year'] = this.year;
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
-
-    super.ngOnInit();
   }
 
   fetchItems() {
@@ -79,22 +76,21 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
     const departmentId = this.selectUnit.currentDepartmentID;
 
     if (departmentId !== 0) {
-      this.searchCriteria['departmentId'] = departmentId;
-      this.searchCriteria['employerId'] = employerId;
-      this.searchCriteria['organizationId'] = organizationId;
-      this.feedbackService.getFileFeedbacks( this.searchCriteria)
+      // this.dataTable.criteria.filters['deposit_year'] = this.year;
+      this.dataTable.criteria.filters['departmentId'] = departmentId;
+      this.dataTable.criteria.filters['employerId'] = employerId;
+      this.dataTable.criteria.filters['organizationId'] = organizationId;
+      this.feedbackService.getFileFeedbacks(this.dataTable.criteria)
         .then(response => {
-          this.setItems(response);
+          this.dataTable.setItems(response);
           this.fileData = response;
         });
-    }else {
+    } else {
       this.notificationService.warning('יש לבחור מחלקה');
     }
   }
 
-  toggleExtraSearch(): void {
-    this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
-  }
+
   openFormDialog(item: any): void {
     this.dialog.open(FormComponent, {
       width: '1350px',
@@ -127,20 +123,6 @@ export class FilesComponent extends DataTableComponent implements OnInit, OnDest
   }
 
   ngOnDestroy() {
-    super.ngOnDestroy();
     this.sub.unsubscribe();
   }
-
-  myResetSearch(): void {
-    this.resetSearch();
-    this.searchCriteria['deposit_year'] = this.year;
-  }
-
-  valueDateChange(keyCode: Date, val: string): void {
-    this.searchCriteria[val] =
-      formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
-    this.search();
-  }
-
-
 }
