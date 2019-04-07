@@ -6,6 +6,7 @@ import { MatCheckboxModule, MatDialogModule, MatMenuModule } from '@angular/mate
 
 import { DateUpdateModule } from './date-update/date-update.module';
 import { BroadcastComponent } from './broadcast.component';
+import {NotificationService} from '../../../../shared/_services/notification.service';
 
 const routes: Routes = [
   { path: '', component: BroadcastComponent }
@@ -20,6 +21,7 @@ const routes: Routes = [
     DateUpdateModule,
     MatMenuModule
   ],
-  declarations: [BroadcastComponent]
+  declarations: [BroadcastComponent],
+  providers: [NotificationService]
 })
 export class BroadcastModule {}

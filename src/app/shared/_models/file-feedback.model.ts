@@ -41,8 +41,8 @@ export enum Status {
   not_sent = 'לא שודר',
   sent = 'שודר',
   sent_failed = 'שגיאת שידור',
-  feedback_a =  'פידבק A',
-  feedback_a_failed = 'פידבק A נכשל',
+  feedback_a =  'היזון ראשוני',
+  feedback_a_failed = 'היזון ראשוני נכשל',
   partially_paid = 'נפרע חלקי',
   fully_paid = 'נפרע במלאו',
   paid_failed = 'לא נפרע'

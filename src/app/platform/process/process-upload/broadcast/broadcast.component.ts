@@ -27,7 +27,7 @@ export class BroadcastComponent implements OnInit {
   process: Process;
   file: boolean;
   record: boolean;
-  dateValid = false;
+  // dateValid = false;
   type;
   data;
   processId;
@@ -44,8 +44,7 @@ export class BroadcastComponent implements OnInit {
               private processService: ProcessService,
               public  processDataService: ProcessDataService,
               private notificationService: NotificationService,
-              public userSession: UserSessionService,
-              private dataPipe: DatePipe) {}
+              public userSession: UserSessionService) {}
 
   ngOnInit() {
 
@@ -66,11 +65,13 @@ export class BroadcastComponent implements OnInit {
 
   dateUpdate() {
     const dialogRef = this.dialog.open(DateUpdateComponent, {
+      data:  {processID: this.processDataService.activeProcess.processID},
       height: '250px',
       width: '550px',
     });
+
     dialogRef.afterClosed().subscribe(
-      data => this.update(data)
+      data => this.paymentDate = data
     );
   }
 
@@ -106,8 +107,9 @@ export class BroadcastComponent implements OnInit {
         this.processDataService.activeProcess.processID],
       { relativeTo: this.route });
   }
-  update(data) {
-    this.paymentDate = this.dataPipe.transform(data, 'dd/MM/yyyy');
-    this.dateValid = !this.paymentDate.includes('-');
-  }
+
+  // update(data) {
+  //
+  //   // this.dateValid = !this.paymentDate.includes('-');
+  // }
 }

@@ -72,7 +72,7 @@
           </div>
           <span class="pointer " (click)="dateUpdate()">לעדכון תאריך ></span>
         </div>
-        <p class="f-12 bold red-color">הנך נדרש לעדכן תאריך ערך</p>
+        <!--<p class="f-12 bold red-color">הנך נדרש לעדכן תאריך ערך</p>-->
       </div>
       <div class="mt-4 d-flex" *ngIf="isRefund" >
         <p class="text-right bold red-color f-12">שים לב! </p>
@@ -91,7 +91,7 @@
            </p>
          </span>
       <div class="text-center mt-5 pb-5">
-        <button class="btn blue-btn" [disabled]="((!valid || !dateValid) && !isRefund) || (process_details.sent_status == 'sent') || (userSession.getRole() != 'admin')" (click)="transfer();
+        <button class="btn blue-btn" [disabled]="((!valid) && !isRefund) || (process_details.sent_status == 'sent') || (userSession.getRole() != 'admin')" (click)="transfer();
         processDataService.activeProcess.pageNumber = 5">שידור לקופות</button>
       </div>
     </div>

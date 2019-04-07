@@ -77,8 +77,10 @@ export class CompensationService extends BaseHttpService {
     }
   }
 
-  sendCompensations(compensation_ids: number[]): Promise<any> {
-    return this.http.post(this.endPoint + '/send', { compensation_ids: compensation_ids }, this.getTokenHeader())
+  sendCompensations(compensation_ids: number[], criteria: DataTableCriteria): Promise<any> {
+
+    return this.http.post(this.endPoint + '/send',
+      { compensation_ids: compensation_ids,  searchCriteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
     .toPromise()
     .then(response => response as any)
     .catch(response => response as any);

@@ -7,6 +7,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import  {SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { Company } from 'app/shared/_models/company.model';
+import {ProductService} from '../../../../../../shared/_services/http/product.service';
 
 
 
@@ -29,7 +30,8 @@ export class DefrayalFormComponent implements OnInit {
               private router: Router,
               private employerService: EmployerService,
               private selectUnit: SelectUnitService,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              private productService: ProductService) { }
 
   ngOnInit() {
     if (this.router.url.includes( 'employers')) {
@@ -44,7 +46,9 @@ export class DefrayalFormComponent implements OnInit {
       this.location = 'settings';
     }
     do {
+      this.productService.getFullCompanies().subscribe(response => this.selectUnit.setCompanies(response));
       this.companies = this.selectUnit.getCompanies();
+      console.log(this.companies );
     }
     while (this.companies.length <= 0);
 

@@ -140,6 +140,14 @@ export class DepositsReportComponent implements OnInit {
     });
   }
 
+  sendDepositReport(id: number): void {
+    this.depositsReportService.sendDepositReport(id).then(response => {
+      if (response) {
+        this.fetchItems();
+      }
+    });
+  }
+
   manualChangingStatus(): void {
     if (this.dataTable.criteria.checkedItems.length === 0) {
       this.dataTable.setNoneCheckedWarning();

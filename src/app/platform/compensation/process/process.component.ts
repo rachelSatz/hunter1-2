@@ -1,5 +1,4 @@
 import * as FileSaver from 'file-saver';
-import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -128,12 +127,13 @@ export class ProcessComponent implements OnInit, OnDestroy {
   }
 
   sendCompensations(): void {
-    if (this.dataTable.criteria.checkedItems.length === 0) {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
     this.helpers.setPageSpinner(true);
-    this.compensationService.sendCompensations(this.dataTable.criteria.checkedItems.map(item => item['id'])).then(response => {
+    this.compensationService.sendCompensations(this.dataTable.criteria.checkedItems.map(
+      item => item['id']), this.dataTable.criteria).then(response => {
       this.helpers.setPageSpinner(false);
       if (response) {
         if (response['list_exceptions'].length > 0) {

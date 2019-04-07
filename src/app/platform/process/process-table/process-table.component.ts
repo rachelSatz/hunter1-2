@@ -29,6 +29,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
 
 
   readonly columns =  [
+    // { name: 'cursor', label: 'סמן' , isSort: false},
     { name: 'name', label: 'שם תהליך' },
     { name: 'id', label: 'מספר תהליך' },
     { name: 'type', label: 'סוג תהליך' },
@@ -38,7 +39,8 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     { name: 'year', label: 'שנה' , isSort: false },
     { name: 'total', label: 'סכום' },
     { name: 'status', label: 'סטטוס ' , isSort: false },
-    { name: 'download', label: 'הורדה', isSort: false }
+    { name: 'download', label: 'הורדה', isSort: false },
+    { name: 'delete', label: 'מחיקה' , isSort: false},
   ];
 
   constructor(route: ActivatedRoute, private router: Router,
@@ -122,5 +124,25 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
 
   messageError(error: string): void {
     this.notificationService.error('', error);
+  }
+
+  deleteProcess(processId: number): void {
+    const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+
+    this.notificationService.warning('האם ברצונך למחוק תהליך?', '', buttons).then(confirmation => {
+      if (confirmation.value) {
+
+        this.processService.deleteProcess( processId).then(
+          response => {
+            if (response) {
+              this.notificationService.success('המחיקה בוצע בהצלחה' );
+              this.fetchItems();
+            }else  {
+              this.notificationService.error('המחיקה נכשלה', 'אין אפשרות למחוק קובץ ששודר');
+            }
+          }
+        );
+      }
+    });
   }
 }

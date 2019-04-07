@@ -24,7 +24,11 @@
     <td>{{ item.identifier }}</td>
     <td>{{ item.company_name }}</td>
     <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
-    <td>{{ statuses[item.status] }}</td>
+    <td>{{ statuses[item.status] }}
+      <img *ngIf="item.status == 'failed'" class="img-design"  title="נסה שוב"
+           src="/assets/img/icons/sync-alt-solid.svg"
+           (click)="sendDepositReport(item.id)">
+    </td>
     <td>
     <img src="/assets/img/icons/forward_green.png" (click)="openInquiriesFormDialog(item)">
     </td>

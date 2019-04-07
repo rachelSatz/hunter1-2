@@ -32,19 +32,26 @@ export class RegisterComponent implements OnInit {
   register(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      this.helpers.setPageSpinner(true);
-      this.isSubmitting = true;
-      this.appHttp.register(form.value.password, this.route.snapshot.queryParams.token).then(response => {
-        if (response.token) {
-          this.userSession.login({username: '', token: response['token']});
-          this.userSession.setRole(response['role']);
-          this.router.navigate(['/platform']);
-        } else {
-          this.hasServerError = true;
-        }
-        this.helpers.setPageSpinner(false);
-        this.isSubmitting = false;
-      });
+      if (form.value.password === form.value.confirmPassword ) {
+        this.helpers.setPageSpinner(true);
+        this.isSubmitting = true;
+        this.appHttp.register(form.value.password, this.route.snapshot.queryParams.token).then(response => {
+          if (response.token) {
+            this.userSession.login({username: '', token: response['token']});
+            this.userSession.setRole(response['role']);
+            this.router.navigate(['/platform']);
+          } else if (response.status === 403) {
+            this.router.navigate(['/', 'login']);
+          } else {
+            this.hasServerError = true;
+          }
+          this.helpers.setPageSpinner(false);
+          this.isSubmitting = false;
+        });
+      } else {
+        this.hasServerError = true;
+      }
+
     }
   }
 

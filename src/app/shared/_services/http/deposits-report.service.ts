@@ -69,4 +69,12 @@ export class DepositsReportService extends BaseHttpService {
       .then(() => true)
       .catch(() => false);
   }
+
+  sendDepositReport(id: number): Promise<any> {
+
+    return this.http.post(this.endPoint + '/sendDepositReport/' + id, '', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
 }

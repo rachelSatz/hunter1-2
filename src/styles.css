@@ -263,6 +263,11 @@ a:hover {
   color: #fff;
 }
 
+.img-design {
+  width: 26px;
+  height: 26px;
+}
+
 /*--- Material ---*/
 
 .mat-tooltip  {

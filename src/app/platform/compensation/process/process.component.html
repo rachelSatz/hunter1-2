@@ -18,7 +18,7 @@
   </div>
     <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
       <td class="check-column">
-      <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
+        <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
       </td>
       <td>{{ item.created_at | date: 'dd/MM/yy' }}</td>
       <td>{{ item.updated_at | date: 'dd/MM/yy' }}</td>

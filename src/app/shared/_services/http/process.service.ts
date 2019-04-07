@@ -168,5 +168,21 @@ export class ProcessService extends BaseHttpService {
         .then(response => response as Object)
         .catch(() => []);
   }
+
+  updateDepositDate(processId: number, depositDate: string): Promise<any> {
+    return this.http.post(this.endPoint + '/UpdateDepositDate', {processId: processId, depositDate: depositDate}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+  deleteProcess(processId: number): Promise<any> {
+
+    return this.http.delete(this.endPoint + '/' + processId,  this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
 }
 
