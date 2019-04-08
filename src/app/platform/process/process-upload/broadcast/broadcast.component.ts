@@ -12,6 +12,7 @@ import { Process } from 'app/shared/_models/process.model';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { DateUpdateComponent } from './date-update/date-update.component';
 import { fade } from 'app/shared/_animations/animation';
+import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
 
 
 
@@ -45,10 +46,13 @@ export class BroadcastComponent implements OnInit {
               public  processDataService: ProcessDataService,
               private notificationService: NotificationService,
               public userSession: UserSessionService,
-              private dataPipe: DatePipe) {}
+              private dataPipe: DatePipe,
+              private selectUnitService: SelectUnitService) {}
 
   ngOnInit() {
-
+    if (this.processDataService.activeProcess === undefined) {
+      this.processDataService = this.selectUnitService.getProcessData();
+    }
     this.processService.getUploadFile(this.processDataService.activeProcess.processID).subscribe(response => {
       this.process_details = response;
     });

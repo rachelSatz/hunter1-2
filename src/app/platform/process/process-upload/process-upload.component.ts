@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import {SelectUnitService} from '../../../shared/_services/select-unit.service';
 
 
 @Component({
@@ -14,7 +15,8 @@ export class ProcessUploadComponent {
   public files: any[] = [];
 
   constructor(public router: Router, protected route: ActivatedRoute,
-              private processDataService: ProcessDataService) {}
+              private processDataService: ProcessDataService,
+              private  selectUnitService: SelectUnitService) {}
 
   setHeaderColor(): number {
     const currentRoute = (this.router.url).split('/');
@@ -28,6 +30,9 @@ export class ProcessUploadComponent {
     }
     if (currentRoute[5]) {
         if (currentRoute[5].split('?')[0] === 'details') {
+          if (this.processDataService.activeProcess === undefined) {
+            this.processDataService = this.selectUnitService.getProcessData();
+          }
           if (this.processDataService.activeProcess.pageNumber >= 4) {
             return 3;
           }

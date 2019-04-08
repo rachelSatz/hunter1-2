@@ -5,6 +5,7 @@ import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
 
 
 @Component({
@@ -20,12 +21,16 @@ export class DetailsComponent extends DataTableComponent implements OnInit {
 
   constructor(route: ActivatedRoute,
               private router: Router,
-               public processDataService: ProcessDataService,
-               private processService: ProcessService) {
+              public processDataService: ProcessDataService,
+              private processService: ProcessService,
+              private selectUnitService: SelectUnitService) {
     super(route);
   }
 
   ngOnInit() {
+    if (this.processDataService.activeProcess === undefined) {
+      this.processDataService = this.selectUnitService.getProcessData();
+    }
     this.processService.getUploadFileDone(this.processDataService.activeProcess.processID).then( response =>
       this.process_details = response
     );

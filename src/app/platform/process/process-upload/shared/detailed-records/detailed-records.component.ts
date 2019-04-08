@@ -13,6 +13,7 @@ import { GroupBankAccountComponent } from './group-bank-account/group-bank-accou
 import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 
 import { Subscription } from 'rxjs';
+import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-detailed-records',
@@ -49,7 +50,8 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
               private dialog: MatDialog,
               private processDataService: ProcessDataService,
               private  monthlyTransferBlockService: MonthlyTransferBlockService ,
-              protected  notificationService: NotificationService) { }
+              protected  notificationService: NotificationService,
+              private selectUnitService: SelectUnitService) { }
   sub = new Subscription;
 
   depositStatus = DepositStatus;
@@ -57,6 +59,9 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   productType = ProductType;
 
   ngOnInit() {
+    if (this.processDataService.activeProcess === undefined) {
+      this.processDataService = this.selectUnitService.getProcessData();
+    }
     this.monthlyTransferBlockService.getEntity(this.processDataService.activeProcess.processID)
       .then(response => {
         let column = this.dataTable.searchColumn(this.nameEmployeeName);

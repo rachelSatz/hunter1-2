@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
@@ -16,6 +16,8 @@ import { EmailComponent } from './email/email.component';
 import { fade } from 'app/shared/_animations/animation';
 import {InformationMessageComponent} from './information-message/information-message.component';
 import {HelpersService} from '../../../../shared/_services/helpers.service';
+import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
+import {DataTableComponent} from '../../../../shared/data-table-1/data-table.component';
 
 
 @Component({
@@ -26,12 +28,16 @@ import {HelpersService} from '../../../../shared/_services/helpers.service';
  })
 
 export class PaymentComponent implements OnInit , OnDestroy {
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
-  constructor(private dialog: MatDialog, private route: ActivatedRoute,
-              private router: Router, private processService: ProcessService,
+  constructor(private dialog: MatDialog,
+              private route: ActivatedRoute,
+              private router: Router,
+              private processService: ProcessService,
               public  processDataService: ProcessDataService,
               private notificationService: NotificationService,
-              private helpers: HelpersService) {}
+              private helpers: HelpersService,
+              private selectUnitService: SelectUnitService) {}
 
   data;
   process_percent = 0;
@@ -52,19 +58,23 @@ export class PaymentComponent implements OnInit , OnDestroy {
   showInfoMessage = true;
 
   ngOnInit() {
+    if (this.processDataService.activeProcess !== undefined) {
+      this.selectUnitService.setProcessData(this.processDataService);
+    } else {
+      this.processDataService = this.selectUnitService.getProcessData();
+    }
     this.process_details = new ProcessDetails;
     if (this.processDataService.activeProcess.pageNumber === 3) {
       this.pageNumber = 2;
     }
-   this.processId = this.route.snapshot.params['id'];
-
+    this.processId = this.route.snapshot.params['id'];
 
     this.processDataService.activeProcess.pageNumber = 2;
 
     if (this.processDataService.activeProcess.status === 'can_be_processed' ||
       this.processDataService.activeProcess.status === 'done_processing') {
       this.processService.getUploadFileDone(this.processId).then( response => this.set_process(response));
-    }else {
+    } else {
       this.sub = this.inter.pipe(
         startWith(0),
         switchMap(() => this.processService.getUploadFile(this.processId))
