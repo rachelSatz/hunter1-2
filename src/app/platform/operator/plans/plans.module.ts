@@ -11,10 +11,10 @@ import {
   MatNativeDateModule,
   MatSelectModule
 } from '@angular/material';
-import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import {PlanService} from '../../../shared/_services/http/plan.service';
-import {NotificationService} from '../../../shared/_services/notification.service';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { PlanService } from '../../../shared/_services/http/plan.service';
+import { NotificationService } from '../../../shared/_services/notification.service';
 
 
 const routes: Routes = [

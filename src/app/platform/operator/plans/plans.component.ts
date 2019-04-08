@@ -11,6 +11,7 @@ import {NotificationService} from '../../../shared/_services/notification.servic
   styleUrls: ['../../../shared/data-table/data-table.component.css', './plans.component.css']
 })
 export class PlansComponent implements OnInit {
+
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   savedPlan: string;
@@ -28,7 +29,6 @@ export class PlansComponent implements OnInit {
               protected notificationService: NotificationService) {
   }
 
-
   ngOnInit() {
     this.planService.getPlans().then(response => {
       this.dataTable.setItems(response);
@@ -36,7 +36,7 @@ export class PlansComponent implements OnInit {
     });
   }
   activatePlan(plan: Plan): void {
-    this.planService.activatePlan(plan).then(res => this.notificationService.info(res));
-
+    this.planService.activatePlan(plan).then(res =>
+      this.notificationService.info(res['message']));
   }
 }

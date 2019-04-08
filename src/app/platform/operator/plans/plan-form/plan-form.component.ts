@@ -43,7 +43,7 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     if (this.route.snapshot.data.plan) {
       this.plan = this.route.snapshot.data.plan;
     }
-    this.userService.usersList().then(response => this.operators = response);
+    this.userService.usersList().then(response => this.operators = response['items']);
     // this.plan.user_plan = Object.keys(this.plan.user_plan).map(key => ( {key: 'id'}));
     if (this.plan.plan_category.length > 0) {
       this.categoriesData = this.plan.plan_category;
@@ -92,7 +92,7 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
   }
 
   private handleResponse(response: string): void {
-    if (response === 'success') {
+    if (response['message'] === 'success') {
       this.router.navigate(['platform', 'operator', 'plans']);
     } else {
       this.notificationService.error(response);
