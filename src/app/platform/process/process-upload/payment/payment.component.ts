@@ -179,7 +179,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
       }
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-      FileSaver.saveAs(blob, this.fileName);
+      FileSaver.saveAs(blob, 'הנחיות תשלום.xlsx');
       this.spin = false;
     });
 
