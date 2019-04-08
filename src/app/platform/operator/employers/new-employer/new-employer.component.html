@@ -1,10 +1,20 @@
 <div class="mr-5 px-4">
-  <p class="h4 mb-4">הקמת מעסיק</p>
-  <p class="f-12 bold mt-5">פרטים</p>
   <form  #form="ngForm" (ngSubmit)="submit(form)"  [formGroup]="newEmployerForm">
     <div formGroupName="employerDetails">
+    <p class="h4 mb-4">הקמת ארגון</p>
+      <div class="d-flex">
+        <mat-form-field [ngClass]="{'disabledInput' : !isEdit}">
+          <input matInput placeholder="ארגון חדש" formControlName="newOrganization">
+          <mat-error>שדה חובה</mat-error>
+        </mat-form-field>
+        <div>
+          <img src="/assets/img/icons/edit_grey.png" class="row-image edit-icon" (click)="enableOrganization(isEdit)">
+        </div>
+      </div>
+    <p class="h4 mb-4">הקמת מעסיק</p>
+    <p class="f-12 bold mt-5">פרטים</p>
       <div>
-        <mat-form-field class="pl-5">
+        <mat-form-field class="pl-5" [ngClass]="{'disabledInput' : isEdit}">
           <mat-select matInput placeholder="ארגון" formControlName="organization">
             <mat-option *ngFor="let organization of organizations" [value]="organization.id" (onSelectionChange)="getOperator(organization.id)">
               {{organization.value}}

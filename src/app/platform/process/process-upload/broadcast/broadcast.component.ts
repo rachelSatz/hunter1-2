@@ -1,17 +1,17 @@
 import {ActivatedRoute, Router} from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { DatePipe } from '@angular/common';
 
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
+import { fade } from 'app/shared/_animations/animation';
 import { Process } from 'app/shared/_models/process.model';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { DateUpdateComponent } from './date-update/date-update.component';
-import { fade } from 'app/shared/_animations/animation';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 
 
@@ -44,10 +44,13 @@ export class BroadcastComponent implements OnInit {
               private processService: ProcessService,
               public  processDataService: ProcessDataService,
               private notificationService: NotificationService,
-              public userSession: UserSessionService) {}
+              public userSession: UserSessionService,
+              private selectUnitService: SelectUnitService) {}
 
   ngOnInit() {
-
+    if (this.processDataService.activeProcess === undefined) {
+      this.processDataService = this.selectUnitService.getProcessData();
+    }
     this.processService.getUploadFile(this.processDataService.activeProcess.processID).subscribe(response => {
       this.process_details = response;
     });
@@ -107,9 +110,4 @@ export class BroadcastComponent implements OnInit {
         this.processDataService.activeProcess.processID],
       { relativeTo: this.route });
   }
-
-  // update(data) {
-  //
-  //   // this.dateValid = !this.paymentDate.includes('-');
-  // }
 }

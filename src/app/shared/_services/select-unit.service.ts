@@ -37,6 +37,16 @@ export class SelectUnitService {
     return [];
   }
 
+  setProcessData(organizations: any): void {
+    sessionStorage.setItem('processData', JSON.stringify(organizations));
+  }
+
+  getProcessData(): any {
+    return this.getSessionStorage('processData');
+  }
+
+
+
   setTaskTimer(task: any): void {
     sessionStorage.setItem('task', JSON.stringify(task));
   }
@@ -73,7 +83,6 @@ export class SelectUnitService {
     }
     return 0;
   }
-
 
   // changeEmployersDepartments( employers: any, departments: any): void {
   //   // this.currentEmployers = employers;

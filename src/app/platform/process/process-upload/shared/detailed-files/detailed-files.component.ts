@@ -18,6 +18,7 @@ import { CommentsComponent } from './comments/comments.component';
 
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
+import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
 
 
 @Component({
@@ -53,7 +54,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
               private router: Router,
               private  processService: ProcessService,
               private processDataService: ProcessDataService,
-              protected  notificationService: NotificationService) {
+              protected  notificationService: NotificationService,
+              private selectUnitService: SelectUnitService) {
   }
 
   paymentType = PaymentType;
@@ -66,6 +68,9 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   fetchItems () {
+    if (this.processDataService.activeProcess === undefined) {
+      this.processDataService = this.selectUnitService.getProcessData();
+    }
     this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID;
     this.processService.getFilesList(this.dataTable.criteria)
       .then( response => {

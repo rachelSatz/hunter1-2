@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { CommonModule} from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FileDropModule } from 'ngx-file-drop';
@@ -15,8 +15,8 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { EmailComponent } from './email/email.component';
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { PaymentComponent } from './payment.component';
-import {InformationMessageComponent} from './information-message/information-message.component';
-import {HelpersService} from '../../../../shared/_services/helpers.service';
+import { InformationMessageComponent } from './information-message/information-message.component';
+import { HelpersService } from '../../../../shared/_services/helpers.service';
 
 
 const routes: Routes = [
