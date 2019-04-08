@@ -17,6 +17,10 @@ app-side-filters ::ng-deep .input .mat-form-field-wrapper {
   padding-top: 19px;
 }
 
+.displayNone{
+  display: none;
+}
+
 .saved-message > i {
 	font-size: 22px;
 }

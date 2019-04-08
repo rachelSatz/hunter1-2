@@ -46,15 +46,15 @@ export class FilesComponent implements OnInit, OnDestroy  {
     {name: 'employer_name', label: 'שם מעסיק', searchable: false},
     {name: 'amount', label: 'סכום', searchable: false},
     {name: 'code', label: 'קוד אוצר', searchable: false},
-    {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},
-    {name: 'updated_at', label: 'תאריך עדכון אחרון',  searchOptions: { isDate: true }, isDisplay: false},
-    {name: 'broadcast_date', label: 'תאריך שידור', searchOptions: { isDate: true }, isDisplay: false},
-    {name: 'product_date', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }, isDisplay: false},
     {name: 'status', label: 'סטטוס', searchOptions: { labels: this.list_status } },
     {name: 'more', label: 'מידע נוסף', searchable: false},
     {name: 'send_request', label: 'שלח פנייה', searchable: false},
     {name: 'inquiries', label: 'פניות', searchable: false},
-    {name: 'comments', label: 'הערות', searchable: false}
+    {name: 'comments', label: 'הערות', searchable: false},
+    {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},
+    {name: 'updated_at', label: 'תאריך עדכון אחרון',  searchOptions: { isDate: true }, isDisplay: false},
+    {name: 'broadcast_date', label: 'תאריך שידור', searchOptions: { isDate: true }, isDisplay: false},
+    {name: 'product_date', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }, isDisplay: false}
   ];
 
 

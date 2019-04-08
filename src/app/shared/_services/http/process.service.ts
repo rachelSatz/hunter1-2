@@ -162,8 +162,8 @@ export class ProcessService extends BaseHttpService {
       .catch(() => null);
   }
 
-  unlockProcessFiles(processId: number): Promise<Object> {
-      return this.http.post(this.endPoint + '/UnlockProcessFiles', {processId: processId}, this.getTokenHeader())
+  unlockProcessFiles(process: any): Promise<Object> {
+      return this.http.post(this.endPoint + '/UnlockProcessFiles', process, this.getTokenHeader())
         .toPromise()
         .then(response => response as Object)
         .catch(() => []);
@@ -177,7 +177,6 @@ export class ProcessService extends BaseHttpService {
   }
 
   deleteProcess(processId: number): Promise<any> {
-
     return this.http.delete(this.endPoint + '/' + processId,  this.getTokenHeader())
       .toPromise()
       .then(response => response)

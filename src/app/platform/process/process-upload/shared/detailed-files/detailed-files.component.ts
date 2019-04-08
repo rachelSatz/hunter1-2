@@ -180,9 +180,15 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   openSent(): void {
-    if (this.checkedRowItems()) {
+    if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
+      const processId = { 'processId' : this.processDataService.activeProcess.processID};
+      let filesList =  {};
+      if (!this.dataTable.criteria.isCheckAll) {
+        filesList = { 'filesList' : this.dataTable.criteria.checkedItems.map(item => item['file_id'])};
+      }
+
       if (this.isUnLockedBroadcast()) {
-        this.processService.unlockProcessFiles(this.processDataService.activeProcess.processID).then( r => {
+        this.processService.unlockProcessFiles(!this.dataTable.criteria.isCheckAll ? filesList : processId).then( r => {
             if (r['authorized'] === false && r['success'] === 'Message_Sent') {
                 this.notificationService.success('', 'ממתין לאישור מנהל');
             } else  if (r['authorized'] === true && r['success'] === true) {
@@ -196,6 +202,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
       } else {
         this.notificationService.error('', 'יש לבחור רק נעולים');
       }
+    }else {
+      this.dataTable.setNoneCheckedWarning();
     }
   }
 

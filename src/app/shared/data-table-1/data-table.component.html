@@ -22,9 +22,10 @@
 		<th *ngIf="hasCheckColumn" class="pointer table-header">
 			<mat-checkbox (change)="checkAll($event.checked)" [ngModel]="criteria.isCheckAll" *ngIf="items.length > 0 && !disableCheckAll"></mat-checkbox>
 		</th>
-		<th *ngFor="let column of columns" (click)="sort(column)" class="pointer table-header">
-			<span *ngIf="column.isDisplay !== false" [matTooltip]="'מיין לפי ' + column.label">{{ column.label }}</span>
-			<i *ngIf="column.isDisplay !== false" [@rotate]="rotateSortingIcon()" class="fa fa-chevron-down"
+		<th *ngFor="let column of columns" (click)="sort(column)" class="pointer table-header"
+        [ngClass]="{ 'displayNone': column.isDisplay === false }">
+			<span [matTooltip]="'מיין לפי ' + column.label">{{ column.label }}</span>
+			<i  [@rotate]="rotateSortingIcon()" class="fa fa-chevron-down"
          [@fade]="(criteria.sort.column_show === column.name) && column.isSort != false ? 'active' : 'inactive'"></i>
 		</th>
 		<th class="table-header" *ngIf="hasActionsHeader">פעולות</th>

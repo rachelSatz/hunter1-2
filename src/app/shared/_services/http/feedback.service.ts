@@ -44,10 +44,10 @@ export class FeedbackService extends BaseHttpService {
       .catch(() => null);
   }
 
-  downloadGroupThingFile(id: number): Promise<Blob> {
-    return this.http.get(this.apiUrl + '/files/' + id + '/downloadFile', this.getBlobOptions())
+  downloadGroupThingFile(id: number): Promise<any> {
+    return this.http.get(this.apiUrl + '/files/' + id + '/downloadFile', this.getTokenHeader())
       .toPromise()
-      .then(response => response as Blob);
+      .then(response => response);
   }
 
 }
