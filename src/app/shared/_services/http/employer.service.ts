@@ -5,15 +5,12 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Employer } from '../../_models/employer.model';
-import {Company} from '../../_models/company.model';
-import { Bank } from 'app/shared/_models/bank.model';
-import {BankBranch} from '../../_models/bank-branch.model';
-import {Employee} from '../../_models/employee.model';
+
 import {Department} from '../../_models/department.model';
-import {Subject} from 'rxjs';
+
 import {EmployerFinancialDetails} from '../../_models/employer-financial-details.model';
-import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
-import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
+import {DataTableResponse} from '../../data-table/classes/data-table-response';
 
 @Injectable()
 export class EmployerService extends BaseHttpService {

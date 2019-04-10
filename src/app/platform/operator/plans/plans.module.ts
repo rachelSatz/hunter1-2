@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlansComponent } from './plans.component';
 import { RouterModule, Routes} from '@angular/router';
-import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import {
   MatDatepickerModule,
   MatFormFieldModule,
@@ -11,10 +11,10 @@ import {
   MatNativeDateModule,
   MatSelectModule
 } from '@angular/material';
-import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import {PlanService} from '../../../shared/_services/http/plan.service';
-import {NotificationService} from '../../../shared/_services/notification.service';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { PlanService } from 'app/shared/_services/http/plan.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 
 const routes: Routes = [

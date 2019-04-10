@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
-import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';

@@ -1,11 +1,12 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { PaymentType, EmployerProduct } from 'app/shared/_models/process.model';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ProductType } from 'app/shared/_models/product.model';
 import { Status } from 'app/shared/_models/file-feedback.model';
@@ -18,7 +19,6 @@ import { CommentsComponent } from './comments/comments.component';
 
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
-import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
 
 
 @Component({
@@ -238,8 +238,10 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
 
   detailsRecords(fileId: number): void {
     this.processDataService.activeProcess.returnDetails = true;
-    this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
     console.log(this.route.parent);
+    this.router.navigateByUrl('/details', {skipLocationChange: true}).then(() =>
+      this.router.navigate(['/platform', 'process', 'new', 1, 'details'], {queryParams: {name: fileId}}));
+      // location.reload();
   }
 
   isLockedBroadcast(): boolean {

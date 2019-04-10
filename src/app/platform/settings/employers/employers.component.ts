@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 

@@ -6,8 +6,6 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-
 
 @Component({
   selector: 'app-departments',

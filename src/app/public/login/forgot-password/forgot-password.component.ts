@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 import { NgForm } from '@angular/forms';
+
 import { AppHttpService } from 'app/shared/_services/http/app-http.service';
-import {NotificationService} from '../../../shared/_services/notification.service';
-import {MatDialogRef} from '@angular/material';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 @Component({
   selector: 'app-forgot-password',

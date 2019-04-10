@@ -9,13 +9,13 @@ import { Status } from 'app/shared/_models/deposits-report.model';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
 import { DepositsReportService } from 'app/shared/_services/http/deposits-report.service';
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
-import { DataTableResponse } from 'app/shared/data-table-1/classes/data-table-response';
+import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { RequestDepositsReportComponent } from './excel/request-deposits-report/request-deposits-report.component';
 

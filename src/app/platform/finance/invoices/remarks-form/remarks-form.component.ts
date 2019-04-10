@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {  MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import {Invoice} from '../../../../shared/_models/invoice.model';
 import {InvoiceService} from '../../../../shared/_services/http/invoice.service';

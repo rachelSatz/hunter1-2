@@ -63,6 +63,7 @@
 </div>
 
 <div class="mt-5 py-5">
-  <app-detailed-files *ngIf="type === 'files'"></app-detailed-files>
-  <app-detailed-records *ngIf="type === 'records'"></app-detailed-records>
+  <router-outlet></router-outlet>
+  <!--<app-detailed-files *ngIf="type === 'files'"></app-detailed-files>-->
+  <!--<app-detailed-records *ngIf="type === 'records'"></app-detailed-records>-->
 </div>

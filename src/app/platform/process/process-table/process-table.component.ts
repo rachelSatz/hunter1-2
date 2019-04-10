@@ -8,7 +8,7 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { Process, ProcessStatus, ProcessType } from 'app/shared/_models/process.model';
 
 @Component({

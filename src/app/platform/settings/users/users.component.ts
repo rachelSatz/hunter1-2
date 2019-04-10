@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { AppHttpService } from 'app/shared/_services/http/app-http.service';
 import { UserService } from 'app/shared/_services/http/user.service';
 import { EntityRoles } from 'app/shared/_models/user.model';

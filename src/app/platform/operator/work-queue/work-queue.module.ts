@@ -13,19 +13,11 @@ import { SystemTasksComponent } from './system-tasks/system-tasks.component';
 import { OngoingOperationComponent } from './ongoing-operation/ongoing-operation.component';
 import { TimerComponent } from './timer/timer.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import {SkipTaskComponent} from './ongoing-operation/skip-task/skip-task.component';
-import {DatePickerModule} from 'app/shared/app-date-picker/app-date-picker.module';
-import {TimerService} from '../../../shared/_services/http/timer';
-import {OperatorTasksService} from '../../../shared/_services/http/operator-tasks';
 
-// const routes: Routes = [
-//   { path: '', component: WorkQueueComponent},
-//   { path: 'system-tasks', loadChildren: './system-tasks/system-tasks.module#SystemTasksModule'},
-//   { path: 'phone-call', loadChildren: 'phone-call/phone-call.module#PhoneCallModule'},
-//   { path: 'timer', loadChildren: 'timer/timer.module#EmailsModule'},
-//   { path: 'ongoing-operation', loadChildren: 'ongoing-operation/ongoing-operation.module#OngoingOperationModule'}
-//
-// ];
+import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
+import { TimerService } from 'app/shared/_services/http/timer';
+import { OperatorTasksService } from 'app/shared/_services/http/operator-tasks';
+
 const routes: Routes = [
   {
     path: '', component: WorkQueueComponent, children: [

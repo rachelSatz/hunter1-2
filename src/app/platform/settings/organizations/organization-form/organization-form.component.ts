@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Organization } from '../../../../shared/_models/organization.model';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Organization } from 'app/shared/_models/organization.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { PlatformComponent } from 'app/platform/platform.component';

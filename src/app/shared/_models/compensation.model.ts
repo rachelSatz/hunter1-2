@@ -1,4 +1,4 @@
-import {DataTableResponse} from '../data-table-1/classes/data-table-response';
+import {DataTableResponse} from '../data-table/classes/data-table-response';
 
 export class Compensation {
   id: number;

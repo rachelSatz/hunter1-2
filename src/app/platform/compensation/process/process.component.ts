@@ -23,7 +23,7 @@ import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comment
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 'app/shared/_models/compensation.model';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
 
 @Component({

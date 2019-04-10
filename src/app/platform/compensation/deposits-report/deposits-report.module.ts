@@ -16,7 +16,7 @@ import {
 import { DepositsReportComponent } from './deposits-report.component';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
-import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { NotificationService} from 'app/shared/_services/notification.service';

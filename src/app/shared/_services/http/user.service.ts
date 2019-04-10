@@ -6,8 +6,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { User } from '../../_models/user.model';
 import { Employer } from '../../_models/employer.model';
-import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
-import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
+import {DataTableResponse} from '../../data-table/classes/data-table-response';
 
 @Injectable()
 export class UserService extends BaseHttpService {

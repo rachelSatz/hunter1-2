@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { MatDialogModule } from '@angular/material';
 
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';

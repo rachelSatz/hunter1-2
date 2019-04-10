@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material';
 
 import { AddDocumentComponent } from './add-document/add-document.component';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';

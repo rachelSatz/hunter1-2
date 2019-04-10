@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { DepositStatus, DepositType } from 'app/shared/_models/monthly-transfer-block';
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { ProductType } from 'app/shared/_models/product.model';

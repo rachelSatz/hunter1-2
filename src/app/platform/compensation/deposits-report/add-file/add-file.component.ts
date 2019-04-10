@@ -1,14 +1,12 @@
-import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+
 import { DocumentService } from 'app/shared/_services/http/document.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-// import * as FileSaver from 'file-saver';
 import { DepositsReportService } from 'app/shared/_services/http/deposits-report.service';
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+
 import * as FileSaver from 'file-saver';
 
 @Component({

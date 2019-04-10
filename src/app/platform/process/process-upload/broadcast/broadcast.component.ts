@@ -27,7 +27,6 @@ export class BroadcastComponent implements OnInit {
   process: Process;
   file: boolean;
   record: boolean;
-  // dateValid = false;
   type;
   data;
   processId;

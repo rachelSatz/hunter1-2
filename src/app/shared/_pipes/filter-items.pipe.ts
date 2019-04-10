@@ -1,7 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { DataTableHeader } from '../data-table/classes/data-table-header';
-
 @Pipe({
 	name: 'filterItems'
 })

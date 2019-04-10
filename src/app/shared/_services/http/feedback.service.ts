@@ -3,10 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
-import { FileFeedback } from '../../_models/file-feedback.model';
-import { MonthlyTransferBlock } from '../../_models/monthly-transfer-block';
-import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
-import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
+
+import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
+import { DataTableResponse } from '../../data-table/classes/data-table-response';
 
 @Injectable()
 export class FeedbackService extends BaseHttpService {

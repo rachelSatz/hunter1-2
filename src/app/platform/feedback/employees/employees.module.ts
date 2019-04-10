@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { SendApplicationComponent } from './send-application/send-application.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
-import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';

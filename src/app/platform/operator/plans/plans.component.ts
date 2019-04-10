@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
 import { ActivatedRoute } from '@angular/router';
-import { PlanService } from '../../../shared/_services/http/plan.service';
-import { Plan } from '../../../shared/_models/plan';
-import {NotificationService} from '../../../shared/_services/notification.service';
+
+import { Plan } from 'app/shared/_models/plan';
+import { PlanService } from 'app/shared/_services/http/plan.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
 @Component({
   selector: 'app-plans',

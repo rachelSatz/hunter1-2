@@ -5,17 +5,13 @@ import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
-import { Process, ViewProcess } from '../../_models/process.model';
+import { Process,  } from '../../_models/process.model';
 import { ProcessDetails } from '../../_models/process-details.model';
-import { ProductPayment } from '../../_models/product-payment.model';
-import { TransmissionData } from '../../_models/transmission-data.model';
-import { SendFile } from '../../_models/send-file.model';
-import { BankBranch } from '../../_models/bank-branch.model';
-import { Manufacturer } from '../../_models/manufacturer.model';
+
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
-import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
+import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 
 @Injectable()
 export class ProcessService extends BaseHttpService {

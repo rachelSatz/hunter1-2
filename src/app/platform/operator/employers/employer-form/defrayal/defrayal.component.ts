@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 
 @Component({
   selector: 'app-defrayal',
