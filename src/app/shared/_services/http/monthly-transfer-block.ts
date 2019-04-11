@@ -47,10 +47,10 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
       .catch(response => response);
   }
 
-  getEntity(processId: number): Promise<Employee[]> {
+  getEntity(processId: number, record_id: number): Promise<Employee[]> {
 
     const options = this.getTokenHeader();
-    options['params'] = {processId : processId};
+    options['params'] = {processId : processId, recordsId: record_id};
     return this.http.get(this.endPoint + '/entity', options)
       .toPromise()
       .then(response => response as Employee[])

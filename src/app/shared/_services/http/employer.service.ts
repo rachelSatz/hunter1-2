@@ -162,10 +162,17 @@ export class EmployerService extends BaseHttpService {
       .then( response => response );
   }
 
-  getEmployerBankAccounts(employerId: number): Promise<any> {
-    return this.http.get(this.endPoint + '/' + employerId +  '/employerBankAccounts' , this.getTokenHeader())
+  getEmployerBankAccounts(criteria: DataTableCriteria, employerId: number ): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+
+    return this.http.get(this.endPoint + '/' + employerId +  '/employerBankAccounts' , request)
       .toPromise()
-      .then( response => response );
+      .then( response => response )
+      .catch(response => response);
   }
 
   getEmployerBankAccount(employerId: number): Promise<any> {
@@ -175,8 +182,10 @@ export class EmployerService extends BaseHttpService {
   }
 
   setDefaultEmployerBA(employerId: number, employerBank: any): Promise<any> {
-    return this.http.put(this.endPoint + '/setDefaultEmployerBA' , {employerId: employerId,
-      bankAccountId: employerBank.bank_account_id , employerBankId: employerBank.id, product_id:employerBank.product_id },this.getTokenHeader())
+    return this.http.put(this.endPoint + '/setDefaultEmployerBA' , {
+      employerId: employerId, bankAccountId: employerBank.bank_account_id ,
+      employerBankId: employerBank.id, product_id: employerBank.product_id },
+      this.getTokenHeader())
       .toPromise()
       .then( response => response );
   }

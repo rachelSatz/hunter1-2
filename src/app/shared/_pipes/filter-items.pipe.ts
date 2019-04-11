@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterItemsPipe implements PipeTransform {
 
-	public transform(items: any, searchValue: string, headers?: DataTableHeader[]) {
+	public transform(items: any, searchValue: string, headers?: any) {
 
 		if (!items || !searchValue) {
 			return items;

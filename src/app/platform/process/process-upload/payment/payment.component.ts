@@ -214,13 +214,12 @@ export class PaymentComponent implements OnInit , OnDestroy {
       }
       case 'detailed-files': {
         this.processDataService.activeProcess.returnDetails = true;
-        const files = {name: 'file'};
-        this.router.navigate(['/platform', 'process', 'new', 1, 'details'], {queryParams: files});
+        this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
         break;
       }
       case 'detailed-records': {
         this.processDataService.activeProcess.returnDetails = true;
-        this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
+        this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
       }
     }
   }

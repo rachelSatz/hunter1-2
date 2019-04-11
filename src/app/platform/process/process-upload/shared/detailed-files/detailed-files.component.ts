@@ -19,6 +19,7 @@ import { CommentsComponent } from './comments/comments.component';
 
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
+import {DetailsComponent} from '../details.component';
 
 
 @Component({
@@ -55,7 +56,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
               private  processService: ProcessService,
               private processDataService: ProcessDataService,
               protected  notificationService: NotificationService,
-              private selectUnitService: SelectUnitService) {
+              private selectUnitService: SelectUnitService,
+              private detailsComponent: DetailsComponent ) {
   }
 
   paymentType = PaymentType;
@@ -238,10 +240,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
 
   detailsRecords(fileId: number): void {
     this.processDataService.activeProcess.returnDetails = true;
-    console.log(this.route.parent);
-    this.router.navigateByUrl('/details', {skipLocationChange: true}).then(() =>
-      this.router.navigate(['/platform', 'process', 'new', 1, 'details'], {queryParams: {name: fileId}}));
-      // location.reload();
+    this.detailsComponent.type = 'records';
+    this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records', fileId]);
   }
 
   isLockedBroadcast(): boolean {

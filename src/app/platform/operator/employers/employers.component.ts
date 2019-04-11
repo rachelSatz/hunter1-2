@@ -6,7 +6,6 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
-import { ProductService } from 'app/shared/_services/http/product.service';
 import { EmployerStatus } from 'app/shared/_models/employer.model';
 
 
@@ -36,16 +35,11 @@ export class EmployersComponent  implements OnInit , OnDestroy {
 
   constructor(protected route: ActivatedRoute,
               private employerService: EmployerService,
-              private selectUnit: SelectUnitService,
-              private productService: ProductService) {
+              private selectUnit: SelectUnitService) {
   }
 
   ngOnInit() {
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
-    const company = this.selectUnit.getCompanies() as any[];
-    if ( company.length <= 0) {
-      this.productService.getFullCompanies().subscribe(response => this.selectUnit.setCompanies(response));
-    }
   }
 
   fetchItems() {

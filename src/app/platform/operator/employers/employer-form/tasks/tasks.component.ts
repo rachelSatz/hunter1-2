@@ -24,9 +24,8 @@ export class TasksComponent implements OnInit , OnDestroy {
     { name: 'createdBy', label: 'יוצר המשימה' , searchable: false},
     { name: 'createdAt', label: 'תאריך יצירה' , searchable: false},
     { name: 'executive', label: 'מבצע המשימה' , searchable: false},
-    { name: 'executionDate', label: 'לביצוע עד' , searchable: false},
-    { name: 'options', label: 'אפשרויות' , searchable: false}
-  ];
+    { name: 'executionDate', label: 'לביצוע עד' , searchable: false}
+    ];
 
   constructor(route: ActivatedRoute,
               public dialog: MatDialog,

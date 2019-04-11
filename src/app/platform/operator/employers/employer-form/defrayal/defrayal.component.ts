@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -10,34 +10,32 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
   templateUrl: './defrayal.component.html',
   styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
-export class DefrayalComponent extends DataTableComponent  implements OnInit , OnDestroy {
+export class DefrayalComponent implements OnInit {
 
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'product_id', label: 'מס קופה' },
-    { column: 'product_name', label: 'שם קופה' },
-    { column: 'company_name', label: 'שם חברה' },
-    { column: 'bank', label: 'בנק' },
-    { column: 'branch', label: 'סניף' },
-    { column: 'account', label: 'מספר חשבון' },
+  readonly columns =  [
+    { name: 'product_id', label: 'מס קופה' },
+    { name: 'product_name', label: 'שם קופה' },
+    { name: 'company_name', label: 'שם חברה' },
+    { name: 'bank', label: 'בנק' },
+    { name: 'branch', label: 'סניף' },
+    { name: 'account', label: 'מספר חשבון' },
   ];
 
 
   constructor(protected route: ActivatedRoute,
               private employerService: EmployerService,
               private selectUnit: SelectUnitService) {
-    super(route);
   }
 
   ngOnInit() {
-    this.paginationData.limit = 5;
-    this.employerService.getEmployerBankAccounts(this.selectUnit.currentEmployerID).then(
-      response => this.setItems(response));
-    super.ngOnInit();
+    this.dataTable.criteria.limit = 5;
+
   }
 
-
-
-
-
+  fetchItems() {
+    this.employerService.getEmployerBankAccounts( this.dataTable.criteria , this.selectUnit.currentEmployerID).then(
+      response => this.dataTable.setItems(response));
+  }
 }

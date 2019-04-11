@@ -7,6 +7,7 @@ import { UserSessionService } from '../user-session.service';
 
 import { Employee } from 'app/shared/_models/employee.model';
 import { Department } from 'app/shared/_models/department.model';
+import {DataTableResponse} from '../../data-table/classes/data-table-response';
 
 @Injectable()
 export class DepartmentService extends BaseHttpService {
@@ -17,13 +18,13 @@ export class DepartmentService extends BaseHttpService {
     super(userSession);
   }
 
-  getDepartments(employerId: number): Promise<Department[]> {
+  getDepartments(employerId: number): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     request['params'] = { employerId: employerId };
     return this.http.get(this.endPoint, request)
       .toPromise()
-      .then(response => response as Department[])
-      .catch(() => []);
+      .then(response => response)
+      .catch(response => response);
   }
 
   getDepartment(departmentId: number): Promise<Department> {

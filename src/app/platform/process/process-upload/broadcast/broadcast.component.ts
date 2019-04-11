@@ -97,9 +97,9 @@ export class BroadcastComponent implements OnInit {
   setPage(type) {
     if (type === 'detailed-files') {
      const files = {name: 'files'};
-     this.router.navigate(['/platform', 'process', 'new', 1, 'details'], {queryParams: files});
+     this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
    } else {
-     this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
+     this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
    }
   }
 

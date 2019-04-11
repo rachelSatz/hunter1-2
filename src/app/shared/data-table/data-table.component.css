@@ -89,3 +89,7 @@ app-side-filters ::ng-deep .input .mat-form-field-wrapper {
   height: auto;
 }
 
+
+.operator-table {
+  margin-right: 80px;
+}

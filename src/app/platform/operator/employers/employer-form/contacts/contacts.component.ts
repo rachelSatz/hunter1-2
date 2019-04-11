@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
-  styleUrls: ['../../../../../shared/data-table/data-table.component.css']
+  styleUrls: ['../../../../../shared/data-table/data-table.component.css'],
 })
 export class ContactsComponent implements OnInit , OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
@@ -40,10 +40,10 @@ export class ContactsComponent implements OnInit , OnDestroy {
 
   ngOnInit() {
     if (this.router.url.includes( 'employers')) {
-        this.pathEmployers = true;
         this.location = 'employers';
-        this.dataTable.criteria.limit = 4;
+        this.dataTable.criteria.limit = 5;
     } else if (this.router.url.includes( 'operator')) {
+      this.pathEmployers = true;
       this.location = 'operator';
     } else {
         this.location = 'settings';

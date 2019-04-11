@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
@@ -7,13 +7,13 @@ import { DepositStatus, DepositType } from 'app/shared/_models/monthly-transfer-
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductType } from 'app/shared/_models/product.model';
 
 import { GroupBankAccountComponent } from './group-bank-account/group-bank-account.component';
 import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 
 import { Subscription } from 'rxjs';
-import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-detailed-records',
@@ -46,7 +46,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     { name: 'amount', isSort: false, label: 'סה"כ' , searchable: false }
   ];
 
-  constructor(route: ActivatedRoute,
+  constructor(public route: ActivatedRoute,
               private dialog: MatDialog,
               private processDataService: ProcessDataService,
               private  monthlyTransferBlockService: MonthlyTransferBlockService ,
@@ -57,12 +57,17 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   depositStatus = DepositStatus;
   depositTypes = DepositType;
   productType = ProductType;
+  records_id = 0;
 
   ngOnInit() {
     if (this.processDataService.activeProcess === undefined) {
       this.processDataService = this.selectUnitService.getProcessData();
     }
-    this.monthlyTransferBlockService.getEntity(this.processDataService.activeProcess.processID)
+
+    this.records_id = this.route.snapshot.params['id'];
+    this.records_id =  this.records_id === undefined ? 0 :  this.records_id;
+
+    this.monthlyTransferBlockService.getEntity(this.processDataService.activeProcess.processID,  this.records_id)
       .then(response => {
         let column = this.dataTable.searchColumn(this.nameEmployeeName);
         column['searchOptions'].labels = response['employees'];
@@ -73,6 +78,9 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
 
   fetchItems() {
     this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID;
+    if  (this.records_id !== 0 ) {
+      this.dataTable.criteria.filters['recordsId'] = this.records_id;
+    }
     this.monthlyTransferBlockService.getMonthlyList(this.dataTable.criteria)
       .then(response => this.dataTable.setItems(response));
   }
