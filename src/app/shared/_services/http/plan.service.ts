@@ -29,6 +29,14 @@ export class PlanService extends BaseHttpService {
       .then(response => response as DataTableResponse);
   }
 
+  getSinglePlan(): Promise<any> {
+    return this.http.get(this.endPoint + '/getSinglePlan',  this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => []);
+  }
+
+
   getTypes(): Promise<PlanType[]> {
     return this.http.get(this.endPoint + '/types',  this.getTokenHeader())
       .toPromise().then(response => response as PlanType[]);

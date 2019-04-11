@@ -98,6 +98,11 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
       this.notificationService.error(response);
     }
   }
+
+  back(): void {
+    this.router.navigate(['platform', 'operator', 'plans']);
+  }
+
   ngOnDestroy(): void {
   }
 
