@@ -6,6 +6,7 @@ import { BaseHttpService } from './base-http.service';
 import {Plan, PlanType} from '../../_models/plan';
 import {UserSessionService} from '../user-session.service';
 import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
+import {PlanTask} from '../../_models/plan-task';
 
 
 
@@ -29,11 +30,11 @@ export class PlanService extends BaseHttpService {
       .then(response => response as DataTableResponse);
   }
 
-  getSinglePlan(): Promise<any> {
+  getSinglePlan(): Promise<PlanTask> {
     return this.http.get(this.endPoint + '/getSinglePlan',  this.getTokenHeader())
       .toPromise()
-      .then(response => response)
-      .catch(() => []);
+      .then(response => response as PlanTask)
+      .catch(() => null);
   }
 
 
