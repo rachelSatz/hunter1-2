@@ -25,7 +25,7 @@ import { ExcelComponent } from './excel/compensation/compensation.component';
 import { EmployeesComponent } from './excel/employees/employees.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 
 
 const routes: Routes = [

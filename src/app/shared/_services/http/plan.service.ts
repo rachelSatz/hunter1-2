@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 
 import { BaseHttpService } from './base-http.service';
-import {Plan, PlanType} from '../../_models/plan';
-import {UserSessionService} from '../user-session.service';
-import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
-import {PlanTask} from '../../_models/plan-task';
+import { Plan, PlanType} from '../../_models/plan';
+import { UserSessionService} from '../user-session.service';
+import { PlanTask} from '../../_models/plan-task';
+import { DataTableResponse} from '../../data-table/classes/data-table-response';
 
 
 

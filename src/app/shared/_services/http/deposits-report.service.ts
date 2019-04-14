@@ -5,8 +5,8 @@ import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { DepositsReport } from 'app/shared/_models/deposits-report.model';
-import { DataTableResponse } from '../../data-table-1/classes/data-table-response';
-import { DataTableCriteria } from '../../data-table-1/classes/data-table-criteria';
+import { DataTableResponse } from '../../data-table/classes/data-table-response';
+import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 
 
 @Injectable()

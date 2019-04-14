@@ -1,11 +1,10 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as FileSaver from 'file-saver';
 import { MatDialog } from '@angular/material';
 
 import { AddDocumentComponent } from './add-document/add-document.component';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';
@@ -17,7 +16,9 @@ import { Subscription } from 'rxjs';
   templateUrl: './documents.component.html',
   styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
-export class DocumentsComponent extends DataTableComponent implements OnInit , OnDestroy {
+export class DocumentsComponent implements OnInit , OnDestroy {
+
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   pathEmployers = false;
   sub = new Subscription;
@@ -26,13 +27,11 @@ export class DocumentsComponent extends DataTableComponent implements OnInit , O
               private documentService: DocumentService,
               private router: Router,
               private selectUnit: SelectUnitService,
-    protected notificationService: NotificationService, private dialog: MatDialog) {
-    super(route, notificationService);
+              protected notificationService: NotificationService,
+              private dialog: MatDialog) {
   }
 
-
-
-readonly headers: DataTableHeader[] =  [
+  readonly columns =  [
     { column: 'employerName',     label: 'שם מעסיק' },
     { column: 'filename',     label: 'שם הקובץ' },
     { column: 'date',         label: 'תאריך העלאה' },
@@ -42,21 +41,18 @@ readonly headers: DataTableHeader[] =  [
   ngOnInit() {
     if (this.router.url.includes('employers')) {
       this.pathEmployers = true;
-      this.paginationData.limit = 5;
+      this.dataTable.criteria.limit = 5;
     }
-
-    this.fetchItems();
-    super.ngOnInit();
   }
 
   fetchItems() {
-    this.documentService.getDocuments(this.selectUnit.currentEmployerID)
-      .then(response => this.setItems(response));
+    this.dataTable.criteria.filters['employerId'] = this.selectUnit.currentEmployerID;
+    this.documentService.getDocuments(this.dataTable.criteria)
+      .then(response => this.dataTable.setItems(response));
   }
 
 
   ngOnDestroy() {
-    super.ngOnDestroy();
   }
 
   file(item: any, type: string): any {

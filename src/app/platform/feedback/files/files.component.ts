@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
@@ -10,12 +10,12 @@ import { InquiryFormComponent} from 'app/shared/_dialogs/inquiry-form/inquiry-fo
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { Subscription } from 'rxjs';
 
+import { MONTHS } from 'app/shared/_const/months';
 import { FormComponent } from './form/form.component';
 import { ProductType } from 'app/shared/_models/product.model';
 import { InquiriesComponent} from 'app/shared/_dialogs/inquiries/inquiries.component';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { Status } from 'app/shared/_models/file-feedback.model';
-import { MONTHS } from '../../../shared/_const/months';
 
 @Component({
   selector: 'app-files',

@@ -9,6 +9,7 @@ import { fade, slideInOut } from 'app/shared/_animations/animation';
 import { TimerService } from '../shared/_services/http/timer';
 import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
 import { TaskTimerLabels } from '../shared/_models/timer.model';
+import {ProductService} from '../shared/_services/http/product.service';
 
 @Component({
   selector: 'app-platform',
@@ -80,7 +81,13 @@ export class PlatformComponent implements OnInit {
               public selectUnit: SelectUnitService,
               public helpers: HelpersService,
               public timerService: TimerService,
-              private operatorTasks: OperatorTasksService) {
+              private operatorTasks: OperatorTasksService,
+              private productService: ProductService) {
+
+    const company = this.selectUnit.getCompanies() as any[];
+    if ( company.length <= 0) {
+      this.productService.getFullCompanies().subscribe(response => this.selectUnit.setCompanies(response));
+    }
     router.events.subscribe((val) => {
       if (val instanceof NavigationStart) {
         if (Object.values(TaskTimerLabels).some(a => a === val.url)) {

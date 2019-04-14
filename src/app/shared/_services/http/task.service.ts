@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
-import { TaskModel } from '../../_models/task.model';
-import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
+
+import {DataTableResponse} from '../../data-table/classes/data-table-response';
 
 @Injectable()
 export class TaskService extends BaseHttpService {

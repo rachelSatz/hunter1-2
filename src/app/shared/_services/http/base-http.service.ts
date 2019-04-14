@@ -3,7 +3,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { environment } from 'app/../environments/environment';
 
 import { UserSessionService } from '../user-session.service';
-import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 
 @Injectable()
 export class BaseHttpService {

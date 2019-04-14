@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {EmployerService} from '../../../../../shared/_services/http/employer.service';
-import {SelectUnitService} from '../../../../../shared/_services/select-unit.service';
-import {NotificationService} from '../../../../../shared/_services/notification.service';
+
+import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 @Component({
   selector: 'app-reports',

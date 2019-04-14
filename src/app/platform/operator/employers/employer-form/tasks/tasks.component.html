@@ -1,60 +1,24 @@
-<div [ngClass]="{'operator-container': !pathEmployers }">
-  <div [ngClass]="{'operator-table': pathEmployers }">
-    <app-data-table tableName="משימות" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false" [hasExtendedSearch]="false" [hasActionsSearch]="false">
+<div [ngClass]="{'operator-table': !pathEmployers }" class="mt-lg-5">
+    <app-data-table tableName="משימות" [columns]="columns" (fetchItems)="fetchItems()"
+                    [hasCheckColumn]="false" [hasExtendedSearch]="false" [hasActionsSearch]="false">
       <div class="table-header">
-        <div class="row mt-4 mr-1">
-          <div class="float-left">
+        <div class="d-flex justify-content-end ">
             <button class="btn blue-btn" *ngIf="pathEmployers" (click)="createOrEditTask(null)"> הוספת משימה</button>
           </div>
-        </div>
       </div>
       <tr *ngFor="let item of dataTable.items" class="pointer" >
-        <td>{{ item.company_name }}</td>
-        <td>{{ item.name }}</td>
-        <td>{{ typesLabels[item.type]}}</td>
-        <td>{{ item.code}}</td>
-        <td>{{ item.company_code }}</td>
+        <td>{{ item.employer[0].name }}</td>
+        <td>{{ item.subject }}</td>
+        <td>{{ item.reporter[0].name }}</td>
+        <td>{{ item.created_at}}</td>
+        <td>{{ item.assignee[0].name}}</td>
+        <td>{{ item.due_date}}</td>
+        <!--<td>{{ typesLabels[item.status]}}</td>-->
+        <!--<td>{{ item.code}}</td>-->
+        <!--<td>{{ item.company_code }}</td>-->
         <td>
           <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
         </td>
       </tr>
     </app-data-table>
-  </div>
 </div>
-
-
-<!--<div [ngClass]="{'operator-container': !pathEmployers }">-->
-  <!--<div class="d-flex justify-content-start mt-lg-5">-->
-    <!--<button class="btn blue-btn" *ngIf="pathEmployers" (click)="createOrEditTask(null)"> הוספת משימה</button>-->
-  <!--</div>-->
-  <!--<div [ngClass]="{'operator-table': pathEmployers }">-->
-    <!--<table class="table table-hover mt-3 data-table">-->
-      <!--<thead>-->
-      <!--<tr class="table-headers">-->
-        <!--<th *ngFor="let header of headers" (click)="sort(header)">-->
-          <!--<span class="pointer" [matTooltip]="'מיין לפי ' + header.label">{{ header.label }}</span>-->
-          <!--<i [class]="getHeaderIconClass()" *ngIf="orderCriteria.orderBy === header.column"></i>-->
-        <!--</th>-->
-      <!--</tr>-->
-      <!--</thead>-->
-      <!--<tbody>-->
-      <!--<ng-container *ngIf="!isSearching">-->
-        <!--<tr *ngFor="let item of paginatedItems" class="pointer">-->
-          <!--<td>{{ item.employer['name'] }}</td>-->
-          <!--<td>{{ item.subject }}</td>-->
-          <!--<td>{{ item.reporter['name'] }}</td>-->
-          <!--<td>{{ item.created_at | date: 'HH:mm:ss dd/MM/yy' }}</td>-->
-          <!--<td>{{ item.assignee['name'] }}</td>-->
-          <!--<td>{{ item.due_date | date: 'HH:mm:ss dd/MM/yy' }}</td>-->
-          <!--<td>-->
-            <!--<img src="/assets/img/icons/edit_grey.png" (click)="createOrEditTask(item)" class="row-image">-->
-          <!--</td>-->
-        <!--</tr>-->
-      <!--</ng-container>-->
-      <!--<tr *ngIf="!isSearching && items.length === 0">-->
-        <!--<td colspan="7" class="text-center bold">טבלת משימות ריקה.</td>-->
-      <!--</tr>-->
-      <!--</tbody>-->
-    <!--</table>-->
-  <!--</div>-->
-<!--</div>-->

@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
 import {UserSessionService} from '../user-session.service';
 import {HttpClient} from '@angular/common/http';
-import {MonthlyTransferBlock} from '../../_models/monthly-transfer-block';
+
 import {Employee} from '../../_models/employee.model';
-import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
-import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
+import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 
 @Injectable()
 export class MonthlyTransferBlockService  extends BaseHttpService {
@@ -47,10 +47,10 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
       .catch(response => response);
   }
 
-  getEntity(processId: number): Promise<Employee[]> {
+  getEntity(processId: number, record_id: number): Promise<Employee[]> {
 
     const options = this.getTokenHeader();
-    options['params'] = {processId : processId};
+    options['params'] = {processId : processId, recordsId: record_id};
     return this.http.get(this.endPoint + '/entity', options)
       .toPromise()
       .then(response => response as Employee[])

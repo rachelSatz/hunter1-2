@@ -4,7 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { Organization } from '../../_models/organization.model';
-import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
+import {DataTableResponse} from '../../data-table/classes/data-table-response';
 
 @Injectable()
 export class OrganizationService extends BaseHttpService {

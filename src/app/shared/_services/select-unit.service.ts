@@ -11,11 +11,7 @@ export class SelectUnitService {
   currentEmployerID: number;
   currentDepartmentID: number;
 
-   // currentEmployers: any;
-  // currentDepartments: any;
-  // companies: any;
   unitSubject: Subject<number> = new Subject();
-  unitObjSubject: Subject<object> = new Subject();
 
   setOrganization(organizations: any): void {
     sessionStorage.setItem('organizations', JSON.stringify(organizations));

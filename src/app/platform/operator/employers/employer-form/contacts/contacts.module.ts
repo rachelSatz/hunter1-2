@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { ContactsComponent } from './contacts.component';

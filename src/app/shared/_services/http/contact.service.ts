@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { Contact } from 'app/shared/_models/contact.model';
 import {SelectUnitService} from '../select-unit.service';
-import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
-import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
+import {DataTableResponse} from '../../data-table/classes/data-table-response';
 
 @Injectable()
 export class  ContactService extends BaseHttpService {

@@ -22,6 +22,7 @@ export class MonthlyTransferBlock {
   sum_employer_benefits: number;
   sum_ipi_employer: number;
   amount: number;
+  checked: false;
 }
 
 

@@ -5,7 +5,7 @@ import { NgForm } from '@angular/forms';
 import * as FileSaver from 'file-saver';
 
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { Compensation } from 'app/shared/_models/compensation.model';
 import { fade } from 'app/shared/_animations/animation';
 

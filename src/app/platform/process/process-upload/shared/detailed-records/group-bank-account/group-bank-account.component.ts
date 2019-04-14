@@ -4,9 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { fade } from 'app/shared/_animations/animation';
-import {NotificationService} from '../../../../../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-group-bank-account',

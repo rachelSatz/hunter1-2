@@ -1,14 +1,12 @@
-import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Component, Inject, OnInit } from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+
 import { DocumentService } from 'app/shared/_services/http/document.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
-// import * as FileSaver from 'file-saver';
 import { DepositsReportService } from 'app/shared/_services/http/deposits-report.service';
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -17,19 +15,21 @@ import * as FileSaver from 'file-saver';
   styleUrls: ['../../../../shared/data-table/data-table.component.css'],
   styles: ['table td { word-wrap:break-word }'],
 })
-export class AddFileComponent  extends DataTableComponent implements OnInit {
+export class AddFileComponent implements OnInit {
+
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   uploadedFile: File;
   spin: boolean;
   hasServerError: boolean;
   description: string;
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'file_name', label: 'שם הקובץ' },
-    { column: 'file_type', label: 'סוג' },
-    { column: 'description', label: 'תאור' },
-    { column: 'file_upload', label: 'תאריך העלאה' },
-    { column: 'null', label: 'אפשריות' }
+  readonly  columns  = [
+    { name: 'file_name', label: 'שם הקובץ' },
+    { name: 'file_type', label: 'סוג' },
+    { name: 'description', label: 'תאור' },
+    { name: 'file_upload', label: 'תאריך העלאה' },
+    { name: 'null', label: 'אפשריות' }
   ];
 
   constructor(protected route: ActivatedRoute,
@@ -38,11 +38,10 @@ export class AddFileComponent  extends DataTableComponent implements OnInit {
               private depositsReportService: DepositsReportService,
               private documentService: DocumentService,
               protected notificationService: NotificationService) {
-    super(route);
   }
 
   ngOnInit() {
-    this.depositsReportService.getFile(this.data.id).then(response =>  this.setItems(response));
+    this.depositsReportService.getFile(this.data.id).then(response =>  this.dataTable.setItems(response));
   }
 
   submit(): void {

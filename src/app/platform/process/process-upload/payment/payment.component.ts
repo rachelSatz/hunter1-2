@@ -8,17 +8,17 @@ import * as FileSaver from 'file-saver';
 
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 import { Process } from 'app/shared/_models/process.model';
 import { EmailComponent } from './email/email.component';
 import { fade } from 'app/shared/_animations/animation';
-import {InformationMessageComponent} from './information-message/information-message.component';
-import {HelpersService} from '../../../../shared/_services/helpers.service';
-import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
-import {DataTableComponent} from '../../../../shared/data-table-1/data-table.component';
 
+import {InformationMessageComponent} from './information-message/information-message.component';
 
 @Component({
   selector: 'app-payment',
@@ -214,13 +214,12 @@ export class PaymentComponent implements OnInit , OnDestroy {
       }
       case 'detailed-files': {
         this.processDataService.activeProcess.returnDetails = true;
-        const files = {name: 'file'};
-        this.router.navigate(['/platform', 'process', 'new', 1, 'details'], {queryParams: files});
+        this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
         break;
       }
       case 'detailed-records': {
         this.processDataService.activeProcess.returnDetails = true;
-        this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
+        this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
       }
     }
   }

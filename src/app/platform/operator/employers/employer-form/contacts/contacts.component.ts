@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { EntityTypes } from 'app/shared/_models/contact.model';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
-  styleUrls: ['../../../../../shared/data-table/data-table.component.css']
+  styleUrls: ['../../../../../shared/data-table/data-table.component.css'],
 })
 export class ContactsComponent implements OnInit , OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
@@ -40,10 +40,10 @@ export class ContactsComponent implements OnInit , OnDestroy {
 
   ngOnInit() {
     if (this.router.url.includes( 'employers')) {
-        this.pathEmployers = true;
         this.location = 'employers';
-        this.dataTable.criteria.limit = 4;
+        this.dataTable.criteria.limit = 5;
     } else if (this.router.url.includes( 'operator')) {
+      this.pathEmployers = true;
       this.location = 'operator';
     } else {
         this.location = 'settings';

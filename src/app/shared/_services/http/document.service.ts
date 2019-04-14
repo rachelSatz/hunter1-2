@@ -6,6 +6,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { Document } from 'app/shared/_models/document.model';
 import {Process} from '../../_models/process.model';
+import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 
 
 @Injectable()
@@ -19,15 +21,17 @@ export class  DocumentService extends BaseHttpService {
     super(userSession);
   }
 
-  getDocuments(employerId: number): Promise<Document[]> {
-    const options = this.getTokenHeader();
+  getDocuments(criteria?: DataTableCriteria): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
 
-    options['params'] = {employerId: employerId};
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
 
-    return this.http.get(this.endPoint, options)
+    return this.http.get(this.endPoint, request)
       .toPromise()
-      .then(response => response as Document[])
-      .catch(() => []);
+      .then(response => response)
+      .catch(response => response);
   }
 
   downloadFile(rowID: number, employerId: number): Promise<string> {

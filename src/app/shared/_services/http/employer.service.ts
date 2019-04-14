@@ -5,15 +5,12 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Employer } from '../../_models/employer.model';
-import {Company} from '../../_models/company.model';
-import { Bank } from 'app/shared/_models/bank.model';
-import {BankBranch} from '../../_models/bank-branch.model';
-import {Employee} from '../../_models/employee.model';
+
 import {Department} from '../../_models/department.model';
-import {Subject} from 'rxjs';
+
 import {EmployerFinancialDetails} from '../../_models/employer-financial-details.model';
-import {DataTableCriteria} from '../../data-table-1/classes/data-table-criteria';
-import {DataTableResponse} from '../../data-table-1/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
+import {DataTableResponse} from '../../data-table/classes/data-table-response';
 
 @Injectable()
 export class EmployerService extends BaseHttpService {
@@ -165,10 +162,17 @@ export class EmployerService extends BaseHttpService {
       .then( response => response );
   }
 
-  getEmployerBankAccounts(employerId: number): Promise<any> {
-    return this.http.get(this.endPoint + '/' + employerId +  '/employerBankAccounts' , this.getTokenHeader())
+  getEmployerBankAccounts(criteria: DataTableCriteria, employerId: number ): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+
+    return this.http.get(this.endPoint + '/' + employerId +  '/employerBankAccounts' , request)
       .toPromise()
-      .then( response => response );
+      .then( response => response )
+      .catch(response => response);
   }
 
   getEmployerBankAccount(employerId: number): Promise<any> {
@@ -178,8 +182,10 @@ export class EmployerService extends BaseHttpService {
   }
 
   setDefaultEmployerBA(employerId: number, employerBank: any): Promise<any> {
-    return this.http.put(this.endPoint + '/setDefaultEmployerBA' , {employerId: employerId,
-      bankAccountId: employerBank.bank_account_id , employerBankId: employerBank.id, product_id:employerBank.product_id },this.getTokenHeader())
+    return this.http.put(this.endPoint + '/setDefaultEmployerBA' , {
+      employerId: employerId, bankAccountId: employerBank.bank_account_id ,
+      employerBankId: employerBank.id, product_id: employerBank.product_id },
+      this.getTokenHeader())
       .toPromise()
       .then( response => response );
   }

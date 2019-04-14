@@ -1,7 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {  MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { DataTableHeader } from 'app/shared/data-table/classes/data-table-header';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import {Invoice} from '../../../../shared/_models/invoice.model';
 import {InvoiceService} from '../../../../shared/_services/http/invoice.service';
@@ -14,19 +13,22 @@ import {InvoiceService} from '../../../../shared/_services/http/invoice.service'
 
 
 })
-export class RemarksFormComponent extends DataTableComponent implements OnInit {
+export class RemarksFormComponent implements OnInit {
+
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
   comments = [];
   comment: string;
   hasServerError: boolean;
   remarks = {}
+
   constructor(protected route: ActivatedRoute, @Inject(MAT_DIALOG_DATA) public invoice: Invoice,
               private dialogRef: MatDialogRef<RemarksFormComponent>, private invoiceService: InvoiceService) {
-    super(route);
   }
 
   ngOnInit() {
     this.invoiceService.getInvoiceRemarks(this.invoice.id).then(response => this.remarks = response);
   }
+
   submit(): void {
     this.hasServerError = false;
 
@@ -39,9 +41,9 @@ export class RemarksFormComponent extends DataTableComponent implements OnInit {
     });
   }
 
-  readonly headers: DataTableHeader[] =  [
-    { column: 'empty_column', label: '' }, { column: 'ids_count', label: 'כמות ת"ז' },
-    { column: 'rate', label: 'תעריף' }, { column: 'rate_type', label: 'סוג תעריף' },
-    { column: 'total_amount', label: 'סה"כ' }
-  ];
+  // readonly columns  =  [
+  //   { name : 'empty_column', label: '' }, { name: 'ids_count', label: 'כמות ת"ז' },
+  //   { name : 'rate', label: 'תעריף' }, { name: 'rate_type', label: 'סוג תעריף' },
+  //   { name : 'total_amount', label: 'סה"כ' }
+  // ];
 }

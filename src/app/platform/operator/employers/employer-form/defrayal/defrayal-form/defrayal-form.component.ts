@@ -45,12 +45,8 @@ export class DefrayalFormComponent implements OnInit {
       this.navigate = ['platform', 'defrayal'];
       this.location = 'settings';
     }
-    do {
-      this.productService.getFullCompanies().subscribe(response => this.selectUnit.setCompanies(response));
-      this.companies = this.selectUnit.getCompanies();
-      console.log(this.companies );
-    }
-    while (this.companies.length <= 0);
+
+    this.companies = this.selectUnit.getCompanies();
 
     if (this.route.snapshot.data.employerBankAccount) {
       this.employerProductBankAccount = this.route.snapshot.data.employerBankAccount;

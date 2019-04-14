@@ -18,6 +18,7 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { InquiriesComponent } from '../shared/_dialogs/inquiries/inquiries.component';
 import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
 import { TimerService } from '../shared/_services/http/timer';
+import {ProductService} from '../shared/_services/http/product.service';
 
 const routes: Routes = [
   {
@@ -67,6 +68,6 @@ const routes: Routes = [
   declarations: [PlatformComponent, InquiryFormComponent, CommentsFormComponent, InquiriesComponent],
   entryComponents: [InquiryFormComponent, CommentsFormComponent, InquiriesComponent],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService,
-    DatePipe, TimerService, OperatorTasksService]
+    DatePipe, TimerService, OperatorTasksService, ProductService]
 })
 export class PlatformModule {}

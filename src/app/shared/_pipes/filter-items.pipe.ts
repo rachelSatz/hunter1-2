@@ -1,13 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { DataTableHeader } from '../data-table/classes/data-table-header';
-
 @Pipe({
 	name: 'filterItems'
 })
 export class FilterItemsPipe implements PipeTransform {
 
-	public transform(items: any, searchValue: string, headers?: DataTableHeader[]) {
+	public transform(items: any, searchValue: string, headers?: any) {
 
 		if (!items || !searchValue) {
 			return items;

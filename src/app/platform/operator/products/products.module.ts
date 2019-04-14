@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsComponent } from './products.component';
 import { RouterModule, Routes } from '@angular/router';
-import { DataTableModule } from 'app/shared/data-table-1/data-table.module';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { MatDialogModule } from '@angular/material';
-import { BdSelectModule } from '../../../../assets/js/bd-select/bd-select.module';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { ProductService } from 'app/shared/_services/http/product.service';
-import { NotificationService } from '../../../shared/_services/notification.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 import { RedirectedProductComponent } from './product-form/redirected-product/redirected-product.component';
 
 const routes: Routes = [

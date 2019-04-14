@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NewTaskFormComponent } from './new-task-form/new-task-form.component';
 import { TaskService } from 'app/shared/_services/http/task.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
@@ -24,9 +24,8 @@ export class TasksComponent implements OnInit , OnDestroy {
     { name: 'createdBy', label: 'יוצר המשימה' , searchable: false},
     { name: 'createdAt', label: 'תאריך יצירה' , searchable: false},
     { name: 'executive', label: 'מבצע המשימה' , searchable: false},
-    { name: 'executionDate', label: 'לביצוע עד' , searchable: false},
-    { name: 'options', label: 'אפשרויות' , searchable: false}
-  ];
+    { name: 'executionDate', label: 'לביצוע עד' , searchable: false}
+    ];
 
   constructor(route: ActivatedRoute,
               public dialog: MatDialog,

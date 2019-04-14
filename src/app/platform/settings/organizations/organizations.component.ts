@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
-import { DataTableComponent } from '../../../shared/data-table-1/data-table.component';
-import {NotificationService} from '../../../shared/_services/notification.service';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
 @Component({
   selector: 'app-organizations',

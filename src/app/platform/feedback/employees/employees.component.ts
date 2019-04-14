@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 
-import { DataTableComponent } from 'app/shared/data-table-1/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
@@ -13,10 +13,10 @@ import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-f
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
 
+import { MONTHS } from 'app/shared/_const/months';
 import { ProductType } from 'app/shared/_models/product.model';
 import { Status } from 'app/shared/_models/employee-feedback.model';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
-import { MONTHS } from '../../../shared/_const/months';
 
 
 @Component({

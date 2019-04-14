@@ -19,7 +19,7 @@ const routes: Routes = [
               { path: '', loadChildren: './process-data/process-data.module#ProcessDataModule' },
               { path: 'payment/:id', loadChildren: './payment/payment.module#PaymentModule' },
               { path: 'broadcast', loadChildren: './broadcast/broadcast.module#BroadcastModule' },
-              { path: 'details', loadChildren: './shared/details/details.module#DetailsModule' }
+              { path: 'details', loadChildren: './shared/details.module#DetailsModule' }
             ]}
 ];
 

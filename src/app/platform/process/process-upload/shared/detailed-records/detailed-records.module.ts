@@ -10,18 +10,25 @@ import {
   MatSelectModule,
   MatDialogModule, MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule
 } from '@angular/material';
+import { RouterModule, Routes } from '@angular/router';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
-import { NotificationService } from 'app/shared/_services/notification.service';
 
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { DetailedRecordsComponent } from './detailed-records.component';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
+
+const route: Routes = [{ path: '', component: DetailedRecordsComponent }];
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule.forChild(route),
     FormsModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule, MatMenuModule,
     MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule, MatIconModule,
-    BdSelectModule
+    BdSelectModule, DataTableModule
   ],
-  providers: [ NotificationService]
+  providers: [ NotificationService],
+  declarations: [DetailedRecordsComponent]
 })
 export class DetailedRecordsModule { }
