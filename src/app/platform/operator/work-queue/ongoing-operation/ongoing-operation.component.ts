@@ -5,6 +5,7 @@ import { SkipTaskComponent } from './skip-task/skip-task.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PlanService} from '../../../../shared/_services/http/plan.service';
 import {PlanTask} from '../../../../shared/_models/plan-task';
+import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-ongoing-operation',
@@ -18,7 +19,8 @@ export class OngoingOperationComponent implements OnInit {
               private router: Router,
               private dialog: MatDialog,
               protected notificationService: NotificationService,
-              private planService: PlanService) { }
+              private planService: PlanService,
+              private selectUnitService: SelectUnitService) { }
 
   ngOnInit() {
     this.text = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';

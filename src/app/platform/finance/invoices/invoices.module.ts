@@ -16,6 +16,7 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 import { EmployersFinanceExcelComponent } from './employers-finance-excel/employers-finance-excel.component';
 import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
+import {NotificationService} from '../../../shared/_services/notification.service';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
@@ -39,7 +40,7 @@ const routes: Routes = [
     RemarksFormComponent,
     EmployersFinanceExcelComponent
   ],
-  providers: [InvoiceService, EmployerService, FilterItemsPipe],
+  providers: [InvoiceService, EmployerService, FilterItemsPipe, NotificationService],
   entryComponents: [ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent]
 })
 export class InvoicesModule { }

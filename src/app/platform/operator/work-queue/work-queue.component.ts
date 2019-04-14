@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SelectUnitService} from '../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-work-queue',
@@ -17,7 +18,7 @@ export class WorkQueueComponent implements OnInit {
     {label: 'הפסקה', link: 'break'}
   ];
 
-  constructor() { }
+  constructor(private selectUnitService: SelectUnitService) { }
 
   ngOnInit() {
   }

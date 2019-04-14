@@ -1,11 +1,12 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component , OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { InvoiceService } from 'app/shared/_services/http/invoice.service';
 import { fade } from 'app/shared/_animations/animation';
+import {DataTableComponent} from 'app/shared/data-table/data-table.component';
 
 @Component({
   selector: 'app-proactive-invoice-form',
@@ -14,7 +15,9 @@ import { fade } from 'app/shared/_animations/animation';
   animations: [ fade ]
 })
 export class ProactiveInvoiceFormComponent implements OnInit {
-  employers = [];
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+
+  employers: any;
   message: string;
   invoice = [];
 
@@ -22,7 +25,8 @@ export class ProactiveInvoiceFormComponent implements OnInit {
               private employerService: EmployerService,  private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
-    // this.employerService.getEmployers(this.dataTable.criteria).then(response => this.employers = response);
+    // this.employerService.getEmployers(this.dataTable.criteria).then
+    // (response => this.dataTable.setItems = response);
   }
 
   submit(form: NgForm): void {
