@@ -26,7 +26,7 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
   isSubmitFailed = false;
   isSubmitting = false;
   sub: Subscription;
-  showLabel = false
+  showLabel = false;
   categoryLabel = PlanCategoryLabel;
   planCategories = Object.keys(PlanCategoryLabel).map(function(e) {
     return { id: e, name: PlanCategoryLabel[e] };

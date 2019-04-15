@@ -76,6 +76,7 @@ export class FormComponent implements OnInit {
         }
         form.value['event_code'] = this.hasClearingEmployer ? '9302' : this.hasClearing ? '9303' : '9301';
         form.value['employer_id'] = this.data.employerID;
+        form.value['department_id'] = this.data.departmentId;
         this.compensationService.newCompensation(form.value).then(response => {
           this.message = response['message'];
           if (this.message === 'success') {

@@ -6,7 +6,7 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { InvoiceService } from 'app/shared/_services/http/invoice.service';
 import { fade } from 'app/shared/_animations/animation';
-import {DataTableComponent} from 'app/shared/data-table/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
 @Component({
   selector: 'app-proactive-invoice-form',
@@ -25,8 +25,8 @@ export class ProactiveInvoiceFormComponent implements OnInit {
               private employerService: EmployerService,  private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
-    // this.employerService.getEmployers(this.dataTable.criteria).then
-    // (response => this.dataTable.setItems = response);
+    this.employerService.getAllEmployers(null, true).then(
+      response => this.employers = response['items']);
   }
 
   submit(form: NgForm): void {
