@@ -198,12 +198,12 @@ export class ProcessComponent implements OnInit, OnDestroy {
   }
 
   manualChangingStatus(): void {
-    if (!this.dataTable.criteria || this.dataTable.criteria.checkedItems.length === 0) {
+    if ((!this.dataTable.criteria || this.dataTable.criteria.checkedItems.length === 0) && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
 
-    this.compensationService.manualChangingStatus(this.dataTable.criteria.checkedItems.map(item => item['id']),
+    this.compensationService.manualChangingStatus(this.dataTable.criteria.checkedItems.map(item => item['id'], this.dataTable.criteria),
       this.dataTable.criteria).then(response => {
         this.dataTable.criteria.checkedItems = [];
         this.dataTable.criteria.isCheckAll = false;

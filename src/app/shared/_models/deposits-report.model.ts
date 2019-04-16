@@ -10,7 +10,8 @@ export class DepositsReport {
   identifier: string;
   company_name: string;
   company_id: number;
-  validity_date: string;
+  to_date: string;
+  from_date: string;
   created_at: string;
   updated_at: string;
 

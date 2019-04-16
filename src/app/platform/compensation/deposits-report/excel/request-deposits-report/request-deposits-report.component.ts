@@ -21,7 +21,7 @@ export class RequestDepositsReportComponent implements OnInit {
   message: string;
   hasServerError: boolean;
   exampleFileType = 'xlsx';
-  exampleFileName = 'compensationExample.xlsx';
+  exampleFileName = 'depositsExample.xlsx';
 
   constructor(@Inject(MAT_DIALOG_DATA)  public compensation: Compensation,
               private compensationService: CompensationService,

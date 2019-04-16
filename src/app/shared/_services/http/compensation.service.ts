@@ -131,7 +131,6 @@ export class CompensationService extends BaseHttpService {
       .catch(() => []);
   }
 
-
   manualChangingStatus(compensation_ids: number[], criteria: DataTableCriteria):  Promise<Compensation[]> {
     return this.http.post(this.endPoint + '/updateSentStatus',
       { compensation_ids: compensation_ids,

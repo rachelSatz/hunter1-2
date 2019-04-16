@@ -39,7 +39,7 @@ export class DepositsReportComponent implements OnInit {
   }
 
   sub = new Subscription;
-  companies = [];
+  companies1 = [];
   users = [];
   statuses = Status;
   selectStatuses = Object.keys(Status).map(function(e) {
@@ -58,7 +58,8 @@ export class DepositsReportComponent implements OnInit {
     { name: 'employee_name', label: 'עובד', sortName: 'employee__first_name', searchable: false},
     { name: 'personal_id', label: 'ת"ז', sortName: 'employee__identifier', searchable: false},
     { name: this.nameCompany, label: 'חברה מנהלת', sortName: 'company__name', searchOptions: { labels: [] }},
-    { name: 'validity_date', label: 'תאריך נכונות', searchable: false},
+    { name: 'from_date', label: 'מתאריך', searchable: false},
+    { name: 'to_date', label: 'עד מתאריך', searchable: false},
     { name: 'status', label: 'סטטוס', searchOptions: { labels: this.selectStatuses }},
     { name: 'response_time', label: 'העבר לטיפול', isSort: false , searchable: false},
     { name: 'request', label: 'פניות', isSort: false, searchable: false},
@@ -70,8 +71,8 @@ export class DepositsReportComponent implements OnInit {
     this.dataTable.placeHolderSearch = 'חפש עובד';
     this.productService.getCompanies().then(response => {
       const column = this.dataTable.searchColumn(this.nameCompany);
-      this.companies = response;
-      column['searchOptions'].labels = this.companies;
+      this.companies1 = response;
+      column['searchOptions'].labels = this.companies1;
     });
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
   }
@@ -105,8 +106,7 @@ export class DepositsReportComponent implements OnInit {
     }
 
     const dialog = this.dialog.open(FormComponent, {
-        data: { companies: this.companies, departmentId: this.selectUnit.currentDepartmentID ,
-          departmentID: this.selectUnit.currentDepartmentID},
+        data: { 'companies1': this.companies1, 'departmentId': this.selectUnit.currentDepartmentID},
         width: '450px'
       });
 
@@ -157,8 +157,6 @@ export class DepositsReportComponent implements OnInit {
     this.depositsReportService.manualChangingStatus(
       this.dataTable.criteria.checkedItems.map(item => item['id'])).then(response => {
       if (response) {
-        // this.checkedItems = [];
-        // this.isCheckAll = false;
         this.fetchItems();
       }
     });

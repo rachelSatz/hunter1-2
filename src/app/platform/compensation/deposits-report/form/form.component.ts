@@ -7,6 +7,7 @@ import { DepartmentService } from 'app/shared/_services/http/department.service'
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade } from 'app/shared/_animations/animation';
+import {formatDate} from '@angular/common';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class FormComponent implements OnInit {
   hasServerError = false;
   hasClearingEmployer = false;
   message: string;
+  minDateFrom = '';
+  maxDateTo = '';
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private depositsReportService: DepositsReportService,
@@ -48,10 +51,21 @@ export class FormComponent implements OnInit {
     }
   }
 
+  valueDateChange(keyCode: Date, val: string): void {
+    const date = formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
+    if (val === 'dateFrom') {
+      this.minDateFrom =  date;
+    } else {
+      this.maxDateTo =   date;
+    }
+  }
+
   submit(form: NgForm): void {
     if (form.valid) {
       this.helpers.setPageSpinner(true);
       this.hasServerError = false;
+      form.value['dateFrom'] =  formatDate(form.value['dateFrom'], 'yyyy-MM-dd', 'en-US', '+0530').toString();
+      form.value['dateTo'] =  formatDate(form.value['dateTo'], 'yyyy-MM-dd', 'en-US', '+0530').toString();
       this.depositsReportService.newDepositsReport(form.value).then(response => {
         this.helpers.setPageSpinner(false);
         if (response.ok) { this.dialogRef.close(true); }else {

@@ -5,35 +5,44 @@
   <span>בקשה חדשה</span>
 </div>
 <form #form="ngForm">
-  <div class="mt-5 mb-3">
-    <mat-checkbox name="has_clearing_employer" [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>
+  <div class="row mt-5 mb-3">
+    <mat-checkbox class="col-5" name="has_clearing_employer" [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>
   </div>
   <div class="row" [@fade]="hasClearingEmployer ? 'inactive' : 'active' ">
-    <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel [required]="!hasClearingEmployer" (onScroll)="checkLoadEmployees($event)"></bd-select>
+    <bd-select class="col-12" [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel [required]="!hasClearingEmployer" (onScroll)="checkLoadEmployees($event)"></bd-select>
     <p class="alert alert-danger" [@fade]="form.submitted && employeesModel.errors ? 'active' : 'inactive'">יש לבחור עובד.</p>
   </div>
   <div class="row  mt-4">
-    <div class="col-5 p-0">
-      <bd-select [items]="data.companies" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel" ngModel  required ></bd-select>
+    <div class="col-5">
+      <bd-select [items]="data.companies1" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel" ngModel  required ></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && companyModel.errors ? 'active' : 'inactive'">יש לבחור חברה מנהלת.</p>
     </div>
   </div>
 
-  <mat-form-field class="w-50 my-3">
-    <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="תאריך נכונות (שכר)" name="validity_date" ngModel readonly required>
-    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-    <mat-datepicker #datePicker></mat-datepicker>
-    <mat-error>שדה חובה.</mat-error>
-  </mat-form-field>
+  <div class="row">
+    <mat-form-field class="col-6">
+      <input matInput  [max]="maxDateTo" class="pointer" (click)="dateFrom.open()"  [matDatepicker]="dateFrom"
+             placeholder="מתאריך" name="dateFrom" ngModel readonly required (dateChange)="valueDateChange($event.value,'dateFrom')">
+      <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
+      <mat-datepicker #dateFrom></mat-datepicker>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-6">
+      <input matInput  [min]="minDateFrom" class="pointer" (click)="dateTo.open()"  [matDatepicker]="dateTo"
+             placeholder="עד תאריך" name="dateTo" ngModel readonly required (dateChange)="valueDateChange($event.value,'dateTo')">
+      <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
+      <mat-datepicker #dateTo></mat-datepicker>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+  </div>
 
   <div class="form-group">
     <label for="comment">הערות:</label>
     <textarea class="form-control" rows="5" id="comment" name="comments"  ngModel></textarea>
   </div>
 
-
-  <input type="hidden"  name="departmentID" [ngModel]="data.departmentID">
-
+  <input type="hidden"  name="departmentID" [ngModel]="data.departmentId">
 
   <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">{{message}}</p>
   <div mat-dialog-actions class="justify-content-center">
