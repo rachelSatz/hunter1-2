@@ -1,3 +1,41 @@
+
+<app-data-table tableName="חשבונות חייבים" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true" >
+  <div class="table-header">
+    <div class="row mt-4 mr-1">
+      <div class="float-left">
+        <button class="btn blue-btn" (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>
+        <button class="btn blue-btn mr-2" (click)="openProactiveInvoice()">חשבון יזום</button>
+      </div>
+    </div>
+  </div>
+  <tr *ngFor="let item of dataTable.items" class="pointer" >
+    <td class="check-column">
+      <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
+    </td>
+    <td>{{ item.employer_financial_details.employer.name}}</td>
+    <!--matTooltip={{item.errorDescription}}-->
+    <td >{{ item.green_invoice_document !== null ? item.green_invoice_document.number : ''}}</td>
+    <td>{{ item.total_amount }}</td>
+    <td>{{ item.ids_count }}</td>
+    <td>{{ item.for_month  | date: 'MM/yy' }}</td>
+    <td>{{ item.created_at  | date: 'dd/MM/yy' }}</td>
+    <td>{{ item.last_payment_date  | date: 'dd/MM/yy'  }}</td>
+    <td>חשבון עסקה</td>
+    <td [matTooltip]=" item.green_invoice_document !== null &&  item.green_invoice_document.errorDescription !== '' ? item.green_invoice_document.errorDescription : ''">{{ invoice_all_status[item.status] }}</td>
+    <td><i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)"></i></td>
+    <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" *ngIf="item.status === 'closed'"></i>
+    <td></td>
+  </tr>
+</app-data-table>
+
+
+
+
+
+
+
+
+
 <!--<p class="h4 mb-4">חשבונות חייבים</p>-->
 <!--<div class="d-flex align-items-center flex-wrap mb-3 filter-row">-->
   <!--&lt;!&ndash;<bd-select [items]="departments" placeholder="מחלקה" class="ml-3"></bd-select>&ndash;&gt;-->

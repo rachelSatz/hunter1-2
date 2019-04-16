@@ -3,9 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 
 import { BaseHttpService } from './base-http.service';
-import {Plan, PlanType} from '../../_models/plan';
-import {UserSessionService} from '../user-session.service';
-import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import { Plan, PlanType} from '../../_models/plan';
+import { UserSessionService} from '../user-session.service';
+import { PlanTask} from '../../_models/plan-task';
+import { DataTableResponse} from '../../data-table/classes/data-table-response';
 
 
 
@@ -29,11 +30,11 @@ export class PlanService extends BaseHttpService {
       .then(response => response as DataTableResponse);
   }
 
-  getSinglePlan(): Promise<any> {
-    return this.http.get(this.endPoint + '/getSinglePlan',  this.getTokenHeader())
+  getSinglePlan(): Promise<PlanTask> {
+    return this.http.post(this.endPoint + '/getSinglePlan', {},  this.getTokenHeader())
       .toPromise()
-      .then(response => response)
-      .catch(() => []);
+      .then(response => response as PlanTask)
+      .catch(() => null);
   }
 
 

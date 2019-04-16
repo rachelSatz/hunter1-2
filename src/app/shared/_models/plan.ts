@@ -52,15 +52,15 @@ export enum PlanCategoryLabel {
   employees_min_amount = 'מספר עובדים נמוך'
 }
 
-export class PlanTask {
-  category: TimerType;
-  priority: number;
-  amount: number;
-
-  constructor() {
-    this.amount = 1;
-  }
-}
+// export class PlanTask {
+//   category: TimerType;
+//   priority: number;
+//   amount: number;
+//
+//   constructor() {
+//     this.amount = 1;
+//   }
+// }
 
 export class TimerType {
   id: number;

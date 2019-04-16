@@ -82,7 +82,13 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
       this.dataTable.criteria.filters['recordsId'] = this.records_id;
     }
     this.monthlyTransferBlockService.getMonthlyList(this.dataTable.criteria)
-      .then(response => this.dataTable.setItems(response));
+      .then(response => {
+        // if (response.items['id'] === '22450') {
+        //   response['id'] = 	this.dataTable.checkItem(response.items['id'], true);
+        // }
+        this.dataTable.criteria.checkedItems = response['items'].map(item => item['id'] === 22450);
+        this.dataTable.setItems(response);
+      });
   }
 
 

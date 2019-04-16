@@ -4,6 +4,8 @@ import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import {Invoice} from 'app/shared/_models/invoice.model';
+import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 
 
 @Injectable()
@@ -15,17 +17,17 @@ export class InvoiceService  extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/invoices';
 
-  getInvoices(searchCriteria?: Object): Promise<Invoice[]> {
+  getInvoices(criteria: DataTableCriteria): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
 
-    if (searchCriteria) {
-      request['params'] = searchCriteria;
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
     }
 
     return this.http.get(this.endPoint, request)
       .toPromise()
-      .then(response => response as Invoice[])
-      .catch(() => []);
+      .then(response => response as DataTableResponse)
+      .catch(() => null);
   }
 
   createInvoice(content: string): Promise<Invoice[]> {
