@@ -44,7 +44,8 @@
     </label>
   </div>
 
-  <app-data-table [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false" [hasExtendedSearch]="false" [hasActionsSearch]="false">
+  <app-data-table [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false"
+                  [hasExtendedSearch]="false" [hasActionsSearch]="false">
     <tr *ngFor="let item of dataTable.items" class="pointer trtd">
       <td>{{ item.file_name }}</td>
       <td>{{ item.file_type }}</td>
