@@ -41,7 +41,8 @@ export class AddFileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.depositsReportService.getFile(this.data.id).then(response =>  this.dataTable.setItems(response));
+    this.depositsReportService.getFile(this.data.id)
+      .then(response =>  this.dataTable.setItems(response));
   }
 
   submit(): void {

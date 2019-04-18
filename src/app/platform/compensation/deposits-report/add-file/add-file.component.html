@@ -23,23 +23,10 @@
   <button class="btn blue-btn" (click)="submit()">הוספה</button>
 </div>
 
-<app-data-table tableName="מעקב יתרות לפיצוים" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false" [hasActionsHeader] = false>
-  <div class="table-header">
-    <div class="row mt-4 mr-1">
-      <div class="float-left">
-        <button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2">פעולות</button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="openFormDialog()">בקשה חדשה</button>
-          <button mat-menu-item (click)="openExcelDialog()"> העלאת קובץ בקשות </button>
-          <button mat-menu-item (click)="openExcelEmployeesDialog()">העלאת קובץ עובדים</button>
-          <button mat-menu-item (click)="manualChangingStatus()">שינוי סטטוס</button>
-        </mat-menu>
-      </div>
-      <div class="ml-3 d-flex mr-auto">
-        <button class="btn blue-btn " (click)="sendCompensations()">שדר בקשה</button>
-      </div>
-    </div>
-  </div>
+<app-data-table tableName="" [columns]="columns"
+                [hasCheckColumn]="false"
+                [hasActionsHeader] = false
+                [hasExtendedSearch]="false" [hasActionsSearch]="false">
   <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
     <td>{{ item.name }}</td>
     <td>{{ item.ext }}</td>

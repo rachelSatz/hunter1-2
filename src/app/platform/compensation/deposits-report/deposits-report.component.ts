@@ -93,9 +93,9 @@ export class DepositsReportComponent implements OnInit {
   }
 
   setResponse(response: DataTableResponse): void {
-    const users  = response.items.map(item => ({id: item['user_id'], name: item['username']}));
+    const users  = response.other['users'];
     const column = this.dataTable.searchColumn(this.nameUserId);
-    column['searchOptions'].labels =  users.filter((x) => users.indexOf(x) === 0);
+    column['searchOptions'].labels =  users;
     this.dataTable.setItems(response);
   }
 
