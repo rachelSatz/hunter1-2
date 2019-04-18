@@ -18,7 +18,6 @@ export class SelectUnitService {
   }
 
   setCompanies(companies: any): void {
-    console.log(companies );
     sessionStorage.setItem('companies', JSON.stringify(companies));
   }
 

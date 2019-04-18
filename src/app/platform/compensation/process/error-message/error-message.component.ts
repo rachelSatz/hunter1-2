@@ -16,8 +16,7 @@ export class ErrorMessageComponent implements OnInit {
   hasServerError: boolean;
   answer: any[];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation,
-              private dialogRef: MatDialogRef<ErrorMessageComponent>, private compensationService: CompensationService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation) {
     if (compensation.answerings_manufacturer !== null &&
       compensation.answerings_manufacturer !== '') {
       const lstAnswer = compensation.answerings_manufacturer.split(',');

@@ -28,7 +28,9 @@ export class NewEmployerComponent implements OnInit {
   branchesW;
   selectedBranchD;
   selectedBranchW;
+  newOrganization: string;
   newEmployerForm: FormGroup;
+  organizationId: 0;
   hasServerError = false;
   identifierTypes = Object.keys(IdentifierTypes).map(function(e) {
     return { id: e, name: IdentifierTypes[e] };
@@ -37,7 +39,7 @@ export class NewEmployerComponent implements OnInit {
     return { id: e, name: EmployerStatus[e] };
   });
   isEdit = false;
-  hasOrganization = false;
+  // hasOrganization = false;
 
   constructor(private fb: FormBuilder,
               private generalHttpService: GeneralHttpService,
@@ -62,21 +64,22 @@ export class NewEmployerComponent implements OnInit {
     this.newEmployerForm = this.fb.group(
       {
         'employerDetails': this.fb.group({
-          'newOrganization':   [null],
-          'organization':      [null],
-          'name':              [null, Validators.required],
-          'businessNumber':    [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
-          'deductionNumber':   [],
-          'email':             [null, [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
-          'address':           [],
-          'phone':             [],
-          'project':           [null, Validators.required],
-          'operator':          [null, Validators.required],
-          'status':            [null, Validators.required],
-          'identifierType':    [null, Validators.required],
-          'sendingNumber':     [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
-          'institutionCode5':  [null, [Validators.pattern('^\\d{5}$'), Validators.required]],
-          'institutionCode8':  [null, [Validators.pattern('^\\d{8}$'), Validators.required]],
+          'newOrganization': [null],
+          'organization': [null],
+          'name': [null, Validators.required],
+          'businessNumber': [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
+          'deductionNumber': [],
+          'email': [null, [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
+          'address': [],
+          'phone': [],
+          'project': [null, Validators.required],
+          'operator': [null, Validators.required],
+          'status': [null, Validators.required],
+          'identifierType': [null, Validators.required],
+          'sendingNumber': [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
+          'institutionCode5': [null, [Validators.pattern('^\\d{5}$'), Validators.required]],
+          'institutionCode8': [null, [Validators.pattern('^\\d{8}$'), Validators.required]],
+
         }),
         'department': this.fb.group({
           'name': ['כללי', Validators.required]
@@ -125,7 +128,8 @@ export class NewEmployerComponent implements OnInit {
     }
   }
 
-  getOperator(organizationId) {
+  getOperator( organizationId) {
+    this.organizationId = organizationId;
     this.employerService.getOperator(organizationId, 'organizationId').then(response => {
       this.operators = response;
     });
@@ -136,34 +140,26 @@ export class NewEmployerComponent implements OnInit {
     });
   }
 
-  enableOrganization(isEdit: Boolean): void {
+  enableOrganization(form: NgForm , isEdit: Boolean): void {
     this.isEdit = !isEdit;
     const employerDetails = (<FormGroup>this.newEmployerForm.get('employerDetails').value);
-    if (employerDetails['newOrganization'] !== null) {
-      this.newEmployerForm.controls['employerDetails'].patchValue({'newOrganization': ''});
-      // this.newEmployerForm.get('newOrganization').clearValidators();
-
-      // employerDetails['organization'].setValidators([Validators.required]);
-      // employerDetails['newOrganization'].clearValidators();
+    if (isEdit) {
+      this.newEmployerForm.controls['employerDetails'].patchValue({'newOrganization': null});
     } else {
-        this.newEmployerForm.controls['employerDetails'].patchValue({'organization': ''});
+        this.newEmployerForm.controls['employerDetails'].patchValue({'organization': null});
         this.getAllOperator();
-      // this.newEmployerForm.get('organization').clearValidators();
-      // employerDetails['newOrganization'].setValidators([Validators.required]);
-      // employerDetails['organization'].clearValidators();
-
     }
   }
 
-  hasValOrganization(): void {
-    const employerDetails = (<FormGroup>this.newEmployerForm.get('employerDetails').value);
-    if (employerDetails['newOrganization'] !== null) {
-      // employerDetails.get('organization').clearValidators();
-      this.newEmployerForm.get('organization').clearValidators();
-      this.hasOrganization = true;
-      // employerDetails['organization'].clearValidators();
-    }
-  }
+  // hasValOrganization(): void {
+  //   const employerDetails = (<FormGroup>this.newEmployerForm.get('employerDetails').value);
+  //   if (employerDetails['newOrganization'] !== null) {
+  //     // employerDetails.get('organization').clearValidators();
+  //     this.newEmployerForm.get('organization').clearValidators();
+  //     this.hasOrganization = true;
+  //     // employerDetails['organization'].clearValidators();
+  //   }
+  // }
 
   submit(form: NgForm): void {
     // this.hasValOrganization();

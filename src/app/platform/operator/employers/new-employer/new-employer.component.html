@@ -4,23 +4,26 @@
     <p class="h4 mb-4">הקמת ארגון</p>
       <div class="d-flex">
         <mat-form-field [ngClass]="{'disabledInput' : !isEdit}">
-          <input matInput placeholder="ארגון חדש" formControlName="newOrganization">
+          <input matInput placeholder="ארגון חדש" formControlName="newOrganization" [(ngModel)]='newOrganization'
+                 [required]="organizationId == 0">
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
         <div>
-          <img src="/assets/img/icons/edit_grey.png" class="row-image edit-icon" (click)="enableOrganization(isEdit)">
+          <img src="/assets/img/icons/edit_grey.png" class="row-image edit-icon"
+               (click)="enableOrganization( form, isEdit)">
         </div>
       </div>
     <p class="h4 mb-4">הקמת מעסיק</p>
     <p class="f-12 bold mt-5">פרטים</p>
       <div>
-        <mat-form-field class="pl-5" [ngClass]="{'disabledInput' : isEdit}">
-          <mat-select matInput placeholder="ארגון" formControlName="organization">
-            <mat-option *ngFor="let organization of organizations" [value]="organization.id" (onSelectionChange)="getOperator(organization.id)">
+        <mat-form-field class="pl-5" [ngClass]="{'disabledInput' : isEdit}" >
+          <mat-select matInput placeholder="ארגון" formControlName="organization" [required]="!newOrganization ">
+            <mat-option *ngFor="let organization of organizations" [value]="organization.id"
+                        (onSelectionChange)="getOperator(organization.id)">
               {{organization.value}}
             </mat-option>
           </mat-select>
-          <mat-error>שדה חובה</mat-error>
+          <mat-error *ngIf="">שדה חובה</mat-error>
         </mat-form-field>
         <mat-form-field>
           <input matInput placeholder="שם מעסיק" formControlName="name">

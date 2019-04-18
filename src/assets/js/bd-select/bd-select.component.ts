@@ -30,13 +30,14 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   @Input() items = [];
   @Input() placeholder = 'בחר פריטים';
   @Input() searchPlaceholder = 'חפש...';
+  @Input() clientSideSearch = true;
   @Input() searchableProperties = false;
   @Input() error = false;
 
   @Output() onSelect: EventEmitter<Object | Object[]> = new EventEmitter();
   @Output() onDeselect: EventEmitter<boolean> = new EventEmitter();
   @Output() onScroll: EventEmitter<boolean> = new EventEmitter();
-  // @Output() elementCreated: EventEmitter<boolean> = new EventEmitter();
+  @Output() serverFilter: EventEmitter<string> = new EventEmitter();
 
   @Input() @HostBinding('style.width') width = '100%';
 
@@ -90,23 +91,25 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
     }
   }
 
-  elementCreated(event: any) {
-    alert('ya');
-  }
 
   filter(): void {
-    if (this.unfilteredItems.length === 0) {
-      this.unfilteredItems = this.items;
-    }
+    if (this.clientSideSearch) {
+      if (this.unfilteredItems.length === 0) {
+        this.unfilteredItems = this.items;
+      }
 
-    if (!this.searchableProperties) {
-      this.items = this.unfilteredItems.filter(item => item[this.label].indexOf(this.filterValue) !== -1);
+      if (!this.searchableProperties) {
+        this.items = this.unfilteredItems.filter(item => item[this.label].indexOf(this.filterValue) !== -1);
+      } else {
+        this.items = this.unfilteredItems.filter(item =>
+          Object.keys(item).some(k => item[k] != null &&
+            item[k].toString().toLowerCase()
+              .includes(this.filterValue.toLowerCase()))
+        );
+      }
     } else {
-      this.items = this.unfilteredItems.filter(item =>
-        Object.keys(item).some(k => item[k] != null &&
-          item[k].toString().toLowerCase()
-            .includes(this.filterValue.toLowerCase()))
-      );
+      // event.target.parentElement.parentElement.id
+       this.serverFilter.emit( this.filterValue);
     }
   }
 
@@ -217,7 +220,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
       const iteratedItem = item[this.value].toString();
       if (values.indexOf(iteratedItem) !== -1) {
          items.push(iteratedItem);
-         if(this.selectedItem) {
+         if (this.selectedItem) {
            this.selectedItem = this.selectedItem.filter(outputItem => {
              if (outputItem[this.value]) {
                return outputItem[this.value];

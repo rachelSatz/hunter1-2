@@ -17,17 +17,14 @@
     </mat-form-field>
   </div>
 </div>
-<app-data-table tableName="מעקב ברמת עובד" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true" [hasActionsHeader] = false>
+<app-data-table tableName="מעקב ברמת עובד" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false" [hasActionsHeader] = false>
   <div class="table-header">
     <div class="row mt-4 mr-1">
       <div class="ml-3 d-flex mr-auto">
       </div>
     </div>
   </div>
-  <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
-    <td class="check-column">
-      <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
-    </td>
+  <tr *ngFor="let employee of dataTable.items" class="pointer" >
     <td>{{ employee.name }}</td>
     <td>{{ employee.personal_id }}</td>
     <td>{{ employee.salary_month | date:'MM'}}</td>
@@ -36,6 +33,7 @@
     <td>{{ employee.product_code}}</td>
     <td>{{ employee.amount | number: '1.2-2'}}</td>
     <td>{{ employee.deposit_month | date: 'dd/MM/yyyy' }}</td>
+    <td>{{ employee.updated_at | date: 'dd/MM/yyyy' }}</td>
     <td>{{ statuses[employee.status]}}</td>
     <td >
       <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog(employee)">

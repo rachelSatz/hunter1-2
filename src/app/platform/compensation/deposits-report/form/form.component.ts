@@ -13,7 +13,8 @@ import {formatDate} from '@angular/common';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  animations: [ fade ]
+  animations: [ fade ],
+  styles: ['::ng-deep .form-dialog .mat-dialog-container {overflow: visible;}']
 })
 export class FormComponent implements OnInit {
 
@@ -36,15 +37,18 @@ export class FormComponent implements OnInit {
     this.loadEmployees();
   }
 
-  loadEmployees(): void {
-    this.departmentService.getEmployees(this.data.departmentId, this.scrollIndex)
+  loadEmployees(val?: string): void {
+    this.departmentService.getEmployees(this.data.departmentId, val, this.scrollIndex)
       .then(response => {
-        this.employees = [ ...this.employees, ...response];
+        if (!val) {
+          this.employees = [...this.employees, ...response];
+        } else {
+          this.employees = response;
+        }
       });
   }
 
   checkLoadEmployees(scrollY: number): void {
-    console.log(scrollY);
     if (scrollY >= 3700 * this.scrollIndex) {
       this.scrollIndex++;
       this.loadEmployees();
@@ -72,6 +76,13 @@ export class FormComponent implements OnInit {
           this.hasServerError = true;
           this.message = response['error']['message'];
        }});
+    }
+  }
+
+  filter(event: any, name: string) {
+    if (name === 'employee') {
+      this.scrollIndex = 1;
+      this.loadEmployees(event);
     }
   }
 }

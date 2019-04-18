@@ -45,7 +45,6 @@ export class OrganizationService extends BaseHttpService {
   }
 
   saveNewOrganization(organization: Organization): Promise<boolean> {
-    console.log(this.getTokenHeader());
     return this.http.post(this.endPoint, organization, this.getTokenHeader())
       .toPromise()
       .then(() => true)

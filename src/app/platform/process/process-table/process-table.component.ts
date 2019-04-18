@@ -82,7 +82,6 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
       if (response.ok) {
         const byteCharacters = atob(response['blob']);
         const byteNumbers = new Array(byteCharacters.length);
-        console.log(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
           byteNumbers[i] = byteCharacters.charCodeAt(i);
         }

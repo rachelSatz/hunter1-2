@@ -14,7 +14,7 @@ import { fade } from 'app/shared/_animations/animation';
   selector: 'app-form',
   templateUrl: './form.component.html',
   styles: ['.inactive { display: none !important}'],
-  animations: [ fade ]
+  animations: [ fade ],
 })
 export class FormComponent implements OnInit {
 
@@ -30,8 +30,10 @@ export class FormComponent implements OnInit {
   dateFilter = (date: Date) =>  (!this.hasClearingEmployer  ||
     (new Date(date.getFullYear() , date.getMonth() + 1 , 0).getDate() ===  date.getDate()))
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<FormComponent>,
-              private departmentService: DepartmentService, private compensationService: CompensationService,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+              private dialogRef: MatDialogRef<FormComponent>,
+              private departmentService: DepartmentService,
+              private compensationService: CompensationService,
               protected notificationService: NotificationService,
               private productService: ProductService) {}
 
@@ -40,17 +42,20 @@ export class FormComponent implements OnInit {
   }
 
   checkLoadEmployees(scrollY: number): void {
-    console.log(scrollY);
     if (scrollY >= 3700 * this.scrollIndex) {
       this.scrollIndex++;
       this.loadEmployees();
     }
   }
 
-  loadEmployees(): void {
-    this.departmentService.getEmployees(this.data.departmentId, this.scrollIndex)
+  loadEmployees(val?: string): void {
+    this.departmentService.getEmployees(this.data.departmentId, val, this.scrollIndex)
     .then(response => {
-      this.employees = [ ...this.employees, ...response];
+      if (!val) {
+        this.employees = [...this.employees, ...response];
+      } else {
+        this.employees = response;
+      }
     });
   }
 
@@ -70,7 +75,7 @@ export class FormComponent implements OnInit {
       this.hasServerError = false;
       if (this.hasClearingEmployer && this.data.employerID === 0) {
         this.notificationService.error('', 'יש לבחור מעסיק.');
-      } else {//
+      } else {
         if (this.hasClearing && this.hasClearingEmployer) {
           form.value['company_id'] = '';
         }
@@ -87,6 +92,13 @@ export class FormComponent implements OnInit {
           }
         });
       }
+    }
+  }
+
+  filter(event: any, name: string) {
+    if (name === 'employee') {
+      this.scrollIndex = 1;
+      this.loadEmployees(event);
     }
   }
 }

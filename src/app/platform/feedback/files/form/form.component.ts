@@ -24,7 +24,6 @@ export class FormComponent implements OnInit {
               private feedbackService: FeedbackService) { }
 
   ngOnInit() {
-    console.log(this.data);
   }
 
   downloadFile(id: number) {

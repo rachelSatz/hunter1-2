@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef, MatAutocomplete} from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef } from '@angular/material';
 import { NgForm} from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
@@ -7,6 +7,7 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade } from 'app/shared/_animations/animation';
+import {AnswerManufacturer} from '../../_models/compensation.model';
 
 
 export interface Contact {
@@ -34,6 +35,7 @@ export class InquiryFormComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   Emails: Email[] = [];
   contacts: Contact[] = [];
+  answer = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog,
               private dialogRef: MatDialogRef<InquiryFormComponent>,
@@ -41,6 +43,25 @@ export class InquiryFormComponent implements OnInit {
               private generalService: GeneralHttpService) { }
 
   ngOnInit() {
+
+    this.comments = this.data.error_details;
+    if ( this.data.feedback_level === 'record'  &&
+      this.data.ans_manuf !== null &&
+      this.data.ans_manuf !== '') {
+      const lstAnswer =  this.data.ans_manuf.split(',');
+      this.answer = Object.keys(AnswerManufacturer).map(function (e) {
+        if (lstAnswer.some(a => a === AnswerManufacturer[e])) {
+          return e;
+        }
+      });
+      this.answer = this.answer.filter(a =>   a !== undefined );
+
+      if ( this.answer !== []) {
+        const comment =  this.answer.join(', ');
+        this.comments = this.comments + ' ' + comment;
+      }
+    }
+
     this.helpers.setPageSpinner(true);
     this.loadContacts();
   }

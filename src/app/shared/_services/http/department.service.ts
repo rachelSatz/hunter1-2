@@ -35,9 +35,13 @@ export class DepartmentService extends BaseHttpService {
   }
 
 
-  getEmployees(departmentID: number, index: number): Promise<Employee[]> {
+  getEmployees(departmentID: number, val: string, index: number): Promise<Employee[]> {
     const request = this.getTokenHeader();
-    request['params'] = { index: index };
+    if (val) {
+      request['params'] = {index: index, val: val};
+    } else {
+      request['params'] = {index: index};
+    }
 
     return this.http.get(this.endPoint + '/' + departmentID + '/employees', request)
       .toPromise()

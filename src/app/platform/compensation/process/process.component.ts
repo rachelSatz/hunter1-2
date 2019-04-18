@@ -119,9 +119,10 @@ export class ProcessComponent implements OnInit, OnDestroy {
   }
 
   setResponse(response: any): void {
-    const users  = response.items.map(item => ({id: item['user_id'], name: item['username']}));
+    const users  = response.other['users'];
+      // response.items.map(item => ({id: item['user_id'], name: item['username']}));
     const column = this.dataTable.searchColumn(this.nameUserId);
-    column['searchOptions'].labels =  users.filter((x) => users.indexOf(x) === 0);
+    column['searchOptions'].labels =  users;
     this.dataTable.setItems(response);
   }
 
@@ -198,12 +199,15 @@ export class ProcessComponent implements OnInit, OnDestroy {
   }
 
   manualChangingStatus(): void {
-    if ((!this.dataTable.criteria || this.dataTable.criteria.checkedItems.length === 0) && !this.dataTable.criteria.isCheckAll) {
+    if ((!this.dataTable.criteria ||
+      this.dataTable.criteria.checkedItems.length === 0)
+      && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
 
-    this.compensationService.manualChangingStatus(this.dataTable.criteria.checkedItems.map(item => item['id'], this.dataTable.criteria),
+    this.compensationService.manualChangingStatus(
+      this.dataTable.criteria.checkedItems.map(item => item['id'], this.dataTable.criteria),
       this.dataTable.criteria).then(response => {
         this.dataTable.criteria.checkedItems = [];
         this.dataTable.criteria.isCheckAll = false;
@@ -227,7 +231,13 @@ export class ProcessComponent implements OnInit, OnDestroy {
   openSendToDialog(item: Object): void {
     this.dialog.open(InquiryFormComponent, {
       data: {'id': item['id'], 'contentType': 'compensation',
-        'employerId': this.selectUnit.currentEmployerID, 'companyId': 5},
+        'employerId': this.selectUnit.currentEmployerID,
+        'companyId': item['company_id'],
+        'error_details': item['feedback_level'] === 'record' ?
+          item['error_details'] :  item['error_details_file'],
+        'ans_manuf': item['answerings_manufacturer'],
+        'feedback_level': item['feedback_level']
+      },
       width: '500px'
     });
   }
@@ -259,7 +269,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
     this.dialog.open(InquiriesComponent, {
       data: {'id': compensation['id'], 'contentType': 'compensation',
-        'employerId': this.selectUnit.currentEmployerID, 'companyId': 5},
+        'employerId': this.selectUnit.currentEmployerID, 'companyId': compensation['company_id']},
       width: '800px'
     });
   }
@@ -277,7 +287,6 @@ export class ProcessComponent implements OnInit, OnDestroy {
         if (response) {
           const byteCharacters = atob(response['data']);
           const byteNumbers = new Array(byteCharacters.length);
-          console.log(byteCharacters.length);
           for (let i = 0; i < byteCharacters.length; i++) {
             byteNumbers[i] = byteCharacters.charCodeAt(i);
           }

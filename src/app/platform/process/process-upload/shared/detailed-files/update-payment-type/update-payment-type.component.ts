@@ -30,7 +30,6 @@ export class UpdatePaymentTypeComponent implements OnInit {
 
   submit(form: NgForm): void {
     if (form.valid) {
-      console.log(this.type);
       this.processService.update('paymentType', this.type, this.data.file_id).then(response => {
           this.dialogRef.close();
       });

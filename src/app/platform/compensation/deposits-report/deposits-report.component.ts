@@ -39,7 +39,7 @@ export class DepositsReportComponent implements OnInit {
   }
 
   sub = new Subscription;
-  companies1 = [];
+  newCompanies = [];
   users = [];
   statuses = Status;
   selectStatuses = Object.keys(Status).map(function(e) {
@@ -71,8 +71,8 @@ export class DepositsReportComponent implements OnInit {
     this.dataTable.placeHolderSearch = 'חפש עובד';
     this.productService.getCompanies().then(response => {
       const column = this.dataTable.searchColumn(this.nameCompany);
-      this.companies1 = response;
-      column['searchOptions'].labels = this.companies1;
+      this.newCompanies = response;
+      column['searchOptions'].labels = this.newCompanies;
     });
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
   }
@@ -106,8 +106,9 @@ export class DepositsReportComponent implements OnInit {
     }
 
     const dialog = this.dialog.open(FormComponent, {
-        data: { 'companies1': this.companies1, 'departmentId': this.selectUnit.currentDepartmentID},
-        width: '450px'
+        data: { 'companies': this.newCompanies, 'departmentId': this.selectUnit.currentDepartmentID},
+        width: '450px',
+        panelClass: 'form-dialog'
       });
 
     this.sub.add(dialog.afterClosed().subscribe(created => {
@@ -135,7 +136,7 @@ export class DepositsReportComponent implements OnInit {
   openInquiriesFormDialog(item: any): void {
     this.dialog.open(InquiryFormComponent, {
       data: {'id': item.id, 'contentType': 'depositsreport',
-        'employerId': this.selectUnit.currentEmployerID, 'companyId': 5},
+        'employerId': this.selectUnit.currentEmployerID, 'companyId': item.company_id},
       width: '450px'
     });
   }

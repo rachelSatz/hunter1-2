@@ -5,12 +5,17 @@
   <span>בקשה חדשה</span>
 </div>
 <form #form="ngForm">
-  <div class="mt-5 mb-3">
-    <mat-checkbox  name="has_clearing" class="ml-3"  [(ngModel)]="hasClearing">דרך מסלקה</mat-checkbox>
+  <div class="row mt-5 mb-3">
+    <mat-checkbox   name="has_clearing" class="ml-3"  [(ngModel)]="hasClearing">דרך מסלקה</mat-checkbox>
     <mat-checkbox name="has_clearing_employer" [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>
   </div>
-  <div class="row" [@fade]="hasClearingEmployer ? 'inactive' : 'active' ">
-      <bd-select [items]="employees" placeholder="בחר עובד*" name="employee" #employeesModel="ngModel" ngModel [required]="!hasClearingEmployer"  (onScroll)="checkLoadEmployees($event)" (elementCreated)="checkLoadEmployees($event)"></bd-select>
+  <div class="row col-12" [@fade]="hasClearingEmployer ? 'inactive' : 'active' ">
+      <bd-select [items]="employees" label="nameFull" placeholder="בחר עובד*" name="employee"
+                 #employeesModel="ngModel" ngModel [required]="!hasClearingEmployer"
+                 (onScroll)="checkLoadEmployees($event)"
+                 (serverFilter) = "filter($event, 'employee')"
+                 (elementCreated)="checkLoadEmployees($event)"
+                 [clientSideSearch]="false"></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && employeesModel.errors ? 'active' : 'inactive'">יש לבחור עובד.</p>
   </div>
   <div class="row  mt-4" [@fade]="hasClearing || hasClearingEmployer? 'inactive' : 'active' ">

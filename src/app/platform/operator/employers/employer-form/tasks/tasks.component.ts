@@ -45,7 +45,6 @@ export class TasksComponent implements OnInit , OnDestroy {
   fetchItems() {
     this.taskService.getTasks(this.selectUnit.currentEmployerID)
       .then(response => {
-        // console.log( );
         this.dataTable.setItems(response);
       });
   }
