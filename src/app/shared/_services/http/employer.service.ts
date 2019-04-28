@@ -12,6 +12,7 @@ import {EmployerFinancialDetails} from '../../_models/employer-financial-details
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
 
+
 @Injectable()
 export class EmployerService extends BaseHttpService {
 
@@ -56,7 +57,16 @@ export class EmployerService extends BaseHttpService {
       .then(response => response as DataTableResponse)
       .catch(response => null);
   }
-   
+
+  // getAllPayEmployers(): Promise<Any> {
+  //   const request = this.getTokenHeader();
+  //
+  //   return this.http.get(this.endPoint + '/pay_employers', request)
+  //     .toPromise()
+  //     .then(response => response as Any)
+  //     .catch(response => null);
+  // }
+  
   newEmployer(employer: any, department: any): Promise<any> {
     return this.http.post(this.endPoint, {employer: employer , department: department}, this.getTokenHeader())
     .toPromise()
