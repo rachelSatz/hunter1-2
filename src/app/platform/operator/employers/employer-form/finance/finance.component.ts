@@ -94,27 +94,20 @@ export class FinanceComponent implements OnInit {
       this.additionalPayment = false;
     }
   }
+  refresh(): void {
+    window.location.reload();
+  }
 
   submit(form: NgForm): void {
     this.hasServerError = false;
     if (form.valid) {
-      if (this.financialDetails.id) {
-        this.employerService.updateFinancialDetails(this.financialDetails.id, form.value)
-          .then(response => {
-              if (response['message'] !== 'success') {
-                this.hasServerError = true;
-              } else {
-                this.notificationService.success('נשמר בהצלחה.');
-              }
-          });
-        }
-      } else {
-        this.employerService.saveFinancialDetails(this.selectUnit.currentEmployerID, form.value)
+      this.employerService.saveFinancialDetails(this.selectUnit.currentEmployerID, this.financialDetails)
           .then(response => {
             if (response['message'] !== 'success') {
               this.hasServerError = true;
             } else {
               this.notificationService.success('נשמר בהצלחה.');
+              setTimeout(() => this.refresh(), 4000);
             }
           });
       }
