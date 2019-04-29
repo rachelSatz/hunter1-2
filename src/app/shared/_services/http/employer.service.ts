@@ -132,7 +132,7 @@ export class EmployerService extends BaseHttpService {
       .then(response => response as EmployerFinancialDetails)
       .catch(() => null);
   }
-  
+
   saveFinancialDetails(employerId: number, financialDetails: EmployerFinancialDetails): Promise<boolean> {
     return this.http.post(this.endPoint + '/saveFinanceDetails',
       {financialDetails: financialDetails, employerId: employerId}, this.getTokenHeader())

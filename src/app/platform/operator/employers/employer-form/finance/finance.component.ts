@@ -107,7 +107,7 @@ export class FinanceComponent implements OnInit {
               this.hasServerError = true;
             } else {
               this.notificationService.success('נשמר בהצלחה.');
-              setTimeout(() => this.refresh(), 4000);
+              // setTimeout(() => this.refresh(), 1000);
             }
           });
       }
