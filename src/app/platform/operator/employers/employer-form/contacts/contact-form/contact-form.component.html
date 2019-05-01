@@ -17,10 +17,11 @@
                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
           <mat-error>שדה חובה.</mat-error>
         </mat-form-field>
-        <button class="btn blue-btn" type="submit"  (click)="submit(form, 'show')" >הצג</button>
+        <button  [ngClass]="{'disabledInput': this.route.snapshot.data.contact }"
+                 class="btn blue-btn" type="submit"  (click)="submit(form, 'show')" >הצג</button>
       </div>
     <div [ngClass]="{'disabledInput': (!contact.id && !disabled) ||  (contact.id && !disabled) }">
-      <div *ngIf="location == 'operator'" class="row mt-3" [ngClass]="{'disabledInput': contact.id }">
+      <div *ngIf="location == 'operator'" class="row mt-3" [ngClass]="{'disabledInput': this.route.snapshot.data.contact }">
         <div class="col-12 col-lg-4">
           <bd-select class="w-100" [items]="organizations" name="organization" #organizationSelect="ngModel"
                      [(ngModel)]="contact.organization_id"

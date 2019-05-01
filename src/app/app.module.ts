@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 
 import { UserSessionService } from './shared/_services/user-session.service';
 import { HelpersService } from './shared/_services/helpers.service';
+import {FormsModule} from '@angular/forms';
 
 const routes = [
   { path: '', loadChildren: 'app/public/public.module#PublicModule' },
@@ -19,7 +20,8 @@ const routes = [
   imports: [
     BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    FormsModule
   ],
   providers: [UserSessionService, HelpersService],
   bootstrap: [AppComponent]

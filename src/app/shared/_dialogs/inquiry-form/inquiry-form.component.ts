@@ -7,7 +7,7 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade } from 'app/shared/_animations/animation';
-import {AnswerManufacturer} from '../../_models/compensation.model';
+import { AnswerManufacturer } from '../../_models/compensation.model';
 
 
 export interface Contact {

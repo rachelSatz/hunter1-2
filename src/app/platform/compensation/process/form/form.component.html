@@ -5,10 +5,10 @@
   <span>בקשה חדשה</span>
 </div>
 <form #form="ngForm">
-  <div class="row mt-5 mb-3">
-    <mat-checkbox   name="has_clearing" class="ml-3"  [(ngModel)]="hasClearing">דרך מסלקה</mat-checkbox>
-    <mat-checkbox name="has_clearing_employer" [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>
-  </div>
+  <!--<div class="row mt-5 mb-3">-->
+    <!--<mat-checkbox   name="has_clearing" class="ml-3"  [(ngModel)]="hasClearing">דרך מסלקה</mat-checkbox>-->
+    <!--<mat-checkbox name="has_clearing_employer" [(ngModel)]="hasClearingEmployer">כלל העובדים</mat-checkbox>-->
+  <!--</div>-->
   <div class="row col-12" [@fade]="hasClearingEmployer ? 'inactive' : 'active' ">
       <bd-select [items]="employees" label="nameFull" placeholder="בחר עובד*" name="employee"
                  #employeesModel="ngModel" ngModel [required]="!hasClearingEmployer"

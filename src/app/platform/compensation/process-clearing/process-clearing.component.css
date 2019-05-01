@@ -1,0 +1,7 @@
+.filter-row bd-select, .filter-row .mat-form-field {
+  width: 300px !important;
+}
+
+::ng-deep .excel-employees-dialog .mat-dialog-container {
+  overflow: visible;
+}

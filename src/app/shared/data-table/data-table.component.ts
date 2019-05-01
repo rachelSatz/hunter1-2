@@ -10,36 +10,14 @@ import { PaginationData } from './classes/pagination-data';
 import { DataTableCriteria } from './classes/data-table-criteria';
 import { DataTableResponse } from './classes/data-table-response';
 import { DataTableColumn } from './classes/data-table-column';
+import { fade, rotate } from '../_animations/animation';
 
 
 @Component({
 	selector: 'app-data-table',
 	templateUrl: './data-table.component.html',
 	styleUrls: ['./data-table.component.css'],
-	animations: [
-		trigger('fade', [
-			state('inactive', style({
-				display: 'none',
-				opacity: '0',
-			})),
-			state('active', style({
-				display: '*',
-				opacity: '1',
-			})),
-			transition('active => inactive', animate('0ms')),
-			transition('inactive => active', animate('200ms'))
-		]),
-		trigger('rotate', [
-			state('inactive', style({
-				transform: 'rotate(0)',
-			})),
-			state('active', style({
-				transform: 'rotate(180deg)',
-			})),
-			transition('active => inactive', animate('200ms')),
-			transition('inactive => active', animate('200ms'))
-		])
-	]
+	animations: [ fade, rotate ]
 })
 export class DataTableComponent implements OnInit, OnDestroy {
 
@@ -112,7 +90,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
 	search(event?: KeyboardEvent): void {
     if (((event && (event.code === 'Enter' || event.code === 'NumpadEnter')) || !event) && !this.isLoading) {
+      if (this.criteria.page  > 1) {
+        this.criteria.page = 1;
+        this.paginationData.currentPage = this.criteria.page;
+      }
       this.loadItems();
+
     }
 	}
 

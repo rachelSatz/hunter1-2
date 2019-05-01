@@ -41,7 +41,7 @@ export class ProcessService extends BaseHttpService {
     const options = this.getTokenHeader();
     options['params'] = this.setDataTableParams(criteria);
 
-    return this.http.get( this.endPoint + '/FilesList', options)
+    return this.http.get( this.endPoint + '/filesList', options)
       .toPromise()
       .then(response => response as DataTableResponse);
   }
@@ -79,21 +79,21 @@ export class ProcessService extends BaseHttpService {
       formData.append('attachments', fileDeposition);
     }
 
-    return this.http.post(this.endPoint + '/UploadFile',  formData, this.getTokenHeader())
+    return this.http.post(this.endPoint + '/uploadFile',  formData, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
   }
 
   update(type: string , val: any, fileId: object): Promise<boolean> {
-    return this.http.post(this.endPoint + '/Update', { params: val , type: type, fileId: fileId}, this.getTokenHeader())
+    return this.http.post(this.endPoint + '/update', { params: val , type: type, fileId: fileId}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
   }
 
   transfer(processID: any, name: string): Promise<any> {
-    return this.http.post(this.endPoint  + '/Transmit', { [name]: processID} , this.getTokenHeader())
+    return this.http.post(this.endPoint  + '/transmit', { [name]: processID} , this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
@@ -102,28 +102,28 @@ export class ProcessService extends BaseHttpService {
   getUploadFile(processId: number): Observable<any> {
     const options = this.getTokenHeader();
     options['params'] = { processId: processId };
-    return this.http.get(this.endPoint + '/UploadFile',  options)
+    return this.http.get(this.endPoint + '/uploadFile',  options)
       .pipe( map((response: Response) => response));
   }
 
   getUploadFileDone(processId: number): Promise<ProcessDetails> {
     const options = this.getTokenHeader();
     options['params'] = {processId: processId};
-    return this.http.get(this.endPoint + '/UploadFile',  options)
+    return this.http.get(this.endPoint + '/uploadFile',  options)
       .toPromise()
       .then(response => response as ProcessDetails)
       .catch(response => response);
   }
 
   getPaymentMailOnCompletion(processId: number): Promise<object> {
-    return this.http.post(this.endPoint  + '/PaymentMailOnCompletion', { processId: processId}, this.getTokenHeader())
+    return this.http.post(this.endPoint  + '/paymentMailOnCompletion', { processId: processId}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
   }
 
   sendEmail(processId: number, recipient: any[]): Promise<string> {
-    return this.http.post(this.endPoint + '/SendPaymentsInstruction' ,
+    return this.http.post(this.endPoint + '/sendPaymentsInstruction' ,
       {processId: processId, recipient: recipient},
       this.getTokenHeader())
       .toPromise()
@@ -144,7 +144,7 @@ export class ProcessService extends BaseHttpService {
       const formData = new FormData();
       formData.append('file', uploadedFile);
 
-      return this.http.post(this.endPoint + '/' + fileId + '/UploadRef', formData, this.getTokenHeader())
+      return this.http.post(this.endPoint + '/' + fileId + '/uloadRef', formData, this.getTokenHeader())
         .toPromise()
         .then(response => response as Object)
         .catch(() => []);
@@ -159,14 +159,14 @@ export class ProcessService extends BaseHttpService {
   }
 
   unlockProcessFiles(process: any): Promise<Object> {
-      return this.http.post(this.endPoint + '/UnlockProcessFiles', process, this.getTokenHeader())
+      return this.http.post(this.endPoint + '/unlockProcessFiles', process, this.getTokenHeader())
         .toPromise()
         .then(response => response as Object)
         .catch(() => []);
   }
 
   updateDepositDate(processId: number, depositDate: string): Promise<any> {
-    return this.http.post(this.endPoint + '/UpdateDepositDate', {processId: processId, depositDate: depositDate}, this.getTokenHeader())
+    return this.http.post(this.endPoint + '/updateDepositDate', {processId: processId, depositDate: depositDate}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);

@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router, NavigationStart, NavigationEnd} from '@angular/router';
 
 import { UserSessionService } from 'app/shared/_services/user-session.service';
@@ -9,7 +9,7 @@ import { fade, slideInOut } from 'app/shared/_animations/animation';
 import { TimerService } from '../shared/_services/http/timer';
 import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
 import { TaskTimerLabels } from '../shared/_models/timer.model';
-import {ProductService} from '../shared/_services/http/product.service';
+import { ProductService } from '../shared/_services/http/product.service';
 
 @Component({
   selector: 'app-platform',
@@ -53,6 +53,7 @@ export class PlatformComponent implements OnInit {
         { url: 'dashboard',     label: 'דף הבית' },
         { url: 'compensations', label: 'יתרות לפיצויים', subMenuLinks: [
         { url: 'process', label: 'מעקב יתרות לפיצויים' },
+        { url: 'process-clearing', label: 'מעקב יתרות לפיצויים מסלקה' },
         { url: 'deposits-report', label: 'מעקב דוח הפקדות' },
         { url: 'dashboard', label: 'מצג סטטוסים' }
       ]},

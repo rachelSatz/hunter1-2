@@ -1,8 +1,5 @@
 import { Component, Input } from '@angular/core';
 
-import { PaginationData } from '../classes/pagination-data';
-import {DataTableCriteria} from '../classes/data-table-criteria';
-
 @Component({
 	selector: 'app-pagination',
 	templateUrl: './pagination.component.html',

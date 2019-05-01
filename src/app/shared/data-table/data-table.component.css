@@ -84,11 +84,16 @@ app-side-filters ::ng-deep .input .mat-form-field-wrapper {
 	cursor: pointer;
 }
 
+::ng-deep td  .row-actions {
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+}
+
 ::ng-deep td  .row-image {
   width: 30px;
   height: auto;
 }
-
 
 .operator-table {
   margin-right: 80px;

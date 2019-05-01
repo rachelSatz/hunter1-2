@@ -23,7 +23,7 @@ export class FeedbackService extends BaseHttpService {
       request['params'] = this.setDataTableParams(criteria);
     }
 
-    return this.http.get(this.endPoint + '/FilesList', request)
+    return this.http.get(this.endPoint + '/filesList', request)
     .toPromise()
     .then(response => response as DataTableResponse)
     .catch(() => null);
@@ -37,7 +37,7 @@ export class FeedbackService extends BaseHttpService {
       request['params'] = this.setDataTableParams(criteria);
     }
 
-    return this.http.get(this.endPoint + '/RecordsList', request)
+    return this.http.get(this.endPoint + '/recordsList', request)
       .toPromise()
       .then(response => response)
       .catch(() => null);

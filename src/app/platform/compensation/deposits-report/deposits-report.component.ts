@@ -74,7 +74,12 @@ export class DepositsReportComponent implements OnInit {
       this.newCompanies = response;
       column['searchOptions'].labels = this.newCompanies;
     });
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+        this.dataTable.paginationData.currentPage = 1;
+        this.dataTable.criteria.page = 1;
+        this.fetchItems();
+      }
+    ));
   }
 
   fetchItems() {
@@ -127,8 +132,7 @@ export class DepositsReportComponent implements OnInit {
 
   openInquiriesDialog(item: any): void {
     this.dialog.open(InquiriesComponent, {
-      data: {'id': item.id, 'contentType': 'depositsreport',
-        'employerId': this.selectUnit.currentEmployerID, 'companyId': item.company_id},
+      data: {'id': item.id, 'contentType': 'depositsreport'},
       width: '800px'
     });
   }
