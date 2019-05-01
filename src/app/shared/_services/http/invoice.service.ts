@@ -78,4 +78,12 @@ export class InvoiceService  extends BaseHttpService {
       .then(response => response)
       .catch(() => null);
   }
+
+  downloadExcel(invoiceId: number): Promise<string> {
+    return this.http.post(this.endPoint + '/downloadEmployeesDetails', {'invoiceId': invoiceId}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
 }

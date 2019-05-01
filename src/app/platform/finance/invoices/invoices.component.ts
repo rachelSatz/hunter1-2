@@ -12,6 +12,7 @@ import { SelectUnitService} from 'app/shared/_services/select-unit.service';
 import { RemarksFormComponent} from './remarks-form/remarks-form.component';
 import { InvoiceService} from 'app/shared/_services/http/invoice.service';
 import { HelpersService} from 'app/shared/_services/helpers.service';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-invoices',
@@ -30,6 +31,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   });
   invoice_all_status = ALL_STATUS;
   sub = new Subscription;
+  spin: boolean;
 
   readonly columns  = [
     { name: 'employer_name', label: 'שם מעסיק', searchable: false },
@@ -62,18 +64,6 @@ export class InvoicesComponent implements OnInit, OnDestroy {
         });
       }
 
-  // valueDateChange(keyCode: Date): void {
-  //   this.searchCriteria['request_created_at'] =
-  //     formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
-  //   this.search();
-  // }
-  //
-  // valueDateChange2(keyCode: Date): void {
-  //   this.searchCriteria['for_month'] =
-  //     formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
-  //   this.search();
-  // }
-
   ShowRemarks(item: Object): void {
     this.dialog.open(RemarksFormComponent, {
       data: item,
@@ -92,8 +82,20 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       panelClass: 'employers-finance-excel'
     });
   }
-  downloadExcelInvoiceEmployees(): void {
 
+  downloadEmployeesExcel(invoice_id): void {
+    this.invoiceService.downloadExcel(invoice_id).then(response => {
+      const byteCharacters = atob(response['data']);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+      const fileName = 'פירוט עובדים בחשבונית מספר - '  + invoice_id + '.xlsx';
+      FileSaver.saveAs(blob, fileName);
+      this.spin = false;
+    });
   }
 
   ngOnDestroy() {
