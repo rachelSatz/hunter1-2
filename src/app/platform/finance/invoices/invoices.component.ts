@@ -92,6 +92,10 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       panelClass: 'employers-finance-excel'
     });
   }
+  downloadExcelInvoiceEmployees(): void {
+
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
   }

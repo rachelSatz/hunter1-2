@@ -16,6 +16,7 @@ import {
   TAX
 } from 'app/shared/_models/employer-financial-details.model';
 import { fade } from 'app/shared/_animations/animation';
+import {NotificationService} from '../../../../../shared/_services/notification.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class FinanceComponent implements OnInit {
   hasServerError = false;
   rowIndex: number;
   additionalPayment: boolean;
+  payEmployers: any;
 
   paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function(e) {
     return { id: e, name: PAYMENT_TERMS[e] };
@@ -53,9 +55,13 @@ export class FinanceComponent implements OnInit {
   });
 
   constructor(private employerService: EmployerService,
-              private selectUnit: SelectUnitService) { }
+              private selectUnit: SelectUnitService,
+              private notificationService: NotificationService) { }
 
   ngOnInit() {
+    this.employerService.getAllEmployers(null, true).then(
+      response => this.payEmployers = response['items']);
+
     this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(response => {
       if (response.id) {
         this.financialDetails = response;
@@ -64,13 +70,20 @@ export class FinanceComponent implements OnInit {
 
   }
 
-
   addProductRow(): void {
     this.financialDetails.financial_product.push(new EmployerFinancialProduct());
   }
 
+  deleteProductRow(index: number): void {
+    this.financialDetails.financial_product.splice(index, 1);
+  }
+
   addPaymentRow(index: number): void {
       this.financialDetails.financial_product[index].financial_payments.push(new EmployerFinancialPayments());
+  }
+
+  deletePaymentRow(index1: number, index: number): void {
+    this.financialDetails.financial_product[index1].financial_payments.splice(index, 1);
   }
 
   showAdditionalPayment(index: number, isChecked: boolean): void {
@@ -81,23 +94,20 @@ export class FinanceComponent implements OnInit {
       this.additionalPayment = false;
     }
   }
+  refresh(): void {
+    window.location.reload();
+  }
 
   submit(form: NgForm): void {
     this.hasServerError = false;
     if (form.valid) {
-      if (this.financialDetails.id) {
-        this.employerService.updateFinancialDetails(this.financialDetails.id, form.value)
-          .then(response => {
-              if (response['message'] !== 'success') {
-                this.hasServerError = true;
-                }
-          });
-        }
-      } else {
-        this.employerService.saveFinancialDetails(this.selectUnit.currentEmployerID, form.value)
+      this.employerService.saveFinancialDetails(this.selectUnit.currentEmployerID, this.financialDetails)
           .then(response => {
             if (response['message'] !== 'success') {
               this.hasServerError = true;
+            } else {
+              this.notificationService.success('נשמר בהצלחה.');
+              // setTimeout(() => this.refresh(), 1000);
             }
           });
       }

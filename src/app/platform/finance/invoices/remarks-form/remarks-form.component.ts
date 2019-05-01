@@ -19,7 +19,7 @@ export class RemarksFormComponent implements OnInit {
   comments = [];
   comment: string;
   hasServerError: boolean;
-  remarks = {}
+  remarks = {};
 
   constructor(protected route: ActivatedRoute, @Inject(MAT_DIALOG_DATA) public invoice: Invoice,
               private dialogRef: MatDialogRef<RemarksFormComponent>, private invoiceService: InvoiceService) {
