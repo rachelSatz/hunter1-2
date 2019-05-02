@@ -13,6 +13,8 @@ import { RemarksFormComponent} from './remarks-form/remarks-form.component';
 import { InvoiceService} from 'app/shared/_services/http/invoice.service';
 import { HelpersService} from 'app/shared/_services/helpers.service';
 import * as FileSaver from 'file-saver';
+import {NotificationService} from '../../../shared/_services/notification.service';
+import {EmployerService} from '../../../shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-invoices',
@@ -23,26 +25,32 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   employers = [];
+  allEmployers = Object.keys(this.employers).map(function(e) {
+    return { id: e, name: this.employers[e] };
+  });
   departments = [];
   invoices = [];
   invoice_status = STATUS;
+  status = Object.keys(STATUS).map(function(e) {
+    return { id: e, name: STATUS[e] };
+  });
+  invoice_all_status = ALL_STATUS;
   selectStatus = Object.keys(ALL_STATUS).map(function(e) {
     return { id: e, name: ALL_STATUS[e] };
   });
-  invoice_all_status = ALL_STATUS;
   sub = new Subscription;
   spin: boolean;
 
   readonly columns  = [
-    { name: 'employer_name', label: 'שם מעסיק', searchable: false },
-    { name: 'green_invoice_number', label: 'מספר חשבונית בירוקה' , searchable: false},
-    { name: 'amount', label: 'סכום' , searchable: false},
+    { name: 'employer_name', label: 'שם מעסיק', searchable: false},
+    { name: 'green_invoice_number', label: 'מספר חשבונית בירוקה'},
+    { name: 'amount', label: 'סכום'},
     { name: 'amount_ids', label: 'כמות ת"ז' , searchable: false},
-    { name: 'for_month', label: 'בגין חודש' , searchable: false},
-    { name: 'created_at', label: 'ת.יצירה' , searchable: false},
+    { name: 'for_month', label: 'בגין חודש' , searchOptions: { isDate: true }},
+    { name: 'created_at', label: 'ת.יצירה' , searchOptions: { isDate: true }},
     { name: 'last_payment_date', label: 'לתשלום עד' , searchable: false},
     { name: 'kind', label: 'סוג חשבונית' , searchable: false},
-    { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.invoice_status } },
+    { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } },
     { name: 'remark', label: 'הערות' , searchable: false},
     { name: 'options', label: 'אפשרויות' , searchable: false}
   ];
@@ -51,10 +59,14 @@ export class InvoicesComponent implements OnInit, OnDestroy {
               private invoiceService: InvoiceService,
               private selectUnit: SelectUnitService,
               private helpers: HelpersService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              protected notificationService: NotificationService,
+              private employerService: EmployerService) {
   }
 
   ngOnInit() {
+    this.employerService.getAllEmployers(null, true).then(
+      response => this.employers = response['items']);
     this.fetchItems();
   }
 
@@ -83,8 +95,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     });
   }
 
-  downloadEmployeesExcel(invoice_id): void {
-    this.invoiceService.downloadExcel(invoice_id).then(response => {
+  downloadEmployeesExcel(invoiceId): void {
+    this.invoiceService.downloadExcel(invoiceId).then(response => {
       const byteCharacters = atob(response['data']);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
@@ -92,9 +104,35 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       }
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-      const fileName = 'פירוט עובדים בחשבונית מספר - '  + invoice_id + '.xlsx';
+      const fileName = 'פירוט עובדים בחשבונית מספר - '  + invoiceId + '.xlsx';
       FileSaver.saveAs(blob, fileName);
       this.spin = false;
+    });
+  }
+
+  setInvoiceStatus(invoiceId: number, status: string): void {
+    this.invoiceService.setInvoiceStatus(invoiceId, status).then(res =>
+      this.notificationService.info(res['message']));
+  }
+
+  deleteInvoices(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+    this.invoiceService.deleteInvoices(this.dataTable.criteria.checkedItems.map(
+      item => item['id'])).then(response => {
+      this.helpers.setPageSpinner(false);
+      if (response) {
+        if (response['message'] === 'success') {
+          this.notificationService.success('הרשומות נמחקו בהצלחה.');
+          this.dataTable.criteria.checkedItems = [];
+          this.dataTable.criteria.isCheckAll = false;
+          this.fetchItems();
+        } else {
+          this.notificationService.error('ארעה שגיאה.');
+        }
+      }
     });
   }
 

@@ -30,11 +30,11 @@ export class InvoiceService  extends BaseHttpService {
       .catch(() => null);
   }
 
-  createInvoice(content: string): Promise<Invoice[]> {
+  createInvoice(content: string): Promise<string> {
     return this.http.post(this.endPoint + '/create_invoice', content, this.getTokenHeader())
       .toPromise()
-      .then(response => response as Invoice[])
-      .catch(() => []);
+      .then(response => response as string)
+      .catch(() => null);
   }
 
 
@@ -86,4 +86,17 @@ export class InvoiceService  extends BaseHttpService {
       .catch(() => null);
   }
 
+  setInvoiceStatus(invoiceId: number, status: string): Promise<string> {
+    return this.http.post(this.endPoint + '/' + invoiceId + '/setStatus', {'status': status}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  deleteInvoices(invoicesIds: number[]): Promise<string> {
+    return this.http.post(this.endPoint + '/deleteInvoices', {'invoicesIds': invoicesIds}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
 }
