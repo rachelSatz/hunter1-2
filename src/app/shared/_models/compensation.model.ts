@@ -1,4 +1,5 @@
 import {DataTableResponse} from '../data-table/classes/data-table-response';
+import {UserUnitPermission} from './user-unit-permission.model';
 
 export class Compensation {
   id: number;
@@ -12,7 +13,6 @@ export class Compensation {
   employer_id: string;
   portal_balance: number;
   has_by_safebox: boolean;
-  has_file_inquiry: boolean;
   files: DataTableResponse;
   code_error: string;
   error_details: string;
@@ -21,9 +21,11 @@ export class Compensation {
   error_details_file: string;
   status: string;
   event_code: string;
-  answerings_manufacturer: string;
+  answering_manufacturer: string;
+  showHistory: boolean;
+  units: UserUnitPermission[] = [];
+
   has_file_feedback: boolean;
-  reporting_type: string;
   xml_name: string;
 
   constructor() {

@@ -1,0 +1,89 @@
+
+<app-data-table tableName="מעקב יתרות לפיצוים מסלקה" [columns]="columns"
+                (fetchItems)="fetchItems()" [hasCheckColumn]="true" [hasActionsHeader] = false>
+  <div class="table-header">
+    <div class="row mt-4 mr-1">
+      <div class="float-left">
+        <button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2">פעולות</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="openFormDialog()">בקשה חדשה</button>
+          <button mat-menu-item (click)="manualChangingStatus()">שינוי סטטוס</button>
+        </mat-menu>
+      </div>
+      <div class="ml-3 d-flex mr-auto">
+        <button class="btn blue-btn " (click)="sendCompensations()">שדר בקשה</button>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngFor="let item of dataTable.items">
+  <tr class="pointer" [ngClass]="{ 'checked': item.checked }">
+    <td class="check-column">
+      <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
+    </td>
+    <td>{{ item.created_at | date: 'dd/MM/yy' }}</td>
+    <td>{{ item.updated_at | date: 'dd/MM/yy' }}</td>
+    <td>{{ item.username }}</td>
+    <td>{{ item.employer_name }}</td>
+    <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
+    <td>{{ sendingMethods[item.sending_method] }}</td>
+    <td>
+      <p class="mb-0">{{ statuses[item.status]  }}</p>
+      <img src="/assets/img/icons/details_grey.png" (click)="openErrorMessageDialog(item)" class="mt-1"
+           *ngIf=" item.status === 'feedback_a' || item.status === 'feedback_b' ?
+      (item.feedback_level === 'record' && (item.code_error !== null ||
+      (item.error_details !== '' && item.error_details !== null)) ||
+      (item.answering_manufacturer !== null && item.answering_manufacturer !== ''))
+      ||
+      (item.feedback_level === 'file'  && item.code_error_file !== null  &&
+      item.code_error_file !== 'accepting_valid_file' ) : false" >
+    </td>
+    <td>
+      <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
+    </td>
+    <td>
+      <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiry_count }}</span>
+    </td>
+    <td>
+      <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
+    </td>
+    <td>
+      <span *ngIf="!item.has_file_feedback">טרם</span>
+      <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, 'download')" *ngIf="item.has_file_feedback"></i>
+      <i class="fa fa-eye fa-lg" (click)="PdfFile(item.id, 'show')" *ngIf="item.has_file_feedback"></i>
+    </td>
+    <td (click)="item.showHistory=!item.showHistory">
+      <i class="fa fa-angle-down"></i>
+    </td>
+  </tr>
+    <tr *ngIf="item.showHistory" >
+    <td colspan="13">
+      <table class="table table-bordered ">
+        <thead>
+        <tr>
+          <th> שם עובד </th>
+          <th> ת.ז </th>
+          <th> חברה מנהלת </th>
+          <th> סוג מוצר </th>
+          <th> הורדה </th>
+        </tr>
+        </thead>
+        <tr>
+          <td>
+             <p>Showing content 2</p>
+           </td> <td>
+             <p>Showing content 2</p>
+           </td> <td>
+             <p>Showing content 2</p>
+           </td> <td>
+             <p>Showing content 2</p>
+           </td> <td>
+             <p>Showing content 2</p>
+           </td>
+        </tr>
+      </table>
+    </td>
+    </tr>
+  </ng-container>
+</app-data-table>
+
+

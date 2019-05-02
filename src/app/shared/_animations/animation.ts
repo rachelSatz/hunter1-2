@@ -63,3 +63,14 @@ export const slideInOut =
     transition('in => out', animate('400ms ease-in-out')),
     transition('out => in', animate('400ms ease-in-out'))
   ]);
+
+export const rotate = trigger('rotate', [
+  state('inactive', style({
+    transform: 'rotate(0)',
+  })),
+  state('active', style({
+    transform: 'rotate(180deg)',
+  })),
+  transition('active => inactive', animate('200ms')),
+  transition('inactive => active', animate('200ms'))
+]);

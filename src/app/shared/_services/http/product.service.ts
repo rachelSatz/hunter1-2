@@ -85,7 +85,7 @@ export class ProductService extends BaseHttpService {
   // }
 
   getFullCompanies(): Observable<Company[]> {
-    return this.http.get(this.endPoint + '/FullCompany', this.getTokenHeader())
+    return this.http.get(this.endPoint + '/fullCompany', this.getTokenHeader())
           .map((response: Response) => response as any);
   }
 

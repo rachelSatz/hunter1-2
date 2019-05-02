@@ -23,7 +23,6 @@ export class ProductFormComponent implements OnInit {
   entities = [];
   product = new ExtendedProduct;
   banks = [];
-  bankBranchesDeposit = [];
   checked: boolean;
   types = Object.keys(ProductType).map(function(e) {
     return { id: e, name: ProductType[e] };

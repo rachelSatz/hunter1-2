@@ -17,9 +17,9 @@ export class ErrorMessageComponent implements OnInit {
   answer: any[];
 
   constructor(@Inject(MAT_DIALOG_DATA) public compensation: Compensation) {
-    if (compensation.answerings_manufacturer !== null &&
-      compensation.answerings_manufacturer !== '') {
-      const lstAnswer = compensation.answerings_manufacturer.split(',');
+    if (compensation.answering_manufacturer !== null &&
+      compensation.answering_manufacturer !== '') {
+      const lstAnswer = compensation.answering_manufacturer.split(',');
       this.answer = Object.keys(AnswerManufacturer).map(function (e) {
         if (lstAnswer.some(a => a === AnswerManufacturer[e])) {
           return e;

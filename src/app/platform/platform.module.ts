@@ -18,7 +18,7 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { InquiriesComponent } from '../shared/_dialogs/inquiries/inquiries.component';
 import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
 import { TimerService } from '../shared/_services/http/timer';
-import {ProductService} from '../shared/_services/http/product.service';
+import { ProductService } from '../shared/_services/http/product.service';
 
 const routes: Routes = [
   {
@@ -29,6 +29,8 @@ const routes: Routes = [
       { path: 'contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
       { path: 'compensations/process', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
+      { path: 'compensations/process-clearing', loadChildren: 'app/platform/compensation/process-clearing/' +
+          'process-clearing.module#ProcessClearingModule' },
       { path: 'compensations/deposits-report', loadChildren:
           'app/platform/compensation/deposits-report/deposits-report.module#DepositsReportModule' },
       { path: 'settings/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },

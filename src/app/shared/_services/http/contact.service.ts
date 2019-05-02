@@ -41,7 +41,7 @@ export class  ContactService extends BaseHttpService {
   getContactByEmail(email: string, contactId: number): Promise<Contact> {
     const options = this.getTokenHeader();
     options['params'] = {email: email};
-    return this.http.get(this.endPoint + '/' + contactId + '/ContactByEmail', options)
+    return this.http.get(this.endPoint + '/' + contactId + '/contactByEmail', options)
       .toPromise()
       .then(response => response as Contact)
       .catch(() => null);

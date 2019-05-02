@@ -39,7 +39,12 @@ export class EmployersComponent  implements OnInit , OnDestroy {
   }
 
   ngOnInit() {
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+        this.dataTable.paginationData.currentPage = 1;
+        this.dataTable.criteria.page = 1;
+        this.fetchItems();
+      }
+    ));
   }
 
   fetchItems() {
