@@ -25,7 +25,6 @@ import { FormComponent } from './form/form.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { ProcessClearingComponent } from './process-clearing.component';
-import { FormComponent } from './form/form.component';
 
 
 const routes: Routes = [
