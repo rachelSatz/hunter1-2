@@ -24,6 +24,8 @@
     <td>{{ item.updated_at | date: 'dd/MM/yy' }}</td>
     <td>{{ item.username }}</td>
     <td>{{ item.employer_name }}</td>
+    <td>{{ item.employee_name == " " ? 'כלל העובדים' : item.employee_name}}</td>
+    <td>{{ item.identifier }}</td>
     <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
     <td>{{ sendingMethods[item.sending_method] }}</td>
     <td>
@@ -51,8 +53,9 @@
       <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, 'download')" *ngIf="item.has_file_feedback"></i>
       <i class="fa fa-eye fa-lg" (click)="PdfFile(item.id, 'show')" *ngIf="item.has_file_feedback"></i>
     </td>
-    <td (click)="item.showHistory=!item.showHistory">
-      <i class="fa fa-angle-down"></i>
+    <!---->
+    <td >
+      <i *ngIf="item.extend_clearing !== null" class="fa fa-angle-down" (click)="item.showHistory=!item.showHistory"></i>
     </td>
   </tr>
     <tr *ngIf="item.showHistory" >
@@ -67,18 +70,17 @@
           <th> הורדה </th>
         </tr>
         </thead>
-        <tr>
+        <tr *ngFor="let item_extend of item.extend_clearing">
+          <td>{{ item_extend.employee_name }}</td>
+          <td>{{ item_extend.identifier }}</td>
+          <td>{{ item_extend.company_name }}</td>
+
+          <td>  {{ item_extend.product_type }} {{ productTypes[item_extend.product_type] }}</td>
           <td>
-             <p>Showing content 2</p>
-           </td> <td>
-             <p>Showing content 2</p>
-           </td> <td>
-             <p>Showing content 2</p>
-           </td> <td>
-             <p>Showing content 2</p>
-           </td> <td>
-             <p>Showing content 2</p>
-           </td>
+            <span *ngIf="!item.has_file_feedback">טרם</span>
+            <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item_extend.id, 'download')" *ngIf="item_extend.has_file_feedback"></i>
+            <i class="fa fa-eye fa-lg" (click)="PdfFile(item_extend.id, 'show')" *ngIf="item_extend.has_file_feedback"></i>
+          </td>
         </tr>
       </table>
     </td>

@@ -234,15 +234,15 @@ export class ProcessComponent implements OnInit, OnDestroy {
     }));
   }
 
-  openSendToDialog(item: Object): void {
+  openSendToDialog(item: Compensation): void {
     this.dialog.open(InquiryFormComponent, {
-      data: {'id': item['id'], 'contentType': 'compensation',
-        'employerId': this.selectUnit.currentEmployerID,
-        'companyId': item['company_id'],
-        'error_details': item['feedback_level'] === 'record' ?
-          item['error_details'] :  item['error_details_file'],
-        'ans_manuf': item['answering_manufacturer'],
-        'feedback_level': item['feedback_level']
+      data: {'id': item.id, 'contentType': 'compensation',
+        'employerId': item.employer_id,
+        'companyId': item.company_id,
+        'error_details': item.feedback_level === 'record' ?
+          item.error_details :  item.error_details_file,
+        'ans_manuf': item.answering_manufacturer,
+        'feedback_level': item.feedback_level
       },
       width: '500px'
     });

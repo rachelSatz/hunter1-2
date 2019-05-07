@@ -5,6 +5,16 @@
   <span>בקשה חדשה</span>
 </div>
 <form #form="ngForm">
+  <div class="row col-12 mt-3">
+    <bd-select [items]="employees" label="nameFull" placeholder="בחר עובד*" name="employee" [multiple]="true"
+               #employeesModel="ngModel" ngModel required
+               (onScroll)="checkLoadEmployees($event)"
+               (serverFilter) = "filter($event, 'employee')"
+               (elementCreated)="checkLoadEmployees($event)"
+               [clientSideSearch]="false" ></bd-select>
+    <p class="alert alert-danger" [@fade]="form.submitted && employeesModel.errors ? 'active' : 'inactive'">יש לבחור עובד.</p>
+  </div>
+
   <mat-form-field class="w-50 my-3">
     <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="תאריך נכונות (שכר)" name="validity_date" ngModel readonly required>
     <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>

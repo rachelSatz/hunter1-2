@@ -22,7 +22,6 @@ import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.mod
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { GroupTransferComponent } from './detailed-records/group-transfer/group-transfer.component';
 import { AttachReferenceComponent } from './detailed-files/attach-reference/attach-reference.component';
-import { GroupBankAccountComponent } from './detailed-records/group-bank-account/group-bank-account.component';
 import { UpdatePaymentTypeComponent } from './detailed-files/update-payment-type/update-payment-type.component';
 import { UpdatePaymentDateComponent } from './detailed-files/update-payment-date/update-payment-date.component';
 import { UpdateAccountNumberComponent } from './detailed-files/update-account-number/update-account-number.component';
@@ -53,10 +52,9 @@ const routes: Routes = [
   providers: [MonthlyTransferBlockService],
   declarations: [ DetailsComponent,
     CommentsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent, GroupTransferComponent,
-    UpdateAccountNumberComponent, UpdatePaymentDateComponent, GroupBankAccountComponent],
+    UpdateAccountNumberComponent, UpdatePaymentDateComponent],
   entryComponents: [ CommentsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
-    UpdateAccountNumberComponent, UpdatePaymentDateComponent, GroupTransferComponent,
-    GroupBankAccountComponent ]
+    UpdateAccountNumberComponent, UpdatePaymentDateComponent, GroupTransferComponent]
 
 })
 export class DetailsModule { }

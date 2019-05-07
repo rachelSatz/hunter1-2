@@ -9,8 +9,6 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductType } from 'app/shared/_models/product.model';
-
-import { GroupBankAccountComponent } from './group-bank-account/group-bank-account.component';
 import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 
 import { Subscription } from 'rxjs';
@@ -83,14 +81,9 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     }
     this.monthlyTransferBlockService.getMonthlyList(this.dataTable.criteria)
       .then(response => {
-        // if (response.items['id'] === '22450') {
-        //   response['id'] = 	this.dataTable.checkItem(response.items['id'], true);
-        // }
-        this.dataTable.criteria.checkedItems = response['items'].map(item => item['id'] === 22450);
         this.dataTable.setItems(response);
       });
   }
-
 
   openGroupTransferDialog(): void {
     if (this.checkedRowItems()) {
@@ -98,35 +91,20 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
         this.monthlyTransferBlockService.groupList(this.processDataService.activeProcess.processID).then(items => {
           const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
           const dialog = this.dialog.open(GroupTransferComponent, {
-            data: {
-              'ids': ids
-              , 'groups': items, 'processId': this.processDataService.activeProcess.processID
+            data: { 'ids': ids, 'groups': items,
+              'processId': this.processDataService.activeProcess.processID
             },
-            width: '550px',
+            width: '800px',
             panelClass: 'dialog-file'
           });
-          this.sub.add(dialog.afterClosed().subscribe((data) => {
-            // this.checkedItems = [];
-            // this.isCheckAll = false;
-            if (data && data !== null && data !== '') {
-              this.openBankAccountDialog(data, ids);
-              this.fetchItems();
-            } else {
-              this.fetchItems();
-            }
+          this.sub.add(dialog.afterClosed().subscribe(() => {
+            this.fetchItems();
           }));
         });
       }else {
         this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
       }
     }
-  }
-  openBankAccountDialog(data: object, ids: object): void {
-    this.dialog.open(GroupBankAccountComponent, {
-      data: {'banks': data, 'ids': ids },
-      width: '655px',
-      panelClass: 'dialog-file'
-    });
   }
 
   checkedRowItems(): boolean {
@@ -147,11 +125,10 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
 
         this.notificationService.warning(title, body, buttons).then(confirmation => {
           if (confirmation.value) {
-            this.monthlyTransferBlockService.update(typeData, '', this.dataTable.criteria.checkedItems.map(item => item['id']))
+            this.monthlyTransferBlockService.update(typeData, '',
+              this.dataTable.criteria.checkedItems.map(item => item['id']))
               .then(response => {
                 if (response) {
-                  // this.checkedItems = [];
-                  // this.isCheckAll = false;
                   this.fetchItems();
                 } else {
                   this.notificationService.error('', 'הפעולה נכשלה');

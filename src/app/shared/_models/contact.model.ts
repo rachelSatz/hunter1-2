@@ -25,9 +25,10 @@ export class Contact {
 
 
 export enum EntityTypes {
-  agent = 'סוכן',
+  // agent = 'סוכן',
   company = 'חברה מנהלת',
-  employer = 'מעסיק'
+  employer = 'מעסיק',
+  service_desk = 'לשכת שרות',
 }
 
 export enum Type {

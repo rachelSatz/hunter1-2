@@ -91,6 +91,11 @@
   color: #fff;
 }
 
+.option.selectable.unSelected:hover, .option.selectable.unSelected {
+  background-color:inherit;
+  color: #b3b3b3;
+}
+
 .error > #selectedItem {
   color: red;
   border-bottom: 1px solid red;

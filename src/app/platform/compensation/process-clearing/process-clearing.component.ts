@@ -19,6 +19,7 @@ import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-f
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 'app/shared/_models/compensation.model';
 import { FormComponent } from './form/form.component';
+import {ProductType} from '../../../shared/_models/product.model';
 
 
 @Component({
@@ -45,7 +46,7 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
     return { id: e, name: CompensationSendingMethods[e] };
   });
   responseTimes = [{id: 2, name: '0-2'}, {id: 4, name: '2-4'}, {id: 5, name: '5+'}];
-
+  productTypes = ProductType;
   nameUserId = 'user_id';
 
   readonly columns  = [
@@ -53,6 +54,8 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
     { name: 'updated_at', label: 'תאריך עדכון בקשה', searchable: false},
     { name: this.nameUserId, label: 'יוצר הבקשה', searchOptions: { labels: [] } },
     { name: 'employer_name', label: 'מעסיק', sortName: 'department__employer__name', searchable: false},
+    { name: 'employee', label: 'עובד', sortName: 'employee__first_name', searchable: false},
+    { name: 'personal_id', label: 'ת"ז', sortName: 'employee__identifier', searchable: false},
     { name: 'validity_date', label: 'תאריך נכונות', searchable: false},
     { name: 'sending_method', label: 'מקור המידע', searchOptions: { labels: this.sourceTypes } },
     { name: 'status', label: 'סטטוס', searchOptions: { labels: this.selectStatuses }},
@@ -235,4 +238,5 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
 }

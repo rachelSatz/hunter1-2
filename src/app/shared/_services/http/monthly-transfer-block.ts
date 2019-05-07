@@ -32,9 +32,18 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
       .catch(() => null);
   }
 
-  createMTBGroup(rowIDs: number[], bankAccountId?: number, groupId?: number, process_id?: number): Promise<boolean> {
+  // createMTBGroup(rowIDs: number[], bankAccountId?: number, groupId?: number, process_id?: number): Promise<boolean> {
+  //   return this.http.post(this.endPoint + '/createOrUpdateMTBGroup',
+  //     {ids: rowIDs, bank_account_id: bankAccountId, groupId: groupId, process_id: process_id }, this.getTokenHeader())
+  //     .toPromise()
+  //     .then(response => response)
+  //     .catch(response => response);
+  // }
+
+  createMTBGroup(ids: number[], productId: number, bankAccountId: number, groupName: string, confirmation: number): Promise<any> {
     return this.http.post(this.endPoint + '/createOrUpdateMTBGroup',
-      {ids: rowIDs, bank_account_id: bankAccountId, groupId: groupId, process_id: process_id }, this.getTokenHeader())
+      {ids: ids, bank_account_id: bankAccountId, product_id: productId,
+        group_name: groupName , confirmation: confirmation}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);

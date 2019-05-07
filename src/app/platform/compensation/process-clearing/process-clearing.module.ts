@@ -16,7 +16,6 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
-import { FormComponent } from './form/form.component';
 // import { DetailsComponent } from './details/details.component';
 // import { AddFileComponent } from './add-file/add-file.component';
 // import { ExcelComponent } from './excel/compensation/compensation.component';
@@ -26,6 +25,7 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { ProcessClearingComponent } from './process-clearing.component';
 import { FormComponent } from './form/form.component';
+import {BdSelectComponent} from '../../../../assets/js/bd-select/bd-select.component';
 
 
 const routes: Routes = [
@@ -47,7 +47,6 @@ const routes: Routes = [
     MatIconModule,
     MatAutocompleteModule,
     DatePickerModule,
-    BdSelectModule,
     DataTableModule,
     PipesModule
   ],

@@ -6,6 +6,12 @@
 </div>
 <form #form="ngForm" class="py-4">
   <div class="mb-4">
+    <bd-select class="w-100" [items]="entityTypes" name="entity_type" #entityTypeSelect="ngModel"
+               (onSelect)="loadEntities($event)"
+               ngModel
+               placeholder="סוג גורם" required [error]="entityTypeSelect.errors && form.submitted"></bd-select>
+  </div>
+  <div class="mb-4">
     <bd-select class="ml-4" name="contactsAdd"  [items]="contacts" placeholder="אנשי קשר"  [multiple]="true" (ngModel)="contactsAdd" ></bd-select>
   </div>
   <mat-form-field class="w-100">
@@ -29,13 +35,10 @@
   <div class="mt-3 pointer">
     <label class="file-label">
       <img src="/assets/img/icons/circle_arrow_up.png">
-      <span class="file-label-text">{{ uploadedFile ? (uploadedFile[0].name | slice : 25) : 'העלאת קובץ חדש' }}</span>
+      <span class="file-label-text">{{ uploadedFile ? (uploadedFile[0].name | slice : 0:20) : 'העלאת קובץ חדש' }}</span>
       <input type="file" (change)="uploadedFile = $event.target.files" multiple>
     </label>
   </div>
-  <!--<mat-form-field class="w-100">-->
-  <!--<textarea  name="comments" matInput placeholder="תוכן" required [(ngModel)]="comments"></textarea>-->
-  <!--</mat-form-field>-->
 </form>
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
 <div mat-dialog-actions class="justify-content-center">

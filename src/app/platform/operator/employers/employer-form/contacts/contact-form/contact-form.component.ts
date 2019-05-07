@@ -4,6 +4,8 @@ import { NgForm } from '@angular/forms';
 
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { Contact, EntityTypes, Type } from 'app/shared/_models/contact.model';
+import { ProductType } from 'app/shared/_models/product.model';
+
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
@@ -27,6 +29,9 @@ export class ContactFormComponent implements OnInit {
   employers = [];
   location: string;
   entityTypes = Object.keys(EntityTypes).map(function(e) {
+    return { id: e, name: EntityTypes[e] };
+  });
+  productTypes = Object.keys(ProductType).map(function(e) {
     return { id: e, name: EntityTypes[e] };
   });
   types = Object.keys(Type).map(function(e) {
@@ -83,6 +88,10 @@ export class ContactFormComponent implements OnInit {
 
     if (type === 'employer') {
       this.contact.entity_id = this.selectUnit.currentEmployerID;
+    }
+
+    if (type === 'service_desk') {
+      this.entities = []; // TO DO
     }
   }
 

@@ -8,6 +8,7 @@ import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade } from 'app/shared/_animations/animation';
 import { AnswerManufacturer } from '../../_models/compensation.model';
+import {EntityTypes} from '../../_models/contact.model';
 
 
 export interface Contact {
@@ -36,6 +37,9 @@ export class InquiryFormComponent implements OnInit {
   Emails: Email[] = [];
   contacts: Contact[] = [];
   answer = [];
+  entityTypes = Object.keys(EntityTypes).map(function(e) {
+    return { id: e, name: EntityTypes[e] };
+  });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog,
               private dialogRef: MatDialogRef<InquiryFormComponent>,
@@ -62,16 +66,48 @@ export class InquiryFormComponent implements OnInit {
       }
     }
 
-    this.helpers.setPageSpinner(true);
-    this.loadContacts();
+    // this.helpers.setPageSpinner(true);
+    // this.loadContacts();
   }
 
-  loadContacts(): void {
-    this.contactService.getEmployerContacts(this.data.companyId, this.data.employerId).then(types => {
+  // loadEntities(): void {
+  //   this.contactService.getEmployerContacts(this.data.companyId, this.data.employerId).then(types => {
+  //     this.contacts = types;
+  //     this.helpers.setPageSpinner(false);
+  //   });
+  // }
+
+  loadEntities(content_type: string): void {
+    let objectId = 0;
+    if (content_type === 'agent') {
+    }
+
+    if (content_type === 'company') {
+      objectId = this.data.companyId;
+    }
+
+    if (content_type === 'employer') {
+      objectId = this.data.employerId;
+
+    }
+
+    if (content_type === 'service_desk') {
+    }
+
+    this.contactService.getEmployerContacts(objectId , this.data.employerId
+  , content_type, 'compensation').then(types => {
       this.contacts = types;
       this.helpers.setPageSpinner(false);
     });
   }
+
+
+  // loadContacts(): void {
+  //   this.contactService.getEmployerContacts(this.data.companyId, this.data.employerId).then(types => {
+  //     this.contacts = types;
+  //     this.helpers.setPageSpinner(false);
+  //   });
+  // }
 
   submit(form: NgForm): void {
     if (form.valid) {

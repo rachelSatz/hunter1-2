@@ -3,25 +3,39 @@
     <i class="fa fa-close"></i>
   </button>
 </div>
-<form #form="ngForm">
-  <div class="mt-1">
-    <h6 class="bold">העברת קבוצה</h6>
-    <br>
-    <div>
-      <div class="row">
-          <bd-select  class="col-6" [ngModel]="groupId" name="groupId" #groupIdSelect="ngModel" value="group_id" [items]="data.groups"  placeholder="בחר קבוצה" required [error]="groupIdSelect.errors && form.submitted"></bd-select>
-      </div>
-      <div>
-        <a (click)="newGroup()" class="bold f-12">> העבר לקבוצה חדשה</a>
-        <!--<button mat-button (click)="newGroup()"> העבר לקבוצה חדשה</button>-->
-        <!--<div *ngIf="isShow">טקסט כלשהוא</div>-->
-      </div>
-    </div>
-    <div class="text-center mb-1">
-      <button class="btn blue-btn" (click)="submit(form)">העברה</button>
-    </div>
-
-    <p class="alert alert-danger " [@fade]="hasServerError ? 'active' : 'inactive'">{{ message }}</p>
+<form #form="ngForm" >
+  <h6 class="bold">העברת קבוצה</h6>
+  <div class="row mt-lg-3">
+    <mat-form-field class="col-4">
+      <input type="text" matInput placeholder="שם קבוצה" name="group_name" ngModel required>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
   </div>
-
+  <div class="row">
+    <div class="col-4">
+      <bd-select [items]="companies" name="company"
+                 (onSelect)="selectedProducts()"
+                 #companySelect="ngModel"
+                 [(ngModel)]="this.employerProductBankAccount.company_id"
+                 placeholder="חברה מנהלת"
+                 required [error]="companySelect.errors && form.submitted"></bd-select>
+    </div>
+    <div class="col-4">
+      <bd-select [items]="products" name="product" #productSelect="ngModel"
+                 [(ngModel)]="this.employerProductBankAccount.product_id"
+                 (onSelect)="selectedBankAccounts()"
+                 placeholder="קופה"
+                 required [error]="productSelect.errors && form.submitted"></bd-select>
+    </div>
+    <div class="col-4">
+      <bd-select [items]="bankAccounts" name="bank_account"
+                 #bankAccountSelect="ngModel"
+                 [(ngModel)]="this.employerProductBankAccount.bank_account_id"
+                 placeholder="בנקים" required
+                 [error]="bankAccountSelect.errors && form.submitted"></bd-select>
+    </div>
+  </div>
+  <div class="mt-4 text-center">
+    <button type="submit" (click)="submit(form)" class="btn blue-btn">הוספה</button>
+  </div>
 </form>

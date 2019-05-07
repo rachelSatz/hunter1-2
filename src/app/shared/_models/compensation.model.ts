@@ -24,7 +24,7 @@ export class Compensation {
   answering_manufacturer: string;
   showHistory: boolean;
   units: UserUnitPermission[] = [];
-
+  extend_clearing: Compensation[] = [];
   has_file_feedback: boolean;
   xml_name: string;
 

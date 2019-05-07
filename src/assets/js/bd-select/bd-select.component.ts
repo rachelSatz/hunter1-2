@@ -142,14 +142,28 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
           return;
         }
       });
+      let isSelectAll = false;
+      if (this.selectedItem) {
+        this.selectedItem.some((selectedItem) => {
+          if (0 === selectedItem[this.value]) {
+            isSelectAll = true;
+            return;
+          }
+        });
+      }
 
-      if (isSelect) {
+      if (isSelect && !isSelectAll) {
+        if ( item[this.value] === 0) {
+          this.selectedItem = [];
+        }
         this.selectedItem.push(item);
       }
 
+
+
       if (this.selectedItem != null) {
         output = this.selectedItem.map(outputItem => {
-          return outputItem[this.value] ? outputItem[this.value] : outputItem;
+          return outputItem[this.value]  || outputItem[this.value] === 0 ? outputItem[this.value] : outputItem;
         });
       }
     }
@@ -164,6 +178,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   }
 
   checkIsSelected(item: any): boolean {
+    // console.log(this.selectedItem)
     if (!this.selectedItem) {
       return false;
     }
@@ -177,6 +192,26 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
         return true;
       }
     });
+  }
+
+  checkIsUnSelected(item: any): boolean {
+    if (!this.selectedItem || !this.multiple) {
+      return false;
+    }
+
+    let isSelectAll = false;
+    this.selectedItem.some((selectedItem) => {
+      if (0 === selectedItem[this.value]) {
+        isSelectAll = true;
+        return;
+      }
+    });
+
+    if (isSelectAll) {
+      if (item[this.value] !== 0) {
+          return true;
+      }
+    } return false;
   }
 
   ngOnChanges() {

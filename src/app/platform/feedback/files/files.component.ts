@@ -51,6 +51,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
     {name: 'send_request', label: 'שלח פנייה', searchable: false},
     {name: 'inquiries', label: 'פניות', searchable: false},
     {name: 'comments', label: 'הערות', searchable: false},
+    {name: 'records', label: 'פרוט רשומות' , isSort: false, searchable: false},
     {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'updated_at', label: 'תאריך עדכון אחרון',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'broadcast_date', label: 'תאריך שידור', searchOptions: { isDate: true }, isDisplay: false},
@@ -125,6 +126,11 @@ export class FilesComponent implements OnInit, OnDestroy  {
       data: {'id': id, 'contentType': 'groupthing'},
       width: '860px',
     });
+  }
+
+  detailsRecords(fileId: number): void {
+    this.router.navigate(['/platform', 'feedback', 'employees' ],
+      { queryParams: {  fileId: fileId, year: this.dataTable.criteria.filters['year'] }});
   }
 
   ngOnDestroy() {

@@ -4,10 +4,9 @@ import { NgForm } from '@angular/forms';
 
 import { EmployerProductBankAccount } from 'app/shared/_models/employer-product-bank-account';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import  {SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { Company } from 'app/shared/_models/company.model';
-import {ProductService} from '../../../../../../shared/_services/http/product.service';
 
 
 
@@ -30,8 +29,7 @@ export class DefrayalFormComponent implements OnInit {
               private router: Router,
               private employerService: EmployerService,
               private selectUnit: SelectUnitService,
-              private notificationService: NotificationService,
-              private productService: ProductService) { }
+              private notificationService: NotificationService) { }
 
   ngOnInit() {
     if (this.router.url.includes( 'employers')) {

@@ -32,6 +32,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   sub = new Subscription();
   year = new Date().getFullYear();
+  fileId: string;
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
   months = MONTHS;
   statuses = Status;
@@ -60,14 +61,16 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     { name: 'inquiries', label: 'פניות', searchable: false},
     { name: 'comments', label: 'הערות', searchable: false}
   ];
-  constructor(public dialog: MatDialog, route: ActivatedRoute,
+  constructor(public dialog: MatDialog, public route: ActivatedRoute,
               private notificationService: NotificationService,
               private feedbackService: FeedbackService,
               private selectUnitService: SelectUnitService) {
   }
 
   ngOnInit() {
-    this.dataTable.criteria.filters['year'] = this.year;
+    this.fileId = this.route.snapshot.queryParams['fileId'];
+
+    this.dataTable.criteria.filters['year'] = this.fileId ? Number(this.route.snapshot.queryParams['year']) : this.year;
     this.sub.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
   }
 
@@ -81,7 +84,8 @@ export class EmployeesComponent implements OnInit , OnDestroy {
       this.dataTable.criteria.filters['employerId'] = employerId;
       this.dataTable.criteria.filters['organizationId'] = organizationId;
       this.dataTable.criteria.filters['departmentId'] = departmentId;
-      // this.dataTable.criteria.filters['salaryYear'] = this.year;
+      if (this.fileId) {
+        this.dataTable.criteria.filters['fileId'] = this.fileId; }
       this.feedbackService.searchEmployeeData(this.dataTable.criteria).then(response => {
         this.dataTable.setItems(response);
       });
