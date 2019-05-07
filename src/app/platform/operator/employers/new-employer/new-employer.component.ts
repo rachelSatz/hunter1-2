@@ -142,7 +142,6 @@ export class NewEmployerComponent implements OnInit {
 
   enableOrganization(form: NgForm , isEdit: Boolean): void {
     this.isEdit = !isEdit;
-    const employerDetails = (<FormGroup>this.newEmployerForm.get('employerDetails').value);
     if (isEdit) {
       this.newEmployerForm.controls['employerDetails'].patchValue({'newOrganization': null});
     } else {

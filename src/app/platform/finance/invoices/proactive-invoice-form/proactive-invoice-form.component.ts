@@ -19,7 +19,7 @@ export class ProactiveInvoiceFormComponent implements OnInit {
 
   employers: any;
   message: string;
-  invoice = [];
+  invoice: string;
 
   constructor(private route: ActivatedRoute, private router: Router, private invoiceService: InvoiceService,
               private employerService: EmployerService,  private selectUnit: SelectUnitService) { }

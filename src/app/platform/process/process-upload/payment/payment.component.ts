@@ -182,7 +182,6 @@ export class PaymentComponent implements OnInit , OnDestroy {
       FileSaver.saveAs(blob, 'הנחיות תשלום.xlsx');
       this.spin = false;
     });
-
   }
 
 
