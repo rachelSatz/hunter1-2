@@ -14,6 +14,9 @@ export class EmployerFinancialDetails {
   green_invoice_id: string;
   green_invoice_email: string;
   direct_debit_commission: string;
+  est_payment_type: string;
+  est_payment_amount: string;
+  est_ids_count: string;
 
   constructor() {
       this.id = 0;

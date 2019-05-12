@@ -31,7 +31,7 @@ export class FinanceComponent implements OnInit {
   rowIndex: number;
   additionalPayment: boolean;
   payEmployers: any;
-
+  isEstablishingPayment: boolean;
   paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function(e) {
     return { id: e, name: PAYMENT_TERMS[e] };
   });
@@ -94,6 +94,22 @@ export class FinanceComponent implements OnInit {
       this.additionalPayment = false;
     }
   }
+  addEstablishing(isChecked: boolean): void {
+    if (isChecked) {
+      this.isEstablishingPayment = true;
+    } else {
+      this.isEstablishingPayment = false;
+    }
+  }
+
+  displayCheckedAdditional(product: EmployerFinancialProduct): boolean {
+    if (product.additional_payment_amount > 0 && product.additional_payment_desc != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   refresh(): void {
     window.location.reload();
   }
