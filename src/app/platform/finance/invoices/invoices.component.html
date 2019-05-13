@@ -31,13 +31,27 @@
       <!--{{ invoice_all_status[item.status] }}-->
     <!--</td>-->
     <td class="select-status">
-      <bd-select [items]="status" placeholder="" #statusSelect="ngModel" name="status" [(ngModel)]="item.status" (onselect)="setInvoiceStatus(item.id, item.status)" required></bd-select>
+      <!--<mat-select [(ngModel)]="item.status" [value]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>-->
+        <!--<mat-option [value]="invoice_status.waiting_for_payment">ממתין לתשלום</mat-option>-->
+        <!--<mat-option [value]="invoice_status.canceled">בוטל</mat-option>-->
+        <!--<mat-option [value]="invoice_status.green_invoice_error">לא נשלח לחשבונית ירוקה</mat-option>-->
+        <!--<mat-option [value]="invoice_status.green_invoice_valid">נשלח חשבונית ירוקה</mat-option>-->
+        <!--<mat-option [value]="invoice_status.paid">שולם</mat-option>-->
+      <!--</mat-select>-->
+
+
+      <mat-select name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
+        <mat-option *ngFor="let st of status" [value]="st.id">{{ st.name }}</mat-option>
+      </mat-select>
+      <!--<bd-select [items]="status" placeholder="" #statusSelect="ngModel" name="status"-->
+                 <!--[(ngModel)]="item.status" (onselect)="setInvoiceStatus(item.id, item.status)"-->
+                 <!--required></bd-select>-->
     </td>
     <td>
       <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" *ngIf="item.status !== 'closed'"></i>
       <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" *ngIf="item.status === 'closed'"></i>
     </td>
-    <td>
+    <td *ngIf="item.description != ''">
       <i class="fa fa-download fa-lg ml-2" title="פירוט עובדים בחשבונית" (click)="downloadEmployeesExcel(item.id)" ></i>
     </td>
   </tr>
