@@ -5,7 +5,7 @@
       <div class="d-flex">
         <mat-form-field [ngClass]="{'disabledInput' : !isEdit}">
           <input matInput placeholder="ארגון חדש" formControlName="newOrganization" [(ngModel)]='newOrganization'
-                 [required]="organizationId == 0">
+                 [required]="isEdit">
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
         <div>
@@ -15,17 +15,14 @@
       </div>
     <p class="h4 mb-4">הקמת מעסיק</p>
     <p class="f-12 bold mt-5">פרטים</p>
-      <div>
-        <mat-form-field class="pl-5" [ngClass]="{'disabledInput' : isEdit}" >
-          <mat-select matInput placeholder="ארגון" formControlName="organization" [required]="!newOrganization ">
-            <mat-option *ngFor="let organization of organizations" [value]="organization.id"
-                        (onSelectionChange)="getOperator(organization.id)">
-              {{organization.value}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="">שדה חובה</mat-error>
-        </mat-form-field>
-        <mat-form-field>
+      <div class="d-flex">
+        <div class="bd-width181" [ngClass]="{'disabledInput' : isEdit}">
+          <bd-select [items]="organizations" formControlName="organization"
+                     [required]="!isEdit" placeholder="ארגון" label="value"
+                     (onSelect)="getOperator($event)"
+                      class="bd-min-width" [error]="organizationId==0 && form.submitted && !isEdit"  ></bd-select>
+        </div>
+        <mat-form-field  class="mr-5">
           <input matInput placeholder="שם מעסיק" formControlName="name">
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
@@ -73,6 +70,24 @@
       </div>
       <div>
         <mat-form-field>
+          <mat-select matInput placeholder="סוג תשלום" formControlName="paymentType">
+            <mat-option *ngFor="let payment of paymentType" [value]="payment.id">{{payment.name}}</mat-option>
+          </mat-select>
+          <mat-error>שדה חובה</mat-error>
+        </mat-form-field>
+        <mat-form-field  class="mr-5">
+          <input matInput placeholder="קוד מוסד(5)" formControlName="institutionCode5" maxlength="5"
+                 [required]="newEmployerForm.controls['employerDetails'].value.paymentType === 'masav'">
+          <mat-error>קוד מוסד לא תקין</mat-error>
+        </mat-form-field>
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="קוד מוסד(8)" formControlName="institutionCode8" maxlength="8"
+                 [required]="newEmployerForm.controls['employerDetails'].value.paymentType === 'masav'">
+          <mat-error>קוד מוסד לא תקין</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
           <mat-select matInput placeholder="סוג מזהה לשליחה" formControlName="identifierType">
             <mat-option *ngFor="let identifier of identifierTypes" [value]="identifier.id">{{identifier.name}}</mat-option>
           </mat-select>
@@ -80,16 +95,6 @@
         </mat-form-field>
         <mat-form-field  class="mr-5">
           <input matInput placeholder="מספר מזהה לשליחה" formControlName="sendingNumber" maxlength="9">
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <input matInput placeholder="קוד מוסד(5)" formControlName="institutionCode5" maxlength="5">
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
-        <mat-form-field class="mr-5">
-          <input matInput placeholder="קוד מוסד(8)" formControlName="institutionCode8" maxlength="8">
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
       </div>
@@ -127,7 +132,7 @@
             <input matInput placeholder="מספר חשבון" formControlName="accountNumber" required maxlength="9">
             <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
           </mat-form-field>
-        </div>
+    </div>
     <mat-form-field id="comments">
       <input matInput placeholder="הוספת הערות" formControlName="comments">
     </mat-form-field>

@@ -110,6 +110,10 @@ export class DepartmentFormComponent implements OnInit {
     }
   }
 
+  numberManufacturer(): void {
+
+  }
+
   // back(): void {
   //   const empId = this.selectUnit.currentEmployerID > 0 ? this.selectUnit.currentEmployerID : this.router.url.slice(25, 26);
   //   if (this.router.url.includes( 'operator')) {

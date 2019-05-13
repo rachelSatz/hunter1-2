@@ -20,11 +20,12 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { CommentsComponent } from './detailed-files/comments/comments.component';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
-import { GroupTransferComponent } from './detailed-records/group-transfer/group-transfer.component';
+import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 import { AttachReferenceComponent } from './detailed-files/attach-reference/attach-reference.component';
 import { UpdatePaymentTypeComponent } from './detailed-files/update-payment-type/update-payment-type.component';
 import { UpdatePaymentDateComponent } from './detailed-files/update-payment-date/update-payment-date.component';
 import { UpdateAccountNumberComponent } from './detailed-files/update-account-number/update-account-number.component';
+import {EditPaymentsComponent} from './detailed-records/edit-payments/edit-payments.component';
 
 
 const routes: Routes = [

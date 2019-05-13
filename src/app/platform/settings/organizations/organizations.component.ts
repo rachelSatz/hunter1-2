@@ -20,10 +20,13 @@ export class OrganizationsComponent implements OnInit , OnDestroy {
   constructor(route: ActivatedRoute, private organizationService: OrganizationService) {
   }
 
-  ngOnInit() {
-    this.organizationService.getOrganizationTable().then(response => {
+  fetchItems() {
+    this.organizationService.getOrganizationTable(this.dataTable.criteria).then(response => {
       this.dataTable.setItems(response);
     });
+  }
+
+  ngOnInit() {
   }
 
   ngOnDestroy() {

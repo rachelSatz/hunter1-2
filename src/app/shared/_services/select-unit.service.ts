@@ -87,7 +87,7 @@ export class SelectUnitService {
   // }
 
   logout(): void {
-    this.changeOrganizationEmployerDepartment(0,0,0);
+    this.changeOrganizationEmployerDepartment(0, 0, 0);
     sessionStorage.removeItem('organizationID');
     sessionStorage.removeItem('employerID');
     sessionStorage.removeItem('departmentID');

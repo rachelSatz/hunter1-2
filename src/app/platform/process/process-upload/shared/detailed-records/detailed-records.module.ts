@@ -8,7 +8,11 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatSelectModule,
-  MatDialogModule, MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule
+  MatDialogModule,
+  MatProgressBarModule,
+  MatTooltipModule,
+  MatProgressSpinnerModule,
+  MatDatepickerModule
 } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
@@ -16,9 +20,9 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DetailedRecordsComponent } from './detailed-records.component';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { EditPaymentsComponent } from './edit-payments/edit-payments.component';
 
 const route: Routes = [{ path: '', component: DetailedRecordsComponent }];
-
 @NgModule({
   imports: [
     CommonModule,
@@ -26,9 +30,10 @@ const route: Routes = [{ path: '', component: DetailedRecordsComponent }];
     FormsModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule, MatMenuModule,
     MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule, MatIconModule,
-    BdSelectModule, DataTableModule
+    BdSelectModule, DataTableModule, MatDatepickerModule
   ],
   providers: [ NotificationService],
-  declarations: [DetailedRecordsComponent]
+  declarations: [DetailedRecordsComponent, EditPaymentsComponent],
+  entryComponents: [ EditPaymentsComponent ]
 })
 export class DetailedRecordsModule { }

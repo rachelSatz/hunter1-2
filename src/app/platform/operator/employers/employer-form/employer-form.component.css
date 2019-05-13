@@ -1,19 +1,65 @@
-#headers > span {
-  width: 11%;
-  padding-left: 5px;
-  padding-right: 5px;
+/*#headers > span {*/
+  /*width: 11%;*/
+  /*padding-left: 5px;*/
+  /*padding-right: 5px;*/
+  /*font-weight: bold;*/
+  /*font-size: 20px;*/
+  /*cursor: pointer;*/
+  /*border-bottom: 2px solid #E1E1E1;*/
+/*}*/
+
+
+/*.active {*/
+  /*border-bottom: 2px solid #00ADEE !important;*/
+  /*color: #00ADEE !important;*/
+/*}*/
+
+.container-fluid {
+  padding-right: 0;
+  margin: 0 auto;
+  margin-top: 3%;
+}
+
+header {
+  /*margin-bottom: 20px;*/
+  border-bottom: 2px solid #cecece;
+  /*border-radius: 8px 8px 0 0;*/
+}
+
+.navbar {
+  padding: 15px 0 0 0;
+}
+
+.nav-item {
   font-weight: bold;
   font-size: 20px;
-  cursor: pointer;
-  border-bottom: 2px solid #E1E1E1;
+  width: 200px;
+  margin-bottom: -19px;
+  text-align: center;
+  border-bottom: 2px solid transparent;
 }
 
-
-.active {
-  border-bottom: 2px solid #00ADEE !important;
-  color: #00ADEE !important;
+.active p{
+  color: #00adee;
 }
 
+.menu-link {
+  color: #000;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+::ng-deep .mat-menu-panel{
+  width: 200px;
+}
+
+/*::ng-deep .cdk-overlay-connected-position-bounding-box{*/
+  /*top: 353.375px  !important;*/
+/*}*/
+
+.active .menu-link {
+  color: #00adee;
+}
 
 
 

@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {Router, NavigationStart, NavigationEnd} from '@angular/router';
 
-import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
+import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { AppHttpService } from '../shared/_services/http/app-http.service';
+import { ProductService } from '../shared/_services/http/product.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade, slideInOut } from 'app/shared/_animations/animation';
-import { TimerService } from '../shared/_services/http/timer';
-import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
 import { TaskTimerLabels } from '../shared/_models/timer.model';
-import { ProductService } from '../shared/_services/http/product.service';
+import { TimerService } from '../shared/_services/http/timer';
 
 @Component({
   selector: 'app-platform',
@@ -28,8 +29,6 @@ export class PlatformComponent implements OnInit {
   departmentId: any;
   agentBarActive = true;
   isAgent = false;
-
-  // timer
   seconds: string;
   minutes: string;
   hours: string;
@@ -77,13 +76,14 @@ export class PlatformComponent implements OnInit {
   private _is_Employer: boolean;
 
   constructor(private router: Router,
-              private userSession: UserSessionService,
+              public userSession: UserSessionService,
               private organizationService: OrganizationService,
               public selectUnit: SelectUnitService,
               public helpers: HelpersService,
               public timerService: TimerService,
               private operatorTasks: OperatorTasksService,
-              private productService: ProductService) {
+              private productService: ProductService,
+              public appHttp: AppHttpService) {
 
     const company = this.selectUnit.getCompanies() as any[];
     if ( company.length <= 0) {
@@ -181,9 +181,7 @@ export class PlatformComponent implements OnInit {
     this.agentBarActive = !this.agentBarActive;
     if (this.agentBarActive ) {
         this.selectUnit.changeOrganizationEmployerDepartment
-        (this.organizationId, this.employerId['id'] || this.employerId['id'] === 0
-          ? this.employerId['id'] : this.employerId  ,
-          this.departmentId['id'] || this.departmentId['id'] === 0  ? this.departmentId['id'] : this.departmentId);
+        (this.organizationId, this.employerId, this.departmentId);
     } else {
       this.selectUnit.changeOrganizationEmployerDepartment(0, 0, 0);
     }
@@ -217,35 +215,41 @@ export class PlatformComponent implements OnInit {
   }
 
   logout(): void {
+    // this.appHttp.removeToken().then();
     this.userSession.logout();
     this.selectUnit.logout();
+    this.selectUnit.changeOrganizationEmployerDepartment(0, 0, 0);
     this.selectUnit.changeOrganizationEmployerDepartment(0, 0, 0);
     window.sessionStorage.clear();
     this.router.navigate(['/']);
   }
 
   loadEmployers(organizationID: number): void {
-    this.employers = this.selectUnit.getOrganization().find(o => o.id === organizationID).employer;
+    this.getEmployers(organizationID);
+    if (!this._is_Employer) {
+      this.employerId = this.employers.length > 0 ? this.employers[0].id : 0;
+      this.organizationId = organizationID;
+    }
+    this.loadDepartments(this.employerId);
+  }
+
+  getEmployers(organizationId: number): void {
+    this.employers = this.selectUnit.getOrganization().find(o => o.id === organizationId).employer;
     if (this.employers.length > 1) {
       if (!this.employers.some(e => e.id === 0)) {
-        this.employers.push({'id': 0, 'name': 'כלל המעסיקים'});
+        this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
       }
     }
     this.employers.sort((a, b) => a.id - b.id);
-    if (!this._is_Employer) {
-      this.employerId = this.employers.length > 0 ? this.employers[0] : 0;
-      this.organizationId = organizationID;
-    }
-    this.loadDepartments(this.employerId['id'] ? this.employerId['id'] : 0);
   }
 
-  loadDepartments(employerID: number): void {
-    if (employerID > 0) {
-      this.employers = this.selectUnit.getOrganization().find(o => o.id === this.organizationId).employer;
-      this.departments = this.employers.find(e => e.id === employerID).department;
+  loadDepartments(employerId: number): void {
+    if (employerId > 0) {
+      this.getEmployers(this.organizationId);
+      this.departments = this.employers.find(e => e.id === employerId).department;
       if (this.departments.length > 1) {
         if (!this.departments.some(d => d.id === 0)) {
-          this.departments.push({'id': 0, 'name': 'כלל המחלקות'});
+          this.departments.push({'id': '0', 'name': 'כלל המחלקות'});
         }
       }
       this.departments.sort((a, b) => a.id - b.id);
@@ -253,15 +257,15 @@ export class PlatformComponent implements OnInit {
       this.departments = [];
     }
     if (!this._is_Employer) {
-      this.departmentId = this.departments.length > 0 ? this.departments[0] : 0;
-      this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, employerID,
-        this.departments.length > 0 ? this.departmentId['id'] : 0);
+      this.departmentId = this.departments.length > 0 ? this.departments[0].id : 0;
+      this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, +employerId,
+        +this.departmentId);
     }
     this.helpers.setPageSpinner(false);
   }
 
   selectDepartment(departmentID: number): void {
-    this.selectUnit.changeDepartment(departmentID);
+    this.selectUnit.changeDepartment(+departmentID);
   }
 
   navigate(link, subLink) {
@@ -300,4 +304,13 @@ export class PlatformComponent implements OnInit {
         response => response);
     }
   }
+
+  // @HostListener('window:beforeunload', ['$event'])
+  // beforeUnloadHander(event) {
+  //   console.log(event);
+  //   this.logout();
+  //   return false;
+  // }
+
+
 }

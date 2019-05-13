@@ -50,6 +50,7 @@ export class Owner {
   employee_status: string;
   employee_status_start_date: string;
   work_month_percentage: number;
+  working_days_in_month: number;
   is_relevant: number;
   policy_or_account_number: string;
   owner_type: string;

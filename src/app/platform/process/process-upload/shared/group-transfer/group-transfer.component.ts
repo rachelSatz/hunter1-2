@@ -2,12 +2,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { fade } from 'app/shared/_animations/animation';
-import {Company} from '../../../../../../shared/_models/company.model';
-import {SelectUnitService} from '../../../../../../shared/_services/select-unit.service';
-import {EmployerProductBankAccount} from '../../../../../../shared/_models/employer-product-bank-account';
-import {NotificationService} from '../../../../../../shared/_services/notification.service';
+import { Company } from 'app/shared/_models/company.model';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { EmployerProductBankAccount } from 'app/shared/_models/employer-product-bank-account';
+import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 
 
 @Component({
@@ -15,7 +15,7 @@ import {NotificationService} from '../../../../../../shared/_services/notificati
   templateUrl: './group-transfer.component.html',
   animations: [ fade ]
 })
-export class GroupTransferComponent implements OnInit {
+export class  GroupTransferComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<GroupTransferComponent>,
@@ -55,7 +55,7 @@ export class GroupTransferComponent implements OnInit {
     if (form.valid) {
 
       this.mtbService.createMTBGroup(
-        this.data.ids, form.value.product , form.value.bank_account, form.value.group_name, 0 ).then(
+        this.data.ids, form.value.product , form.value.bank_account, form.value.group_name, 0, this.data.type ).then(
           response => { if (response.groupList) {
             const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
@@ -63,7 +63,8 @@ export class GroupTransferComponent implements OnInit {
               '', 'קבוצה זו קימת האם ברצונך לפתוח קבוצה חדשה?', buttons).then(confirmation => {
                 console.log (confirmation.value);
                 this.mtbService.createMTBGroup(this.data.ids,
-                form.value.product , form.value.bank_account, form.value.group_name, confirmation.value ? 1 : -1 )
+                form.value.product , form.value.bank_account, form.value.group_name,
+                  confirmation.value ? 1 : -1 , this.data.type)
                   .then(r => this.dialogRef.close());
             });
 

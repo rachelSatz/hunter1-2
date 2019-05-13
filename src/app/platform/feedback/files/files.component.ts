@@ -107,7 +107,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
 
   openInquiresDialog(item: any): void {
     this.dialog.open(InquiryFormComponent, {
-      data: {'id': item.id, 'contentType': 'groupthing', 'employerId': this.selectUnit.currentEmployerID,
+      data: {'id': item.id, 'contentType': 'file_repayment', 'employerId': this.selectUnit.currentEmployerID,
         'companyId': item.company_id, 'file_name': item.file_name, 'product_code': item.product_code,
         'product_name': item.product_name},
       width: '550px',

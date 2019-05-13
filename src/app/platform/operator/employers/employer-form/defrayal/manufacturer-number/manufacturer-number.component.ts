@@ -1,16 +1,15 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
 @Component({
-  selector: 'app-defrayal',
-  templateUrl: './defrayal.component.html',
-  styleUrls: ['../../../../../shared/data-table/data-table.component.css']
+  selector: 'app-manufacturer-number',
+  templateUrl: './manufacturer-number.component.html',
 })
-export class DefrayalComponent implements OnInit {
+export class ManufacturerNumberComponent implements OnInit {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
@@ -25,6 +24,7 @@ export class DefrayalComponent implements OnInit {
 
 
   constructor(protected route: ActivatedRoute,
+              private router: Router,
               private employerService: EmployerService,
               private selectUnit: SelectUnitService) {
   }

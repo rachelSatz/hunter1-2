@@ -9,8 +9,8 @@ import { ProductType } from 'app/shared/_models/product.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
-import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade } from 'app/shared/_animations/animation';
+import {EmployerService} from '../../../../../../shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -32,7 +32,7 @@ export class ContactFormComponent implements OnInit {
     return { id: e, name: EntityTypes[e] };
   });
   productTypes = Object.keys(ProductType).map(function(e) {
-    return { id: e, name: EntityTypes[e] };
+    return { id: e, name: ProductType[e] };
   });
   types = Object.keys(Type).map(function(e) {
     return { id: e, name: Type[e] };
@@ -41,14 +41,15 @@ export class ContactFormComponent implements OnInit {
   organizations = [];
   disabled: boolean;
   is_update: boolean;
+  type_old: string;
 
   constructor( private route: ActivatedRoute,
                private selectUnit: SelectUnitService,
                private router: Router,
                private productService: ProductService,
                private contactService: ContactService,
-               protected notificationService: NotificationService,
-               private helpers: HelpersService) {}
+               private employerService: EmployerService,
+               protected notificationService: NotificationService) {}
 
   ngOnInit() {
     this.organizations = this.selectUnit.getOrganization();
@@ -70,14 +71,14 @@ export class ContactFormComponent implements OnInit {
       this.is_update = true;
       this.contact = this.route.snapshot.data.contact;
       this.employerId =  this.contact.employer_id;
-    }
-
-    if (this.contact.id) {
-      this.loadEntities( this.contact.entity_type);
+      this.type_old = this.contact.entity_type;
     }
   }
 
   loadEntities(type: string): void {
+    this.contact.entity_id = this.type_old !== type ? 0 : this.contact.entity_id;
+    this.entities = [];
+    this.type_old = type;
     if (type === 'agent') {
       this.entities = [];
     }
@@ -90,8 +91,15 @@ export class ContactFormComponent implements OnInit {
       this.contact.entity_id = this.selectUnit.currentEmployerID;
     }
 
-    if (type === 'service_desk') {
-      this.entities = []; // TO DO
+    if (type === 'user') {
+      if (this.selectUnit.currentEmployerID === 0) {
+        this.notificationService.error( 'יש לבחור מעסיק');
+      } else {
+        this.employerService.getOperator(this.selectUnit.currentEmployerID, 'employerId', true).then(
+          response => {
+          this.entities = response;
+        });
+      }
     }
   }
 

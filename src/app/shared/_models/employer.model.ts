@@ -5,6 +5,7 @@ import { Department } from './department.model';
 export class Employer {
   id: number;
   name: string;
+  payment_type: string;
   business_number: string;
   institution_code_5: string; // instituteCode5: string; // קוד מוסד - 5
   institution_code_8: string; // instituteCode8: string; // קוד מוסד - 8
@@ -28,6 +29,7 @@ export class Employer {
   status: string;
   department: Department[];
   operator;
+  identifier_type: string;
   deduction_number: number;
   project_id: number;
   project_name: string;

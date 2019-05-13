@@ -1,13 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {formatDate } from '@angular/common';
-import * as FileSaver from 'file-saver';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { formatDate } from '@angular/common';
 
-import { EmployerService } from 'app/shared/_services/http/employer.service';
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { UserService } from 'app/shared/_services/http/user.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import {CompensationSendingMethods} from 'app/shared/_models/compensation.model';
-import {Subscription} from 'rxjs';
+import { CompensationSendingMethods } from 'app/shared/_models/compensation.model';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { UserService } from 'app/shared/_services/http/user.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({

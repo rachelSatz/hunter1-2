@@ -2,6 +2,17 @@
   width: 635px;
 }
 
+.bd-width181 {
+  width: 181px;
+  margin-top: 10px;
+}
+
+
+.bd-min-width {
+  min-width: 10px !important;
+}
+
+
 .bd-width {
   width: 175px;
   margin-top: 10px;

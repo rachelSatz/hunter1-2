@@ -9,14 +9,12 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { Company } from 'app/shared/_models/company.model';
 
 
-
-
 @Component({
-  selector: 'app-defrayal-form',
-  templateUrl: './defrayal-form.component.html'
+  selector: 'app-bank-default-product-form',
+  templateUrl: './bank-default-product-form.component.html',
+  styleUrls: ['./bank-default-product-form.component.css']
 })
-export class DefrayalFormComponent implements OnInit {
-
+export class BankDefaultProductFormComponent implements OnInit {
   employerProductBankAccount = new EmployerProductBankAccount;
   companies: Company[] = [];
   products = [];
@@ -49,6 +47,8 @@ export class DefrayalFormComponent implements OnInit {
     if (this.route.snapshot.data.employerBankAccount) {
       this.employerProductBankAccount = this.route.snapshot.data.employerBankAccount;
     }
+
+
   }
 
   selectedBankAccounts(): void {
@@ -73,13 +73,14 @@ export class DefrayalFormComponent implements OnInit {
       }
       this.employerService.setDefaultEmployerBA(this.selectUnit.currentEmployerID,  this.employerProductBankAccount)
         .then(response =>  {
-            if (response === 'ok') {
-              this.router.navigate(this.navigate);
-            } else {
-              const c = response === 'exists' ? 'קיים בנק דיפולט לקופה זו' : 'בקשה נכשלה';
-              this.notificationService.error('', c);
-            }
+          if (response === 'ok') {
+            this.router.navigate(this.navigate);
+          } else {
+            const c = response === 'exists' ? 'קיים בנק דיפולט לקופה זו' : 'בקשה נכשלה';
+            this.notificationService.error('', c);
+          }
         });
     }
   }
+
 }

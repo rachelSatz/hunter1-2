@@ -1,13 +1,14 @@
-import {FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { EmployerStatus, IdentifierTypes } from 'app/shared/_models/employer.model';
+import { OrganizationService } from 'app/shared/_services/http/organization.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { PlatformComponent } from '../../../platform.component';
+import { PaymentType } from 'app/shared/_models/process.model';
 import { fade } from 'app/shared/_animations/animation';
 
 @Component({
@@ -30,7 +31,8 @@ export class NewEmployerComponent implements OnInit {
   selectedBranchW;
   newOrganization: string;
   newEmployerForm: FormGroup;
-  organizationId: 0;
+  organizationId: number;
+
   hasServerError = false;
   identifierTypes = Object.keys(IdentifierTypes).map(function(e) {
     return { id: e, name: IdentifierTypes[e] };
@@ -38,16 +40,19 @@ export class NewEmployerComponent implements OnInit {
   statuses = Object.keys(EmployerStatus).map(function(e) {
     return { id: e, name: EmployerStatus[e] };
   });
+  paymentType = Object.keys(PaymentType).map(function(e) {
+    return { id: e, name: PaymentType[e] };
+  });
   isEdit = false;
-  // hasOrganization = false;
-
   constructor(private fb: FormBuilder,
               private generalHttpService: GeneralHttpService,
               private router: Router,
               private organizationService: OrganizationService,
               private employerService: EmployerService,
               private  helpers: HelpersService,
-              private  platformComponent: PlatformComponent) { }
+              private  platformComponent: PlatformComponent) {
+    this.organizationId = 0;
+  }
 
   ngOnInit() {
     this.initForm();
@@ -77,8 +82,9 @@ export class NewEmployerComponent implements OnInit {
           'status': [null, Validators.required],
           'identifierType': [null, Validators.required],
           'sendingNumber': [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
-          'institutionCode5': [null, [Validators.pattern('^\\d{5}$'), Validators.required]],
-          'institutionCode8': [null, [Validators.pattern('^\\d{8}$'), Validators.required]],
+          'paymentType': [null, Validators.required],
+          'institutionCode5': [null, [Validators.pattern('^\\d{5}$')]],
+          'institutionCode8': [null, [Validators.pattern('^\\d{8}$')]],
 
         }),
         'department': this.fb.group({
@@ -128,8 +134,9 @@ export class NewEmployerComponent implements OnInit {
     }
   }
 
-  getOperator( organizationId) {
+  getOperator( organizationId): void {
     this.organizationId = organizationId;
+    console.log(this.organizationId );
     this.employerService.getOperator(organizationId, 'organizationId').then(response => {
       this.operators = response;
     });
@@ -146,22 +153,12 @@ export class NewEmployerComponent implements OnInit {
       this.newEmployerForm.controls['employerDetails'].patchValue({'newOrganization': null});
     } else {
         this.newEmployerForm.controls['employerDetails'].patchValue({'organization': null});
+        this.organizationId = 0;
         this.getAllOperator();
     }
   }
 
-  // hasValOrganization(): void {
-  //   const employerDetails = (<FormGroup>this.newEmployerForm.get('employerDetails').value);
-  //   if (employerDetails['newOrganization'] !== null) {
-  //     // employerDetails.get('organization').clearValidators();
-  //     this.newEmployerForm.get('organization').clearValidators();
-  //     this.hasOrganization = true;
-  //     // employerDetails['organization'].clearValidators();
-  //   }
-  // }
-
   submit(form: NgForm): void {
-    // this.hasValOrganization();
      if (this.newEmployerForm.valid) {
        this.helpers.setPageSpinner(true);
        this.employerService.newEmployer( this.newEmployerForm.controls['employerDetails'].value,

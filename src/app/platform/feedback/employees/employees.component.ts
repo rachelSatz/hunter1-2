@@ -106,7 +106,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   openInquiresDialog(item: any): void {
     this.dialog.open(InquiryFormComponent, {
-      data: {'id': item.id, 'contentType': 'monthlytransferblock',
+      data: {'id': item.id, 'contentType': 'employee_repayment',
         'employerId': this.selectUnitService.currentEmployerID, 'companyId': item.company_id,
         'file_name': '', 'product_code': item.product_code,
         'product_type': item.product_type, 'employee_id': item.personal_id, 'employee_name': item.name},

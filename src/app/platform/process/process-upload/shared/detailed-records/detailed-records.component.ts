@@ -1,15 +1,17 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { DepositStatus, DepositType } from 'app/shared/_models/monthly-transfer-block';
+import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
+import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
+import { EditPaymentsComponent } from './edit-payments/edit-payments.component';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductType } from 'app/shared/_models/product.model';
-import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 
 import { Subscription } from 'rxjs';
 
@@ -22,8 +24,10 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
-  nameEmployerProductCode = 'employer_product_code';
-  nameEmployeeName = 'employee_name';
+  @Input() items = [];
+
+  nameEmployerProductCode = 'product_id';
+  nameEmployeeName = 'employee_id';
 
   readonly columns =  [
     { name: this.nameEmployeeName , sortName: 'employee_chr__employee__first_name', label: 'שם העובד' , searchOptions: { labels: [] }},
@@ -75,24 +79,31 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   }
 
   fetchItems() {
-    this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID;
-    if  (this.records_id !== 0 ) {
-      this.dataTable.criteria.filters['recordsId'] = this.records_id;
+    if (this.items.length <= 0) {
+      this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID;
+      if (this.records_id !== 0) {
+        this.dataTable.criteria.filters['recordsId'] = this.records_id;
+      }
+      this.monthlyTransferBlockService.getMonthlyList(this.dataTable.criteria)
+        .then(response => {
+          this.dataTable.setItems(response);
+        });
+    } else {
+      const data = new DataTableResponse();
+      data.items = this.items;
+      data.lastPage = 1;
+      data.total = this.items.length;
+      this.dataTable.setItems(data);
     }
-    this.monthlyTransferBlockService.getMonthlyList(this.dataTable.criteria)
-      .then(response => {
-        this.dataTable.setItems(response);
-      });
   }
 
   openGroupTransferDialog(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-        this.monthlyTransferBlockService.groupList(this.processDataService.activeProcess.processID).then(items => {
           const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
           const dialog = this.dialog.open(GroupTransferComponent, {
-            data: { 'ids': ids, 'groups': items,
-              'processId': this.processDataService.activeProcess.processID
+            data: { 'ids': ids,
+              'processId': this.processDataService.activeProcess.processID, 'type': 'mtb'
             },
             width: '800px',
             panelClass: 'dialog-file'
@@ -100,7 +111,6 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
           this.sub.add(dialog.afterClosed().subscribe(() => {
             this.fetchItems();
           }));
-        });
       }else {
         this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
       }
@@ -138,6 +148,25 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
         });
       }else {
         this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
+      }
+    }
+  }
+
+  editPayments(): void {
+    if (this.checkedRowItems()) {
+      if (this.isLockedBroadcast()) {
+        const dialog = this.dialog.open(EditPaymentsComponent, {
+          data: { 'ids':  this.dataTable.criteria.checkedItems,
+            'processId': this.processDataService.activeProcess.processID
+          },
+          width: '100%',
+          maxWidth: '100%',
+          panelClass: 'edit-payments'
+        });
+        this.sub.add(dialog.afterClosed().subscribe(() => {
+          this.items = [];
+          this.fetchItems();
+        }));
       }
     }
   }

@@ -1,4 +1,4 @@
-::ng-deep .dialog-file .mat-dialog-container {
+::ng-deep .cdk-overlay-pane .mat-dialog-container {
   overflow: visible;
 }
 

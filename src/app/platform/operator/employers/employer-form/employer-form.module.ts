@@ -4,8 +4,10 @@ import { EmployerFormComponent } from './employer-form.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
-import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule,
-         MatInputModule, MatRadioModule, MatOptionModule, MatSelectModule } from '@angular/material';
+import {
+  MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule,
+  MatInputModule, MatRadioModule, MatOptionModule, MatSelectModule, MatMenuModule
+} from '@angular/material';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -19,7 +21,8 @@ const routes: Routes = [
       { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule' },
       { path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule' },
       { path: 'departments', loadChildren: './departments/departments.module#DepartmentsModule'},
-      { path: 'defrayal', loadChildren: './defrayal/defrayal.module#DefrayalModule' },
+      { path: 'bank', loadChildren: './defrayal/bank-default-product/bank-default-product.module#BankDefaultProductModule' },
+      { path: 'number', loadChildren: './defrayal/manufacturer-number/manufacturer-number.module#ManufacturerNumberModule' },
       { path: 'finance', loadChildren: './finance/finance.module#FinanceModule' },
       { path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule' },
       { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' }
@@ -35,7 +38,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     MatFormFieldModule, MatInputModule,
     MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule, MatIconModule,
-    BdSelectModule, MatOptionModule
+    BdSelectModule, MatOptionModule, MatMenuModule
   ],
   declarations: [EmployerFormComponent],
   providers: [EmployerService, EmployersResolve, GeneralHttpService, NotificationService],

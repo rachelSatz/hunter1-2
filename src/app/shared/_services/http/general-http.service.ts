@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
-
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
-
 import { Bank } from '../../_models/bank.model';
-import { BankBranch } from '../../_models/bank-branch.model';
-import { Manufacturer } from '../../_models/manufacturer.model';
-import { Product } from '../../_models/product.model';
 
 
 @Injectable()

@@ -60,7 +60,7 @@
             <bd-select [items]="organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
             <bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
             <bd-select [items]="departments" class="ml-3" [(ngModel)]="departmentId" placeholder="מחלקה" (onSelect)="selectDepartment($event)"
-                       [ngClass]="{'disable': employerId === undefined || employerId['id'] === 0}"></bd-select>
+                       [ngClass]="{'disable': employerId === undefined || employerId === '0'}"></bd-select>
           </div>
           <a class="navbar-brand" (click)="logout()">
             <img src="/assets/img/logo.svg" class="logo" alt="לוגו של סמארטי">

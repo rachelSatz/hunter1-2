@@ -5,6 +5,7 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { Organization } from '../../_models/organization.model';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 
 @Injectable()
 export class OrganizationService extends BaseHttpService {
@@ -23,8 +24,14 @@ export class OrganizationService extends BaseHttpService {
       .catch(() => null);
   }
 
-  getOrganizationTable(): Promise<DataTableResponse> {
-    return this.http.get(this.endPoint, this.getTokenHeader())
+  getOrganizationTable(criteria?: DataTableCriteria): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+
+    return this.http.get(this.endPoint, request)
       .toPromise()
       .then(response => response as DataTableResponse)
       .catch(() => null);

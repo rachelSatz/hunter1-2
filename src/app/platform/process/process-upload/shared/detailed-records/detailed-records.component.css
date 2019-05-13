@@ -7,3 +7,10 @@
   width: 140%;
   margin-right: -20%;
 }
+
+/*::ng-deep .edit-payments .mat-dialog-container {*/
+  /**/
+/*}*/
+::ng-deep .edit-payments {
+  padding: 30px;
+}

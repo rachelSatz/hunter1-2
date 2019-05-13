@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
 import { Employer, EmployerStatus, IdentifierTypes } from 'app/shared/_models/employer.model';
@@ -7,6 +7,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { PaymentType } from 'app/shared/_models/process.model';
 
 
 
@@ -26,21 +27,31 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   project = {id: 0, name: ''};
   status: object;
   saveChanges = false;
+  activeUrl: string;
 
 
   headers = [
-    {label: 'הערות',    link: 'comments'   },
-    {label: 'מחלקות',   link: 'departments'},
-    {label: 'מסמכים',   link: 'documents'  },
-    {label: 'אנשי קשר', link: 'contacts'   },
-    {label: 'סליקה',    link: 'defrayal'   },
-    {label: 'פיננסי',   link: 'finance'    },
-    {label: 'משימות',   link: 'tasks'      },
-    {label: 'דוחות',    link: 'reports'    },
+    {label: 'הערות',    url: 'comments'   },
+    {label: 'מחלקות',   url: 'departments'},
+    {label: 'מסמכים',   url: 'documents'  },
+    {label: 'אנשי קשר', url: 'contacts'   },
+    {
+      label: 'סליקה',    url: 'defrayal' , subMenuLinks: [
+        { url: 'bank', label: 'בנק לקופה' },
+        { url: 'number', label: 'מספר אצל ליצרן' }
+      ]
+    },
+    {label: 'פיננסי',   url: 'finance'    },
+    {label: 'משימות',   url: 'tasks'      },
+    {label: 'דוחות',    url: 'reports'    },
   ];
 
   statuses = Object.keys(EmployerStatus).map(function(e) {
     return { id: e, name: EmployerStatus[e] };
+  });
+
+  paymentType = Object.keys(PaymentType).map(function(e) {
+    return { id: e, name: PaymentType[e] };
   });
 
   identifierTypes = Object.keys(IdentifierTypes).map(function(e) {
@@ -76,6 +87,18 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
       this.setOperator();
     });
     this.initForm();
+
+    this.router.events.forEach((event) => {
+      if (event instanceof NavigationStart) {
+        this.setActiveUrl(event.url);
+      }
+    });
+  }
+
+  private setActiveUrl(url: string): void {
+    const urlSplit = url.split('/');
+    this.activeUrl = urlSplit[urlSplit.length - 1];
+
   }
 
   initForm(): void {
@@ -91,6 +114,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
       'status': [null,  Validators.required],
       'identifierType':    [null, Validators.required],
       'sendingNumber':     [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
+      'paymentType': [null, Validators.required],
       'institutionCode5':  [null, [Validators.pattern('^\\d{5}$'), Validators.required]],
       'institutionCode8':  [null, [Validators.pattern('^\\d{8}$'), Validators.required]]
     });

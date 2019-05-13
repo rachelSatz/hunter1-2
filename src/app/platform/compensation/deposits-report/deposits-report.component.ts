@@ -139,7 +139,7 @@ export class DepositsReportComponent implements OnInit {
 
   openInquiriesFormDialog(item: any): void {
     this.dialog.open(InquiryFormComponent, {
-      data: {'id': item.id, 'contentType': 'depositsreport',
+      data: {'id': item.id, 'contentType': 'deposits_report',
         'employerId': this.selectUnit.currentEmployerID, 'companyId': item.company_id},
       width: '450px'
     });

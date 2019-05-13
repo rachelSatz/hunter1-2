@@ -1,0 +1,64 @@
+<div class="dialog-header float-left mb-1 d-flex">
+  <button mat-dialog-close class="float-left">
+    <i class="fa fa-close"></i>
+  </button>
+</div>
+<form #form="ngForm" (ngSubmit)="submit(form)" >
+  <p class="bold h6">עריכת תשלום</p>
+  <div class="w-50 d-flex align-items-center mb-2" *ngFor="let id of this.data.ids; let last = last; let index = index">
+    <i class="fa fa-times fa-2x pointer red-color" (click)="removeUnitPermissionRow(index)" *ngIf="index > 0"></i>
+    <bd-select class="w-100" [items]="companies" name="company"
+                 (onSelect)="selectedProducts()"
+                 #companySelect="ngModel"
+                 [(ngModel)]="id.company_id"
+                 placeholder="חברה מנהלת"
+                 required [error]="companySelect.errors && form.submitted"></bd-select>
+    <bd-select class="w-100" [items]="products" name="product" #productSelect="ngModel"
+               [(ngModel)]="id.product_code"
+               (onSelect)="selectedBankAccounts()"
+               placeholder="קופה"
+               required [error]="productSelect.errors && form.submitted"></bd-select>
+    <mat-form-field class="w-100">
+      <input matInput type="number" [name]="'salary' + index" #salary="ngModel"
+             [(ngModel)]="id.salary" placeholder="שכר" required>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <input matInput type="number" [name]="'policy' + index" #policy="ngModel"
+             [(ngModel)]="id.policy_or_account_number" placeholder="פוליסה" required>
+    </mat-form-field>
+    <bd-select [name]="'depositTypes' + index" [items]="depositTypes" placeholder="סוג תקבול"
+               [(ngModel)]="id.deposit_type" ></bd-select>
+    <bd-select [name]="'depositStatus' + index" [items]="depositStatus" placeholder="מעמד הפקדה"
+               [(ngModel)]="id.deposit_status" ></bd-select>
+    <mat-form-field >
+      <input matInput  class="pointer" (click)="datePickerTo.open()" [matDatepicker]="datePickerTo"
+             placeholder="תאריך עדכון סטטוס" [name]="'start_date' + index"  [(ngModel)]="id.employee_status_start_date"
+             readonly>
+      <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
+      <mat-datepicker #datePickerTo></mat-datepicker>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+    <bd-select [name]="'employeeStatus' + index" [items]="employeeStatus" placeholder="סטטוס עובד"
+               [(ngModel)]="id.employee_status" ></bd-select>
+    <mat-form-field class="w-100">
+      <input matInput type="number" [name]="'policy' + index" #policy="ngModel"
+             [(ngModel)]="id.working_days_in_month" placeholder="ימי עבודה בחודש" required>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <input matInput type="number" [name]="'percentage' + index" #policy="ngModel"
+             [(ngModel)]="id.work_month_percentage" placeholder="חלקיות משרה" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput  class="pointer"
+             (click)="datePickerTo1.open()" [matDatepicker]="datePickerTo1" placeholder="תאריך יחוס"
+             [name]="'salary_month' + index"  [(ngModel)]="id.salary_month"   readonly>
+      <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
+      <mat-datepicker #datePickerTo1></mat-datepicker>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+    <i class="fa fa-plus-circle fa-2x pointer blue-color" (click)="addUnitPermissionRow()" *ngIf="last"></i>
+  </div>
+  <div class="text-left">
+    <button class="btn blue-btn" type="submit">שלח</button>
+  </div>
+</form>

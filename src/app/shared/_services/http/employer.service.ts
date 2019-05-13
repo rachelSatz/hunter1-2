@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
+
 import { BaseHttpService } from './base-http.service';
-import { UserSessionService } from '../user-session.service';
-
 import { Employer } from '../../_models/employer.model';
-
-import {Department} from '../../_models/department.model';
-
-import {EmployerFinancialDetails} from '../../_models/employer-financial-details.model';
-import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
-import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import { UserSessionService } from '../user-session.service';
+import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
+import { DataTableResponse } from '../../data-table/classes/data-table-response';
+import { EmployerFinancialDetails } from '../../_models/employer-financial-details.model';
 
 
 @Injectable()
@@ -38,7 +35,7 @@ export class EmployerService extends BaseHttpService {
     return this.http.get(this.endPoint , request)
     .toPromise()
     .then(response => response as DataTableResponse)
-     .catch(response => null);
+     .catch(() => null);
   }
 
   getAllEmployers(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
@@ -55,17 +52,8 @@ export class EmployerService extends BaseHttpService {
     return this.http.get(this.endPoint + '/allEmployers', request)
       .toPromise()
       .then(response => response as DataTableResponse)
-      .catch(response => null);
+      .catch(() => null);
   }
-
-  // getAllPayEmployers(): Promise<Any> {
-  //   const request = this.getTokenHeader();
-  //
-  //   return this.http.get(this.endPoint + '/pay_employers', request)
-  //     .toPromise()
-  //     .then(response => response as Any)
-  //     .catch(response => null);
-  // }
 
   newEmployer(employer: any, department: any): Promise<any> {
     return this.http.post(this.endPoint, {employer: employer , department: department}, this.getTokenHeader())
@@ -85,30 +73,6 @@ export class EmployerService extends BaseHttpService {
     .toPromise()
     .then(response => response);
   }
-
-  deleteEmployer(id: number): Promise<{ responseCode: number }> {
-    return this.http.delete(this.endPoint, this.getTokenHeader())
-    .toPromise()
-    .then(response => response as { responseCode: number });
-  }
-
-  getDepartments(employerID: number): Promise<Department[]> {
-    return this.http.get(this.endPoint + '/' + employerID + '/departments', this.getTokenHeader())
-      .toPromise()
-      .then(response => response as Department[])
-      .catch(() => []);
-  }
-
-  getDepartmentsAndEmployees(employerID: number, organizationId: number): Promise<Object> {
-    const request = this.getTokenHeader();
-    request['params'] = {organizationId: organizationId};
-
-    return this.http.get(this.endPoint + '/' + (employerID ? employerID : 0) + '/departmentsAndEmployees', request)
-      .toPromise()
-      .then(response => response as Object)
-      .catch(() => []);
-  }
-
 
   uploadExcelEmployers(uploadedFile?: File, organizationId?: number): Promise<Object> {
     if (uploadedFile) {
@@ -140,8 +104,13 @@ export class EmployerService extends BaseHttpService {
       .then(response =>  response as boolean);
   }
 
-  getOperator(id: number, type?: string): Promise<any> {
-    return this.http.get(this.endPoint + '/operators?'  + type + '=' + id, this.getTokenHeader())
+  getOperator(id: number, type?: string, permission = false): Promise<any> {
+    const request = this.getTokenHeader();
+
+    request['params'] = { permission: permission};
+
+
+    return this.http.get(this.endPoint + '/operators?'  + type + '=' + id, request)
       .toPromise()
       .then(response => response as any);
   }

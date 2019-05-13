@@ -4,6 +4,7 @@ export class Contact {
   entity_id: number;
   entity_name: string;
   type: any;
+  product_type: string;
   first_name: string;
   last_name: string;
   phone: string;
@@ -28,7 +29,7 @@ export enum EntityTypes {
   // agent = 'סוכן',
   company = 'חברה מנהלת',
   employer = 'מעסיק',
-  service_desk = 'לשכת שרות',
+  user = 'לשכת שרות',
 }
 
 export enum Type {

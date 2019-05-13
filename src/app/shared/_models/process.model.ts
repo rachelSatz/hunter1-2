@@ -61,6 +61,8 @@ export class ViewProcess {
   ref_path: string;
   payment_ref_number: string;
   group_thing_sum: string;
+  paid_account_number: string;
+  account_number: string;
 }
 
 export class EmployerProduct {

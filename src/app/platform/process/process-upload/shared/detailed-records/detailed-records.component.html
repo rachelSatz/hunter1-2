@@ -8,6 +8,7 @@
           <button mat-menu-item (click)="openWarningMessageComponentDialog(true)">הפוך ללא רלוונטי</button>
           <button mat-menu-item (click)="openGroupTransferDialog()">העבר קבוצה</button>
           <button mat-menu-item (click)="openWarningMessageComponentDialog(false)">מחק רשומה</button>
+            <button mat-menu-item (click)="editPayments()">עריכת תשלום</button>
           </mat-menu>
         </div>
       </div>
@@ -33,21 +34,4 @@
       <td>{{ item.amount | number: '1.2-2'}}</td>
     </tr>
   </app-data-table>
-
-  <!---->
-  <!--<div class="d-flex align-items-center">-->
-    <!--<div class="bd-select-container w-25">-->
-      <!--<bd-select [items]="employees" placeholder="בחר עובד" [(ngModel)]="searchCriteria['employee_id']" (onSelect)="search()" class="ml-3">-->
-      <!--</bd-select>-->
-    <!--</div>-->
-    <!--<div class="mx-3 bd-select-container w-25">-->
-      <!--<bd-select [items]="products" placeholder="בחר קופה" [(ngModel)]="searchCriteria['product_id']" (onSelect)="search()" class="ml-3">-->
-      <!--</bd-select>-->
-    <!--</div>-->
-    <!--<mat-form-field class="ml-3 w-25">-->
-      <!--<input matInput placeholder="חיפוש" [(ngModel)]="searchCriteria['value']" (change)="search()">-->
-      <!--<i matSuffix class="fa fa-search"></i>-->
-    <!--</mat-form-field>-->
-    <!--<button class="btn blue-btn h-75 mr-2" *ngIf="isSearchActive()" (click)="resetSearch()">אפס חיפוש</button>-->
-<!--</div>-->
 </div>

@@ -15,72 +15,182 @@
   <div class=" d-flex">
     <div class="mb-3">
       <mat-form-field>
-        <input matInput type="text" [(ngModel)]="employer.name" placeholder="שם מעסיק" (change)="saveChanges = true" formControlName="name">
+        <input matInput type="text" [(ngModel)]="employer.name" placeholder="שם מעסיק"
+               (change)="saveChanges = true" formControlName="name">
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <input matInput type="text" [(ngModel)]="employer.business_number" placeholder="מספר ח.פ" (change)="saveChanges = true" formControlName="businessNumber">
+        <input matInput type="text" [(ngModel)]="employer.business_number" placeholder="מספר ח.פ"
+               (change)="saveChanges = true" formControlName="businessNumber">
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <input matInput type="text" [(ngModel)]="employer.deduction_number" placeholder="מספר תיק ניכויים" (change)="saveChanges = true" formControlName="deductionNumber">
+        <input matInput type="text" [(ngModel)]="employer.deduction_number" placeholder="מספר תיק ניכויים"
+               (change)="saveChanges = true" formControlName="deductionNumber">
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <mat-select matInput placeholder="סוג מזהה לשליחה"  [(ngModel)]="employer.identifier_type" formControlName="identifierType">
-          <mat-option *ngFor="let identifier of identifierTypes" [value]="identifier.id">{{identifier.name}}</mat-option>
+        <mat-select matInput placeholder="סוג מזהה לשליחה"
+                    [(ngModel)]="employer.identifier_type" formControlName="identifierType">
+          <mat-option *ngFor="let identifier of identifierTypes"
+                      [value]="identifier.id">{{identifier.name}}</mat-option>
         </mat-select>
         <mat-error>שדה חובה</mat-error>
       </mat-form-field>
       <mat-form-field  class="mr-3">
-        <input matInput placeholder="מספר מזהה לשליחה"  [(ngModel)]="employer.identifier"  formControlName="sendingNumber" maxlength="9">
+        <input matInput placeholder="מספר מזהה לשליחה"  [(ngModel)]="employer.identifier"
+               formControlName="sendingNumber" maxlength="9">
         <mat-error>שדה חובה</mat-error>
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <input matInput type="email" [(ngModel)]="employer.email" placeholder="כתובת מייל" (change)="saveChanges = true" formControlName="email">
+        <input matInput type="email" [(ngModel)]="employer.email" placeholder="כתובת מייל"
+               (change)="saveChanges = true" formControlName="email">
+      </mat-form-field>
+      <mat-form-field class="mr-3">
+        <input matInput type="number" placeholder="טלפון" [(ngModel)]="employer.phone"
+               (change)="saveChanges = true" formControlName="phone" maxlength="12">
       </mat-form-field>
     </div>
   </div>
       <div class="mt-4">
         <mat-form-field>
-          <input matInput type="number" placeholder="טלפון" [(ngModel)]="employer.phone" (change)="saveChanges = true" formControlName="phone" maxlength="12">
+          <input matInput type="text" placeholder="כתובת" [(ngModel)]="employer.address"
+                 (change)="saveChanges = true" formControlName="address">
         </mat-form-field>
         <mat-form-field class="mr-3">
-          <input matInput type="text" placeholder="כתובת" [(ngModel)]="employer.address" (change)="saveChanges = true" formControlName="address">
-        </mat-form-field>
-        <mat-form-field class="mr-3">
-          <mat-select matInput placeholder="פרוייקט" [(ngModel)]="employer.project_id" (selectionChange)="saveChanges = true" formControlName="project">
+          <mat-select matInput placeholder="פרוייקט" [(ngModel)]="employer.project_id"
+                      (selectionChange)="saveChanges = true" formControlName="project">
             <mat-option *ngFor="let proj of projects" [value]="proj.id">{{proj.name}}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field class="mr-3" *ngIf="operator">
-          <mat-select matInput placeholder="מנהל תיק"  [(ngModel)]="employer.operator.id" (selectionChange)="saveChanges = true"
+          <mat-select matInput placeholder="מנהל תיק"  [(ngModel)]="employer.operator.id"
+                      (selectionChange)="saveChanges = true"
                       formControlName="operator">
             <mat-option *ngFor="let operat of operators" [value]="operat.id">
               {{operat.name}}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="mr-3">
-          <mat-select placeholder="סטטוס"  [(ngModel)]="employer.status" formControlName="status" (selectionChange)="saveChanges = true">
+          <mat-select placeholder="סטטוס"  [(ngModel)]="employer.status" formControlName="status"
+                      (selectionChange)="saveChanges = true">
             <mat-option *ngFor="let status of statuses" [value]="status.id">
               {{status.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="mr-3">
-          <input matInput placeholder="קוד מוסד(5)"  [(ngModel)]="employer.institution_code_5" formControlName="institutionCode5" maxlength="5" (change)="saveChanges = true">
+          <mat-select matInput placeholder="סוג תשלום" formControlName="paymentType"
+                      [(ngModel)]="employer.payment_type">
+            <mat-option *ngFor="let payment of paymentType" [value]="payment.id" (selectionChange)="saveChanges = true"
+            >{{payment.name}}</mat-option>
+          </mat-select>
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-3">
-          <input matInput placeholder="קוד מוסד(8)"  [(ngModel)]="employer.institution_code_8" formControlName="institutionCode8" maxlength="8" (change)="saveChanges = true">
+          <input matInput placeholder="קוד מוסד(5)"  [(ngModel)]="employer.institution_code_5"
+                 [required]="employerForm.value.paymentType === 'masav'"
+                 formControlName="institutionCode5" maxlength="5" (change)="saveChanges = true">
+          <mat-error>שדה חובה</mat-error>
+        </mat-form-field>
+        <mat-form-field class="mr-3">
+          <input matInput placeholder="קוד מוסד(8)"  [(ngModel)]="employer.institution_code_8"
+                 [required]="employerForm.value.paymentType === 'masav'"
+                 formControlName="institutionCode8" maxlength="8" (change)="saveChanges = true">
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
         <button [disabled]="!saveChanges" class="btn blue-btn mr-5" type="submit">שמור שינויים</button>
       </div>
     </form>
   </div>
-  <div>
-    <div class="d-flex header-border mt-5 pt-5 text-center" id="headers">
-      <span *ngFor="let header of headers" routerLinkActive="active" [routerLink]="[header.link]">{{header.label}}</span>
+  <!--<div>-->
+
+  <!--</div>-->
+  <!--<div class="container-fluid">-->
+  <!--<header>-->
+    <!--<div id="mainMenu">-->
+      <!--<nav class="navbar navbar-toggleable-md navbar-light bg-faded">-->
+        <!--<div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+          <!--<ul class="navbar-nav">-->
+            <!--<ng-container *ngFor="let header of headers">-->
+              <!--<li class="nav-item" *ngIf="!header.subMenuLinks">-->
+                <!--<a class="nav-link" [routerLink]="[header.url]">-->
+                  <!--<p>{{ header.label }}</p>-->
+                <!--</a>-->
+              <!--</li>-->
+              <!--<li [matMenuTriggerFor]="subMenu" class="nav-item pointer" *ngIf="header.subMenuLinks">-->
+                <!--<span>{{ header.label }}</span>-->
+                <!--<mat-menu #subMenu yPosition="above" [overlapTrigger]="false">-->
+                  <!--<button mat-menu-item class="dropdown-item" *ngFor="let subLink of header.subMenuLinks">-->
+                    <!--{{ subLink.label }}</button>-->
+                <!--</mat-menu>-->
+              <!--</li>-->
+            <!--</ng-container>-->
+          <!--</ul>-->
+        <!--</div>-->
+      <!--</nav>-->
+    <!--</div>-->
+  <!--</header>-->
+  <!--</div>-->
+
+  <!--</div>-->
+  <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+    <!--<div class="collapse navbar-collapse" id="navbarNav">-->
+      <!--<ul class="navbar-nav">-->
+        <!--<ng-container *ngFor="let header of headers">-->
+          <!--<li class="nav-item" *ngIf="!header.subMenuLinks">-->
+            <!--<a class="nav-link" [routerLink]="[header.url]">-->
+              <!--<p>{{ header.label }}</p>-->
+            <!--</a>-->
+          <!--</li>-->
+          <!--<li [matMenuTriggerFor]="subMenu" class="nav-item pointer" *ngIf="header.subMenuLinks">-->
+            <!--<span>{{ header.label }}</span>-->
+            <!--<mat-menu #subMenu yPosition="above" [overlapTrigger]="false">-->
+              <!--<button mat-menu-item class="dropdown-item" *ngFor="let subLink of header.subMenuLinks">-->
+                <!--{{ subLink.label }}</button>-->
+            <!--</mat-menu>-->
+          <!--</li>-->
+        <!--</ng-container>-->
+      <!--</ul>-->
+    <!--</div>-->
+  <!--</nav>-->
+  <!--<div class="d-flex header-border mt-5 pt-5 text-center" id="headers">-->
+    <!--<ng-container *ngFor="let header of headers">-->
+  <!--<span routerLinkActive="active" [routerLink]="[header.url]"  *ngIf="!header.subMenuLinks">-->
+  <!--{{header.label}}</span>-->
+    <!--<li [matMenuTriggerFor]="subMenu" class="nav-item pointer"  *ngIf="header.subMenuLinks">-->
+    <!--<span>{{ header.label }}</span>-->
+    <!--<mat-menu #subMenu yPosition="below" [overlapTrigger]="false">-->
+    <!--<button mat-menu-item class="dropdown-item" *ngFor="let subLink of header.subMenuLinks">{{ subLink.label }}</button>-->
+    <!--</mat-menu>-->
+    <!--</li>-->
+    <!--</ng-container>-->
+  <!--</div>-->
+  <div class="container-fluid">
+    <header>
+      <div id="mainMenu">
+        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+              <ng-container *ngFor="let link of headers">
+                <li class="nav-item" *ngIf="!link.subMenuLinks" [ngClass]="{ 'active': link.url === activeUrl }" >
+                  <a class="menu-link" [routerLink]="[link.url]">
+                    <p>{{ link.label }}</p>
+                  </a>
+                </li>
+                <li [matMenuTriggerFor]="subMenu" class="nav-item pointer" [ngClass]="{ 'active': link.url === activeUrl }"   *ngIf="link.subMenuLinks">
+                  <span>{{ link.label }}</span>
+                  <mat-menu #subMenu yPosition="below" [overlapTrigger]="false">
+                    <button mat-menu-item class="dropdown-item" *ngFor="let subLink of link.subMenuLinks" [routerLink]=[subLink.url]  >{{ subLink.label }}</button>
+                  </mat-menu>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <div id="content">
+      <router-outlet></router-outlet>
     </div>
   </div>
-  <router-outlet></router-outlet>
+  <!--<router-outlet></router-outlet>-->
 </div>

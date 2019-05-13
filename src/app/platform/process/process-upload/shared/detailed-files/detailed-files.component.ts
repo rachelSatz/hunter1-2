@@ -20,6 +20,7 @@ import { CommentsComponent } from './comments/comments.component';
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
 import {DetailsComponent} from '../details.component';
+import {GroupTransferComponent} from '../group-transfer/group-transfer.component';
 
 
 @Component({
@@ -39,7 +40,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
     { name: 'product', sortName: 'group__product__code', label: 'מ"ה' },
     { name: 'payment_type', label: 'סוג תשלום' },
     { name: 'payment_identifier', label: 'מס אסמכתא', isSort: false},
-    { name: 'account', label: 'מס חשבון/צק' , isSort: false},
+    // /צק
+    { name: 'account', label: 'מס חשבון' , isSort: false},
     { name: 'deposit_date', label: 'תאריך תשלום' },
     { name: 'block_sum', label: 'סכום' },
     { name: 'id', label: 'מספר מזהה' },
@@ -94,6 +96,26 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
         this.endAction();
       }));
     }else {
+        this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
+      }
+    }
+  }
+
+  openGroupTransferDialog(): void {
+    if (this.checkedRowItems()) {
+      if (this.isLockedBroadcast()) {
+          const ids = this.dataTable.criteria.checkedItems.map(item => item['file_id']);
+          const dialog = this.dialog.open(GroupTransferComponent, {
+            data: { 'ids': ids,
+              'processId': this.processDataService.activeProcess.processID, 'type': 'groupthing'
+            },
+            width: '800px',
+            panelClass: 'dialog-file'
+          });
+          this.sub.add(dialog.afterClosed().subscribe(() => {
+            this.endAction();
+          }));
+      }else {
         this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
       }
     }

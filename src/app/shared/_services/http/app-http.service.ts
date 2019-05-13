@@ -4,12 +4,14 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 
 import { BaseHttpService } from './base-http.service';
+import {UserSessionService} from '../user-session.service';
 
 @Injectable()
 export class AppHttpService extends BaseHttpService {
-  constructor(private http: HttpClient) {
-    super();
+  constructor(userSession: UserSessionService, private http: HttpClient) {
+    super(userSession);
   }
+
 
   login(username: string, password: string): Promise<any> {
     const data = { username: username, password: password };
@@ -35,5 +37,12 @@ export class AppHttpService extends BaseHttpService {
       .toPromise()
       .then(response => response)
       .catch(response => response);
+  }
+
+  removeToken(): Promise<boolean> {
+    return this.http.delete(this.apiUrl , this.getTokenHeader())
+      .toPromise()
+      .then(response => true)
+      .catch(() => false);
   }
 }

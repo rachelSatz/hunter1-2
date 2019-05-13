@@ -40,10 +40,11 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
   //     .catch(response => response);
   // }
 
-  createMTBGroup(ids: number[], productId: number, bankAccountId: number, groupName: string, confirmation: number): Promise<any> {
+  createMTBGroup(ids: number[], productId: number, bankAccountId: number, groupName: string, confirmation: number,
+                 type: string): Promise<any> {
     return this.http.post(this.endPoint + '/createOrUpdateMTBGroup',
       {ids: ids, bank_account_id: bankAccountId, product_id: productId,
-        group_name: groupName , confirmation: confirmation}, this.getTokenHeader())
+        group_name: groupName , confirmation: confirmation, type: type}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);

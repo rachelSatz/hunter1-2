@@ -10,6 +10,7 @@
             <!--<button mat-menu-item (click)=openWarningMessageComponentDialog(false)>מחיקת שורה</button>-->
               <button mat-menu-item (click)=openDialogAttachReference()>צירוף אסמכתא</button>
               <button mat-menu-item (click)=openWarningMessageComponentDialog(true)>הפוך ללא רלוונטי</button>
+              <button mat-menu-item (click)="openGroupTransferDialog()">העבר קבוצה</button>
               <button mat-menu-item (click)=openSent()>פתחית נעילת שידור</button>
               <button mat-menu-item (click)=sentFile()> שידור קבצים</button>
             </mat-menu>
@@ -30,8 +31,10 @@
       <td>{{ productType[item.product_type] }}</td>
       <td>{{ item.product_code }}</td>
       <td (click)="openUpdateTypePayDialog(paymentType[item.payment_type], item.file_id)"  [ngClass]="{'disabled': item.status == 'sent'}">{{ paymentType[item.payment_type] }}</td>
-      <td (click)="openUpdateAccountNumberDialog(item.file_total, item.file_id, item.payment_identifier)" [ngClass]="{'disabled': item.status == 'sent'}">{{ item.payment_identifier }}</td>
-      <td>{{ item.payment_additional_info.account_number }}</td>
+      <td (click)="openUpdateAccountNumberDialog(item.file_total, item.file_id, item.payment_identifier)" [ngClass]="{'disabled': item.status == 'sent'}">
+        {{ item.payment_identifier  }}</td>
+      <!--? item.payment_identifier: item.payment_additional_info.account_number-->
+      <td>{{ item.paid_account_number }}</td>
       <td (click)="openUpdatePayDateDialog(item.payment_date, item.file_id)" [ngClass]="{'disabled': item.status == 'sent'}">{{ item.payment_date  }}</td>
       <td>{{ item.file_total | number: '1.2-2' }}</td>
       <td>{{ item.file_id }}</td>
