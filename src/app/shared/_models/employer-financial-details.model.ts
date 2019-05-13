@@ -17,6 +17,7 @@ export class EmployerFinancialDetails {
   est_payment_type: string;
   est_payment_amount: string;
   est_ids_count: string;
+  est_invoice_id: string;
 
   constructor() {
       this.id = 0;
@@ -31,7 +32,7 @@ export class EmployerFinancialProduct {
   product_type: string;
   is_zero: string;
   show_details: string;
-  additional_payment_amount: string;
+  additional_payment_amount: number;
   additional_payment_desc: string;
   financial_payments: EmployerFinancialPayments[] = [];
 
@@ -69,8 +70,7 @@ export enum PAYMENT_METHOD {
 }
 export enum TAX {
   before = 'לא כולל',
-  included = 'כולל',
-  free = 'ללא',
+  included = 'כולל'
 }
 export enum CURRENCY {
   ils = 'שקל',
@@ -82,11 +82,12 @@ export enum LANGUAGE {
 export enum PRODUCT_TYPES {
   defrayal = 'סליקה',
   compensation = 'יתרות לפיצויים',
+  compensation_9302 = 'יתרות לפיצויים - דו"ח שנתי'
 }
 
 export enum PAYMENT_TYPE {
   no_payment = 'ללא פרטי תשלום',
   number_of_employees = 'מספר עובדים',
   fixed = 'חודשי קבוע',
-
+  number_of_companies = 'מספר קופות'
 }

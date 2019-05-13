@@ -18,6 +18,7 @@
       <input matInput placeholder="שם מחלקה" name="name"  [(ngModel)]="department.name" required>
       <mat-error>שדה חובה.</mat-error>
     </mat-form-field>
+    <mat-checkbox class="mr-3 mt-3" [checked]="department.is_split_invoice" name="split_invoice" [(ngModel)]="department.is_split_invoice" >יצירת חשבונית נפרדת</mat-checkbox>
   </div>
 
   <!--<button class="btn blue-btn ml-1" (click)="openBankAccountDialog()"> הוספת חשבון חדש </button>-->

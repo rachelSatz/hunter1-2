@@ -51,7 +51,7 @@
       <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" *ngIf="item.status !== 'closed'"></i>
       <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" *ngIf="item.status === 'closed'"></i>
     </td>
-    <td>
+    <td *ngIf="item.description != ''">
       <i class="fa fa-download fa-lg ml-2" title="פירוט עובדים בחשבונית" (click)="downloadEmployeesExcel(item.id)" ></i>
     </td>
   </tr>
