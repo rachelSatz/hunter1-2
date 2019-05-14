@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';

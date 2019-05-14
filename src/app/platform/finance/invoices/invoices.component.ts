@@ -1,20 +1,20 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ActivatedRoute } from '@angular/router';
-import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { Subscription} from 'rxjs';
 
 import { EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
 import { ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
-import { INVOICE_TYPES, STATUS, ALL_STATUS} from 'app/shared/_models/invoice.model';
+import { STATUS, ALL_STATUS} from 'app/shared/_models/invoice.model';
 import { SelectUnitService} from 'app/shared/_services/select-unit.service';
 import { RemarksFormComponent} from './remarks-form/remarks-form.component';
 import { InvoiceService} from 'app/shared/_services/http/invoice.service';
 import { HelpersService} from 'app/shared/_services/helpers.service';
 import * as FileSaver from 'file-saver';
-import {NotificationService} from '../../../shared/_services/notification.service';
-import {EmployerService} from '../../../shared/_services/http/employer.service';
+import { NotificationService } from '../../../shared/_services/notification.service';
+import { EmployerService } from '../../../shared/_services/http/employer.service';
+import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
 
 @Component({
   selector: 'app-invoices',
@@ -92,6 +92,12 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     this.dialog.open(EmployersFinanceExcelComponent, {
       width: '450px',
       panelClass: 'employers-finance-excel'
+    });
+  }
+
+  openManualInvoice(): void {
+    this.dialog.open(ManualInvoiceFormComponent, {
+      width: '950px'
     });
   }
 
