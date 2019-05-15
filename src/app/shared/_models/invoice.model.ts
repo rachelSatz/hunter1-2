@@ -20,7 +20,7 @@ export class Invoice {
 export class ManualInvoice {
   employer_financial_details: EmployerFinancialDetails;
   for_month: string;
-  tax: string;
+  tax_type: string;
   remark: string;
   total_payment_amount: string;
   invoice_details: ManualInvoiceDetails[] = [];
@@ -28,6 +28,7 @@ export class ManualInvoice {
   constructor() {
     this.employer_financial_details = new EmployerFinancialDetails();
     this.invoice_details.push(new ManualInvoiceDetails());
+    this.tax_type = 'before';
   }
 }
 

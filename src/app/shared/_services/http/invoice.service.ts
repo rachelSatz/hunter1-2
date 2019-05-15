@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
-import {Invoice} from 'app/shared/_models/invoice.model';
+import {Invoice, ManualInvoice} from 'app/shared/_models/invoice.model';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 
@@ -32,6 +32,13 @@ export class InvoiceService  extends BaseHttpService {
 
   createInvoice(content: string): Promise<string> {
     return this.http.post(this.endPoint + '/create_invoice', content, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as string)
+      .catch(() => null);
+  }
+
+  createManualInvoice(manualInvoice: ManualInvoice): Promise<string> {
+    return this.http.post(this.endPoint + '/create_manual_invoice', manualInvoice, this.getTokenHeader())
       .toPromise()
       .then(response => response as string)
       .catch(() => null);

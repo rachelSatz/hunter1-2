@@ -7,20 +7,23 @@
 <form #form="ngForm">
   <div class="d-flex mr-3 row mt-5 mb-3">
     <div class="w-25">
-      <bd-select [items]="employers" placeholder="בחר מעסיק" name="employers" #employersModel="ngModel" ngModel></bd-select>
+      <bd-select [items]="employers" placeholder="בחר מעסיק" name="employers" #employersModel="ngModel" [(ngModel)]="manualInvoice.employer_financial_details"></bd-select>
     </div>
     <div class="w-25 mr-3">
       <mat-form-field style="margin-top: -10px;">
-        <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="בגין חודש" name="for_month" ngModel readonly required>
+        <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="בגין חודש" name="for_month" [(ngModel)]="manualInvoice.for_month" readonly required>
         <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
         <mat-datepicker #datePicker></mat-datepicker>
         <mat-error>שדה חובה.</mat-error>
       </mat-form-field>
     </div>
     <div class="w-25 mr-3">
-      <mat-select name="tax" placeholder=""  [value]="selected"  required>
-        <mat-option *ngFor="let tax of TAX" [value]="tax.id">{{ tax.name }}</mat-option>
-      </mat-select>
+      <bd-select [items]="TAX" placeholder="סוג מסמך" name="tax_type" #taxTypeModel="ngModel" [(ngModel)]="manualInvoice.tax_type" (onSelect)="changeTaxType()"></bd-select>
+      <!--<mat-form-field>-->
+        <!--<mat-select name="tax" placeholder=""  [value]="selected"  required>-->
+          <!--<mat-option *ngFor="let tax of TAX" [value]="tax.id">{{ tax.name }}</mat-option>-->
+        <!--</mat-select>-->
+      <!--</mat-form-field>-->
     </div>
   </div>
   <div class="d-flex mr-3 mt-3 mb-3">
@@ -42,9 +45,11 @@
       </thead>
     </table>
     <div [ngClass]="{'disabledInput' : !isEdit}" class="d-flex align-items-center" *ngFor="let invoice_detail of manualInvoice.invoice_details;  let last = last; let index = index">
-        <mat-select [ngClass]="{'disabledInput' : !isEdit}" class="tax" name="tax" placeholder=""  [value]="selected" [(ngModel)]="invoice_detail.tax" onchange="calcRowPayment(invoice_detail)">
+      <mat-form-field class="tax">
+        <mat-select [ngClass]="{'disabledInput' : !isEdit}"  name="tax" placeholder=""  [value]="selected" [(ngModel)]="invoice_detail.tax" onchange="calcRowPayment(invoice_detail)">
           <mat-option *ngFor="let tax of TAXITEMS" [value]="tax.id">{{ tax.name }}</mat-option>
         </mat-select>
+      </mat-form-field>
         <mat-form-field class="mr-3 description">
           <input matInput type="text" [name]="'description' + index" [(ngModel)]="invoice_detail.description" placeholder="פירוט" required>
         </mat-form-field>
@@ -64,12 +69,6 @@
         <i class="fa fa-edit pointer blue-color" title="עריכה" (click)="editInvoiceDetailRow(invoice_detail)" *ngIf="invoice_detail.is_saved === true"></i>
         <i class="fa fa-close pointer blue-color mr-1" title="מחיקה" (click)="deleteInvoiceDetailRow(invoice_detail, index)" *ngIf="invoice_detail.is_saved === true"></i>
       </div>
-      <!--<div class="mr-3 save">-->
-      <!--<i class="fa fa-plus-circle pointer blue-color" title="הוספה" (click)="addInvoiceDetailRow()" *ngIf="last"></i>-->
-      <!--<i class="fa fa-close pointer blue-color mr-1" title="מחיקה" (click)="deleteInvoiceDetailRow(index)" *ngIf="index != 0"></i>-->
-      <!--</div>-->
-      <!--<i class="fa fa-plus-circle fa-2x pointer blue-color" title="הוספה" (click)="addPaymentRow(index)" *ngIf="last && index < 4"></i>-->
-      <!--<i class="fa fa-close fa-2x pointer blue-color" title="מחיקה" (click)="deleteInvoiceDetailRow(index)" *ngIf="index != 0"></i>-->
     </div>
 
     <div class="row align-content-end">
@@ -85,6 +84,7 @@
       <div class="mr-3">{{ totalIncludeTax}}</div>
     </div>
   </div>
+  <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">{{message}}</p>
   <div mat-dialog-actions class="justify-content-center">
   <button class="btn blue-btn" (click)="submit(form)">צור</button>
   </div>
