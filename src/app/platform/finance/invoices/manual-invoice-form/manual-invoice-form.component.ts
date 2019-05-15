@@ -30,6 +30,7 @@ export class ManualInvoiceFormComponent implements OnInit {
   totalBeforeTax = 0;
   tax = 0;
   totalIncludeTax = 0;
+  isEdit = false;
 
 
   readonly columns  = [
@@ -49,37 +50,45 @@ export class ManualInvoiceFormComponent implements OnInit {
     this.employerService.getAllEmployers(null, true).then(
       response => this.employers = response['items']);
   }
-  // saveInvoiceDetail(): void {
-  //
-  // }
 
   saveInvoiceDetail(invoiceDetail: ManualInvoiceDetails, index: number): void {
     if (invoiceDetail !== null) {
       if (invoiceDetail.ids_count > 0 && invoiceDetail.payment_amount > 0) {
         if (invoiceDetail.tax === 'before') {
-          this.totalBeforeTax += +((invoiceDetail.ids_count * invoiceDetail.payment_amount).toFixed(2));
-          this.tax += +((this.totalBeforeTax * 0.17).toFixed(2));
-          this.totalIncludeTax = +((this.totalBeforeTax + this.tax).toFixed(2));
           invoiceDetail.total_payment_amount = +((invoiceDetail.ids_count * invoiceDetail.payment_amount).toFixed(2));
-          this.manualInvoice.invoice_details.push(invoiceDetail);
-          this.manualInvoice.invoice_details.splice(0, 1, new ManualInvoiceDetails());
-          // this.manualInvoice.invoice_details.push(new ManualInvoiceDetails());
+          invoiceDetail.tax_amount = +((invoiceDetail.total_payment_amount * 0.17).toFixed(2));
         } else {
           invoiceDetail.total_payment_amount =  +(((invoiceDetail.ids_count * invoiceDetail.payment_amount) / 1.17).toFixed(2));
-          this.totalBeforeTax += +((invoiceDetail.ids_count * invoiceDetail.payment_amount).toFixed(2));
-          this.tax += +((this.totalBeforeTax * 0.17).toFixed(2));
-          this.totalIncludeTax = +((this.totalBeforeTax + this.tax).toFixed(2));
-          this.manualInvoice.invoice_details.push(new ManualInvoiceDetails());
+          invoiceDetail.tax_amount = 0;
         }
+        invoiceDetail.is_saved = true;
+        this.totalBeforeTax += +((invoiceDetail.total_payment_amount).toFixed(2));
+        this.tax += +((invoiceDetail.tax_amount).toFixed(2));
+        this.totalIncludeTax += +((invoiceDetail.total_payment_amount + invoiceDetail.tax_amount).toFixed(2));
+        this.isEdit = false;
       }
     }
+  }
+
+  editInvoiceDetailRow(invoiceDetail: ManualInvoiceDetails): void {
+    this.totalBeforeTax -= +((invoiceDetail.total_payment_amount).toFixed(2));
+    this.tax -= +((invoiceDetail.tax_amount).toFixed(2));
+    this.totalIncludeTax -= +((invoiceDetail.total_payment_amount + invoiceDetail.tax_amount).toFixed(2));
+    invoiceDetail.is_saved = false;
+    this.isEdit = true;
   }
 
   addInvoiceDetailRow(): void {
     this.manualInvoice.invoice_details.push(new ManualInvoiceDetails());
   }
 
-  deleteInvoiceDetailRow(index: number): void {
+  deleteInvoiceDetailRow(invoiceDetail: ManualInvoiceDetails, index: number): void {
+    this.totalBeforeTax -= +((invoiceDetail.total_payment_amount).toFixed(2));
+    this.tax -= +((invoiceDetail.tax_amount).toFixed(2));
+    this.totalIncludeTax -= +((invoiceDetail.total_payment_amount + invoiceDetail.tax_amount).toFixed(2));
     this.manualInvoice.invoice_details.splice(index, 1);
+    if (index === 0) {
+      this.addInvoiceDetailRow();
+    }
   }
 }

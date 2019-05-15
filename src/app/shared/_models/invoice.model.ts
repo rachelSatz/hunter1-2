@@ -33,13 +33,15 @@ export class ManualInvoice {
 
 export class ManualInvoiceDetails {
   tax: string;
+  tax_amount: number;
   description: string;
   ids_count: number;
   payment_amount: number;
   total_payment_amount: number;
+  is_saved: boolean;
   constructor() {
     this.tax = 'before';
-
+    this.is_saved = false;
   }
 }
 
