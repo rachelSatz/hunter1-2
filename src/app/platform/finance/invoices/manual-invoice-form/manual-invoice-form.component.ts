@@ -49,24 +49,30 @@ export class ManualInvoiceFormComponent implements OnInit {
     this.employerService.getAllEmployers(null, true).then(
       response => this.employers = response['items']);
   }
-  saveInvoiceDetail(): void {
+  // saveInvoiceDetail(): void {
+  //
+  // }
 
-  }
-
-  calcRowPayment(invoiceDetails: ManualInvoiceDetails): number {
-    if (invoiceDetails !== null) {
-      if (invoiceDetails.ids_count > 0 && invoiceDetails.payment_amount > 0 && invoiceDetails.total_payment_amount === undefined) {
-        if (invoiceDetails.tax === 'before') {
-          // this.totalBeforeTax += (invoiceDetails.ids_count * invoiceDetails.payment_amount).toFixed(2);
-          // this.tax += (this.totalBeforeTax * 0.17).toFixed(2);
-          // this.totalIncludeTax = this.totalBeforeTax + this.tax;
-            return (invoiceDetails.ids_count * invoiceDetails.payment_amount).toFixed(2);
+  saveInvoiceDetail(invoiceDetail: ManualInvoiceDetails, index: number): void {
+    if (invoiceDetail !== null) {
+      if (invoiceDetail.ids_count > 0 && invoiceDetail.payment_amount > 0) {
+        if (invoiceDetail.tax === 'before') {
+          this.totalBeforeTax += +((invoiceDetail.ids_count * invoiceDetail.payment_amount).toFixed(2));
+          this.tax += +((this.totalBeforeTax * 0.17).toFixed(2));
+          this.totalIncludeTax = +((this.totalBeforeTax + this.tax).toFixed(2));
+          invoiceDetail.total_payment_amount = +((invoiceDetail.ids_count * invoiceDetail.payment_amount).toFixed(2));
+          this.manualInvoice.invoice_details.push(invoiceDetail);
+          this.manualInvoice.invoice_details.splice(0, 1, new ManualInvoiceDetails());
+          // this.manualInvoice.invoice_details.push(new ManualInvoiceDetails());
         } else {
-          return ((invoiceDetails.ids_count * invoiceDetails.payment_amount) / 1.17).toFixed(2);
+          invoiceDetail.total_payment_amount =  +(((invoiceDetail.ids_count * invoiceDetail.payment_amount) / 1.17).toFixed(2));
+          this.totalBeforeTax += +((invoiceDetail.ids_count * invoiceDetail.payment_amount).toFixed(2));
+          this.tax += +((this.totalBeforeTax * 0.17).toFixed(2));
+          this.totalIncludeTax = +((this.totalBeforeTax + this.tax).toFixed(2));
+          this.manualInvoice.invoice_details.push(new ManualInvoiceDetails());
         }
       }
     }
-    return 0;
   }
 
   addInvoiceDetailRow(): void {

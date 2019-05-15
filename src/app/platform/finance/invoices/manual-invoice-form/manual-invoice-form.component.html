@@ -54,14 +54,21 @@
       <mat-form-field class="mr-3 paymentAmount">
         <input matInput type="text" [name]="'payment_amount' + index" [(ngModel)]="invoice_detail.payment_amount" placeholder="מחיר ליח'" required>
       </mat-form-field>
+      <mat-form-field class="mr-3 totalAmount">
+      <input name="totalAmount" type="text" matInput placeholder="" [(ngModel)]="invoice_detail.total_payment_amount"
+      [value]="invoice_detail.total_payment_amount != undefined? invoice_detail.total_payment_amount : 0" readonly>
+      </mat-form-field>
       <!--<mat-form-field class="mr-3 totalAmount">-->
         <!--<input name="totalAmount" type="text" matInput placeholder="" [(ngModel)]="invoice_detail.total_payment_amount"-->
                <!--[value]="invoice_detail.ids_count > 0 && invoice_detail.payment_amount? calcRowPayment(invoice_detail) : 0" readonly>-->
       <!--</mat-form-field>-->
       <div class="mr-3 save">
-        <i class="fa fa-plus-circle pointer blue-color" title="הוספה" (click)="addInvoiceDetailRow()" *ngIf="last"></i>
-        <i class="fa fa-close pointer blue-color mr-1" title="מחיקה" (click)="deleteInvoiceDetailRow(index)" *ngIf="index != 0"></i>
-        <!--<button class="fa fa-save fa-2x pointer blue-color" (click)="calcRowPayment(invoice_detail)"></button>-->
+        <button class="fa fa-save pointer blue-color" (click)="saveInvoiceDetail(invoice_detail, index)"></button>
+      </div>
+
+      <div class="mr-3 save">
+        <!--<i class="fa fa-plus-circle pointer blue-color" title="הוספה" (click)="addInvoiceDetailRow()" *ngIf="last"></i>-->
+        <!--<i class="fa fa-close pointer blue-color mr-1" title="מחיקה" (click)="deleteInvoiceDetailRow(index)" *ngIf="index != 0"></i>-->
       </div>
       <!--<i class="fa fa-plus-circle fa-2x pointer blue-color" title="הוספה" (click)="addPaymentRow(index)" *ngIf="last && index < 4"></i>-->
       <!--<i class="fa fa-close fa-2x pointer blue-color" title="מחיקה" (click)="deleteInvoiceDetailRow(index)" *ngIf="index != 0"></i>-->
