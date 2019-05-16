@@ -7,6 +7,7 @@ import {ManualInvoice, ManualInvoiceDetails} from '../../../../shared/_models/in
 import {EmployerFinancialPayments, TAX} from '../../../../shared/_models/employer-financial-details.model';
 import {NgForm} from '@angular/forms';
 import {NotificationService} from '../../../../shared/_services/notification.service';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-manual-invoice-form',
@@ -47,7 +48,8 @@ export class ManualInvoiceFormComponent implements OnInit {
               private router: Router,
               private invoiceService: InvoiceService,
               private employerService: EmployerService,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              private dialogRef: MatDialogRef<ManualInvoiceFormComponent>) { }
 
   ngOnInit() {
     this.employerService.getAllEmployers(null, true).then(
@@ -57,17 +59,26 @@ export class ManualInvoiceFormComponent implements OnInit {
   saveInvoiceDetail(invoiceDetail: ManualInvoiceDetails, index: number): void {
     if (invoiceDetail !== null) {
       if (invoiceDetail.ids_count > 0 && invoiceDetail.payment_amount > 0) {
+
         if (invoiceDetail.tax === 'before') {
           invoiceDetail.total_payment_amount = +((invoiceDetail.ids_count * invoiceDetail.payment_amount).toFixed(2));
-          invoiceDetail.tax_amount = +((invoiceDetail.total_payment_amount * 0.17).toFixed(2));
+          if (this.manualInvoice.tax_type === 'before') {
+            invoiceDetail.tax_amount = +((invoiceDetail.total_payment_amount * 0.17).toFixed(2));
+          } else {
+            invoiceDetail.tax_amount = 0;
+          }
         } else {
           invoiceDetail.total_payment_amount =  +(((invoiceDetail.ids_count * invoiceDetail.payment_amount) / 1.17).toFixed(2));
           invoiceDetail.tax_amount = 0;
         }
         invoiceDetail.is_saved = true;
         this.totalBeforeTax += +((invoiceDetail.total_payment_amount).toFixed(2));
-        this.tax += +((invoiceDetail.tax_amount).toFixed(2));
-        this.totalIncludeTax += +((invoiceDetail.total_payment_amount + invoiceDetail.tax_amount).toFixed(2));
+        if (this.manualInvoice.tax_type === 'before') {
+          this.tax += +((invoiceDetail.tax_amount).toFixed(2));
+        } else {
+          this.tax = 0;
+        }
+        this.totalIncludeTax += +((invoiceDetail.total_payment_amount + this.tax).toFixed(2));
         this.isEdit = false;
       }
     }
@@ -105,20 +116,32 @@ export class ManualInvoiceFormComponent implements OnInit {
     }
   }
   changeTaxType(): void {
-    if (this.manualInvoice.tax_type !== undefined && this.manualInvoice.tax_type !== 'before') {
-      this.totalIncludeTax -= this.tax;
-      this.tax = 0;
+    if (this.manualInvoice.tax_type !== undefined) {
+      switch (this.manualInvoice.tax_type) {
+        case 'before':
+          this.tax = +((this.totalBeforeTax * 0.17).toFixed(2));
+          this.totalIncludeTax += this.tax;
+          break;
+        case 'included':
+          this.totalIncludeTax -= this.tax;
+          this.tax = 0;
+          break;
+      }
     }
   }
 
   submit(form: NgForm): void {
-    this.invoiceService.createManualInvoice(form.value).then(response => {
-      if (response['message'] !== 'success') {
-        this.hasServerError = true;
-      } else {
-        this.notificationService.success('נשמר בהצלחה.');
-        // setTimeout(() => this.refresh(), 1000);
-      }
-    });
+    if (form.valid) {
+      this.hasServerError = false;
+      this.invoiceService.createManualInvoice(this.manualInvoice).then(response => {
+        if (response['message'] !== 'success') {
+          this.hasServerError = true;
+        } else {
+          this.notificationService.success('נשמר בהצלחה.');
+          this.dialogRef.close();
+        }
+      });
+    }
+
   }
 }

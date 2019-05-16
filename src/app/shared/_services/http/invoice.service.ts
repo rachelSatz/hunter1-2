@@ -38,7 +38,7 @@ export class InvoiceService  extends BaseHttpService {
   }
 
   createManualInvoice(manualInvoice: ManualInvoice): Promise<string> {
-    return this.http.post(this.endPoint + '/create_manual_invoice', manualInvoice, this.getTokenHeader())
+    return this.http.post(this.endPoint + '/createManualInvoice', manualInvoice, this.getTokenHeader())
       .toPromise()
       .then(response => response as string)
       .catch(() => null);
