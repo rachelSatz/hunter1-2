@@ -103,16 +103,23 @@ export class InvoicesComponent implements OnInit, OnDestroy {
 
   downloadEmployeesExcel(invoiceId): void {
     this.invoiceService.downloadExcel(invoiceId).then(response => {
-      const byteCharacters = atob(response['data']);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      if (response['message'] === 'no_employees') {
+        this.notificationService.info('לא חויבו עובדים בחשבונית');
+      } else if (response['message'] === 'error') {
+        this.notificationService.error('ארעה שגיאה');
+      } else {
+        const byteCharacters = atob(response['data']);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+        const fileName = 'פירוט עובדים בחשבונית מספר - '  + invoiceId + '.xlsx';
+        FileSaver.saveAs(blob, fileName);
+        this.spin = false;
+        this.notificationService.success('הקובץ הופק בהצלחה');
       }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-      const fileName = 'פירוט עובדים בחשבונית מספר - '  + invoiceId + '.xlsx';
-      FileSaver.saveAs(blob, fileName);
-      this.spin = false;
     });
   }
 
