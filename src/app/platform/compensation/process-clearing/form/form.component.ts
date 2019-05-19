@@ -41,7 +41,11 @@ export class FormComponent implements OnInit {
           this.dialogRef.close(true);
         } else {
           this.hasServerError = true;
-          this.message = 'קימת בקשה למעסיק זה.';
+          if (this.message === 'finance error') {
+            this.message = 'יש להגדיר מוצר פיננסי ע"מ ליצור בקשה מסוג זה';
+          } else {
+            this.message = 'קימת בקשה למעסיק זה.';
+          }
         }
       });
     }

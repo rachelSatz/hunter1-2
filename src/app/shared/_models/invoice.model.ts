@@ -1,5 +1,6 @@
-import {EmployerFinancialDetails} from './employer-financial-details.model';
+import {EmployerFinancialDetails, EmployerFinancialProduct} from './employer-financial-details.model';
 import {GreenInvoiceDocument} from './GreenInvoiceDocument';
+import {Employer} from './employer.model';
 
 export class Invoice {
   id: number;
@@ -14,6 +15,35 @@ export class Invoice {
   type: string;
   status: string;
   remark: string;
+}
+
+export class ManualInvoice {
+  employer_financial_details: EmployerFinancialDetails;
+  for_month: string;
+  tax_type: string;
+  remark: string;
+  total_payment_amount: string;
+  invoice_details: ManualInvoiceDetails[] = [];
+
+  constructor() {
+    this.employer_financial_details = new EmployerFinancialDetails();
+    this.invoice_details.push(new ManualInvoiceDetails());
+    this.tax_type = 'before';
+  }
+}
+
+export class ManualInvoiceDetails {
+  tax: string;
+  tax_amount: number;
+  description: string;
+  ids_count: number;
+  payment_amount: number;
+  total_payment_amount: number;
+  is_saved: boolean;
+  constructor() {
+    this.tax = 'before';
+    this.is_saved = false;
+  }
 }
 
 export enum INVOICE_TYPES {
@@ -46,6 +76,7 @@ export enum ERROR_STATUS {
   no_payment = 'אין פרטי תשלום',
   partial_payment = 'פרטי תשלום חלקיים',
 }
+
 
 
 

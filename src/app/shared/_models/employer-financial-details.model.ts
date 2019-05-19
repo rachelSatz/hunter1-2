@@ -10,6 +10,9 @@ export class EmployerFinancialDetails {
   language: string;
   payment_terms: string;
   payment_method: string;
+  payment_time: string;
+  payment_time_validity: string;
+  payment_due_date: string;
   tax: string;
   green_invoice_id: string;
   green_invoice_email: string;
@@ -90,4 +93,14 @@ export enum PAYMENT_TYPE {
   number_of_employees = 'מספר עובדים',
   fixed = 'חודשי קבוע',
   number_of_companies = 'מספר קופות'
+}
+
+export enum PAYMENT_TIME {
+  no_payment = 'ללא חיוב',
+  proactive = 'יזום',
+  auto = 'אוטומטי'
+}
+export enum NO_PAYMENT_TIME {
+  no_due_date = 'לתמיד',
+  month = 'בחירת חודש'
 }

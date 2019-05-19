@@ -8,9 +8,9 @@ import {
   EmployerFinancialDetails,
   EmployerFinancialPayments,
   EmployerFinancialProduct,
-  LANGUAGE,
+  LANGUAGE, NO_PAYMENT_TIME,
   PAYMENT_METHOD,
-  PAYMENT_TERMS,
+  PAYMENT_TERMS, PAYMENT_TIME,
   PAYMENT_TYPE,
   PRODUCT_TYPES,
   TAX
@@ -30,6 +30,8 @@ export class FinanceComponent implements OnInit {
   hasServerError = false;
   rowIndex: number;
   additionalPayment: boolean;
+  isNoPaymentTime: boolean;
+  openDatePicker = false;
   payEmployers: any;
   isEstablishingPayment: boolean;
   paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function(e) {
@@ -37,6 +39,13 @@ export class FinanceComponent implements OnInit {
   });
   paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function(e) {
     return { id: e, name: PAYMENT_METHOD[e] };
+  });
+
+  paymentTimeItems = Object.keys(PAYMENT_TIME).map(function(e) {
+    return { id: e, name: PAYMENT_TIME[e] };
+  });
+  noPaymentTimeItems = Object.keys(NO_PAYMENT_TIME).map(function(e) {
+    return { id: e, name: NO_PAYMENT_TIME[e] };
   });
   taxItems = Object.keys(TAX).map(function(e) {
     return { id: e, name: TAX[e] };
@@ -65,6 +74,12 @@ export class FinanceComponent implements OnInit {
     this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(response => {
       if (response.id) {
         this.financialDetails = response;
+        if (this.financialDetails != null && this.financialDetails.payment_time === 'no_payment') {
+          this.isNoPaymentTime = true;
+          if (this.financialDetails.payment_time_validity === 'month') {
+            this.openDatePicker = true;
+          }
+        }
       }
     });
 
@@ -94,11 +109,28 @@ export class FinanceComponent implements OnInit {
       this.additionalPayment = false;
     }
   }
+
+  showNoPaymentTime(): void {
+    if (this.financialDetails.payment_time !== undefined && this.financialDetails.payment_time === 'no_payment') {
+      this.isNoPaymentTime = true;
+    } else {
+      this.isNoPaymentTime = false;
+    }
+  }
+
   addEstablishing(isChecked: boolean): void {
     if (isChecked) {
       this.isEstablishingPayment = true;
     } else {
       this.isEstablishingPayment = false;
+    }
+  }
+
+  selectDueDate(): void {
+    if (this.financialDetails.payment_time_validity !== undefined && this.financialDetails.payment_time_validity === 'month') {
+      this.openDatePicker = true;
+    } else {
+      this.openDatePicker = false;
     }
   }
 

@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -7,6 +7,8 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { InvoiceService } from 'app/shared/_services/http/invoice.service';
 import { fade } from 'app/shared/_animations/animation';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import {NotificationService} from '../../../../shared/_services/notification.service';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-proactive-invoice-form',
@@ -20,9 +22,12 @@ export class ProactiveInvoiceFormComponent implements OnInit {
   employers: any;
   message: string;
   invoice: string;
+  hasServerError = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private invoiceService: InvoiceService,
-              private employerService: EmployerService,  private selectUnit: SelectUnitService) { }
+              private employerService: EmployerService,  private selectUnit: SelectUnitService,
+              private notificationService: NotificationService,
+              private dialogRef: MatDialogRef<ProactiveInvoiceFormComponent>) { }
 
   ngOnInit() {
     this.employerService.getAllEmployers(null, true).then(
@@ -30,7 +35,16 @@ export class ProactiveInvoiceFormComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
+    if (form.valid) {
+      this.hasServerError = false;
       this.invoiceService.createInvoice(form.value).then(response => {
-        this.invoice = response; });
+        if (response['message'] !== 'success') {
+          this.hasServerError = true;
+        } else {
+          this.notificationService.success('נשמר בהצלחה.');
+          this.dialogRef.close();
+        }
+      });
+    }
   }
 }

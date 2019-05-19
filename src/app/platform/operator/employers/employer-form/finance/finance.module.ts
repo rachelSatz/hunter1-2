@@ -9,11 +9,12 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatRadioModule,
-  MatSelectModule
+  MatSelectModule,
 } from '@angular/material';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { DatePickerModule } from '../../../../../shared/app-date-picker/app-date-picker.module';
 
 const routes: Routes = [{ path: '', component: FinanceComponent }];
 
@@ -24,7 +25,8 @@ const routes: Routes = [{ path: '', component: FinanceComponent }];
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule,
     BdSelectModule, MatDividerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DatePickerModule
   ],
   declarations: [FinanceComponent],
   providers: [EmployerService]
