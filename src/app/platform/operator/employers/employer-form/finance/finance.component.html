@@ -6,30 +6,33 @@
   <div class="row mb-4 mt-5">
     <div class="col-6 col-lg-3">
       <bd-select [items]="payEmployers" name="pay_employer"
-                 [(ngModel)]="financialDetails.pay_employer.id" placeholder="ח.פ משלם"
+                 [(ngModel)]="financialDetails.pay_employer.id" placeholder="ח.פ משלם" #payEmployerModel="ngModel"
                  required ></bd-select>
-    <!--<mat-form-field class="col-6 col-lg-3">-->
-      <!--<input matInput type="text" name="business_number" [(ngModel)]="financialDetails.pay_employer.business_number" placeholder="ח.פ משלם" required>-->
-    <!--</mat-form-field>-->
+      <p class="alert alert-danger" [@fade]="form.submitted && payEmployerModel.errors ? 'active' : 'inactive'">יש לבחור ח.פ משלם.</p>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-6 col-lg-3">
       <bd-select [items]="currencyItems" placeholder="מטבע" #currencySelect="ngModel" name="currency"  [(ngModel)]="financialDetails.currency" required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted && currencySelect.errors ? 'active' : 'inactive'">יש לבחור מטבע.</p>
     </div>
     <div class="col-6 col-lg-3">
       <bd-select [items]="languageItems" placeholder="שפה" #languageSelect="ngModel" name="language" [(ngModel)]="financialDetails.language" required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted && languageSelect.errors ? 'active' : 'inactive'">יש לבחור שפה.</p>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-6 col-lg-3">
       <bd-select [items]="paymentTermsItems" placeholder="תנאי תשלום" #paymentTermsSelect="ngModel" name="payment_terms" [(ngModel)]="financialDetails.payment_terms" required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted && paymentTermsSelect.errors ? 'active' : 'inactive'">יש לבחור תנאי תשלום.</p>
     </div>
     <div class="col-6 col-lg-3">
       <bd-select [items]="paymentMethodItems" placeholder="אופן תשלום" #paymentMethodSelect="ngModel" name="payment_method" [(ngModel)]="financialDetails.payment_method" required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted && paymentMethodSelect.errors ? 'active' : 'inactive'">יש לבחור אופן תשלום.</p>
     </div>
     <div class="col-6 col-lg-3">
       <bd-select [items]="taxItems" placeholder="תשלום מס" #taxSelect="ngModel" name="tax" [(ngModel)]="financialDetails.tax" required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted && taxSelect.errors ? 'active' : 'inactive'">יש לבחור תשלום מס.</p>
     </div>
   </div>
   <div class="row">
@@ -45,24 +48,12 @@
   </div>
   <div class="row mb-3">
     <div class="col-6 col-lg-3 mt-3">
-      <!--<mat-form-field>-->
-        <!--<mat-select name="payment_time" placeholder="זמן חיוב" [(ngModel)]="financialDetails.payment_time" (selectionChange)="showNoPaymentTime()" required>-->
-          <!--<mat-option *ngFor="let pt of paymentTimeItems" [value]="pt.id">{{ pt.name }}</mat-option>-->
-        <!--</mat-select>-->
-      <!--</mat-form-field>-->
       <bd-select [items]="paymentTimeItems" placeholder="זמן חיוב" #paymentTimeSelect="ngModel" name="payment_time" [(ngModel)]="financialDetails.payment_time" (onSelect)="showNoPaymentTime()" required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted && paymentTimeSelect.errors ? 'active' : 'inactive'">יש לבחור זמן חיוב.</p>
     </div>
     <div *ngIf="isNoPaymentTime" class="col-6 col-lg-3 mt-3">
-      <!--<mat-select name="payment_time" placeholder="זמן חיוב" [(ngModel)]="financialDetails.payment_time" (selectionChange)="showNoPaymentTime()" required>-->
-      <!--<mat-option *ngFor="let pt of paymentTimeItems" [value]="pt.id">{{ pt.name }}</mat-option>-->
-      <!--</mat-select>-->
       <bd-select [items]="noPaymentTimeItems" placeholder="בתוקף עד" #paymentTimeValiditySelect="ngModel" name="payment_time_validity" [(ngModel)]="financialDetails.payment_time_validity" (onSelect)="selectDueDate()" required></bd-select>
     </div>
-    <!--<div *ngIf="isNoPaymentTime" class="col-6 col-lg-3 mb-3">-->
-      <!--<mat-select name="payment_time_validity" placeholder="בתוקף עד" [(ngModel)]="financialDetails.payment_time_validity" (selectionChange)="selectDueDate()" required>-->
-        <!--<mat-option *ngFor="let np of noPaymentTimeItems" [value]="np.id">{{ np.name }}</mat-option>-->
-      <!--</mat-select>-->
-    <!--</div>-->
     <div *ngIf="openDatePicker" class="d-flex mr-3">
       <mat-form-field>
         <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="בחירת חודש" name="payment_due_date" [(ngModel)]="financialDetails.payment_due_date" readonly required>
@@ -103,6 +94,7 @@
     <div class="d-flex align-items-center">
       <div class="bd-select-container">
         <bd-select [items]="productTypesItems" placeholder="שם מוצר" #productTypeSelect="ngModel" [name]="'product_type' + index1"  [(ngModel)]="product.product_type" required></bd-select>
+        <p class="alert alert-danger" [@fade]="form.submitted && productTypeSelect.errors ? 'active' : 'inactive'">יש לבחור שם מוצר.</p>
       </div>
       <i class="fa fa-close fa-2x pointer blue-color" title="מחיקת מוצר" (click)="deleteProductRow(index1)"></i>
     </div>
@@ -112,6 +104,7 @@
       </div>
       <div class="bd-select-container">
         <bd-select [items]="paymentTypesItems" placeholder="שיטת חיוב" #paymentTypesSelect="ngModel" [name]="'payment_type' + index1 + index" [(ngModel)]="payments.payment_type" required></bd-select>
+        <p class="alert alert-danger" [@fade]="form.submitted && paymentTypesSelect.errors ? 'active' : 'inactive'">יש לבחור שיטת חיוב.</p>
       </div>
       <mat-form-field class="mr-3">
         <input matInput type="text" [name]="'payment_amount' + index1 + index" [(ngModel)]="payments.payment_amount" placeholder="סכום לתשלום" required>
