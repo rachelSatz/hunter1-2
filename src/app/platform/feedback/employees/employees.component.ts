@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import { Subscription } from 'rxjs';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
@@ -39,7 +39,6 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   statusLabel = Object.keys(Status).map(function(e) {
       return { id: e, name: Status[e] };
   });
-  extraSearchCriteria = 'inactive';
   selectProductType = Object.keys(ProductType).map(function(e) {
     return { id: e, name: ProductType[e] };
   });
@@ -61,7 +60,8 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     { name: 'inquiries', label: 'פניות', searchable: false},
     { name: 'comments', label: 'הערות', searchable: false}
   ];
-  constructor(public dialog: MatDialog, public route: ActivatedRoute,
+  constructor(public dialog: MatDialog,
+              public route: ActivatedRoute,
               private notificationService: NotificationService,
               private feedbackService: FeedbackService,
               private selectUnitService: SelectUnitService) {
@@ -96,12 +96,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     this.dialog.open(SendApplicationComponent, {
       data: item,
       width: '1350px',
-      height: '680px'
     });
-  }
-
-  toggleExtraSearch(): void {
-    this.extraSearchCriteria = (this.extraSearchCriteria === 'active') ? 'inactive' : 'active';
   }
 
   openInquiresDialog(item: any): void {
@@ -127,17 +122,6 @@ export class EmployeesComponent implements OnInit , OnDestroy {
       width: '860px',
     });
   }
-
-  // valueDateChange(keyCode: Date, val: string): void {
-  //   this.searchCriteria[val] =
-  //     formatDate(keyCode, 'yyyy-MM-dd', 'en-US', '+0530').toString();
-  //   this.search();
-  // }
-
-  // myResetSearch(): void {
-  //   this.resetSearch();
-  //   this.dataTable.criteria.filters['salaryYear'] = this.year;
-  // }
 
   ngOnDestroy() {
     this.sub.unsubscribe();

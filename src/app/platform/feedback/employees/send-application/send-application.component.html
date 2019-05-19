@@ -1,3 +1,6 @@
+<span class="pointer" (click)="close()">
+    <i class="fa fa-close"></i>
+</span>
 <p class="bold m-0">{{ data.name }} - ת"ז {{ data.personal_id}}</p>
 <!--<p class="f-12 mb-5 grey-color">חברה משו</p>-->
 <p class="bold border-bottom f-14">פרטים</p>
@@ -35,24 +38,24 @@
   <span class="header-width f-14">{{ transfer.transfer_sum }}</span>
   <span class="header-width f-14">{{ feedBackStatus[transfer.status] }}</span>
   <span class="header-width f-14">{{ transfer.error_type }}</span>
-  <span class="header-width f-14">{{ transfer.comments }}</span>
+  <span class="header-width f-14">{{ transfer.error_details	 }}</span>
 </div>
 <p class="bold border-bottom mt-3 f-14">אופן רישום הזכויות</p>
 <div class="d-flex p-2">
   <span class="header-width bold f-14">סעיף הפרשה</span>
   <span class="header-width bold f-14">שכר מחושב</span>
   <span class="header-width bold f-14">מס' פוליסה</span>
-  <span class="header-width bold f-14">אחוז הפרשה / מצופה</span>
-  <span class="header-width bold f-14">סכום פרמיה / מצופה</span>
-  <span class="header-width bold f-14">פרטים</span>
+  <span class="header-width bold f-14">אחוז הפרשה </span>
+  <span class="header-width bold f-14">סכום פרמיה </span>
+  <span class="header-width bold f-14">א.כ.א / שונות מצופה</span>
 </div>
 <div class="d-flex p-2 mt-2" *ngFor="let transfer of data.transfer_clause;">
   <span class="header-width f-14">{{ clause_types[transfer.clause_type] }}</span>
   <span class="header-width f-14">{{  transfer.salary_calculated }}</span>
-  <span class="header-width f-14">{{ transfer.account_number }}</span>
-  <span class="header-width f-14">{{ transfer.rate_provision_expected }}</span>
-  <span class="header-width f-14">{{ transfer.amount_provision_expected }}</span>
-  <span class="header-width f-14">{{ transfer.error_details	 }}</span>
+  <span class="header-width f-14">{{ data.policy_or_account_number }}</span>
+  <span class="header-width f-14">{{ transfer.percent + '%' }}</span>
+  <span class="header-width f-14">{{ transfer.sum }}</span>
+  <span class="header-width f-14">{{ transfer.expected_percent + '% - ' + transfer.expected_sum }}</span>
 </div>
 <!--<div class="mt-5">-->
   <!--<textarea name="subject" placeholder="הערות" [(ngModel)]="commentContent" class="text-extra mt-2"></textarea>-->

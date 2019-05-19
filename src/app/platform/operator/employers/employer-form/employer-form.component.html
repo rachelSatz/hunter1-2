@@ -3,7 +3,7 @@
   <p class="h5 bold py-3">כרטיס מעסיק</p>
   <div class="d-flex mr-auto">
     <a (click)="back()">
-      <p class="f-14 grey-color">
+      <p class="f-14 blue-color">
         <i class="fa fa-angle-right ml-1 ml-lg-2"></i>
         <span>חזור</span>
       </p>
@@ -36,7 +36,7 @@
       </mat-form-field>
       <mat-form-field  class="mr-3">
         <input matInput placeholder="מספר מזהה לשליחה"  [(ngModel)]="employer.identifier"
-               formControlName="sendingNumber" maxlength="9">
+               formControlName="sendingNumber" maxlength="9" (change)="saveChanges = true">
         <mat-error>שדה חובה</mat-error>
       </mat-form-field>
       <mat-form-field class="mr-3">
@@ -101,69 +101,6 @@
       </div>
     </form>
   </div>
-  <!--<div>-->
-
-  <!--</div>-->
-  <!--<div class="container-fluid">-->
-  <!--<header>-->
-    <!--<div id="mainMenu">-->
-      <!--<nav class="navbar navbar-toggleable-md navbar-light bg-faded">-->
-        <!--<div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-          <!--<ul class="navbar-nav">-->
-            <!--<ng-container *ngFor="let header of headers">-->
-              <!--<li class="nav-item" *ngIf="!header.subMenuLinks">-->
-                <!--<a class="nav-link" [routerLink]="[header.url]">-->
-                  <!--<p>{{ header.label }}</p>-->
-                <!--</a>-->
-              <!--</li>-->
-              <!--<li [matMenuTriggerFor]="subMenu" class="nav-item pointer" *ngIf="header.subMenuLinks">-->
-                <!--<span>{{ header.label }}</span>-->
-                <!--<mat-menu #subMenu yPosition="above" [overlapTrigger]="false">-->
-                  <!--<button mat-menu-item class="dropdown-item" *ngFor="let subLink of header.subMenuLinks">-->
-                    <!--{{ subLink.label }}</button>-->
-                <!--</mat-menu>-->
-              <!--</li>-->
-            <!--</ng-container>-->
-          <!--</ul>-->
-        <!--</div>-->
-      <!--</nav>-->
-    <!--</div>-->
-  <!--</header>-->
-  <!--</div>-->
-
-  <!--</div>-->
-  <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">-->
-    <!--<div class="collapse navbar-collapse" id="navbarNav">-->
-      <!--<ul class="navbar-nav">-->
-        <!--<ng-container *ngFor="let header of headers">-->
-          <!--<li class="nav-item" *ngIf="!header.subMenuLinks">-->
-            <!--<a class="nav-link" [routerLink]="[header.url]">-->
-              <!--<p>{{ header.label }}</p>-->
-            <!--</a>-->
-          <!--</li>-->
-          <!--<li [matMenuTriggerFor]="subMenu" class="nav-item pointer" *ngIf="header.subMenuLinks">-->
-            <!--<span>{{ header.label }}</span>-->
-            <!--<mat-menu #subMenu yPosition="above" [overlapTrigger]="false">-->
-              <!--<button mat-menu-item class="dropdown-item" *ngFor="let subLink of header.subMenuLinks">-->
-                <!--{{ subLink.label }}</button>-->
-            <!--</mat-menu>-->
-          <!--</li>-->
-        <!--</ng-container>-->
-      <!--</ul>-->
-    <!--</div>-->
-  <!--</nav>-->
-  <!--<div class="d-flex header-border mt-5 pt-5 text-center" id="headers">-->
-    <!--<ng-container *ngFor="let header of headers">-->
-  <!--<span routerLinkActive="active" [routerLink]="[header.url]"  *ngIf="!header.subMenuLinks">-->
-  <!--{{header.label}}</span>-->
-    <!--<li [matMenuTriggerFor]="subMenu" class="nav-item pointer"  *ngIf="header.subMenuLinks">-->
-    <!--<span>{{ header.label }}</span>-->
-    <!--<mat-menu #subMenu yPosition="below" [overlapTrigger]="false">-->
-    <!--<button mat-menu-item class="dropdown-item" *ngFor="let subLink of header.subMenuLinks">{{ subLink.label }}</button>-->
-    <!--</mat-menu>-->
-    <!--</li>-->
-    <!--</ng-container>-->
-  <!--</div>-->
   <div class="container-fluid">
     <header>
       <div id="mainMenu">

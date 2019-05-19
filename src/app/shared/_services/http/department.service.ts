@@ -63,4 +63,18 @@ export class DepartmentService extends BaseHttpService {
       .catch(() => false);
   }
 
+  addSNInCompanies(obj: any): Promise<any> {
+    return this.http.post(this.endPoint + '/addSNInCompanies' ,  [obj], this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+  getSNInEmployer(pk: number): Promise<any> {
+    return this.http.get(this.endPoint + '/getSNInEmployer/' + pk , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
 }

@@ -1,29 +1,35 @@
-<form #form="ngForm" (ngSubmit)="submit(form)" class="col-12 col-lg-6 p-0">
+<form #form="ngForm" (ngSubmit)="submit(form)" [formGroup]="number">
   <div class="row mt-lg-5">
-    <div class="col-12 col-lg-4">
-      <bd-select class="w-100" [items]="companies" name="company"
-                 (onSelect)="selectedProducts()"
-                 #companySelect="ngModel"
-                 [(ngModel)]="this.employerProductBankAccount.company_id"
+    <div class="col-lg-2">
+      <bd-select class="w-100" [items]="departments" formControlName="department_id"
+                 placeholder="מחלקה"
+                 (onSelect)="loadEmployees()"
+                 required [error]="number.controls['department_id'].errors && form.submitted"></bd-select>
+    </div>
+    <div class="col-lg-2">
+      <bd-select class="w-100" [items]="companies" formControlName="company_id"
                  placeholder="חברה מנהלת"
-                 required [error]="companySelect.errors && form.submitted"></bd-select>
+                 required [error]="number.controls['company_id'].errors && form.submitted">
+
+      </bd-select>
     </div>
-    <div class="col-12 col-lg-4">
-      <bd-select class="w-100" [items]="products" name="product" #productSelect="ngModel"
-                 [(ngModel)]="this.employerProductBankAccount.product_id"
-                 (onSelect)="selectedBankAccounts()"
-                 placeholder="קופה"
-                 required [error]="productSelect.errors && form.submitted"></bd-select>
+    <div class="col-lg-2">
+      <bd-select class="w-100" [items]="employees" formControlName="employee_id"
+                 placeholder="עובד"
+                 (onScroll)="checkLoadEmployees($event)"
+                 (serverFilter) = "filter($event, 'employee')"
+                 label="nameFull"
+                 (elementCreated)="checkLoadEmployees($event)"
+                 [clientSideSearch]="false"
+                ></bd-select>
     </div>
-    <div class="col-12 col-lg-4">
-      <bd-select class="w-100" [items]="bankAccounts" name="bank_account"
-                 #bankAccountSelect="ngModel"
-                 [(ngModel)]="this.employerProductBankAccount.bank_account_id"
-                 placeholder="בנקים" required
-                 [error]="bankAccountSelect.errors && form.submitted"></bd-select>
-    </div>
-    <div class="mt-4 text-center">
-      <button type="submit" class="btn blue-btn">הוספה</button>
-    </div>
+    <mat-form-field class="col-lg-2 top">
+      <input matInput placeholder="מספר" formControlName="number" required>
+      <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
+    </mat-form-field>
+
+  </div>
+  <div class="row text-center">
+    <button type="submit" class="btn blue-btn">הוספה</button>
   </div>
 </form>

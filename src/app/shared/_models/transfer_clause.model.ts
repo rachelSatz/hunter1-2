@@ -3,13 +3,13 @@ export class TransferClause {
   id: number;
   clause_type: string;
   transfer_sum: string;
-  transfer_percent: string;
-  exempt_sum: string;
-  predicted_sum: number;
-  predicted_percent: string;
-  previous_guid: string;
-  comments: string;
-  guid: string;
+  // exempt: number;
+  percent: number;
+  expected_sum: number;
+  expected_percent: number;
+  salary_calculated: number;
+  policy_or_account_number: string;
+
 }
 
 export enum ClauseType {
@@ -23,7 +23,7 @@ export enum ClauseType {
   other_employer = 'שונות מעביד',
 }
 
-export enum  FeedBackStatus{
+export enum  FeedBackStatus {
   record_received = 'רשומה נקלטה',
   record_processing_manufacture = 'רשומה בטיפול יצרן',
   record_transferred_employer = 'רשומה הועברה לטיפול מעסיק'

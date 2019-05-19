@@ -22,4 +22,8 @@ export class SendApplicationComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  close() {
+    this.dialogRef.close();
+  }
 }

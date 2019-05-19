@@ -226,10 +226,10 @@ export class PlatformComponent implements OnInit {
 
   loadEmployers(organizationID: number): void {
     this.getEmployers(organizationID);
-    if (!this._is_Employer) {
+    // if (!this._is_Employer) {
       this.employerId = this.employers.length > 0 ? this.employers[0].id : 0;
       this.organizationId = organizationID;
-    }
+    // }
     this.loadDepartments(this.employerId);
   }
 
@@ -256,11 +256,11 @@ export class PlatformComponent implements OnInit {
     }else {
       this.departments = [];
     }
-    if (!this._is_Employer) {
+    // if (!this._is_Employer) {
       this.departmentId = this.departments.length > 0 ? this.departments[0].id : 0;
       this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, +employerId,
         +this.departmentId);
-    }
+    // }
     this.helpers.setPageSpinner(false);
   }
 

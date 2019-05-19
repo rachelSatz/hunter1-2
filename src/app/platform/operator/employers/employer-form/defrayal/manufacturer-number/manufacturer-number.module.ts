@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { ManufacturerNumberComponent } from './manufacturer-number.component';
+import { DepartmentService } from 'app/shared/_services/http/department.service';
 
 
 const routes: Routes = [{ path: '', component: ManufacturerNumberComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [{ path: '', component: ManufacturerNumberComponent},
     RouterModule.forChild(routes),
     DataTableModule
   ],
-  declarations: [ManufacturerNumberComponent]
+  declarations: [ManufacturerNumberComponent],
+  providers: [DepartmentService]
 })
 export class ManufacturerNumberModule { }

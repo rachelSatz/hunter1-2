@@ -12,7 +12,6 @@ import { Company } from 'app/shared/_models/company.model';
 @Component({
   selector: 'app-bank-default-product-form',
   templateUrl: './bank-default-product-form.component.html',
-  styleUrls: ['./bank-default-product-form.component.css']
 })
 export class BankDefaultProductFormComponent implements OnInit {
   employerProductBankAccount = new EmployerProductBankAccount;
@@ -32,13 +31,13 @@ export class BankDefaultProductFormComponent implements OnInit {
   ngOnInit() {
     if (this.router.url.includes( 'employers')) {
       this.navigate = ['platform', 'employers',
-        'form', this.selectUnit.currentEmployerID, 'defrayal'];
+        'form', this.selectUnit.currentEmployerID, 'bank'];
       this.location = 'employers';
     } else if (this.router.url.includes( 'operator')) {
       this.location = 'operator';
-      this.navigate = ['platform', 'operator', 'defrayal'];
+      this.navigate = ['platform', 'operator', 'bank'];
     } else {
-      this.navigate = ['platform', 'defrayal'];
+      this.navigate = ['platform', 'bank'];
       this.location = 'settings';
     }
 

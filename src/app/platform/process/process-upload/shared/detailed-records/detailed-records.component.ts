@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
-import { DepositStatus, DepositType } from 'app/shared/_models/monthly-transfer-block';
+import {DepositStatus, DepositType, EmployeeStatus} from 'app/shared/_models/monthly-transfer-block';
 import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
 import { EditPaymentsComponent } from './edit-payments/edit-payments.component';
@@ -37,7 +37,8 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
       subLabel: 'שם קופה', searchOptions: { labels: [] } },
     { name: 'employer_product_name', sortName: 'employer_product__code', label: 'שם קופה בשכר' , searchable: false },
     { name: 'employer_product_type', sortName: 'employer_product__type', label: 'סוג קופה' , searchable: false },
-    { name: 'deposit_status', isSort: false , label: 'סטטוס' , searchable: false },
+    { name: 'deposit_status', isSort: false , label: 'מעמד' , searchable: false },
+    { name: 'employee_status', isSort: false , label: 'סטטוס' , searchable: false },
     { name: 'product_code', sortName: 'employer_product__product__code', label: 'מ"ה' , searchable: false },
     { name: 'payment_month', label: 'חודש תשלום' , searchable: false },
     { name: 'payment_month1', isSort: false, label: 'חודש ייחוס' , searchable: false },
@@ -57,6 +58,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   sub = new Subscription;
 
   depositStatus = DepositStatus;
+  employeeStatus = EmployeeStatus;
   depositTypes = DepositType;
   productType = ProductType;
   records_id = 0;
