@@ -35,15 +35,15 @@
     </div>
   </div>
   <tr *ngFor="let item of dataTable.items" class="pointer">
-    <td>{{ item.name }}</td>
-    <td>{{ item.id }}</td>
-    <td>{{ processType[item.type] }}</td>
-    <td>{{ item.employer_name }}</td>
-    <td>{{ item.department_name }}</td>
-    <td>{{ item.date | date:'MM'}}</td>
-    <td>{{ item.date | date:'yyyy' }}</td>
-    <td>{{ item.total | number: '1.2-2'}}</td>
-    <td (click)="item.status === 'error_loading' ? messageError(item.error_details) :moveProcess(item)">
+    <td  (click)="moveProcess(item)">{{ item.name }}</td>
+    <td  (click)="moveProcess(item)">{{ item.id }}</td>
+    <td  (click)="moveProcess(item)">{{ processType[item.type] }}</td>
+    <td  (click)="moveProcess(item)">{{ item.employer_name }}</td>
+    <td  (click)="moveProcess(item)">{{ item.department_name }}</td>
+    <td  (click)="moveProcess(item)">{{ item.date | date:'MM'}}</td>
+    <td  (click)="moveProcess(item)">{{ item.date | date:'yyyy' }}</td>
+    <td  (click)="moveProcess(item)">{{ item.total | number: '1.2-2'}}</td>
+    <td (click)="moveProcess(item)">
       {{ processStatus[item.status] }}</td>
     <td>
     <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)">
