@@ -108,7 +108,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       } else if (response['message'] === 'error') {
         this.notificationService.error('ארעה שגיאה');
       } else {
-        const byteCharacters = atob(response['data']);
+        const byteCharacters = atob(response['message']['data']);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
           byteNumbers[i] = byteCharacters.charCodeAt(i);

@@ -40,7 +40,9 @@ export class ProactiveInvoiceFormComponent implements OnInit {
       this.invoiceService.createInvoice(form.value).then(response => {
         if (response['message'] !== 'success') {
           this.hasServerError = true;
+          this.message = response['message'];
         } else {
+          this.hasServerError = false;
           this.notificationService.success('נשמר בהצלחה.');
           this.dialogRef.close();
         }
