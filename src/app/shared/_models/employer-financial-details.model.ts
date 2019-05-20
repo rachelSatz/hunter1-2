@@ -18,8 +18,8 @@ export class EmployerFinancialDetails {
   green_invoice_email: string;
   direct_debit_commission: string;
   est_payment_type: string;
-  est_payment_amount: string;
-  est_ids_count: string;
+  est_payment_amount: number;
+  est_ids_count: number;
   est_invoice_id: string;
 
   constructor() {

@@ -43,7 +43,7 @@ export class ContactFormComponent implements OnInit {
   is_update: boolean;
   type_old: string;
 
-  constructor( private route: ActivatedRoute,
+  constructor( public route: ActivatedRoute,
                private selectUnit: SelectUnitService,
                private router: Router,
                private productService: ProductService,

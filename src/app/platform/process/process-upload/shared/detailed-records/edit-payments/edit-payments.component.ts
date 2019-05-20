@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 
 import { DepositStatus, DepositType, EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-edit-payments',
@@ -25,6 +26,8 @@ export class EditPaymentsComponent implements OnInit {
   ngOnInit() {
   }
 
+  submit(form: NgForm): void {
 
+  }
 
 }

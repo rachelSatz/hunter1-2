@@ -35,6 +35,7 @@ export class ManualInvoiceFormComponent implements OnInit {
   totalIncludeTax = 0;
   isEdit = false;
   hasServerError = false;
+  message: string;
 
   readonly columns  = [
     { name: 'tax', label: 'מע"מ', searchable: false},
@@ -134,6 +135,7 @@ export class ManualInvoiceFormComponent implements OnInit {
     if (form.valid) {
       this.hasServerError = false;
       this.invoiceService.createManualInvoice(this.manualInvoice).then(response => {
+        this.message = response['message'];
         if (response['message'] !== 'success') {
           this.hasServerError = true;
         } else {
