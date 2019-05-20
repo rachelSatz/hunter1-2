@@ -101,6 +101,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   }
 
   moveProcess(process: Process): void {
+    if (process.status === 'error_loading') { return this.messageError(process.error_details) ; }
     const status = this.processStatus[process.status];
    if (status === this.processStatus.loading || status ===  this.processStatus.can_be_processed
    || status === this.processStatus.done_processing || status === this.processStatus.transmitted) {

@@ -93,7 +93,7 @@ export class ProcessService extends BaseHttpService {
   }
 
   transfer(processID: any, name: string): Promise<any> {
-    return this.http.post(this.endPoint  + '/transmit', { [name]: processID} , this.getTokenHeader())
+    return this.http.post(this.endPoint  + '/Transmit', { [name]: processID} , this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
