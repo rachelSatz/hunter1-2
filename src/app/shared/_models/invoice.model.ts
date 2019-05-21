@@ -76,6 +76,12 @@ export enum ERROR_STATUS {
   no_payment = 'אין פרטי תשלום',
   partial_payment = 'פרטי תשלום חלקיים',
 }
+export enum TYPES {
+  proactive= 'יזומה',
+  manual= 'ידנית',
+  auto= 'אוטומטית',
+}
+
 
 
 

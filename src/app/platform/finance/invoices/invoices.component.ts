@@ -6,7 +6,7 @@ import { Subscription} from 'rxjs';
 
 import { EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
 import { ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
-import { STATUS, ALL_STATUS} from 'app/shared/_models/invoice.model';
+import { STATUS, ALL_STATUS, TYPES} from 'app/shared/_models/invoice.model';
 import { SelectUnitService} from 'app/shared/_services/select-unit.service';
 import { RemarksFormComponent} from './remarks-form/remarks-form.component';
 import { InvoiceService} from 'app/shared/_services/http/invoice.service';
@@ -15,6 +15,7 @@ import * as FileSaver from 'file-saver';
 import { NotificationService } from '../../../shared/_services/notification.service';
 import { EmployerService } from '../../../shared/_services/http/employer.service';
 import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
+import { PAYMENT_METHOD} from '../../../shared/_models/employer-financial-details.model';
 
 @Component({
   selector: 'app-invoices',
@@ -34,6 +35,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   status = Object.keys(STATUS).map(function(e) {
     return { id: e, name: STATUS[e] };
   });
+  types = TYPES;
   invoice_all_status = ALL_STATUS;
   selectStatus = Object.keys(ALL_STATUS).map(function(e) {
     return { id: e, name: ALL_STATUS[e] };
@@ -41,6 +43,9 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   sub = new Subscription;
   spin: boolean;
 
+  paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function(e) {
+    return { id: e, name: PAYMENT_METHOD[e] };
+  });
   readonly columns  = [
     { name: 'employer_name', label: 'שם מעסיק', searchable: false},
     { name: 'green_invoice_number', label: 'מספר חשבונית בירוקה'},
@@ -52,7 +57,9 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     { name: 'kind', label: 'סוג חשבונית' , searchable: false},
     { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } },
     { name: 'remark', label: 'הערות' , searchable: false},
-    { name: 'options', label: 'אפשרויות' , searchable: false}
+    { name: 'options', label: 'אפשרויות' , searchable: false},
+    { name: 'payment_method', label: 'אופן תשלום', searchOptions: { labels: this.paymentMethodItems }, isDisplay: false},
+
   ];
 
   constructor(route: ActivatedRoute,
@@ -107,6 +114,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
         this.notificationService.info('לא חויבו עובדים בחשבונית');
       } else if (response['message'] === 'error') {
         this.notificationService.error('ארעה שגיאה');
+      } else if (response['message'] === 'establishing_invoice') {
+        this.notificationService.info('חשבונית הקמה');
       } else {
         const byteCharacters = atob(response['message']['data']);
         const byteNumbers = new Array(byteCharacters.length);
@@ -116,6 +125,26 @@ export class InvoicesComponent implements OnInit, OnDestroy {
         const byteArray = new Uint8Array(byteNumbers);
         const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
         const fileName = 'פירוט עובדים בחשבונית מספר - '  + invoiceId + '.xlsx';
+        FileSaver.saveAs(blob, fileName);
+        this.spin = false;
+        this.notificationService.success('הקובץ הופק בהצלחה');
+      }
+    });
+  }
+
+  downloadInvoicesToExcel(): void {
+    this.invoiceService.downloadInvoicesToExcel(this.dataTable.criteria).then(response => {
+      if (response['message'] === 'error') {
+        this.notificationService.error('לא ניתן להוריד את הקובץ');
+      } else {
+        const byteCharacters = atob(response['message']['data']);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+        const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
         FileSaver.saveAs(blob, fileName);
         this.spin = false;
         this.notificationService.success('הקובץ הופק בהצלחה');
