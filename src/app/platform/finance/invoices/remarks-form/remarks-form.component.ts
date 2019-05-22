@@ -4,21 +4,22 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { Invoice} from '../../../../shared/_models/invoice.model';
 import { InvoiceService} from '../../../../shared/_services/http/invoice.service';
+import {fade} from '../../../../shared/_animations/animation';
 
 
 @Component({
   selector: 'app-remarks-form',
   templateUrl: './remarks-form.component.html',
   styles: ['#styleFormat { height: 200px; padding-top: 20px }'],
-
-
+  animations: [ fade ]
+  
 })
 export class RemarksFormComponent implements OnInit {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
   comments = [];
   comment: string;
-  hasServerError: boolean;
+  hasServerError = false;
   remarks = {};
   message = 'שגיאת שרת';
 
