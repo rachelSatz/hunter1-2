@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../../../../shared/_services/notification.service';
 import { MatDialog } from '@angular/material';
 import { SkipTaskComponent } from './skip-task/skip-task.component';
-import {ActivatedRoute, Router} from '@angular/router';
-import {PlanService} from '../../../../shared/_services/http/plan.service';
-import {PlanTask} from '../../../../shared/_models/plan-task';
-import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
-import {TimerService} from '../../../../shared/_services/http/timer';
-import {TaskTimer} from '../../../../shared/_models/timer.model';
-import {OperatorTasksService} from '../../../../shared/_services/http/operator-tasks';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PlanService } from '../../../../shared/_services/http/plan.service';
+import { PlanTask } from '../../../../shared/_models/plan-task';
+import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
+import { TimerService } from '../../../../shared/_services/http/timer';
+import { TaskTimer } from '../../../../shared/_models/timer.model';
+import { OperatorTasksService } from '../../../../shared/_services/http/operator-tasks';
 
 @Component({
   selector: 'app-ongoing-operation',

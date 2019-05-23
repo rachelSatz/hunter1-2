@@ -12,7 +12,7 @@ import {fade} from '../../../../shared/_animations/animation';
   templateUrl: './remarks-form.component.html',
   styles: ['#styleFormat { height: 200px; padding-top: 20px }'],
   animations: [ fade ]
-  
+
 })
 export class RemarksFormComponent implements OnInit {
 

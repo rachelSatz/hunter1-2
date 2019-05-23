@@ -35,6 +35,8 @@ export class FinanceComponent implements OnInit {
   openDatePicker = false;
   payEmployers: any;
   isEstablishingPayment: boolean;
+  currentEmpId = 0;
+
   paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function(e) {
     return { id: e, name: PAYMENT_TERMS[e] };
   });
@@ -72,7 +74,6 @@ export class FinanceComponent implements OnInit {
   ngOnInit() {
     this.employerService.getAllEmployers(null, true).then(
       response => this.payEmployers = response['items']);
-
     this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(response => {
       if (response.id) {
         this.financialDetails = response;
