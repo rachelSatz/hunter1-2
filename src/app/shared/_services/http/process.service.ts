@@ -85,8 +85,8 @@ export class ProcessService extends BaseHttpService {
       .catch(response => response);
   }
 
-  update(type: string , val: any, id: object): Promise<boolean> {
-    return this.http.post(this.endPoint + '/update', { params: val , type: type, id}, this.getTokenHeader())
+  update(type: string , val: any, file_id: any): Promise<boolean> {
+    return this.http.post(this.endPoint + '/update', { params: val , type: type, file_id : file_id}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
@@ -144,7 +144,7 @@ export class ProcessService extends BaseHttpService {
       const formData = new FormData();
       formData.append('file', uploadedFile);
 
-      return this.http.post(this.endPoint + '/' + fileId + '/uloadRef', formData, this.getTokenHeader())
+      return this.http.post(this.endPoint + '/' + fileId + '/uploadRef', formData, this.getTokenHeader())
         .toPromise()
         .then(response => response as Object)
         .catch(() => []);

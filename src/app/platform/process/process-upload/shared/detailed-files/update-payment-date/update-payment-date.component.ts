@@ -30,7 +30,7 @@ export class UpdatePaymentDateComponent implements OnInit {
       }else {
         id = { 'processId': this.data.processId };
       }
-      this.processService.update('date', dateFormat,  id).then( response => {
+      this.processService.update('date', dateFormat,  this.data.file_id).then( response => {
         // if (response) {
           this.dialogRef.close();
         // }

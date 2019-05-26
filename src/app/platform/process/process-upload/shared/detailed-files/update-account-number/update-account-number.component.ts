@@ -39,7 +39,7 @@ export class UpdateAccountNumberComponent implements OnInit {
   // }
 
   submit(form: NgForm): void {
-      this.processService.update('refNumber', this.data.ref_number, this.data.file_id).then( response => {
+      this.processService.update('refNumber', this.data.ref_number, this.data.file_id ).then( response => {
         if (response) {
         this.dialogRef.close();
         }

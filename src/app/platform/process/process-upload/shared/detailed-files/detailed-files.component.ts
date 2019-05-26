@@ -122,7 +122,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   checkedRowItems(): boolean {
-    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+  // && !this.dataTable.criteria.isCheckAll
+    if (this.dataTable.criteria.checkedItems.length === 0 ) {
       this.dataTable.setNoneCheckedWarning();
       return false;
     }
@@ -167,7 +168,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
          }
 
          const dialog = this.dialog.open(UpdatePaymentDateComponent, {
-           data: date,
+           data: {'date': date, 'file_id': file_id === -1 ?
+           this.dataTable.criteria.checkedItems.map(item => item['file_id']) : [file_id]},
            width: '550px',
            panelClass: 'dialog-file'
          });
@@ -199,7 +201,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
 
           this.notificationService.warning(title, body, buttons).then(confirmation => {
             if (confirmation.value) {
-              this.processService.update(typeData, '', this.dataTable.criteria.checkedItems.map(item => item['file_id']))
+              this.processService.update(typeData, '',
+                 this.dataTable.criteria.checkedItems.map(item => item['file_id']) )
                 .then(response => {
                   if (response) {
                     this.endAction();
@@ -216,7 +219,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   openSent(): void {
-    if (this.checkedRowItems()) {
+    if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
       const processId = { 'processId' : this.processDataService.activeProcess.processID};
       let filesList =  {};
       if (!this.dataTable.criteria.isCheckAll) {
@@ -238,6 +241,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
       } else {
         this.notificationService.error('', 'יש לבחור רק נעולים');
       }
+    }else {
+      this.dataTable.setNoneCheckedWarning();
     }
   }
 
