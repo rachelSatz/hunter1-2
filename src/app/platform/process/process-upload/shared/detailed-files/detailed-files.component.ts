@@ -122,7 +122,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   checkedRowItems(): boolean {
-    if (this.dataTable.criteria.checkedItems.length === 0) {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return false;
     }
@@ -155,12 +155,19 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
      }));
    }
 
-   openUpdatePayDateDialog(date: string, file_id: number): void {
+   openUpdatePayDateDialog(val: string, file_id: number): void {
      if (file_id !== -1 || this.checkedRowItems()) {
        if (this.isLockedBroadcast()) {
+         const date = { 'date': val };
+         if (this.dataTable.criteria.isCheckAll) {
+           date['processId'] = this.processDataService.activeProcess.processID;
+         }else {
+           date['file_id'] = file_id === -1 ?
+             this.dataTable.criteria.checkedItems.map(item => item['file_id']) : [file_id];
+         }
+
          const dialog = this.dialog.open(UpdatePaymentDateComponent, {
-           data: {'date': date, 'file_id': file_id === -1 ?
-               this.dataTable.criteria.checkedItems.map(item => item['file_id']) : [file_id]},
+           data: date,
            width: '550px',
            panelClass: 'dialog-file'
          });
@@ -209,7 +216,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   openSent(): void {
-    if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
+    if (this.checkedRowItems()) {
       const processId = { 'processId' : this.processDataService.activeProcess.processID};
       let filesList =  {};
       if (!this.dataTable.criteria.isCheckAll) {
@@ -221,7 +228,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
             if (r['authorized'] === false && r['success'] === 'Message_Sent') {
                 this.notificationService.success('', 'ממתין לאישור מנהל');
             } else  if (r['authorized'] === true && r['success'] === true) {
-              this.notificationService.success('', 'נפתח בצלחה');
+              this.notificationService.success('', 'נפתח בהצלחה');
               this.endAction();
             } else {
               this.notificationService.error('שגיאה', r['success']);
@@ -231,8 +238,6 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
       } else {
         this.notificationService.error('', 'יש לבחור רק נעולים');
       }
-    }else {
-      this.dataTable.setNoneCheckedWarning();
     }
   }
 

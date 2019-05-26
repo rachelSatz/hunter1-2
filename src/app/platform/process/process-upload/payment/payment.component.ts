@@ -88,7 +88,8 @@ export class PaymentComponent implements OnInit , OnDestroy {
     this.process_details = response;
     if (this.process_details.status !== null) {
       switch (this.process_details.status) {
-        case 'can_be_processed': {
+        case 'can_be_processed':
+        case 'transmitted': {
           this.helpers.setPageSpinner(false);
           this.process_percent = 100;
           let time = 1000;

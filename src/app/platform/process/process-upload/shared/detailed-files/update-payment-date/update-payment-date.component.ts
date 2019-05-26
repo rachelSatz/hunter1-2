@@ -24,8 +24,13 @@ export class UpdatePaymentDateComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
       const dateFormat = this.datepipe.transform(this.date, 'yyyy-MM-dd');
-
-      this.processService.update('date', dateFormat, this.data.file_id).then( response => {
+      let id;
+      if ('file_id' in this.data) {
+        id = { 'file_id': this.data.file_id };
+      }else {
+        id = { 'processId': this.data.processId };
+      }
+      this.processService.update('date', dateFormat,  id).then( response => {
         // if (response) {
           this.dialogRef.close();
         // }

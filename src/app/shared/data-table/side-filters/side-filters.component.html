@@ -25,8 +25,10 @@
           <mat-datepicker-toggle matSuffix [for]="datePickerFrom"></mat-datepicker-toggle>
           <mat-datepicker #datePickerFrom></mat-datepicker>
         </mat-form-field>
+
         <mat-form-field class="w-100">
-          <input matInput [name]="column.name + '[to]'"  [min]="searchCriteria[column.name + '[from]']" class="pointer"
+          <input matInput [name]="column.name + '[to]'" [id]="column.name + '[to]'"
+                 [min]="searchCriteria[column.name + '[from]']" class="pointer"
                  (click)="datePickerTo.open()" [matDatepicker]="datePickerTo" (dateChange)="valueDateChange($event)"
                  placeholder="עד תאריך" ngModel [(ngModel)]="searchCriteria[column.name + '[to]']" readonly>
           <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>

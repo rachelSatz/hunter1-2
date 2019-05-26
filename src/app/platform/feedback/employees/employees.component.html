@@ -27,7 +27,7 @@
   <tr *ngFor="let employee of dataTable.items" class="pointer" >
     <td>{{ employee.name }}</td>
     <td>{{ employee.personal_id }}</td>
-    <td>{{ employee.salary_month | date:'MM'}}</td>
+    <td>{{ employee.salary_month | date:'MM/yy'}}</td>
     <td>{{ employee.company_name}}</td>
     <td>{{ productTypes[employee.product_type]}}</td>
     <td>{{ employee.product_code}}</td>

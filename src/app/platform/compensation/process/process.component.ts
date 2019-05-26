@@ -165,7 +165,8 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
     const dialog = this.dialog.open(FormComponent,
       {
-      data: { companies: this.companies, departmentId: this.selectUnit.currentDepartmentID ,
+      data: { companies: this.companies,
+        departmentId: this.selectUnit.currentDepartmentID ,
         employerID: this.selectUnit.currentEmployerID},
         width: '450px'
     });

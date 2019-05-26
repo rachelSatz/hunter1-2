@@ -85,8 +85,8 @@ export class ProcessService extends BaseHttpService {
       .catch(response => response);
   }
 
-  update(type: string , val: any, fileId: object): Promise<boolean> {
-    return this.http.post(this.endPoint + '/update', { params: val , type: type, fileId: fileId}, this.getTokenHeader())
+  update(type: string , val: any, id: object): Promise<boolean> {
+    return this.http.post(this.endPoint + '/update', { params: val , type: type, id}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
