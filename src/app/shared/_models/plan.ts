@@ -4,26 +4,31 @@ import {Timestamp} from 'rxjs';
 
 export class Plan {
   id: number;
-  type: string;
-  sub_type: string;
   name: string;
-  salary_start_date: any;
-  salary_end_date: any;
+  users: any;
   start_time: string;
   end_time: string;
   is_active: boolean;
   user_plan: any;
-  users: any;
-  plan_category: PlanCategory[];
-  // taskCategories: TaskType[];
+  planRows: PlanRow[] = [];
 
   constructor() {
     // this.type = new PlanType();
     this.user_plan = [];
-    this.plan_category = [];
+    this.planRows.push(new PlanRow());
     // this.taskCategories = [];
   }
 }
+
+export class PlanRow {
+  id: number;
+  type: string;
+  sub_type: string;
+  amount: number;
+  salary_start_date: any;
+  salary_end_date: any;
+}
+
 export class PlanType {
   id: number;
   name: string;

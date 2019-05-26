@@ -3,7 +3,10 @@
 }
 
 #taskPrioritization {
-  background-color: #ececec;
+  /*background-color: #ececec;*/
+  /*border-style: solid;*/
+  border: 1px solid #b3b3b3;
+  max-height: 600px;
 }
 
 .task-item {

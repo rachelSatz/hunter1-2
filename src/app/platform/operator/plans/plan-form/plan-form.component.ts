@@ -3,7 +3,7 @@ import { ActivatedRoute, Router} from '@angular/router';
 import { TaskService} from 'app/shared/_services/http/task.service';
 import { PlanService} from 'app/shared/_services/http/plan.service';
 import { User} from 'app/shared/_models/user.model';
-import { Plan, PlanCategoryLabel, PlanType, PlanTypeLabel, TimerType, TIMESTAMPS } from '../../../../shared/_models/plan';
+import {Plan, PlanCategoryLabel, PlanRow, PlanType, PlanTypeLabel, TimerType, TIMESTAMPS} from '../../../../shared/_models/plan';
 import { Subscription} from 'rxjs';
 import { UserService} from '../../../../shared/_services/http/user.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList } from '@angular/cdk/drag-drop';
@@ -45,13 +45,13 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     }
     this.userService.usersList().then(response => this.operators = response['items']);
     // this.plan.user_plan = Object.keys(this.plan.user_plan).map(key => ( {key: 'id'}));
-    if (this.plan.plan_category.length > 0) {
-      this.categoriesData = this.plan.plan_category;
-      this.categoriesData.sort((a, b) => a.id - b.id);
-      this.showLabel = true;
-    } else {
-      this.categoriesData = this.planCategories;
-    }
+    // if (this.plan.plan_category.length > 0) {
+    //   this.categoriesData = this.plan.plan_category;
+    //   this.categoriesData.sort((a, b) => a.id - b.id);
+    //   this.showLabel = true;
+    // } else {
+    //   this.categoriesData = this.planCategories;
+    // }
   }
   // checktime(start: string , end: string): boolean {
   //   const startTime = +start;
@@ -74,13 +74,22 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     this.categoriesData = event.container.data;
   }
 
+
+  addPlanRow(): void {
+    this.plan.planRows.push(new PlanRow());
+  }
+
+  deletePlanRow(index: number): void {
+    this.plan.planRows.splice(index, 1);
+  }
+
   submit(form: NgForm): void {
     if (form.valid) {
       if (this.categoriesData.length === 0) {
         this.categoriesData = this.planCategories;
       }
-      this.plan.salary_start_date = this.datePipe.transform(this.plan.salary_start_date, 'yyyy-MM-dd');
-      this.plan.salary_end_date = this.datePipe.transform(this.plan.salary_end_date, 'yyyy-MM-dd');
+      // this.plan.salary_start_date = this.datePipe.transform(this.plan.salary_start_date, 'yyyy-MM-dd');
+      // this.plan.salary_end_date = this.datePipe.transform(this.plan.salary_end_date, 'yyyy-MM-dd');
       if (this.plan.id) {
         this.planService.update(this.plan, this.categoriesData)
           .then(response => this.handleResponse(response));
