@@ -55,6 +55,15 @@ export class EmployerService extends BaseHttpService {
       .catch(() => null);
   }
 
+  getAllPayEmployers(): Promise<Employer> {
+    const request = this.getTokenHeader();
+    return this.http.get(this.endPoint + '/allPayEmployers', request)
+      .toPromise()
+      .then(response => response as Employer)
+      .catch(() => null);
+  }
+
+
   newEmployer(employer: any, department: any): Promise<any> {
     return this.http.post(this.endPoint, {employer: employer , department: department}, this.getTokenHeader())
     .toPromise()

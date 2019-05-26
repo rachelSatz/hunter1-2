@@ -38,9 +38,9 @@ export class PlanCategory {
 }
 
 export enum PlanTypeLabel {
-  repayments = 'מרתון פרעונות',
-  payments = 'גבייה',
-  handle_errors = 'טיפול בשגויים'
+  defrayal = 'סליקה',
+  compensation = 'יתרות לפיצויים',
+  customer_service = 'שרות לקוחות'
 }
 
 export enum PlanCategoryLabel {

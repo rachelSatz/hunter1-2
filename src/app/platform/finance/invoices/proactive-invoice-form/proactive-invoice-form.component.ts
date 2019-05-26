@@ -30,8 +30,8 @@ export class ProactiveInvoiceFormComponent implements OnInit {
               private dialogRef: MatDialogRef<ProactiveInvoiceFormComponent>) { }
 
   ngOnInit() {
-    this.employerService.getAllEmployers(null, true).then(
-      response => this.employers = response['items']);
+    this.employerService.getAllPayEmployers().then(
+      response => this.employers = response);
   }
 
   submit(form: NgForm): void {
@@ -40,7 +40,9 @@ export class ProactiveInvoiceFormComponent implements OnInit {
       this.invoiceService.createInvoice(form.value).then(response => {
         if (response['message'] !== 'success') {
           this.hasServerError = true;
+          this.message = response['message'];
         } else {
+          this.hasServerError = false;
           this.notificationService.success('נשמר בהצלחה.');
           this.dialogRef.close();
         }

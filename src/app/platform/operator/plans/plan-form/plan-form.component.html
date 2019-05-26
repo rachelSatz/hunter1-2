@@ -4,14 +4,16 @@
       <h3 class="mb-5">הגדרות תוכנית עבודה</h3>
       <mat-form-field class="w-75 mb-3">
         <mat-select [(ngModel)]="plan.type" name="type" #type="ngModel" placeholder="סוג התוכנית" required>
-          <mat-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</mat-option>
+        <mat-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</mat-option>
         </mat-select>
+        <!--<mat-select [(ngModel)]="plan.type" name="type" #type="ngModel" placeholder="סוג התוכנית" required>-->
+          <!--<mat-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</mat-option>-->
+        <!--</mat-select>-->
         <!--<mat-error *ngIf="type.errors && f.submitted">יש לבחור סוג לתוכנית.</mat-error>-->
       </mat-form-field>
       <mat-form-field class="w-75 mb-3">
-        <mat-select [(ngModel)]="plan.sub_type" name="sub_type" [value]="type.sub_type" #sub_type="ngModel" placeholder="חיובי / שלילי" required>
-          <mat-option [value]="'positive'">חיובי</mat-option>
-          <mat-option [value]="'negative'">שלילי</mat-option>
+        <mat-select [(ngModel)]="plan.sub_type" name="sub_type" [value]="type.sub_type" #sub_type="ngModel" placeholder="תוכנית משנה" required>
+          <mat-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</mat-option>
         </mat-select>
         <!--<mat-error *ngIf="sub_type.errors && f.submitted">יש לבחור חיובי או שלילי.</mat-error>-->
       </mat-form-field>

@@ -106,4 +106,15 @@ export class InvoiceService  extends BaseHttpService {
       .then(response => response)
       .catch(() => null);
   }
+
+  downloadInvoicesToExcel(criteria: DataTableCriteria): Promise<string> {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+    return this.http.get(this.endPoint + '/downloadInvoicesToExcel', request).toPromise()
+      .then(response => response as string)
+      .catch(() => null);
+  }
 }

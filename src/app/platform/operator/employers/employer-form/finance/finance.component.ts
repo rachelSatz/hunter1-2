@@ -17,6 +17,7 @@ import {
 } from 'app/shared/_models/employer-financial-details.model';
 import { fade } from 'app/shared/_animations/animation';
 import {NotificationService} from '../../../../../shared/_services/notification.service';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -34,6 +35,8 @@ export class FinanceComponent implements OnInit {
   openDatePicker = false;
   payEmployers: any;
   isEstablishingPayment: boolean;
+  currentEmpId = 0;
+
   paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function(e) {
     return { id: e, name: PAYMENT_TERMS[e] };
   });
@@ -65,12 +68,12 @@ export class FinanceComponent implements OnInit {
 
   constructor(private employerService: EmployerService,
               private selectUnit: SelectUnitService,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              public route: ActivatedRoute) { }
 
   ngOnInit() {
     this.employerService.getAllEmployers(null, true).then(
       response => this.payEmployers = response['items']);
-
     this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(response => {
       if (response.id) {
         this.financialDetails = response;
@@ -149,7 +152,10 @@ export class FinanceComponent implements OnInit {
   submit(form: NgForm): void {
     this.hasServerError = false;
     if (form.valid) {
-      this.employerService.saveFinancialDetails(this.selectUnit.currentEmployerID, this.financialDetails)
+      if (this.selectUnit.currentEmployerID === 0) {
+        this.notificationService.error('לא נבחר מעסיק.');
+      } else {
+        this.employerService.saveFinancialDetails(this.selectUnit.currentEmployerID, this.financialDetails)
           .then(response => {
             if (response['message'] !== 'success') {
               this.hasServerError = true;
@@ -158,6 +164,7 @@ export class FinanceComponent implements OnInit {
               // setTimeout(() => this.refresh(), 1000);
             }
           });
+      }
       }
     }
 }
