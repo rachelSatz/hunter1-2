@@ -3,9 +3,10 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
-import { NotificationService } from 'app/shared/_services/notification.service';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { InquiryFormComponent} from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { Subscription } from 'rxjs';
@@ -28,7 +29,6 @@ export class FilesComponent implements OnInit, OnDestroy  {
 
   sub = new Subscription();
   fileData;
-  extraSearchCriteria = 'inactive';
   departmentId;
   year = new Date().getFullYear();
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
@@ -63,8 +63,11 @@ export class FilesComponent implements OnInit, OnDestroy  {
               protected notificationService: NotificationService,
               private dialog: MatDialog,
               private feedbackService: FeedbackService,
-              private selectUnit: SelectUnitService) {
+              private selectUnit: SelectUnitService,
+              private generalService: GeneralHttpService) {
+
   }
+
 
   ngOnInit() {
     this.dataTable.criteria.filters['year'] = this.year;
@@ -106,24 +109,40 @@ export class FilesComponent implements OnInit, OnDestroy  {
   }
 
   openInquiresDialog(item: any): void {
-    this.dialog.open(InquiryFormComponent, {
-      data: {'id': item.id, 'contentType': 'file_repayment', 'employerId': this.selectUnit.currentEmployerID,
+    const dialog =  this.dialog.open(InquiryFormComponent, {
+      data: {'id': item.id, 'contentType': 'groupthing', 'employerId': this.selectUnit.currentEmployerID,
         'companyId': item.company_id, 'file_name': item.file_name, 'product_code': item.product_code,
         'product_name': item.product_name},
       width: '550px',
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(created => {
+      if (created) {
+        this.generalService.getInquiries(item.id, 'groupthing').then(response =>
+          item.inquiries = response
+        );
+      }
+    }));
   }
 
-  openCommentsDialog(id: number): void {
-     this.dialog.open(CommentsFormComponent, {
-      data: {'id': id, 'contentType': 'groupthing'},
+  openCommentsDialog(item: any): void {
+    const dialog =  this.dialog.open(CommentsFormComponent, {
+      data: {'id': item.id, 'contentType': 'groupthing', 'comments' : item.comments},
       width: '550px',
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(comments => {
+      if (comments) {
+        this.generalService.getComments(item.id, 'groupthing').then(response => {
+          item.comments = response;
+        });
+      }
+    }));
   }
 
-  openInquiriesDetailsDialog(id: number): void {
+  openInquiriesDetailsDialog(item: any): void {
     this.dialog.open(InquiriesComponent, {
-      data: {'id': id, 'contentType': 'groupthing'},
+      data: {'id': item.id, 'contentType': 'groupthing', 'inquiries' : item.inquiries},
       width: '860px',
     });
   }

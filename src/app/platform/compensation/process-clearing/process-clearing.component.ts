@@ -17,9 +17,10 @@ import { CompensationService } from 'app/shared/_services/http/compensation.serv
 import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
-import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 'app/shared/_models/compensation.model';
+import {CompensationStatus, CompensationSendingMethods, ValidityMethods, Compensation} from 'app/shared/_models/compensation.model';
 import { FormComponent } from './form/form.component';
 import {ProductType} from '../../../shared/_models/product.model';
+import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
 
 
 @Component({
@@ -75,7 +76,8 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
               private employerService: EmployerService,
               protected notificationService: NotificationService,
               private selectUnit: SelectUnitService,
-              private helpers: HelpersService) {
+              private helpers: HelpersService,
+              private generalService: GeneralHttpService) {
   }
 
   ngOnInit() {
@@ -156,40 +158,50 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
 
   openCommentsDialog(item: any): void {
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'id': item.id, 'contentType': 'compensation'},
+      data: {'id': item.id, 'contentType': 'compensation', 'comments' : item.comments},
       width: '450px'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(comments => {
       if (comments) {
-        item['comments'] = comments;
+        this.generalService.getComments(item.id, 'compensation').then(response => {
+          item.comments = response;
+        });
       }
     }));
   }
 
-  openInquiriesDialog(compensation: Object): void {
-    if (compensation['inquiry_count'] === 0) {
+  openInquiriesDialog(compensation: any): void {
+    if (compensation.inquiries.length === 0) {
       return;
     }
 
     this.dialog.open(InquiriesComponent, {
-      data: {'id': compensation['id'], 'contentType': 'compensation'},
+      data: {'id': compensation.id, 'contentType': 'compensation', 'inquiries': compensation.inquiries},
       width: '800px'
     });
   }
 
-  openSendToDialog(item: Object): void {
-    this.dialog.open(InquiryFormComponent, {
-      data: {'id': item['id'], 'contentType': 'compensation',
-        'employerId': this.selectUnit.currentEmployerID,
-        'companyId': item['company_id'],
-        'error_details': item['feedback_level'] === 'record' ?
-          item['error_details'] :  item['error_details_file'],
-        'ans_manuf': item['answering_manufacturer'],
-        'feedback_level': item['feedback_level']
+  openSendToDialog(item: Compensation): void {
+    const dialog = this.dialog.open(InquiryFormComponent, {
+      data: {'id': item.id, 'contentType': 'compensation',
+        'employerId': item.employer_id,
+        'companyId': item.company_id,
+        'error_details': item.feedback_level === 'record' ?
+          item.error_details :  item.error_details_file,
+        'ans_manuf': item.answering_manufacturer,
+        'feedback_level': item.feedback_level
       },
       width: '500px'
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(created => {
+      if (created) {
+        this.generalService.getInquiries(item.id, 'compensation').then(response =>
+          item.inquiries = response
+        );
+      }
+    }));
   }
 
   PdfFile(rowId: number, type: string): any {

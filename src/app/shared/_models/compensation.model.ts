@@ -27,6 +27,7 @@ export class Compensation {
   extend_clearing: Compensation[] = [];
   has_file_feedback: boolean;
   xml_name: string;
+  inquiries: any;
 
   constructor() {
   }

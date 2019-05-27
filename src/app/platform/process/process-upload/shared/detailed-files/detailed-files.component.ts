@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { PaymentType, EmployerProduct } from 'app/shared/_models/process.model';
 import { NotificationService } from 'app/shared/_services/notification.service';
@@ -15,12 +17,11 @@ import { UpdateAccountNumberComponent } from './update-account-number/update-acc
 import { UpdatePaymentDateComponent } from './update-payment-date/update-payment-date.component';
 import { UpdatePaymentTypeComponent } from './update-payment-type/update-payment-type.component';
 import { AttachReferenceComponent } from './attach-reference/attach-reference.component';
-import { CommentsComponent } from './comments/comments.component';
 
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
-import {DetailsComponent} from '../details.component';
-import {GroupTransferComponent} from '../group-transfer/group-transfer.component';
+import { DetailsComponent } from '../details.component';
+import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
 
 
 @Component({
@@ -59,7 +60,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
               private processDataService: ProcessDataService,
               protected  notificationService: NotificationService,
               private selectUnitService: SelectUnitService,
-              private detailsComponent: DetailsComponent ) {
+              private detailsComponent: DetailsComponent,
+              private generalService: GeneralHttpService) {
   }
 
   paymentType = PaymentType;
@@ -183,12 +185,20 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
      }
    }
 
-  openCommentsDialog(file_id: number): void {
-    this.dialog.open(CommentsComponent, {
-      data: {'file_id': [ file_id ]},
+  openCommentsDialog(item: any): void {
+    const dialog =  this.dialog.open(CommentsFormComponent, {
+      data: {'id': item.file_id, 'contentType': 'groupthing', 'comments' : item.comments},
       width: '550px',
       panelClass: 'dialog-file'
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(comments => {
+      if (comments) {
+        this.generalService.getComments(item.file_id, 'groupthing').then(response => {
+          item.comments = response;
+        });
+      }
+    }));
   }
 
   openWarningMessageComponentDialog(type: boolean): void {

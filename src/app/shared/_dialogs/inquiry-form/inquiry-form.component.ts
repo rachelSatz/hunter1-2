@@ -99,7 +99,7 @@ export class InquiryFormComponent implements OnInit {
         this.data.employee_id, this.data.employee_name,
         this.uploadedFile).then(response => {
         if (response) {
-          this.dialogRef.close(this.data);
+          this.dialogRef.close(true);
         } else {
           this.hasServerError = true;
         }

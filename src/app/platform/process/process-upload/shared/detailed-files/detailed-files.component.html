@@ -38,8 +38,9 @@
       <td (click)="openUpdatePayDateDialog(item.payment_date, item.file_id)" [ngClass]="{'disabled': item.status == 'sent'}">{{ item.payment_date  }}</td>
       <td>{{ item.file_total | number: '1.2-2' }}</td>
       <td>{{ item.file_id }}</td>
-      <td>
-      <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item.file_id)">
+      <td (click)="openCommentsDialog(item)">
+        <i *ngIf="item.comments.length === 0" class="fa fa-comment-o"></i>
+        <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
       </td>
       <td>{{ statuses[item.status_sent] }}</td>
       <td>

@@ -24,6 +24,7 @@ import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-f
 import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 'app/shared/_models/compensation.model';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
 
 
 @Component({
@@ -90,7 +91,8 @@ export class ProcessComponent implements OnInit, OnDestroy {
               private employerService: EmployerService,
               protected notificationService: NotificationService,
               private selectUnit: SelectUnitService,
-              private helpers: HelpersService) {
+              private helpers: HelpersService,
+              private generalService: GeneralHttpService) {
   }
 
   ngOnInit() {
@@ -224,19 +226,21 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
   openCommentsDialog(item: any): void {
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'id': item.id, 'contentType': 'compensation'},
+      data: {'id': item.id, 'contentType': 'compensation', 'comments' : item.comments},
       width: '450px'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(comments => {
       if (comments) {
-        item['comments'] = comments;
+        this.generalService.getComments(item.id, 'compensation').then(response => {
+          item.comments = response;
+        });
       }
     }));
   }
 
   openSendToDialog(item: Compensation): void {
-    this.dialog.open(InquiryFormComponent, {
+    const dialog = this.dialog.open(InquiryFormComponent, {
       data: {'id': item.id, 'contentType': 'compensation',
         'employerId': item.employer_id,
         'companyId': item.company_id,
@@ -247,6 +251,14 @@ export class ProcessComponent implements OnInit, OnDestroy {
       },
       width: '500px'
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(created => {
+      if (created) {
+        this.generalService.getInquiries(item.id, 'compensation').then(response =>
+          item.inquiries = response
+        );
+      }
+    }));
   }
 
   openDetailsDialog(item: Object): void {
@@ -269,13 +281,13 @@ export class ProcessComponent implements OnInit, OnDestroy {
     });
   }
 
-  openInquiriesDialog(compensation: Object): void {
-    if (compensation['inquiry_count'] === 0) {
+  openInquiriesDialog(compensation: any): void {
+    if (compensation.inquiries.length === 0) {
       return;
     }
 
     this.dialog.open(InquiriesComponent, {
-      data: {'id': compensation['id'], 'contentType': 'compensation'},
+      data: {'id': compensation.id, 'contentType': 'compensation', 'inquiries': compensation.inquiries},
       width: '800px'
     });
   }

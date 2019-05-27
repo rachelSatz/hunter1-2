@@ -17,20 +17,18 @@ import {FormsModule} from '@angular/forms';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
-import { CommentsComponent } from './detailed-files/comments/comments.component';
+import { GroupTransferComponent } from './group-transfer/group-transfer.component';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
-import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 import { AttachReferenceComponent } from './detailed-files/attach-reference/attach-reference.component';
 import { UpdatePaymentTypeComponent } from './detailed-files/update-payment-type/update-payment-type.component';
 import { UpdatePaymentDateComponent } from './detailed-files/update-payment-date/update-payment-date.component';
 import { UpdateAccountNumberComponent } from './detailed-files/update-account-number/update-account-number.component';
-import {EditPaymentsComponent} from './detailed-records/edit-payments/edit-payments.component';
 
 
 const routes: Routes = [
   { path: '', component: DetailsComponent, children: [
-    // { path: '' , redirectTo: 'detailed-files', pathMatch: 'full'},
     { path: 'files', loadChildren: './detailed-files/detailed-files.module#DetailedFilesModule' },
     { path: 'records' , loadChildren:  './detailed-records/detailed-records.module#DetailedRecordsModule'},
     { path: 'records/:id' , loadChildren:  './detailed-records/detailed-records.module#DetailedRecordsModule'}
@@ -50,11 +48,10 @@ const routes: Routes = [
     DatePickerModule,
     DataTableModule
   ],
-  providers: [MonthlyTransferBlockService],
-  declarations: [ DetailsComponent,
-    CommentsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent, GroupTransferComponent,
+  providers: [MonthlyTransferBlockService, GeneralHttpService],
+  declarations: [ DetailsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent, GroupTransferComponent,
     UpdateAccountNumberComponent, UpdatePaymentDateComponent],
-  entryComponents: [ CommentsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent,
+  entryComponents: [ UpdatePaymentTypeComponent, AttachReferenceComponent,
     UpdateAccountNumberComponent, UpdatePaymentDateComponent, GroupTransferComponent]
 
 })

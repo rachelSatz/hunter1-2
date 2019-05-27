@@ -9,13 +9,13 @@
     <bd-select class="w-100" [items]="entityTypes" name="entity_type" #entityTypeSelect="ngModel"
                (onSelect)="loadEntities($event)"
                ngModel
-               placeholder="סוג גורם" required [error]="entityTypeSelect.errors && form.submitted"></bd-select>
+               placeholder="סוג גורם" [required] = "Emails.length == 0" [error]="entityTypeSelect.errors && form.submitted"></bd-select>
   </div>
   <div class="mb-4">
     <bd-select class="ml-4" name="contactsAdd"  [items]="contacts" placeholder="אנשי קשר"  [multiple]="true" (ngModel)="contactsAdd" ></bd-select>
   </div>
   <mat-form-field class="w-100">
-    <mat-chip-list #chipList>
+    <mat-chip-list #chipList  [required]="contactsAdd.length == 0">
       <mat-chip *ngFor="let email of Emails" [selectable]="selectable"
                 [removable]="removable" (removed)="remove(email)">
         {{email.name}}
@@ -39,10 +39,10 @@
       <input type="file" (change)="uploadedFile = $event.target.files" multiple>
     </label>
   </div>
-</form>
-<p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
-<div mat-dialog-actions class="justify-content-center">
-  <button class="btn blue-btn" (click)="submit(form)">שלח</button>
-</div>
 
+<p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
+  <div mat-dialog-actions class="justify-content-center mt-2">
+    <button class="btn blue-btn" (click)="submit(form)">שמור</button>
+  </div>
+</form>
 

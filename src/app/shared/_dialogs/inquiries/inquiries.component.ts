@@ -19,9 +19,7 @@ export class InquiriesComponent implements OnInit {
               private generalService: GeneralHttpService) { }
 
   ngOnInit() {
-    this.generalService.getInquiries(this.data.id, this.data.contentType).then(response =>
-      this.inquiries = response
-    );
+    this.inquiries =  this.data.inquiries;
   }
 
   downloadFilesInquirie(id: number): void {

@@ -12,7 +12,7 @@ import { fade } from 'app/shared/_animations/animation';
 })
 export class CommentsFormComponent implements OnInit {
   comments = [];
-  comment: string;
+  content: string;
   hasServerError: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
@@ -20,21 +20,25 @@ export class CommentsFormComponent implements OnInit {
               private generalService: GeneralHttpService) { }
 
   ngOnInit() {
-    this.generalService.getComments(this.data.id, this.data.contentType)
-      .then(response => this.comments = response);
+    this.comments = this.data.comments;
+
   }
+
   submit(): void {
     this.hasServerError = false;
 
-    this.generalService.newComment(this.data.id, this.comment, this.data.contentType).then(response => {
+    this.generalService.newComment(this.data.id, this.content, this.data.contentType).then(response => {
       if (response) {
-        this.dialogRef.close(this.comment);
+        this.dialogRef.close(this.content);
       } else {
         this.hasServerError = true;
       }
     });
   }
+
   close() {
     this.dialogRef.close();
   }
+
+
 }

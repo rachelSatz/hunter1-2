@@ -14,6 +14,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductType } from 'app/shared/_models/product.model';
 
 import { Subscription } from 'rxjs';
+import {CompensationSendingMethods} from '../../../../../shared/_models/compensation.model';
 
 @Component({
   selector: 'app-detailed-records',
@@ -29,10 +30,14 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   nameEmployerProductCode = 'product_id';
   nameEmployeeName = 'employee_id';
 
+  depositType = Object.keys(DepositType).map(function(e) {
+    return { id: e, name: DepositType[e] };
+  });
+
   readonly columns =  [
     { name: this.nameEmployeeName , sortName: 'employee_chr__employee__first_name', label: 'שם העובד' , searchOptions: { labels: [] }},
     { name: 'personal_id',  sortName: 'employee_chr__employee__identifier', label: 'תעודת זהות' , searchable: false },
-    { name: 'deposit_type', label: 'סוג תקבול' , searchable: false },
+    { name: 'deposit_type', label: 'סוג תקבול' , searchOptions: { labels: this.depositType } },
     { name: this.nameEmployerProductCode , sortName: 'employer_product__code', label: 'מספר קופה בשכר',
       subLabel: 'שם קופה', searchOptions: { labels: [] } },
     { name: 'employer_product_name', sortName: 'employer_product__code', label: 'שם קופה בשכר' , searchable: false },

@@ -18,6 +18,7 @@ import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-f
 import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { RequestDepositsReportComponent } from './excel/request-deposits-report/request-deposits-report.component';
+import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class DepositsReportComponent implements OnInit {
               private productService: ProductService,
               private employerService: EmployerService,
               protected notificationService: NotificationService,
-              private selectUnit: SelectUnitService) {
+              private selectUnit: SelectUnitService,
+              private generalService: GeneralHttpService) {
   }
 
   sub = new Subscription;
@@ -124,25 +126,45 @@ export class DepositsReportComponent implements OnInit {
   }
 
   openCommentsDialog(item: any): void {
-    this.dialog.open(CommentsFormComponent, {
+    const dialog = this.dialog.open(CommentsFormComponent, {
       data: {'id': item.id, 'contentType': 'depositsreport'},
       width: '450px'
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(comments => {
+      if (comments) {
+        this.generalService.getComments(item.id, 'depositsreport').then(response => {
+          item.comments = response;
+        });
+      }
+    }));
   }
 
   openInquiriesDialog(item: any): void {
+    if (item.inquiries.length === 0) {
+      return;
+    }
+
     this.dialog.open(InquiriesComponent, {
-      data: {'id': item.id, 'contentType': 'depositsreport'},
+      data: {'id': item.id, 'contentType': 'depositsreport', 'inquiries': item.inquiries},
       width: '800px'
     });
   }
 
   openInquiriesFormDialog(item: any): void {
-    this.dialog.open(InquiryFormComponent, {
-      data: {'id': item.id, 'contentType': 'deposits_report',
-        'employerId': this.selectUnit.currentEmployerID, 'companyId': item.company_id},
+    const dialog = this.dialog.open(InquiryFormComponent, {
+      data: {'id': item.id, 'contentType': 'depositsreport',
+        'employerId': item.employer_id, 'companyId': item.company_id},
       width: '450px'
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(created => {
+      if (created) {
+        this.generalService.getInquiries(item.id, 'depositsreport').then(response =>
+          item.inquiries = response
+        );
+      }
+    }));
   }
 
   sendDepositReport(id: number): void {

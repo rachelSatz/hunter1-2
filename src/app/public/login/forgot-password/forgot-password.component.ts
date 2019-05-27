@@ -24,10 +24,11 @@ export class ForgotPasswordComponent implements OnInit {
       if (form.value.username) {
         this.appHttp.forgotPassword(form.value.username, form.value.email).then(
           response => {
-            if (response['message'] === 'No User Found' || response['message'] !== 'Message_Sent') {
+            const message = response['error']['message'];
+            if (message === 'No User Found' || message !== 'Message_Sent') {
               this.notificationService.error(
-                response['message'] === 'No User Found' ?
-                    'השם משתמש או המייל שגוי' : 'קימת בעיה בשליחת המייל');
+                message === 'No User Found' ?
+                    'השם משתמש או המייל שגויים' : 'קימת בעיה בשליחת המייל');
             }else {
               this.dialogRef.close();
             }

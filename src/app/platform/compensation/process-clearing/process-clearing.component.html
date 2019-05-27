@@ -43,10 +43,11 @@
       <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
     </td>
     <td>
-      <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiry_count }}</span>
+      <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiries.length }}</span>
     </td>
-    <td>
-      <img src="/assets/img/icons/chat_bubble_grey.png" (click)="openCommentsDialog(item)">
+    <td (click)="openCommentsDialog(item)">
+      <i *ngIf="item.comments.length === 0" class="fa fa-comment-o"></i>
+      <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
     </td>
     <td>
       <span *ngIf="!item.has_file_feedback">טרם</span>

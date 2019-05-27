@@ -12,6 +12,7 @@ import { SendApplicationComponent } from './send-application/send-application.co
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 
 import { MONTHS } from 'app/shared/_const/months';
 import { ProductType } from 'app/shared/_models/product.model';
@@ -64,7 +65,8 @@ export class EmployeesComponent implements OnInit , OnDestroy {
               public route: ActivatedRoute,
               private notificationService: NotificationService,
               private feedbackService: FeedbackService,
-              private selectUnitService: SelectUnitService) {
+              private selectUnitService: SelectUnitService,
+              private generalService: GeneralHttpService) {
   }
 
   ngOnInit() {
@@ -100,25 +102,46 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   }
 
   openInquiresDialog(item: any): void {
-    this.dialog.open(InquiryFormComponent, {
-      data: {'id': item.id, 'contentType': 'employee_repayment',
+    const dialog = this.dialog.open(InquiryFormComponent, {
+      data: {'id': item.id, 'contentType': 'monthlytransferblock',
         'employerId': this.selectUnitService.currentEmployerID, 'companyId': item.company_id,
         'file_name': '', 'product_code': item.product_code,
         'product_type': item.product_type, 'employee_id': item.personal_id, 'employee_name': item.name},
       width: '550px',
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(created => {
+      if (created) {
+        this.generalService.getInquiries(item.id, 'monthlytransferblock').then(response =>
+          item.inquiries = response
+        );
+      }
+    }));
+
   }
 
-  openCommentsDialog(id: number): void {
-    this.dialog.open(CommentsFormComponent, {
-      data: {'id': id, 'contentType': 'monthlytransferblock'},
+  openCommentsDialog(item: any): void {
+    const dialog = this.dialog.open(CommentsFormComponent, {
+      data: {'id': item.id, 'contentType': 'monthlytransferblock', 'comments' : item.comments},
       width: '550px',
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(comments => {
+      if (comments) {
+        this.generalService.getComments(item.id, 'monthlytransferblock').then(response => {
+          item.comments = response;
+        });
+      }
+    }));
   }
 
-  openInquiriesDetailsDialog(id: number): void {
+  openInquiriesDetailsDialog(item: any): void {
+    if (item.inquiries.length === 0) {
+      return;
+    }
+
     this.dialog.open(InquiriesComponent, {
-      data: {'id': id, 'contentType': 'monthlytransferblock'},
+      data: {'id': item.id, 'contentType': 'monthlytransferblock', 'inquiries' : item.inquiries},
       width: '860px',
     });
   }

@@ -73,7 +73,7 @@ export class PlatformComponent implements OnInit {
       ]},
   ];
 
-  private _is_Employer: boolean;
+  // private _is_Employer: boolean;
 
   constructor(private router: Router,
               public userSession: UserSessionService,
@@ -188,18 +188,18 @@ export class PlatformComponent implements OnInit {
   }
 
   getOrganizations(is_loadEmployer: boolean, is_Employer?: boolean): void {
-    this._is_Employer = is_Employer;
+    // this._is_Employer = is_Employer;
     this.helpers.setPageSpinner(true);
     this.organizationService.getOrganizations().then(response => {
       this.selectUnit.setOrganization(response);
       this.organizations = response;
-      if (!this._is_Employer) {
+      if (!is_Employer) {
         this.organizationId = response.length > 0 ? response[0].id : 0;
       }
       if (!is_loadEmployer) {
         this.helpers.setPageSpinner(false);
       } else {
-        this.loadEmployers(this.organizationId);
+        this.loadEmployers(this.organizationId, is_Employer);
       }
     });
   }
@@ -224,13 +224,13 @@ export class PlatformComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  loadEmployers(organizationID: number): void {
+  loadEmployers(organizationID: number, is_Employer?: boolean): void {
     this.getEmployers(organizationID);
-    // if (!this._is_Employer) {
+    if (!is_Employer) {
       this.employerId = this.employers.length > 0 ? this.employers[0].id : 0;
       this.organizationId = organizationID;
-    // }
-    this.loadDepartments(this.employerId);
+    }
+    this.loadDepartments(this.employerId, is_Employer);
   }
 
   getEmployers(organizationId: number): void {
@@ -243,7 +243,7 @@ export class PlatformComponent implements OnInit {
     this.employers.sort((a, b) => a.id - b.id);
   }
 
-  loadDepartments(employerId: number): void {
+  loadDepartments(employerId: number, is_Employer?: boolean): void {
     if (employerId > 0) {
       this.getEmployers(this.organizationId);
       this.departments = this.employers.find(e => e.id === employerId).department;
@@ -256,11 +256,11 @@ export class PlatformComponent implements OnInit {
     }else {
       this.departments = [];
     }
-    // if (!this._is_Employer) {
+    if (!is_Employer) {
       this.departmentId = this.departments.length > 0 ? this.departments[0].id : 0;
       this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, +employerId,
         +this.departmentId);
-    // }
+    }
     this.helpers.setPageSpinner(false);
   }
 
