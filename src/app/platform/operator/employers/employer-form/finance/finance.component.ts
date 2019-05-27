@@ -149,6 +149,7 @@ export class FinanceComponent implements OnInit {
     window.location.reload();
   }
 
+
   submit(form: NgForm): void {
     this.hasServerError = false;
     if (form.valid) {
