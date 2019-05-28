@@ -42,7 +42,7 @@ export class FormComponent implements OnInit {
         } else {
           this.hasServerError = true;
           if (this.message === 'finance error') {
-            this.message = 'יש להגדיר מוצר פיננסי ע"מ ליצור בקשה מסוג זה';
+            this.message = 'יש להגדיר מוצר פיננסי למעסיק ע"מ ליצור בקשה מסוג זה';
           } else {
             this.message = 'קימת בקשה למעסיק זה.';
           }

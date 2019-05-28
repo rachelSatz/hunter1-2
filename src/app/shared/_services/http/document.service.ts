@@ -4,10 +4,8 @@ import 'rxjs/add/operator/toPromise';
 
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
-import { Document } from 'app/shared/_models/document.model';
-import {Process} from '../../_models/process.model';
-import {DataTableResponse} from '../../data-table/classes/data-table-response';
-import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
+import { DataTableResponse } from '../../data-table/classes/data-table-response';
+import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 
 
 @Injectable()
@@ -59,12 +57,13 @@ export class  DocumentService extends BaseHttpService {
       .catch(() => null);
   }
 
-  uploadFile(employerId, description: string, file: File) {
+  uploadFile(employerId, description: string, file: File, documentType) {
     this.file = file;
     const data = new FormData();
     data.append('file', file);
     data.append('description', description);
     data.append('employerId', employerId);
+    data.append('documentType', documentType);
     return this.http.post(this.endPoint , data, this.getTokenHeader()).toPromise().then(response => response)
       .catch(() => null);
   }

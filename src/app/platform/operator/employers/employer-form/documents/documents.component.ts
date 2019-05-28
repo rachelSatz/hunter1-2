@@ -32,10 +32,11 @@ export class DocumentsComponent implements OnInit , OnDestroy {
   }
 
   readonly columns =  [
-    { column: 'employerName',     label: 'שם מעסיק' },
-    { column: 'filename',     label: 'שם הקובץ' },
-    { column: 'date',         label: 'תאריך העלאה' },
-    { column: 'description',  label: 'סוג' },
+    { column: 'employerName', label: 'שם מעסיק' },
+    { column: 'filename', label: 'שם הקובץ' },
+    { column: 'date', label: 'תאריך העלאה' },
+    { column: 'description', label: 'תאור' },
+    { column: 'type', label: 'סוג' }
   ];
 
   ngOnInit() {

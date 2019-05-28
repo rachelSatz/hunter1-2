@@ -1,10 +1,11 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { NgForm } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+
+import { fade } from 'app/shared/_animations/animation';
+import { DocumentTypes } from 'app/shared/_models/document.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';
-import { fade } from 'app/shared/_animations/animation';
-import { HelpersService } from 'app/shared/_services/helpers.service';
-import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-add-document',
@@ -19,13 +20,16 @@ export class AddDocumentComponent implements OnInit {
   organizations = [];
   employers = [];
   employerId: number;
-  organizationId : number;
+  organizationId: number;
+  documentType: number;
+  documentTypes = Object.keys(DocumentTypes).map(function(e) {
+    return { id: e, name: DocumentTypes[e] };
+  });
 
   constructor(public dialogRef: MatDialogRef<AddDocumentComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private selectUnit: SelectUnitService,
-              private documentService: DocumentService,
-              private helpers: HelpersService) { }
+              private documentService: DocumentService) { }
 
   ngOnInit() {
     this.organizations = this.selectUnit.getOrganization();
@@ -33,17 +37,20 @@ export class AddDocumentComponent implements OnInit {
 
 
   submit(form: NgForm) {
-    if(form.valid && this.uploadedFile) {
-      if (this.data)
+    if (form.valid && this.uploadedFile) {
+      if (this.data) {
         this.employerId = this.selectUnit.currentEmployerID;
+      }
 
-      this.documentService.uploadFile(this.employerId, this.description, this.uploadedFile)
+      this.documentService.uploadFile(this.employerId, this.description, this.uploadedFile, this.documentType)
         .then(response => {
           if (!response) {
             this.hasServerError = true;
+
+          } else {
+            this.dialogRef.close(true);
           }
         });
-      this.dialogRef.close(true);
     }
   }
 

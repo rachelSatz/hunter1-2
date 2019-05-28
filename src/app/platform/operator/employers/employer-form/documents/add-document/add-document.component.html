@@ -17,7 +17,11 @@
   <mat-form-field class="w-100 mt-4">
     <input matInput [(ngModel)]="description" type="text" placeholder="תיאור" name="description">
   </mat-form-field>
-  <div class="mt-5 pt-5">
+  <bd-select  class="w-100 mt-2" [items]="documentTypes" name="documentType" #documentTypeSelect="ngModel"
+              [(ngModel)]="documentType"
+              placeholder="סוג מסמך"
+              required [error]="documentTypeSelect.errors && form.submitted"></bd-select>
+  <div class="mt-2 pt-5">
     <label class="file-label w-100">
       <img src="/assets/img/icons/circle_arrow_up.png">
       <span class="file-label-text">{{ uploadedFile ? (uploadedFile.name | truncate: 25) : 'העלאת קובץ חדש' }}</span>
