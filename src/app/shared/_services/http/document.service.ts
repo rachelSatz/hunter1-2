@@ -57,13 +57,14 @@ export class  DocumentService extends BaseHttpService {
       .catch(() => null);
   }
 
-  uploadFile(employerId, description: string, file: File, documentType) {
+  uploadFile(employerId, description: string, file: File, documentType, companies) {
     this.file = file;
     const data = new FormData();
     data.append('file', file);
     data.append('description', description);
     data.append('employerId', employerId);
     data.append('documentType', documentType);
+    data.append('companies', companies);
     return this.http.post(this.endPoint , data, this.getTokenHeader()).toPromise().then(response => response)
       .catch(() => null);
   }

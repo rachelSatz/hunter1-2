@@ -125,6 +125,13 @@ export class PaymentComponent implements OnInit , OnDestroy {
           this.sub.unsubscribe();
           break;
         }
+        case 'loaded_with_errors': {
+          this.helpers.setPageSpinner(false);
+          this.pageNumber = 5;
+          this.sub.unsubscribe();
+          break;
+        }
+
       }
     }
   }

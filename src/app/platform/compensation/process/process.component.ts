@@ -11,20 +11,20 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { EmployeesComponent } from './excel/employees/employees.component';
 import { ProductService } from 'app/shared/_services/http/product.service';
+import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ExcelComponent } from './excel/compensation/compensation.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
-import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
+import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 'app/shared/_models/compensation.model';
-import { placeholder, slideToggle } from 'app/shared/_animations/animation';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
 
 
 @Component({

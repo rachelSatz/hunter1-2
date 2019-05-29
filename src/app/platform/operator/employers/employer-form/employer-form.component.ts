@@ -69,6 +69,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
     if (this.route.snapshot.data.employer) {
+        this.activeUrl = 'comments';
         this.employer = this.route.snapshot.data.employer;
         this.setStatus();
 
@@ -106,7 +107,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
       'name': [null , Validators.required],
       'businessNumber': [null , Validators.required],
       'deductionNumber': [],
-      'email': [null , [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
+      // 'email': [null , [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
       'phone': [null,  Validators.required],
       'address': [],
       'project': [this.project,  Validators.required],
@@ -115,8 +116,8 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
       'identifierType':    [null, Validators.required],
       'sendingNumber':     [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
       'paymentType': [null, Validators.required],
-      'institutionCode5':  [null, [Validators.pattern('^\\d{5}$'), Validators.required]],
-      'institutionCode8':  [null, [Validators.pattern('^\\d{8}$'), Validators.required]]
+      'institutionCode5':  [null, [Validators.pattern('^\\d{5}$')]],
+      'institutionCode8':  [null, [Validators.pattern('^\\d{8}$')]]
     });
   }
 

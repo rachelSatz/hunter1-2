@@ -1,29 +1,16 @@
-/*#headers > span {*/
-  /*width: 11%;*/
-  /*padding-left: 5px;*/
-  /*padding-right: 5px;*/
-  /*font-weight: bold;*/
-  /*font-size: 20px;*/
-  /*cursor: pointer;*/
-  /*border-bottom: 2px solid #E1E1E1;*/
-/*}*/
-
-
-/*.active {*/
-  /*border-bottom: 2px solid #00ADEE !important;*/
-  /*color: #00ADEE !important;*/
-/*}*/
-
 .container-fluid {
   padding-right: 0;
   margin: 0 auto;
   margin-top: 3%;
 }
 
+.bd-width181 {
+  width: 181px;
+  margin-top: 10px;
+}
+
 header {
-  /*margin-bottom: 20px;*/
   border-bottom: 2px solid #cecece;
-  /*border-radius: 8px 8px 0 0;*/
 }
 
 .navbar {
@@ -52,10 +39,6 @@ header {
 ::ng-deep .mat-menu-panel{
   width: 200px;
 }
-
-/*::ng-deep .cdk-overlay-connected-position-bounding-box{*/
-  /*top: 353.375px  !important;*/
-/*}*/
 
 .active .menu-link {
   color: #00adee;

@@ -23,13 +23,13 @@
                       class="bd-min-width" [error]="organizationId==0 && form.submitted && !isEdit"  ></bd-select>
         </div>
         <mat-form-field  class="mr-5">
-          <input matInput placeholder="שם מעסיק" formControlName="name">
+          <input matInput placeholder="שם מעסיק" formControlName="name" required>
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <input matInput placeholder="מספר ח.פ" formControlName="businessNumber" maxlength="9">
+          <input matInput placeholder="מספר ח.פ" formControlName="businessNumber" maxlength="9" required>
           <mat-error>ח.פ אינו תקין</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-5">
@@ -37,30 +37,30 @@
         </mat-form-field>
       </div>
       <div>
+        <!--<mat-form-field>-->
+          <!--<input matInput type="email" placeholder="כתובת מייל" formControlName="email">-->
+          <!--<mat-error>כתובת מייל לא תקינה</mat-error>-->
+        <!--</mat-form-field>-->
         <mat-form-field>
-          <input matInput type="email" placeholder="כתובת מייל" formControlName="email">
-          <mat-error>כתובת מייל לא תקינה</mat-error>
-        </mat-form-field>
-        <mat-form-field class="mr-5">
           <input matInput placeholder="טלפון" formControlName="phone">
         </mat-form-field>
         <mat-form-field class="mr-5">
           <input matInput placeholder="כתובת" formControlName="address">
         </mat-form-field>
       </div>
-      <div>
-        <mat-form-field>
-          <mat-select matInput placeholder="פרוייקט" formControlName="project">
-            <mat-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</mat-option>
-          </mat-select>
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
-        <mat-form-field class="mr-5">
-          <mat-select matInput placeholder="מנהל תיק" formControlName="operator">
-            <mat-option *ngFor="let operator of operators" [value]="operator.id">{{operator.name}}</mat-option>
-          </mat-select>
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
+      <div class="d-flex">
+        <div class="bd-width181">
+          <bd-select [items]="projects" formControlName="project"
+                     required placeholder="פרוייקט"
+                     class="bd-min-width" [error]="form.submitted &&
+                     newEmployerForm.controls['employerDetails'].value.project === null"  ></bd-select>
+        </div>
+        <div class="bd-width181 mr-5">
+          <bd-select [items]="operators" formControlName="operator"
+                      required placeholder="מנהל תיק"
+                     class="bd-min-width" [error]="form.submitted &&
+                     newEmployerForm.controls['employerDetails'].value.operator === null"  ></bd-select>
+        </div>
         <mat-form-field class="mr-5">
           <mat-select matInput placeholder="סטטוס" formControlName="status">
             <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
@@ -86,15 +86,14 @@
           <mat-error>קוד מוסד לא תקין</mat-error>
         </mat-form-field>
       </div>
-      <div>
-        <mat-form-field>
-          <mat-select matInput placeholder="סוג מזהה לשליחה" formControlName="identifierType">
-            <mat-option *ngFor="let identifier of identifierTypes" [value]="identifier.id">{{identifier.name}}</mat-option>
-          </mat-select>
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
+      <div class="d-flex">
+        <div class="bd-width181">
+          <bd-select [items]="identifierTypes" formControlName="identifierType"
+                     required placeholder="סוג מזהה לשליחה"
+                     class="bd-min-width" [error]="form.submitted && newEmployerForm.controls['employerDetails'].value.identifierType === null"  ></bd-select>
+        </div>
         <mat-form-field  class="mr-5">
-          <input matInput placeholder="מספר מזהה לשליחה" formControlName="sendingNumber" maxlength="9">
+          <input matInput placeholder="מספר מזהה לשליחה" formControlName="sendingNumber" maxlength="9" required>
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
       </div>

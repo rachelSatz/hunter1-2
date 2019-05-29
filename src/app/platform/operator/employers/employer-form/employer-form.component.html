@@ -27,7 +27,7 @@
                (change)="saveChanges = true" formControlName="deductionNumber">
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <mat-select matInput placeholder="סוג מזהה לשליחה"
+        <mat-select matInput placeholder="סוג מזהה לשליחה"   (selectionChange)="saveChanges = true"
                     [(ngModel)]="employer.identifier_type" formControlName="identifierType">
           <mat-option *ngFor="let identifier of identifierTypes"
                       [value]="identifier.id">{{identifier.name}}</mat-option>
@@ -38,10 +38,6 @@
         <input matInput placeholder="מספר מזהה לשליחה"  [(ngModel)]="employer.identifier"
                formControlName="sendingNumber" maxlength="9" (change)="saveChanges = true">
         <mat-error>שדה חובה</mat-error>
-      </mat-form-field>
-      <mat-form-field class="mr-3">
-        <input matInput type="email" [(ngModel)]="employer.email" placeholder="כתובת מייל"
-               (change)="saveChanges = true" formControlName="email">
       </mat-form-field>
       <mat-form-field class="mr-3">
         <input matInput type="number" placeholder="טלפון" [(ngModel)]="employer.phone"
@@ -129,5 +125,4 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-  <!--<router-outlet></router-outlet>-->
 </div>

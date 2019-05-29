@@ -68,8 +68,8 @@ export class FormComponent implements OnInit {
     if (form.valid) {
       this.helpers.setPageSpinner(true);
       this.hasServerError = false;
-      form.value['dateFrom'] =  formatDate(form.value['dateFrom'], 'yyyy-MM-dd', 'en-US', '+0530').toString();
-      form.value['dateTo'] =  formatDate(form.value['dateTo'], 'yyyy-MM-dd', 'en-US', '+0530').toString();
+      form.value['validity_date'] =  formatDate(form.value['dateFrom'], 'yyyy-MM-dd', 'en-US', '+0530').toString();
+      form.value['validity_date_to'] =  formatDate(form.value['dateTo'], 'yyyy-MM-dd', 'en-US', '+0530').toString();
       this.depositsReportService.newDepositsReport(form.value).then(response => {
         this.helpers.setPageSpinner(false);
         if (response.ok) { this.dialogRef.close(true); }else {
