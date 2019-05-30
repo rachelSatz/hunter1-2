@@ -21,7 +21,7 @@ export class PlansComponent implements OnInit {
   readonly columns = [
     { name: 'name', label: 'שם התוכנית' , searchable: false},
     { name: null, label: 'זמן התוכנית' , searchable: false},
-    { name: null, label: 'חודשי שכר התוכנית' , searchable: false},
+    // { name: null, label: 'חודשי שכר התוכנית' , searchable: false},
     { name: 'status', label: 'סטטוס' , searchable: false}
   ];
 
@@ -31,7 +31,7 @@ export class PlansComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.planService.getPlans().then(response => {
+    this.planService.getPlans(this.dataTable.criteria).then(response => {
       this.dataTable.setItems(response);
       this.plans = response;
     });

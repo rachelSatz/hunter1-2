@@ -9,24 +9,30 @@ export class Plan {
   start_time: string;
   end_time: string;
   is_active: boolean;
-  user_plan: any;
-  planRows: PlanRow[] = [];
+  categories: Categories[] = [];
 
   constructor() {
-    // this.type = new PlanType();
-    this.user_plan = [];
-    this.planRows.push(new PlanRow());
-    // this.taskCategories = [];
+    this.categories.push(new Categories());
   }
 }
 
-export class PlanRow {
+export class Categories {
   id: number;
-  type: string;
-  sub_type: string;
-  amount: number;
-  salary_start_date: any;
-  salary_end_date: any;
+  salary_date_start: any;
+  salary_date_end: any;
+  tasks_amount: number;
+  type: PlanCategorySubType;
+
+}
+
+export class PlanCategorySubType {
+  name: string;
+  type: PlanCategoryType;
+}
+
+export class PlanCategoryType {
+    id: number;
+    name: string;
 }
 
 export class PlanType {
@@ -44,6 +50,7 @@ export class PlanCategory {
 
 export enum PlanTypeLabel {
   defrayal = 'סליקה',
+  handling_errors = 'טיפול בשגויים',
   compensation = 'יתרות לפיצויים',
   customer_service = 'שרות לקוחות'
 }
@@ -66,6 +73,8 @@ export enum PlanCategoryLabel {
 //     this.amount = 1;
 //   }
 // }
+
+
 
 export class TimerType {
   id: number;

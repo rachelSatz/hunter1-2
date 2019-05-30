@@ -11,7 +11,7 @@
       <tr *ngFor="let item of dataTable.items" class="pointer" >
         <td>{{ item.name }}</td>
         <td>{{ item.start_time }} - {{ item.end_time }}</td>
-        <td>{{ item.salary_start_date | date: 'MM/yy' }} - {{ item.salary_end_date | date: 'MM/yy' }}</td>
+        <!--<td>{{ item.salary_start_date | date: 'MM/yy' }} - {{ item.salary_end_date | date: 'MM/yy' }}</td>-->
         <td>
           <mat-select [(ngModel)]="item.is_active" [value]="false" (selectionChange)="activatePlan(item)" >
             <mat-option [value]="true">פעיל</mat-option>
