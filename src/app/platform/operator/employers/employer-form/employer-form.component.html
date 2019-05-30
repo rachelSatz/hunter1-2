@@ -27,7 +27,7 @@
                (change)="saveChanges = true" formControlName="deductionNumber">
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <mat-select matInput placeholder="סוג מזהה לשליחה"   (selectionChange)="saveChanges = true"
+        <mat-select matInput placeholder="סוג מזהה לשליחה"
                     [(ngModel)]="employer.identifier_type" formControlName="identifierType">
           <mat-option *ngFor="let identifier of identifierTypes"
                       [value]="identifier.id">{{identifier.name}}</mat-option>
