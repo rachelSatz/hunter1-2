@@ -3,7 +3,7 @@ import { ActivatedRoute, Router} from '@angular/router';
 import { TaskService} from 'app/shared/_services/http/task.service';
 import { PlanService} from 'app/shared/_services/http/plan.service';
 import { User} from 'app/shared/_models/user.model';
-import {Plan, PlanCategoryLabel, PlanRow, PlanType, PlanTypeLabel, TimerType, TIMESTAMPS} from '../../../../shared/_models/plan';
+import {Categories, Plan, PlanCategoryLabel, PlanType, PlanTypeLabel, TimerType, TIMESTAMPS} from '../../../../shared/_models/plan';
 import { Subscription} from 'rxjs';
 import { UserService} from '../../../../shared/_services/http/user.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList } from '@angular/cdk/drag-drop';
@@ -81,11 +81,11 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
 
 
   addPlanRow(): void {
-    this.plan.planRows.push(new PlanRow());
+    this.plan.categories.push(new Categories());
   }
 
   deletePlanRow(index: number): void {
-    this.plan.planRows.splice(index, 1);
+    this.plan.categories.splice(index, 1);
   }
 
   selectedSubType(typeId: number): void {
@@ -97,9 +97,9 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
 
   submit(form: NgForm): void {
     if (form.valid) {
-      this.plan.planRows.forEach(item => {
-        item.salary_start_date = this.datePipe.transform(item.salary_start_date, 'yyyy-MM-dd');
-        item.salary_end_date = this.datePipe.transform(item.salary_end_date, 'yyyy-MM-dd');
+      this.plan.categories.forEach(item => {
+        item.salary_date_start = this.datePipe.transform(item.salary_date_start, 'yyyy-MM-dd');
+        item.salary_date_end = this.datePipe.transform(item.salary_date_end, 'yyyy-MM-dd');
       });
       // this.plan.salary_start_date = this.datePipe.transform(this.plan.salary_start_date, 'yyyy-MM-dd');
       // this.plan.salary_end_date = this.datePipe.transform(this.plan.salary_end_date, 'yyyy-MM-dd');

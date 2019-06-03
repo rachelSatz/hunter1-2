@@ -65,7 +65,7 @@ export class PlatformComponent implements OnInit {
       { url: 'files',     label: 'לפי קובץ' }
     ]},
     { url: 'finance',     label: 'פיננסים', subMenuLinks: [
-      // { url: 'invoices',  label: 'חשבונות חייבים' }
+      { url: 'invoices',  label: 'חשבונות חייבים' }
     ]},
     { url: 'settings',    label: 'הגדרות', subMenuLinks: [
       { url: 'employers', label: 'מעסיקים' },
@@ -134,6 +134,9 @@ export class PlatformComponent implements OnInit {
   }
   timerEvents(): void {
     this.timerText =  this.selectUnit.getTaskTimer()['text'];
+    if (this.timerText === undefined) {
+      this.timerText = 'תפעול שוטף';
+    }
     this.intervals();
     this.dispalyTimer(this.router.routerState.snapshot.url, '');
   }

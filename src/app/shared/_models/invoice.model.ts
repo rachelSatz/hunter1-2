@@ -11,16 +11,17 @@ export class Invoice {
   for_month: string;
   created_at: string;
   last_payment_date: string;
-  kind: string;
   type: string;
   status: string;
   remark: string;
+  error: string;
 }
 
 export class ManualInvoice {
   employer_financial_details: EmployerFinancialDetails;
   for_month: string;
   tax_type: string;
+  product_type: string;
   remark: string;
   total_payment_amount: string;
   invoice_details: ManualInvoiceDetails[] = [];

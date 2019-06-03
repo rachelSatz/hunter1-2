@@ -6,7 +6,7 @@ import { Subscription} from 'rxjs';
 
 import { EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
 import { ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
-import { STATUS, ALL_STATUS, TYPES} from 'app/shared/_models/invoice.model';
+import {STATUS, ALL_STATUS, TYPES, ERROR_STATUS} from 'app/shared/_models/invoice.model';
 import { SelectUnitService} from 'app/shared/_services/select-unit.service';
 import { RemarksFormComponent} from './remarks-form/remarks-form.component';
 import { InvoiceService} from 'app/shared/_services/http/invoice.service';
@@ -39,6 +39,10 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   invoice_all_status = ALL_STATUS;
   selectStatus = Object.keys(ALL_STATUS).map(function(e) {
     return { id: e, name: ALL_STATUS[e] };
+  });
+  error_status = ERROR_STATUS;
+  error_status_items = Object.keys(ERROR_STATUS).map(function(e) {
+    return { id: e, name: ERROR_STATUS[e] };
   });
   sub = new Subscription;
   spin: boolean;
@@ -104,7 +108,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
 
   openManualInvoice(): void {
     this.dialog.open(ManualInvoiceFormComponent, {
-      width: '950px'
+      width: '1100px'
     });
   }
 

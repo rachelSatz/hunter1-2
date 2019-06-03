@@ -3,11 +3,11 @@ import { fade } from '../../../../shared/_animations/animation';
 import { ActivatedRoute, Router} from '@angular/router';
 import { InvoiceService} from 'app/shared/_services/http/invoice.service';
 import { EmployerService} from 'app/shared/_services/http/employer.service';
-import {ManualInvoice, ManualInvoiceDetails} from '../../../../shared/_models/invoice.model';
-import {EmployerFinancialPayments, TAX} from '../../../../shared/_models/employer-financial-details.model';
-import {NgForm} from '@angular/forms';
-import {NotificationService} from '../../../../shared/_services/notification.service';
-import {MatDialogRef} from '@angular/material';
+import {ALL_STATUS, ManualInvoice, ManualInvoiceDetails} from '../../../../shared/_models/invoice.model';
+import { PRODUCT_TYPES } from '../../../../shared/_models/employer-financial-details.model';
+import { NgForm} from '@angular/forms';
+import { NotificationService} from '../../../../shared/_services/notification.service';
+import { MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-manual-invoice-form',
@@ -36,6 +36,10 @@ export class ManualInvoiceFormComponent implements OnInit {
   isEdit = false;
   hasServerError = false;
   message: string;
+  // productTypes = PRODUCT_TYPES;
+  productTypes = Object.keys(PRODUCT_TYPES).map(function(e) {
+    return { id: e, name: PRODUCT_TYPES[e] };
+  });
 
   readonly columns  = [
     { name: 'tax', label: 'מע"מ', searchable: false},
