@@ -91,7 +91,7 @@
            </p>
          </span>
       <div class="text-center mt-5 pb-5">
-        <button class="btn blue-btn" [disabled]="((!valid) && !isRefund) || (process_details.sent_status == 'sent') || (userSession.getRole() != 'admin')" (click)="transfer();
+        <button class="btn blue-btn" [disabled]="((!valid) && !isRefund) || (process_details.sent_status == 'sent')" (click)="transfer();
         processDataService.activeProcess.pageNumber = 5">שידור לקופות</button>
       </div>
     </div>
