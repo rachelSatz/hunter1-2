@@ -9,3 +9,7 @@
 .select-status {
   width: 15%!important;
 }
+
+.highlight{
+  background: #c3c7cc; /* medium-grey */
+}

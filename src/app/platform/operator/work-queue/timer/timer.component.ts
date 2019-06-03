@@ -119,7 +119,6 @@ export class TimerComponent implements OnInit, OnDestroy  {
   }
 
   ngOnDestroy() {
-    const arrr = true;
     this.router.events.subscribe(a => {
       if (a instanceof NavigationStart) {
         if (Object.values(TaskTimerLabels).some(c => c === a.url)) {

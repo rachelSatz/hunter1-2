@@ -16,11 +16,11 @@
       </div>
     </div>
   </div>
-  <tr *ngFor="let item of dataTable.items" class="pointer">
+  <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{'highlight': item.error !== null}">
     <td class="check-column">
       <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
     </td>
-    <td>{{ item.employer_financial_details.employer.name}}</td>
+    <td [title]="item.error !== null ? error_status[item.error] : ''">{{ item.employer_financial_details.employer.name}}</td>
     <!--matTooltip={{item.errorDescription}}-->
     <td >{{ item.green_invoice_document !== null ? item.green_invoice_document.number : ''}}</td>
     <td>{{ item.total_amount }}</td>
