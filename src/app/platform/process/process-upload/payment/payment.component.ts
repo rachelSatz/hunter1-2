@@ -127,7 +127,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
         }
         case 'loaded_with_errors': {
           this.helpers.setPageSpinner(false);
-          this.pageNumber = 4;
+          this.pageNumber = 5;
           this.sub.unsubscribe();
           break;
         }

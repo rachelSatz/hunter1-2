@@ -20,9 +20,10 @@
   <mat-progress-bar class="mt-5" mode="determinate" [value]="process_percent"></mat-progress-bar>
   <p class="grey-color pointer float-right" (click)="setPage('home')">< חזרה לדף הבית</p>
 </div>
-<div class="col-6 offset-3 mt-5" [@fade]="pageNumber === 2? 'active' : 'inactive'">
+<div class="col-6 offset-3 mt-5" [@fade]="pageNumber === 2 ||  pageNumber === 5? 'active' : 'inactive'">
   <div class="text-center">
     <p class="h5 bold" *ngIf="pageNumber === 2">הקובץ נטען בהצלחה!</p>
+    <p class="h5 bold red-color" *ngIf="pageNumber === 5">הקובץ נטען אך נמצאו שגיאות!</p>
     <p class="f-12 grey-color">להלן פרטי נתונים הפנסיונים לשידור לקופות</p>
     <p class="f-12 bold grey-color">יש לאשר לפני השידור</p>
   </div>
