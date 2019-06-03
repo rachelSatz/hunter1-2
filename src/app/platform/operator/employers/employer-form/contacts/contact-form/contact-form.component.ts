@@ -122,6 +122,7 @@ export class ContactFormComponent implements OnInit {
               this.contact.email = email.value;
             }
           }
+          this.type_old = this.contact.entity_type;
         });
     }
   }

@@ -19,6 +19,7 @@ import { DataTableResponse } from 'app/shared/data-table/classes/data-table-resp
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { RequestDepositsReportComponent } from './excel/request-deposits-report/request-deposits-report.component';
 import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
+import {CompensationSendingMethods} from '../../../shared/_models/compensation.model';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class DepositsReportComponent implements OnInit {
   selectStatuses = Object.keys(Status).map(function(e) {
     return { id: e, name: Status[e] };
   });
-
+  sendingMethods = CompensationSendingMethods;
   nameCompany = 'company_name';
   nameUserId = 'user_id';
 
@@ -62,6 +63,7 @@ export class DepositsReportComponent implements OnInit {
     { name: this.nameCompany, label: 'חברה מנהלת', sortName: 'company__name', searchOptions: { labels: [] }},
     { name: 'from_date', label: 'מתאריך', searchable: false},
     { name: 'to_date', label: 'עד מתאריך', searchable: false},
+    { name: 'sending_method', label: 'מקור המידע', searchable: false },
     { name: 'status', label: 'סטטוס', searchOptions: { labels: this.selectStatuses }},
     { name: 'response_time', label: 'העבר לטיפול', isSort: false , searchable: false},
     { name: 'request', label: 'פניות', isSort: false, searchable: false},
@@ -127,7 +129,7 @@ export class DepositsReportComponent implements OnInit {
 
   openCommentsDialog(item: any): void {
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'id': item.id, 'contentType': 'depositsreport'},
+      data: {'id': item.id, 'contentType': 'depositsreport', 'comments' : item.comments},
       width: '450px'
     });
 

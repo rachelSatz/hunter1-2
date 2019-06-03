@@ -18,9 +18,7 @@ export class AddDocumentComponent implements OnInit {
   uploadedFile: File;
   description = '';
   hasServerError;
-  companies = [];
   organizations = [];
-  companyId: number;
   employers = [];
   employerId: number;
   organizationId: number;
@@ -32,13 +30,9 @@ export class AddDocumentComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<AddDocumentComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private selectUnit: SelectUnitService,
-              private documentService: DocumentService,
-              private  productService: ProductService) { }
+              private documentService: DocumentService) { }
 
   ngOnInit() {
-    this.productService.getCompanies().then(response => {
-      this.companies = response;
-    });
     this.organizations = this.selectUnit.getOrganization();
   }
 
@@ -50,7 +44,7 @@ export class AddDocumentComponent implements OnInit {
       }
 
       this.documentService.uploadFile(this.employerId, this.description,
-        this.uploadedFile, this.documentType, form.value['companies'])
+        this.uploadedFile, this.documentType)
         .then(response => {
           if (!response) {
             this.hasServerError = true;

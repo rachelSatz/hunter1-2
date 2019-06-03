@@ -35,8 +35,11 @@ export class Process {
   pageNumber;
   returnDetails;
   error_details: string;
+  incorrect: boolean;
 
-constructor() {
+
+
+  constructor() {
     this.employer = new Employer();
     this.codeFile = 0;
     this.type = 'positive';

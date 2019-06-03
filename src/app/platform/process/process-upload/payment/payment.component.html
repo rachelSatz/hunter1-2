@@ -124,29 +124,31 @@
 <div class="col-6 offset-3 mt-5" [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
   <div class="text-center">
     <p class="h5 bold red-color">הקובץ נטען אך נמצאו שגויים!</p>
-    <p class="f-12 grey-color">בקובץ הטעון נמצאו {{processDataService.activeProcess.year }} שגיאות</p>
-    <p class="f-12 bold grey-color">יש לתקן את השגויים כדי להמשיך בתהליך</p>
+    <p class="f-14"> <span class="grey-color">  בקובץ הטעון נמצאו</span>
+      <span class="black-color bold">  {{this.process_details.count }}</span>
+      <span class="black-color bold"> שגיאות</span>
+    </p>
+    <div>
+      <button class="btn blue-btn" (click)="setPage('detailed-records_incorrect')">הצג שגיאות</button>
+    </div>
+    <p class="f-12 mt-2 bold grey-color">יש לתקן את השגויים כדי להמשיך בתהליך/לשדר</p>
   </div>
   <p class="border-bottom f-14 bold grey-color">פרטי השגיאה</p>
   <div class="d-flex">
     <div class="d-flex w-50">
       <span>מספר רשומות:</span>
-      <p class="bold mr-1">{{process_details.employer_name}}</p>
+      <p class="bold mr-1">{{process_details.records_count}}</p>
     </div>
     <span>מספר רשומות שגויות:</span>
-    <p class="bold mr-1">{{process_details.employer_business_number}} </p>
+    <p class="bold mr-1">{{this.process_details.count}} </p>
   </div>
   <div class="d-flex">
     <div class="d-flex w-50">
       <span>מספר קבצים: </span>
-      <p class="bold mr-1">{{process_details.department_name}}</p>
-    </div>
-    <div class="d-flex w-50">
-      <span>מספר קבצים שגויים: </span>
-      <p class="bold mr-1">{{process_details.department_name}}</p>
+      <p class="bold mr-1">{{process_details.groups_count}}</p>
     </div>
   </div>
-  <div class="d-flex mt-5">
+  <div class="d-flex mt-5" >
     <div class="w-75">
      <span (click)="setPage('new')" class="float-right">
       <p class="pointer blue-color">
@@ -155,10 +157,15 @@
       </p>
     </span>
     </div>
-    <div class="float-left pb-5">
+    <div class="float-left pb-5" *ngIf="pageNumber !== 4">
       <button class="btn blue-btn" (click)="pageNumber = 3"> לביצוע תשלום</button>
     </div>
   </div>
+  <!--<div class="d-flex mt-5" *ngIf="pageNumber === 4">-->
+    <!--<div class="float-left pb-5">-->
+      <!--<button class="btn blue-btn" (click)="setPage('new')"> טען קובץ חדש</button>-->
+    <!--</div>-->
+  <!--</div>-->
 </div>
 
 

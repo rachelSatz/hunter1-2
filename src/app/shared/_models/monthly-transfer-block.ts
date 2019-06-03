@@ -16,6 +16,7 @@ export class MonthlyTransferBlock {
   transfer_clause: TransferClause[];
   salary: number;
   salary_month: string;
+  exempt_sum:  number;
   deposit_status: string;
   sum_compensation: number;
   sum_employee_benefits: number;
@@ -23,6 +24,7 @@ export class MonthlyTransferBlock {
   sum_ipi_employer: number;
   amount: number;
   checked: false;
+  defrayal_error: any;
 }
 
 

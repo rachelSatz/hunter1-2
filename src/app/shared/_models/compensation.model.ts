@@ -45,7 +45,8 @@ export enum CompensationStatus {
   'feedback_a' = 'התקבל פידבק א',
   'feedback_b' = 'התקבל פידבק ב',
   'closed' = 'סגור',
-  'closed_manually' = 'נסגר ידנית'
+  'closed_manually' = 'נסגר ידנית',
+  'sent_failed' = 'השליחה נכשלה'
 }
 
 export enum AnswerManufacturer {

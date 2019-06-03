@@ -12,7 +12,7 @@
       <td>{{ item.name }}</td>
       <td>{{ item.created_at }}</td>
       <td>{{ item.description }}</td>
-      <td>{{ item.document_type }}</td>
+      <td>{{ documentTypes[item.document_type] }}</td>
       <td>
         <i class="fa fa-download fa-lg ml-2" (click)="file(item, 'download')"></i>
         <i class="fa fa-eye fa-lg" (click)="file(item, 'show')"></i>

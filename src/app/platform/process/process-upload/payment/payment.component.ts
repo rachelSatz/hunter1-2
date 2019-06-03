@@ -224,8 +224,10 @@ export class PaymentComponent implements OnInit , OnDestroy {
         this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
         break;
       }
-      case 'detailed-records': {
+      case 'detailed-records':
+      case 'detailed-records_incorrect': {
         this.processDataService.activeProcess.returnDetails = true;
+        this.processDataService.activeProcess.incorrect = page === 'detailed-records_incorrect' ? true : false;
         this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
       }
     }

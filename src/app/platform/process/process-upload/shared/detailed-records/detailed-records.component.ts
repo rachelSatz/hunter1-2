@@ -1,12 +1,11 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import {DepositStatus, DepositType, EmployeeStatus} from 'app/shared/_models/monthly-transfer-block';
 import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
-import { EditPaymentsComponent } from './edit-payments/edit-payments.component';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
@@ -14,7 +13,6 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductType } from 'app/shared/_models/product.model';
 
 import { Subscription } from 'rxjs';
-import {CompensationSendingMethods} from '../../../../../shared/_models/compensation.model';
 
 @Component({
   selector: 'app-detailed-records',
@@ -48,6 +46,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     { name: 'payment_month', label: 'חודש תשלום' , searchable: false },
     { name: 'payment_month1', isSort: false, label: 'חודש ייחוס' , searchable: false },
     { name: 'salary', label: 'שכר' , searchable: false},
+    // { name: 'exempt_sum', label: 'סכום פטור' , searchable: false},
     { name: 'sum_compensation', isSort: false, label: 'פיצויים' , searchable: false },
     { name: 'sum_employer_benefits', isSort: false, label: 'הפרשת מעסיק' , searchable: false },
     { name: 'sum_employee_benefits', isSort: false, label:  'הפרשת עובד' , searchable: false } ,
@@ -55,6 +54,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   ];
 
   constructor(public route: ActivatedRoute,
+              private router: Router,
               private dialog: MatDialog,
               private processDataService: ProcessDataService,
               private  monthlyTransferBlockService: MonthlyTransferBlockService ,
@@ -90,6 +90,9 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
       this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID;
       if (this.records_id !== 0) {
         this.dataTable.criteria.filters['recordsId'] = this.records_id;
+      }
+      if (this.processDataService.activeProcess.incorrect) {
+        this.dataTable.criteria.filters['incorrect'] = this.processDataService.activeProcess.incorrect;
       }
       this.monthlyTransferBlockService.getMonthlyList(this.dataTable.criteria)
         .then(response => {
@@ -162,18 +165,19 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   editPayments(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-        const dialog = this.dialog.open(EditPaymentsComponent, {
-          data: { 'ids':  this.dataTable.criteria.checkedItems,
-            'processId': this.processDataService.activeProcess.processID
-          },
-          width: '100%',
-          maxWidth: '100%',
-          panelClass: 'edit-payments'
-        });
-        this.sub.add(dialog.afterClosed().subscribe(() => {
-          this.items = [];
-          this.fetchItems();
-        }));
+        this.router.navigate(['/edit-payments']);
+        // const dialog = this.dialog.open(EditPaymentsComponent, {
+        //   data: { 'ids':  this.dataTable.criteria.checkedItems,
+        //     'processId': this.processDataService.activeProcess.processID
+        //   },
+        //   width: '100%',
+        //   maxWidth: '100%',
+        //   panelClass: 'edit-payments'
+        // });
+        // this.sub.add(dialog.afterClosed().subscribe(() => {
+        //   this.items = [];
+        //   this.fetchItems();
+        // }));
       }
     }
   }
@@ -183,6 +187,19 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
       return false;
     }
     return true;
+  }
+
+  getTitleError(errors): string {
+    if (this.processDataService.activeProcess.incorrect) {
+      return '';
+    }
+  }
+
+  setColorError(errors , type): boolean {
+    if (errors.filter(e => e.type === type).length > 0) {
+      return true;
+    }
+    return false;
   }
 
   ngOnDestroy() {
