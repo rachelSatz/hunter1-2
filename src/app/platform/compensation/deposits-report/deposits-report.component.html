@@ -25,9 +25,9 @@
     <td>{{ item.company_name }}</td>
     <td>{{ item.from_date | date: 'dd/MM/yy' }}</td>
     <td>{{ item.to_date  | date: 'dd/MM/yy' }}</td>
-
+    <td>{{ sendingMethods[item.sending_method]}}</td>
     <td>{{ statuses[item.status] }}
-      <img *ngIf="item.status == 'failed'" class="img-design"  title="נסה שוב"
+      <img *ngIf="item.status == 'failed'" class="img-design"  [title]="item.error"
            src="/assets/img/icons/sync-alt-solid.svg"
            (click)="sendDepositReport(item.id)">
     </td>

@@ -13,7 +13,8 @@
         </div>
       </div>
     </div>
-    <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
+    <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }"
+        (title)="getTitleError(item.defrayal_error)">
       <td class="check-column">
         <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
       </td>
@@ -24,7 +25,7 @@
       <td>{{ item.employer_product_name }}</td>
       <td>{{ productType[item.employer_product_type] }}</td>
       <td>{{ depositStatus[item.deposit_status] }}</td>
-      <td>{{ employeeStatus[item.employee_status] }}</td>
+      <td [ngClass]="{'red-color': setColorError(item.defrayal_error, '06')}">{{ employeeStatus[item.employee_status] }}</td>
       <td>{{ item.product_code }}</td>
       <td>{{ item.salary_month | date: 'MM/yy' }}</td>
       <td>{{ item.salary_month | date: 'MM/yy' }}</td>

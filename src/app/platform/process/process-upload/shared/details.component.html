@@ -16,7 +16,9 @@
   </p>
 </span>
 <p class="h5 pb-3" *ngIf="type === 'files'">פירוט קבצים</p>
-<p class="h5" *ngIf="type === 'records'">פירוט רשומות</p>
+<p class="h5" *ngIf="type === 'records' && !this.processDataService.activeProcess.incorrect">פירוט רשומות</p>
+<p class="h5" *ngIf="type === 'records' && this.processDataService.activeProcess.incorrect">פירוט רשומות שגויית</p>
+
 <div class="d-flex" *ngIf="process_details">
   <div class="w-25">
     <span class="f-14">שם מעסיק:</span>

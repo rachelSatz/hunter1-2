@@ -147,7 +147,10 @@ export class ProcessComponent implements OnInit, OnDestroy {
         if (response['list_exceptions'].length > 0) {
           this.notificationService.error('הבקשות נכשלו. ' + response['list_exceptions'] ,
             ' הבקשות נכשלו.  ' + response['message'] );
-        }else {
+        } else if (response['message'] !== 'success') {
+          this.notificationService.error(response['message']);
+          this.fetchItems();
+        } else {
           this.notificationService.success('הבקשות נשלחו בהצלחה.');
           this.dataTable.criteria.checkedItems = [];
           this.dataTable.criteria.isCheckAll = false;

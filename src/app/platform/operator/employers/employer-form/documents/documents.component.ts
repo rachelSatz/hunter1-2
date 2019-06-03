@@ -3,12 +3,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import * as FileSaver from 'file-saver';
 import { MatDialog } from '@angular/material';
 
-import { AddDocumentComponent } from './add-document/add-document.component';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-
+import { DocumentTypes } from 'app/shared/_models/document.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';
+import { AddDocumentComponent } from './add-document/add-document.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,6 +22,7 @@ export class DocumentsComponent implements OnInit , OnDestroy {
 
   pathEmployers = false;
   sub = new Subscription;
+  documentTypes = DocumentTypes;
 
   constructor(route: ActivatedRoute,
               private documentService: DocumentService,
