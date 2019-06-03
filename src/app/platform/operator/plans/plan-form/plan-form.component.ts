@@ -18,9 +18,11 @@ import {NotificationService} from '../../../../shared/_services/notification.ser
 })
 export class PlanFormComponent implements OnInit, OnDestroy  {
   plan = new Plan;
-  types = Object.keys(PlanTypeLabel).map(function(e) {
-    return { id: e, name: PlanTypeLabel[e] };
-  });
+  // types = Object.keys(PlanTypeLabel).map(function(e) {
+  //   return { id: e, name: PlanTypeLabel[e] };
+  // });
+  types = [];
+  subTypes = [];
   operators: User[] = [];
   timestamps = [];
   isSubmitFailed = false;
@@ -32,8 +34,10 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     return { id: e, name: PlanCategoryLabel[e] };
   });
   categoriesData = [];
-  constructor(private router: Router, private route: ActivatedRoute,
-              private taskService: TaskService, private planService: PlanService,
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private taskService: TaskService,
+              private planService: PlanService,
               private userService: UserService,
               public datePipe: DatePipe,
               protected notificationService: NotificationService) { }
@@ -44,6 +48,7 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
       this.plan = this.route.snapshot.data.plan;
     }
     this.userService.usersList().then(response => this.operators = response['items']);
+    this.planService.getTypes().then(response => this.types = response);
     // this.plan.user_plan = Object.keys(this.plan.user_plan).map(key => ( {key: 'id'}));
     // if (this.plan.plan_category.length > 0) {
     //   this.categoriesData = this.plan.plan_category;
@@ -83,18 +88,26 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     this.plan.planRows.splice(index, 1);
   }
 
+  selectedSubType(typeId: number): void {
+    this.subTypes = this.types.find(a => a.id === typeId).subtypes;
+    if (this.subTypes !== null) {
+
+    }
+  }
+
   submit(form: NgForm): void {
     if (form.valid) {
-      if (this.categoriesData.length === 0) {
-        this.categoriesData = this.planCategories;
-      }
+      this.plan.planRows.forEach(item => {
+        item.salary_start_date = this.datePipe.transform(item.salary_start_date, 'yyyy-MM-dd');
+        item.salary_end_date = this.datePipe.transform(item.salary_end_date, 'yyyy-MM-dd');
+      });
       // this.plan.salary_start_date = this.datePipe.transform(this.plan.salary_start_date, 'yyyy-MM-dd');
       // this.plan.salary_end_date = this.datePipe.transform(this.plan.salary_end_date, 'yyyy-MM-dd');
       if (this.plan.id) {
-        this.planService.update(this.plan, this.categoriesData)
+        this.planService.update(this.plan)
           .then(response => this.handleResponse(response));
       } else {
-        this.planService.create(this.plan, this.categoriesData)
+        this.planService.create(this.plan)
           .then(response => this.handleResponse(response));
       }
     }

@@ -10,7 +10,7 @@
         <bd-select name="users" [items]="operators" placeholder="מתפעלים" [(ngModel)]="plan.users" [multiple]="true" required></bd-select>
       </div>
       <p class="h5">בחר טווח שעות עבודת התוכנית *</p>
-      <div class="w-75 d-flex mb-3">
+      <div id="time" class="row mb-3">
         <mat-form-field>
           <mat-select [(ngModel)]="plan.start_time" name="start_time" placeholder="שעה התחלה" required>
             <mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">{{ timestamp }}</mat-option>
@@ -73,29 +73,29 @@
         <!--<div class="example-box"  *ngFor="let item of categoriesData; let index = index" cdkDrag >{{ showLabel ? categoryLabel[item.name] : item.name}}-->
         <!--</div>-->
       <!--</div>-->
-      <div class="d-flex align-items-center" *ngFor="let row of plan.planRows;  let last = last; let index = index">
+      <div class="d-flex align-items-center" *ngFor="let row of plan.categories;  let last = last; let index = index">
         <p>{{ index + 1 + '.' }} </p>
+        <div class="d-flex align-items-center mb-lg-3">
+          <div class="bd-select-container">
+            <bd-select name="type_id" [items]="types" #typeIDSelect="ngModel" [(ngModel)]="row.type.type.name" placeholder="סוג תוכנית" (onSelect)="selectedSubType(row.type)" required></bd-select>
+            <!--<mat-error [@fade]="typeIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>-->
+          </div>
+          <div class="mx-3 bd-select-container">
+            <bd-select name="subType_id"  [items]="subTypes" #subTypeIDSelect="ngModel" [(ngModel)]="row.type.name"  placeholder="תוכנית משנה" required></bd-select>
+            <!--<mat-error [@fade]="subTypeIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>-->
+          </div>
+        </div>
         <mat-form-field class="w-25 mb-3 mr-3">
-          <mat-select [(ngModel)]="row.type" [name]="'type' + index" #type="ngModel" placeholder="סוג תוכנית" required>
-          <mat-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="w-25 mb-3 mr-3">
-          <mat-select [(ngModel)]="row.type" [name]="'sub_type' + index" #type="ngModel" placeholder="תוכנית משנה" required>
-            <mat-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="w-25 mb-3 mr-3">
-          <input matInput type="text" [name]="'amount' + index" [(ngModel)]="row.amount" placeholder="כמות" required>
+          <input matInput type="text" [name]="'amount' + index" [(ngModel)]="row.tasks_amount" placeholder="כמות" required>
         </mat-form-field>
         <div class="d-flex w-50 mb-3">
           <mat-form-field class="ml-3 mr-3">
-          <input matInput [matDatepicker]="salary_start_date" [(ngModel)]="row.salary_start_date" name="salary_start_date" placeholder="חודש התחלה" required>
+          <input matInput [matDatepicker]="salary_start_date" [(ngModel)]="row.salary_date_start" name="salary_start_date" placeholder="חודש התחלה" [ngModelOptions]="{timezone: ''}" required>
           <mat-datepicker-toggle matSuffix [for]="salary_start_date"></mat-datepicker-toggle>
           <mat-datepicker #salary_start_date [startView]="'year'"></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
-          <input matInput [matDatepicker]="salary_end_date" [(ngModel)]="row.salary_end_date" name="salary_end_date" placeholder="חודש סיום" required>
+          <input matInput [matDatepicker]="salary_end_date" [(ngModel)]="row.salary_date_end" name="salary_end_date" placeholder="חודש סיום" [ngModelOptions]="{timezone: ''}" required>
           <mat-datepicker-toggle matSuffix [for]="salary_end_date"></mat-datepicker-toggle>
           <mat-datepicker #salary_end_date [startView]="'year'"></mat-datepicker>
           </mat-form-field>

@@ -7,6 +7,9 @@ import { Plan, PlanType} from '../../_models/plan';
 import { UserSessionService} from '../user-session.service';
 import { PlanTask} from '../../_models/plan-task';
 import { DataTableResponse} from '../../data-table/classes/data-table-response';
+import {Observable} from 'rxjs';
+import {Company} from '../../_models/company.model';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 
 
 
@@ -24,8 +27,13 @@ export class PlanService extends BaseHttpService {
       .toPromise().then(response => response as Plan);
   }
 
-  getPlans(): Promise<DataTableResponse> {
-    return this.http.get(this.endPoint,  this.getTokenHeader())
+  getPlans(criteria: DataTableCriteria): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+    return this.http.get(this.endPoint,  request)
       .toPromise()
       .then(response => response as DataTableResponse);
   }
@@ -38,20 +46,25 @@ export class PlanService extends BaseHttpService {
   }
 
 
-  getTypes(): Promise<PlanType[]> {
-    return this.http.get(this.endPoint + '/types',  this.getTokenHeader())
-      .toPromise().then(response => response as PlanType[]);
+  getTypes(): Promise<any> {
+    return this.http.get(this.endPoint + '/categoriesOptions',  this.getTokenHeader())
+      .toPromise().then(response => response as any);
   }
 
-  create(plan: Plan, categories: string[]): Promise<any> {
-    return this.http.post(this.endPoint, {data: plan, categories: categories},  this.getTokenHeader())
+  // getFullCompanies(): Observable<Company[]> {
+  //   return this.http.get(this.endPoint + '/fullCompany', this.getTokenHeader())
+  //     .map((response: Response) => response as any);
+  // }
+
+  create(plan: Plan): Promise<any> {
+    return this.http.post(this.endPoint, {data: plan},  this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => []);
   }
 
-  update(plan: Plan, categories: string[]): Promise<any> {
-    return this.http.put(this.endPoint + '/' + plan.id, {data: plan, categories: categories}, this.getTokenHeader())
+  update(plan: Plan): Promise<any> {
+    return this.http.put(this.endPoint + '/' + plan.id, {data: plan}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => []);
