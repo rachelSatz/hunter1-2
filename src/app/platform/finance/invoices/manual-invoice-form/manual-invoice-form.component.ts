@@ -142,6 +142,7 @@ export class ManualInvoiceFormComponent implements OnInit {
         this.message = response['message'];
         if (response['message'] !== 'success') {
           this.hasServerError = true;
+          this.notificationService.error(response['message']);
         } else {
           this.notificationService.success('נשמר בהצלחה.');
           this.dialogRef.close();
