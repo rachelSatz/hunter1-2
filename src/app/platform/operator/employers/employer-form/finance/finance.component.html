@@ -46,6 +46,12 @@
       <input matInput type="text" name="green_invoice_email" [(ngModel)]="financialDetails.green_invoice_email" placeholder="מייל בחשבונית ירוקה">
     </mat-form-field>
   </div>
+  <div class="row">
+      <mat-form-field class="col-6 col-lg-3">
+        <input matInput type="text" name="credit_card_last_digits" [(ngModel)]="financialDetails.creditCardLastDigits" placeholder="ספרות אחרונות של כרטיס אשראי">
+      </mat-form-field>
+  </div>
+
   <div class="row mb-3">
     <div class="col-6 col-lg-3 mt-3">
       <bd-select [items]="paymentTimeItems" placeholder="זמן חיוב" #paymentTimeSelect="ngModel" name="payment_time" [(ngModel)]="financialDetails.payment_time" (onSelect)="showNoPaymentTime()" required></bd-select>

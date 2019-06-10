@@ -1,12 +1,12 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import { EmployersFinanceExcelComponent} from './employers-finance-excel/employers-finance-excel.component';
-import { ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
-import {STATUS, ALL_STATUS, TYPES, ERROR_STATUS} from 'app/shared/_models/invoice.model';
+import { EmployersFinanceExcelComponent } from './employers-finance-excel/employers-finance-excel.component';
+import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
+import { STATUS, ALL_STATUS, TYPES, ERROR_STATUS } from 'app/shared/_models/invoice.model';
 import { SelectUnitService} from 'app/shared/_services/select-unit.service';
 import { RemarksFormComponent} from './remarks-form/remarks-form.component';
 import { InvoiceService} from 'app/shared/_services/http/invoice.service';
@@ -15,7 +15,8 @@ import * as FileSaver from 'file-saver';
 import { NotificationService } from '../../../shared/_services/notification.service';
 import { EmployerService } from '../../../shared/_services/http/employer.service';
 import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
-import { PAYMENT_METHOD} from '../../../shared/_models/employer-financial-details.model';
+import { PAYMENT_METHOD } from '../../../shared/_models/employer-financial-details.model';
+import {TaxInvoiceFormComponent} from './tax-invoice-form/tax-invoice-form.component';
 
 @Component({
   selector: 'app-invoices',
@@ -112,6 +113,16 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     });
   }
 
+  openTaxInvoice(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+    this.dialog.open(TaxInvoiceFormComponent, {
+      data: {'ids': this.dataTable.criteria.checkedItems.map(item => item['id'])},
+      width: '450px'
+    });
+  }
   downloadEmployeesExcel(invoiceId): void {
     this.invoiceService.downloadExcel(invoiceId).then(response => {
       if (response['message'] === 'no_employees') {

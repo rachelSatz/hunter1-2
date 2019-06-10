@@ -117,4 +117,12 @@ export class InvoiceService  extends BaseHttpService {
       .then(response => response as string)
       .catch(() => null);
   }
+
+  createTaxInoices(invoiceIds: number[], date: string): Promise<string> {
+    return this.http.post(this.endPoint + '/createTaxInoices',
+      { invoiceIds: invoiceIds, taxInvoiceDate: date }, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
 }

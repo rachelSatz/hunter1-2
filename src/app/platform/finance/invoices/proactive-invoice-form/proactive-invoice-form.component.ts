@@ -7,8 +7,8 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { InvoiceService } from 'app/shared/_services/http/invoice.service';
 import { fade } from 'app/shared/_animations/animation';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import {NotificationService} from '../../../../shared/_services/notification.service';
-import {MatDialogRef} from '@angular/material';
+import { NotificationService} from '../../../../shared/_services/notification.service';
+import { MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-proactive-invoice-form',
