@@ -67,8 +67,11 @@ export enum STATUS {
   waiting_for_payment = 'ממתין לתשלום',
   paid = 'שולם',
   canceled = 'בוטל',
-  green_invoice_valid = 'נשלח לחשבונית ירוקה',
+  transaction_green_invoice = 'חשבון עסקה - חשבונית ירוקה',
   green_invoice_error = 'לא נשלח לחשבונית ירוקה',
+  direct_debit = 'הוראת קבע',
+  credit_card = 'כרטיס אשראי',
+  tax_green_invoice = 'חשבונית מס - חשבונית ירוקה'
 }
 
 export enum ERROR_STATUS {

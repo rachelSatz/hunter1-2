@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 
 import { EmployersFinanceExcelComponent } from './employers-finance-excel/employers-finance-excel.component';
 import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
-import { STATUS, ALL_STATUS, TYPES, ERROR_STATUS } from 'app/shared/_models/invoice.model';
+import {STATUS, ALL_STATUS, TYPES, ERROR_STATUS, Invoice} from 'app/shared/_models/invoice.model';
 import { SelectUnitService} from 'app/shared/_services/select-unit.service';
 import { RemarksFormComponent} from './remarks-form/remarks-form.component';
 import { InvoiceService} from 'app/shared/_services/http/invoice.service';
@@ -191,6 +191,21 @@ export class InvoicesComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+
+  setItemTitle(item: Invoice): string {
+    if (item.green_invoice_document !== null ) {
+      if (item.green_invoice_document.errorDescription !== null && item.green_invoice_document.errorDescription !== '') {
+        return item.green_invoice_document.errorDescription;
+      } else {
+        return '';
+      }
+    } else {
+      return '';
+    }
+
+
   }
 
   ngOnDestroy() {

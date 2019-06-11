@@ -315,6 +315,4 @@ export class PlatformComponent implements OnInit {
   //   this.logout();
   //   return false;
   // }
-
-
 }

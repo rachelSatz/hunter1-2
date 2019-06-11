@@ -6,6 +6,7 @@ import {NotificationService} from '../../../../shared/_services/notification.ser
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {DataTableComponent} from '../../../../shared/data-table/data-table.component';
 import {NgForm} from '@angular/forms';
+import {DatePipe, Time} from '@angular/common';
 
 @Component({
   selector: 'app-tax-invoice-form',
@@ -25,7 +26,8 @@ export class TaxInvoiceFormComponent implements OnInit {
               private router: Router,
               private invoiceService: InvoiceService,
               private notificationService: NotificationService,
-              private dialogRef: MatDialogRef<TaxInvoiceFormComponent>) { }
+              private dialogRef: MatDialogRef<TaxInvoiceFormComponent>,
+              public datePipe: DatePipe) { }
 
   ngOnInit() {
   }
@@ -34,6 +36,7 @@ export class TaxInvoiceFormComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
+      form.value['for_month'] = this.datePipe.transform(form.value['for_month'], 'yyyy-MM-dd');
 
       this.invoiceService.createTaxInoices(
         this.data.ids , form.value).then(response => {

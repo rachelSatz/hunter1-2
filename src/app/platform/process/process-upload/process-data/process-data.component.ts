@@ -99,6 +99,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
           this.selectedType = this.selectedType === 'positive' ? 'negative' : 'positive';
           this.process.type = this.selectedType;
           this.processFile = file;
+
         } else {
           this.processFile = null;
           this.fileInput.nativeElement.value = null;

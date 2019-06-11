@@ -3,13 +3,13 @@ import { ActivatedRoute, Router} from '@angular/router';
 import { TaskService} from 'app/shared/_services/http/task.service';
 import { PlanService} from 'app/shared/_services/http/plan.service';
 import { User} from 'app/shared/_models/user.model';
-import {Categories, Plan, PlanCategoryLabel, PlanType, PlanTypeLabel, TimerType, TIMESTAMPS} from '../../../../shared/_models/plan';
+import { Categories, Plan, PlanCategoryLabel, TIMESTAMPS} from '../../../../shared/_models/plan';
 import { Subscription} from 'rxjs';
 import { UserService} from '../../../../shared/_services/http/user.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList } from '@angular/cdk/drag-drop';
-import {FormControl, NgForm} from '@angular/forms';
-import {DatePipe, Time} from '@angular/common';
-import {NotificationService} from '../../../../shared/_services/notification.service';
+import { NgForm} from '@angular/forms';
+import { DatePipe} from '@angular/common';
+import { NotificationService} from '../../../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-plan-form',

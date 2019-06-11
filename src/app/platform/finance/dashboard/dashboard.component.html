@@ -1,0 +1,34 @@
+<div class="mr-5 px-4">
+<p>
+  מצג מעסיקים
+</p>
+<div class="row">
+  <div class="d-flex align-items-center">
+  <div>
+    <mat-form-field style="margin-top: -10px;">
+      <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="בגין חודש" name="for_month" ngModel readonly required>
+      <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+      <mat-datepicker #datePicker></mat-datepicker>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+  </div>
+    <div class="float-left mr-3">
+      <button class="btn blue-btn" type="submit">חפש</button>
+    </div>
+  <!--<bd-select [items]="organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>-->
+  <!--<bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>-->
+</div>
+</div>
+<!--<div style="display: inline-block">-->
+  <!--<canvas mdbChart-->
+          <!--[chartType]="chartType"-->
+          <!--[datasets]="chartDatasets"-->
+          <!--[labels]="chartLabels"-->
+          <!--[colors]="chartColors"-->
+          <!--[options]="chartOptions"-->
+          <!--[legend]="true"-->
+          <!--(chartHover)="chartHovered($event)"-->
+          <!--(chartClick)="chartClicked($event)">-->
+  <!--</canvas>-->
+<!--</div>-->
+</div>

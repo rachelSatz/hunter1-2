@@ -34,7 +34,7 @@
       <!--{{ invoice_all_status[item.status] }}-->
     <!--</td>-->
     <td class="select-status">
-      <mat-select name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
+      <mat-select [title]="setItemTitle(item)" name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
         <mat-option *ngFor="let st of status" [value]="st.id">{{ st.name }}</mat-option>
       </mat-select>
       <!--<bd-select [items]="status" placeholder="" #statusSelect="ngModel" name="status"-->
