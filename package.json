@@ -27,7 +27,7 @@
     "@fortawesome/fontawesome-free": "^5.5.0",
     "@types/history": "^4.7.2",
     "@types/slideout": "^0.1.19",
-    "angular-bootstrap-md": "latest",
+    "angular-bootstrap-md": "^7.5.4",
     "angular2-signaturepad": "^2.8.0",
     "bootstrap": "^4.2.1",
     "chart.js": "^2.8.0",
