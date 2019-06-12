@@ -20,7 +20,6 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DetailedRecordsComponent } from './detailed-records.component';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
-import { EditPaymentsComponent } from './edit-payments/edit-payments.component';
 
 const route: Routes = [{ path: '', component: DetailedRecordsComponent }];
 @NgModule({
@@ -33,7 +32,6 @@ const route: Routes = [{ path: '', component: DetailedRecordsComponent }];
     BdSelectModule, DataTableModule, MatDatepickerModule
   ],
   providers: [ NotificationService],
-  declarations: [DetailedRecordsComponent, EditPaymentsComponent],
-  entryComponents: [ EditPaymentsComponent ]
+  declarations: [DetailedRecordsComponent],
 })
 export class DetailedRecordsModule { }

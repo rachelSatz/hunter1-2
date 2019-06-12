@@ -1,5 +1,6 @@
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
 import { Employer, EmployerStatus, IdentifierTypes } from 'app/shared/_models/employer.model';
@@ -64,7 +65,8 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
               private selectUnit: SelectUnitService,
               private employersResolve: EmployersResolve,
               private notificationService: NotificationService,
-              private employerService: EmployerService) { }
+              private employerService: EmployerService,
+              private _location: Location) { }
 
   ngOnInit() {
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
@@ -150,12 +152,13 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  back(): void {
-    if (this.router.url.includes( 'operator')) {
-      this.router.navigate(['/platform', 'operator' , 'employers']);
-    }else {
-      this.router.navigate(['/platform', 'employers']);
-    }
+  previous(): void {
+    this._location.back();
+    // if (this.router.url.includes( 'operator')) {
+    //   this.router.navigate(['/platform', 'operator' , 'employers']);
+    // }else {
+    //   this.router.navigate(['/platform', 'employers']);
+    // }
   }
   ngOnDestroy() {
     this.selectUnit.currentEmployerID = 0;

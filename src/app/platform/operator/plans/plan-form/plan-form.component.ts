@@ -1,15 +1,16 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { DatePipe, Location } from '@angular/common';
 import { ActivatedRoute, Router} from '@angular/router';
+import { Component, OnDestroy, OnInit} from '@angular/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+
+import { Categories, Plan, PlanCategoryLabel, TIMESTAMPS } from 'app/shared/_models/plan';
+import { NotificationService } from 'app/shared/_services/notification.service';
 import { TaskService} from 'app/shared/_services/http/task.service';
 import { PlanService} from 'app/shared/_services/http/plan.service';
+import { UserService} from 'app/shared/_services/http/user.service';
 import { User} from 'app/shared/_models/user.model';
-import { Categories, Plan, PlanCategoryLabel, TIMESTAMPS} from '../../../../shared/_models/plan';
-import { Subscription} from 'rxjs';
-import { UserService} from '../../../../shared/_services/http/user.service';
-import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList } from '@angular/cdk/drag-drop';
-import { NgForm} from '@angular/forms';
-import { DatePipe} from '@angular/common';
-import { NotificationService} from '../../../../shared/_services/notification.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-plan-form',
@@ -40,7 +41,8 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
               private planService: PlanService,
               private userService: UserService,
               public datePipe: DatePipe,
-              protected notificationService: NotificationService) { }
+              protected notificationService: NotificationService,
+              private _location: Location) { }
 
   ngOnInit() {
     this.timestamps = TIMESTAMPS;
@@ -115,14 +117,14 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
 
   private handleResponse(response: string): void {
     if (response['message'] === 'success') {
-      this.router.navigate(['platform', 'operator', 'plans']);
+      this.previous();
     } else {
       this.notificationService.error(response);
     }
   }
 
-  back(): void {
-    this.router.navigate(['platform', 'operator', 'plans']);
+  previous(): void {
+    this._location.back();
   }
 
   ngOnDestroy(): void {

@@ -1,0 +1,21 @@
+.header-width {
+  width: 11%;
+}
+
+.underline-color {
+  text-decoration: underline;
+  -webkit-text-decoration-color: #00adee; /* Safari */
+  text-decoration-color: #00adee;
+}
+
+.border-shadow {
+  width: 1604px;
+  height: 236px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  border: solid 1px rgba(112, 112, 112, 0.2);
+  background-color: #ffffff;
+}
+
+.mt11 {
+  margin-top: 11px;
+}

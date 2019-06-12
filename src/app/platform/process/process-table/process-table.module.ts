@@ -10,8 +10,8 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
 const routes: Routes = [
-  { path: '', component: ProcessTableComponent },
-  { path: 'payment', loadChildren: '../process-upload/payment/payment.module#PaymentModule' }
+  { path: '', component: ProcessTableComponent }
+  // { path: 'payment', loadChildren: '../process-upload/payment/payment.module#PaymentModule' }
 ];
 
 @NgModule({

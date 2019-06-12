@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router, NavigationStart, NavigationEnd} from '@angular/router';
 
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
@@ -43,7 +43,6 @@ export class PlatformComponent implements OnInit {
     { id: 5, icon: 'users', label: 'משתמשים', link: 'users', role: 'admin'},
     { id: 6, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
     { id: 7, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
-    // { id: 8, icon: 'bell', label: 'התראות', link: '', role: 'operator'},
     { id: 9, icon: 'th', label: 'קופות', link: 'products', role: 'admin'},
     { id: 10, icon: 'tasks', label: 'הגדרות מנהל', link: 'plans', role: 'admin'}
   ];
@@ -58,7 +57,7 @@ export class PlatformComponent implements OnInit {
       ]},
     { url: 'process', label: 'תהליכים', subMenuLinks: [
       { url: 'new/0', label: 'צור תהליך חדש' },
-      { url: 'table', label: 'תהליכים' }
+      { url: 'table', label: 'תהליכים' },
     ]},
     { url: 'feedback',    label: 'תשלומים והיזונים', subMenuLinks: [
       { url: 'employees', label: 'לפי עובד' },

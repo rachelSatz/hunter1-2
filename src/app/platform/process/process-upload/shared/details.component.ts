@@ -1,5 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { ProcessService } from 'app/shared/_services/http/process.service';
@@ -24,7 +26,8 @@ export class DetailsComponent  implements OnInit {
               private router: Router,
               public processDataService: ProcessDataService,
               private processService: ProcessService,
-              private selectUnitService: SelectUnitService) {
+              private selectUnitService: SelectUnitService,
+              private _location: Location) {
   }
 
   ngOnInit() {
@@ -42,11 +45,8 @@ export class DetailsComponent  implements OnInit {
     }
   }
 
-  back() {
-    if (this.processDataService.activeProcess.pageNumber === 4 || this.processDataService.activeProcess.pageNumber === 5) {
-      this.router.navigate(['/platform', 'process', 'new', 1, 'broadcast']);
-    } else {
-      this.router.navigate(['/platform', 'process', 'new', 1 , 'payment', this.processDataService.activeProcess.processID]);
-    }
+  previous() {
+    this._location.back();
+
   }
 }

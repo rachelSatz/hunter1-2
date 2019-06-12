@@ -1,4 +1,5 @@
 import { NgForm} from '@angular/forms';
+import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
@@ -34,7 +35,8 @@ export class ProductFormComponent implements OnInit {
               private router: Router,
               private generalService: GeneralHttpService,
               protected notificationService: NotificationService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private _location: Location) { }
 
   ngOnInit() {
     this.loadBanks();
@@ -119,7 +121,7 @@ export class ProductFormComponent implements OnInit {
   private handleResponse(response: any): void {
     const message = response['message'];
     if (message === 'success') {
-      this.router.navigate(['platform', 'operator', 'products']);
+      this.previous();
     } else {
       let mes = '';
       if (message === 'like') {
@@ -131,9 +133,8 @@ export class ProductFormComponent implements OnInit {
     }
   }
 
-  back(): void {
-    this.router.navigate(['platform', 'operator', 'products']);
-
+  previous(): void {
+    this._location.back();
   }
 
   openRedirectedProductDialog(productId: number): void {

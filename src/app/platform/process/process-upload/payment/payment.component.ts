@@ -127,7 +127,11 @@ export class PaymentComponent implements OnInit , OnDestroy {
         }
         case 'loaded_with_errors': {
           this.helpers.setPageSpinner(false);
-          this.pageNumber = 5;
+          this.pageNumber = 4;
+          if (this.processDataService.activeProcess !== undefined) {
+            this.processDataService.activeProcess.incorrect = true;
+            this.selectUnitService.setProcessData(this.processDataService);
+          }
           this.sub.unsubscribe();
           break;
         }
@@ -220,7 +224,11 @@ export class PaymentComponent implements OnInit , OnDestroy {
         break;
       }
       case 'detailed-files': {
-        this.processDataService.activeProcess.returnDetails = true;
+        if (this.processDataService.activeProcess !== undefined) {
+          this.processDataService.activeProcess.returnDetails = true;
+          this.processDataService.activeProcess.incorrect = false;
+          this.selectUnitService.setProcessData(this.processDataService);
+        }
         this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
         break;
       }

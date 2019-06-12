@@ -26,7 +26,6 @@ import { EmployeesComponent } from './excel/employees/employees.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
-import {CommentsFormComponent} from '../../../shared/_dialogs/comments-form/comments-form.component';
 
 
 const routes: Routes = [

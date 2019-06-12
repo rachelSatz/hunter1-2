@@ -1,5 +1,6 @@
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 
 import { UserService } from 'app/shared/_services/http/user.service';
@@ -36,10 +37,12 @@ export class UserFormComponent implements OnInit {
     return {id: e, name: EntityRoles[e]};
   });
 
-  constructor(private route: ActivatedRoute, private employerService: EmployerService,
+  constructor(private route: ActivatedRoute,
+              private employerService: EmployerService,
               private router: Router,
-              private userService: UserService, private organizationService: OrganizationService
-  ) {
+              private userService: UserService,
+              private organizationService: OrganizationService,
+              private _location: Location) {
   }
 
   ngOnInit() {
@@ -123,12 +126,14 @@ export class UserFormComponent implements OnInit {
         this.hasServerError = true;
         this.message = 'שגיאת שרת, נסה שנית או צור קשר.';
       } else {
-        this.router.navigate(['platform', 'settings', 'users']);
+        this.previous();
+        // this.router.navigate(['platform', 'settings', 'users']);
       }
     }
   }
 
-  back(): void {
-    this.router.navigate(['platform', 'settings', 'users']);
+  previous(): void {
+    this._location.back();
+    // this.router.navigate(['platform', 'settings', 'users']);
   }
 }

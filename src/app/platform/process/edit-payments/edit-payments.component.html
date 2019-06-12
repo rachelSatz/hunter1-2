@@ -1,0 +1,189 @@
+<form #form="ngForm" class="mr-5" [formGroup]="editPaymentForm">
+  <a (click)="previous()">
+    <p class="f-14 blue-color">
+      <i class="fa fa-angle-right ml-1 ml-lg-2"></i>
+      <span>חזור</span>
+    </p>
+  </a>
+  <h4 class="bold mb-0">{{ mtb.first_name  + ' ' +  mtb.last_name  + ' - ' +  mtb.personal_id }}  </h4>
+  <span class="header-width  f-14 mt-0">במסך זה ניתן לערוך ולפצל רשומות</span>
+  <div class="border-shadow p-3 mt-2">
+    <h6 class="bold underline-color">רשומה מקורית</h6>
+    <div class="d-flex">
+
+      <span class="header-width bold f-14">שכר</span>
+      <span class="header-width bold f-14">ימי עבודה בחודש</span>
+      <span class="header-width bold f-14">חלקיות משרה</span>
+      <span class="header-width bold f-14">סטטוס עובד בחודש</span>
+      <span class="header-width bold f-14">תאריך עדכון סטטוס</span>
+      <span class="header-width bold f-14">תאריך ייחוס</span>
+    </div>
+    <div class="d-flex">
+      <span class="header-width f-14">{{ mtb.salary }}</span>
+      <span class="header-width f-14">{{ mtb.working_days_in_month }}</span>
+      <span class="header-width f-14">{{ mtb.work_month_percentage }}</span>
+      <span class="header-width f-14">{{ employeeStatus[mtb.employee_status] }}</span>
+      <span class="header-width f-14">{{ mtb.employee_status_start_date }}</span>
+      <span class="header-width f-14">{{ mtb.salary_month | date: 'MM/yy'  }}</span>
+    </div>
+    <div class="d-flex mt-3">
+      <span class="header-width bold f-14">שם קופה</span>
+      <span class="header-width bold f-14">שם יצרן</span>
+      <span class="header-width bold f-14">מעמד הפקדה בקופה</span>
+      <span class="header-width bold f-14">תשלום עובד</span>
+      <span class="header-width bold f-14">הפרשת עובד</span>
+      <span class="header-width bold f-14">תשלום מעסיק</span>
+      <span class="header-width bold f-14">הפרשת מעסיק</span>
+      <span class="header-width bold f-14">תגמולים 47</span>
+      <span class="header-width bold f-14">הפרשת תגמולים 47</span>
+      <span class="header-width bold f-14">סוג תקבול</span>
+    </div>
+    <div class="d-flex">
+      <span class="header-width f-14">{{ mtb.employer_product_name}}</span>
+      <span class="header-width f-14">{{ mtb.company_name}}</span>
+      <span class="header-width f-14">{{ depositStatus[mtb.deposit_status] }}</span>
+      <span class="header-width f-14">{{ mtb.sum_employee_benefits }}</span>
+      <span class="header-width f-14">
+        <span class="header-width f-14" *ngIf="mtb.percent_employee_benefits">%</span>
+        {{ mtb.percent_employee_benefits }}
+      </span>
+      <span class="header-width f-14">{{ mtb.sum_employer_benefits }}</span>
+      <span class="header-width f-14">{{ mtb.percent_employer_benefits }}</span>
+      <span class="header-width f-14">{{ mtb.sum_self_employeed_benefits }}</span>
+      <span class="header-width f-14">
+        <span class="header-width f-14" *ngIf="mtb.percent_self_employeed_benefits">%</span>
+        {{ mtb.percent_self_employeed_benefits}}
+      </span>
+      <span class="header-width f-14">{{ depositType[mtb.deposit_type] }}</span>
+    </div>
+    <div class="d-flex mt-3">
+      <span class="header-width bold f-14">פיצויים</span>
+      <span class="header-width bold f-14">הפרשת פיצויים</span>
+      <span class="header-width bold f-14">שונות עובד</span>
+      <span class="header-width bold f-14">שונות עובד</span>
+      <span class="header-width bold f-14">שונות מעסיק</span>
+      <span class="header-width bold f-14">שונות מעסיק</span>
+      <span class="header-width bold f-14">סה"כ</span>
+      <span class="header-width bold f-14">  פיצול סה"כ</span>
+
+    </div>
+    <div class="d-flex">
+      <span class="header-width f-14">{{ mtb.sum_compensation}}</span>
+      <span class="header-width f-14">
+        <span class="header-width f-14" *ngIf="mtb.percent_compensation">%</span>
+        {{ mtb.percent_compensation}}
+      </span>
+      <span class="header-width f-14">{{ mtb.sum_other_employee }}</span>
+      <span class="header-width f-14">
+        <span class="header-width f-14" *ngIf="mtb.percent_other_employee">%</span>
+        {{ mtb.percent_other_employee}}
+      </span>
+      <span class="header-width f-14">{{ mtb.sum_other_employer }}</span>
+      <span class="header-width f-14">
+        <span class="header-width f-14" *ngIf="mtb.percent_other_employer">%</span>
+        {{ mtb.percent_other_employer}}
+      </span>
+      <span class="header-width f-14">{{ mtb.amount }}</span>
+      <span class="header-width bold f-14"> {{ sum}}</span>
+
+    </div>
+  </div>
+  <button class="btn blue-btn mt-3" (click)="addMtb(mtb)">צור פיצול נוסף</button>
+  <div  formArrayName="mtb">
+    <div *ngFor="let m of getMtbArrControls(); let index = index; let last = last" [formGroupName]="index">
+      <h5 class="bold underline-color mt-3">פיצול {{  1 + index }}</h5>
+      <mat-icon (click)="removeMtb(index)" *ngIf="index > 0 || !last" class="pointer remove-account-icon">highlight_off</mat-icon>
+      <p class="border-bottom f-14 bold">פרטי שכר</p>
+      <div class="row col-9">
+         <mat-form-field class="col-3">
+            <input type="number" matInput placeholder="שכר" formControlName="salary">
+         </mat-form-field>
+
+       <mat-form-field class="col-3">
+         <input type="number" matInput placeholder="ימי עבודה בחודש" formControlName="working_days_in_month">
+       </mat-form-field>
+
+       <mat-form-field class="col-3">
+         <input type="number" matInput placeholder="חלקיות משרה" formControlName="work_month_percentage">
+       </mat-form-field>
+
+       <div class="col-3 mt11">
+         <bd-select  [items]="lstEmployeeStatus" placeholder="סטטוס עובד בחודש"
+                     formControlName="employee_status"  required
+                     [error]="editPaymentForm.value.status === null && form.submitted"></bd-select>
+       </div>
+    </div>
+      <div class="row col-9">
+      <mat-form-field class="col-3">
+        <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker"
+               placeholder="תאריך עדכון סטטוס" formControlName="employee_status_start_date" readonly required>
+        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+        <mat-error>שדה חובה.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-3">
+        <input matInput class="pointer" (click)="salaryMonth.open()"  [matDatepicker]="salaryMonth"
+               placeholder="תאריך ייחוס" formControlName="salary_month" readonly required>
+        <mat-datepicker-toggle matSuffix [for]="salaryMonth"></mat-datepicker-toggle>
+        <mat-datepicker #salaryMonth></mat-datepicker>
+        <mat-error>שדה חובה.</mat-error>
+      </mat-form-field>
+    </div>
+
+      <p class="border-bottom f-14 bold">פרטי קופה</p>
+      <div class="row col-9">
+      <div class="col-3">
+        <bd-select class="w-100" [items]="companies" formControlName="company_id"
+                   (onSelect)="selectedProducts($event)"
+                   placeholder="חברה מנהלת"
+                   required [error]="editPaymentForm.value.company === null && form.submitted"></bd-select>
+      </div>
+
+      <div class="col-3">
+        <bd-select class="w-100" [items]="products" formControlName="product_id"
+                   placeholder="שם הקופה"
+                   required [error]="editPaymentForm.value.product === null && form.submitted"></bd-select>
+      </div>
+
+      <div class="col-3">
+        <bd-select  [items]="lstDepositType" placeholder="סוג תקבול"
+                    formControlName="deposit_type"  required
+                    [error]="editPaymentForm.value.depositType === null && form.submitted"></bd-select>
+      </div>
+
+      <div class="col-3">
+        <bd-select  [items]="lstDepositStatus" placeholder="מעמד הפקדה בקופה"
+                    formControlName="deposit_status"  required
+                    [error]="editPaymentForm.value.depositStatus === null && form.submitted"></bd-select>
+      </div>
+    </div>
+
+      <div formArrayName="transfer_clause">
+        <div class="row col-9" *ngFor="let transfer of getArrControls(m); let i = index; let l = last" [formGroupName]="i">
+          <div class="col-3 mt11">
+            <bd-select class="w-100" [items]="lstTypes" formControlName="clause_type"
+                       placeholder="סוג רשומה"></bd-select>
+          </div>
+          <mat-form-field class="col-2">
+            <input type="number" matInput placeholder="סכום רשומה" (change)="sumPercent(m,transfer)" formControlName="transfer_sum">
+          </mat-form-field>
+          <mat-form-field class="col-2">
+            <input type="number" matInput placeholder="אחוז רשומה" formControlName="transfer_percent">
+          </mat-form-field>
+          <mat-form-field class="col-2">
+            <input type="number" matInput placeholder="סכום פטור" formControlName="exempt_sum">
+          </mat-form-field>
+          <div class="col-3">
+            <mat-icon (click)="remove(m, i)" *ngIf="i > index || !l" class="pointer remove-account-icon">highlight_off</mat-icon>
+            <mat-icon (click)="addTransfer(m)" *ngIf="l && i < 7" class="pointer">add_circle</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn blue-btn mt-3" type="submit" (click)="submit(form)">שמור</button>
+
+</form>
+

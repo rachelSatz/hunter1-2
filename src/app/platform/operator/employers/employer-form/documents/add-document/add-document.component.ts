@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { fade } from 'app/shared/_animations/animation';
 import { DocumentTypes } from 'app/shared/_models/document.model';
-import { ProductService } from 'app/shared/_services/http/product.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';
 

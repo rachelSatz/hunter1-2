@@ -1,6 +1,4 @@
-
-<app-data-table tableName="מעקב יתרות לפיצוים מסלקה" [columns]="columns"
-                (fetchItems)="fetchItems()" [hasCheckColumn]="true" [hasActionsHeader] = false>
+<app-data-table #mainTable tableName="מעקב יתרות לפיצוים מסלקה" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true" [hasActionsHeader] = false>
   <div class="table-header">
     <div class="row mt-4 mr-1">
       <div class="float-left">
@@ -59,34 +57,52 @@
       <i *ngIf="item.extend_clearing !== null" class="fa fa-angle-down" (click)="item.showHistory=!item.showHistory"></i>
     </td>
   </tr>
-    <tr *ngIf="item.showHistory" >
-    <td colspan="13">
-      <table class="table table-bordered ">
-        <thead>
-        <tr>
-          <th> שם עובד </th>
-          <th> ת.ז </th>
-          <th> חברה מנהלת </th>
-          <th> סוג מוצר </th>
-          <th> הורדה </th>
-        </tr>
-        </thead>
-        <tr *ngFor="let item_extend of item.extend_clearing">
-          <td>{{ item_extend.employee_name }}</td>
-          <td>{{ item_extend.identifier }}</td>
-          <td>{{ item_extend.company_name }}</td>
-
-          <td>  {{ item_extend.product_type }} {{ productTypes[item_extend.product_type] }}</td>
-          <td>
-            <span *ngIf="!item.has_file_feedback">טרם</span>
-            <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item_extend.id, 'download')" *ngIf="item_extend.has_file_feedback"></i>
-            <i class="fa fa-eye fa-lg" (click)="PdfFile(item_extend.id, 'show')" *ngIf="item_extend.has_file_feedback"></i>
-          </td>
-        </tr>
-      </table>
-    </td>
+  <tr *ngIf="item.showHistory">
+    <td colspan="15" class="sub-table">
+      <app-data-table tableName="" [columns]="columns1" [hasCheckColumn]="false" [hasActionsSearch]="false"
+                      [hasActionsHeader] = "false" [hasExtendedSearch]="false" (fetchItems)="fetchItemsSubTable(subTable, item.extend_clearing)" #subTable>
+        <ng-container *ngFor="let item_extend of subTable.items">
+          <tr class="pointer" [ngClass]="{ 'checked': item.checked }">
+            <td>{{ item_extend.employee_name }}</td>
+            <td>{{ item_extend.identifier }}</td>
+            <td>{{ item_extend.company_name }}</td>
+            <td>  {{ item_extend.product_type }} {{ productTypes[item_extend.product_type] }}</td>
+            <td>
+              <span *ngIf="!item.has_file_feedback">טרם</span>
+              <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item_extend.id, 'download')" *ngIf="item_extend.has_file_feedback"></i>
+              <i class="fa fa-eye fa-lg" (click)="PdfFile(item_extend.id, 'show')" *ngIf="item_extend.has_file_feedback"></i>
+            </td>
+          </tr>
+        </ng-container>
+        </app-data-table>
+      </td>
     </tr>
   </ng-container>
 </app-data-table>
 
+
+
+<!--<table class="table table-bordered ">-->
+<!--<thead>-->
+<!--<tr>-->
+<!--<th> שם עובד </th>-->
+<!--<th> ת.ז </th>-->
+<!--<th> חברה מנהלת </th>-->
+<!--<th> סוג מוצר </th>-->
+<!--<th> הורדה </th>-->
+<!--</tr>-->
+<!--</thead>-->
+<!--<tr *ngFor="let item_extend of item.extend_clearing">-->
+<!--<td>{{ item_extend.employee_name }}</td>-->
+<!--<td>{{ item_extend.identifier }}</td>-->
+<!--<td>{{ item_extend.company_name }}</td>-->
+
+<!--<td>  {{ item_extend.product_type }} {{ productTypes[item_extend.product_type] }}</td>-->
+<!--<td>-->
+<!--<span *ngIf="!item.has_file_feedback">טרם</span>-->
+<!--<i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item_extend.id, 'download')" *ngIf="item_extend.has_file_feedback"></i>-->
+<!--<i class="fa fa-eye fa-lg" (click)="PdfFile(item_extend.id, 'show')" *ngIf="item_extend.has_file_feedback"></i>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</table>-->
 
