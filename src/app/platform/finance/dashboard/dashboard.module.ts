@@ -17,7 +17,7 @@ import {DataTableModule} from '../../../shared/data-table/data-table.module';
 import {BdSelectModule} from '../../../../assets/js/bd-select/bd-select.module';
 import {InvoiceService} from '../../../shared/_services/http/invoice.service';
 import {NotificationService} from '../../../shared/_services/notification.service';
-import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
+import { ChartsModule } from 'angular-bootstrap-md';
 // import { ChartsModule } from 'ng2-charts';
 
 const routes: Routes = [

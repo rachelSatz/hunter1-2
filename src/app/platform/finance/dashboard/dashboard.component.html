@@ -2,33 +2,43 @@
 <p>
   מצג מעסיקים
 </p>
-<div class="row">
-  <div class="d-flex align-items-center">
-  <div>
-    <mat-form-field style="margin-top: -10px;">
-      <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="בגין חודש" name="for_month" ngModel readonly required>
-      <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-      <mat-datepicker #datePicker></mat-datepicker>
-      <mat-error>שדה חובה.</mat-error>
-    </mat-form-field>
-  </div>
-    <div class="float-left mr-3">
-      <button class="btn blue-btn" type="submit">חפש</button>
+<form #form="ngForm">
+  <div class="row">
+    <div class="w-20">
+      <bd-select [items]="productTypesItems" placeholder="שם מוצר"  name="product_type"></bd-select>
     </div>
-  <!--<bd-select [items]="organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>-->
-  <!--<bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>-->
-</div>
-</div>
-<!--<div style="display: inline-block">-->
-  <!--<canvas mdbChart-->
-          <!--[chartType]="chartType"-->
-          <!--[datasets]="chartDatasets"-->
-          <!--[labels]="chartLabels"-->
-          <!--[colors]="chartColors"-->
-          <!--[options]="chartOptions"-->
-          <!--[legend]="true"-->
-          <!--(chartHover)="chartHovered($event)"-->
-          <!--(chartClick)="chartClicked($event)">-->
-  <!--</canvas>-->
-<!--</div>-->
+    <div class="d-flex align-items-center mr-3">
+      <mat-form-field style="margin-top: -10px;">
+        <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="בגין חודש" name="for_month" ngModel readonly required>
+        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+        <mat-error>שדה חובה.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="float-left mr-3">
+      <button class="btn blue-btn" (click)="submit(form)">חפש</button>
+    </div>
+    <div class="ml-3 d-flex mr-auto">
+      <i title="דוח עם אפסים" class="fa fa-file-excel-o fa-lg ml-1 ml-lg-2"></i>
+    </div>
+    <div class="ml-3 d-flex mr-auto">
+      <i title="דוח ללא אפסים" class="fa fa-file-excel-o fa-lg ml-1 ml-lg-2"></i>
+    </div>
+  </div>
+
+
+</form>
+
+  <div style="display: inline-block">
+    <canvas mdbChart
+            [chartType]="chartType"
+            [datasets]="chartDatasets"
+            [labels]="chartLabels"
+            [colors]="chartColors"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
 </div>

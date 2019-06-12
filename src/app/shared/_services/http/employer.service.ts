@@ -174,4 +174,11 @@ export class EmployerService extends BaseHttpService {
       .toPromise()
       .then( response => response );
   }
+
+  getEmployersDashboard(data: object): Promise<any> {
+    return this.http.post(this.endPoint + '/employersDashboard',
+      {data: data}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+  }
 }
