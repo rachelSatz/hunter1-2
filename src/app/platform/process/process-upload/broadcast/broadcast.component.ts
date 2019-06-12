@@ -1,6 +1,7 @@
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Location } from '@angular/common';
 
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
@@ -44,7 +45,8 @@ export class BroadcastComponent implements OnInit {
               public  processDataService: ProcessDataService,
               private notificationService: NotificationService,
               public userSession: UserSessionService,
-              private selectUnitService: SelectUnitService) {}
+              private selectUnitService: SelectUnitService,
+              private _location: Location) {}
 
   ngOnInit() {
     if (this.processDataService.activeProcess === undefined) {
@@ -103,10 +105,11 @@ export class BroadcastComponent implements OnInit {
    }
   }
 
-  back(): void {
+  previous(): void {
     this.processDataService.activeProcess.pageNumber = 3;
-    this.router.navigate(['/platform', 'process', 'new', 1 , 'payment',
-        this.processDataService.activeProcess.processID],
-      { relativeTo: this.route });
+    this._location.back();
+    // this.router.navigate(['/platform', 'process', 'new', 1 , 'payment',
+    //     this.processDataService.activeProcess.processID],
+    //   { relativeTo: this.route });
   }
 }

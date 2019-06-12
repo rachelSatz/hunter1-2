@@ -2,13 +2,17 @@
 export class TransferClause {
   id: number;
   clause_type: string;
-  transfer_sum: string;
+  transfer_sum: number;
   // exempt: number;
   percent: number;
   expected_sum: number;
   expected_percent: number;
   salary_calculated: number;
   policy_or_account_number: string;
+
+  constructor() {
+
+  }
 
 }
 

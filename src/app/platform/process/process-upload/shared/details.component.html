@@ -9,7 +9,7 @@
   </tr>
   </thead>
 </table>
-<span (click)="back()" class="d-flex float-right w-100">
+<span (click)="previous()" class="d-flex float-right w-100">
   <p class="pointer blue-color">
     <i class="fa fa-angle-right ml-1"></i>
       <span>חזור</span>
@@ -17,7 +17,7 @@
 </span>
 <p class="h5 pb-3" *ngIf="type === 'files'">פירוט קבצים</p>
 <p class="h5" *ngIf="type === 'records' && !this.processDataService.activeProcess.incorrect">פירוט רשומות</p>
-<p class="h5" *ngIf="type === 'records' && this.processDataService.activeProcess.incorrect">פירוט רשומות שגויית</p>
+<p class="h5" *ngIf="type === 'records' && this.processDataService.activeProcess.incorrect">פירוט רשומות שגויות</p>
 
 <div class="d-flex" *ngIf="process_details">
   <div class="w-25">
@@ -66,6 +66,4 @@
 
 <div class="mt-5 py-5">
   <router-outlet></router-outlet>
-  <!--<app-detailed-files *ngIf="type === 'files'"></app-detailed-files>-->
-  <!--<app-detailed-records *ngIf="type === 'records'"></app-detailed-records>-->
 </div>

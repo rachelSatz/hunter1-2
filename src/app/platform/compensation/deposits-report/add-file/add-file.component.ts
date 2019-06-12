@@ -20,9 +20,8 @@ export class AddFileComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   uploadedFile: File;
-  spin: boolean;
   hasServerError: boolean;
-  description: string;
+  description = '';
 
   readonly  columns  = [
     { name: 'file_name', label: 'שם הקובץ' },

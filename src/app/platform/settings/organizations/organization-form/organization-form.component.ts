@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Organization } from 'app/shared/_models/organization.model';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { PlatformComponent } from 'app/platform/platform.component';
+import { Organization } from 'app/shared/_models/organization.model';
 
 @Component({
   selector: 'app-organization-form',
@@ -16,7 +19,8 @@ export class OrganizationFormComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private organizationService: OrganizationService,
-              private  platformComponent: PlatformComponent) {
+              private  platformComponent: PlatformComponent,
+              private _location: Location) {
 
   }
 
@@ -44,14 +48,14 @@ export class OrganizationFormComponent implements OnInit {
 
   private handleResponse(isSaved: boolean): void {
     if (isSaved) {
-      this.router.navigate(['platform', 'settings', 'organizations']);
+      this.previous();
     } else {
       this.hasServerError = true;
     }
   }
 
-  back(): void {
-    this.router.navigate(['platform', 'settings', 'organizations']);
+  previous(): void {
+    this._location.back();
   }
 
 }

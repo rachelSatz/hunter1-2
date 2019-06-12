@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {Employee} from '../../_models/employee.model';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
+import {MonthlyTransferBlock} from '../../_models/monthly-transfer-block';
 
 @Injectable()
 export class MonthlyTransferBlockService  extends BaseHttpService {
@@ -31,14 +32,6 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
       .then(response => response as DataTableResponse)
       .catch(() => null);
   }
-
-  // createMTBGroup(rowIDs: number[], bankAccountId?: number, groupId?: number, process_id?: number): Promise<boolean> {
-  //   return this.http.post(this.endPoint + '/createOrUpdateMTBGroup',
-  //     {ids: rowIDs, bank_account_id: bankAccountId, groupId: groupId, process_id: process_id }, this.getTokenHeader())
-  //     .toPromise()
-  //     .then(response => response)
-  //     .catch(response => response);
-  // }
 
   createMTBGroup(ids: number[], productId: number, bankAccountId: number, groupName: string, confirmation: number,
                  type: string): Promise<any> {
@@ -67,14 +60,25 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
       .catch(response => null);
   }
 
+  getMonthly(id: number): Promise<MonthlyTransferBlock> {
+    return this.http.get(this.endPoint + '/' +  id, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as MonthlyTransferBlock)
+      .catch(() => null);
+  }
 
+  setEditPayments(id: number, mtb: any): Promise<any> {
+    return this.http.post(this.endPoint + '/setEditPayments/' +  id, mtb , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
 
-
-
-
-
-
-
-
-
+  markValid(ids: number[]): Promise<any> {
+    return this.http.post(this.endPoint + '/markValid',
+  {ids: ids}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
 }

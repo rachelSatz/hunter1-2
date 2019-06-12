@@ -116,7 +116,9 @@ export enum ProcessType {
   regular_fix = 'תיקון סוג 2',
   positive_negative_fix = 'תיקון 6+1',
   direct_employer = 'ישיר',
-  manual_payment = 'פידבק ראשון' ,
+  manual_payment = 'ידני' ,
+  unknown = 'אחר'
+
 }
 
 export enum PaymentType {

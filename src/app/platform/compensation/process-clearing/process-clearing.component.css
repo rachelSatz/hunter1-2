@@ -5,3 +5,7 @@
 ::ng-deep .excel-employees-dialog .mat-dialog-container {
   overflow: visible;
 }
+
+.sub-table ::ng-deep th {
+  border: none;
+}

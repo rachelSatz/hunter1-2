@@ -21,6 +21,7 @@ import {CompensationStatus, CompensationSendingMethods, ValidityMethods, Compens
 import { FormComponent } from './form/form.component';
 import {ProductType} from '../../../shared/_models/product.model';
 import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
+import {DataTableResponse} from '../../../shared/data-table/classes/data-table-response';
 
 
 @Component({
@@ -31,7 +32,7 @@ import {GeneralHttpService} from '../../../shared/_services/http/general-http.se
 })
 export class ProcessClearingComponent implements OnInit, OnDestroy {
 
-  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+  @ViewChild('mainTable') dataTable: DataTableComponent;
 
   sub = new Subscription;
 
@@ -62,6 +63,20 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
     { name: 'status', label: 'סטטוס', searchOptions: { labels: this.selectStatuses }},
     { name: 'response_time', label: 'העבר לטיפול' ,
       isSort: false, subLabel: 'ימי טיפול', searchOptions: { labels: this.responseTimes }},
+    { name: 'request', label: 'פניות' , isSort: false, searchable: false},
+    { name: 'comment', label: 'הערות' , isSort: false, searchable: false},
+    { name: 'download', label: 'הורדה' , isSort: false, searchable: false },
+    { name: 'extend', label: 'הרחבה' , isSort: false, searchable: false },
+  ];
+
+// <!--<th> שם עובד </th>-->
+// <!--<th> ת.ז </th>-->
+// <!--<th> חברה מנהלת </th>-->
+// <!--<th> סוג מוצר </th>-->
+// <!--<th> הורדה </th>-->
+
+  readonly columns1  = [
+    { name: 'request', label: 'פניות' , isSort: false, searchable: false},
     { name: 'request', label: 'פניות' , isSort: false, searchable: false},
     { name: 'comment', label: 'הערות' , isSort: false, searchable: false},
     { name: 'download', label: 'הורדה' , isSort: false, searchable: false },
@@ -105,6 +120,11 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
         this.setResponse(response);
       });
     }
+  }
+
+  fetchItemsSubTable(subTable: DataTableComponent, items: string[]): void {
+    const response = new DataTableResponse(items, items.length, 1);
+    subTable.setItems(response);
   }
 
   setResponse(response: any): void {

@@ -32,8 +32,8 @@ export class SelectUnitService {
     return [];
   }
 
-  setProcessData(organizations: any): void {
-    sessionStorage.setItem('processData', JSON.stringify(organizations));
+  setProcessData(processData: any): void {
+    sessionStorage.setItem('processData', JSON.stringify(processData));
   }
 
   getProcessData(): any {

@@ -282,6 +282,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
 
   detailsRecords(fileId: number): void {
     this.processDataService.activeProcess.returnDetails = true;
+    this.processDataService.activeProcess.incorrect = false;
+
     this.detailsComponent.type = 'records';
     this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records', fileId]);
   }

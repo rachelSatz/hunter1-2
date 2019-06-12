@@ -5,25 +5,40 @@ export class MonthlyTransferBlock {
   first_name: string;
   last_name: string;
   personal_id: string;
+  product_id: number;
   deposit_type: string;
   employer_product_code: number;
   employer_product_name: string;
   employer_product_type: string;
+  company_name: string;
   product_code: number;
+  employer_company_id: number;
   employee_status: string;
-  // payment_month: string;
   inquiries: Object[];
   transfer_clause: TransferClause[];
   salary: number;
+  working_days_in_month: number;
+  work_month_percentage: number;
+  employee_status_start_date: number;
   salary_month: string;
   exempt_sum:  number;
   deposit_status: string;
   sum_compensation: number;
+  percent_compensation: number;
   sum_employee_benefits: number;
   sum_employer_benefits: number;
+  sum_self_employeed_benefits: number;
+  percent_employer_benefits: number;
+  percent_employee_benefits: number;
+  percent_self_employeed_benefits: number;
+  percent_other_employer: number;
+  sum_other_employer: number;
+  percent_other_employee: number;
+  sum_other_employee: number;
   sum_ipi_employer: number;
   amount: number;
   checked: false;
+  company_id: number;
   defrayal_error: any;
 }
 
@@ -60,4 +75,15 @@ export enum DepositStatus {
   share_holder = 'בעל מניות'
 }
 
+
+export enum Types {
+  compensation = 'פיצויים',
+  employee_benefits = 'תשלום עובד',
+  employer_benefits = 'תשלום מעסיק',
+  self_employeed_benefits = 'תגמולים',
+  ipi_employee = 'אכע עובד',
+  ipi_employer = 'אכע מעסיק',
+  other_employee = 'שונות עובד',
+  other_employer = 'שונות מעסיק'
+}
 

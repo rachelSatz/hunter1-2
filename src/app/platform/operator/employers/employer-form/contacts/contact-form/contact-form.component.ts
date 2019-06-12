@@ -1,6 +1,8 @@
+import { NgForm } from '@angular/forms';
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+
 
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { Contact, EntityTypes, Type } from 'app/shared/_models/contact.model';
@@ -10,7 +12,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { fade } from 'app/shared/_animations/animation';
-import {EmployerService} from '../../../../../../shared/_services/http/employer.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -25,7 +27,7 @@ export class ContactFormComponent implements OnInit {
 
   hasServerError: boolean;
   entities = [];
-  navigate: any;
+  // navigate: any;
   employers = [];
   location: string;
   entityTypes = Object.keys(EntityTypes).map(function(e) {
@@ -49,20 +51,21 @@ export class ContactFormComponent implements OnInit {
                private productService: ProductService,
                private contactService: ContactService,
                private employerService: EmployerService,
-               protected notificationService: NotificationService) {}
+               protected notificationService: NotificationService,
+               private _location: Location) {}
 
   ngOnInit() {
     this.organizations = this.selectUnit.getOrganization();
     if (this.router.url.includes( 'employers')) {
       this.pathEmployers = true;
-      this.navigate = ['platform', 'employers',
-                       'form', this.selectUnit.currentEmployerID, 'contacts'];
+      // this.navigate = ['platform', 'employers',
+      //                  'form', this.selectUnit.currentEmployerID, 'contacts'];
       this.location = 'employers';
     } else if (this.router.url.includes( 'operator')) {
       this.location = 'operator';
-      this.navigate = ['platform', 'operator', 'contacts'];
+      // this.navigate = ['platform', 'operator', 'contacts'];
     } else {
-      this.navigate = ['platform', 'contacts'];
+      // this.navigate = ['platform', 'contacts'];
       this.location = 'settings';
     }
     this.disabled = false;
@@ -156,22 +159,24 @@ export class ContactFormComponent implements OnInit {
 
   private handleResponse(response: boolean): void {
     if (response) {
-        this.router.navigate(this.navigate);
+      this._location.back();
+        // this.router.navigate(this.navigate);
     } else {
       this.hasServerError = true;
     }
   }
 
-  back(): void {
-    if (this.router.url.includes( 'employers') && this.router.url.includes( 'contacts')) {
-      const empId = this.selectUnit.currentEmployerID > 0 ? this.selectUnit.currentEmployerID : this.employerId;
-      this.router.navigate(['platform', 'operator', 'employers',
-        'form', empId, 'contacts']);
-    } else if (this.router.url.includes( 'operator')) {
-      this.router.navigate(['/platform', 'operator', 'contacts']);
-    } else {
-      this.router.navigate(['/platform', 'contacts']);
-
-    }
+  previous(): void {
+    this._location.back();
+    // if (this.router.url.includes( 'employers') && this.router.url.includes( 'contacts')) {
+    //   const empId = this.selectUnit.currentEmployerID > 0 ? this.selectUnit.currentEmployerID : this.employerId;
+    //   this.router.navigate(['platform', 'operator', 'employers',
+    //     'form', empId, 'contacts']);
+    // } else if (this.router.url.includes( 'operator')) {
+    //   this.router.navigate(['/platform', 'operator', 'contacts']);
+    // } else {
+    //   this.router.navigate(['/platform', 'contacts']);
+    //
+    // }
   }
 }

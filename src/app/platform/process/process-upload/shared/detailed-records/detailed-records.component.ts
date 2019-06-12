@@ -1,9 +1,10 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router} from '@angular/router';
 import { MatDialog } from '@angular/material';
 
+
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
-import {DepositStatus, DepositType, EmployeeStatus} from 'app/shared/_models/monthly-transfer-block';
+import { DepositStatus, DepositType, EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
 import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
@@ -43,8 +44,8 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     { name: 'deposit_status', isSort: false , label: 'מעמד' , searchable: false },
     { name: 'employee_status', isSort: false , label: 'סטטוס' , searchable: false },
     { name: 'product_code', sortName: 'employer_product__product__code', label: 'מ"ה' , searchable: false },
-    { name: 'payment_month', label: 'חודש תשלום' , searchable: false },
-    { name: 'payment_month1', isSort: false, label: 'חודש ייחוס' , searchable: false },
+    // { name: 'payment_month', label: 'חודש תשלום' , searchable: false },
+    { name: 'payment_month', isSort: false, label: 'חודש ייחוס' , searchable: false },
     { name: 'salary', label: 'שכר' , searchable: false},
     // { name: 'exempt_sum', label: 'סכום פטור' , searchable: false},
     { name: 'sum_compensation', isSort: false, label: 'פיצויים' , searchable: false },
@@ -96,13 +97,18 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
       }
       this.monthlyTransferBlockService.getMonthlyList(this.dataTable.criteria)
         .then(response => {
-          this.dataTable.setItems(response);
+          if (response.items.length > 0) {
+            this.dataTable.setItems(response);
+          } else {
+            if (this.processDataService.activeProcess.pageNumber === 4 || this.processDataService.activeProcess.pageNumber === 5) {
+              this.router.navigate(['/platform', 'process', 'new', 1, 'broadcast']);
+            } else {
+              this.router.navigate(['/platform', 'process', 'new', 1 , 'payment', this.processDataService.activeProcess.processID]);
+            }
+          }
         });
     } else {
-      const data = new DataTableResponse();
-      data.items = this.items;
-      data.lastPage = 1;
-      data.total = this.items.length;
+      const data = new DataTableResponse( this.items, 1, this.items.length);
       this.dataTable.setItems(data);
     }
   }
@@ -162,24 +168,10 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     }
   }
 
-  editPayments(): void {
-    if (this.checkedRowItems()) {
-      if (this.isLockedBroadcast()) {
-        this.router.navigate(['/edit-payments']);
-        // const dialog = this.dialog.open(EditPaymentsComponent, {
-        //   data: { 'ids':  this.dataTable.criteria.checkedItems,
-        //     'processId': this.processDataService.activeProcess.processID
-        //   },
-        //   width: '100%',
-        //   maxWidth: '100%',
-        //   panelClass: 'edit-payments'
-        // });
-        // this.sub.add(dialog.afterClosed().subscribe(() => {
-        //   this.items = [];
-        //   this.fetchItems();
-        // }));
+  editPayments(item: any): void {
+      if (item['status'] !== 'sent') {
+        this.router.navigate(['platform', 'process' , 'edit-payments', item['id'] ]);
       }
-    }
   }
 
   isLockedBroadcast(): boolean {
@@ -196,10 +188,20 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   }
 
   setColorError(errors , type): boolean {
-    if (errors.filter(e => e.type === type).length > 0) {
+    if (errors.filter(e => type.includes(e.type)).length > 0) {
       return true;
     }
     return false;
+  }
+
+  markValid(): void {
+    if (this.checkedRowItems()) {
+      if (this.isLockedBroadcast()) {
+        this.monthlyTransferBlockService.markValid( this.dataTable.criteria.checkedItems.map(item => item['id'])).then(r => r);
+      } else {
+        this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
+      }
+    }
   }
 
   ngOnDestroy() {
