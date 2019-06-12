@@ -10,9 +10,7 @@ import { TaskService} from 'app/shared/_services/http/task.service';
 import { PlanService} from 'app/shared/_services/http/plan.service';
 import { UserService} from 'app/shared/_services/http/user.service';
 import { User} from 'app/shared/_models/user.model';
-
-import { Subscription} from 'rxjs';
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-plan-form',

@@ -21,6 +21,7 @@ export class EmployerFinancialDetails {
   est_payment_amount: number;
   est_ids_count: number;
   est_invoice_id: string;
+  creditCardLastDigits: string;
 
   constructor() {
       this.id = 0;

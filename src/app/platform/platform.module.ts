@@ -30,6 +30,7 @@ const routes: Routes = [
       { path: 'employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },
       { path: 'contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
+      { path: 'finance/dashboard', loadChildren: 'app/platform/finance/dashboard/dashboard.module#DashboardModule' },
       { path: 'compensations/process', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
       { path: 'compensations/process-clearing', loadChildren: 'app/platform/compensation/process-clearing/' +
           'process-clearing.module#ProcessClearingModule' },

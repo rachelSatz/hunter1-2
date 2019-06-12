@@ -6,6 +6,7 @@
         <button class="btn blue-btn" (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>
         <button class="btn blue-btn mr-2" (click)="openProactiveInvoice()">חשבון יזום</button>
         <button class="btn blue-btn mr-2" (click)="openManualInvoice()">חשבון ידני</button>
+        <button class="btn blue-btn mr-2" (click)="openTaxInvoice()">חשבונית מס/קבלה</button>
       </div>
       <div class="ml-3 d-flex mr-auto">
         <button [matMenuTriggerFor]="menu" class="btn blue-btn">פעולות</button>
@@ -33,7 +34,7 @@
       <!--{{ invoice_all_status[item.status] }}-->
     <!--</td>-->
     <td class="select-status">
-      <mat-select name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
+      <mat-select [title]="setItemTitle(item)" name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
         <mat-option *ngFor="let st of status" [value]="st.id">{{ st.name }}</mat-option>
       </mat-select>
       <!--<bd-select [items]="status" placeholder="" #statusSelect="ngModel" name="status"-->

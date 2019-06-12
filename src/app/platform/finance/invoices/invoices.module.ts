@@ -18,6 +18,7 @@ import { EmployersFinanceExcelComponent } from './employers-finance-excel/employ
 import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 import { NotificationService } from '../../../shared/_services/notification.service';
 import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
+import { TaxInvoiceFormComponent } from './tax-invoice-form/tax-invoice-form.component';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
@@ -40,9 +41,11 @@ const routes: Routes = [
     ProactiveInvoiceFormComponent,
     RemarksFormComponent,
     EmployersFinanceExcelComponent,
-    ManualInvoiceFormComponent
+    ManualInvoiceFormComponent,
+    TaxInvoiceFormComponent
   ],
   providers: [InvoiceService, EmployerService, FilterItemsPipe, NotificationService],
-  entryComponents: [ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent, ManualInvoiceFormComponent]
+  entryComponents: [ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent,
+    ManualInvoiceFormComponent, TaxInvoiceFormComponent]
 })
 export class InvoicesModule { }
