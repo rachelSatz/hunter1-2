@@ -1,11 +1,9 @@
 <div class="mr-5 px-4">
-<p>
-  מצג מעסיקים
-</p>
+<p>מצג מעסיקים</p>
 <form #form="ngForm">
   <div class="row">
     <div class="w-20">
-      <bd-select [items]="productTypesItems" placeholder="שם מוצר"  name="product_type"></bd-select>
+      <bd-select [items]="productTypesItems" placeholder="שם מוצר" name="product_type" #productTypeModel="ngModel" ngModel></bd-select>
     </div>
     <div class="d-flex align-items-center mr-3">
       <mat-form-field style="margin-top: -10px;">
@@ -19,26 +17,36 @@
       <button class="btn blue-btn" (click)="submit(form)">חפש</button>
     </div>
     <div class="ml-3 d-flex mr-auto">
-      <i title="דוח עם אפסים" class="fa fa-file-excel-o fa-lg ml-1 ml-lg-2"></i>
-    </div>
-    <div class="ml-3 d-flex mr-auto">
-      <i title="דוח ללא אפסים" class="fa fa-file-excel-o fa-lg ml-1 ml-lg-2"></i>
+      <button onclick="downloadExcelFinanceDashboard(true)">
+        <i title="דוח עם אפסים" class="fa fa-file-excel-o fa-lg ml-1 ml-lg-2"></i>
+      </button>
+      <button class="mr-3" onclick="downloadExcelFinanceDashboard(false)">
+        <i aria-hidden="true" title="דוח ללא אפסים" class="fa fa-file-excel-o fa-lg ml-1 ml-lg-2"></i>
+      </button>
     </div>
   </div>
-
-
 </form>
+  <!--<section class="form-gradient mb-5">-->
 
-  <div style="display: inline-block">
-    <canvas mdbChart
-            [chartType]="chartType"
-            [datasets]="chartDatasets"
-            [labels]="chartLabels"
-            [colors]="chartColors"
-            [options]="chartOptions"
-            [legend]="true"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)">
-    </canvas>
+      <!--<div class="header peach-gradient">-->
+        <!--<div class="row d-flex justify-content-center">-->
+          <!--<h3 class="white-text mb-0 py-5 font-weight-bold"></h3>-->
+        <!--</div>-->
+      <!--</div>-->
+  <!--</section>-->
+  <div class="content-border">
+      <span class="mt-3 content-text" style="">{{ totalIds }}</span><br>
+      <span class="mb-3 content-text" *ngIf="totalIds > 0">סה"כ תעודות זהות</span>
+      <app-doughnut></app-doughnut>
   </div>
+  <!--<div style="border:2px solid #b7b7b7;width:300px; height:300px">-->
+
+  <!--</div>-->
+  <!--<div>-->
+    <!--<span>{{ totalIds }}</span><br>-->
+    <!--<span *ngIf="totalIds > 0">סה"כ תעודות זהות</span>-->
+    <!--<app-doughnut></app-doughnut>-->
+
+  <!--</div>-->
+
 </div>

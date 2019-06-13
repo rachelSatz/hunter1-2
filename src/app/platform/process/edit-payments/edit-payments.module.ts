@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { EditPaymentsComponent } from './edit-payments.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { EditPaymentResolve } from 'app/shared/_resolves/edit-payment.resolve';
+// import { EditPaymentResolve } from 'app/shared/_resolves/edit-payment.resolve';
 import {MonthlyTransferBlockService} from '../../../shared/_services/http/monthly-transfer-block';
 import {
   MatAutocompleteModule,
@@ -22,7 +22,7 @@ import {NotificationService} from '../../../shared/_services/notification.servic
 
 const routes: Routes = [
   { path: '', component: EditPaymentsComponent },
-  { path: ':id', component: EditPaymentsComponent, resolve: { mtb: EditPaymentResolve } }
+  // { path: ':id', component: EditPaymentsComponent, resolve: { mtb: EditPaymentResolve } }
 ];
 
 @NgModule({
@@ -43,7 +43,7 @@ const routes: Routes = [
     BdSelectModule,
   ],
   declarations: [EditPaymentsComponent],
-  providers: [EditPaymentResolve, MonthlyTransferBlockService, NotificationService]
+  providers: [MonthlyTransferBlockService, NotificationService]
 })
 
 export class EditPaymentsModule {
