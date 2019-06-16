@@ -119,8 +119,15 @@ export class InvoiceService  extends BaseHttpService {
   }
 
   createTaxInoices(invoiceIds: number[], date: string): Promise<string> {
-    return this.http.post(this.endPoint + '/createTaxInoices',
+    return this.http.post(this.endPoint + '/createTaxInvoices',
       { invoiceIds: invoiceIds, data: date }, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  downloadExcelFinanceDashboard(isZero: boolean): Promise<string> {
+    return this.http.post(this.endPoint + '/excelFinanceDashboard', isZero, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);

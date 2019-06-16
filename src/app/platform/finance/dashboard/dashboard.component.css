@@ -1,0 +1,30 @@
+.form-gradient .header {
+  border-top-left-radius: .3rem;
+  border-top-right-radius: .3rem;
+}
+
+.form-gradient input[type=text]:focus:not([readonly]) {
+  border-bottom: 1px solid #fd9267;
+  box-shadow: 0 1px 0 0 #fd9267;
+}
+
+.form-gradient input[type=text]:focus:not([readonly]) + label {
+  color: #4f4f4f; }
+
+.form-gradient textarea.md-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #fd9267;
+  box-shadow: 0 1px 0 0 #fd9267;
+}
+
+
+.content-border {
+  width:300px;
+  height:300px;
+  border:2px solid #b7b7b7;
+  margin-right: 660px
+}
+.content-text {
+  display: block;
+  text-align: center;
+  color: #00adee;
+}

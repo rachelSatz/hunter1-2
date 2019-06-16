@@ -65,6 +65,7 @@ export class PlatformComponent implements OnInit {
     ]},
     { url: 'finance',     label: 'פיננסים', subMenuLinks: [
       { url: 'invoices',  label: 'חשבונות חייבים' },
+      { url: 'dashboard', label: 'מצג מעסיקים'}
     ]},
     { url: 'settings',    label: 'הגדרות', subMenuLinks: [
       { url: 'employers', label: 'מעסיקים' },
