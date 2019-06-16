@@ -1,14 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-<<<<<<< HEAD
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-=======
-import { EditPaymentsComponent } from './edit-payments.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-// import { EditPaymentResolve } from 'app/shared/_resolves/edit-payment.resolve';
-import {MonthlyTransferBlockService} from '../../../shared/_services/http/monthly-transfer-block';
->>>>>>> 826bbe3b46116bdc5ad281d86490ac89cf1884d7
+
 import {
   MatAutocompleteModule,
   MatCheckboxModule,
@@ -30,8 +24,8 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 
 
 const routes: Routes = [
-  { path: '', component: EditPaymentsComponent },
-  // { path: ':id', component: EditPaymentsComponent, resolve: { mtb: EditPaymentResolve } }
+  // { path: '', component: EditPaymentsComponent },
+  { path: ':id', component: EditPaymentsComponent, resolve: { mtb: EditPaymentResolve } }
 ];
 
 @NgModule({
