@@ -12,7 +12,7 @@ import {
   MatInputModule,
   MatSelectModule
 } from '@angular/material';
-import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
+import { ChartsModule } from 'angular-bootstrap-md';
 
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';

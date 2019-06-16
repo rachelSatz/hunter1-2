@@ -35,7 +35,7 @@ export class ManufacturerNumberComponent implements OnInit {
   fetchItems() {
     this.departmentService.getSNInEmployer(this.selectUnit.currentEmployerID)
       .then(response => {
-
+        this.dataTable.setItems(response);
       });
   }
 }
