@@ -57,7 +57,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   constructor(public route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
-              private processDataService: ProcessDataService,
+              public processDataService: ProcessDataService,
               private  monthlyTransferBlockService: MonthlyTransferBlockService ,
               protected  notificationService: NotificationService,
               private selectUnitService: SelectUnitService) { }

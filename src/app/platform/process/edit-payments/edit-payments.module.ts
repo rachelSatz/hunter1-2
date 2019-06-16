@@ -2,10 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EditPaymentsComponent } from './edit-payments.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-// import { EditPaymentResolve } from 'app/shared/_resolves/edit-payment.resolve';
-import {MonthlyTransferBlockService} from '../../../shared/_services/http/monthly-transfer-block';
 import {
   MatAutocompleteModule,
   MatCheckboxModule,
@@ -22,11 +18,13 @@ import { EditPaymentResolve } from 'app/shared/_resolves/edit-payment.resolve';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { EditPaymentsComponent } from './edit-payments.component';
+import {MonthlyTransferBlockService} from '../../../shared/_services/http/monthly-transfer-block';
 
 
 const routes: Routes = [
-  { path: '', component: EditPaymentsComponent },
-  // { path: ':id', component: EditPaymentsComponent, resolve: { mtb: EditPaymentResolve } }
+  // { path: '', component: EditPaymentsComponent },
+  { path: ':id', component: EditPaymentsComponent, resolve: { mtb: EditPaymentResolve } }
 ];
 
 @NgModule({
