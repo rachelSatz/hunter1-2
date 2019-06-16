@@ -1,9 +1,11 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+
 
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -15,7 +17,8 @@ export class FormComponent implements OnInit {
   constructor(private router: Router,
               public departmentService: DepartmentService,
               public selectUnit: SelectUnitService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private _location: Location) { }
 
   departments = [];
   number: FormGroup;
@@ -23,22 +26,8 @@ export class FormComponent implements OnInit {
   scrollIndex = 1;
   companies = [] ;
   navigate: any;
-  location: string;
 
   ngOnInit() {
-    if (this.router.url.includes( 'employers')) {
-      this.navigate = ['platform', 'employers',
-        'form', this.selectUnit.currentEmployerID, 'number'];
-      this.location = 'employers';
-    } else if (this.router.url.includes( 'operator')) {
-      this.location = 'operator';
-      this.navigate = ['platform', 'operator', 'number'];
-    } else {
-      this.navigate = ['platform', 'number'];
-      this.location = 'settings';
-    }
-
-
     this.departmentService.getDepartments(this.selectUnit.currentEmployerID)
       .then(response => this.departments = response.items);
     this.companies = this.selectUnit.getCompanies();
@@ -89,8 +78,9 @@ export class FormComponent implements OnInit {
       }
       this.departmentService.addSNInCompanies(value)
         .then(response => {
+
           if (response.result) {
-            this.router.navigate(this.navigate);
+            this._location.back();
           } else {
             // response.errors
           }

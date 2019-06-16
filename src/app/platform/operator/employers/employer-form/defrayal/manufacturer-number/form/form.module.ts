@@ -15,8 +15,8 @@ import {
   MatRadioModule,
   MatSelectModule
 } from '@angular/material';
-import {BdSelectModule} from '../../../../../../../../assets/js/bd-select/bd-select.module';
-import {DepartmentService} from '../../../../../../../shared/_services/http/department.service';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
+import { DepartmentService } from 'app/shared/_services/http/department.service';
 
 const routes: Routes = [
   { path: '', component: FormComponent },

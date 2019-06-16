@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+<<<<<<< HEAD
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+=======
 import { EditPaymentsComponent } from './edit-payments.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 // import { EditPaymentResolve } from 'app/shared/_resolves/edit-payment.resolve';
 import {MonthlyTransferBlockService} from '../../../shared/_services/http/monthly-transfer-block';
+>>>>>>> 826bbe3b46116bdc5ad281d86490ac89cf1884d7
 import {
   MatAutocompleteModule,
   MatCheckboxModule,
@@ -15,9 +19,14 @@ import {
   MatInputModule,
   MatSelectModule
 } from '@angular/material';
-import {BdSelectModule} from '../../../../assets/js/bd-select/bd-select.module';
-import {DatePickerModule} from '../../../shared/app-date-picker/app-date-picker.module';
-import {NotificationService} from '../../../shared/_services/notification.service';
+
+import { EditPaymentsComponent } from './edit-payments.component';
+import { EditPaymentResolve } from 'app/shared/_resolves/edit-payment.resolve';
+import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
+
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
+import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 
 const routes: Routes = [

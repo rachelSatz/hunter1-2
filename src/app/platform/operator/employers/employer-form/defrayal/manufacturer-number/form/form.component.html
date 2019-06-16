@@ -3,7 +3,6 @@
     <div class="col-lg-2">
       <bd-select class="w-100" [items]="departments" formControlName="department_id"
                  placeholder="מחלקה"
-                 (onSelect)="loadEmployees()"
                  required [error]="number.controls['department_id'].errors && form.submitted"></bd-select>
     </div>
     <div class="col-lg-2">

@@ -12,13 +12,13 @@ import {
   MatInputModule,
   MatSelectModule
 } from '@angular/material';
-import { DatePickerModule} from '../../../shared/app-date-picker/app-date-picker.module';
-import { DataTableModule} from '../../../shared/data-table/data-table.module';
-import { BdSelectModule} from '../../../../assets/js/bd-select/bd-select.module';
-import { InvoiceService} from '../../../shared/_services/http/invoice.service';
-import { NotificationService} from '../../../shared/_services/notification.service';
-// import { ChartsModule } from 'angular-bootstrap-md';
-import { DoughnutComponent} from '../../../shared/doughnut/doughnut.component';
+
+import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
+import { InvoiceService } from 'app/shared/_services/http/invoice.service';
+import { NotificationService} from 'app/shared/_services/notification.service';
+import { DoughnutComponent} from 'app/shared/doughnut/doughnut.component';
 import { ChartsModule } from 'ng2-charts';
 
 const routes: Routes = [
