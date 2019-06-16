@@ -45,7 +45,7 @@ const routes: Routes = [
     BdSelectModule,
   ],
   declarations: [EditPaymentsComponent],
-  providers: [MonthlyTransferBlockService, NotificationService]
+  providers: [EditPaymentResolve, MonthlyTransferBlockService, NotificationService]
 })
 
 export class EditPaymentsModule {
