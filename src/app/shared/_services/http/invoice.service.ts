@@ -126,8 +126,8 @@ export class InvoiceService  extends BaseHttpService {
       .catch(() => null);
   }
 
-  downloadExcelFinanceDashboard(isZero: boolean): Promise<string> {
-    return this.http.post(this.endPoint + '/excelFinanceDashboard', isZero, this.getTokenHeader())
+  downloadExcelFinanceDashboard(onlyZero: boolean, data: object): Promise<string> {
+    return this.http.post(this.endPoint + '/excelFinanceDashboard', {onlyZero: onlyZero, data: data}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);
