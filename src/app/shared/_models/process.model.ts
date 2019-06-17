@@ -36,6 +36,8 @@ export class Process {
   returnDetails;
   error_details: string;
   incorrect: boolean;
+  highlightFileId: number;
+  highlightRecordId: number;
 
 
 

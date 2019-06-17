@@ -60,6 +60,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
   });
   nameCompany = 'company';
   nameUserId = 'user_id';
+  highlightRowId: number;
 
   readonly columns  = [
     { name: 'created_at', label: 'תאריך יצירת בקשה', searchOptions: { isDate: true }},

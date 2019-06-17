@@ -14,3 +14,7 @@
 ::ng-deep .edit-payments {
   padding: 30px;
 }
+
+.highlight{
+  background: #c3c7cc; /* medium-grey */
+}

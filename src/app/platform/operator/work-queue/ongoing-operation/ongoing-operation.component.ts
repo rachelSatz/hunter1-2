@@ -9,6 +9,8 @@ import { SelectUnitService } from '../../../../shared/_services/select-unit.serv
 import { TimerService } from '../../../../shared/_services/http/timer';
 import {TaskTimer, TaskTimerLabels} from '../../../../shared/_models/timer.model';
 import { OperatorTasksService } from '../../../../shared/_services/http/operator-tasks';
+import {ProcessDataService} from '../../../../shared/_services/process-data-service';
+import {Process} from '../../../../shared/_models/process.model';
 
 @Component({
   selector: 'app-ongoing-operation',
@@ -30,6 +32,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
               private router: Router,
               private dialog: MatDialog,
               protected notificationService: NotificationService,
+              public processDataService: ProcessDataService,
               private planService: PlanService,
               private selectUnit: SelectUnitService,
               private timerService: TimerService,
@@ -44,16 +47,27 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
     });
 
   }
-  taskCompletedDialog(): void {
+  taskCompletedDialog(ownerType: string): void {
     // const title = 'המשימה סומנה כטופלה';
     // this.notificationService.success(title);
     // const ownerType = this.plan.error.owner.type;
-    const ownerType = 'records';
     if (ownerType === 'records') {
-      this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
+      this.processDataService.activeProcess = new Process();
+      const data = {'processId': 14};
+      this.processDataService.setProcess(data);
+      this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records', 401]);
 
-    } else {
+      // this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
+    } else if (ownerType === 'files') {
+      this.processDataService.activeProcess = new Process();
+      const data = {'processId': 14, 'highlightFileId': 401};
+      this.processDataService.setProcess(data);
+      this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
 
+      // this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files'], { queryParams: {  highlightFileId: 401 }});
+
+    } else if (ownerType === 'compensation') {
+      this.router.navigate(['/platform', 'compensations', 'process']);
     }
     // this.plan.error.owner.id
   }
