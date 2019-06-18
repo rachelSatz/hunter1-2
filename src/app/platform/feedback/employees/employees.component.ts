@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router, RouterEvent} from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 
@@ -17,7 +17,7 @@ import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.comp
 import { SendApplicationComponent } from './send-application/send-application.component';
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
-
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-employees',
@@ -43,6 +43,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     return { id: e, name: ProductType[e] };
   });
   productTypes = ProductType;
+  displayBack: boolean;
 
   readonly columns =  [
     { name: 'name', label: 'עובד', searchable: false},
@@ -64,7 +65,9 @@ export class EmployeesComponent implements OnInit , OnDestroy {
               private feedbackService: FeedbackService,
               private userSession: UserSessionService,
               private selectUnitService: SelectUnitService,
-              private generalService: GeneralHttpService) {
+              private generalService: GeneralHttpService,
+              private _location: Location) {
+
   }
 
   ngOnInit() {
@@ -76,6 +79,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
 
   fetchItems() {
+    this.displayBack = this.fileId !== undefined && this.fileId > 0 ? true : false;
     const organizationId = this.selectUnitService.currentOrganizationID;
     const employerId = this.selectUnitService.currentEmployerID;
     const departmentId = this.selectUnitService.currentDepartmentID;
@@ -144,6 +148,9 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     });
   }
 
+  previous(): void {
+    this._location.back();
+  }
   ngOnDestroy() {
     this.sub.unsubscribe();
   }

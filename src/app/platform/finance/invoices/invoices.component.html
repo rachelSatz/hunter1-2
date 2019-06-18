@@ -1,17 +1,21 @@
 
-<app-data-table tableName="חשבונות חייבים" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true" [hasActionsHeader]="false">
+<app-data-table tableName="חשבונות חייבים" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
+                [hasActionsHeader]="false">
   <div class="table-header">
     <div class="row mt-4 mr-1">
       <div class="float-left">
-        <button class="btn blue-btn" (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>
+        <!--<button class="btn blue-btn" (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>-->
         <button class="btn blue-btn mr-2" (click)="openProactiveInvoice()">חשבון יזום</button>
-        <button class="btn blue-btn mr-2" (click)="openManualInvoice()">חשבון ידני</button>
-        <button class="btn blue-btn mr-2" (click)="openTaxInvoice()">חשבונית מס/קבלה</button>
+        <!--<button class="btn blue-btn mr-2" (click)="openManualInvoice()">חשבון ידני</button>-->
+        <!--<button class="btn blue-btn mr-2" (click)="openTaxInvoice()">חשבונית מס/קבלה</button>-->
       </div>
-      <div class="ml-3 d-flex mr-auto">
+      <div *ngIf="permissionsType" class="ml-3 d-flex mr-auto">
         <button [matMenuTriggerFor]="menu" class="btn blue-btn">פעולות</button>
         <mat-menu #menu="matMenu">
           <!--<button mat-menu-item (click)="deleteInvoices()">מחיקת חשבוניות</button>-->
+          <button mat-menu-item (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>
+          <button mat-menu-item (click)="openManualInvoice()">חשבון ידני</button>
+          <button mat-menu-item (click)="openTaxInvoice()">חשבונית מס/קבלה</button>
           <button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>
         </mat-menu>
       </div>

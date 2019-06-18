@@ -17,6 +17,7 @@ import { EmployerService } from '../../../shared/_services/http/employer.service
 import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
 import { PAYMENT_METHOD } from '../../../shared/_models/employer-financial-details.model';
 import {TaxInvoiceFormComponent} from './tax-invoice-form/tax-invoice-form.component';
+import {UserSessionService} from '../../../shared/_services/user-session.service';
 
 @Component({
   selector: 'app-invoices',
@@ -51,6 +52,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function(e) {
     return { id: e, name: PAYMENT_METHOD[e] };
   });
+  permissionsType = this.userSession.getPermissionsType('finance');
+
   readonly columns  = [
     { name: 'employer_name', label: 'שם מעסיק', searchable: false},
     { name: 'green_invoice_number', label: 'מספר חשבונית בירוקה'},
@@ -64,7 +67,6 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     { name: 'remark', label: 'הערות' , searchable: false},
     { name: 'options', label: 'אפשרויות' , searchable: false},
     { name: 'payment_method', label: 'אופן תשלום', searchOptions: { labels: this.paymentMethodItems }, isDisplay: false},
-
   ];
 
   constructor(route: ActivatedRoute,
@@ -73,7 +75,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
               private helpers: HelpersService,
               private dialog: MatDialog,
               protected notificationService: NotificationService,
-              private employerService: EmployerService) {
+              private employerService: EmployerService,
+              private userSession: UserSessionService) {
   }
 
   ngOnInit() {
