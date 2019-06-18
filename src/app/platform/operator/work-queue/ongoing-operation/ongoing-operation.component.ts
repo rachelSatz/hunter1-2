@@ -56,20 +56,15 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
       const data = {'processId': 14};
       this.processDataService.setProcess(data);
       this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records', 401]);
-
       // this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
     } else if (ownerType === 'files') {
       this.processDataService.activeProcess = new Process();
       const data = {'processId': 14, 'highlightFileId': 401};
       this.processDataService.setProcess(data);
       this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
-
-      // this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files'], { queryParams: {  highlightFileId: 401 }});
-
     } else if (ownerType === 'compensation') {
-      this.router.navigate(['/platform', 'compensations', 'process']);
+      this.router.navigate(['/platform', 'compensations', 'process', 94]);
     }
-    // this.plan.error.owner.id
   }
 
   skipTaskDialog(): void {

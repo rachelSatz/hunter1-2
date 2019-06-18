@@ -29,7 +29,8 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 
 
 const routes: Routes = [
-  { path: '', component: ProcessComponent }
+  { path: '', component: ProcessComponent },
+  { path: ':id', component: ProcessComponent}
 ];
 
 @NgModule({

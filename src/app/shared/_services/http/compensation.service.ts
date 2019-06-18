@@ -8,6 +8,7 @@ import { UserSessionService } from '../user-session.service';
 import { Compensation } from 'app/shared/_models/compensation.model';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
+import {Contact} from '../../_models/contact.model';
 
 
 @Injectable()
@@ -27,10 +28,17 @@ export class CompensationService extends BaseHttpService {
       request['params'] = this.setDataTableParams(criteria);
     }
 
-    return this.http.get(this.endPoint, request)
+    return this.http.get(this.endPoint , request)
     .toPromise()
     .then(response => response as DataTableResponse)
     .catch(() => null);
+  }
+
+  getCompensation(compensationId: number): Promise<Compensation> {
+    return this.http.get(this.endPoint + '/' + compensationId, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Compensation)
+      .catch(() => null);
   }
 
   newCompensation(compensation: Compensation): Promise<Object> {
