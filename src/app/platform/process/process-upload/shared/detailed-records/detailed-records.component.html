@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }"
+    <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked, 'highlight': item.file_id === highlightRecordId}"
         (title)="getTitleError(item.defrayal_error)">
       <td class="check-column">
         <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>

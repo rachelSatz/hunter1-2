@@ -71,6 +71,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   spin: boolean;
   sub = new Subscription;
   statuses = Status;
+  highlightFileId: number;
 
   ngOnInit() {
   }
@@ -84,6 +85,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
       .then( response => {
         this.dataTable.setItems(response);
       });
+    this.highlightFileId = this.processDataService.activeProcess.highlightFileId !== undefined ?
+      this.processDataService.activeProcess.highlightFileId : 0;
   }
 
 

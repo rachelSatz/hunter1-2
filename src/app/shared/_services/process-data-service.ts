@@ -21,6 +21,8 @@ export class ProcessDataService {
     this.activeProcess.pageIndex = 2;
     this.activeProcess.returnDetails = data['returnDetails'];
     this.activeProcess.status = data['status'];
+    this.activeProcess.highlightFileId = data['highlightFileId'];
+    this.activeProcess.highlightRecordId = data['highlightRecordId'];
   }
 }
 

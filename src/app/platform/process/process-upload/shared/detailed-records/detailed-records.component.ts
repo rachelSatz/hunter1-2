@@ -69,6 +69,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   depositTypes = DepositType;
   productType = ProductType;
   records_id = 0;
+  highlightRecordId: number;
 
   ngOnInit() {
     if (this.processDataService.activeProcess === undefined) {
@@ -85,6 +86,8 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
         column = this.dataTable.searchColumn(this.nameEmployerProductCode);
         column['searchOptions'].labels = response['products'];
       });
+    this.highlightRecordId = this.processDataService.activeProcess.highlightRecordId !== undefined ?
+      this.processDataService.activeProcess.highlightRecordId : 0;
   }
 
   fetchItems() {
