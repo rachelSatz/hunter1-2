@@ -19,16 +19,9 @@
 </div>
 
 <app-data-table tableName="תהליכים" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false"
-                [hasActionsHeader] = false [hasExtendedSearch]="false">
+                [hasActionsHeader]="false" [hasExtendedSearch]="false">
   <div class="table-header">
     <div class="row mr-1">
-      <!--<div class="ml-3 d-flex mr-auto">-->
-        <!--<button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2">פעולות</button>-->
-        <!--<mat-menu #menu="matMenu">-->
-          <!--<button mat-menu-item (click)="redirectProcessNew()">תהליך חדש</button>-->
-          <!--<button mat-menu-item (click)="deleteProcess()">מחק</button>-->
-        <!--</mat-menu>-->
-      <!--</div>-->
       <div class="ml-3 d-flex mr-auto">
         <button class="btn blue-btn" (click)="redirectProcessNew()">תהליך חדש</button>
       </div>
@@ -43,14 +36,12 @@
     <td  (click)="moveProcess(item)">{{ item.date | date:'MM'}}</td>
     <td  (click)="moveProcess(item)">{{ item.date | date:'yyyy' }}</td>
     <td  (click)="moveProcess(item)">{{ item.total | number: '1.2-2'}}</td>
-    <td (click)="moveProcess(item)">
-      {{ processStatus[item.status] }}</td>
+    <td (click)="moveProcess(item)">{{ processStatus[item.status] }}</td>
     <td>
-    <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)">
-    </i>
+      <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)"></i>
     </td>
-    <td>
-      <i class="fa fa-trash fa-lg" (click)="deleteProcess(item.id)"></i>
+    <td *ngIf="isDisplay">
+      <i class="fa fa-trash fa-lg" (click)="deleteProcess(item.id)" title="מחיקה"></i>
     </td>
-    </tr>
+  </tr>
 </app-data-table>

@@ -12,7 +12,8 @@ export class AppComponent implements OnInit {
 
   showPageSpinner = false;
 
-  constructor(private router: Router, private userSession: UserSessionService,
+  constructor(private router: Router,
+              private userSession: UserSessionService,
               private helpers: HelpersService) {}
 
   ngOnInit() {

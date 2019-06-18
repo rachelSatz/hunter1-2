@@ -29,8 +29,9 @@ export class User {
       this.units = user.units;
       const modules = user.modules;
       this.modules = Object.keys(ModuleTypes).map(function(e) {
-        if (user && modules.some(m => m.name === e)) {
-          return new UserModule(e, 'all', true);
+        const ext = modules.filter(m => m.name === e);
+        if (user && ext.length > 0) {
+          return new UserModule(e, ext[0].permission_type, true);
         }
         return new UserModule(e, 'read', false);
       });

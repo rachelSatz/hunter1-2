@@ -1,10 +1,16 @@
 import { NgModule  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule,
-  MatSelectModule, MatIconModule, MatAutocompleteModule } from '@angular/material';
 import { MatChipsModule } from '@angular/material/chips';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatFormFieldModule,
+  MatInputModule,
+  MatDialogModule,
+  MatCheckboxModule,
+  MatSelectModule,
+  MatIconModule,
+  MatAutocompleteModule } from '@angular/material';
 
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';

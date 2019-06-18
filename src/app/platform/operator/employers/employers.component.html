@@ -3,7 +3,8 @@
     <div class="table-header">
       <div class="row mt-4 mr-1">
         <div class="ml-3 d-flex mr-auto">
-          <button class="btn blue-btn" [routerLink]="['./', 'new']">הקמת מעסיק</button>
+          <button class="btn blue-btn" [routerLink]="['./', 'new']"
+                  *ngIf="userSession.getPermissionsType('operations')">הקמת מעסיק</button>
         </div>
       </div>
     </div>

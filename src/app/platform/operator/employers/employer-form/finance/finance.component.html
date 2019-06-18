@@ -1,4 +1,4 @@
-<form #form="ngForm">
+<form #form="ngForm" [ngClass]="{ 'disabledDiv': !userSession.getPermissionsType('finance') }">
   <div>
       <input  type="hidden" name="id" [(ngModel)]="financialDetails.id">
       <!--<input  type="hidden" name="pay_employer_id" [(ngModel)]="financialDetails.pay_employer.id">-->

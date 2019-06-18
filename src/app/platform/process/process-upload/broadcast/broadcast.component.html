@@ -64,7 +64,7 @@
     </div>
     <span class="pointer " (click)="setPage('detailed-files')">לפירוט קבצים ></span>
   </div>
-      <div *ngIf="!isRefund">
+      <div *ngIf="!isRefund && permissionsType">
         <div class="d-flex">
           <div class="d-flex w-50">
             <span>תאריך תשלום (ערך): </span>
@@ -90,7 +90,7 @@
              <span>חזור</span>
            </p>
          </span>
-      <div class="text-center mt-5 pb-5">
+      <div class="text-center mt-5 pb-5" *ngIf="permissionsType">
         <button class="btn blue-btn" [disabled]="((!valid) && !isRefund) || (process_details.sent_status == 'sent')" (click)="transfer();
         processDataService.activeProcess.pageNumber = 5">שידור לקופות</button>
       </div>
@@ -149,7 +149,7 @@
     <p class="text-right bold red-color f-12">שים לב!</p>
     <p class="f-12 mr-2">בשידור לקופות הנך מאשר כי קובץ ההצהרה לבקשת החזר יהיה ממוען לחברות המנהלות בקובץ</p>
   </div>
-  <div class="mt-5 text-center pb-5" *ngIf="!isRefund">
+  <div class="mt-5 text-center pb-5" *ngIf="!isRefund && permissionsType">
     <button class="btn blue-btn" (click)="Refund()">יצירת בקשת החזר כספי</button>
   </div>
 </div>

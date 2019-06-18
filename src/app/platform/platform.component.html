@@ -35,7 +35,8 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent" [@fade]="agentBarActive ? 'active' : 'inactive'">
             <ul class="navbar-nav">
               <ng-container *ngFor="let link of menuLinks">
-                <li class="nav-item" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="!link.subMenuLinks">
+                <li class="nav-item" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="!link.subMenuLinks"
+                    [hidden]="userSession.isPermissions(link.subUrl ? link.subUrl : link.url)">
                   <a class="menu-link" [routerLink]="['/platform', link.url]">
                     <figure>
                       <img [src]="getImage(link)" [attr.alt]="link.label">
@@ -43,7 +44,10 @@
                     <p>{{ link.label }}</p>
                   </a>
                 </li>
-                <li [matMenuTriggerFor]="subMenu" class="nav-item pointer" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="link.subMenuLinks">
+                <li [matMenuTriggerFor]="subMenu" class="nav-item pointer"
+                    [hidden]="userSession.isPermissions(link.subUrl ? link.subUrl : link.url)"
+                    [ngClass]="{ 'active': link.url === activeUrl }"
+                    *ngIf="link.subMenuLinks">
                   <figure>
                     <img [src]="getImage(link)" [attr.alt]="link.label">
                   </figure>

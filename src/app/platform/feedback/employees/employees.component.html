@@ -17,18 +17,9 @@
     </mat-form-field>
   </div>
 </div>
-<app-data-table tableName="מעקב ברמת עובד" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false" [hasActionsHeader] = false>
+<app-data-table tableName="מעקב ברמת עובד" [columns]="columns" (fetchItems)="fetchItems()"
+                [hasCheckColumn]="false" [hasActionsHeader]="userSession.getPermissionsType('operations')">
   <div class="table-header">
-    <!--<div *ngIf="fileId" class="border col-4">-->
-        <!--<div class="d-flex">-->
-          <!--<span>שם קובץ: </span>-->
-          <!--<p class="bold mr-1"></p>-->
-        <!--</div>-->
-        <!--<div class="d-flex">-->
-          <!--<span>שם פידבק: </span>-->
-          <!--<p class="bold mr-1"></p>-->
-        <!--</div>-->
-      <!--</div>-->
   </div>
   <tr *ngFor="let employee of dataTable.items" class="pointer" >
     <td>{{ employee.name }}</td>
@@ -44,15 +35,13 @@
     <td >
       <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog(employee)">
     </td>
-    <td>
-      <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(employee)">
-    </td>
-    <td>
-      <span class="grey-circle" (click)="openInquiriesDetailsDialog(employee)">{{ employee.inquiries.length }}</span>
-    </td>
     <td (click)="openCommentsDialog(employee)">
       <i *ngIf="employee.comments.length === 0" class="fa fa-comment-o"></i>
       <i *ngIf="employee.comments.length > 0" class="fa fa-comment"></i>
+    </td>
+    <td *ngIf="dataTable.hasActionsHeader">
+      <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(employee)">
+      <span class="grey-circle mr-3" (click)="openInquiriesDetailsDialog(employee)">{{ employee.inquiries.length }}</span>
     </td>
   </tr>
 </app-data-table>

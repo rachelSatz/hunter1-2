@@ -3,13 +3,14 @@ import { ActivatedRoute, Router} from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 
-import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { DepositStatus, DepositType, EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
+import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductType } from 'app/shared/_models/product.model';
 
@@ -33,6 +34,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     return { id: e, name: DepositType[e] };
   });
 
+  permissionsType = this.userSession.getPermissionsType('operations');
   readonly columns =  [
     { name: this.nameEmployeeName , sortName: 'employee_chr__employee__first_name', label: 'שם העובד' , searchOptions: { labels: [] }},
     { name: 'personal_id',  sortName: 'employee_chr__employee__identifier', label: 'תעודת זהות' , searchable: false },
@@ -44,10 +46,8 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     { name: 'deposit_status', isSort: false , label: 'מעמד' , searchable: false },
     { name: 'employee_status', isSort: false , label: 'סטטוס' , searchable: false },
     { name: 'product_code', sortName: 'employer_product__product__code', label: 'מ"ה' , searchable: false },
-    // { name: 'payment_month', label: 'חודש תשלום' , searchable: false },
     { name: 'payment_month', isSort: false, label: 'חודש ייחוס' , searchable: false },
     { name: 'salary', label: 'שכר' , searchable: false},
-    // { name: 'exempt_sum', label: 'סכום פטור' , searchable: false},
     { name: 'sum_compensation', isSort: false, label: 'פיצויים' , searchable: false },
     { name: 'sum_employer_benefits', isSort: false, label: 'הפרשת מעסיק' , searchable: false },
     { name: 'sum_employee_benefits', isSort: false, label:  'הפרשת עובד' , searchable: false } ,
@@ -58,6 +58,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
               private router: Router,
               private dialog: MatDialog,
               public processDataService: ProcessDataService,
+              private userSession: UserSessionService,
               private  monthlyTransferBlockService: MonthlyTransferBlockService ,
               protected  notificationService: NotificationService,
               private selectUnitService: SelectUnitService) { }

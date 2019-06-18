@@ -1,10 +1,15 @@
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import {EntityRoles} from '../_models/user.model';
 
 @Injectable()
 export class UserSessionService {
 
-  // roleName: string;
+  admin = 'admin';
+  superUser = 'superUser';
+  operator = 'operator';
+  feedback = 'feedback';
+  modules;
 
   loginStatus: Subject<boolean> = new Subject;
   role: Subject<string> = new Subject;
@@ -15,9 +20,20 @@ export class UserSessionService {
 
   setRole(role: string): void {
     sessionStorage.setItem('role', JSON.stringify(role));
-    // this.roleName = role
     this.role.next( role);
   }
+
+  setUserModules(module): void {
+    sessionStorage.setItem('module', JSON.stringify(module));
+  }
+
+  getUserModules(): any {
+    if (sessionStorage.getItem('module')) {
+      return JSON.parse(sessionStorage.getItem('module'));
+    }
+    return null;
+  }
+
 
   getRole(): any {
     if (sessionStorage.getItem('role')) {
@@ -42,6 +58,30 @@ export class UserSessionService {
     }
 
     return null;
+  }
+
+  isPermissions(module): boolean {
+    const role = this.getRole();
+    if (role !== this.superUser && module !== 'no_permissions') {
+       const mod = this.getUserModules();
+       this.modules = mod.filter(m => m.name ===  module);
+       if (this.modules.length > 0 ||  (module === 'tasks' && role !== 'employer')) {
+         return false;
+       }
+       return true;
+    }
+    return false;
+  }
+
+  getPermissionsType(module, is_delete = false): any {
+    if (!this.isPermissions(module)) {
+      const permission_type = this.modules[0].permission_type;
+      if (permission_type === 'all' || (permission_type === 'write' && !is_delete)) {
+        return true;
+      }
+      return false;
+    }
+    return false;
   }
 
   getToken(): string {

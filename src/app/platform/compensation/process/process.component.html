@@ -1,6 +1,6 @@
 
 <app-data-table tableName="מעקב יתרות לפיצוים" [columns]="columns" (fetchItems)="fetchItems()"
-                [hasCheckColumn]="true" [hasActionsHeader] = false>
+                [hasCheckColumn]="true" [hasActionsHeader]="userSession.getPermissionsType('compensation')">
   <div class="table-header">
     <div class="row mt-4 mr-1">
       <div class="float-left">
@@ -8,8 +8,8 @@
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="openFormDialog()">בקשה חדשה</button>
           <button mat-menu-item (click)="openExcelDialog()"> העלאת קובץ בקשות </button>
-          <button mat-menu-item (click)="openExcelEmployeesDialog()">העלאת קובץ עובדים</button>
-          <button mat-menu-item (click)="manualChangingStatus()">שינוי סטטוס</button>
+          <button mat-menu-item (click)="openExcelEmployeesDialog()" *ngIf="dataTable.hasActionsHeader">העלאת קובץ עובדים</button>
+          <button mat-menu-item (click)="manualChangingStatus()" *ngIf="dataTable.hasActionsHeader">שינוי סטטוס</button>
         </mat-menu>
       </div>
       <div class="ml-3 d-flex mr-auto">
@@ -33,36 +33,32 @@
       <td>{{ item.validity_date | date: 'dd/MM/yy' }}</td>
       <td>{{ sendingMethods[item.sending_method] }}</td>
       <td>
-      <p class="mb-0" [title]="item.status == 'sent_failed' ? item.error_sent_failed : ''">{{ statuses[item.status]  }}</p>
-      <img src="/assets/img/icons/details_grey.png" (click)="openErrorMessageDialog(item)" class="mt-1"
-      *ngIf=" item.status === 'feedback_a' || item.status === 'feedback_b' ?
-      (item.feedback_level === 'record' && (item.code_error !== null ||
-      (item.error_details !== '' && item.error_details !== null)) ||
-      (item.answering_manufacturer !== null && item.answering_manufacturer !== ''))
-      ||
-      (item.feedback_level === 'file'  && item.code_error_file !== null  &&
-      item.code_error_file !== 'accepting_valid_file' ) : false" >
-      </td>
-      <td>
-      <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
-      </td>
-      <td>
-      <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiries.length }}</span>
+        <p class="mb-0" [title]="item.status == 'sent_failed' ? item.error_sent_failed : ''">{{ statuses[item.status]  }}</p>
+        <img src="/assets/img/icons/details_grey.png" (click)="openErrorMessageDialog(item)" class="mt-1"
+        *ngIf=" item.status === 'feedback_a' || item.status === 'feedback_b' ?
+        (item.feedback_level === 'record' && (item.code_error !== null ||
+        (item.error_details !== '' && item.error_details !== null)) ||
+        (item.answering_manufacturer !== null && item.answering_manufacturer !== ''))
+        ||
+        (item.feedback_level === 'file'  && item.code_error_file !== null  &&
+        item.code_error_file !== 'accepting_valid_file' ) : false" >
       </td>
       <td (click)="openCommentsDialog(item)">
         <i *ngIf="item.comments.length === 0" class="fa fa-comment-o"></i>
         <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
       </td>
       <td>
-      <span *ngIf="!item.has_file_feedback">טרם</span>
-      <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, 'download')" *ngIf="item.has_file_feedback"></i>
-      <i class="fa fa-eye fa-lg" (click)="PdfFile(item.id, 'show')" *ngIf="item.has_file_feedback"></i>
+        <span *ngIf="!item.has_file_feedback">טרם</span>
+        <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, 'download')" *ngIf="item.has_file_feedback"></i>
+        <i class="fa fa-eye fa-lg" (click)="PdfFile(item.id, 'show')" *ngIf="item.has_file_feedback"></i>
       </td>
       <td>
-      <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
+        <img [src]="getValidityImage(item)" class="row-actions" >
       </td>
-      <td>
-      <img [src]="getValidityImage(item)" class="row-actions" >
+      <td *ngIf="dataTable.hasActionsHeader">
+        <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
+        <span class="grey-circle mr-3 ml-3" (click)="openInquiriesDialog(item)">{{ item.inquiries.length }}</span>
+        <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
       </td>
     </tr>
 </app-data-table>

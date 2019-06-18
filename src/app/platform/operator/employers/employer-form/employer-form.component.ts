@@ -4,10 +4,11 @@ import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
 import { Employer, EmployerStatus, IdentifierTypes } from 'app/shared/_models/employer.model';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
-import { NotificationService } from 'app/shared/_services/notification.service';
 import { PaymentType } from 'app/shared/_models/process.model';
 
 
@@ -15,7 +16,7 @@ import { PaymentType } from 'app/shared/_models/process.model';
 @Component({
   selector: 'app-employer-form',
   templateUrl: './employer-form.component.html',
-  styleUrls: ['./employer-form.component.css']
+  styleUrls: ['./employer-form.component.css'],
 })
 export class EmployerFormComponent implements OnInit, OnDestroy {
 
@@ -30,21 +31,23 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   saveChanges = false;
   activeUrl: string;
 
+  permissionsType = this.userSession.getRole() !== 'employer';
+
 
   headers = [
-    {label: 'הערות',    url: 'comments'   },
-    {label: 'מחלקות',   url: 'departments'},
-    {label: 'מסמכים',   url: 'documents'  },
-    {label: 'אנשי קשר', url: 'contacts'   },
+    {label: 'הערות',    url: 'comments' , subUrl: 'no_permissions'  },
+    {label: 'מחלקות',   url: 'departments' , subUrl: 'no_permissions' },
+    {label: 'מסמכים',   url: 'documents' , subUrl: 'no_permissions' },
+    {label: 'אנשי קשר', url: 'contacts'  , subUrl: 'no_permissions'},
     {
-      label: 'סליקה',    url: 'defrayal' , subMenuLinks: [
+      label: 'סליקה',    url: 'defrayal', subUrl: 'operations'  , subMenuLinks: [
         { url: 'bank', label: 'בנק לקופה' },
         { url: 'number', label: 'מספר אצל ליצרן' }
       ]
     },
-    {label: 'פיננסי',   url: 'finance'    },
-    {label: 'משימות',   url: 'tasks'      },
-    {label: 'דוחות',    url: 'reports'    },
+    {label: 'פיננסי',   url: 'finance' , subUrl: 'finance' },
+    {label: 'משימות',   url: 'tasks' , subUrl: 'tasks' },
+    {label: 'דוחות',    url: 'reports' , subUrl: 'operations' },
   ];
 
   statuses = Object.keys(EmployerStatus).map(function(e) {
@@ -63,6 +66,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
               private fb: FormBuilder,
               private route: ActivatedRoute,
               private selectUnit: SelectUnitService,
+              private userSession: UserSessionService,
               private employersResolve: EmployersResolve,
               private notificationService: NotificationService,
               private employerService: EmployerService,

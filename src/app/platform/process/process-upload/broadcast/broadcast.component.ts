@@ -38,6 +38,8 @@ export class BroadcastComponent implements OnInit {
   department;
   process_details: ProcessDetails;
   paymentDate = '--/--/--';
+  permissionsType = this.userSession.getPermissionsType('operations');
+
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
               private router: Router,

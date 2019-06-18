@@ -10,6 +10,7 @@ import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { Process, ProcessStatus, ProcessType } from 'app/shared/_models/process.model';
+import {UserSessionService} from '../../../shared/_services/user-session.service';
 
 @Component({
   selector: 'app-process-table',
@@ -27,9 +28,8 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   months = MONTHS;
   sub = new Subscription;
 
-
+  isDisplay = this.userSession.getPermissionsType('operations', true)
   readonly columns =  [
-    // { name: 'cursor', label: 'סמן' , isSort: false},
     { name: 'name', label: 'שם תהליך' },
     { name: 'id', label: 'מספר תהליך' },
     { name: 'type', label: 'סוג תהליך' },
@@ -40,12 +40,13 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     { name: 'total', label: 'סכום' },
     { name: 'status', label: 'סטטוס ' , isSort: false },
     { name: 'download', label: 'הורדה', isSort: false },
-    { name: 'delete', label: 'מחיקה' , isSort: false},
+    { name: 'delete', label: 'מחיקה' , isSort: false , isDisplay: this.isDisplay},
   ];
 
   constructor(route: ActivatedRoute, private router: Router,
               private processService: ProcessService,
               private selectUnit: SelectUnitService,
+              private userSession: UserSessionService,
               protected notificationService: NotificationService,
               public processDataService: ProcessDataService) {
   }

@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import {DataTableComponent} from 'app/shared/data-table/data-table.component';
-import {EmployerService} from 'app/shared/_services/http/employer.service';
-import {SelectUnitService} from 'app/shared/_services/select-unit.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
 @Component({
   selector: 'app-bank-default-product',
@@ -22,8 +23,9 @@ export class BankDefaultProductComponent implements OnInit {
     { name: 'account', label: 'מספר חשבון' },
   ];
 
-
+  role = this.userSession.getRole() !== 'employer';
   constructor(protected route: ActivatedRoute,
+              private userSession: UserSessionService,
               private employerService: EmployerService,
               private selectUnit: SelectUnitService) {
   }

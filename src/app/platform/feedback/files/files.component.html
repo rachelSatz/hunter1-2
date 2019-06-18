@@ -17,7 +17,8 @@
     </mat-form-field>
   </div>
 </div>
-<app-data-table tableName="מעקב ברמת קובץ" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true" [hasActionsHeader] = false>
+<app-data-table tableName="מעקב ברמת קובץ" [columns]="columns" (fetchItems)="fetchItems()"
+                [hasCheckColumn]="true" [hasActionsHeader] = "userSession.getPermissionsType('operations')">
   <div class="table-header">
     <div class="row mt-4 mr-1">
       <div class="ml-3 d-flex mr-auto">
@@ -28,26 +29,22 @@
     <td class="check-column">
       <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
     </td>
-    <td>{{ item.company_name}}</td>
-    <td>{{ item.employer_name}}</td>
-    <td>{{ item.amount | number: '1.2-2' }}</td>
-    <td>{{ item.product_code }}</td>
-    <td>{{ statuses[item.status] }}</td>
-    <td >
+    <td  (click)="detailsRecords(item.id)">{{ item.company_name}}</td>
+    <td  (click)="detailsRecords(item.id)">{{ item.employer_name}}</td>
+    <td  (click)="detailsRecords(item.id)">{{ item.amount | number: '1.2-2' }}</td>
+    <td  (click)="detailsRecords(item.id)">{{ item.product_code }}</td>
+    <td  (click)="detailsRecords(item.id)">{{ statuses[item.status] }}</td>
+    <td>
       <img src="/assets/img/icons/details_grey.png" (click)="openFormDialog(item)">
-    </td>
-    <td>
-      <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(item)">
-    </td>
-    <td>
-      <span class="grey-circle" (click)="openInquiriesDetailsDialog(item)">{{ item.inquiries.length }}</span>
     </td>
     <td (click)="openCommentsDialog(item)">
       <i *ngIf="item.comments.length === 0" class="fa fa-comment-o"></i>
       <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
     </td>
-    <td>
-      <i class="fa fa-angle-double-left" (click)="detailsRecords(item.id)"></i>
+    <td *ngIf="dataTable.hasActionsHeader">
+      <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(item)">
+      <span class="grey-circle mr-3" (click)="openInquiriesDetailsDialog(item)">{{ item.inquiries.length }}</span>
+
     </td>
   </tr>
 </app-data-table>
