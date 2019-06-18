@@ -16,7 +16,7 @@ import { EmailComponent } from './email/email.component';
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { PaymentComponent } from './payment.component';
 import { InformationMessageComponent } from './information-message/information-message.component';
-import { HelpersService } from '../../../../shared/_services/helpers.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 
 const routes: Routes = [

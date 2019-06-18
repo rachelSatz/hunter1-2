@@ -5,6 +5,8 @@ import { Component, OnDestroy, OnInit, ViewChild  } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs/Subscription';
 
+import { FormComponent } from './form/form.component';
+import {ProductType} from 'app/shared/_models/product.model';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
@@ -13,16 +15,13 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
+import {GeneralHttpService} from 'app/shared/_services/http/general-http.service';
+import {DataTableResponse} from 'app/shared/data-table/classes/data-table-response';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
-import {CompensationStatus, CompensationSendingMethods, ValidityMethods, Compensation} from 'app/shared/_models/compensation.model';
-import { FormComponent } from './form/form.component';
-import {ProductType} from '../../../shared/_models/product.model';
-import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
-import {DataTableResponse} from '../../../shared/data-table/classes/data-table-response';
-
+import {CompensationStatus, CompensationSendingMethods, Compensation} from 'app/shared/_models/compensation.model';
 
 @Component({
   selector: 'app-process',
@@ -69,11 +68,6 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
     { name: 'extend', label: 'הרחבה' , isSort: false, searchable: false },
   ];
 
-// <!--<th> שם עובד </th>-->
-// <!--<th> ת.ז </th>-->
-// <!--<th> חברה מנהלת </th>-->
-// <!--<th> סוג מוצר </th>-->
-// <!--<th> הורדה </th>-->
 
   readonly columns1  = [
     { name: 'request', label: 'פניות' , isSort: false, searchable: false},

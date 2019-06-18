@@ -2,16 +2,16 @@
 
 <div class="w-50 mt-lg-5">
   <app-data-table tableName="" [columns]="columns" (fetchItems)="fetchItems()"
-                  [hasExtendedSearch]=false [hasActionsSearch]=false>
+                  [hasExtendedSearch]=false [hasActionsSearch]=false [hasActionsHeader]="role">
     <div class="table-header">
       <div class="d-flex justify-content-end ">
-        <button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת מחלקה חדשה</button>
+        <button *ngIf="permissionsType" class="btn blue-btn" [routerLink]="['./', 'form']">הוספת מחלקה חדשה</button>
       </div>
     </div>
     <tr *ngFor="let item of dataTable.items" class="pointer">
       <td>{{ item.name }}</td>
       <td>{{ item.id }}</td>
-      <td>
+      <td *ngIf="role">
         <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
       </td>
     </tr>

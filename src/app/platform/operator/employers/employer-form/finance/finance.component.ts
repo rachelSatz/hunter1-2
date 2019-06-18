@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { EmployerService } from 'app/shared/_services/http/employer.service';
 import {
   CURRENCY,
   EmployerFinancialDetails,
@@ -16,8 +15,10 @@ import {
   TAX
 } from 'app/shared/_models/employer-financial-details.model';
 import { fade } from 'app/shared/_animations/animation';
-import {NotificationService} from '../../../../../shared/_services/notification.service';
-import {ActivatedRoute} from '@angular/router';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 
 @Component({
@@ -68,6 +69,7 @@ export class FinanceComponent implements OnInit {
 
   constructor(private employerService: EmployerService,
               private selectUnit: SelectUnitService,
+              private userSession: UserSessionService,
               private notificationService: NotificationService,
               public route: ActivatedRoute) { }
 

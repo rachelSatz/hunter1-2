@@ -15,7 +15,8 @@ export class ProcessUploadComponent {
 
   public files: any[] = [];
 
-  constructor(public router: Router, protected route: ActivatedRoute,
+  constructor(public router: Router,
+              protected route: ActivatedRoute,
               private processDataService: ProcessDataService,
               private  selectUnitService: SelectUnitService) {}
 

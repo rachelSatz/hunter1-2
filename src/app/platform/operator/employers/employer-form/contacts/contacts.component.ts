@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { EntityTypes } from 'app/shared/_models/contact.model';
@@ -10,7 +11,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
-  styleUrls: ['../../../../../shared/data-table/data-table.component.css'],
 })
 export class ContactsComponent implements OnInit , OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
@@ -20,9 +20,11 @@ export class ContactsComponent implements OnInit , OnDestroy {
   pathEmployers = false;
   entity_types = EntityTypes;
   location: string;
+  role = this.userSession.getRole() !== 'employer';
 
   constructor(public route: ActivatedRoute,
               private contactService: ContactService,
+              private userSession: UserSessionService,
               private router: Router,
               private selectUnit: SelectUnitService) {
   }

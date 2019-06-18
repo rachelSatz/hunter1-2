@@ -1,27 +1,28 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-
-import { FeedbackService } from 'app/shared/_services/http/feedback.service';
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { NotificationService } from 'app/shared/_services/notification.service';
-import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { InquiryFormComponent} from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
-import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
-import { Subscription } from 'rxjs';
 
 import { MONTHS } from 'app/shared/_const/months';
 import { FormComponent } from './form/form.component';
 import { ProductType } from 'app/shared/_models/product.model';
-import { InquiriesComponent} from 'app/shared/_dialogs/inquiries/inquiries.component';
-import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { Status } from 'app/shared/_models/file-feedback.model';
+import { placeholder, slideToggle } from 'app/shared/_animations/animation';
+import { FeedbackService } from 'app/shared/_services/http/feedback.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { InquiriesComponent} from 'app/shared/_dialogs/inquiries/inquiries.component';
+import { InquiryFormComponent} from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
+import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
+
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-files',
   templateUrl: './files.component.html',
-  styleUrls: ['../../../shared/data-table/data-table.component.css'],
   animations: [ slideToggle, placeholder ]
 })
 export class FilesComponent implements OnInit, OnDestroy  {
@@ -48,10 +49,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
     {name: 'code', label: 'קוד אוצר', searchable: false},
     {name: 'status', label: 'סטטוס', searchOptions: { labels: this.list_status } },
     {name: 'more', label: 'מידע נוסף', searchable: false},
-    {name: 'send_request', label: 'שלח פנייה', searchable: false},
-    {name: 'inquiries', label: 'פניות', searchable: false},
     {name: 'comments', label: 'הערות', searchable: false},
-    {name: 'records', label: 'פרוט רשומות' , isSort: false, searchable: false},
     {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'updated_at', label: 'תאריך עדכון אחרון',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'broadcast_date', label: 'תאריך שידור', searchOptions: { isDate: true }, isDisplay: false},
@@ -59,9 +57,11 @@ export class FilesComponent implements OnInit, OnDestroy  {
   ];
 
 
-  constructor(route: ActivatedRoute, private router: Router,
+  constructor(route: ActivatedRoute,
+              private router: Router,
               protected notificationService: NotificationService,
               private dialog: MatDialog,
+              private userSession: UserSessionService,
               private feedbackService: FeedbackService,
               private selectUnit: SelectUnitService,
               private generalService: GeneralHttpService) {
@@ -85,7 +85,6 @@ export class FilesComponent implements OnInit, OnDestroy  {
     const departmentId = this.selectUnit.currentDepartmentID;
 
     if (departmentId !== 0) {
-      // this.dataTable.criteria.filters['deposit_year'] = this.year;
       this.dataTable.criteria.filters['departmentId'] = departmentId;
       this.dataTable.criteria.filters['employerId'] = employerId;
       this.dataTable.criteria.filters['organizationId'] = organizationId;

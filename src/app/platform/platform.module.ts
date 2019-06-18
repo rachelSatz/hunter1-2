@@ -20,7 +20,6 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { AppHttpService } from '../shared/_services/http/app-http.service';
 import { ProductService } from '../shared/_services/http/product.service';
 import { TimerService } from '../shared/_services/http/timer';
-import {EditPaymentsComponent} from './process/edit-payments/edit-payments.component';
 
 const routes: Routes = [
   {
@@ -31,15 +30,15 @@ const routes: Routes = [
       { path: 'contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
       { path: 'finance/dashboard', loadChildren: 'app/platform/finance/dashboard/dashboard.module#DashboardModule' },
-      { path: 'compensations/process', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
-      { path: 'compensations/process-clearing', loadChildren: 'app/platform/compensation/process-clearing/' +
+      { path: 'compensation/process', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
+      { path: 'compensation/process-clearing', loadChildren: 'app/platform/compensation/process-clearing/' +
           'process-clearing.module#ProcessClearingModule' },
-      { path: 'compensations/deposits-report', loadChildren:
+      { path: 'compensation/deposits-report', loadChildren:
           'app/platform/compensation/deposits-report/deposits-report.module#DepositsReportModule' },
       { path: 'settings/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
       { path: 'settings/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
       { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
-      { path: 'compensations/dashboard', loadChildren: 'app/platform/compensation/dashboard/dashboard.module#DashboardModule' },
+      { path: 'compensation/dashboard', loadChildren: 'app/platform/compensation/dashboard/dashboard.module#DashboardModule' },
       { path: 'process/new/:status', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
       { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
       { path: 'process/edit-payments', loadChildren: 'app/platform/process/edit-payments/edit-payments.module#EditPaymentsModule' },

@@ -15,6 +15,7 @@ import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ExcelComponent } from './excel/compensation/compensation.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ErrorMessageComponent } from './error-message/error-message.component';
@@ -31,7 +32,6 @@ import { CompensationStatus, CompensationSendingMethods, ValidityMethods } from 
 selector: 'app-process',
   templateUrl: './process.component.html',
   styleUrls: ['./process.component.css'],
-  // styles: ['::ng-deep table td { word-wrap: unset !important; } ::ng-deep table {  table-layout:auto !important;  }'],
   animations: [ slideToggle, placeholder ]
 })
 export class ProcessComponent implements OnInit, OnDestroy {
@@ -74,13 +74,11 @@ export class ProcessComponent implements OnInit, OnDestroy {
     { name: 'validity_date', label: 'תאריך נכונות', searchable: false},
     { name: 'sending_method', label: 'מקור המידע', searchOptions: { labels: this.sourceTypes } },
     { name: 'status', label: 'סטטוס', searchOptions: { labels: this.selectStatuses }},
-    { name: 'response_time', label: 'העבר לטיפול' ,
-      isSort: false, subLabel: 'ימי טיפול', searchOptions: { labels: this.responseTimes }},
-    { name: 'request', label: 'פניות' , isSort: false, searchable: false},
     { name: 'comment', label: 'הערות' , isSort: false, searchable: false},
     { name: 'download', label: 'הורדה' , isSort: false, searchable: false },
-    { name: 'null', label: 'פרטים', isSort: false, searchable: false },
-    { name: 'validity', label: 'תקינות', isSort: false, searchOptions: { labels: this.validity } },
+    { name: 'validity', label: 'תקינות', isSort: false, searchOptions: { labels: this.validity }},
+    { name: 'response_time', label: 'העבר לטיפול' ,
+      isSort: false, subLabel: 'ימי טיפול', searchOptions: { labels: this.responseTimes }, isDisplay: false},
   ];
 
   constructor(protected route: ActivatedRoute,
@@ -90,6 +88,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
               private productService: ProductService,
               private employerService: EmployerService,
               protected notificationService: NotificationService,
+              public userSession: UserSessionService,
               private selectUnit: SelectUnitService,
               private helpers: HelpersService,
               private generalService: GeneralHttpService) {

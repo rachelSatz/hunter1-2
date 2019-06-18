@@ -1,9 +1,11 @@
 <div class="mt-lg-5" [ngClass]="{'operator-table': pathEmployers }">
-  <app-data-table (fetchItems)="fetchItems()"  [columns]="columns" [hasActionsSearch]="false" [hasExtendedSearch]="false" [hasCheckColumn]="false">
+  <app-data-table (fetchItems)="fetchItems()"  [columns]="columns" [hasActionsSearch]="false"
+                  [hasExtendedSearch]="false" [hasCheckColumn]="false" [hasActionsHeader]="role">
     <div class="table-header" >
       <div class="row mt-4 mr-1" [ngClass]="{'operator-container': !pathEmployers }">
         <div class="ml-3 d-flex mr-auto mb-3">
-          <button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת איש קשר</button>
+          <button class="btn blue-btn" [routerLink]="['./', 'form']"
+                  *ngIf="role">הוספת איש קשר</button>
         </div>
       </div>
     </div>
@@ -16,7 +18,7 @@
       <td>{{ item.mobile }}</td>
       <td>{{ item.email }}</td>
       <td>{{ item.comment }}</td>
-      <td>
+      <td *ngIf="role">
         <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.employer_contact_id]" class="row-image">
       </td>
     </tr>

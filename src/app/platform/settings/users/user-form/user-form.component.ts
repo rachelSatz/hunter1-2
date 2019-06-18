@@ -136,4 +136,12 @@ export class UserFormComponent implements OnInit {
     this._location.back();
     // this.router.navigate(['platform', 'settings', 'users']);
   }
+
+  hasDisabled(index: number): boolean {
+    if (this.user.role === 'admin') {
+      this.user.modules[index].permission_type = 'all';
+      return true;
+    }
+    return false;
+  }
 }

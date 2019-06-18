@@ -4,7 +4,8 @@
     <div class="table-header">
       <div class="row mt-4 mr-1">
         <div class="ml-3 d-flex mr-auto">
-          <button [matMenuTriggerFor]="menu" class="btn blue-btn float-left mb-1">פעולות</button>
+          <button [matMenuTriggerFor]="menu" class="btn blue-btn float-left mb-1"
+                  *ngIf="userSession.getPermissionsType('operations')">פעולות</button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="openUpdatePayDateDialog('', -1)">עדכון תאריך תשלום</button>
             <!--<button mat-menu-item (click)=openWarningMessageComponentDialog(false)>מחיקת שורה</button>-->

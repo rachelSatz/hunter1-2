@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 
 @Component({
   selector: 'app-reports',
@@ -16,9 +17,12 @@ export class ReportsComponent implements OnInit {
   sendRecordFeedback = false;
   feedbacksDay = 15;
   transmissionDay = 15;
+  role = this.userSession.getRole() !== 'employer';
+
 
   constructor( private employerService: EmployerService,
                private selectUnit: SelectUnitService,
+               private userSession: UserSessionService,
                protected notificationService: NotificationService) { }
 
   ngOnInit() {

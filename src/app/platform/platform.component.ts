@@ -1,11 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, NavigationStart, NavigationEnd} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { AppHttpService } from '../shared/_services/http/app-http.service';
 import { ProductService } from '../shared/_services/http/product.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade, slideInOut } from 'app/shared/_animations/animation';
@@ -35,12 +34,14 @@ export class PlatformComponent implements OnInit {
   showTimer = true;
   timerText = '';
   browserRefresh = false;
+
+  role_admin = this.userSession.isPermissions('user_management');
   readonly agentBarEl = [
     { id: 1, icon: 'building', label: 'ארגונים', link: 'organizations', role: 'admin'},
     { id: 2, icon: 'question-circle', label: 'תור עבודה', link: 'work-queue', role: 'operator'},
     { id: 3, icon: 'list-ul', label: 'משימות', link: 'tasks', role: 'operator'},
     { id: 4, icon: 'user', label: 'מעסיקים', link: 'employers', role: 'operator'},
-    { id: 5, icon: 'users', label: 'משתמשים', link: 'users', role: 'admin'},
+    { id: 5, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
     { id: 6, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
     { id: 7, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
     { id: 9, icon: 'th', label: 'קופות', link: 'products', role: 'admin'},
@@ -48,32 +49,36 @@ export class PlatformComponent implements OnInit {
   ];
 
   readonly menuLinks = [
-        { url: 'dashboard',     label: 'דף הבית' },
-        { url: 'compensations', label: 'יתרות לפיצויים', subMenuLinks: [
+    { url: 'dashboard', subUrl: 'no_permissions', label: 'דף הבית' },
+
+    { url: 'compensation', label: 'יתרות לפיצויים', subMenuLinks: [
         { url: 'process', label: 'מעקב יתרות לפיצויים' },
         { url: 'process-clearing', label: 'מעקב יתרות לפיצויים מסלקה' },
         { url: 'deposits-report', label: 'מעקב דוח הפקדות' },
         { url: 'dashboard', label: 'מצג סטטוסים' }
-      ]},
-    { url: 'process', label: 'תהליכים', subMenuLinks: [
+        ]
+    },
+    { url: 'process', subUrl: 'operations', label: 'תהליכים', subMenuLinks: [
       { url: 'new/0', label: 'צור תהליך חדש' },
       { url: 'table', label: 'תהליכים' },
-    ]},
-    { url: 'feedback',    label: 'תשלומים והיזונים', subMenuLinks: [
+      ]
+    },
+    { url: 'feedback' , subUrl: 'operations',    label: 'תשלומים והיזונים', subMenuLinks: [
       { url: 'employees', label: 'לפי עובד' },
       { url: 'files',     label: 'לפי קובץ' }
-    ]},
-    { url: 'finance',     label: 'פיננסים', subMenuLinks: [
-      // { url: 'invoices',  label: 'חשבונות חייבים' },
-      // { url: 'dashboard', label: 'מצג מעסיקים'}
-    ]},
-    { url: 'settings',    label: 'הגדרות', subMenuLinks: [
+      ]
+    },
+    { url: 'finance', label: 'פיננסים', subMenuLinks: [
+      { url: 'invoices',  label: 'חשבונות חייבים' },
+      { url: 'dashboard', label: 'מצג מעסיקים'}
+      ]
+    },
+    { url: 'settings', subUrl: 'no_permissions',   label: 'הגדרות', subMenuLinks: [
       { url: 'employers', label: 'מעסיקים' },
       { url: 'contacts',  label: 'אנשי קשר' },
-      ]},
+      ]
+    },
   ];
-
-  // private _is_Employer: boolean;
 
   constructor(private router: Router,
               public userSession: UserSessionService,
@@ -82,8 +87,7 @@ export class PlatformComponent implements OnInit {
               public helpers: HelpersService,
               public timerService: TimerService,
               private operatorTasks: OperatorTasksService,
-              private productService: ProductService,
-              public appHttp: AppHttpService) {
+              private productService: ProductService) {
 
     const company = this.selectUnit.getCompanies() as any[];
     if ( company.length <= 0) {
@@ -99,7 +103,6 @@ export class PlatformComponent implements OnInit {
         }
       }
       if (val instanceof NavigationEnd) {
-        const a = router.routerState;
         this.dispalyTimer(val.url, val.urlAfterRedirects);
       }
     });
@@ -191,7 +194,6 @@ export class PlatformComponent implements OnInit {
   }
 
   getOrganizations(is_loadEmployer: boolean, is_Employer?: boolean): void {
-    // this._is_Employer = is_Employer;
     this.helpers.setPageSpinner(true);
     this.organizationService.getOrganizations().then(response => {
       this.selectUnit.setOrganization(response);
@@ -218,7 +220,6 @@ export class PlatformComponent implements OnInit {
   }
 
   logout(): void {
-    // this.appHttp.removeToken().then();
     this.userSession.logout();
     this.selectUnit.logout();
     this.selectUnit.changeOrganizationEmployerDepartment(0, 0, 0);

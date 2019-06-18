@@ -36,9 +36,10 @@ export class LoginComponent {
 
       this.appHttp.login(form.value.username, form.value.password).then(response => {
         if (response.token) {
-        this.userSession.login({username: form.value.username, token: response['token']});
-        this.userSession.setRole(response['role']);
-        this.router.navigate(['/platform']);
+           this.userSession.login({username: form.value.username, token: response['token']});
+           this.userSession.setRole(response['role']);
+          this.userSession.setUserModules(response['module']);
+          this.router.navigate(['/platform']);
         } else {
            this.hasServerError = true;
         }

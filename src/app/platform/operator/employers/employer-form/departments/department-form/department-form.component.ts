@@ -1,5 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { NgForm  } from '@angular/forms';
 
 import { EmployerBankAccount } from 'app/shared/_models/employer-bank-account.model';
@@ -33,7 +34,8 @@ export class DepartmentFormComponent implements OnInit {
               private departmentService: DepartmentService,
               private selectUnit: SelectUnitService,
               private router: Router,
-              private  platformComponent: PlatformComponent) {
+              private  platformComponent: PlatformComponent,
+              private _location: Location) {
   }
 
   ngOnInit() {
@@ -96,22 +98,17 @@ export class DepartmentFormComponent implements OnInit {
   private handleResponse(response: boolean): void {
     if (response) {
       this.platformComponent.getOrganizations(true, true);
-      if (this.router.url.includes( 'operator')) {
-        this.router.navigate(['platform', 'operator', 'employers',
-          'form', this.selectUnit.currentEmployerID, 'departments']);
-      }else {
-        this.router.navigate(['platform', 'employers',
-          'form', this.selectUnit.currentEmployerID, 'departments']);
-      }
-
-
+      // if (this.router.url.includes( 'operator')) {
+      //   this.router.navigate(['platform', 'operator', 'employers',
+      //     'form', this.selectUnit.currentEmployerID, 'departments']);
+      // }else {
+      //   this.router.navigate(['platform', 'employers',
+      //     'form', this.selectUnit.currentEmployerID, 'departments']);
+      // }
+      this._location.back();
     } else {
       this.hasServerError = true;
     }
-  }
-
-  numberManufacturer(): void {
-
   }
 
   // back(): void {

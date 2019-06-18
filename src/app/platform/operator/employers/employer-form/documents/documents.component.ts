@@ -1,12 +1,13 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import * as FileSaver from 'file-saver';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
+import * as FileSaver from 'file-saver';
 
 import { DocumentTypes } from 'app/shared/_models/document.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';
 import { AddDocumentComponent } from './add-document/add-document.component';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { Subscription } from 'rxjs';
@@ -14,7 +15,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
-  styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
 export class DocumentsComponent implements OnInit , OnDestroy {
 
@@ -23,10 +23,12 @@ export class DocumentsComponent implements OnInit , OnDestroy {
   pathEmployers = false;
   sub = new Subscription;
   documentTypes = DocumentTypes;
+  role = this.userSession.getRole() !== 'employer';
 
   constructor(route: ActivatedRoute,
               private documentService: DocumentService,
               private router: Router,
+              private userSession: UserSessionService,
               private selectUnit: SelectUnitService,
               protected notificationService: NotificationService,
               private dialog: MatDialog) {

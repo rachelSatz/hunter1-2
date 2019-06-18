@@ -3,12 +3,13 @@
     <div class="table-header">
       <div class="row mt-4 mr-1">
         <div class="ml-3 d-flex mr-auto">
-          <button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2">פעולות</button>
+          <button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2" *ngIf="userSession.getPermissionsType('operations')">פעולות</button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item *ngIf="this.processDataService.activeProcess.incorrect" (click)="markValid()">סמן כתקין</button>
+            <button mat-menu-item *ngIf="this.processDataService.activeProcess.incorrect && permissionsType" (click)="markValid()">סמן כתקין</button>
             <button mat-menu-item *ngIf="!this.processDataService.activeProcess.incorrect" (click)="openWarningMessageComponentDialog(true)">הפוך ללא רלוונטי</button>
             <button mat-menu-item *ngIf="!this.processDataService.activeProcess.incorrect" (click)="openGroupTransferDialog()">העבר קבוצה</button>
-            <button mat-menu-item *ngIf="!this.processDataService.activeProcess.incorrect" (click)="openWarningMessageComponentDialog(false)">מחק רשומה</button>
+            <button mat-menu-item *ngIf="!this.processDataService.activeProcess.incorrect && userSession.getPermissionsType('operations', true)"
+                    (click)="openWarningMessageComponentDialog(false)">מחק רשומה</button>
           </mat-menu>
         </div>
       </div>
@@ -18,7 +19,8 @@
       <td class="check-column">
         <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
       </td>
-      <td  (click)="editPayments(item)" class="blue-color">{{ item.first_name + ' ' + item.last_name}}</td>
+      <td  *ngIf="!permissionsType">{{ item.first_name + ' ' + item.last_name}}</td>
+      <td  *ngIf="permissionsType" (click)="editPayments(item)" class="blue-color">{{ item.first_name + ' ' + item.last_name}}</td>
       <td [ngClass]="{'red-color': setColorError(item.defrayal_error, ['01','02', '03', '04', '05'])}">{{ item.personal_id }}</td>
       <td>{{ depositTypes[item.deposit_type] }}</td>
       <td>{{ item.employer_product_code }}</td>

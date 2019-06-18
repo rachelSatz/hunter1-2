@@ -7,16 +7,17 @@ import { NewTaskFormComponent } from './new-task-form/new-task-form.component';
 import { TaskService } from 'app/shared/_services/http/task.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { TaskModel } from 'app/shared/_models/task.model';
+import {UserSessionService} from '../../../../../shared/_services/user-session.service';
 
 @Component({
   selector: 'app-tasks',
-  templateUrl: './tasks.component.html',
-  styleUrls: ['../../../../../shared/data-table/data-table.component.css'],
+  templateUrl: './tasks.component.html'
 })
 export class TasksComponent implements OnInit , OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   pathEmployers = false;
+  permissionsType = this.userSession.getPermissionsType('operations');
 
   readonly columns =  [
     { name: 'employer', label: 'מעסיק' , searchable: false},
@@ -30,6 +31,7 @@ export class TasksComponent implements OnInit , OnDestroy {
   constructor(route: ActivatedRoute,
               public dialog: MatDialog,
               private router: Router,
+              private userSession: UserSessionService,
               private taskService: TaskService,
               private selectUnit: SelectUnitService) {
   }

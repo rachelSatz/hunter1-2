@@ -8,6 +8,7 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { PaymentType, EmployerProduct } from 'app/shared/_models/process.model';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ProductType } from 'app/shared/_models/product.model';
@@ -61,7 +62,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
               protected  notificationService: NotificationService,
               private selectUnitService: SelectUnitService,
               private detailsComponent: DetailsComponent,
-              private generalService: GeneralHttpService) {
+              private generalService: GeneralHttpService,
+              private userSession: UserSessionService) {
   }
 
   paymentType = PaymentType;

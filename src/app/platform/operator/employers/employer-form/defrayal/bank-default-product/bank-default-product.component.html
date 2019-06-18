@@ -1,9 +1,9 @@
 <div class="w-50 mt-lg-5">
   <app-data-table tableName="בנק ברירת מחדל לקופה" [columns]="columns" (fetchItems)="fetchItems()"
-                  [hasExtendedSearch]=false [hasActionsSearch]=false>
+                  [hasExtendedSearch]=false [hasActionsSearch]=false [hasActionsHeader]="role" >
     <div class="table-header">
       <div class="d-flex justify-content-end ">
-        <button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת בנק ברירת מחדל</button>
+        <button *ngIf="role" class="btn blue-btn" [routerLink]="['./', 'form']">הוספת בנק ברירת מחדל</button>
       </div>
     </div>
     <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
@@ -13,7 +13,7 @@
       <td>{{ item.bank_name }}</td>
       <td>{{ item.branch_name }}</td>
       <td>{{ item.account_number }}</td>
-      <td>
+      <td *ngIf="role">
         <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
       </td>
     </tr>

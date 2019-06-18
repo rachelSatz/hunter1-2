@@ -1,10 +1,10 @@
 <div class="w-50 mt-lg-5">
 
   <app-data-table tableName="מספר אצל יצרן" [columns]="columns" (fetchItems)="fetchItems()"
-                  [hasExtendedSearch]=false [hasActionsSearch]=false>
+                  [hasExtendedSearch]=false [hasActionsSearch]=false [hasActionsHeader]="role" >
     <div class="table-header">
       <div class="d-flex justify-content-end ">
-        <button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת מספר</button>
+        <button *ngIf="role" class="btn blue-btn" [routerLink]="['./', 'form']">הוספת מספר</button>
       </div>
     </div>
     <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
@@ -12,7 +12,7 @@
       <td>{{ item.product_name }}</td>
       <td>{{ item.company_name}}</td>
       <td>{{ item.bank_name }}</td>
-      <td>
+      <td *ngIf="role">
         <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
       </td>
     </tr>

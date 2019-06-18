@@ -9,17 +9,18 @@ import { Status } from 'app/shared/_models/deposits-report.model';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
+import { CompensationSendingMethods } from 'app/shared/_models/compensation.model';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
 import { DepositsReportService } from 'app/shared/_services/http/deposits-report.service';
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
-import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { RequestDepositsReportComponent } from './excel/request-deposits-report/request-deposits-report.component';
-import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
-import {CompensationSendingMethods} from '../../../shared/_models/compensation.model';
 
 
 @Component({
@@ -38,8 +39,9 @@ export class DepositsReportComponent implements OnInit {
               private employerService: EmployerService,
               protected notificationService: NotificationService,
               private selectUnit: SelectUnitService,
-              private generalService: GeneralHttpService) {
-  }
+              private generalService: GeneralHttpService,
+              public userSession: UserSessionService
+              ) {}
 
   sub = new Subscription;
   newCompanies = [];
@@ -65,10 +67,7 @@ export class DepositsReportComponent implements OnInit {
     { name: 'to_date', label: 'עד מתאריך', searchable: false},
     { name: 'sending_method', label: 'מקור המידע', searchable: false },
     { name: 'status', label: 'סטטוס', searchOptions: { labels: this.selectStatuses }},
-    { name: 'response_time', label: 'העבר לטיפול', isSort: false , searchable: false},
-    { name: 'request', label: 'פניות', isSort: false, searchable: false},
     { name: 'comment', label: 'הערות', isSort: false, searchable: false},
-    { name: 'details', label: 'פרטים', isSort: false, searchable: false}
   ];
 
   ngOnInit() {

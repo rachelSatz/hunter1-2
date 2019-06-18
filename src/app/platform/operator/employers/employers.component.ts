@@ -7,12 +7,12 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { EmployerStatus } from 'app/shared/_models/employer.model';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 
 
 @Component({
   selector: 'app-employers',
   templateUrl: './employers.component.html',
-  styleUrls: ['../../../shared/data-table/data-table.component.css'],
   animations: [ slideToggle, placeholder]
 })
 export class EmployersComponent  implements OnInit , OnDestroy {
@@ -35,6 +35,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
 
   constructor(protected route: ActivatedRoute,
               private employerService: EmployerService,
+              private userSession: UserSessionService,
               private selectUnit: SelectUnitService) {
   }
 

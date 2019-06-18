@@ -1,4 +1,5 @@
-<app-data-table tableName="מעקב דוח הפקדות" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true" [hasActionsHeader]="false">
+<app-data-table tableName="מעקב דוח הפקדות" [columns]="columns" (fetchItems)="fetchItems()"
+                [hasCheckColumn]="true" [hasActionsHeader]="userSession.getPermissionsType('compensation')">
   <div class="table-header">
     <div class="row mt-4 mr-1">
       <div class="float-left">
@@ -6,7 +7,7 @@
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="openFormDialog()">בקשה חדשה</button>
           <button mat-menu-item (click)="openExcelDialog()"> העלאת קובץ הפקדות </button>
-          <button mat-menu-item (click)="manualChangingStatus()">שינוי סטטוס</button>
+          <button mat-menu-item (click)="manualChangingStatus()" *ngIf="dataTable.hasActionsHeader">שינוי סטטוס</button>
         </mat-menu>
       </div>
     </div>
@@ -31,18 +32,14 @@
            src="/assets/img/icons/sync-alt-solid.svg"
            (click)="sendDepositReport(item.id)">
     </td>
-    <td>
-    <img src="/assets/img/icons/forward_green.png" (click)="openInquiriesFormDialog(item)">
-    </td>
-    <td>
-    <span class="grey-circle" (click)="openInquiriesDialog(item)">{{ item.inquiries.length }}</span>
-    </td>
     <td (click)="openCommentsDialog(item)">
       <i *ngIf="item.comments.length === 0" class="fa fa-comment-o"></i>
       <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
     </td>
-    <td>
-    <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
+    <td *ngIf="dataTable.hasActionsHeader">
+      <img src="/assets/img/icons/forward_green.png" (click)="openInquiriesFormDialog(item)">
+      <span class="grey-circle mr-3 ml-3" (click)="openInquiriesDialog(item)">{{ item.inquiries.length }}</span>
+      <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
     </td>
     </tr>
 </app-data-table>

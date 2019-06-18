@@ -1,23 +1,25 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-
-import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DepartmentService } from 'app/shared/_services/http/department.service';
 
 
 @Component({
   selector: 'app-departments',
   templateUrl: './departments.component.html',
-  styleUrls: ['../../../../../shared/data-table/data-table.component.css']
 })
 export class DepartmentsComponent implements OnInit  {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
-  constructor(route: ActivatedRoute,
+  role = this.userSession.getRole() !== 'employer';
+
+  constructor(private route: ActivatedRoute,
               private departmentService: DepartmentService,
+              private userSession: UserSessionService,
               private selectUnit: SelectUnitService) {
   }
 
@@ -28,7 +30,6 @@ export class DepartmentsComponent implements OnInit  {
 
   ngOnInit() {
     this.dataTable.criteria.limit = 5;
-
   }
 
   fetchItems() {

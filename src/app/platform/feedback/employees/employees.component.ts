@@ -1,29 +1,28 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
-
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { FeedbackService } from 'app/shared/_services/http/feedback.service';
-import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { NotificationService } from 'app/shared/_services/notification.service';
-
-import { SendApplicationComponent } from './send-application/send-application.component';
-import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
-import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
-import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
-import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 
 import { MONTHS } from 'app/shared/_const/months';
 import { ProductType } from 'app/shared/_models/product.model';
 import { Status } from 'app/shared/_models/employee-feedback.model';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
+import { FeedbackService } from 'app/shared/_services/http/feedback.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
+import { SendApplicationComponent } from './send-application/send-application.component';
+import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
+import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 
 
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.css', '../../../shared/data-table/data-table.component.css'],
+  styleUrls: ['./employees.component.css'],
   providers: [MatDialog, FeedbackService],
   animations: [ slideToggle, placeholder]
 })
@@ -57,14 +56,13 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     { name: 'updated_at', label: 'תאריך עדכון אחרון' , searchOptions: { isDate: true }},
     { name: 'status', label: 'סטטוס' , searchOptions: { labels: this.statusLabel } },
     { name: 'more', label: 'מידע נוסף' , searchable: false},
-    { name: 'send_request', label: 'שלח פנייה', searchable: false},
-    { name: 'inquiries', label: 'פניות', searchable: false},
     { name: 'comments', label: 'הערות', searchable: false}
   ];
   constructor(public dialog: MatDialog,
               public route: ActivatedRoute,
               private notificationService: NotificationService,
               private feedbackService: FeedbackService,
+              private userSession: UserSessionService,
               private selectUnitService: SelectUnitService,
               private generalService: GeneralHttpService) {
   }
