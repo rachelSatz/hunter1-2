@@ -79,7 +79,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
 
   fetchItems() {
-    this.displayBack = this.fileId !== undefined && this.fileId > 0 ? true : false;
+    this.displayBack = this.fileId !== undefined && this.fileId !== '0' ? true : false;
     const organizationId = this.selectUnitService.currentOrganizationID;
     const employerId = this.selectUnitService.currentEmployerID;
     const departmentId = this.selectUnitService.currentDepartmentID;
