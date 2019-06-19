@@ -43,7 +43,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     return { id: e, name: ProductType[e] };
   });
   productTypes = ProductType;
-  displayBack: boolean;
+  displayBack = false;
 
   readonly columns =  [
     { name: 'name', label: 'עובד', searchable: false},
@@ -107,7 +107,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     const dialog = this.dialog.open(InquiryFormComponent, {
       data: {'id': item.id, 'contentType': 'monthlytransferblock',
         'employerId': this.selectUnitService.currentEmployerID, 'companyId': item.company_id,
-        'file_name': '', 'product_code': item.product_code,
+        'file_name': item.sent_file_name, 'product_code': item.product_code,
         'product_type': item.product_type, 'employee_id': item.personal_id, 'employee_name': item.name},
       width: '550px',
     });

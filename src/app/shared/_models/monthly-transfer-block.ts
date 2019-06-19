@@ -40,6 +40,7 @@ export class MonthlyTransferBlock {
   checked: false;
   company_id: number;
   defrayal_error: any;
+  sent_file_name: string;
 }
 
 

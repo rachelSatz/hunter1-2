@@ -10,6 +10,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
 import { PaymentType } from 'app/shared/_models/process.model';
+import { Subscription } from 'rxjs';
 
 
 
@@ -30,7 +31,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   status: object;
   saveChanges = false;
   activeUrl: string;
-
+  sub = new Subscription;
   permissionsType = this.userSession.getRole() !== 'employer';
 
 
@@ -73,6 +74,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
               private _location: Location) { }
 
   ngOnInit() {
+
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
     if (this.route.snapshot.data.employer) {
         this.activeUrl = 'comments';
@@ -100,12 +102,23 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
         this.setActiveUrl(event.url);
       }
     });
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
+
   }
 
   private setActiveUrl(url: string): void {
     const urlSplit = url.split('/');
     this.activeUrl = urlSplit[urlSplit.length - 1];
 
+  }
+
+  fetchItems() {
+    // const aaa = this.selectUnit.currentOrganizationID;
+    // this.selectUnit.getEntityStorage();
+
+    if (this.selectUnit.currentOrganizationID) {
+      this.router.navigate(['/platform', 'employers']);
+    }
   }
 
   initForm(): void {
@@ -166,5 +179,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.selectUnit.currentEmployerID = 0;
+    this.sub.unsubscribe();
   }
+
 }
