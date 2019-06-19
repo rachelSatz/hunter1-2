@@ -5,13 +5,19 @@
   <span>העבר לטיפול</span>
 </div>
 <form #form="ngForm" class="py-4">
-  <div class="mb-4">
-    <bd-select class="w-100" [items]="entityTypes" name="entity_type" #entityTypeSelect="ngModel"
-               (onSelect)="loadEntities($event)"
-               ngModel
-               placeholder="סוג גורם" [required] = "Emails.length == 0" [error]="entityTypeSelect.errors && form.submitted"></bd-select>
+  <p class="grey-color f-14">סוג גורם</p>
+  <div class="d-flex status status-bar">
+    <div class="pointer" (click)="loadEntities('company')" [ngClass]="{'active': activeContentType === 'company'}">חברה מנהלת</div>
+    <div class="pointer" (click)="loadEntities('employer')" [ngClass]="{'active': activeContentType === 'employer'}">מעסיק</div>
+    <div class="pointer" (click)="loadEntities('user')" [ngClass]="{'active': activeContentType === 'user'}">לשכת שרות</div>
   </div>
-  <div class="mb-4">
+  <!--<div class="mb-4">-->
+    <!--<bd-select class="w-100" [items]="entityTypes" name="entity_type" #entityTypeSelect="ngModel"-->
+               <!--(onSelect)="loadEntities($event)"-->
+               <!--ngModel-->
+               <!--placeholder="סוג גורם" [required] = "Emails.length == 0" [error]="entityTypeSelect.errors && form.submitted"></bd-select>-->
+  <!--</div>-->
+  <div class="mb-4 mt-4">
     <bd-select class="ml-4" name="contactsAdd"  [items]="contacts" placeholder="אנשי קשר"  [multiple]="true" (ngModel)="contactsAdd" ></bd-select>
   </div>
   <mat-form-field class="w-100">

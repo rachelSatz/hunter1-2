@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
@@ -37,7 +37,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
               public  processDataService: ProcessDataService,
               private notificationService: NotificationService,
               private helpers: HelpersService,
-              private selectUnitService: SelectUnitService) {}
+              public selectUnitService: SelectUnitService) {}
 
   data;
   process_percent = 0;
@@ -55,6 +55,8 @@ export class PaymentComponent implements OnInit , OnDestroy {
   file: boolean;
   inter = <any>interval(5000);
   sub = new Subscription;
+  subscription = new Subscription;
+
   showInfoMessage = true;
 
   ngOnInit() {
@@ -81,6 +83,14 @@ export class PaymentComponent implements OnInit , OnDestroy {
       ).subscribe(response => {
         this.set_process(response);
       });
+    }
+    this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
+
+  }
+
+  fetchItems() {
+    if (this.selectUnitService.currentOrganizationID) {
+      this.router.navigate(['/platform', 'process', 'table']);
     }
   }
 

@@ -122,7 +122,9 @@ export class ProcessComponent implements OnInit, OnDestroy {
       this.dataTable.criteria.filters['organizationId'] = organizationId;
       this.dataTable.criteria.filters['departmentId'] = departmentId;
       this.dataTable.criteria.filters['eventCode'] = '9301';
-      this.dataTable.criteria.filters['id'] = this.compensationId
+      if (this.compensationId !== undefined ) {
+        this.dataTable.criteria.filters['id'] = this.compensationId;
+      }
       this.compensationService.getCompensations(this.dataTable.criteria).then(response => {
         this.setResponse(response);
       });

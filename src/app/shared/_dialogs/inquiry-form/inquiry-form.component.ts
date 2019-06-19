@@ -22,6 +22,7 @@ export interface Email {
 @Component({
   selector: 'app-inquiry-form',
   templateUrl: './inquiry-form.component.html',
+  styleUrls: ['./inquiry-form.component.css'],
   animations: [ fade ]
 })
 export class InquiryFormComponent implements OnInit {
@@ -40,6 +41,7 @@ export class InquiryFormComponent implements OnInit {
   entityTypes = Object.keys(EntityTypes).map(function(e) {
     return { id: e, name: EntityTypes[e] };
   });
+  activeContentType = 'company';
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog,
               private dialogRef: MatDialogRef<InquiryFormComponent>,
@@ -65,9 +67,15 @@ export class InquiryFormComponent implements OnInit {
         this.comments = this.comments + ' ' + comment;
       }
     }
+    this.contactService.getEmployerContacts(this.data.companyId , this.data.employerId, 'company',
+      this.data.contentType).then(types => {
+      this.contacts = types;
+      this.helpers.setPageSpinner(false);
+    });
   }
 
   loadEntities(content_type: string): void {
+    this.activeContentType = content_type;
     let objectId = 0;
     // if (content_type === 'agent') {
     // }

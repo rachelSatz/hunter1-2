@@ -55,6 +55,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
     this.employerService.getAllEmployers(this.dataTable.criteria).then(
         response => this.setResponse(response));
   }
+
   setResponse(response: any): void {
     this.dataTable.setItems(response);
   }
