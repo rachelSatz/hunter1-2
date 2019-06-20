@@ -1,6 +1,6 @@
 import * as FileSaver from 'file-saver';
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Component, OnDestroy, OnInit, ViewChild  } from '@angular/core';
 
@@ -102,8 +102,8 @@ export class ProcessComponent implements OnInit, OnDestroy {
       column['searchOptions'].labels = this.companies;
     });
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        this.dataTable.paginationData.currentPage = 1;
-        this.dataTable.criteria.page = 1;
+        // this.dataTable.paginationData.currentPage = 1;
+        // this.dataTable.criteria.page = 1;
         this.fetchItems();
       }
     ));
@@ -144,9 +144,12 @@ export class ProcessComponent implements OnInit, OnDestroy {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
+
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items.map(item => item['id']) :
+      this.dataTable.criteria.checkedItems.map(item => item['id']);
+
     this.helpers.setPageSpinner(true);
-    this.compensationService.sendCompensations(this.dataTable.criteria.checkedItems.map(
-      item => item['id']), this.dataTable.criteria).then(response => {
+    this.compensationService.sendCompensations(items).then(response => {
       this.helpers.setPageSpinner(false);
       if (response) {
         if (response['list_exceptions'].length > 0) {
@@ -222,10 +225,10 @@ export class ProcessComponent implements OnInit, OnDestroy {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items.map(item => item['id']) :
+      this.dataTable.criteria.checkedItems.map(item => item['id']);
 
-    this.compensationService.manualChangingStatus(
-      this.dataTable.criteria.checkedItems.map(item => item['id'], this.dataTable.criteria),
-      this.dataTable.criteria).then(response => {
+    this.compensationService.manualChangingStatus(items, this.dataTable.criteria).then(response => {
         this.dataTable.criteria.checkedItems = [];
         this.dataTable.criteria.isCheckAll = false;
         this.setResponse(response);

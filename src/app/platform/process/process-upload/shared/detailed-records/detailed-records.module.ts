@@ -20,8 +20,12 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DetailedRecordsComponent } from './detailed-records.component';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { DetailedFilesComponent } from '../detailed-files/detailed-files.component';
 
-const route: Routes = [{ path: '', component: DetailedRecordsComponent }];
+const route: Routes = [
+  { path: '', component: DetailedRecordsComponent}
+  ];
+
 @NgModule({
   imports: [
     CommonModule,

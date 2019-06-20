@@ -79,6 +79,8 @@ export class DashboardComponent implements OnInit {
       this.data = {organizationId: organizationId,
           employerId: employerId, departmentId: departmentId,
           forMonth: form.value['for_month'], productType: form.value['product_type']};
+      this.totalIds = 0;
+      this.doughnut.doughnutChartData = [0, 0];
       this.employerService.getEmployersDashboard(this.data).then(response => {
         if (response['message'] === 'success') {
           this.zeroCount = response['zero_count'];

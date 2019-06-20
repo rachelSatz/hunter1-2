@@ -20,8 +20,8 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DetailedFilesComponent } from './detailed-files.component';
 
-const route: Routes = [{ path: '', component: DetailedFilesComponent },
-
+const route: Routes = [
+  { path: '', component: DetailedFilesComponent }
 ];
 
 @NgModule({

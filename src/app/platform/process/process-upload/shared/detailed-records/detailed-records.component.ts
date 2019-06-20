@@ -86,8 +86,8 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
         column = this.dataTable.searchColumn(this.nameEmployerProductCode);
         column['searchOptions'].labels = response['products'];
       });
-    this.highlightRecordId = this.processDataService.activeProcess.highlightRecordId !== undefined ?
-      this.processDataService.activeProcess.highlightRecordId : 0;
+    // this.highlightRecordId = this.processDataService.activeProcess.highlightRecordId !== undefined ?
+    //   this.processDataService.activeProcess.highlightRecordId : 0;
   }
 
   fetchItems() {
@@ -98,6 +98,9 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
       }
       if (this.processDataService.activeProcess.incorrect) {
         this.dataTable.criteria.filters['incorrect'] = this.processDataService.activeProcess.incorrect;
+      }
+      if (this.processDataService.activeProcess.highlightRecordId !== undefined) {
+        this.dataTable.criteria.filters['highlightRecordId'] = this.processDataService.activeProcess.highlightRecordId;
       }
       this.monthlyTransferBlockService.getMonthlyList(this.dataTable.criteria)
         .then(response => {

@@ -177,17 +177,19 @@ export class DepositsReportComponent implements OnInit {
   }
 
   manualChangingStatus(): void {
-    if (this.dataTable.criteria.checkedItems.length === 0) {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items.map(item => item['id']) :
+      this.dataTable.criteria.checkedItems.map(item => item['id']);
 
-    this.depositsReportService.manualChangingStatus(
-      this.dataTable.criteria.checkedItems.map(item => item['id'])).then(response => {
-      if (response) {
-        this.fetchItems();
-      }
-    });
+      this.depositsReportService.manualChangingStatus(items).then(response => {
+        if (response) {
+          this.fetchItems();
+        }
+      });
+
   }
 
   openExcelDialog(): void {

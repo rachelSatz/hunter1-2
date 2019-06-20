@@ -133,9 +133,11 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items.map(item => item['id']) :
+      this.dataTable.criteria.checkedItems.map(item => item['id']);
+
     this.helpers.setPageSpinner(true);
-    this.compensationService.sendCompensations(this.dataTable.criteria.checkedItems.map(
-      item => item['id']), this.dataTable.criteria).then(response => {
+    this.compensationService.sendCompensations(items).then(response => {
       this.helpers.setPageSpinner(false);
       if (response) {
         if (response['list_exceptions'].length > 0) {
@@ -154,16 +156,14 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
   }
 
   manualChangingStatus(): void {
-    if ((!this.dataTable.criteria ||
-      this.dataTable.criteria.checkedItems.length === 0)
-      && !this.dataTable.criteria.isCheckAll) {
+    if ((!this.dataTable.criteria || this.dataTable.criteria.checkedItems.length === 0) && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items.map(item => item['id']) :
+      this.dataTable.criteria.checkedItems.map(item => item['id']);
 
-    this.compensationService.manualChangingStatus(
-      this.dataTable.criteria.checkedItems.map(item => item['id'], this.dataTable.criteria),
-      this.dataTable.criteria).then(response => {
+    this.compensationService.manualChangingStatus(items, this.dataTable.criteria).then(response => {
       this.dataTable.criteria.checkedItems = [];
       this.dataTable.criteria.isCheckAll = false;
       this.setResponse(response);

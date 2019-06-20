@@ -42,9 +42,9 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
     this.text = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';
     this.timerService.reset();
     this.newTaskTimer('ongoing_operation');
-    this.planService.getSinglePlan().then(response => {
-      this.plan = response['data'];
-    });
+    // this.planService.getSinglePlan().then(response => {
+    //   this.plan = response['data'];
+    // });
 
   }
   taskCompletedDialog(ownerType: string): void {
@@ -53,9 +53,9 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
     // const ownerType = this.plan.error.owner.type;
     if (ownerType === 'records') {
       this.processDataService.activeProcess = new Process();
-      const data = {'processId': 14};
+      const data = {'processId': 14, 'highlightRecordId': 31855};
       this.processDataService.setProcess(data);
-      this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records', 401]);
+      this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
       // this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
     } else if (ownerType === 'files') {
       this.processDataService.activeProcess = new Process();
