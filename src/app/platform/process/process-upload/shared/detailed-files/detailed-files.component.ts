@@ -23,6 +23,7 @@ import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
 import { DetailsComponent } from '../details.component';
 import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
+import {ProductService} from '../../../../../shared/_services/http/product.service';
 
 
 @Component({
@@ -33,25 +34,27 @@ import { GroupTransferComponent } from '../group-transfer/group-transfer.compone
 export class DetailedFilesComponent implements OnInit, OnDestroy {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+  newCompanies = [];
+  nameCompany = 'company';
 
   readonly columns =  [
-    { name: 'group_id', label: 'מס קבוצה' },
-    { name: 'company' , sortName: 'group__product__company__name', label: 'חברה מנהלת' },
-    { name: 'product_pay', label: 'קופה בשכר' , isSort: false  },
-    { name: 'product_type', label: 'סוג מוצר' , isSort: false},
+    { name: 'group_id', label: 'מס קבוצה' , searchable: false},
+    { name: this.nameCompany , sortName: 'group__product__company__name', label: 'חברה מנהלת' , searchOptions: { labels: [] } },
+    { name: 'product_pay', label: 'קופה בשכר' , isSort: false  , searchable: false },
+    { name: 'product_type', label: 'סוג מוצר' , isSort: false, searchable: false },
     { name: 'product', sortName: 'group__product__code', label: 'מ"ה' },
-    { name: 'payment_type', label: 'סוג תשלום' },
-    { name: 'payment_identifier', label: 'מס אסמכתא', isSort: false},
+    { name: 'payment_type', label: 'סוג תשלום' , searchable: false },
+    { name: 'payment_identifier', label: 'מס אסמכתא', isSort: false, searchable: false },
     // /צק
-    { name: 'account', label: 'מס חשבון' , isSort: false},
-    { name: 'deposit_date', label: 'תאריך תשלום' },
+    { name: 'account', label: 'מס חשבון' , isSort: false, searchable: false },
+    { name: 'deposit_date', label: 'תאריך תשלום' , searchable: false },
     { name: 'block_sum', label: 'סכום' },
-    { name: 'id', label: 'מספר מזהה' },
-    { name: 'comment', label: 'הערות' , isSort: false},
-    { name: 'status', label: 'סטטוס' , isSort: false},
-    { name: 'ref_path', label: 'אסמכתא' , isSort: false},
-    { name: 'broadcast_lock', label: 'נעילת שידור' , isSort: false},
-    { name: 'records', label: 'פרוט רשומות' , isSort: false}
+    { name: 'id', label: 'מספר מזהה' , searchable: false },
+    { name: 'comment', label: 'הערות' , isSort: false, searchable: false },
+    { name: 'status', label: 'סטטוס' , isSort: false, searchable: false },
+    { name: 'ref_path', label: 'אסמכתא' , isSort: false, searchable: false },
+    { name: 'broadcast_lock', label: 'נעילת שידור' , isSort: false, searchable: false },
+    { name: 'records', label: 'פרוט רשומות' , isSort: false, searchable: false }
   ];
 
   constructor(protected route: ActivatedRoute,
@@ -63,7 +66,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
               private selectUnitService: SelectUnitService,
               private detailsComponent: DetailsComponent,
               private generalService: GeneralHttpService,
-              private userSession: UserSessionService) {
+              private userSession: UserSessionService,
+              private productService: ProductService) {
   }
 
   paymentType = PaymentType;
@@ -73,7 +77,13 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   statuses = Status;
   highlightFileId: number;
 
+
   ngOnInit() {
+    this.productService.getCompanies().then(response => {
+      const column = this.dataTable.searchColumn(this.nameCompany);
+      this.newCompanies = response;
+      column['searchOptions'].labels = this.newCompanies;
+    });
   }
 
   fetchItems () {
