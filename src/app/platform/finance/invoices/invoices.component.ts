@@ -117,12 +117,13 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   }
 
   openTaxInvoice(): void {
-    if (this.dataTable.criteria.checkedItems.length === 0) {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
     this.dialog.open(TaxInvoiceFormComponent, {
-      data: {'ids': this.dataTable.criteria.checkedItems.map(item => item['id'])},
+      data: {'ids': items.map(item => item['id'])},
       width: '450px'
     });
   }
@@ -180,7 +181,9 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    this.invoiceService.deleteInvoices(this.dataTable.criteria.checkedItems.map(
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+
+    this.invoiceService.deleteInvoices(items.map(
       item => item['id'])).then(response => {
       this.helpers.setPageSpinner(false);
       if (response) {

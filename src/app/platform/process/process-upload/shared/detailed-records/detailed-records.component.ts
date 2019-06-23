@@ -123,7 +123,8 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   openGroupTransferDialog(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-          const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
+          const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems
+          const ids = items.map(item => item['id']);
           const dialog = this.dialog.open(GroupTransferComponent, {
             data: { 'ids': ids,
               'processId': this.processDataService.activeProcess.processID, 'type': 'mtb'
@@ -141,7 +142,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   }
 
   checkedRowItems(): boolean {
-    if (this.dataTable.criteria.checkedItems.length === 0) {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return false;
     }
@@ -155,11 +156,11 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
         const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+        const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
 
         this.notificationService.warning(title, body, buttons).then(confirmation => {
           if (confirmation.value) {
-            this.monthlyTransferBlockService.update(typeData, '',
-              this.dataTable.criteria.checkedItems.map(item => item['id']))
+            this.monthlyTransferBlockService.update(typeData, '', items.map(item => item['id']))
               .then(response => {
                 if (response) {
                   this.fetchItems();
@@ -182,7 +183,8 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   }
 
   isLockedBroadcast(): boolean {
-    if (this.dataTable.criteria.checkedItems.find(item => item['status'] === 'sent')) {
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+    if (items.find(item => item['status'] === 'sent')) {
       return false;
     }
     return true;
@@ -204,7 +206,8 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   markValid(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-        this.monthlyTransferBlockService.markValid( this.dataTable.criteria.checkedItems.map(item => item['id'])).then(r => r);
+        const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+        this.monthlyTransferBlockService.markValid(items.map(item => item['id'])).then(r => r);
       } else {
         this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
       }

@@ -97,8 +97,9 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   openDialogAttachReference(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-      const dialog = this.dialog.open(AttachReferenceComponent, {
-        data: {'file_id': this.dataTable.criteria.checkedItems.map(item => item['file_id'])},
+        const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+        const dialog = this.dialog.open(AttachReferenceComponent, {
+        data: {'file_id': items.map(item => item['file_id'])},
         width: '550px',
         panelClass: 'send-email-dialog'
       });
@@ -115,7 +116,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   openGroupTransferDialog(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-          const ids = this.dataTable.criteria.checkedItems.map(item => item['file_id']);
+        const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+        const ids = items.map(item => item['file_id']);
           const dialog = this.dialog.open(GroupTransferComponent, {
             data: { 'ids': ids,
               'processId': this.processDataService.activeProcess.processID, 'type': 'groupthing'
@@ -133,8 +135,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   checkedRowItems(): boolean {
-  // && !this.dataTable.criteria.isCheckAll
-    if (this.dataTable.criteria.checkedItems.length === 0 ) {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return false;
     }
@@ -170,17 +171,11 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
    openUpdatePayDateDialog(val: string, file_id: number): void {
      if (file_id !== -1 || this.checkedRowItems()) {
        if (this.isLockedBroadcast()) {
-         const date = { 'date': val };
-         if (this.dataTable.criteria.isCheckAll) {
-           date['processId'] = this.processDataService.activeProcess.processID;
-         }else {
-           date['file_id'] = file_id === -1 ?
-             this.dataTable.criteria.checkedItems.map(item => item['file_id']) : [file_id];
-         }
+         const date = val;
+         const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
 
          const dialog = this.dialog.open(UpdatePaymentDateComponent, {
-           data: {'date': date, 'file_id': file_id === -1 ?
-           this.dataTable.criteria.checkedItems.map(item => item['file_id']) : [file_id]},
+           data: {'date': date, 'file_id': file_id === -1 ? items.map(item => item['file_id']) : [file_id]},
            width: '550px',
            panelClass: 'dialog-file'
          });
@@ -217,11 +212,11 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
       if (this.checkedRowItems()) {
         if (this.isLockedBroadcast()) {
           const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+          const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
 
           this.notificationService.warning(title, body, buttons).then(confirmation => {
             if (confirmation.value) {
-              this.processService.update(typeData, '',
-                 this.dataTable.criteria.checkedItems.map(item => item['file_id']) )
+              this.processService.update(typeData, '', items.map(item => item['file_id']) )
                 .then(response => {
                   if (response) {
                     this.endAction();
@@ -239,14 +234,11 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
 
   openSent(): void {
     if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
-      const processId = { 'processId' : this.processDataService.activeProcess.processID};
-      let filesList =  {};
-      if (!this.dataTable.criteria.isCheckAll) {
-        filesList = { 'filesList' : this.dataTable.criteria.checkedItems.map(item => item['file_id'])};
-      }
+      const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+      const filesList = { 'filesList' : items.map(item => item['file_id'])};
 
       if (this.isUnLockedBroadcast()) {
-        this.processService.unlockProcessFiles(!this.dataTable.criteria.isCheckAll ? filesList : processId).then( r => {
+        this.processService.unlockProcessFiles(filesList).then( r => {
             if (r['authorized'] === false && r['success'] === 'Message_Sent') {
                 this.notificationService.success('', 'ממתין לאישור מנהל');
             } else  if (r['authorized'] === true && r['success'] === true) {
@@ -269,10 +261,10 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
         const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
-
+        const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
         this.notificationService.warning('אשר שידור', '', buttons).then(confirmation => {
           if (confirmation.value) {
-            this.processService.transfer( this.dataTable.criteria.checkedItems.map(item => item['file_id']), 'filesList')
+            this.processService.transfer(items.map(item => item['file_id']), 'filesList')
               .then(response => {
                 if (response.ok === false) {
                   this.notificationService.error('', 'השידור נכשל');
@@ -298,13 +290,15 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   isLockedBroadcast(): boolean {
-    if (this.dataTable.criteria.checkedItems.find(item => item['status'] === 'sent')) {
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+    if (items.find(item => item['status'] === 'sent')) {
       return false; }
     return true;
   }
 
   isUnLockedBroadcast(): boolean {
-    if (this.dataTable.criteria.checkedItems.find(item => item['status'] === 'not_sent')) {
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+    if (items.find(item => item['status'] === 'not_sent')) {
       return false; }
     return true;
   }

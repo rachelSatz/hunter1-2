@@ -6,7 +6,7 @@
 <form #form="ngForm">
   <div class="mt-1">
     <h6 class="bold">עדכון תאריך תשלום</h6>
-    <p class="f-12"> תאריך תשלום: <span> {{ data.date }}</span></p>
+    <p class="f-12" *ngIf="displayDate"> תאריך תשלום: <span> {{ data.date }}</span></p>
     <mat-form-field>
       <input matInput class="pointer" (click)="datePickerRequest.open()" [(ngModel)]="date"  [matDatepicker]="datePickerRequest"
              placeholder="בחר תאריך" name="dateRequest" readonly>
