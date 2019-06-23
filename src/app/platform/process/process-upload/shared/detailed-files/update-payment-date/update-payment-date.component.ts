@@ -12,7 +12,7 @@ import {NotificationService} from '../../../../../../shared/_services/notificati
 export class UpdatePaymentDateComponent implements OnInit {
 
   date: any;
-  displayDate: false;
+  displayDate = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private  processService: ProcessService,
