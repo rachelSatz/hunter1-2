@@ -59,7 +59,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
               private router: Router,
               private dialog: MatDialog,
               public processDataService: ProcessDataService,
-              private userSession: UserSessionService,
+              public userSession: UserSessionService,
               private  monthlyTransferBlockService: MonthlyTransferBlockService ,
               protected  notificationService: NotificationService,
               private selectUnitService: SelectUnitService) { }

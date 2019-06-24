@@ -19,7 +19,7 @@ export class DepartmentsComponent implements OnInit  {
 
   constructor(private route: ActivatedRoute,
               private departmentService: DepartmentService,
-              private userSession: UserSessionService,
+              public userSession: UserSessionService,
               private selectUnit: SelectUnitService) {
   }
 

@@ -63,7 +63,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
               public route: ActivatedRoute,
               private notificationService: NotificationService,
               private feedbackService: FeedbackService,
-              private userSession: UserSessionService,
+              public userSession: UserSessionService,
               private selectUnitService: SelectUnitService,
               private generalService: GeneralHttpService,
               private _location: Location) {

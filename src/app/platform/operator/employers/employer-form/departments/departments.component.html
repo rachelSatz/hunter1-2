@@ -5,7 +5,7 @@
                   [hasExtendedSearch]=false [hasActionsSearch]=false [hasActionsHeader]="role">
     <div class="table-header">
       <div class="d-flex justify-content-end ">
-        <button *ngIf="permissionsType" class="btn blue-btn" [routerLink]="['./', 'form']">הוספת מחלקה חדשה</button>
+        <button *ngIf="role" class="btn blue-btn" [routerLink]="['./', 'form']">הוספת מחלקה חדשה</button>
       </div>
     </div>
     <tr *ngFor="let item of dataTable.items" class="pointer">
