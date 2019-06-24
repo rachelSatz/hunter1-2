@@ -69,7 +69,7 @@ export class FinanceComponent implements OnInit {
 
   constructor(private employerService: EmployerService,
               private selectUnit: SelectUnitService,
-              private userSession: UserSessionService,
+              public userSession: UserSessionService,
               private notificationService: NotificationService,
               public route: ActivatedRoute) { }
 

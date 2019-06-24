@@ -66,7 +66,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
               private selectUnitService: SelectUnitService,
               private detailsComponent: DetailsComponent,
               private generalService: GeneralHttpService,
-              private userSession: UserSessionService,
+              public userSession: UserSessionService,
               private productService: ProductService) {
   }
 

@@ -28,9 +28,7 @@ export class ContactsComponent implements OnInit , OnDestroy {
               private contactService: ContactService,
               private userSession: UserSessionService,
               private router: Router,
-              private selectUnit: SelectUnitService,
-              private employerService: EmployerService,
-              private organizationService: OrganizationService) {
+              private selectUnit: SelectUnitService) {
   }
 
   readonly columns =  [

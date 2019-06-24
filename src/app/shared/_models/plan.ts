@@ -23,11 +23,19 @@ export class Categories {
   tasks_amount: number;
   type: PlanCategorySubType;
 
+  constructor() {
+    this.type = new PlanCategorySubType;
+  }
 }
 
 export class PlanCategorySubType {
+  id: number;
   name: string;
   type: PlanCategoryType;
+
+  constructor() {
+    this.type = new PlanCategoryType();
+  }
 }
 
 export class PlanCategoryType {

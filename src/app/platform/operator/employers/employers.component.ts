@@ -35,7 +35,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
 
   constructor(protected route: ActivatedRoute,
               private employerService: EmployerService,
-              private userSession: UserSessionService,
+              public userSession: UserSessionService,
               private selectUnit: SelectUnitService) {
   }
 

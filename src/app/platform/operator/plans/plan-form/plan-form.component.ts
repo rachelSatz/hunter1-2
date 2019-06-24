@@ -49,8 +49,10 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     if (this.route.snapshot.data.plan) {
       this.plan = this.route.snapshot.data.plan;
     }
+
     this.userService.usersList().then(response => this.operators = response['items']);
     this.planService.getTypes().then(response => this.types = response);
+
     // this.plan.user_plan = Object.keys(this.plan.user_plan).map(key => ( {key: 'id'}));
     // if (this.plan.plan_category.length > 0) {
     //   this.categoriesData = this.plan.plan_category;
@@ -90,8 +92,22 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     this.plan.categories.splice(index, 1);
   }
 
-  selectedSubType(typeId: number): void {
-    this.subTypes = this.types.find(a => a.id === typeId).subtypes;
+  selectedSubType(index: any, typeId: number): void {
+    this.subTypes = [];
+    // if (this.types.length > 0) {
+    //   if (typeId !== undefined) {
+    //     this.subTypes = this.types.find(a => a.id === index).subtypes;
+    //   } else if (type !== undefined) {
+    //     this.subTypes = this.types.find(a => a.id === type).subtypes;
+    //   } else {
+    //     this.subTypes = this.types[index].subtypes;
+    //   }
+    // }
+    if (typeId !== undefined) {
+      this.subTypes = this.types.find(a => a.id === typeId).subtypes;
+    } else if (index !== undefined) {
+      this.subTypes = this.types.find(a => a.id === index.type.name).subtypes;
+    }
     if (this.subTypes !== null) {
 
     }
