@@ -18,7 +18,7 @@
   </div>
 </div>
 <app-data-table tableName="מעקב ברמת קובץ" [columns]="columns" (fetchItems)="fetchItems()"
-                [hasCheckColumn]="true" [hasActionsHeader] = "userSession.getPermissionsType('operations')">
+                [hasCheckColumn]="true" [hasActionsHeader] = "false">
   <div class="table-header">
     <div class="row mt-4 mr-1">
       <div class="ml-3 d-flex mr-auto">
@@ -41,10 +41,14 @@
       <i *ngIf="item.comments.length === 0" class="fa fa-comment-o"></i>
       <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
     </td>
-    <td *ngIf="dataTable.hasActionsHeader">
+    <td *ngIf="userSession.getPermissionsType('operations')">
       <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(item)">
       <span class="grey-circle mr-3" (click)="openInquiriesDetailsDialog(item)">{{ item.inquiries.length }}</span>
-
     </td>
+    <td>
+      <i class="fa fa-angle-double-left" (click)="detailsRecords(item.id)"></i>
+    </td>
+
+
   </tr>
 </app-data-table>

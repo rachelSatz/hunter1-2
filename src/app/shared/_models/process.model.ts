@@ -126,7 +126,7 @@ export enum ProcessType {
 export enum PaymentType {
   bank_transfer = 'העברה בנקאית',
   check = 'צק',
-  direct_debit = 'הוראת קבע',
+  credit_card = 'כרטיס אשראי',
   masav = 'מס"ב',
 }
 

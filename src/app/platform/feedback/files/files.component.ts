@@ -53,7 +53,9 @@ export class FilesComponent implements OnInit, OnDestroy  {
     {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'updated_at', label: 'תאריך עדכון אחרון',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'broadcast_date', label: 'תאריך שידור', searchOptions: { isDate: true }, isDisplay: false},
-    {name: 'product_type', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }, isDisplay: false}
+    {name: 'product_type', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }, isDisplay: false},
+    {name: 'actions', label: 'פעולות' , isSort: false, searchable: false},
+    {name: 'records', label: 'פרוט רשומות' , isSort: false, searchable: false}
   ];
 
 

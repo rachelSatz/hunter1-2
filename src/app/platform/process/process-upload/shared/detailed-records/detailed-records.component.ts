@@ -3,7 +3,7 @@ import { ActivatedRoute, Router} from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 
-import { DepositStatus, DepositType, EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
+import {DefrayalError, DepositStatus, DepositType, EmployeeStatus} from 'app/shared/_models/monthly-transfer-block';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
@@ -29,6 +29,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
 
   nameEmployerProductCode = 'product_id';
   nameEmployeeName = 'employee_id';
+  title: string;
 
   depositType = Object.keys(DepositType).map(function(e) {
     return { id: e, name: DepositType[e] };
@@ -67,6 +68,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   depositStatus = DepositStatus;
   employeeStatus = EmployeeStatus;
   depositTypes = DepositType;
+  defrayalError = DefrayalError;
   productType = ProductType;
   records_id = 0;
   highlightRecordId: number;
@@ -197,7 +199,11 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   }
 
   setColorError(errors , type): boolean {
-    if (errors.filter(e => type.includes(e.type)).length > 0) {
+    const error =  errors.filter(e => type.includes(e.type));
+    if (error.length > 0) {
+      this.title = error.map(arr => {
+        return this.defrayalError[arr.message.replace(/,/g, '').replace(/ /g, '_')];
+      });
       return true;
     }
     return false;

@@ -211,6 +211,7 @@ export class PlatformComponent implements OnInit {
 
   private setActiveUrl(url: string): void {
     this.activeUrl = url.split('/')[2];
+    console.log(this.activeUrl);
   }
 
   getImage(link: Object): string {

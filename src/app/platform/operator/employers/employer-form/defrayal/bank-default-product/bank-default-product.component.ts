@@ -40,4 +40,8 @@ export class BankDefaultProductComponent implements OnInit {
       response => this.dataTable.setItems(response));
   }
 
+  sentBank(item): void {
+    // [routerLink]="['./', 'form', item.id]"
+  }
+
 }

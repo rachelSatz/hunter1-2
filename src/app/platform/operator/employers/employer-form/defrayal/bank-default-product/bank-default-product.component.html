@@ -14,7 +14,7 @@
       <td>{{ item.branch_name }}</td>
       <td>{{ item.account_number }}</td>
       <td *ngIf="role">
-        <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+        <img src="/assets/img/icons/edit_grey.png" (click)="sentBank(item)" class="row-image">
       </td>
     </tr>
   </app-data-table>

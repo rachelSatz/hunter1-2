@@ -21,7 +21,7 @@
       </td>
       <td  *ngIf="!permissionsType">{{ item.first_name + ' ' + item.last_name}}</td>
       <td  *ngIf="permissionsType" (click)="editPayments(item)" class="blue-color">{{ item.first_name + ' ' + item.last_name}}</td>
-      <td [ngClass]="{'red-color': setColorError(item.defrayal_error, ['01','02', '03', '04', '05'])}">{{ item.personal_id }}</td>
+      <td [ngClass]="{'red-color': setColorError(item.defrayal_error, ['01','02', '03', '04', '05'])}" [title]="title">{{ item.personal_id }}</td>
       <td>{{ depositTypes[item.deposit_type] }}</td>
       <td>{{ item.employer_product_code }}</td>
       <td>{{ item.employer_product_name }}</td>
