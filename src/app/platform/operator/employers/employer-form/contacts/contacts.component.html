@@ -1,6 +1,6 @@
 <div class="mt-lg-5" [ngClass]="{'operator-table': pathEmployers }">
   <app-data-table (fetchItems)="fetchItems()"  [columns]="columns" [hasActionsSearch]="false"
-                  [hasExtendedSearch]="false" [hasCheckColumn]="false" [hasActionsHeader]="role">
+                  [hasExtendedSearch]="true" [hasCheckColumn]="false" [hasActionsHeader]="role">
     <div class="table-header" >
       <div class="row mt-4 mr-1" [ngClass]="{'operator-container': !pathEmployers }">
         <div class="ml-3 d-flex mr-auto mb-3">

@@ -7,6 +7,8 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { EntityTypes } from 'app/shared/_models/contact.model';
 import { Subscription } from 'rxjs';
+import {EmployerService} from '../../../../../shared/_services/http/employer.service';
+import {OrganizationService} from '../../../../../shared/_services/http/organization.service';
 
 @Component({
   selector: 'app-contacts',
@@ -26,17 +28,19 @@ export class ContactsComponent implements OnInit , OnDestroy {
               private contactService: ContactService,
               private userSession: UserSessionService,
               private router: Router,
-              private selectUnit: SelectUnitService) {
+              private selectUnit: SelectUnitService,
+              private employerService: EmployerService,
+              private organizationService: OrganizationService) {
   }
 
   readonly columns =  [
-    { name: 'organization_name', label: 'ארגון' , searchable: false},
-    { name: 'employer_name', label: 'מעסיק' , searchable: false},
+    { name: 'organization_name', label: 'ארגון', searchable: false},
+    { name: 'employer_name', label: 'מעסיק', searchable: false},
     { name: 'type', label: 'סוג גורם' , searchable: false},
-    { name: 'name', label: 'שם מלא' , searchable: false},
+    { name: 'name', label: 'שם מלא' },
     { name: 'phone', label: 'טלפון' , searchable: false},
     { name: 'mobile', label: 'טלפון נייד' , searchable: false},
-    { name: 'email', label: 'כתובת מייל' , searchable: false},
+    { name: 'email', label: 'כתובת מייל' },
     { name: 'comment', label: 'הערות' , searchable: false}
   ];
 
