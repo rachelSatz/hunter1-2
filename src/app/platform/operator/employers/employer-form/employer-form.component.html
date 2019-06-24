@@ -68,16 +68,14 @@
         <mat-form-field class="mr-3">
           <mat-select placeholder="סטטוס"  [(ngModel)]="employer.status" formControlName="status"
                       (selectionChange)="saveChanges = true">
-            <mat-option *ngFor="let status of statuses" [value]="status.id">
-              {{status.name}}
+            <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="mr-3">
           <mat-select matInput placeholder="סוג תשלום" formControlName="paymentType"
-                      [(ngModel)]="employer.payment_type">
-            <mat-option *ngFor="let payment of paymentType" [value]="payment.id" (selectionChange)="saveChanges = true"
-            >{{payment.name}}</mat-option>
+                      [(ngModel)]="employer.payment_type" (selectionChange)="saveChanges = true">
+            <mat-option *ngFor="let payment of paymentType" [value]="payment.id">{{payment.name}}</mat-option>
           </mat-select>
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
