@@ -166,7 +166,7 @@
                        placeholder="סוג רשומה"></bd-select>
           </div>
           <mat-form-field class="col-2">
-            <input type="number" matInput placeholder="סכום רשומה" (change)="sumPercent(m, transfer, $event.target.value)">
+            <input type="number" matInput placeholder="סכום רשומה" (change)="sumPercent(m, transfer)" formControlName="transfer_sum">
           </mat-form-field>
           <mat-form-field class="col-2">
             <input type="number" matInput placeholder="אחוז רשומה" formControlName="transfer_percent">

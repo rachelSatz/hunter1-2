@@ -173,11 +173,11 @@ export class EditPaymentsComponent implements OnInit {
   }
 
 
-  sumPercent(m: any, transfer: FormGroup, value): void {
+  sumPercent(m: any, transfer: FormGroup): void {
     const salary = m.value.salary;
-    this.sum += (transfer.value.transfer_sum - value);
+    // this.sum += (transfer.value.transfer_sum - value);
     transfer.patchValue({'transfer_percent':  (transfer.value.transfer_sum / salary * 100).toFixed(2)});
-    transfer.patchValue({'transfer_sum':  value});
+    // transfer.patchValue({'transfer_sum':  value});
 
   }
 
