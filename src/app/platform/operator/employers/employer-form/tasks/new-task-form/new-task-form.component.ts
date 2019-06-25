@@ -21,6 +21,7 @@ export class NewTaskFormComponent implements OnInit {
   operator;
   operators = [];
   employees = [];
+  title = '';
 
   constructor( public dialogRef: MatDialogRef<NewTaskFormComponent>,
                @Inject(MAT_DIALOG_DATA) public data: TaskModel,
@@ -31,6 +32,11 @@ export class NewTaskFormComponent implements OnInit {
                private notificationService: NotificationService) { }
 
   ngOnInit() {
+    if (this.data.subject !== null && this.data.subject !== '') {
+      this.title = 'עריכת משימה';
+    } else {
+      this.title = 'יצירת משימה חדשה';
+    }
     this.curDate = new Date();
 
 
