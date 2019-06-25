@@ -26,7 +26,8 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   seconds: string;
   minutes: string;
   hours: string;
-
+  isRecord = false;
+  isFile = false;
 
   constructor(protected route: ActivatedRoute,
               private router: Router,
@@ -42,9 +43,20 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
     this.text = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';
     this.timerService.reset();
     this.newTaskTimer('ongoing_operation');
-    // this.planService.getSinglePlan().then(response => {
-    //   this.plan = response['data'];
-    // });
+    this.planService.getSinglePlan().then(response => {
+      if (response['message'] === 'No plan found' || response['message'] === 'No task found') {
+        // this.notificationService.info('לא נמצאה משימה לטיפול');
+      } else if (response['message'] === 'Success!') {
+        this.plan = response['data'];
+        if (this.plan !== null && this.plan.task !== null) {
+          if (this.plan.task.record !== null) {
+            this.isRecord = true;
+          } else if (this.plan.task.file !== null) {
+            this.isFile = true;
+          }
+        }
+      }
+    });
 
   }
   taskCompletedDialog(ownerType: string): void {

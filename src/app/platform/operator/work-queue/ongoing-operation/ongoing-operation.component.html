@@ -10,47 +10,88 @@
 
 <div class="px-4 mt-5 form" >
   <form #form="ngForm" >
-  <div class="d-flex">
-    <div class="d-flex w-50">
-      <span class="bold">שם הארגון:</span>
-      <p class="mr-1">{{ plan != null ? plan.organization_name : ''}}</p>
+  <div class="col-6 mt-5">
+    <div class="d-flex">
+      <div class="d-flex w-50">
+        <span class="bold">שם הארגון:</span>
+        <p class="mr-1">{{ plan != null ? plan.organization_name : ''}}</p>
+      </div>
+      <span class="bold">שם מעסיק:</span>
+      <p class="mr-1">{{ plan != null ? plan.employer_name : '' }}</p>
     </div>
-  </div>
-  <div class="d-flex w-50">
-    <span class="bold">שם מעסיק:</span>
-    <p class="mr-1">{{ plan != null ? plan.employer_name : '' }}</p>
-  </div>
-  <div class="d-flex w-50">
-    <span class="bold">חודש שכר:</span>
-    <p class="mr-1">{{ plan != null ? plan.error.process_salary_month : '' }}</p>
-  </div>
-  <div class="d-flex w-50">
-    <span class="bold">שם תהליך:</span>
-    <p class="mr-1">{{ plan != null ? plan.error.process_name : '' }}</p>
-  </div>
-  <br>
-  <div class="d-flex w-50">
-    <span class="bold">שם קופה:</span>
-    <p class="mr-1">{{ plan != null ? plan.error.product_name : '' }}</p>
-  </div>
-  <div class="d-flex w-50">
-    <span class="bold">פירוט שגיאה:</span>
-    <p class="mr-1">{{ plan != null ? plan.error.message : '' }}</p>
-  </div>
-  <div class="d-flex w-50">
-    <span class="bold">שם הקובץ:</span>
-    <p class="mr-1">{{ plan != null && plan.error.sent_file_name != null ? plan.error.sent_file_name : ''}}</p>
-  </div>
-  <br>
-  <div class="d-flex w-50">
-    <span class="bold">סטטוס: </span>
-    <!--<p class="mr-1">{{ plan.organization_name }}</p>-->
-  </div>
-  <div class="d-flex w-50">
-    <span class="bold">הערות: </span>
-    <!--<p class="mr-1">{{ plan != null ? plan.organization_name }}</p>-->
-  </div>
-  <br>
+    <div class="d-flex mt-3">
+      <div class="d-flex w-50">
+        <span class="bold">שם תהליך:</span>
+        <p class="mr-1">{{ plan != null ? plan.task.process.name : '' }}</p>
+      </div>
+      <span class="bold">חודש ייחוס:</span>
+      <p class="mr-1">{{ plan != null ? plan.task.process.date : '' }}</p>
+    </div>
+    <div class="d-flex mt-3">
+      <div class="d-flex w-50">
+        <span class="bold">פירוט שגיאה:</span>
+        <p class="mr-1">{{ plan != null ? plan.task.message : '' }}</p>
+      </div>
+      <span class="bold">מידע נוסף:</span>
+      <p class="mr-1">{{ plan != null ? plan.task.additional_info : '' }}</p>
+    </div>
+    <br>
+    <div *ngIf="isRecord">
+      <span class="bold mr-xl-5">שגיאה ברמת רשומה</span>
+
+      <div class="d-flex mt-3">
+        <div class="d-flex w-50">
+          <span class="bold">תאריך ייחוס:</span>
+          <p class="mr-1">{{ plan != null ? (plan.task.record.salary_month | date: 'MM/yy') : ''}}</p>
+        </div>
+        <span class="bold">שכר:</span>
+        <p class="mr-1">{{ plan != null ? plan.task.record.salary : '' }}</p>
+      </div>
+
+      <div class="d-flex mt-3">
+        <div class="d-flex w-50">
+          <span class="bold">ימי עבודה בחודש:</span>
+          <p class="mr-1">{{ plan != null ? plan.task.record.working_days_in_month : '' }}</p>
+        </div>
+        <span class="bold">חלקיות משרה:</span>
+        <p class="mr-1">{{ plan != null ? plan.task.record.work_month_percentage : '' }}</p>
+      </div>
+
+      <div class="d-flex mt-3">
+        <div class="d-flex w-50">
+          <span class="bold">סטטוס עובד בחודש:</span>
+          <p class="mr-1">{{ plan != null ? plan.task.record.employee_status : '' }}</p>
+        </div>
+        <span class="bold">תאריך עדכון סטטוס:</span>
+        <p class="mr-1">{{ plan != null ? plan.task.record.employee_status_start_date : '' }}</p>
+      </div>
+    </div>
+    <div *ngIf="isFile">
+      <span class="bold mr-xl-5">שגיאה ברמת קובץ</span>
+
+      <div class="d-flex mt-3">
+        <div class="d-flex w-50">
+          <span class="bold">סוג קובץ:</span>
+          <p class="mr-1">{{ plan != null ? plan.task.file.file_type : ''}}</p>
+        </div>
+        <span class="bold">סכום:</span>
+        <p class="mr-1">{{ plan != null ? plan.task.file.amount : '' }}</p>
+      </div>
+
+      <!--<div class="d-flex mt-3">-->
+        <!--<div class="d-flex w-50">-->
+          <!--<span class="bold">ימי עבודה בחודש:</span>-->
+          <!--<p class="mr-1">{{ plan != null ? plan.task.record.working_days_in_month : '' }}</p>-->
+        <!--</div>-->
+        <!--<span class="bold">חלקיות משרה:</span>-->
+        <!--<p class="mr-1">{{ plan != null ? plan.task.record.work_month_percentage : '' }}</p>-->
+      <!--</div>-->
+
+    </div>
+
+    <br>
+</div>
+
   <!--<button class="btn blue-btn mr-5" (click)="performTaskDialog()">לביצוע</button>-->
   <button class="btn blue-btn mr-5" (click)="taskCompletedDialog('')">לביצוע</button>
   <button class="btn blue-btn mr-5" (click)="skipTaskDialog()">דילוג על משימה</button>

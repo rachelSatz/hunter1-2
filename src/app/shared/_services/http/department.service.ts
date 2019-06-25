@@ -70,7 +70,7 @@ export class DepartmentService extends BaseHttpService {
       .catch(response => response);
   }
 
-  getSNInEmployer(pk: number): Promise<any> {
+  getSNInEmployer(pk: number): Promise<DataTableResponse> {
     return this.http.get(this.endPoint + '/getSNInEmployer/' + pk , this.getTokenHeader())
       .toPromise()
       .then(response => response)
