@@ -74,3 +74,12 @@ export enum IdentifierTypes {
   entity_without_registrar = 'יישות ללא רשם',
 }
 
+
+export class DepartmentSerialNumber {
+    id: number;
+    number: string;
+    company_id: number;
+    department_id: number;
+    employees: any;
+}
+

@@ -3,9 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 
-
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { ContactService } from '../../../../../../../shared/_services/http/contact.service';
+import {Contact} from '../../../../../../../shared/_models/contact.model';
+import {ManufacturerNumberComponent} from '../manufacturer-number.component';
+import {DepartmentSerialNumber} from '../../../../../../../shared/_models/employer.model';
 
 @Component({
   selector: 'app-form',
@@ -27,25 +30,33 @@ export class FormComponent implements OnInit {
   scrollIndex = 1;
   companies = [] ;
   navigate: any;
+  manufacturerNumber: DepartmentSerialNumber[] = [];
 
   ngOnInit() {
-    if (this.route.snapshot.data) {
-
+    if (this.route.snapshot.data.manufacturerNumber) {
+      this.manufacturerNumber = this.route.snapshot.data.manufacturerNumber;
     }
     this.departmentService.getDepartments(this.selectUnit.currentEmployerID)
       .then(response => this.departments = response.items);
     this.companies = this.selectUnit.getCompanies();
-    this.initForm();
+    if (this.manufacturerNumber.length > 0 && this.manufacturerNumber !== null) {
+      this.initForm(this.manufacturerNumber);
+    } else {
+      this.initForm();
+    }
   }
 
-  initForm(): void {
+  initForm(manufacturerNumber?: Object): void {
     this.number = this.fb.group({
-      'department_id': [null , Validators.required],
-      'company_id': [null , Validators.required],
-      'number': [null,  Validators.required],
+      'department_id': [manufacturerNumber ?  manufacturerNumber[0]['department_id'] : null, Validators.required],
+      'company_id': [manufacturerNumber ?  manufacturerNumber[0]['company_id'] : null , Validators.required],
+      'number': [manufacturerNumber ?  manufacturerNumber[0]['number'] : null,  Validators.required],
       'employee_id': []
     });
+
   }
+
+
 
   checkLoadEmployees(scrollY: number): void {
     if (scrollY >= 3700 * this.scrollIndex) {
