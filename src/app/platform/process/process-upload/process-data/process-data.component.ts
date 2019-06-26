@@ -122,7 +122,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
 
           if (this.selectUnitService.currentDepartmentID === undefined ||
             this.selectUnitService.currentDepartmentID === 0) {
-            this.notificationService.error('  לא ניתן להעלות קובץ ללא בחירת מחלקה\n' +
+            this.notificationService.error('  לא ניתן להעלות קובץ ללא בחירת מעסיק ומחלקה\n' +
               ' אנא בחר מחלקה ונסה שנית\n');
               return;
           }

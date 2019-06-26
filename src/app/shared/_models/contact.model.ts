@@ -15,15 +15,8 @@ export class Contact {
   organization_id: number;
   comment: string;
   employer_contact_id: number;
+  name_entity: string;
 }
-
-
-
-// export interface IContactResponse {
-//   total: number;
-//   results: Contact[];
-// }
-
 
 export enum EntityTypes {
   // agent = 'סוכן',

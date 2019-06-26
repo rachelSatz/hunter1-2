@@ -186,6 +186,8 @@ export class DepositsReportComponent implements OnInit {
 
       this.depositsReportService.manualChangingStatus(items).then(response => {
         if (response) {
+          this.dataTable.criteria.checkedItems = [];
+          this.dataTable.criteria.isCheckAll = false;
           this.fetchItems();
         }
       });

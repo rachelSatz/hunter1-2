@@ -125,6 +125,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     this.employerForm = this.fb.group({
       'name': [null , Validators.required],
       'businessNumber': [null , Validators.required],
+      'senderNumber': [null , Validators.required],
       'deductionNumber': [],
       'phone': [null,  [Validators.pattern('^\\d{6,12}$')]],
       'address': [],

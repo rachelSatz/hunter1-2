@@ -33,6 +33,7 @@ export class Employer {
   deduction_number: number;
   project_id: number;
   project_name: string;
+  sender_number: string;
 
   constructor() {
     this.bank_accounts.push(new EmployerBankAccount());

@@ -24,33 +24,29 @@
     <a class="active" (click)="stopTimer()">סיום</a>
     <p>{{ timerText + '-' }}{{hours}}:{{minutes}}:{{seconds}} </p>
   </div>
+
   <div class="container-fluid">
     <header>
       <div id="mainMenu">
         <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent" [@fade]="agentBarActive ? 'active' : 'inactive'">
+
+          <div class="collapse navbar-collapse align-items-end"  [@fade]="agentBarActive ? 'active' : 'inactive'">
             <ul class="navbar-nav">
               <ng-container *ngFor="let link of menuLinks">
+
+
+
                 <li class="nav-item" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="!link.subMenuLinks"
                     [hidden]="userSession.isPermissions(link.subUrl ? link.subUrl : link.url)">
                   <a class="menu-link" [routerLink]="['/platform', link.url]">
-                    <figure>
-                      <img [src]="getImage(link)" [attr.alt]="link.label">
-                    </figure>
-                    <p>{{ link.label }}</p>
+                    <p class="mb-half">{{ link.label }}</p>
                   </a>
                 </li>
+
                 <li [matMenuTriggerFor]="subMenu" class="nav-item pointer"
                     [hidden]="userSession.isPermissions(link.subUrl ? link.subUrl : link.url)"
                     [ngClass]="{ 'active': link.url === activeUrl }"
                     *ngIf="link.subMenuLinks">
-                  <figure>
-                    <img [src]="getImage(link)" [attr.alt]="link.label">
-                  </figure>
                   <span>{{ link.label }}</span>
                   <mat-menu #subMenu yPosition="above" [overlapTrigger]="false">
                     <button mat-menu-item class="dropdown-item" *ngFor="let subLink of link.subMenuLinks"
@@ -60,7 +56,12 @@
               </ng-container>
             </ul>
           </div>
-          <div class="d-flex" [@fade]="!agentBarActive? 'inactive' : 'active'">
+
+
+
+
+
+          <div class="d-flex align-items-center" [@fade]="!agentBarActive? 'inactive' : 'active'">
             <bd-select [items]="organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
             <bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
             <bd-select [items]="departments" class="ml-3" [(ngModel)]="departmentId" placeholder="מחלקה" (onSelect)="selectDepartment($event)"

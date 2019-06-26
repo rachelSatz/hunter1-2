@@ -231,6 +231,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
     this.compensationService.manualChangingStatus(items, this.dataTable.criteria).then(response => {
         this.dataTable.criteria.checkedItems = [];
         this.dataTable.criteria.isCheckAll = false;
+
         this.setResponse(response);
     });
   }

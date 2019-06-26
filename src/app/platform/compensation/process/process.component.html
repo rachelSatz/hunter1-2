@@ -48,14 +48,14 @@
         <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
       </td>
       <td>
-        <span *ngIf="!item.has_file_feedback">טרם</span>
+        <span *ngIf="!item.has_file_feedback" >טרם</span>
         <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, 'download')" *ngIf="item.has_file_feedback"></i>
         <i class="fa fa-eye fa-lg" (click)="PdfFile(item.id, 'show')" *ngIf="item.has_file_feedback"></i>
       </td>
       <td>
         <img [src]="getValidityImage(item)" class="row-actions" >
       </td>
-      <td *ngIf="dataTable.hasActionsHeader">
+      <td *ngIf="dataTable.hasActionsHeader" class="d-flex">
         <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
         <span class="grey-circle mr-3 ml-3" (click)="openInquiriesDialog(item)">{{ item.inquiries.length }}</span>
         <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">

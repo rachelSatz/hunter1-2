@@ -23,6 +23,10 @@
                (change)="saveChanges = true" formControlName="businessNumber">
       </mat-form-field>
       <mat-form-field class="mr-3">
+        <input matInput type="text" [(ngModel)]="employer.sender_number" placeholder="מספר מזהה שולח"
+               (change)="saveChanges = true" formControlName="senderNumber">
+      </mat-form-field>
+      <mat-form-field class="mr-3">
         <input matInput type="text" [(ngModel)]="employer.deduction_number" placeholder="מספר תיק ניכויים"
                (change)="saveChanges = true" formControlName="deductionNumber">
       </mat-form-field>
