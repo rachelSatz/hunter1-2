@@ -76,17 +76,25 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   sub = new Subscription;
   statuses = Status;
   highlightFileId: number;
+  organizationId: number;
+  subscription = new Subscription;
 
 
   ngOnInit() {
+    this.organizationId = this.selectUnitService.currentOrganizationID;
     this.productService.getCompanies().then(response => {
       const column = this.dataTable.searchColumn(this.nameCompany);
       this.newCompanies = response;
       column['searchOptions'].labels = this.newCompanies;
     });
+    this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
+
   }
 
   fetchItems () {
+    if (this.organizationId !== this.selectUnitService.currentOrganizationID) {
+      this.router.navigate(['/platform', 'process', 'table']);
+    }
     if (this.processDataService.activeProcess === undefined) {
       this.processDataService = this.selectUnitService.getProcessData();
     }
@@ -352,5 +360,6 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

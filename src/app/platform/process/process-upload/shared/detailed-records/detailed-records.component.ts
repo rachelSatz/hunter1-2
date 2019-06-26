@@ -72,8 +72,11 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   productType = ProductType;
   records_id = 0;
   highlightRecordId: number;
+  organizationId: number;
 
   ngOnInit() {
+    this.organizationId = this.selectUnitService.currentOrganizationID;
+
     if (this.processDataService.activeProcess === undefined) {
       this.processDataService = this.selectUnitService.getProcessData();
     }
@@ -93,6 +96,9 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   }
 
   fetchItems() {
+    if (this.organizationId !== this.selectUnitService.currentOrganizationID) {
+      this.router.navigate(['/platform', 'process', 'table']);
+    }
     if (this.items.length <= 0) {
       this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID;
       if (this.records_id !== 0) {

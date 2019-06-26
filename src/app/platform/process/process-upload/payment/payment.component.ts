@@ -56,10 +56,11 @@ export class PaymentComponent implements OnInit , OnDestroy {
   inter = <any>interval(5000);
   sub = new Subscription;
   subscription = new Subscription;
-
+  organizationId: number;
   showInfoMessage = true;
 
   ngOnInit() {
+    this.organizationId = this.selectUnitService.currentOrganizationID;
     if (this.processDataService.activeProcess !== undefined) {
       this.selectUnitService.setProcessData(this.processDataService);
     } else {
@@ -89,7 +90,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
   }
 
   fetchItems() {
-    if (this.selectUnitService.currentOrganizationID) {
+    if (this.organizationId !== this.selectUnitService.currentOrganizationID) {
       this.router.navigate(['/platform', 'process', 'table']);
     }
   }

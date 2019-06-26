@@ -185,8 +185,17 @@ export class DepositsReportComponent implements OnInit {
       this.dataTable.criteria.checkedItems.map(item => item['id']);
 
       this.depositsReportService.manualChangingStatus(items).then(response => {
-        if (response) {
+        if (response['message'] === true) {
+          if (this.dataTable.criteria.isCheckAll) {
+            this.dataTable.items = [];
+            this.dataTable.criteria.isCheckAll = false;
+          } else {
+            this.dataTable.criteria.checkedItems = [];
+          }
           this.fetchItems();
+          this.notificationService.success('הרשומות עודכנו בהצלחה');
+        } else {
+          this.notificationService.error('אירעה שגיאה');
         }
       });
 

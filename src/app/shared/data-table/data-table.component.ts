@@ -95,7 +95,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
         this.paginationData.currentPage = this.criteria.page;
       }
       this.loadItems();
-
     }
 	}
 

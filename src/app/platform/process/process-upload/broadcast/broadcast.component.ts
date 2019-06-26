@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Location } from '@angular/common';
 
@@ -13,6 +13,7 @@ import { Process } from 'app/shared/_models/process.model';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { DateUpdateComponent } from './date-update/date-update.component';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import {Subscription} from 'rxjs';
 
 
 
@@ -23,7 +24,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
   animations: [ fade ],
   providers: [ProcessService, NotificationService]
 })
-export class BroadcastComponent implements OnInit {
+export class BroadcastComponent implements OnInit, OnDestroy {
 
   process: Process;
   file: boolean;
@@ -39,6 +40,8 @@ export class BroadcastComponent implements OnInit {
   process_details: ProcessDetails;
   paymentDate = '--/--/--';
   permissionsType = this.userSession.getPermissionsType('operations');
+  organizationId: number;
+  subscription = new Subscription;
 
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute,
@@ -51,6 +54,8 @@ export class BroadcastComponent implements OnInit {
               private _location: Location) {}
 
   ngOnInit() {
+    this.organizationId = this.selectUnitService.currentOrganizationID;
+
     if (this.processDataService.activeProcess === undefined) {
       this.processDataService = this.selectUnitService.getProcessData();
     }
@@ -66,6 +71,14 @@ export class BroadcastComponent implements OnInit {
       this.processDataService.activeProcess.pageNumber = 4;
     } else {
       this.pageNumber = 2;
+    }
+    this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
+
+  }
+
+  fetchItems() {
+    if (this.organizationId !== this.selectUnitService.currentOrganizationID) {
+      this.router.navigate(['/platform', 'process', 'table']);
     }
   }
 
@@ -113,5 +126,9 @@ export class BroadcastComponent implements OnInit {
     // this.router.navigate(['/platform', 'process', 'new', 1 , 'payment',
     //     this.processDataService.activeProcess.processID],
     //   { relativeTo: this.route });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
