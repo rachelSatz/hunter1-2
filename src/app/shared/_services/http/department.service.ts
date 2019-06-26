@@ -8,6 +8,7 @@ import { UserSessionService } from '../user-session.service';
 import { Employee } from 'app/shared/_models/employee.model';
 import { Department } from 'app/shared/_models/department.model';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import {DepartmentSerialNumber} from '../../_models/employer.model';
 
 @Injectable()
 export class DepartmentService extends BaseHttpService {
@@ -77,4 +78,10 @@ export class DepartmentService extends BaseHttpService {
       .catch(response => response);
   }
 
+  getSingleSNInEmployer(pk: number, employerId: number): Promise<DepartmentSerialNumber> {
+    return this.http.post(this.endPoint + '/getSingleSNInEmployer/' + pk , {employerId: employerId}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
 }

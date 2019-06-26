@@ -8,10 +8,10 @@
       </div>
     </div>
     <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
-      <td>{{ item.department_id }}</td>
-      <td>{{ item.company_id }}</td>
-      <td>{{ item.company_name}}</td>
-      <td>{{ item.bank_name }}</td>
+      <td>{{ item.department_name }}</td>
+      <td>{{ item.company_name }}</td>
+      <td></td>
+      <td>{{ item.number }}</td>
       <td *ngIf="role">
         <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
       </td>

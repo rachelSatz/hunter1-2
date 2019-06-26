@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ContactResolve } from 'app/shared/_resolves/contact.resolve';
+import {ContactResolve, ManufacturerNumberResolve} from 'app/shared/_resolves/contact.resolve';
 import { FormComponent } from './form.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
@@ -20,11 +20,10 @@ import { DepartmentService } from 'app/shared/_services/http/department.service'
 
 const routes: Routes = [
   { path: '', component: FormComponent },
-  { path: ':id', component: FormComponent, resolve: { contact: ContactResolve } }
+  { path: ':id', component: FormComponent, resolve: { manufacturerNumber: ManufacturerNumberResolve } }
 ];
 
 @NgModule({
-  declarations: [ FormComponent ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -37,6 +36,7 @@ const routes: Routes = [
     BdSelectModule,
     ReactiveFormsModule
   ],
-  providers: [DepartmentService, ContactResolve],
+  declarations: [ FormComponent ],
+  providers: [DepartmentService, ManufacturerNumberResolve]
 })
 export class FormModule { }
