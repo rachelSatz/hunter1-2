@@ -5,6 +5,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import {TaskModel} from '../../_models/task.model';
+import {Department} from '../../_models/department.model';
 
 @Injectable()
 export class TaskService extends BaseHttpService {
@@ -23,6 +25,13 @@ export class TaskService extends BaseHttpService {
     return this.http.get(this.endPoint, request)
       .toPromise()
       .then(response => response as DataTableResponse)
+      .catch(() => null);
+  }
+
+  getTask(taskId: number): Promise<TaskModel> {
+    return this.http.get(this.endPoint + '/' + taskId, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as TaskModel)
       .catch(() => null);
   }
 

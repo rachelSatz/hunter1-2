@@ -13,7 +13,9 @@ import { TaskService } from 'app/shared/_services/http/task.service';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
-const routes: Routes = [{ path: '', component: TasksComponent }];
+const routes: Routes = [
+    { path: '', component: TasksComponent }];
+
 
 
 @NgModule({

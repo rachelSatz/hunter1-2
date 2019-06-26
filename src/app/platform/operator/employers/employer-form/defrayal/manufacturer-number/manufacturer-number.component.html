@@ -8,8 +8,8 @@
       </div>
     </div>
     <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
-      <td>{{ item.product_id }}</td>
-      <td>{{ item.product_name }}</td>
+      <td>{{ item.department_id }}</td>
+      <td>{{ item.company_id }}</td>
       <td>{{ item.company_name}}</td>
       <td>{{ item.bank_name }}</td>
       <td *ngIf="role">

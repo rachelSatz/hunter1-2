@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
-import { Employer, EmployerStatus, IdentifierTypes } from 'app/shared/_models/employer.model';
+import {Employer, EmployerStatus, IdentifierTypes, Operator} from 'app/shared/_models/employer.model';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';

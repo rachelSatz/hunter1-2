@@ -41,6 +41,18 @@ export class Employer {
   }
 }
 
+export class Operator {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  name: string;
+
+  constructor() {
+    this.id = 0;
+  }
+}
+
 export enum EmployerStatus {
   active = 'מעסיק פעיל',
   inactive = 'מעסיק לא פעיל',

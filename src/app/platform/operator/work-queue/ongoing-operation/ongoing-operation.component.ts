@@ -26,7 +26,9 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   seconds: string;
   minutes: string;
   hours: string;
-
+  isRecord = false;
+  isFile = false;
+  isCompensation = false;
 
   constructor(protected route: ActivatedRoute,
               private router: Router,
@@ -42,36 +44,52 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
     this.text = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';
     this.timerService.reset();
     this.newTaskTimer('ongoing_operation');
-    // this.planService.getSinglePlan().then(response => {
-    //   this.plan = response['data'];
-    // });
-
+    this.fetchItems();
   }
-  taskCompletedDialog(ownerType: string): void {
+
+  fetchItems(): void {
+    this.planService.getSinglePlan().then(response => {
+      if (response['message'] === 'No plan found' || response['message'] === 'No task found') {
+        // this.notificationService.info('לא נמצאה משימה לטיפול');
+      } else if (response['message'] === 'Success!') {
+        this.plan = response['data'];
+        if (this.plan !== null && this.plan.task !== null) {
+          if (this.plan.task.record !== null) {
+            this.isRecord = true;
+          } else if (this.plan.task.file !== null) {
+            this.isFile = true;
+          }
+        }
+      }
+    });
+  }
+  taskCompletedDialog(): void {
     // const title = 'המשימה סומנה כטופלה';
     // this.notificationService.success(title);
     // const ownerType = this.plan.error.owner.type;
-    if (ownerType === 'records') {
+    const processId = this.plan.task.process.id;
+    if (this.isRecord) {
       this.processDataService.activeProcess = new Process();
-      const data = {'processId': 14, 'highlightRecordId': 31855};
+      const data = {'processId': processId, 'highlightRecordId': this.plan.task.record.id};
       this.processDataService.setProcess(data);
       this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
       // this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
-    } else if (ownerType === 'files') {
+    } else if (this.isFile) {
       this.processDataService.activeProcess = new Process();
-      const data = {'processId': 14, 'highlightFileId': 401};
+      const data = {'processId': processId, 'highlightFileId': this.plan.task.file.id};
       this.processDataService.setProcess(data);
       this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
-    } else if (ownerType === 'compensation') {
+    } else if (this.isCompensation) {
       this.router.navigate(['/platform', 'compensations', 'process', 94]);
     }
   }
 
   skipTaskDialog(): void {
-    this.dialog.open(SkipTaskComponent, {
-      width: '660px',
-      height: '240px'
-    });
+    this.fetchItems();
+    // this.dialog.open(SkipTaskComponent, {
+    //   width: '660px',
+    //   height: '240px'
+    // });
   }
 
   newTaskTimer(taskType: string): void {

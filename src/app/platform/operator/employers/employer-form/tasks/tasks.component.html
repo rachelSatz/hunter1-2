@@ -14,7 +14,7 @@
         <td>{{ item.assignee['name']}}</td>
         <td>{{ item.due_date | date: 'dd/MM/yy'}}</td>
         <td>
-          <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+          <img src="/assets/img/icons/edit_grey.png" (click)="createOrEditTask(item)" class="row-image">
         </td>
       </tr>
     </app-data-table>

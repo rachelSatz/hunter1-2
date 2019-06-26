@@ -21,6 +21,7 @@ export class BankDefaultProductFormComponent implements OnInit {
   products = [];
   bankAccounts = [];
   id: number;
+  companyId: any;
 
   constructor(private route: ActivatedRoute ,
               private router: Router,
@@ -47,7 +48,8 @@ export class BankDefaultProductFormComponent implements OnInit {
   }
 
   selectedProducts(): void {
-    this.products = this.companies.find(c => c.id === this.employerProductBankAccount.company_id).product;
+    this.companyId = this.employerProductBankAccount.company_id.toString();
+    this.products = this.companies.find(c => c.id === this.companyId).product;
     if ( !this.products.some(p => p.id === this.employerProductBankAccount.product_id)) {
       this.employerProductBankAccount.product_id = 0;
       this.employerProductBankAccount.bank_account_id = 0;

@@ -11,7 +11,7 @@ export class EmployerProductBankAccount {
   account_number: string;
 
 
-  constructor(){
+  constructor() {
     this.company_id = 0;
     this.product_id = 0;
   }

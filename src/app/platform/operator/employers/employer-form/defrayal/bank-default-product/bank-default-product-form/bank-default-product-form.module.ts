@@ -16,10 +16,11 @@ import {
 import { ContactResolve } from 'app/shared/_resolves/contact.resolve';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { BankDefaultProductFormComponent } from './bank-default-product-form.component';
+import {EmployerBankAccountResolve} from '../../../../../../../shared/_resolves/employers.resolve';
 
 const routes: Routes = [
   { path: '', component: BankDefaultProductFormComponent },
-  { path: ':id', component: BankDefaultProductFormComponent}
+  { path: ':id', component: BankDefaultProductFormComponent, resolve: {employerBankAccount: EmployerBankAccountResolve}}
 ];
 
 @NgModule({
@@ -36,6 +37,6 @@ const routes: Routes = [
     ReactiveFormsModule
   ],
   declarations: [BankDefaultProductFormComponent],
-  providers: [ContactResolve]
+  providers: [ContactResolve, EmployerBankAccountResolve]
 })
 export class BankDefaultProductFormModule { }

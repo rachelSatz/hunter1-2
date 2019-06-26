@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
@@ -18,7 +18,8 @@ export class FormComponent implements OnInit {
               public departmentService: DepartmentService,
               public selectUnit: SelectUnitService,
               private fb: FormBuilder,
-              private _location: Location) { }
+              private _location: Location,
+              private route: ActivatedRoute) { }
 
   departments = [];
   number: FormGroup;
@@ -28,6 +29,9 @@ export class FormComponent implements OnInit {
   navigate: any;
 
   ngOnInit() {
+    if (this.route.snapshot.data) {
+
+    }
     this.departmentService.getDepartments(this.selectUnit.currentEmployerID)
       .then(response => this.departments = response.items);
     this.companies = this.selectUnit.getCompanies();
