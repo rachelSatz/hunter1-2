@@ -1,12 +1,5 @@
-import { Process } from './process.model';
 
 export class ProcessDetails {
-  // process: Process;
-  // productNumber: number;
-  // recordNumber: number;
-  // paymentNumber: number;
-  // paymentSum: number;
-  // dateToPay:string;
   id: number;
   name: string;
   status: string;
@@ -14,11 +7,10 @@ export class ProcessDetails {
   total: number;
   date: string;
   records_count: number;
-  records_total: number;
   groups_count: number;
   department_name: string;
   employer_name: string;
-  employer_business_number: string;
+  employer_identifier: string;
   percent: number;
   sent_status: string;
   count: number;

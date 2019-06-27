@@ -47,8 +47,8 @@ export class NewTaskFormComponent implements OnInit {
       }
 
     }
-
-    this.employerService.getOperator(this.data.employer['id'], 'employerId').then(response => {
+    // this.data.employer['id'], 'employerId'
+    this.employerService.getOperator().then(response => {
       this.operators = response;
     });
   }

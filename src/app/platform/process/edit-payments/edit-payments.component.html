@@ -64,7 +64,7 @@
       <span class="header-width bold f-14">שונות מעסיק</span>
       <span class="header-width bold f-14">שונות מעסיק</span>
       <span class="header-width bold f-14">סה"כ</span>
-      <span class="header-width bold f-14">  פיצול סה"כ</span>
+      <span class="header-width bold f-14">סה"כ פיצול</span>
 
     </div>
     <div class="d-flex">
@@ -84,12 +84,11 @@
         {{ mtb.percent_other_employer}}
       </span>
       <span class="header-width f-14">{{ mtb.amount }}</span>
-      <span class="header-width bold f-14"> {{ sum}}</span>
-
+      <span class="header-width f-14" [ngClass]="{'red': error_sum }" > {{ sum}}</span>
     </div>
   </div>
   <button class="btn blue-btn mt-3" (click)="addMtb(mtb)">צור פיצול נוסף</button>
-  <div  formArrayName="mtb">
+  <div  formArrayName="mtb" >
     <div *ngFor="let m of getMtbArrControls(); let index = index; let last = last" [formGroupName]="index">
       <h5 class="bold underline-color mt-3">פיצול {{  1 + index }}</h5>
       <mat-icon (click)="removeMtb(index)" *ngIf="index > 0 || !last" class="pointer remove-account-icon">highlight_off</mat-icon>
@@ -166,7 +165,8 @@
                        placeholder="סוג רשומה"></bd-select>
           </div>
           <mat-form-field class="col-2">
-            <input type="number" matInput placeholder="סכום רשומה" (change)="sumPercent(m, transfer)" formControlName="transfer_sum">
+            <input type="number" matInput placeholder="סכום רשומה" (change)="sumPercent(m, transfer, index, i)"
+                   formControlName="transfer_sum">
           </mat-form-field>
           <mat-form-field class="col-2">
             <input type="number" matInput placeholder="אחוז רשומה" formControlName="transfer_percent">

@@ -17,7 +17,7 @@
                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
           <mat-error>שדה חובה.</mat-error>
         </mat-form-field>
-        <button  [ngClass]="{'disabledInput': this.route.snapshot.data.contact }"
+        <button  [ngClass]="{'disabledInput': this.route.snapshot.data.contact && disabled }"
                  class="btn blue-btn" type="submit"  (click)="submit(form, 'show')" >הצג</button>
       </div>
     <div [ngClass]="{'disabledInput': (!contact.id && !disabled) ||  (contact.id && !disabled) }">
@@ -44,7 +44,7 @@
         </div>
         <div class="col-lg-4" [@fade]="contact.entity_type !== 'employer' ? 'active' : 'inactive'">
           <bd-select class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel"
-                     [(ngModel)]="contact.entity_id" placeholder="שם גורם" required
+                     [(ngModel)]="contact.entity_id" placeholder="שם גורם" required (onSelect)="onChangeCompany()"
                      [error]="entityIDSelect.errors && form.submitted" ></bd-select>
         </div>
         <div class="col-lg-4">
@@ -88,7 +88,9 @@
         </mat-form-field>
       </div>
       <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
-      <button class="btn blue-btn" type="submit" (click)="submit(form, 'save')">שמור</button>
+      <button class="btn blue-btn" type="submit"   (click)="submit(form, 'save')">שמור</button>
+      <!--<button class="btn blue-btn" type="submit" *ngIf="this.contact.id" (click)="submit(form, 'save')">עדכן</button> *ngIf="!this.contact.id && !changeCompany"-->
+      <!--<button class="btn blue-btn mr-3" type="submit" *ngIf="this.contact.id && changeCompany"  (click)="submit(form, 'save')">שמור כחדש</button>-->
     </div>
   </form>
 </div>

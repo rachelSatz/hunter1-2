@@ -112,23 +112,23 @@ export class EmployerService extends BaseHttpService {
       .toPromise()
       .then(response =>  response as boolean);
   }
-
-  getOperator(id: number, type?: string, permission = false): Promise<any> {
+  // id: number, type?: string, permission = false
+  getOperator(): Promise<any> {
     const request = this.getTokenHeader();
+    //
+    // request['params'] = { permission: permission};
+    //   ?'  + type + '=' + id
 
-    request['params'] = { permission: permission};
-
-
-    return this.http.get(this.endPoint + '/operators?'  + type + '=' + id, request)
+    return this.http.get(this.endPoint + '/operators', request)
       .toPromise()
       .then(response => response as any);
   }
-
-  getAllOperators(): Promise<any> {
-    return this.http.get(this.endPoint + '/all_operators', this.getTokenHeader())
-      .toPromise()
-      .then(response => response as any);
-  }
+  //
+  // getAllOperators(): Promise<any> {
+  //   return this.http.get(this.endPoint + '/all_operators', this.getTokenHeader())
+  //     .toPromise()
+  //     .then(response => response as any);
+  // }
 
   getProjects(): Promise<any> {
     return this.http.get(this.endPoint + '/projects', this.getTokenHeader()).toPromise()

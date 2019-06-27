@@ -19,12 +19,12 @@
                (change)="saveChanges = true" formControlName="name">
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <input matInput type="text" [(ngModel)]="employer.business_number" placeholder="מספר ח.פ"
-               (change)="saveChanges = true" formControlName="businessNumber">
+        <input matInput type="text" [(ngModel)]="employer.identifier" placeholder="מספר ח.פ"
+               (change)="saveChanges = true" formControlName="identifier">
       </mat-form-field>
       <mat-form-field class="mr-3">
-        <input matInput type="text" [(ngModel)]="employer.sender_identifier" placeholder="מספר מזהה שולח"
-               (change)="saveChanges = true" formControlName="senderIdentifier">
+        <input matInput type="text" [(ngModel)]="employer.received_identifier" placeholder="מספר מזהה שולח"
+               (change)="saveChanges = true" formControlName="receivedIdentifier">
       </mat-form-field>
       <mat-form-field class="mr-3">
         <input matInput type="text" [(ngModel)]="employer.deduction_number" placeholder="מספר תיק ניכויים"
@@ -33,15 +33,15 @@
       <mat-form-field class="mr-3">
 
         <mat-select matInput placeholder="סוג מזהה לשליחה"
-                    [(ngModel)]="employer.identifier_type" formControlName="identifierType" required>
+                    [(ngModel)]="employer.sender_identifier_type" formControlName="identifierType" required>
           <mat-option *ngFor="let identifier of identifierTypes"
                       [value]="identifier.id">{{identifier.name}}</mat-option>
         </mat-select>
         <mat-error>שדה חובה</mat-error>
       </mat-form-field>
       <mat-form-field  class="mr-3">
-        <input matInput placeholder="מספר מזהה לשליחה"  [(ngModel)]="employer.identifier"
-               formControlName="sendingNumber" maxlength="9" (change)="saveChanges = true">
+        <input matInput placeholder="מספר מזהה לשליחה"  [(ngModel)]="employer.sender_identifier"
+               formControlName="senderIdentifier" maxlength="9" (change)="saveChanges = true">
         <mat-error>שדה חובה</mat-error>
       </mat-form-field>
       <mat-form-field class="mr-3">

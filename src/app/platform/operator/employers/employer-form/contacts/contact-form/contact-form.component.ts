@@ -44,6 +44,8 @@ export class ContactFormComponent implements OnInit {
   disabled: boolean;
   is_update: boolean;
   type_old: string;
+  changeCompany: boolean;
+  contact_id: number;
 
   constructor( public route: ActivatedRoute,
                private selectUnit: SelectUnitService,
@@ -75,6 +77,7 @@ export class ContactFormComponent implements OnInit {
       this.contact = this.route.snapshot.data.contact;
       this.employerId =  this.contact.employer_id;
       this.type_old = this.contact.entity_type;
+      this.contact_id = this.contact.entity_id;
     }
   }
 
@@ -98,7 +101,8 @@ export class ContactFormComponent implements OnInit {
       if (this.selectUnit.currentEmployerID === 0) {
         this.notificationService.error( 'יש לבחור מעסיק');
       } else {
-        this.employerService.getOperator(this.selectUnit.currentEmployerID, 'employerId', true).then(
+        // this.selectUnit.currentEmployerID, 'employerId', true
+        this.employerService.getOperator().then(
           response => {
           this.entities = response;
         });
@@ -178,5 +182,10 @@ export class ContactFormComponent implements OnInit {
     //   this.router.navigate(['/platform', 'contacts']);
     //
     // }
+  }
+
+  onChangeCompany(): void {
+    if (this.contact_id !== this.contact.entity_id) {
+      this.changeCompany = true; }
   }
 }

@@ -41,7 +41,7 @@ export class EmployerFormComponent implements OnInit {
   private initForm(): void {
     this.employerForm = this.fb.group({
       'name': [null, Validators.required],
-      'business_number': [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
+      'Identifier': [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
       'institution_code_5': [null, Validators.pattern('^\\d{5}$')],
       'institution_code_8': [null, Validators.pattern('^\\d{8}$')],
       'phone': [null],

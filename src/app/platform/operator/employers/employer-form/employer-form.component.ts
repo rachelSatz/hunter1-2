@@ -91,7 +91,8 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     this.employerService.getProjects().then(response => {
       this.projects = response;
     });
-    this.employerService.getOperator( this.selectUnit.currentEmployerID, 'employerId').then(response => {
+    // this.selectUnit.currentEmployerID, 'employerId'
+    this.employerService.getOperator().then(response => {
       this.operators = response;
       this.setOperator();
     });
@@ -124,8 +125,8 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   initForm(): void {
     this.employerForm = this.fb.group({
       'name': [null , Validators.required],
-      'businessNumber': [null , [Validators.pattern('^\\d{9}$'), Validators.required]],
-      'senderIdentifier': [null , [Validators.pattern('^\\d{9}$'), Validators.required]],
+      'identifier': [null , [Validators.pattern('^[0-9]*$'), Validators.required]],
+      'receivedIdentifier': [null , [Validators.pattern('^[0-9]*$'), Validators.required]],
       'deductionNumber': [],
       'phone': [null,  [Validators.pattern('^\\d{6,12}$')]],
       'address': [],
@@ -133,7 +134,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
       'operator': [this.operator,  Validators.required],
       'status': [null,  Validators.required],
       'identifierType':    [null, Validators.required],
-      'sendingNumber':     [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
+      'senderIdentifier':     [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
       'paymentType': [null, Validators.required],
       'institutionCode5':  [null, [Validators.pattern('^\\d{5}$')]],
       'institutionCode8':  [null, [Validators.pattern('^\\d{8}$')]]
