@@ -73,6 +73,7 @@ export class NewEmployerComponent implements OnInit {
           'organization': [null],
           'name': [null, Validators.required],
           'businessNumber': [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
+          'senderIdentifier': [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
           'deductionNumber': [],
           // 'email': [null, [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
           'address': [],

@@ -23,12 +23,17 @@
                (change)="saveChanges = true" formControlName="businessNumber">
       </mat-form-field>
       <mat-form-field class="mr-3">
+        <input matInput type="text" [(ngModel)]="employer.sender_identifier" placeholder="מספר מזהה שולח"
+               (change)="saveChanges = true" formControlName="senderIdentifier">
+      </mat-form-field>
+      <mat-form-field class="mr-3">
         <input matInput type="text" [(ngModel)]="employer.deduction_number" placeholder="מספר תיק ניכויים"
                (change)="saveChanges = true" formControlName="deductionNumber">
       </mat-form-field>
       <mat-form-field class="mr-3">
+
         <mat-select matInput placeholder="סוג מזהה לשליחה"
-                    [(ngModel)]="employer.identifier_type" formControlName="identifierType">
+                    [(ngModel)]="employer.identifier_type" formControlName="identifierType" required>
           <mat-option *ngFor="let identifier of identifierTypes"
                       [value]="identifier.id">{{identifier.name}}</mat-option>
         </mat-select>
@@ -52,9 +57,10 @@
         </mat-form-field>
         <mat-form-field class="mr-3">
           <mat-select matInput placeholder="פרוייקט" [(ngModel)]="employer.project_id"
-                      (selectionChange)="saveChanges = true" formControlName="project">
+                      (selectionChange)="saveChanges = true" formControlName="project" required>
             <mat-option *ngFor="let proj of projects" [value]="proj.id">{{proj.name}}</mat-option>
           </mat-select>
+          <mat-error>שדה חובה</mat-error>
         </mat-form-field>
 
         <mat-form-field class="mr-3" *ngIf="operator">

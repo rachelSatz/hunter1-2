@@ -27,7 +27,7 @@
     <td>{{ item.from_date | date: 'dd/MM/yy' }}</td>
     <td>{{ item.to_date  | date: 'dd/MM/yy' }}</td>
     <td>{{ sendingMethods[item.sending_method]}}</td>
-    <td>{{ statuses[item.status] }}
+    <td  >{{ statuses[item.status] }}
       <img *ngIf="item.status == 'failed'" class="img-design"  [title]="item.error"
            src="/assets/img/icons/sync-alt-solid.svg"
            (click)="sendDepositReport(item.id)">
@@ -36,7 +36,7 @@
       <i *ngIf="item.comments.length === 0" class="fa fa-comment-o"></i>
       <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
     </td>
-    <td *ngIf="dataTable.hasActionsHeader">
+    <td *ngIf="dataTable.hasActionsHeader" class="d-flex">
       <img src="/assets/img/icons/forward_green.png" (click)="openInquiriesFormDialog(item)">
       <span class="grey-circle mr-3 ml-3" (click)="openInquiriesDialog(item)">{{ item.inquiries.length }}</span>
       <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">

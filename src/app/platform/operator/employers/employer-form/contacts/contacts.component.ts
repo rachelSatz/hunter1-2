@@ -7,8 +7,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { EntityTypes } from 'app/shared/_models/contact.model';
 import { Subscription } from 'rxjs';
-import {EmployerService} from '../../../../../shared/_services/http/employer.service';
-import {OrganizationService} from '../../../../../shared/_services/http/organization.service';
+
 
 @Component({
   selector: 'app-contacts',
@@ -35,6 +34,7 @@ export class ContactsComponent implements OnInit , OnDestroy {
     { name: 'organization_name', label: 'ארגון', searchable: false},
     { name: 'employer_name', label: 'מעסיק', searchable: false},
     { name: 'type', label: 'סוג גורם' , searchable: false},
+    { name: 'type', label: 'שם גורם' , searchable: false},
     { name: 'name', label: 'שם מלא' },
     { name: 'phone', label: 'טלפון' , searchable: false},
     { name: 'mobile', label: 'טלפון נייד' , searchable: false},

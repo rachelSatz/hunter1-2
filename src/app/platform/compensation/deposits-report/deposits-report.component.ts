@@ -181,10 +181,9 @@ export class DepositsReportComponent implements OnInit {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items.map(item => item['id']) :
-      this.dataTable.criteria.checkedItems.map(item => item['id']);
+    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
 
-      this.depositsReportService.manualChangingStatus(items).then(response => {
+      this.depositsReportService.manualChangingStatus(items, this.dataTable.criteria).then(response => {
         if (response['message'] === true) {
           if (this.dataTable.criteria.isCheckAll) {
             this.dataTable.items = [];

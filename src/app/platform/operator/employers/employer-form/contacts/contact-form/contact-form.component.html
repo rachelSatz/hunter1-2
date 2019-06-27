@@ -45,7 +45,7 @@
         <div class="col-lg-4" [@fade]="contact.entity_type !== 'employer' ? 'active' : 'inactive'">
           <bd-select class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel"
                      [(ngModel)]="contact.entity_id" placeholder="שם גורם" required
-                     [error]="entityIDSelect.errors && form.submitted"></bd-select>
+                     [error]="entityIDSelect.errors && form.submitted" ></bd-select>
         </div>
         <div class="col-lg-4">
           <bd-select class="w-100" [items]="types" name="type" #typeSelect="ngModel"

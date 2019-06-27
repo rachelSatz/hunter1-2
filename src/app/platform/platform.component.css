@@ -9,13 +9,20 @@ header {
   border-radius: 8px 8px 0 0;
 }
 
+
 .navbar {
-  padding: 15px 0 0 0;
+  /*padding: 15px 0 0 0;*/
+  padding: 0 0 0 0;
+  align-items:unset !important;
+}
+
+.mb-half {
+  margin-bottom: 0.5rem !important;
 }
 
 .nav-item {
   width: 120px;
-  margin-bottom: -6px;
+  margin-bottom: -2px;
   text-align: center;
   border-bottom: 2px solid transparent;
 }
