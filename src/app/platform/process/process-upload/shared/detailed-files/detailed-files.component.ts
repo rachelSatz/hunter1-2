@@ -216,17 +216,20 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   openWarningMessageComponentDialog(type: boolean): void {
-      const title = type ? 'לא רלונטי' : 'מחיקת שורות';
-      const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלונטית?' : 'האם ברצונך למחוק שורת אלו?';
-      const typeData = type ? 'notRelevant' : 'delete';
-      if (this.checkedRowItems()) {
+      // const title = type ? 'לא רלונטי' : 'רלונטי';
+    // 'מחיקת שורות'
+      const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלוונטית?' : 'האם ברצונך להפוך שורת אלו לרלוונטית?';
+      // const typeData = type ? 'notRelevant' : 'delete';
+    const val = type ? false : true;
+
+    if (this.checkedRowItems()) {
         if (this.isLockedBroadcast()) {
           const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
           const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
 
-          this.notificationService.warning(title, body, buttons).then(confirmation => {
+          this.notificationService.warning(body, '', buttons).then(confirmation => {
             if (confirmation.value) {
-              this.processService.update(typeData, '', items.map(item => item['file_id']) )
+              this.processService.update('notRelevant', val, items.map(item => item['file_id']) )
                 .then(response => {
                   if (response) {
                     this.endAction();
