@@ -72,8 +72,12 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   productType = ProductType;
   records_id = 0;
   highlightRecordId: number;
+  organizationId: number;
+  incorrectPage = false;
 
   ngOnInit() {
+    this.organizationId = this.selectUnitService.currentOrganizationID;
+
     if (this.processDataService.activeProcess === undefined) {
       this.processDataService = this.selectUnitService.getProcessData();
     }
@@ -93,6 +97,9 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   }
 
   fetchItems() {
+    if (this.organizationId !== this.selectUnitService.currentOrganizationID) {
+      this.router.navigate(['/platform', 'process', 'table']);
+    }
     if (this.items.length <= 0) {
       this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID;
       if (this.records_id !== 0) {
@@ -100,13 +107,14 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
       }
       if (this.processDataService.activeProcess.incorrect) {
         this.dataTable.criteria.filters['incorrect'] = this.processDataService.activeProcess.incorrect;
+        this.incorrectPage = this.processDataService.activeProcess.incorrect;
       }
       if (this.processDataService.activeProcess.highlightRecordId !== undefined) {
         this.dataTable.criteria.filters['highlightRecordId'] = this.processDataService.activeProcess.highlightRecordId;
       }
       this.monthlyTransferBlockService.getMonthlyList(this.dataTable.criteria)
         .then(response => {
-          if (response.items.length > 0) {
+          if (response.items.length > 0 || !this.incorrectPage) {
             this.dataTable.setItems(response);
           } else {
             if (this.processDataService.activeProcess.pageNumber === 4 || this.processDataService.activeProcess.pageNumber === 5) {
@@ -125,18 +133,26 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   openGroupTransferDialog(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-          const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems
-          const ids = items.map(item => item['id']);
+          const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
           const dialog = this.dialog.open(GroupTransferComponent, {
             data: { 'ids': ids,
-              'processId': this.processDataService.activeProcess.processID, 'type': 'mtb'
+                    'processId': this.processDataService.activeProcess.processID,
+                    'type': 'mtb',
+                    'dataTable': this.dataTable.criteria
             },
             width: '800px',
             panelClass: 'dialog-file'
           });
           this.sub.add(dialog.afterClosed().subscribe(() => {
+            if (this.dataTable.criteria.isCheckAll) {
+              this.dataTable.criteria.isCheckAll = false;
+            } else {
+              this.dataTable.criteria.checkedItems = [];
+            }
             this.fetchItems();
           }));
+
+
       }else {
         this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
       }
@@ -158,14 +174,16 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
         const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
-        const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+        const items = this.dataTable.criteria.checkedItems;
 
         this.notificationService.warning(title, body, buttons).then(confirmation => {
           if (confirmation.value) {
-            this.monthlyTransferBlockService.update(typeData, '', items.map(item => item['id']))
+            this.monthlyTransferBlockService.update(typeData, '', items.map(item => item['id']), this.dataTable.criteria)
               .then(response => {
-                if (response) {
+                if (response['message'] === 'true') {
+                  this.notificationService.success('העידכון בוצע בהצלחה');
                   this.fetchItems();
+                  this.dataTable.criteria.checkedItems = [];
                 } else {
                   this.notificationService.error('', 'הפעולה נכשלה');
                 }
@@ -212,8 +230,20 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   markValid(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-        const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
-        this.monthlyTransferBlockService.markValid(items.map(item => item['id'])).then(r => r);
+        const items = this.dataTable.criteria.checkedItems;
+        this.monthlyTransferBlockService.markValid(items.map(item => item['id']), this.dataTable.criteria).
+        then(response => {
+          if (response['message'] === 'success') {
+            this.notificationService.success('העידכון בוצע בהצלחה');
+            if (this.dataTable.criteria.isCheckAll) {
+              this.dataTable.criteria.isCheckAll = false;
+            } else {
+              this.dataTable.criteria.checkedItems = [];
+            }
+          } else {
+            this.notificationService.error('אירעה שגיאה');
+          }
+        });
       } else {
         this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
       }

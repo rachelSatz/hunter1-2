@@ -181,14 +181,20 @@ export class DepositsReportComponent implements OnInit {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items.map(item => item['id']) :
-      this.dataTable.criteria.checkedItems.map(item => item['id']);
+    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
 
-      this.depositsReportService.manualChangingStatus(items).then(response => {
-        if (response) {
-          this.dataTable.criteria.checkedItems = [];
-          this.dataTable.criteria.isCheckAll = false;
+      this.depositsReportService.manualChangingStatus(items, this.dataTable.criteria).then(response => {
+        if (response['message'] === true) {
+          if (this.dataTable.criteria.isCheckAll) {
+            // this.dataTable.items = [];
+            this.dataTable.criteria.isCheckAll = false;
+          } else {
+            this.dataTable.criteria.checkedItems = [];
+          }
           this.fetchItems();
+          this.notificationService.success('הרשומות עודכנו בהצלחה');
+        } else {
+          this.notificationService.error('אירעה שגיאה');
         }
       });
 

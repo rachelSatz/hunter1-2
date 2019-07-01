@@ -1,5 +1,5 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Component, Inject, OnInit } from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { fade } from 'app/shared/_animations/animation';
@@ -55,22 +55,37 @@ export class  GroupTransferComponent implements OnInit {
     if (form.valid) {
 
       this.mtbService.createMTBGroup(
-        this.data.ids, form.value.product , form.value.bank_account, form.value.group_name, 0, this.data.type ).then(
-          response => { if (response.groupList) {
+        this.data.ids,
+        form.value.product,
+        form.value.bank_account,
+        form.value.group_name,
+        0,
+        this.data.type,
+        this.data.dataTable).then(
+          response => {
+            if (response.groupList) {
             const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
             this.notificationService.warning(
               '', 'קבוצה זו קימת האם ברצונך לפתוח קבוצה חדשה?', buttons).then(confirmation => {
                 console.log (confirmation.value);
-                this.mtbService.createMTBGroup(this.data.ids,
-                form.value.product , form.value.bank_account, form.value.group_name,
-                  confirmation.value ? 1 : -1 , this.data.type)
+                this.mtbService.createMTBGroup(
+                  this.data.ids,
+                  form.value.product,
+                  form.value.bank_account,
+                  form.value.group_name,
+                  confirmation.value ? 1 : -1,
+                  this.data.type,
+                  this.data.dataTable)
                   .then(r => this.dialogRef.close());
             });
 
+          } else if (response['message'] === 'updated finish') {
+              this.notificationService.success('העידכון בוצע הצלחה');
+              this.dialogRef.close();
           } else {
-            this.dialogRef.close();
-          }
+              this.notificationService.error('אירעה שגיאה');
+            }
       });
     }
   }

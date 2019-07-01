@@ -8,6 +8,7 @@ export class TaskModel {
   description: string;
   status: string;
   due_date: string;
+  due_time: string;
   employer_name: string;
   employer_id: number;
   reporter_name: string;
