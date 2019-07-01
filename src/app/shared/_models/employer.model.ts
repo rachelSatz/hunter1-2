@@ -6,17 +6,12 @@ export class Employer {
   id: number;
   name: string;
   payment_type: string;
-  business_number: string;
+  identifier: string;
   institution_code_5: string; // instituteCode5: string; // קוד מוסד - 5
   institution_code_8: string; // instituteCode8: string; // קוד מוסד - 8
-  deductionNumber: string; // מספר תיק ניכויים
   email: string; // דוא"ל אישי
   phone: string;
-  secondaryPhone: string;
   mobile: string;
-  fax: string;
-  emailReceiving: string; // מייל לקבלת מידע
-  emailSending: string; // מייל לשליחת מידע
   address: string;
   employeeCount: number;
   bankBranch: BankBranch;
@@ -29,11 +24,13 @@ export class Employer {
   status: string;
   department: Department[];
   operator;
-  identifier_type: string;
+  sender_identifier: string;
+  sender_identifier_type: string;
   deduction_number: number;
   project_id: number;
   project_name: string;
-  sender_identifier: string;
+  received_identifier: string;
+
 
   constructor() {
     this.bank_accounts.push(new EmployerBankAccount());

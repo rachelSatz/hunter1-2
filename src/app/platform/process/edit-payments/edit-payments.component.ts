@@ -30,7 +30,7 @@ export class EditPaymentsComponent implements OnInit {
   products = [];
   companies: Company[] = [];
   editPaymentForm: FormGroup;
-  // transferPercent: number;
+  error_sum = false;
   sum= 0;
 
   lstTypes = Object.keys(Types).map(function(e) {
@@ -94,6 +94,7 @@ export class EditPaymentsComponent implements OnInit {
     this.arryMtb[0].transfer_clause.forEach(transfer => {
       this.sum  += transfer.transfer_sum;
       this.addTransfer(m, transfer);
+
     });
   }
 
@@ -149,6 +150,7 @@ export class EditPaymentsComponent implements OnInit {
     };
     const transferGroup =  (<FormArray>m.get('transfer_clause'));
     transferGroup.push(this.fb.group(transferControl));
+
   }
 
   remove(m: any, index: number): void {
@@ -161,24 +163,34 @@ export class EditPaymentsComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
-    if (form.valid) {
-      this.mtbService.setEditPayments(this.mtb.id, form.value).then(r => {
-        if (r['result'] === 'no') {
-          this.notificationService.error('הפיצול נכשל', '');
-        } else {
-          this.previous();
-        }
-      });
+    if (this.sum !== this.mtb.amount) {
+       this.notificationService.warning('' , ' סה"כ לא שווה לסהכ פיצול ');
+    } else {
+      if (form.valid) {
+        this.mtbService.setEditPayments(this.mtb.id, form.value).then(r => {
+          if (r['result'] === 'no') {
+            this.notificationService.error('הפיצול נכשל', '');
+          } else {
+            this.previous();
+          }
+        });
+      }
     }
   }
 
 
-  sumPercent(m: any, transfer: FormGroup): void {
+  sumPercent(m: any, transfer: FormGroup, index, i): void {
     const salary = m.value.salary;
-    // this.sum += (transfer.value.transfer_sum - value);
-    transfer.patchValue({'transfer_percent':  (transfer.value.transfer_sum / salary * 100).toFixed(2)});
-    // transfer.patchValue({'transfer_sum':  value});
+    this.sum = parseFloat((this.sum -
+      this.arryMtb[index].transfer_clause[i].transfer_sum + transfer.value.transfer_sum).toFixed(2));
+    this.arryMtb[index].transfer_clause[i].transfer_sum = transfer.value.transfer_sum;
+    if (this.sum !== this.mtb.amount) {
+      this.error_sum = true;
+    } else {
+      this.error_sum = false;
 
+    }
+    transfer.patchValue({'transfer_percent':  (transfer.value.transfer_sum / salary * 100).toFixed(2)});
   }
 
   previous() {

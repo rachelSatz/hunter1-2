@@ -34,7 +34,7 @@ export class ContactsComponent implements OnInit , OnDestroy {
     { name: 'organization_name', label: 'ארגון', searchable: false},
     { name: 'employer_name', label: 'מעסיק', searchable: false},
     { name: 'type', label: 'סוג גורם' , searchable: false},
-    { name: 'type', label: 'שם גורם' , searchable: false},
+    { name: 'name_type', label: 'שם גורם' , searchable: false},
     { name: 'name', label: 'שם מלא' },
     { name: 'phone', label: 'טלפון' , searchable: false},
     { name: 'mobile', label: 'טלפון נייד' , searchable: false},

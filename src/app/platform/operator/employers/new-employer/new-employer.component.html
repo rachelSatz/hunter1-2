@@ -19,7 +19,6 @@
         <div class="bd-width181" [ngClass]="{'disabledInput' : isEdit}">
           <bd-select [items]="organizations" formControlName="organization"
                      [required]="!isEdit" placeholder="ארגון" label="value"
-                     (onSelect)="getOperator($event)"
                       class="bd-min-width" [error]="organizationId==0 && form.submitted && !isEdit"  ></bd-select>
         </div>
         <mat-form-field  class="mr-5">
@@ -29,11 +28,11 @@
       </div>
       <div>
         <mat-form-field>
-          <input matInput placeholder="מספר ח.פ" formControlName="businessNumber" maxlength="9" required>
+          <input matInput placeholder="מספר ח.פ" formControlName="identifier" maxlength="9" required>
           <mat-error>ח.פ אינו תקין</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-5">
-          <input matInput type="text" placeholder="מספר מזהה שולח" formControlName="senderIdentifier" maxlength="9" required >
+          <input matInput type="text" placeholder="מספר מזהה שולח" formControlName="receivedIdentifier" maxlength="9" required >
           <mat-error>ח.פ אינו תקין</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-5">
@@ -97,7 +96,7 @@
                      class="bd-min-width" [error]="form.submitted && newEmployerForm.controls['employerDetails'].value.identifierType === null"  ></bd-select>
         </div>
         <mat-form-field  class="mr-5">
-          <input matInput placeholder="מספר מזהה לשליחה" formControlName="sendingNumber" maxlength="9" required>
+          <input matInput placeholder="מספר מזהה לשליחה" formControlName="senderIdentifier" maxlength="9" required>
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
       </div>

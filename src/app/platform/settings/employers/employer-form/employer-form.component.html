@@ -7,9 +7,9 @@
         <mat-error *ngIf="hasErrors('name')">שדה חובה.</mat-error>
       </mat-form-field>
       <mat-form-field class="w-100">
-        <input matInput type="text" placeholder="ח.פ" formControlName="business_number">
-        <mat-error *ngIf="hasErrors('business_number', { specificError: 'required' })">שדה חובה.</mat-error>
-        <mat-error *ngIf="hasErrors('business_number', { specificError: 'pattern', touched: true })">ח.פ אינו תקין.</mat-error>
+        <input matInput type="text" placeholder="ח.פ" formControlName="Identifier">
+        <mat-error *ngIf="hasErrors('Identifier', { specificError: 'required' })">שדה חובה.</mat-error>
+        <mat-error *ngIf="hasErrors('Identifier', { specificError: 'pattern', touched: true })">ח.פ אינו תקין.</mat-error>
       </mat-form-field>
       <mat-form-field class="w-100">
         <input matInput type="text" placeholder="קוד מוסד - 5" formControlName="institution_code_5">

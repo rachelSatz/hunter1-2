@@ -63,6 +63,7 @@ export class NewEmployerComponent implements OnInit {
       });
     });
     this.employerService.getProjects().then(response => this.projects = response);
+    this.getOperator();
   }
 
   initForm(): void {
@@ -72,8 +73,8 @@ export class NewEmployerComponent implements OnInit {
           'newOrganization': [null],
           'organization': [null],
           'name': [null, Validators.required],
-          'businessNumber': [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
-          'senderIdentifier': [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
+          'identifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
+          'receivedIdentifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'deductionNumber': [],
           // 'email': [null, [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
           'address': [],
@@ -82,7 +83,7 @@ export class NewEmployerComponent implements OnInit {
           'operator': [null, Validators.required],
           'status': [null, Validators.required],
           'identifierType': [null, Validators.required],
-          'sendingNumber': [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
+          'senderIdentifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'paymentType': [null, Validators.required],
           'institutionCode5': [null, [Validators.pattern('^\\d{5}$')]],
           'institutionCode8': [null, [Validators.pattern('^\\d{8}$')]],
@@ -135,18 +136,20 @@ export class NewEmployerComponent implements OnInit {
     }
   }
 
-  getOperator( organizationId): void {
-    this.organizationId = organizationId;
-    console.log(this.organizationId );
-    this.employerService.getOperator(organizationId, 'organizationId').then(response => {
+  getOperator(): void {
+    // this.organizationId = organizationId;
+    // console.log(this.organizationId );
+    // organizationId, 'organizationId'
+    this.employerService.getOperator().then(response => {
       this.operators = response;
     });
   }
-  getAllOperator() {
-    this.employerService.getAllOperators().then(response => {
-      this.operators = response;
-    });
-  }
+
+  // getAllOperator() {
+  //   this.employerService.getAllOperators().then(response => {
+  //     this.operators = response;
+  //   });
+  // }
 
   enableOrganization(form: NgForm , isEdit: Boolean): void {
     this.isEdit = !isEdit;
@@ -155,7 +158,7 @@ export class NewEmployerComponent implements OnInit {
     } else {
         this.newEmployerForm.controls['employerDetails'].patchValue({'organization': null});
         this.organizationId = 0;
-        this.getAllOperator();
+        // this.getAllOperator();
     }
   }
 
