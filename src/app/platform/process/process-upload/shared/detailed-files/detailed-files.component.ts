@@ -115,9 +115,10 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   openDialogAttachReference(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-        const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+        const items = this.dataTable.criteria.checkedItems;
         const dialog = this.dialog.open(AttachReferenceComponent, {
-        data: {'file_id': items.map(item => item['file_id'])},
+        data: {'file_id': items.map(item => item['file_id']),
+               'dataTable': this.dataTable.criteria},
         width: '550px',
         panelClass: 'send-email-dialog'
       });
@@ -134,11 +135,12 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   openGroupTransferDialog(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-        const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+        const items = this.dataTable.criteria.checkedItems;
         const ids = items.map(item => item['file_id']);
           const dialog = this.dialog.open(GroupTransferComponent, {
             data: { 'ids': ids,
-              'processId': this.processDataService.activeProcess.processID, 'type': 'groupthing'
+              'processId': this.processDataService.activeProcess.processID, 'type': 'groupthing',
+              'dataTable': this.dataTable.criteria
             },
             width: '800px',
             panelClass: 'dialog-file'
@@ -190,10 +192,13 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
      if (file_id !== -1 || this.checkedRowItems()) {
        if (this.isLockedBroadcast()) {
          const date = val;
-         const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+         const items = this.dataTable.criteria.checkedItems;
 
          const dialog = this.dialog.open(UpdatePaymentDateComponent, {
-           data: {'date': date, 'file_id': file_id === -1 ? items.map(item => item['file_id']) : [file_id]},
+           data: {'date': date,
+                  'file_id': file_id === -1 ? items.map(item => item['file_id']) : [file_id],
+                  'dataTable': this.dataTable.criteria
+           },
            width: '550px',
            panelClass: 'dialog-file'
          });
@@ -230,11 +235,11 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
       if (this.checkedRowItems()) {
         if (this.isLockedBroadcast()) {
           const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
-          const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+          const items = this.dataTable.criteria.checkedItems;
 
           this.notificationService.warning(title, body, buttons).then(confirmation => {
             if (confirmation.value) {
-              this.processService.update(typeData, '', items.map(item => item['file_id']) )
+              this.processService.update(typeData, '', items.map(item => item['file_id']), this.dataTable.criteria )
                 .then(response => {
                   if (response) {
                     this.endAction();
@@ -252,11 +257,11 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
 
   openSent(): void {
     if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
-      const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+      const items = this.dataTable.criteria.checkedItems;
       const filesList = { 'filesList' : items.map(item => item['file_id'])};
 
       if (this.isUnLockedBroadcast()) {
-        this.processService.unlockProcessFiles(filesList).then( r => {
+        this.processService.unlockProcessFiles(filesList, this.dataTable.criteria).then( r => {
             if (r['authorized'] === false && r['success'] === 'Message_Sent') {
                 this.notificationService.success('', 'ממתין לאישור מנהל');
             } else  if (r['authorized'] === true && r['success'] === true) {
@@ -323,7 +328,9 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
 
   getTitle(employer_products: EmployerProduct[]): string[] {
     const title = [];
-    if (employer_products.length > 1) {
+    if (employer_products.length === 0) {
+      title[0] = '';
+    } else if (employer_products.length > 1) {
       title[0] = employer_products[0].code + ' - ' + employer_products[0].name;
       title[1] = employer_products[1].code + ' - ' + employer_products[1].name;
     } else {

@@ -45,10 +45,8 @@ export class DepositsReportService extends BaseHttpService {
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
     }
-    return this.http.post(this.endPoint + '/updateSentStatus',
-      { deposits_report_ids: deposits_report_ids}
-      , request)
-      .toPromise()
+
+    return this.http.post(this.endPoint + '/updateSentStatus', { deposits_report_ids: deposits_report_ids}, request).toPromise()
       .then(response => response)
       .catch(() => null);
   }

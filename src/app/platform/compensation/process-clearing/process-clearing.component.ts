@@ -133,11 +133,10 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items.map(item => item['id']) :
-      this.dataTable.criteria.checkedItems.map(item => item['id']);
+    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
 
     this.helpers.setPageSpinner(true);
-    this.compensationService.sendCompensations(items).then(response => {
+    this.compensationService.sendCompensations(items, this.dataTable.criteria).then(response => {
       this.helpers.setPageSpinner(false);
       if (response) {
         if (response['list_exceptions'].length > 0) {
@@ -160,8 +159,7 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items.map(item => item['id']) :
-      this.dataTable.criteria.checkedItems.map(item => item['id']);
+    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
 
     this.compensationService.manualChangingStatus(items, this.dataTable.criteria).then(response => {
       this.dataTable.criteria.checkedItems = [];

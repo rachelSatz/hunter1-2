@@ -186,7 +186,7 @@ export class DepositsReportComponent implements OnInit {
       this.depositsReportService.manualChangingStatus(items, this.dataTable.criteria).then(response => {
         if (response['message'] === true) {
           if (this.dataTable.criteria.isCheckAll) {
-            this.dataTable.items = [];
+            // this.dataTable.items = [];
             this.dataTable.criteria.isCheckAll = false;
           } else {
             this.dataTable.criteria.checkedItems = [];

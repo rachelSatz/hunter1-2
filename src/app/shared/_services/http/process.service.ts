@@ -85,8 +85,13 @@ export class ProcessService extends BaseHttpService {
       .catch(response => response);
   }
 
-  update(type: string , val: any, file_id: any): Promise<boolean> {
-    return this.http.post(this.endPoint + '/update', { params: val , type: type, file_id : file_id}, this.getTokenHeader())
+  update(type: string , val: any, file_id: any, criteria: DataTableCriteria ): Promise<boolean> {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+    return this.http.post(this.endPoint + '/update', { params: val , type: type, file_id : file_id}, request)
       .toPromise()
       .then(response => response)
       .catch(response => response);
@@ -158,8 +163,14 @@ export class ProcessService extends BaseHttpService {
       .catch(() => null);
   }
 
-  unlockProcessFiles(process: any): Promise<Object> {
-      return this.http.post(this.endPoint + '/unlockProcessFiles', process, this.getTokenHeader())
+  unlockProcessFiles(process: any,  criteria: DataTableCriteria): Promise<Object> {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+
+    return this.http.post(this.endPoint + '/unlockProcessFiles', process, request)
         .toPromise()
         .then(response => response as Object)
         .catch(() => []);

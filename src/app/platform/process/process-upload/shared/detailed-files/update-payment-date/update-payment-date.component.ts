@@ -27,7 +27,7 @@ export class UpdatePaymentDateComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
       const dateFormat = this.datePipe.transform(this.date, 'yyyy-MM-dd');
-      this.processService.update('date', dateFormat,  this.data.file_id).then( response => {
+      this.processService.update('date', dateFormat,  this.data.file_id, this.data.dataTable).then( response => {
           this.dialogRef.close();
         if (response) {
           this.notificationService.success('העידכון בוצע בהצלחה');

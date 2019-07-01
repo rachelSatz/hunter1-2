@@ -8,8 +8,8 @@
             <button mat-menu-item *ngIf="this.processDataService.activeProcess.incorrect && permissionsType" (click)="markValid()">סמן כתקין</button>
             <button mat-menu-item *ngIf="!this.processDataService.activeProcess.incorrect" (click)="openWarningMessageComponentDialog(true)">הפוך ללא רלוונטי</button>
             <button mat-menu-item *ngIf="!this.processDataService.activeProcess.incorrect" (click)="openGroupTransferDialog()">העבר קבוצה</button>
-            <button mat-menu-item *ngIf="!this.processDataService.activeProcess.incorrect && userSession.getPermissionsType('operations', true)"
-                    (click)="openWarningMessageComponentDialog(false)">מחק רשומה</button>
+            <!--<button mat-menu-item *ngIf="!this.processDataService.activeProcess.incorrect && userSession.getPermissionsType('operations', true)"-->
+                    <!--(click)="openWarningMessageComponentDialog(false)">מחק רשומה</button>-->
           </mat-menu>
         </div>
       </div>
