@@ -1,3 +1,5 @@
+import {ContactType} from './contactType.model';
+
 export class Contact {
   id: number;
   entity_type: any;
@@ -15,7 +17,7 @@ export class Contact {
   organization_id: number;
   comment: string;
   employer_contact_id: number;
-  name_entity: string;
+  types_details: ContactType[] = [];
 }
 
 export enum EntityTypes {

@@ -1,8 +1,8 @@
-<div class="mt-lg-5" [ngClass]="{'operator-table': pathEmployers }">
-  <app-data-table (fetchItems)="fetchItems()"  [columns]="columns" [hasActionsSearch]="false"
+<div class="mt-lg-5" [ngClass]="{'operator-container': pathEmployers }">
+  <app-data-table  tableName="אנשי קשר" (fetchItems)="fetchItems()"  [columns]="columns" [hasActionsSearch]="false"
                   [hasExtendedSearch]="true" [hasCheckColumn]="false" [hasActionsHeader]="role">
     <div class="table-header" >
-      <div class="row mt-4 mr-1" [ngClass]="{'operator-container': !pathEmployers }">
+      <div class="row mt-4 mr-1">
         <div class="ml-3 d-flex mr-auto mb-3">
           <button class="btn blue-btn" [routerLink]="['./', 'form']"
                   *ngIf="role">הוספת איש קשר</button>
@@ -13,7 +13,7 @@
       <td>{{ item.organization_name }}</td>
       <td>{{ item.employer_name }}</td>
       <td>{{ entity_types[item.entity_type] }}</td>
-      <td>{{ item.name_entity }}</td>
+      <td>{{ item.entity_name }}</td>
       <td>{{ item.first_name + ' ' + item.last_name}}</td>
       <td>{{ item.phone }}</td>
       <td>{{ item.mobile }}</td>

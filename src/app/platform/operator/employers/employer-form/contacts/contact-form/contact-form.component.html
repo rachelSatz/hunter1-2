@@ -44,15 +44,16 @@
         </div>
         <div class="col-lg-4" [@fade]="contact.entity_type !== 'employer' ? 'active' : 'inactive'">
           <bd-select class="w-100" [items]="entities" name="entity_id" #entityIDSelect="ngModel"
-                     [(ngModel)]="contact.entity_id" placeholder="שם גורם" required (onSelect)="onChangeCompany()"
+                     [(ngModel)]="contact.entity_ids" placeholder="שם גורם" required (onSelect)="onChangeCompany()"
+                     [multiple]="true"
                      [error]="entityIDSelect.errors && form.submitted" ></bd-select>
         </div>
-        <div class="col-lg-4">
-          <bd-select class="w-100" [items]="types" name="type" #typeSelect="ngModel"
-                     [(ngModel)]="contact.type"
-                     placeholder="סוג איש קשר"
-                     [multiple]="true" required [error]="typeSelect.errors && form.submitted"></bd-select>
-        </div>
+        <!--<div class="col-lg-4">-->
+          <!--<bd-select class="w-100" [items]="types" name="type" #typeSelect="ngModel"-->
+                     <!--[(ngModel)]="contact.type"-->
+                     <!--placeholder="סוג איש קשר"-->
+                     <!--[multiple]="true" required [error]="typeSelect.errors && form.submitted"></bd-select>-->
+        <!--</div>-->
       </div>
       <div class="row mt-3">
         <div class="col-lg-4 mt-lg-2"  [@fade]="contact.entity_type === 'company' ? 'active' : 'inactive'">
@@ -86,7 +87,33 @@
         <mat-form-field class="col-12">
           <input matInput placeholder="הערות" type="email" name="comment" [(ngModel)]="contact.comment">
         </mat-form-field>
+        <table class="table">
+          <thead>
+          <th>
+            סוג
+          </th>
+          <th>
+            ברירת מחדל
+          </th>
+          <th>
+            סוג איש קשר
+          </th>
+          </thead>
+          <tbody>
+          <tr *ngFor="let t of contact.types_details; let index = index" class="pointer">
+            <td>
+              <mat-checkbox [name]="'exist' + index" [(ngModel)]="t.exist" (change)="t.is_default =
+              !t.exist ? false: t.is_default"></mat-checkbox>
+            </td>
+            <td>
+              <mat-checkbox [name]="'is_default' + index" [(ngModel)]="t.is_default"   [disabled]="!t.exist"></mat-checkbox>
+            </td>
+            <td>{{ types[t.type] }}</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
+
       <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
       <button class="btn blue-btn" type="submit"   (click)="submit(form, 'save')">שמור</button>
       <!--<button class="btn blue-btn" type="submit" *ngIf="this.contact.id" (click)="submit(form, 'save')">עדכן</button> *ngIf="!this.contact.id && !changeCompany"-->

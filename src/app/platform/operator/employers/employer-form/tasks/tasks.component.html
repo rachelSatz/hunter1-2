@@ -1,4 +1,4 @@
-<div [ngClass]="{'operator-table': !pathEmployers }" class="mt-lg-5">
+<div [ngClass]="{'operator-container': !pathEmployers }" class="mt-lg-5">
     <app-data-table tableName="משימות" [columns]="columns" (fetchItems)="fetchItems()"
                     [hasCheckColumn]="false" [hasExtendedSearch]="false" [hasActionsSearch]="false">
       <div class="table-header">

@@ -7,11 +7,12 @@ import { NewTaskFormComponent } from './new-task-form/new-task-form.component';
 import { TaskService } from 'app/shared/_services/http/task.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { TaskModel } from 'app/shared/_models/task.model';
-import {UserSessionService} from '../../../../../shared/_services/user-session.service';
+import {UserSessionService} from 'app/shared/_services/user-session.service';
 
 @Component({
   selector: 'app-tasks',
-  templateUrl: './tasks.component.html'
+  templateUrl: './tasks.component.html',
+  styles: ['.operator-container {margin-right: 60px}']
 })
 export class TasksComponent implements OnInit , OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
