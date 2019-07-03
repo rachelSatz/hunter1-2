@@ -36,9 +36,9 @@ export class ContactFormComponent implements OnInit {
   productTypes = Object.keys(ProductType).map(function(e) {
     return { id: e, name: ProductType[e] };
   });
-  types = Object.keys(Type).map(function(e) {
-    return { id: e, name: Type[e] };
-  });
+
+  types = Type;
+
   employerId = 0;
   organizations = [];
   disabled: boolean;
@@ -117,7 +117,8 @@ export class ContactFormComponent implements OnInit {
 
   showContact(email): void {
     if (email.valid) {
-      this.contactService.getContactByEmail( email.value, this.contact.id ? this.contact.id : 0).then(
+
+      this.contactService.getContactByEmail( email.value, this.contact.id ? this.contact.id : 0 , this.selectUnit.currentEmployerID).then(
         response => {
           this.disabled = true;
           if (response) {
@@ -135,7 +136,9 @@ export class ContactFormComponent implements OnInit {
   }
 
   submit(form: NgForm, type: string): void {
-    if (type === 'show') { return this.showContact( form.controls.email); }
+    if (type === 'show') {
+      if (this.selectUnit.currentEmployerID === 0) {
+        this.notificationService.error( 'יש לבחור מעסיק'); }else { return this.showContact( form.controls.email); }}
     this.hasServerError = false;
     if ( this.location !== 'operator') {
       this.employerId = this.selectUnit.currentEmployerID;

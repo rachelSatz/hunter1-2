@@ -24,6 +24,7 @@
       <bd-select [items]="products" name="product" #productSelect="ngModel"
                  [(ngModel)]="this.employerProductBankAccount.product_id"
                  (onSelect)="selectedBankAccounts()"
+                 label="full_name"
                  placeholder="קופה"
                  required [error]="productSelect.errors && form.submitted"></bd-select>
     </div>

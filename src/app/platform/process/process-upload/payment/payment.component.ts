@@ -180,16 +180,20 @@ export class PaymentComponent implements OnInit , OnDestroy {
 
   downloadMasav(): void {
     this.processService.downloadMasav(this.processId).then(response => {
-      const byteCharacters = atob(response['data']);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
+      if (response) {
+        const byteCharacters = atob(response['data']);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
 
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], {type: 'application/' + this.type});
-      FileSaver.saveAs(blob, this.fileName);
-      this.spin = false;
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/' + this.type});
+        FileSaver.saveAs(blob, this.fileName);
+        this.spin = false;
+      } else {
+        this.notificationService.error('לא מכיל תוכן');
+      }
     });
   }
 

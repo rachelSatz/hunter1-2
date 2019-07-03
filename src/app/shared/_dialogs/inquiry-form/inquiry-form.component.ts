@@ -102,7 +102,11 @@ export class InquiryFormComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      this.generalService.newInquiry(this.data.id, this.comments, this.data.contentType, this.Emails, form.value['contactsAdd'],
+      this.data.contentType = this.data.contentType === 'file_repayment' ? 'groupthing' :
+                              this.data.contentType === 'employee_repayment' ? 'monthlytransferblock' :
+                                this.data.contentType.replace('_', '');
+      this.generalService.newInquiry(this.data.id,
+        this.comments, this.data.contentType, this.Emails, form.value['contactsAdd'],
         this.data.employerId, this.data.file_name, this.data.product_code, this.data.product_name, this.data.product_type,
         this.data.employee_id, this.data.employee_name,
         this.uploadedFile).then(response => {

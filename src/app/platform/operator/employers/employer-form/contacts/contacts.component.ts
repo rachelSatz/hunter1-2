@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
+  styles: ['.operator-container {margin-right: 60px}']
 })
 export class ContactsComponent implements OnInit , OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;

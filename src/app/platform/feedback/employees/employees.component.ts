@@ -105,7 +105,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   openInquiresDialog(item: any): void {
     const dialog = this.dialog.open(InquiryFormComponent, {
-      data: {'id': item.id, 'contentType': 'monthlytransferblock',
+      data: {'id': item.id, 'contentType': 'employee_repayment',
         'employerId': this.selectUnitService.currentEmployerID, 'companyId': item.company_id,
         'file_name': item.sent_file_name, 'product_code': item.product_code,
         'product_type': item.product_type, 'employee_id': item.personal_id, 'employee_name': item.name},
@@ -143,7 +143,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     }
 
     this.dialog.open(InquiriesComponent, {
-      data: {'id': item.id, 'contentType': 'monthlytransferblock', 'inquiries' : item.inquiries},
+      data: {'id': item.id, 'contentType': 'employee_repayment', 'inquiries' : item.inquiries},
       width: '860px',
     });
   }
