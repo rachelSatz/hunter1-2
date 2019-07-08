@@ -18,6 +18,7 @@ export class Contact {
   comment: string;
   employer_contact_id: number;
   types_details: ContactType[] = [];
+  entity_ids: any;
 }
 
 export enum EntityTypes {
