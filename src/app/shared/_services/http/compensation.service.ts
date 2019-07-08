@@ -86,13 +86,9 @@ export class CompensationService extends BaseHttpService {
   }
 
   sendCompensations(compensation_ids: number[], criteria: DataTableCriteria): Promise<any> {
-    const request = this.getTokenHeader();
 
-    if (criteria) {
-      request['params'] = this.setDataTableParams(criteria);
-    }
-
-    return this.http.post(this.endPoint + '/send', { compensation_ids: compensation_ids}, request)
+    return this.http.post(this.endPoint + '/send', { compensation_ids: compensation_ids,
+      searchCriteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
     .toPromise()
     .then(response => response as any)
     .catch(response => response as any);
@@ -144,13 +140,10 @@ export class CompensationService extends BaseHttpService {
   }
 
   manualChangingStatus(compensation_ids: number[], criteria: DataTableCriteria):  Promise<Compensation[]> {
-    const request = this.getTokenHeader();
-
-    if (criteria) {
-      request['params'] = this.setDataTableParams(criteria);
-    }
     return this.http.post(this.endPoint + '/updateSentStatus',
-      { compensation_ids: compensation_ids}, request).toPromise()
+      { compensation_ids: compensation_ids,  searchCriteria: this.setDataTableParams(criteria)},
+      this.getTokenHeader())
+      .toPromise()
       .then(response => response as Compensation[])
       .catch(() => []);
   }

@@ -47,19 +47,19 @@ export class  ContactService extends BaseHttpService {
       .catch(() => null);
   }
 
-  newContact(contact: Contact, employerId: number): Promise<boolean> {
+  newContact(contact: Contact, employerId: number): Promise<any> {
     contact.employer_id = employerId;
     return this.http.post(this.endPoint, contact, this.getTokenHeader())
     .toPromise()
-    .then(() => true)
-    .catch(() => false);
+    .then(response => response)
+    .catch(response => response);
   }
 
-  updateContact(contact: Contact): Promise<boolean> {
+  updateContact(contact: Contact): Promise<any> {
     return this.http.put(this.endPoint + '/' + contact.id, contact, this.getTokenHeader())
     .toPromise()
-    .then(() => true)
-    .catch(() => false);
+    .then(response => response)
+    .catch(response => response);
   }
 
 

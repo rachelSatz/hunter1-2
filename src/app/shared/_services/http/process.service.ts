@@ -86,19 +86,19 @@ export class ProcessService extends BaseHttpService {
   }
 
   update(type: string , val: any, file_id: any, criteria: DataTableCriteria ): Promise<boolean> {
-    const request = this.getTokenHeader();
-
-    if (criteria) {
-      request['params'] = this.setDataTableParams(criteria);
-    }
-    return this.http.post(this.endPoint + '/update', { params: val , type: type, file_id : file_id}, request)
+    return this.http.post(this.endPoint + '/update',
+      { params: val , type: type, file_id : file_id, searchCriteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
   }
 
-   transfer(processID: any, name: string): Promise<any> {
-    return this.http.post(this.endPoint  + '/transmit', { [name]: processID} , this.getTokenHeader())
+   transfer(processID: any, name: string, criteria?: DataTableCriteria): Promise<any> {
+
+    const data = criteria ? { [name]: processID,
+      searchCriteria: this.setDataTableParams(criteria)} : { [name]: processID};
+
+    return this.http.post(this.endPoint  + '/transmit', data , this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
@@ -144,12 +144,14 @@ export class ProcessService extends BaseHttpService {
       .catch(response => response as any);
   }
 
-  uploadRef(uploadedFile: File, fileId: number): Promise<Object> {
+  uploadRef(uploadedFile: File, filesList: any, criteria: DataTableCriteria, processId: number): Promise<Object> {
     if (uploadedFile) {
       const formData = new FormData();
       formData.append('file', uploadedFile);
+      formData.append('searchCriteria', JSON.stringify(this.setDataTableParams(criteria)));
+      formData.append('filesList', JSON.stringify(filesList));
 
-      return this.http.post(this.endPoint + '/' + fileId + '/uploadRef', formData, this.getTokenHeader())
+      return this.http.post(this.endPoint + '/' + processId +  '/uploadRef', formData, this.getTokenHeader())
         .toPromise()
         .then(response => response as Object)
         .catch(() => []);
@@ -164,13 +166,9 @@ export class ProcessService extends BaseHttpService {
   }
 
   unlockProcessFiles(process: any,  criteria: DataTableCriteria): Promise<Object> {
-    const request = this.getTokenHeader();
 
-    if (criteria) {
-      request['params'] = this.setDataTableParams(criteria);
-    }
-
-    return this.http.post(this.endPoint + '/unlockProcessFiles', process, request)
+    return this.http.post(this.endPoint + '/unlockProcessFiles',
+      {'filesList': process, searchCriteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
         .toPromise()
         .then(response => response as Object)
         .catch(() => []);

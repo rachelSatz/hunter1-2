@@ -103,7 +103,7 @@ export enum ValidityStatus {
 
 export enum ProcessStatus {
   loading = 'בטעינה',
-  can_be_processed = 'מעבד',
+  can_be_processed = 'נטען בהצלחה',
   done_processing = 'מעובד',
   transmitted = 'שודר',
   feedbacked_once = 'פידבק ראשון' ,

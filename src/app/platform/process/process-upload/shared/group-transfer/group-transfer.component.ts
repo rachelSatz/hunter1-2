@@ -68,7 +68,6 @@ export class  GroupTransferComponent implements OnInit {
 
             this.notificationService.warning(
               '', 'קבוצה זו קימת האם ברצונך לפתוח קבוצה חדשה?', buttons).then(confirmation => {
-                console.log (confirmation.value);
                 this.mtbService.createMTBGroup(
                   this.data.ids,
                   form.value.product,

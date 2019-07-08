@@ -89,15 +89,10 @@
         </mat-form-field>
         <table class="table">
           <thead>
-          <th>
-            סוג
-          </th>
-          <th>
-            ברירת מחדל
-          </th>
-          <th>
-            סוג איש קשר
-          </th>
+          <th>סוג</th>
+          <th>ברירת מחדל</th>
+          <th>סוג איש קשר</th>
+          <th> איש קשר ברירת מחדל </th>
           </thead>
           <tbody>
           <tr *ngFor="let t of contact.types_details; let index = index" class="pointer">
@@ -106,9 +101,11 @@
               !t.exist ? false: t.is_default"></mat-checkbox>
             </td>
             <td>
-              <mat-checkbox [name]="'is_default' + index" [(ngModel)]="t.is_default"   [disabled]="!t.exist"></mat-checkbox>
+              <mat-checkbox [name]="'is_default' + index" [(ngModel)]="t.is_default"   [disabled]="!t.exist"
+                            (change)="is_warning = t.email_default != '' ? true : is_warning"></mat-checkbox>
             </td>
             <td>{{ types[t.type] }}</td>
+            <td>{{ t.email_default }}</td>
           </tr>
           </tbody>
         </table>
@@ -116,8 +113,6 @@
 
       <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
       <button class="btn blue-btn" type="submit"   (click)="submit(form, 'save')">שמור</button>
-      <!--<button class="btn blue-btn" type="submit" *ngIf="this.contact.id" (click)="submit(form, 'save')">עדכן</button> *ngIf="!this.contact.id && !changeCompany"-->
-      <!--<button class="btn blue-btn mr-3" type="submit" *ngIf="this.contact.id && changeCompany"  (click)="submit(form, 'save')">שמור כחדש</button>-->
     </div>
   </form>
 </div>

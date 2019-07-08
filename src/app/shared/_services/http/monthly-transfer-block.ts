@@ -35,19 +35,15 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
 
   createMTBGroup(ids: number[], productId: number, bankAccountId: number, groupName: string, confirmation: number,
                  type: string, criteria: DataTableCriteria): Promise<any> {
-    const request = this.getTokenHeader();
-
-    if (criteria) {
-      request['params'] = this.setDataTableParams(criteria);
-    }
     return this.http.post(this.endPoint + '/createOrUpdateMTBGroup',
       {ids: ids,
             bank_account_id: bankAccountId,
             product_id: productId,
             group_name: groupName,
             confirmation: confirmation,
-            type: type},
-        request)
+
+            type: type,
+            searchCriteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
@@ -93,12 +89,8 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
   markValid(ids: number[], criteria: DataTableCriteria ): Promise<any> {
     const request = this.getTokenHeader();
 
-    if (criteria) {
-      request['params'] = this.setDataTableParams(criteria);
-    }
-
     return this.http.post(this.endPoint + '/markValid',
-  {ids: ids}, request)
+  {ids: ids,  searchCriteria: this.setDataTableParams(criteria)}, request)
       .toPromise()
       .then(response => response)
       .catch(response => response);

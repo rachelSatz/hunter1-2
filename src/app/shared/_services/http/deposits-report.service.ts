@@ -40,13 +40,9 @@ export class DepositsReportService extends BaseHttpService {
   }
 
   manualChangingStatus(deposits_report_ids: number[], criteria: DataTableCriteria):  Promise<any> {
-    const request = this.getTokenHeader();
-
-    if (criteria) {
-      request['params'] = this.setDataTableParams(criteria);
-    }
-
-    return this.http.post(this.endPoint + '/updateSentStatus', { deposits_report_ids: deposits_report_ids}, request).toPromise()
+    return this.http.post(this.endPoint + '/updateSentStatus',
+      { deposits_report_ids: deposits_report_ids, searchCriteria: this.setDataTableParams(criteria)},
+      this.getTokenHeader()).toPromise()
       .then(response => response)
       .catch(() => null);
   }

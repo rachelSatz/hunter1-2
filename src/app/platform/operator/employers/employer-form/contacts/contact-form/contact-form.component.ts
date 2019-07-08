@@ -38,7 +38,7 @@ export class ContactFormComponent implements OnInit {
   });
 
   types = Type;
-
+  is_warning = false;
   employerId = 0;
   organizations = [];
   disabled: boolean;
@@ -118,7 +118,8 @@ export class ContactFormComponent implements OnInit {
   showContact(email): void {
     if (email.valid) {
 
-      this.contactService.getContactByEmail( email.value, this.contact.id ? this.contact.id : 0 , this.selectUnit.currentEmployerID).then(
+      this.contactService.getContactByEmail( email.value, this.contact.id ? this.contact.id : 0
+        , this.selectUnit.currentEmployerID).then(
         response => {
           this.disabled = true;
           if (response) {
@@ -128,6 +129,11 @@ export class ContactFormComponent implements OnInit {
             if ( !this.is_update) {
               this.contact = new Contact();
               this.contact.email = email.value;
+              if ( this.contact.types_details) {
+                this.contact.types_details = Object.keys(Type).map(function(e) {
+                  return { type: e, is_default: false,  exist: false, email_default: '', id_default: 0};
+                });
+              }
             }
           }
           this.type_old = this.contact.entity_type;
@@ -147,16 +153,18 @@ export class ContactFormComponent implements OnInit {
     if (this.contact.id && this.contact.employer_id) {
       this.employerId = this.contact.employer_id;
     }
-
     if (this.employerId !== 0) {
       if (form.valid) {
-        if (this.contact.id) {
-          this.contact.employer_id =  this.employerId;
-          this.contactService.updateContact(this.contact)
-            .then(response => this.handleResponse(response));
+        if (this.is_warning) {
+          const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+          this.notificationService.warning('האם ברצונך לשנות את מייל ברירת המחדל?', '',
+            buttons).then(confirmation => {
+            if (confirmation.value) {
+              this.saveContact();
+            }
+          });
         } else {
-          this.contactService.newContact(this.contact, this.employerId)
-            .then(response => this.handleResponse(response));
+          this.saveContact();
         }
       }
     } else {
@@ -164,9 +172,20 @@ export class ContactFormComponent implements OnInit {
     }
   }
 
-  private handleResponse(response: boolean): void {
-    if (response) {
-      this._location.back();
+  saveContact(): void {
+      if (this.contact.id) {
+        this.contact.employer_id =  this.employerId;
+        this.contactService.updateContact(this.contact)
+          .then(response => this.handleResponse(response));
+      } else {
+        this.contactService.newContact(this.contact, this.employerId)
+          .then(response => this.handleResponse(response));
+      }
+  }
+
+  private handleResponse(response: any): void {
+    if (response.ok) {
+        this._location.back();
         // this.router.navigate(this.navigate);
     } else {
       this.hasServerError = true;

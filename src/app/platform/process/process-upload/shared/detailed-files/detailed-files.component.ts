@@ -115,10 +115,11 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   openDialogAttachReference(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-        const items = this.dataTable.criteria.checkedItems;
+        this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID;
         const dialog = this.dialog.open(AttachReferenceComponent, {
-        data: {'file_id': items.map(item => item['file_id']),
-               'dataTable': this.dataTable.criteria},
+        data: {'file_id': this.dataTable.criteria.checkedItems.map(item => item['file_id']),
+               'dataTable': this.dataTable.criteria,
+               'processId': this.processDataService.activeProcess.processID},
         width: '550px',
         panelClass: 'send-email-dialog'
       });
@@ -262,10 +263,10 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   openSent(): void {
     if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
       const items = this.dataTable.criteria.checkedItems;
-      const filesList = { 'filesList' : items.map(item => item['file_id'])};
+      // const filesList = { 'filesList' : items.map(item => item['file_id'])};
 
       if (this.isUnLockedBroadcast()) {
-        this.processService.unlockProcessFiles(filesList, this.dataTable.criteria).then( r => {
+        this.processService.unlockProcessFiles(items.map(item => item['file_id']), this.dataTable.criteria).then( r => {
             if (r['authorized'] === false && r['success'] === 'Message_Sent') {
                 this.notificationService.success('', 'ממתין לאישור מנהל');
             } else  if (r['authorized'] === true && r['success'] === true) {
@@ -287,21 +288,28 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
    sentFile(): void {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
-        const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
-        const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
-        this.notificationService.warning('אשר שידור', '', buttons).then(confirmation => {
-          if (confirmation.value) {
-            this.processService.transfer(items.map(item => item['file_id']), 'filesList')
-              .then(response => {
-                if (response.ok === false) {
-                  this.notificationService.error('', 'השידור נכשל');
-                }else {
-                  this.notificationService.success('', 'שודר בהצלחה');
-                  this.endAction();
-                }
-              });
-          }
-        });
+        if (this.isRelevant()) {
+          const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+          this.notificationService.warning('אשר שידור', '', buttons).then(confirmation => {
+            if (confirmation.value) {
+              this.processService.transfer(
+                this.dataTable.criteria.checkedItems.map(item => item['file_id']),
+                'filesList', this.dataTable.criteria)
+                .then(response => {
+                  if (response.ok === false) {
+                    const title = response.status === 400 ? 'סטטוס או תאריך תשלום לא תקינים' :
+                      response.status === 404 ? 'לא נמצא קובץ לשידור' : 'השידור נכשל';
+                    this.notificationService.error('', title);
+                  } else {
+                    this.notificationService.success('', 'שודר בהצלחה');
+                    this.endAction();
+                  }
+                });
+            }
+          });
+        } else {
+          this.notificationService.error('', 'אין אפשרות לשדר רשומה לא רלוונטית');
+        }
       } else {
         this.notificationService.error('', 'אין אפשרות לשדר רשומה ששודרה');
       }
@@ -317,15 +325,20 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   isLockedBroadcast(): boolean {
-    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
-    if (items.find(item => item['status'] === 'sent')) {
+    if (this.dataTable.criteria.checkedItems.find(item => item['status'] === 'sent')) {
+      return false; }
+    return true;
+  }
+
+  isRelevant(): boolean {
+    if (!this.dataTable.criteria.isCheckAll &&
+      this.dataTable.criteria.checkedItems.find(item => item['is_relevant'] === false)) {
       return false; }
     return true;
   }
 
   isUnLockedBroadcast(): boolean {
-    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
-    if (items.find(item => item['status'] === 'not_sent')) {
+    if (this.dataTable.criteria.checkedItems.find(item => item['status'] === 'not_sent')) {
       return false; }
     return true;
   }

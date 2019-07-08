@@ -217,6 +217,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   }
 
   setColorError(errors , type): boolean {
+    this.title = '';
     const error =  errors.filter(e => type.includes(e.type));
     if (error.length > 0) {
       this.title = error.map(arr => {
@@ -240,6 +241,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
             } else {
               this.dataTable.criteria.checkedItems = [];
             }
+            this.fetchItems();
           } else {
             this.notificationService.error('אירעה שגיאה');
           }
