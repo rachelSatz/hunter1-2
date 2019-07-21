@@ -117,13 +117,14 @@ export class EditPaymentsComponent implements OnInit {
           'clause_type':  [null , Validators.required],
           'transfer_sum':  [null , Validators.required],
           'transfer_percent':  [null,  Validators.required],
-          'exempt_sum': [null , Validators.required],
+          'exempt_sum': [0 , Validators.required],
         })
       ])
     };
 
     const mtbGroup = (<FormArray>this.editPaymentForm.get('mtb'));
     mtbGroup.push(this.fb.group(mtbControl));
+    this.arryMtb.push(this.mtb);
   }
 
   removeMtb(index: number): void {

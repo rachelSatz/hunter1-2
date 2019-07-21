@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router, RouterEvent} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 
@@ -33,9 +33,12 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   sub = new Subscription();
   year = new Date().getFullYear();
   fileId: string;
+  recordId: string;
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
   months = MONTHS;
   statuses = Status;
+  selectYear: number;
+  selectMonth: number;
   statusLabel = Object.keys(Status).map(function(e) {
       return { id: e, name: Status[e] };
   });
@@ -60,6 +63,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     { name: 'comments', label: 'הערות', searchable: false}
   ];
   constructor(public dialog: MatDialog,
+              private router: Router,
               public route: ActivatedRoute,
               private notificationService: NotificationService,
               private feedbackService: FeedbackService,
@@ -72,9 +76,15 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   ngOnInit() {
     this.fileId = this.route.snapshot.queryParams['fileId'];
-
-    this.dataTable.criteria.filters['year'] = this.fileId ? Number(this.route.snapshot.queryParams['year']) : this.year;
-    this.sub.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
+    this.recordId = this.route.snapshot.queryParams['recordId'];
+    this.selectYear = this.fileId ? Number(this.route.snapshot.queryParams['year']) : this.year;
+    this.sub.add(this.selectUnitService.unitSubject.subscribe(() => {
+      this.router.navigate([], {
+        queryParams: {page: 1},
+        relativeTo: this.route
+      });
+      this.fetchItems();
+    }));
   }
 
 
@@ -83,6 +93,10 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     const organizationId = this.selectUnitService.currentOrganizationID;
     const employerId = this.selectUnitService.currentEmployerID;
     const departmentId = this.selectUnitService.currentDepartmentID;
+    if (this.selectMonth !== undefined) {
+      this.dataTable.criteria.filters['month'] = this.selectMonth;
+    }
+    this.dataTable.criteria.filters['year'] = this.selectYear;
 
     if (departmentId !== 0) {
       this.dataTable.criteria.filters['employerId'] = employerId;

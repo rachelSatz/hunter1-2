@@ -1,12 +1,12 @@
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit, ViewChild  } from '@angular/core';
 
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs/Subscription';
 
 import { FormComponent } from './form/form.component';
-import {ProductType} from 'app/shared/_models/product.model';
+import { ProductType} from 'app/shared/_models/product.model';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
@@ -15,13 +15,13 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
-import {GeneralHttpService} from 'app/shared/_services/http/general-http.service';
-import {DataTableResponse} from 'app/shared/data-table/classes/data-table-response';
+import { GeneralHttpService} from 'app/shared/_services/http/general-http.service';
+import { DataTableResponse} from 'app/shared/data-table/classes/data-table-response';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
-import {CompensationStatus, CompensationSendingMethods, Compensation} from 'app/shared/_models/compensation.model';
+import { CompensationStatus, CompensationSendingMethods, Compensation} from 'app/shared/_models/compensation.model';
 
 @Component({
   selector: 'app-process',
@@ -78,6 +78,7 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
   ];
 
   constructor(protected route: ActivatedRoute,
+              private router: Router,
               private compensationService: CompensationService,
               private dialog: MatDialog,
               private departmentService: DepartmentService,
@@ -92,8 +93,10 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        this.dataTable.paginationData.currentPage = 1;
-        this.dataTable.criteria.page = 1;
+        this.router.navigate([], {
+          queryParams: {page: 1},
+          relativeTo: this.route
+        });
         this.fetchItems();
       }
     ));

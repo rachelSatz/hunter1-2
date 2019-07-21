@@ -1,6 +1,7 @@
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { Subscription } from 'rxjs';
 
 import { FormComponent } from './form/form.component';
@@ -32,6 +33,7 @@ export class DepositsReportComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   constructor(protected route: ActivatedRoute,
+              private router:  Router,
               private depositsReportService: DepositsReportService,
               private dialog: MatDialog,
               private departmentService: DepartmentService,
@@ -78,8 +80,10 @@ export class DepositsReportComponent implements OnInit {
       column['searchOptions'].labels = this.newCompanies;
     });
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        this.dataTable.paginationData.currentPage = 1;
-        this.dataTable.criteria.page = 1;
+        this.router.navigate([], {
+          queryParams: {page: 1},
+          relativeTo: this.route
+        });
         this.fetchItems();
       }
     ));

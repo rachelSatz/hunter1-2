@@ -166,7 +166,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
    openUpdateTypePayDialog(typePay: string, file_id: number): void {
 
     const dialog = this.dialog.open(UpdatePaymentTypeComponent, {
-        data: {'typePay': typePay, 'file_id': [file_id]},
+        data: {'typePay': typePay, 'file_id': [file_id], 'dataTable': this.dataTable.criteria},
         width: '550px',
         panelClass: 'dialog-file'
     });
@@ -179,7 +179,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
 
    openUpdateAccountNumberDialog(accNum: string, file_id: number, ref_number: string): void {
      const dialog = this.dialog.open(UpdateAccountNumberComponent, {
-       data: {'accNum': accNum, 'file_id': [ file_id ], 'ref_number': ref_number},
+       data: {'accNum': accNum, 'file_id': [ file_id ], 'ref_number': ref_number, 'dataTable': this.dataTable.criteria},
        width: '655px',
        panelClass: 'dialog-file'
      });
@@ -232,7 +232,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   openWarningMessageComponentDialog(type: boolean): void {
       // const title = type ? 'לא רלונטי' : 'רלונטי';
     // 'מחיקת שורות'
-      const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלוונטית?' : 'האם ברצונך להפוך שורת אלו לרלוונטית?';
+      const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלוונטיות?' : 'האם ברצונך להפוך שורת אלו לרלוונטיות?';
       // const typeData = type ? 'notRelevant' : 'delete';
     const val = type ? false : true;
 

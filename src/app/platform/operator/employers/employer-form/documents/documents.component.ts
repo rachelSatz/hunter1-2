@@ -15,6 +15,8 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
+  styles: ['.operator-container {margin-right: 60px}']
+
 })
 export class DocumentsComponent implements OnInit , OnDestroy {
 

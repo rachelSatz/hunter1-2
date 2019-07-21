@@ -18,7 +18,7 @@ export class WorkQueueComponent implements OnInit {
     {label: 'הפסקה', link: 'break'}
   ];
 
-  constructor(private selectUnitService: SelectUnitService) { }
+  constructor() { }
 
   ngOnInit() {
   }

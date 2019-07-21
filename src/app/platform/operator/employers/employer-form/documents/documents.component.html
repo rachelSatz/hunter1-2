@@ -1,5 +1,5 @@
 
- <div  [ngClass]="{'operator-table': !pathEmployers }" class="mt-lg-5">
+ <div  [ngClass]="{'operator-container': !pathEmployers }" class="mt-lg-5">
    <app-data-table tableName="מסמכים" [columns]="columns" (fetchItems)="fetchItems()"
                    [hasExtendedSearch]=false [hasActionsSearch]=false [hasActionsHeader]="role">
     <div class="table-header">
@@ -14,7 +14,7 @@
       <td>{{ item.description }}</td>
       <td>{{ documentTypes[item.document_type] }}</td>
       <td  *ngIf="role">
-        <i class="fa fa-download fa-lg" (click)="file(item, 'download')"></i>
+        <i class="fa fa-download fa-lg" (click)="file(item, 'download')" ></i>
         <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="file(item, 'show')"></i>
         <i *ngIf="this.userSession.getPermissionsType('operations', true)" class="fa fa-trash fa-lg" (click)="deleteFile(item.id)"></i>
       </td>

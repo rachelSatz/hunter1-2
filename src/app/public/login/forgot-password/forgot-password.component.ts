@@ -14,7 +14,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(private appHttp: AppHttpService,
               protected notificationService: NotificationService,
-              private dialogRef: MatDialogRef<ForgotPasswordComponent>) { }
+              public dialogRef: MatDialogRef<ForgotPasswordComponent>) { }
 
   ngOnInit() {
   }
@@ -24,7 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
       if (form.value.username) {
         this.appHttp.forgotPassword(form.value.username, form.value.email).then(
           response => {
-            const message = response['error']['message'];
+            const message = response['message'];
             if (message === 'No User Found' || message !== 'Message_Sent') {
               this.notificationService.error(
                 message === 'No User Found' ?

@@ -14,5 +14,5 @@ export enum ModuleTypes {
   user_management = 'משתמשים',
   finance = 'פיננסי',
   operations = 'סליקה',
-  compensation = 'יתרות לפיצוים'
+  compensation = 'יתרות לפיצויים'
 }

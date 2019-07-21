@@ -178,7 +178,6 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   }
 
   checkIsSelected(item: any): boolean {
-    // console.log(this.selectedItem)
     if (!this.selectedItem) {
       return false;
     }

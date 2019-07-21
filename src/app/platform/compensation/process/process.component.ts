@@ -83,6 +83,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
   ];
 
   constructor(protected route: ActivatedRoute,
+              private router: Router,
               private compensationService: CompensationService,
               private dialog: MatDialog,
               private departmentService: DepartmentService,
@@ -102,8 +103,10 @@ export class ProcessComponent implements OnInit, OnDestroy {
       column['searchOptions'].labels = this.companies;
     });
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        // this.dataTable.paginationData.currentPage = 1;
-        // this.dataTable.criteria.page = 1;
+        this.router.navigate([], {
+          queryParams: {page: 1},
+          relativeTo: this.route
+        });
         this.fetchItems();
       }
     ));

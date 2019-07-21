@@ -175,8 +175,9 @@
             <input type="number" matInput placeholder="סכום פטור" formControlName="exempt_sum">
           </mat-form-field>
           <div class="col-3">
-            <mat-icon (click)="remove(m, i)" *ngIf="i > index || !l" class="pointer remove-account-icon">highlight_off</mat-icon>
+            <mat-icon (click)="remove(m, i)" *ngIf="i != 0 || !l" class="pointer remove-account-icon">highlight_off</mat-icon>
             <mat-icon (click)="addTransfer(m)" *ngIf="l && i < 7" class="pointer">add_circle</mat-icon>
+
           </div>
         </div>
       </div>

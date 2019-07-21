@@ -3,12 +3,22 @@ export class PlanTask {
   organization_name: string;
   employer_name: string;
   task: Task;
+  type: Select;
+  department: Select;
+  employer: Select;
+  organization: Select;
 
   constructor() {
     this.id = 0;
     this.task = new Task();
   }
 }
+
+export class Select {
+  id: number;
+  name: string;
+}
+
 
 export class Task {
   id: number;

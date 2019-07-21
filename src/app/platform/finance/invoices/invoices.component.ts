@@ -12,12 +12,12 @@ import { RemarksFormComponent} from './remarks-form/remarks-form.component';
 import { InvoiceService} from 'app/shared/_services/http/invoice.service';
 import { HelpersService} from 'app/shared/_services/helpers.service';
 import * as FileSaver from 'file-saver';
-import { NotificationService } from '../../../shared/_services/notification.service';
-import { EmployerService } from '../../../shared/_services/http/employer.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
-import { PAYMENT_METHOD } from '../../../shared/_models/employer-financial-details.model';
+import { PAYMENT_METHOD } from 'app/shared/_models/employer-financial-details.model';
 import {TaxInvoiceFormComponent} from './tax-invoice-form/tax-invoice-form.component';
-import {UserSessionService} from '../../../shared/_services/user-session.service';
+import {UserSessionService} from 'app/shared/_services/user-session.service';
 
 @Component({
   selector: 'app-invoices',
@@ -28,24 +28,24 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   employers = [];
-  allEmployers = Object.keys(this.employers).map(function(e) {
-    return { id: e, name: this.employers[e] };
-  });
+  // allEmployers = Object.keys(this.employers).map(function(e) {
+  //   return { id: e, name: this.employers[e] };
+  // });
   departments = [];
   invoices = [];
-  invoice_status = STATUS;
+  // invoice_status = STATUS;
   status = Object.keys(STATUS).map(function(e) {
     return { id: e, name: STATUS[e] };
   });
   types = TYPES;
-  invoice_all_status = ALL_STATUS;
-  selectStatus = Object.keys(ALL_STATUS).map(function(e) {
-    return { id: e, name: ALL_STATUS[e] };
-  });
+  // invoice_all_status = ALL_STATUS;
+  // selectStatus = Object.keys(ALL_STATUS).map(function(e) {
+  //   return { id: e, name: ALL_STATUS[e] };
+  // });
   error_status = ERROR_STATUS;
-  error_status_items = Object.keys(ERROR_STATUS).map(function(e) {
-    return { id: e, name: ERROR_STATUS[e] };
-  });
+  // error_status_items = Object.keys(ERROR_STATUS).map(function(e) {
+  //   return { id: e, name: ERROR_STATUS[e] };
+  // });
   sub = new Subscription;
   spin: boolean;
 
@@ -176,28 +176,28 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       this.notificationService.info(res['message']));
   }
 
-  deleteInvoices(): void {
-    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
-      this.dataTable.setNoneCheckedWarning();
-      return;
-    }
-    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
-
-    this.invoiceService.deleteInvoices(items.map(
-      item => item['id'])).then(response => {
-      this.helpers.setPageSpinner(false);
-      if (response) {
-        if (response['message'] === 'success') {
-          this.notificationService.success('הרשומות נמחקו בהצלחה.');
-          this.dataTable.criteria.checkedItems = [];
-          this.dataTable.criteria.isCheckAll = false;
-          this.fetchItems();
-        } else {
-          this.notificationService.error('ארעה שגיאה.');
-        }
-      }
-    });
-  }
+  // deleteInvoices(): void {
+  //   if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+  //     this.dataTable.setNoneCheckedWarning();
+  //     return;
+  //   }
+  //   const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+  //
+  //   this.invoiceService.deleteInvoices(items.map(
+  //     item => item['id'])).then(response => {
+  //     this.helpers.setPageSpinner(false);
+  //     if (response) {
+  //       if (response['message'] === 'success') {
+  //         this.notificationService.success('הרשומות נמחקו בהצלחה.');
+  //         this.dataTable.criteria.checkedItems = [];
+  //         this.dataTable.criteria.isCheckAll = false;
+  //         this.fetchItems();
+  //       } else {
+  //         this.notificationService.error('ארעה שגיאה.');
+  //       }
+  //     }
+  //   });
+  // }
 
 
   setItemTitle(item: Invoice): string {

@@ -39,7 +39,7 @@ export class PlanService extends BaseHttpService {
   }
 
   getSinglePlan(): Promise<PlanTask> {
-    return this.http.post(this.endPoint + '/getSingleTask', {},  this.getTokenHeader())
+    return this.http.post(this.endPoint + '/getCurrentTask', {},  this.getTokenHeader())
       .toPromise()
       .then(response => response as PlanTask)
       .catch(() => null);

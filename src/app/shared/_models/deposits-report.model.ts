@@ -16,6 +16,7 @@ export class DepositsReport {
   updated_at: string;
   sending_method: string;
   error_sent_failed: string;
+  identifier_employee: string;
 
   constructor() {
     this.last_name = '';

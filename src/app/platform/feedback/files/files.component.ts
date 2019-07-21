@@ -29,12 +29,14 @@ export class FilesComponent implements OnInit, OnDestroy  {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   sub = new Subscription();
-  fileData;
   departmentId;
   year = new Date().getFullYear();
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
   months = MONTHS;
+  selectYear: number;
+  selectMonth: number;
   statuses = Status;
+  fileId: number;
 
   list_status = Object.keys(Status).map(function(e) {
     return { id: e, name: Status[e] };
@@ -59,7 +61,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
   ];
 
 
-  constructor(route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private router: Router,
               protected notificationService: NotificationService,
               private dialog: MatDialog,
@@ -72,11 +74,14 @@ export class FilesComponent implements OnInit, OnDestroy  {
 
 
   ngOnInit() {
-    this.dataTable.criteria.filters['year'] = this.year;
+    this.fileId = this.route.snapshot.queryParams['fileId'];
+    this.selectYear = this.year;
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        this.dataTable.paginationData.currentPage = 1;
-        this.dataTable.criteria.page = 1;
-        this.fetchItems();
+      this.router.navigate([], {
+        queryParams: {page: 1},
+        relativeTo: this.route
+      });
+       this.fetchItems();
       }
     ));
   }
@@ -85,15 +90,22 @@ export class FilesComponent implements OnInit, OnDestroy  {
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
     const departmentId = this.selectUnit.currentDepartmentID;
+    if (this.selectMonth !== undefined) {
+      this.dataTable.criteria.filters['month'] = this.selectMonth;
+    }
+    this.dataTable.criteria.filters['year'] = this.selectYear;
+
 
     if (departmentId !== 0) {
       this.dataTable.criteria.filters['departmentId'] = departmentId;
       this.dataTable.criteria.filters['employerId'] = employerId;
       this.dataTable.criteria.filters['organizationId'] = organizationId;
+      if (this.fileId !== undefined) {
+        this.dataTable.criteria.filters['fileId'] = this.fileId;
+      }
       this.feedbackService.getFileFeedbacks(this.dataTable.criteria)
         .then(response => {
           this.dataTable.setItems(response);
-          this.fileData = response;
         });
     } else {
       this.notificationService.warning('יש לבחור מחלקה');

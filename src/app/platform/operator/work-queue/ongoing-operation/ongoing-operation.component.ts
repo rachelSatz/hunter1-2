@@ -1,16 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { NotificationService } from '../../../../shared/_services/notification.service';
 import { MatDialog } from '@angular/material';
-import { SkipTaskComponent } from './skip-task/skip-task.component';
-import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
-import { PlanService } from '../../../../shared/_services/http/plan.service';
-import { PlanTask } from '../../../../shared/_models/plan-task';
-import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
-import { TimerService } from '../../../../shared/_services/http/timer';
-import {TaskTimer, TaskTimerLabels} from '../../../../shared/_models/timer.model';
-import { OperatorTasksService } from '../../../../shared/_services/http/operator-tasks';
-import {ProcessDataService} from '../../../../shared/_services/process-data-service';
-import {Process} from '../../../../shared/_models/process.model';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+
+import { PlanTask } from 'app/shared/_models/plan-task';
+import { FileType } from 'app/shared/_models/group-thing';
+import { Process } from 'app/shared/_models/process.model';
+import { TimerService } from 'app/shared/_services/http/timer';
+import { PlanService } from 'app/shared/_services/http/plan.service';
+import { TaskTimer, TaskTimerLabels } from 'app/shared/_models/timer.model';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { OperatorTasksService } from 'app/shared/_services/http/operator-tasks';
+import { PlatformComponent } from '../../../platform.component';
+import {EmployeeStatus} from '../../../../shared/_models/monthly-transfer-block';
 
 @Component({
   selector: 'app-ongoing-operation',
@@ -29,6 +32,8 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   isRecord = false;
   isFile = false;
   isCompensation = false;
+  fileType = FileType;
+  employeeStatus = EmployeeStatus;
 
   constructor(protected route: ActivatedRoute,
               private router: Router,
@@ -38,7 +43,8 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
               private planService: PlanService,
               private selectUnit: SelectUnitService,
               private timerService: TimerService,
-              private operatorTasks: OperatorTasksService) { }
+              private operatorTasks: OperatorTasksService,
+              private platformComponent: PlatformComponent) { }
 
   ngOnInit() {
     this.text = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';
@@ -50,13 +56,12 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   fetchItems(): void {
     this.planService.getSinglePlan().then(response => {
       if (response['message'] === 'No plan found' || response['message'] === 'No task found') {
-        // this.notificationService.info('לא נמצאה משימה לטיפול');
       } else if (response['message'] === 'Success!') {
         this.plan = response['data'];
         if (this.plan !== null && this.plan.task !== null) {
-          if (this.plan.task.record !== null) {
+          if (this.plan.task.record !== undefined) {
             this.isRecord = true;
-          } else if (this.plan.task.file !== null) {
+          } else if (this.plan.task.file !== undefined) {
             this.isFile = true;
           }
         }
@@ -64,33 +69,52 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
     });
   }
   taskCompletedDialog(): void {
-    // const title = 'המשימה סומנה כטופלה';
-    // this.notificationService.success(title);
-    // const ownerType = this.plan.error.owner.type;
     const processId = this.plan.task.process.id;
     if (this.isRecord) {
-      this.processDataService.activeProcess = new Process();
-      const data = {'processId': processId, 'highlightRecordId': this.plan.task.record.id};
-      this.processDataService.setProcess(data);
-      this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
-      // this.router.navigate(['/platform', 'process', 'new', 1, 'details']);
+      if (this.plan.type.id === 8) {
+        this.platformComponent.isWorkQueue = true;
+        this.platformComponent.organizationId = this.plan.organization.id;
+        this.platformComponent.employerId = this.plan.employer.id;
+        this.platformComponent.departmentId = this.plan.department.id;
+        this.selectUnit.changeOrganizationEmployerDepartment(this.plan.organization.id, this.plan.employer.id, this.plan.department.id);
+        this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
+        this.router.navigate(['/platform', 'feedback', 'employees' ],
+          { queryParams: { recordId: this.plan.task.record.id }});
+      } else {
+        this.processDataService.activeProcess = new Process();
+        const data = {'processId': processId, 'highlightRecordId': this.plan.task.record.id};
+        this.processDataService.setProcess(data);
+        this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
+      }
     } else if (this.isFile) {
-      this.processDataService.activeProcess = new Process();
-      const data = {'processId': processId, 'highlightFileId': this.plan.task.file.id};
-      this.processDataService.setProcess(data);
-      this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
+      if (this.plan.type.id === 8) {
+        this.platformComponent.isWorkQueue = true;
+        this.platformComponent.organizationId = this.plan.organization.id;
+        this.platformComponent.employerId = this.plan.employer.id;
+        this.platformComponent.departmentId = this.plan.department.id;
+        this.selectUnit.changeOrganizationEmployerDepartment(this.plan.organization.id, this.plan.employer.id, this.plan.department.id);
+        this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
+        this.router.navigate(['/platform', 'feedback', 'files' ],
+          { queryParams: {  fileId: this.plan.task.file.id }});
+      } else {
+        this.processDataService.activeProcess = new Process();
+        const data = {'processId': processId, 'highlightFileId': this.plan.task.file.id};
+        this.processDataService.setProcess(data);
+
+        this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
+      }
     } else if (this.isCompensation) {
       this.router.navigate(['/platform', 'compensations', 'process', 94]);
     }
   }
 
-  skipTaskDialog(): void {
-    this.fetchItems();
-    // this.dialog.open(SkipTaskComponent, {
-    //   width: '660px',
-    //   height: '240px'
-    // });
-  }
+  // skipTaskDialog(): void {
+  //   this.fetchItems();
+  //   // this.dialog.open(SkipTaskComponent, {
+  //   //   width: '660px',
+  //   //   height: '240px'
+  //   // });
+  // }
 
   newTaskTimer(taskType: string): void {
     this.operatorTasks.newTaskTimer(taskType).then(
@@ -119,7 +143,5 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
         }
       }
     });
-
-
   }
 }

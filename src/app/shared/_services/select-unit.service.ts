@@ -79,13 +79,6 @@ export class SelectUnitService {
     return 0;
   }
 
-  // changeEmployersDepartments( employers: any, departments: any): void {
-  //   // this.currentEmployers = employers;
-  //   // this.currentDepartments = departments;
-  //   this.unitObjSubject.next(employers);
-  //   this.unitObjSubject.next(departments);
-  // }
-
   logout(): void {
     this.changeOrganizationEmployerDepartment(0, 0, 0);
     sessionStorage.removeItem('organizationID');
@@ -106,16 +99,7 @@ export class SelectUnitService {
     this.currentOrganizationID = organizationId;
     this.currentDepartmentID = departmentId;
     this.unitSubject.next(organizationId);
-    this.unitSubject.next(employerId);
-    this.unitSubject.next(departmentId);
   }
-
-  // changeOrganizationEmployer(organizationId: number, employerId: number): void {
-  //   this.currentEmployerID = employerId;
-  //   this.currentOrganizationID = organizationId;
-  //   this.unitSubject.next(organizationId);
-  //   this.unitSubject.next(employerId);
-  // }
 
 }
 

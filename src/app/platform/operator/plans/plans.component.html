@@ -3,15 +3,13 @@
       <div class="table-header">
         <div class="row mt-4 mr-1">
           <div class="ml-3 d-flex mr-auto">
-            <a [routerLink]="['./', 'form']"  class="create-button">
-              <i class="fa fa-plus-circle fa-2x"></i>
-            </a>        </div>
+            <button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת תוכנית עבודה</button>
+          </div>
         </div>
       </div>
       <tr *ngFor="let item of dataTable.items" class="pointer" >
         <td>{{ item.name }}</td>
         <td>{{ item.start_time }} - {{ item.end_time }}</td>
-        <!--<td>{{ item.salary_start_date | date: 'MM/yy' }} - {{ item.salary_end_date | date: 'MM/yy' }}</td>-->
         <td>
           <mat-select [(ngModel)]="item.is_active" [value]="false" (selectionChange)="activatePlan(item)" >
             <mat-option [value]="true">פעיל</mat-option>
@@ -19,9 +17,7 @@
           </mat-select>
         </td>
         <td class="row-actions">
-          <a [routerLink]="['./', 'form', item.id]">
-            <i class="fa fa-cog ml-4"></i>
-          </a>
+          <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
         </td>
       </tr>
     </app-data-table>

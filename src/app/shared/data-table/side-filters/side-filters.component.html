@@ -21,7 +21,7 @@
           <input matInput [name]="column.name + '[from]'" [id]="column.name + '[from]'"
                  [max]="searchCriteria[column.name + '[to]']" class="pointer"
                  (click)="datePickerFrom.open()" [matDatepicker]="datePickerFrom" (dateChange)="valueDateChange($event)"
-                 placeholder=" מ תאריך" ngModel [(ngModel)]="searchCriteria[column.name + '[from]']" readonly>
+                 placeholder=" מתאריך" ngModel [(ngModel)]="searchCriteria[column.name + '[from]']" readonly>
           <mat-datepicker-toggle matSuffix [for]="datePickerFrom"></mat-datepicker-toggle>
           <mat-datepicker #datePickerFrom></mat-datepicker>
         </mat-form-field>

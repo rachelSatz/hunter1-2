@@ -1,10 +1,10 @@
 import { NgForm } from '@angular/forms';
 import { DatePipe, Location } from '@angular/common';
 import { ActivatedRoute, Router} from '@angular/router';
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
-import { Categories, Plan, PlanCategoryLabel, TIMESTAMPS } from 'app/shared/_models/plan';
+import { Categories, Plan, TIMESTAMPS } from 'app/shared/_models/plan';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { TaskService} from 'app/shared/_services/http/task.service';
 import { PlanService} from 'app/shared/_services/http/plan.service';
@@ -17,11 +17,9 @@ import { Subscription } from 'rxjs';
   templateUrl: './plan-form.component.html',
   styleUrls: ['./plan-form.component.css']
 })
-export class PlanFormComponent implements OnInit, OnDestroy  {
+export class PlanFormComponent implements OnInit  {
+
   plan = new Plan;
-  // types = Object.keys(PlanTypeLabel).map(function(e) {
-  //   return { id: e, name: PlanTypeLabel[e] };
-  // });
   types = [];
   subTypes = [];
   operators: User[] = [];
@@ -29,12 +27,9 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
   isSubmitFailed = false;
   isSubmitting = false;
   sub: Subscription;
-  showLabel = false;
-  categoryLabel = PlanCategoryLabel;
-  planCategories = Object.keys(PlanCategoryLabel).map(function(e) {
-    return { id: e, name: PlanCategoryLabel[e] };
-  });
   categoriesData = [];
+  date = '09/07/2019 ';
+
   constructor(private router: Router,
               private route: ActivatedRoute,
               private taskService: TaskService,
@@ -52,24 +47,7 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
 
     this.userService.usersList().then(response => this.operators = response['items']);
     this.planService.getTypes().then(response => this.types = response);
-
-    // this.plan.user_plan = Object.keys(this.plan.user_plan).map(key => ( {key: 'id'}));
-    // if (this.plan.plan_category.length > 0) {
-    //   this.categoriesData = this.plan.plan_category;
-    //   this.categoriesData.sort((a, b) => a.id - b.id);
-    //   this.showLabel = true;
-    // } else {
-    //   this.categoriesData = this.planCategories;
-    // }
   }
-  // checktime(start: string , end: string): boolean {
-  //   const startTime = +start;
-  //   const endTime = +end;
-  //   if (startTime > endTime) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
@@ -92,26 +70,23 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     this.plan.categories.splice(index, 1);
   }
 
-  selectedSubType(index: any, typeId: number): void {
+  selectedSubType(typeId: any): void {
     this.subTypes = [];
-    // if (this.types.length > 0) {
-    //   if (typeId !== undefined) {
-    //     this.subTypes = this.types.find(a => a.id === index).subtypes;
-    //   } else if (type !== undefined) {
-    //     this.subTypes = this.types.find(a => a.id === type).subtypes;
-    //   } else {
-    //     this.subTypes = this.types[index].subtypes;
-    //   }
-    // }
-    if (typeId !== undefined) {
-      this.subTypes = this.types.find(a => a.id === typeId).subtypes;
-    } else if (index !== undefined) {
-      this.subTypes = this.types.find(a => a.id === index.type.name).subtypes;
-    }
-    if (this.subTypes !== null) {
 
-    }
+      this.subTypes = this.types.find(a => a.id === typeId.type.id || a.id === typeId.type.name).subtypes;
+    // } else if (index !== undefined) {
+    //     //   this.subTypes = this.types.find(a => a.id === index.type.name).subtypes;
+    //     // }
   }
+
+  // selectedSubType(index: any, typeId: number): void {
+  //   this.subTypes = [];
+  //   if (typeId !== undefined) {
+  //     this.subTypes = this.types.find(a => a.id === typeId).subtypes;
+  //   } else if (index !== undefined) {
+  //     this.subTypes = this.types.find(a => a.id === index.type.name).subtypes;
+  //   }, row.id
+  // }
 
   submit(form: NgForm): void {
     if (form.valid) {
@@ -119,8 +94,6 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
         item.salary_date_start = this.datePipe.transform(item.salary_date_start, 'yyyy-MM-dd');
         item.salary_date_end = this.datePipe.transform(item.salary_date_end, 'yyyy-MM-dd');
       });
-      // this.plan.salary_start_date = this.datePipe.transform(this.plan.salary_start_date, 'yyyy-MM-dd');
-      // this.plan.salary_end_date = this.datePipe.transform(this.plan.salary_end_date, 'yyyy-MM-dd');
       if (this.plan.id) {
         this.planService.update(this.plan)
           .then(response => this.handleResponse(response));
@@ -143,7 +116,12 @@ export class PlanFormComponent implements OnInit, OnDestroy  {
     this._location.back();
   }
 
-  ngOnDestroy(): void {
+  aaa(start_time, end_time): boolean {
+    const date_start_time = new Date(this.date  + start_time);
+    const date_end_time = new Date(this.date + end_time);
+    if (date_start_time.getTime() > date_end_time.getTime()) {
+      return true;
+    }
   }
 
 }

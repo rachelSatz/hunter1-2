@@ -17,29 +17,14 @@ export class UpdateAccountNumberComponent implements OnInit {
               private dialogRef: MatDialogRef<UpdateAccountNumberComponent>) { }
 
 
-  // banks = [];
-  // branchs = [];
-  // bankId: number;
-  // branchId: number;
-  number: number;
   ref_number: string;
 
   ngOnInit() {
-    // this.generalService.getBanks(true).then(banks => {
-    //   this.banks = banks;
-    // });
   }
 
-  // selectedBankBranch(): void {
-  //   const selectedBank = this.banks.find(bank => {
-  //     return +bank.id === this.bankId;
-  //   });
-  //
-  //   this.branchs = selectedBank ? selectedBank.bank_branches : [];
-  // }
-
-  submit(form: NgForm): void {
-      this.processService.update('refNumber', this.data.ref_number, this.data.file_id, this.data.dataTable ).then( response => {
+  submit(): void {
+      this.processService.update('refNumber', this.data.ref_number, this.data.file_id, this.data.dataTable )
+        .then( response => {
         if (response) {
         this.dialogRef.close();
         }

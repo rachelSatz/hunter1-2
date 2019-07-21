@@ -137,9 +137,6 @@ export class NewEmployerComponent implements OnInit {
   }
 
   getOperator(): void {
-    // this.organizationId = organizationId;
-    // console.log(this.organizationId );
-    // organizationId, 'organizationId'
     this.employerService.getOperator().then(response => {
       this.operators = response;
     });

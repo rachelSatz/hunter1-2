@@ -11,7 +11,7 @@
 <div class="col-12 f-12 mb-lg-5">
   <div class="float-left">
     <mat-form-field>
-      <mat-select placeholder="חודש שכר" [(ngModel)]="dataTable.criteria.filters['month']" name="month" class="ml-3"
+      <mat-select placeholder="חודש שכר" [(ngModel)]="this.selectMonth" name="month" class="ml-3"
                   (selectionChange)="dataTable.search()">
         <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1">
           {{month}}
@@ -19,7 +19,7 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field class="mr-3">
-      <mat-select placeholder="שנה" [(ngModel)]="dataTable.criteria.filters['year']" name="year" (selectionChange)="dataTable.search()">
+      <mat-select placeholder="שנה" [(ngModel)]="this.selectYear" name="year" (selectionChange)="dataTable.search()">
         <mat-option *ngFor="let year of years" [value]="year">
           {{year}}
         </mat-option>

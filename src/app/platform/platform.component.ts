@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
@@ -23,10 +23,14 @@ export class PlatformComponent implements OnInit {
   organizations = [];
   employers = [];
   departments = [];
-  organizationId: number;
-  employerId: any;
-  departmentId: any;
-  agentBarActive = true;
+  // organizationId: number;
+  // employerId: any;
+  // departmentId: any;
+  @Input() isWorkQueue = false;
+  @Input() organizationId: number;
+  @Input() employerId: any;
+  @Input() departmentId: any;
+  @Input() agentBarActive = true;
   isAgent = false;
   seconds: string;
   minutes: string;
@@ -189,7 +193,7 @@ export class PlatformComponent implements OnInit {
         this.selectUnit.changeOrganizationEmployerDepartment
         (this.organizationId, this.employerId, this.departmentId);
     } else {
-      this.selectUnit.changeOrganizationEmployerDepartment(0, 0, 0);
+      // this.selectUnit.changeOrganizationEmployerDepartment(0, 0, 0);
     }
   }
 
@@ -211,7 +215,6 @@ export class PlatformComponent implements OnInit {
 
   private setActiveUrl(url: string): void {
     this.activeUrl = url.split('/')[2];
-    console.log(this.activeUrl);
   }
 
   getImage(link: Object): string {
@@ -231,11 +234,13 @@ export class PlatformComponent implements OnInit {
 
   loadEmployers(organizationID: number, is_Employer?: boolean): void {
     this.getEmployers(organizationID);
-    if (!is_Employer) {
+    if (!is_Employer && !this.isWorkQueue) {
       this.employerId = this.employers.length > 0 ? this.employers[0].id : 0;
       this.organizationId = organizationID;
     }
-    this.loadDepartments(this.employerId, is_Employer);
+    if (!this.isWorkQueue) {
+      this.loadDepartments(this.employerId, is_Employer);
+    }
   }
 
   getEmployers(organizationId: number): void {
@@ -250,7 +255,9 @@ export class PlatformComponent implements OnInit {
 
   loadDepartments(employerId: number, is_Employer?: boolean): void {
     if (employerId > 0) {
-      this.getEmployers(this.organizationId);
+      if ( !this.isWorkQueue) {
+        this.getEmployers(this.organizationId);
+      }
       this.departments = this.employers.find(e => e.id === employerId).department;
       if (this.departments.length > 1) {
         if (!this.departments.some(d => d.id === 0)) {
@@ -261,11 +268,12 @@ export class PlatformComponent implements OnInit {
     }else {
       this.departments = [];
     }
-    if (!is_Employer) {
+    if (!is_Employer && !this.isWorkQueue) {
       this.departmentId = this.departments.length > 0 ? this.departments[0].id : 0;
       this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, +employerId,
         +this.departmentId);
     }
+    this.isWorkQueue = false;
     this.helpers.setPageSpinner(false);
   }
 

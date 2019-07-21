@@ -96,7 +96,7 @@ export class ProcessService extends BaseHttpService {
    transfer(processID: any, name: string, criteria?: DataTableCriteria): Promise<any> {
 
     const data = criteria ? { [name]: processID,
-      searchCriteria: this.setDataTableParams(criteria)} : { [name]: processID};
+      searchCriteria: this.setDataTableParams(criteria)} : {[name]: processID};
 
     return this.http.post(this.endPoint  + '/transmit', data , this.getTokenHeader())
       .toPromise()

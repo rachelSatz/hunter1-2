@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
@@ -34,6 +34,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
   ];
 
   constructor(protected route: ActivatedRoute,
+              private router: Router,
               private employerService: EmployerService,
               public userSession: UserSessionService,
               private selectUnit: SelectUnitService) {
@@ -41,8 +42,10 @@ export class EmployersComponent  implements OnInit , OnDestroy {
 
   ngOnInit() {
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        this.dataTable.paginationData.currentPage = 1;
-        this.dataTable.criteria.page = 1;
+        this.router.navigate([], {
+          queryParams: {page: 1},
+          relativeTo: this.route
+        });
         this.fetchItems();
       }
     ));

@@ -25,9 +25,9 @@ export class ContactsComponent implements OnInit , OnDestroy {
   role = this.userSession.getRole() !== 'employer';
 
   constructor(public route: ActivatedRoute,
+              private router: Router,
               private contactService: ContactService,
               private userSession: UserSessionService,
-              private router: Router,
               private selectUnit: SelectUnitService) {
   }
 
@@ -54,8 +54,10 @@ export class ContactsComponent implements OnInit , OnDestroy {
         this.location = 'settings';
     }
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        this.dataTable.paginationData.currentPage = 1;
-        this.dataTable.criteria.page = 1;
+        this.router.navigate([], {
+          queryParams: {page: 1},
+          relativeTo: this.route
+        });
         this.fetchItems();
       }
     ));
@@ -70,6 +72,7 @@ export class ContactsComponent implements OnInit , OnDestroy {
       this.dataTable.criteria.filters['employerId'] = employerId;
     } else {
       this.dataTable.criteria.filters['organizationId'] = organizationId;
+      this.dataTable.criteria.filters['employerId'] = 0;
     }
     this.dataTable.criteria.filters['location'] = this.location;
     this.contactService.getContacts(this.dataTable.criteria)

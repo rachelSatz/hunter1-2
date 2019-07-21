@@ -31,7 +31,7 @@ export enum Type {
   deposits_report = 'דוח הפקדות',
   payments_instructions = 'קבלת מסב',
   pending = 'שיוך כספים',
-  compensation = 'יתרות לפיצוים',
+  compensation = 'יתרות לפיצויים',
   employee_repayment = 'בקשה לפירעון עובד',
   file_repayment = 'בקשה לפירעון קובץ'
 }
