@@ -21,6 +21,7 @@
       <td>{{ item.comment }}</td>
       <td *ngIf="role">
         <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.employer_contact_id]" class="row-image">
+        <i class="fa fa-trash fa-lg" (click)="deleteEmployerContact(item.employer_contact_id)"></i>
       </td>
     </tr>
   </app-data-table>

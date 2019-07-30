@@ -39,7 +39,7 @@ export class  GroupTransferComponent implements OnInit {
   selectedBankAccounts(): void {
     this.bankAccounts = this.products.find(c => c.id === this.employerProductBankAccount.product_id).bank_account;
     if ( !this.bankAccounts.some(b => b.id === this.employerProductBankAccount.bank_account_id)) {
-      this.employerProductBankAccount.bank_account_id = 0;
+      this.employerProductBankAccount.bank_account_id = this.bankAccounts ?  this.bankAccounts.find(b => b.is_primary).id : 0;
     }
   }
 

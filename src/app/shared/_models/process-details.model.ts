@@ -10,6 +10,7 @@ export class ProcessDetails {
   groups_count: number;
   department_name: string;
   employer_name: string;
+  employer_id: number;
   employer_identifier: string;
   percent: number;
   sent_status: string;

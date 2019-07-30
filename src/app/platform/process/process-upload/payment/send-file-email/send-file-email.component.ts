@@ -1,12 +1,11 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import {MAT_DIALOG_DATA, MatChipInputEvent, MatDialogRef} from '@angular/material';
-import { NotificationService } from 'app/shared/_services/notification.service';
-import {Component, Inject, OnInit} from '@angular/core';
-import { ProcessService } from 'app/shared/_services/http/process.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialogRef } from '@angular/material';
 
-export interface Email {
-  name: string;
-}
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import { ContactService } from 'app/shared/_services/http/contact.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+
 
 @Component({
   selector: 'app-send-file-email',
@@ -17,17 +16,21 @@ export class SendFileEmailComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
-  Emails: Email[] = [];
-  emailsList: string[] = [];
+  emails: string[] = [];
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               public processService: ProcessService,
+              public contactService: ContactService,
               protected notificationService: NotificationService,
               private dialogRef: MatDialogRef<SendFileEmailComponent>) { }
 
   ngOnInit() {
+    this.contactService.getEmailEmployerContact( this.data.employerId).then(response =>
+       this.emails = response
+    );
   }
+
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -36,7 +39,7 @@ export class SendFileEmailComponent implements OnInit {
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if ((value || '').trim()) {
       if (validEmailRegEx.test(value.trim())) {
-        this.Emails.push({name: value.trim()});
+        this.emails.push(value.trim());
       }
     }
 
@@ -46,19 +49,18 @@ export class SendFileEmailComponent implements OnInit {
     }
   }
 
-  remove(fruit: Email): void {
-    const index = this.Emails.indexOf(fruit);
+  remove(fruit): void {
+    const index = this.emails.indexOf(fruit);
 
     if (index >= 0) {
-      this.Emails.splice(index, 1);
+      this.emails.splice(index, 1);
     }
   }
 
   sendMail(): void {
-    if (this.Emails !== null && this.Emails.length > 0) {
-      this.Emails.forEach(email => this.emailsList.push(email.name));
+    if (this.emails !== null && this.emails.length > 0) {
 
-      this.processService.sendEmail( this.data.processId, this.emailsList).then(response => {
+      this.processService.sendEmail( this.data.processId, this.emails).then(response => {
         if (response === 'Ok') {
             this.notificationService.success('נשלח בהצלחה.');
             this.dialogRef.close();

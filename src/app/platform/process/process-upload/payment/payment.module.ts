@@ -1,22 +1,24 @@
 import { NgModule } from '@angular/core';
-import { CommonModule} from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule} from '@angular/common';
 import { FileDropModule } from 'ngx-file-drop';
+import { RouterModule, Routes } from '@angular/router';
 import { MatAutocompleteModule, MatCheckboxModule, MatChipsModule,
          MatDialogModule, MatFormFieldModule, MatIconModule,
          MatInputModule, MatSelectModule, MatProgressBarModule, MatMenuModule } from '@angular/material';
-import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
-import { PipesModule } from 'app/shared/_pipes/pipes.module';
-import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
-import { ProcessService } from 'app/shared/_services/http/process.service';
-import { NotificationService } from 'app/shared/_services/notification.service';
 
-import { EmailComponent } from './email/email.component';
-import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
+import { PipesModule } from 'app/shared/_pipes/pipes.module';
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import { ContactService } from 'app/shared/_services/http/contact.service';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
+
 import { PaymentComponent } from './payment.component';
-import { InformationMessageComponent } from './information-message/information-message.component';
+import { EmailComponent } from './email/email.component';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
+import { InformationMessageComponent } from './information-message/information-message.component';
 
 
 const routes: Routes = [
@@ -36,7 +38,7 @@ const routes: Routes = [
     PipesModule,
     DatePickerModule
   ],
-  providers: [ProcessService, NotificationService, HelpersService],
+  providers: [ProcessService, NotificationService, HelpersService, ContactService],
   declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent, InformationMessageComponent],
   entryComponents: [ EmailComponent, SendFileEmailComponent, InformationMessageComponent]
 

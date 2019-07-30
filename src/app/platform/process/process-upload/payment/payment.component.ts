@@ -172,7 +172,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
 
   openDialogSendFileEmail(): void {
     this.dialog.open(SendFileEmailComponent, {
-      data: {processId : this.processId},
+      data: {processId : this.processId, employerId : this.process_details.employer_id},
       width: '550px',
       panelClass: 'send-email-dialog'
     });

@@ -76,6 +76,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   ngOnInit() {
     this.fileId = this.route.snapshot.queryParams['fileId'];
+    this.displayBack = this.fileId !== undefined && this.fileId !== '0' ? true : false;
     this.recordId = this.route.snapshot.queryParams['recordId'];
     this.selectYear = this.fileId ? Number(this.route.snapshot.queryParams['year']) : this.year;
     this.sub.add(this.selectUnitService.unitSubject.subscribe(() => {

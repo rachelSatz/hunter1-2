@@ -6,6 +6,10 @@
   pointer-events: none;
 }
 
+.redColor {
+  color: red;
+}
+
 /*.highlight{*/
   /*background: #c3c7cc; !* medium-grey *!*/
 /*}*/

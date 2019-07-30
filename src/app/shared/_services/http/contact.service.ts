@@ -70,4 +70,18 @@ export class  ContactService extends BaseHttpService {
       .then(response => response as any[])
       .catch(() => []);
   }
+
+  deleteEmployerContact(id: number): Promise<any[]> {
+    return this.http.delete(this.endPoint + '/' + id, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as any[])
+      .catch(() => []);
+  }
+
+  getEmailEmployerContact(employerId: number): Promise<string[]> {
+    return this.http.get(this.endPoint + '/' + employerId + '/getEmailEmployerContact', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as string[])
+      .catch(() => null);
+  }
 }

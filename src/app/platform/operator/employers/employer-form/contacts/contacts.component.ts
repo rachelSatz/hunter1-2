@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
@@ -7,6 +7,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { EntityTypes } from 'app/shared/_models/contact.model';
 import { Subscription } from 'rxjs';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class ContactsComponent implements OnInit , OnDestroy {
               private router: Router,
               private contactService: ContactService,
               private userSession: UserSessionService,
-              private selectUnit: SelectUnitService) {
+              private selectUnit: SelectUnitService,
+              private notificationService: NotificationService  ) {
   }
 
   readonly columns =  [
@@ -63,6 +65,18 @@ export class ContactsComponent implements OnInit , OnDestroy {
     ));
   }
 
+  deleteEmployerContact(id) {
+    this.notificationService.warning('האם ברצונך למחוק את האיש קשר?')
+      .then(confirmation => {
+        if (confirmation.value) {
+          this.contactService.deleteEmployerContact(id).then(response => {
+            if (response) {
+              this.fetchItems();
+            }
+          });
+        }
+      });
+  }
 
   fetchItems() {
     const organizationId = this.selectUnit.currentOrganizationID;

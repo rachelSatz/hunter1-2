@@ -274,7 +274,8 @@ export class ProcessComponent implements OnInit, OnDestroy {
     }));
   }
 
-  openDetailsDialog(item: Object): void {
+  openDetailsDialog(item: any): void {
+    const saveItem =  Object.assign({}, item);
     const dialog = this.dialog.open(DetailsComponent, {
       data: item,
       width: '680px',
@@ -283,6 +284,12 @@ export class ProcessComponent implements OnInit, OnDestroy {
     this.sub.add(dialog.afterClosed().subscribe(created => {
       if (created) {
         this.fetchItems();
+      } else {
+        item.projected_balance = saveItem.projected_balance;
+        item.portal_balance = saveItem.portal_balance;
+        item.closed_at = saveItem.closed_at;
+        item.has_by_safebox = saveItem.has_by_safebox;
+        item =  Object.assign({}, saveItem);
       }
     }));
   }
