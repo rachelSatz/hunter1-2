@@ -12,7 +12,7 @@ import {
   MatProgressBarModule,
   MatTooltipModule,
   MatProgressSpinnerModule,
-  MatDatepickerModule
+  MatDatepickerModule, MatAutocompleteModule, MatChipsModule
 } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
@@ -22,6 +22,9 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { SendEmailIncorrectComponent } from './send-email-incorrect/send-email-incorrect.component';
+import {FileDropModule} from 'ngx-file-drop';
+import {PipesModule} from '../../../../../shared/_pipes/pipes.module';
+import {DatePickerModule} from '../../../../../shared/app-date-picker/app-date-picker.module';
 
 const route: Routes = [
   { path: '', component: DetailedRecordsComponent}
@@ -30,11 +33,18 @@ const route: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(route),
     FormsModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule, MatMenuModule,
-    MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule, MatIconModule,
-    BdSelectModule, DataTableModule, MatDatepickerModule
+    RouterModule.forChild(route),
+    FileDropModule,
+    MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule, MatSelectModule,
+    MatChipsModule, MatIconModule, MatAutocompleteModule, MatProgressBarModule, MatMenuModule,
+    BdSelectModule,
+    PipesModule,
+    DataTableModule,
+    DatePickerModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule
   ],
   providers: [ NotificationService, ContactService],
   declarations: [DetailedRecordsComponent, SendEmailIncorrectComponent],
