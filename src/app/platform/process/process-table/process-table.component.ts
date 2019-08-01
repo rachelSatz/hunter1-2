@@ -6,11 +6,11 @@ import { Subscription } from 'rxjs';
 import { MONTHS } from 'app/shared/_const/months';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { Process, ProcessStatus, ProcessType } from 'app/shared/_models/process.model';
-import {UserSessionService} from '../../../shared/_services/user-session.service';
 
 @Component({
   selector: 'app-process-table',
@@ -106,7 +106,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     const status = this.processStatus[process.status];
    if (status === this.processStatus.loading || status ===  this.processStatus.can_be_processed
    || status === this.processStatus.done_processing || status === this.processStatus.transmitted
-     || status === this.processStatus.loaded_with_errors) {
+     || status === this.processStatus.loaded_with_errors  || status === this.processStatus.partially_transmitted) {
      const date = new Date(process.date);
      let pageNumber = 1;
      if (status !== this.processStatus.loading) {

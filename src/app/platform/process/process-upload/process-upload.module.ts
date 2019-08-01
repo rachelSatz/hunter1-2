@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { MatFormFieldModule, MatInputModule, MatDialogModule, MatMenuModule,
-         MatProgressBarModule, MatSelectModule, MatTooltipModule, MatProgressSpinnerModule,
+import {
+  MatFormFieldModule, MatInputModule, MatDialogModule, MatMenuModule,
+  MatProgressBarModule, MatSelectModule, MatTooltipModule, MatProgressSpinnerModule,
+  MatCheckboxModule, MatChipsModule, MatIconModule
+} from '@angular/material';
 
-         MatCheckboxModule } from '@angular/material';
-import { ProcessService } from 'app/shared/_services/http/process.service';
-import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { ProcessService } from 'app/shared/_services/http/process.service';
 import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
-
 import { ProcessUploadComponent } from './process-upload.component';
-import { FormsModule } from '@angular/forms';
-
+import { PipesModule } from 'app/shared/_pipes/pipes.module';
 
 const routes: Routes = [
               { path: '', component: ProcessUploadComponent ,  children: [
@@ -29,11 +29,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule, MatMenuModule,
     MatProgressBarModule, MatTooltipModule, MatProgressSpinnerModule, MatCheckboxModule,
-    PipesModule, FormsModule
+    PipesModule, FormsModule, MatChipsModule, MatIconModule
   ],
-  declarations: [ProcessUploadComponent],
-  providers: [ProcessService, GeneralHttpService,
-              FilterItemsPipe]
+  declarations: [ ProcessUploadComponent ],
+  providers: [ ProcessService, GeneralHttpService, FilterItemsPipe ]
 
 })
 export class ProcessUploadModule {}

@@ -17,8 +17,8 @@ import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.mod
 import { PaymentComponent } from './payment.component';
 import { EmailComponent } from './email/email.component';
 import { HelpersService } from 'app/shared/_services/helpers.service';
-import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { InformationMessageComponent } from './information-message/information-message.component';
+import {SendFileEmailComponent} from './send-file-email/send-file-email.component';
 
 
 const routes: Routes = [
@@ -39,8 +39,8 @@ const routes: Routes = [
     DatePickerModule
   ],
   providers: [ProcessService, NotificationService, HelpersService, ContactService],
-  declarations: [PaymentComponent, EmailComponent, SendFileEmailComponent, InformationMessageComponent],
-  entryComponents: [ EmailComponent, SendFileEmailComponent, InformationMessageComponent]
+  declarations: [PaymentComponent, EmailComponent, InformationMessageComponent, SendFileEmailComponent],
+  entryComponents: [ EmailComponent, InformationMessageComponent, SendFileEmailComponent]
 
 })
 export class PaymentModule {

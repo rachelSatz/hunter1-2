@@ -6,7 +6,8 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import * as FileSaver from 'file-saver';
 
-import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
+import { SendFileEmailComponent } from 'app/platform/process/process-upload/payment/send-file-email/send-file-email.component';
+import { InformationMessageComponent } from './information-message/information-message.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
@@ -18,7 +19,6 @@ import { Process } from 'app/shared/_models/process.model';
 import { EmailComponent } from './email/email.component';
 import { fade } from 'app/shared/_animations/animation';
 
-import {InformationMessageComponent} from './information-message/information-message.component';
 
 @Component({
   selector: 'app-payment',

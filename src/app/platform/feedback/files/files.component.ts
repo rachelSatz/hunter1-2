@@ -160,9 +160,11 @@ export class FilesComponent implements OnInit, OnDestroy  {
     });
   }
 
-  detailsRecords(fileId: number): void {
-    this.router.navigate(['/platform', 'feedback', 'employees' ],
-      { queryParams: {  fileId: fileId, year: this.dataTable.criteria.filters['year'] }});
+  detailsRecords(fileId: number, status: string): void {
+    if (status !== 'feedback_a') {
+      this.router.navigate(['/platform', 'feedback', 'employees'],
+        {queryParams: {fileId: fileId, year: this.dataTable.criteria.filters['year']}});
+    }
   }
 
   ngOnDestroy() {

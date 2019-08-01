@@ -3,7 +3,8 @@ import { ActivatedRoute, Router} from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 
-import {DefrayalError, DepositStatus, DepositType, EmployeeStatus} from 'app/shared/_models/monthly-transfer-block';
+import { DefrayalError, DepositStatus, DepositType, EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
+import { SendEmailIncorrectComponent } from './send-email-incorrect/send-email-incorrect.component';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
@@ -29,7 +30,6 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
 
   nameEmployerProductCode = 'product_id';
   nameEmployeeName = 'employee_id';
-  title: string;
 
   depositType = Object.keys(DepositType).map(function(e) {
     return { id: e, name: DepositType[e] };
@@ -64,7 +64,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
               protected  notificationService: NotificationService,
               private selectUnitService: SelectUnitService) { }
   sub = new Subscription;
-
+  subscription = new Subscription;
   depositStatus = DepositStatus;
   employeeStatus = EmployeeStatus;
   depositTypes = DepositType;
@@ -92,6 +92,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
         column = this.dataTable.searchColumn(this.nameEmployerProductCode);
         column['searchOptions'].labels = response['products'];
       });
+    this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
     // this.highlightRecordId = this.processDataService.activeProcess.highlightRecordId !== undefined ?
     //   this.processDataService.activeProcess.highlightRecordId : 0;
   }
@@ -217,12 +218,12 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   }
 
   setColorError(errors , type): boolean {
-    this.title = '';
-    const error =  errors.filter(e => type.includes(e.type));
+    const error =  errors.defrayal_error.filter(e => type.includes(e.type));
     if (error.length > 0) {
-      this.title = error.map(arr => {
+       error.title = error.map(arr => {
         return this.defrayalError[arr.message.replace(/,/g, '').replace(/ /g, '_')];
       });
+      errors.title = error.title[0];
       return true;
     }
     return false;
@@ -252,7 +253,17 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     }
   }
 
+  openDialogSendFileEmail(): void {
+    this.dialog.open(SendEmailIncorrectComponent, {
+      data: {processId : this.processDataService.activeProcess.processID,
+        employerId : this.selectUnitService.currentEmployerID},
+      width: '550px',
+      panelClass: 'send-email-dialog'
+    });
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

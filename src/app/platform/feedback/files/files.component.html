@@ -29,11 +29,11 @@
     <td class="check-column">
       <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
     </td>
-    <td  (click)="detailsRecords(item.id)">{{ item.company_name}}</td>
-    <td  (click)="detailsRecords(item.id)">{{ item.employer_name}}</td>
-    <td  (click)="detailsRecords(item.id)">{{ item.amount | number: '1.2-2' }}</td>
-    <td  (click)="detailsRecords(item.id)">{{ item.product_code }}</td>
-    <td  (click)="detailsRecords(item.id)">{{ statuses[item.status] }}</td>
+    <td  (click)="detailsRecords(item.id, item.status)">{{ item.company_name}}</td>
+    <td  (click)="detailsRecords(item.id, item.status)">{{ item.employer_name}}</td>
+    <td  (click)="detailsRecords(item.id, item.status)">{{ item.amount | number: '1.2-2' }}</td>
+    <td  (click)="detailsRecords(item.id, item.status)">{{ item.product_code }}</td>
+    <td  (click)="detailsRecords(item.id, item.status)">{{ statuses[item.status] }}</td>
     <td>
       <img src="/assets/img/icons/details_grey.png" (click)="openFormDialog(item)">
     </td>
@@ -46,7 +46,7 @@
       <span class="grey-circle mr-3" (click)="openInquiriesDetailsDialog(item)">{{ item.inquiries.length }}</span>
     </td>
     <td>
-      <i class="fa fa-angle-double-left" (click)="detailsRecords(item.id)"></i>
+      <i *ngIf="item.status !== 'feedback_a'" class="fa fa-angle-double-left" (click)="detailsRecords(item.id)"></i>
     </td>
 
 

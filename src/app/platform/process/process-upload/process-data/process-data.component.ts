@@ -87,7 +87,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
 
   setFile(file: File) {
     const ext = file.name.substr(file.name.indexOf('.') + 1);
-    if (['xml', 'dat'].indexOf(ext.toLowerCase()) === -1) {
+    if (['xml', 'dat', 'xlsx', 'xls'].indexOf(ext.toLowerCase()) === -1) {
       this.fileTypeError = true;
       return;
     }

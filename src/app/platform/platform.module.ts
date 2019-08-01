@@ -20,6 +20,7 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { AppHttpService } from '../shared/_services/http/app-http.service';
 import { ProductService } from '../shared/_services/http/product.service';
 import { TimerService } from '../shared/_services/http/timer';
+import { SendFileEmailComponent } from './process/process-upload/payment/send-file-email/send-file-email.component';
 
 const routes: Routes = [
   {

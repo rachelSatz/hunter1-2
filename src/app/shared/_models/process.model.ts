@@ -106,6 +106,7 @@ export enum ProcessStatus {
   can_be_processed = 'נטען בהצלחה',
   done_processing = 'מעובד',
   transmitted = 'שודר',
+  partially_transmitted = 'שודר חלקית',
   feedbacked_once = 'פידבק ראשון' ,
   finished = 'הסתיים'  ,
   error_loading = 'שגיאת טעינה',

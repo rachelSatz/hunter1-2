@@ -43,7 +43,7 @@ const route: Routes = [
     MatIconModule,
     DataTableModule
   ],
-  providers: [ NotificationService],
-  declarations: [ DetailedFilesComponent ]
+  providers: [ NotificationService ],
+  declarations: [ DetailedFilesComponent ],
 })
 export class DetailedFilesModule { }
