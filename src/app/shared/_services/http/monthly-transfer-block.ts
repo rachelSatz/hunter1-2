@@ -95,4 +95,11 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
       .then(response => response)
       .catch(response => response);
   }
+
+  sentEmailRecordIncorrect(id: number, mtb: any): Promise<any> {
+    return this.http.post(this.endPoint + '/setEditPayments/' +  id, mtb , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
 }

@@ -1,9 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MAT_DIALOG_DATA, MatChipInputEvent, MatDialogRef} from '@angular/material';
-import {ProcessService} from '../../../../../../shared/_services/http/process.service';
-import {ContactService} from '../../../../../../shared/_services/http/contact.service';
-import {NotificationService} from '../../../../../../shared/_services/notification.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialogRef } from '@angular/material';
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import { ContactService } from 'app/shared/_services/http/contact.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import {MonthlyTransferBlockService} from '../../../../../../shared/_services/http/monthly-transfer-block';
 
 @Component({
   selector: 'app-send-email-incorrect',
@@ -20,6 +21,7 @@ export class SendEmailIncorrectComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               public processService: ProcessService,
+              public mtbService: MonthlyTransferBlockService,
               public contactService: ContactService,
               protected notificationService: NotificationService,
               private dialogRef: MatDialogRef<SendEmailIncorrectComponent>) { }
@@ -59,7 +61,7 @@ export class SendEmailIncorrectComponent implements OnInit {
   sendMail(): void {
     if (this.emails !== null && this.emails.length > 0) {
 
-      this.processService.sendEmail( this.data.processId, this.emails).then(response => {
+      this.mtbService.sentEmailRecordIncorrect( this.data.processId, this.emails).then(response => {
         if (response === 'Ok') {
           this.notificationService.success('נשלח בהצלחה.');
           this.dialogRef.close();

@@ -1,12 +1,6 @@
 <h6 class="bold mb-lg-3">
-  שליחת קובץ למייל
+  יצוא שגויים למעסיק
 </h6>
-<!--<div class="form-group">-->
-<!--<input type="email" class="form-control" placeholder="כתובת" [(ngModel)]="fromEmail">-->
-<!--</div>-->
-<!--<div class="form-group mb-lg-5">-->
-<!--<input type="email" class="form-control" placeholder="כתובת מייל..." [(ngModel)]="toEmail">-->
-<!--</div>-->
 <mat-form-field class="w-100">
   <mat-chip-list #chipList>
     <mat-chip *ngFor="let email of emails" [selectable]="selectable"
@@ -22,5 +16,5 @@
   </mat-chip-list>
 </mat-form-field>
 <div class="text-center">
-  <button class="btn blue-btn" (click)="sendMail()">שליחה</button>
+  <button class="btn blue-btn" (click)="sendMail()">שלח</button>
 </div>

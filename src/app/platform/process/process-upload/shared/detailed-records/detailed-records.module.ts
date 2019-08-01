@@ -22,6 +22,7 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { SendEmailIncorrectComponent } from './send-email-incorrect/send-email-incorrect.component';
+import {MonthlyTransferBlockService} from '../../../../../shared/_services/http/monthly-transfer-block';
 
 const route: Routes = [
   { path: '', component: DetailedRecordsComponent}
