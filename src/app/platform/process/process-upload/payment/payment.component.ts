@@ -178,35 +178,19 @@ export class PaymentComponent implements OnInit , OnDestroy {
     });
   }
 
-  downloadMasav(): void {
-    this.processService.downloadMasav(this.processId).then(response => {
-      if (response) {
-        const byteCharacters = atob(response['data']);
+  downloadPaymentsInstruction(): void {
+    this.processService.downloadPaymentsInstruction(this.processId).then(response => {
+      response.forEach(function (value) {
+        const byteCharacters = atob(value['data']);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
           byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
-
         const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'application/' + this.type});
-        FileSaver.saveAs(blob, this.fileName);
-        this.spin = false;
-      } else {
-        this.notificationService.error('לא מכיל תוכן');
-      }
-    });
-  }
+        const blob = new Blob([byteArray], {type: 'application/' + value['ext']});
+        FileSaver.saveAs(blob, value['filename']);
+      });
 
-  downloadExcel(): void {
-    this.processService.downloadExcel(this.processId).then(response => {
-      const byteCharacters = atob(response['data']);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-      FileSaver.saveAs(blob, 'הנחיות תשלום.xlsx');
       this.spin = false;
     });
   }

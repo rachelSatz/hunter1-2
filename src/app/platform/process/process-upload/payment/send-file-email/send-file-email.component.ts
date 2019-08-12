@@ -17,6 +17,7 @@ export class SendFileEmailComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   emails: string[] = [];
+  PAYMENTS_INSTRUCTIONS = 'payments_instructions';
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,

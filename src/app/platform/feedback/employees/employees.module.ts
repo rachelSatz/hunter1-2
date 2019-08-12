@@ -19,6 +19,8 @@ import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import {MonthlyTransferBlockService} from '../../../shared/_services/http/monthly-transfer-block';
 
 const routes: Routes = [{
   path: '', component: EmployeesComponent
@@ -30,16 +32,20 @@ const routes: Routes = [{
     RouterModule.forChild(routes),
     BdSelectModule,
     FormsModule,
+    DataTableModule,
     MatTooltipModule, MatDialogModule, MatFormFieldModule, MatInputModule,
-    MatSelectModule, DataTableModule, MatChipsModule,
-    MatOptionModule, MatDatepickerModule,
+    MatSelectModule, MatChipsModule, MatOptionModule, MatDatepickerModule,
     MatNativeDateModule, MatMenuModule,
-    MatIconModule, PipesModule,
-    MatCheckboxModule, MatAutocompleteModule,
+    MatIconModule, PipesModule, MatCheckboxModule, MatAutocompleteModule,
   ],
   exports: [],
   declarations: [EmployeesComponent, SendApplicationComponent],
   entryComponents: [SendApplicationComponent],
-  providers: [NotificationService, FeedbackService, ContactService, HelpersService, GeneralHttpService],
+  providers: [
+    NotificationService, FeedbackService,
+    ContactService, HelpersService,
+    GeneralHttpService, ProcessService,
+    MonthlyTransferBlockService
+  ],
 })
 export class EmployeesModule { }

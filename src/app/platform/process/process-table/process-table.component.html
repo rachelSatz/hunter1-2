@@ -36,7 +36,10 @@
     <td  (click)="moveProcess(item)">{{ item.date | date:'MM'}}</td>
     <td  (click)="moveProcess(item)">{{ item.date | date:'yyyy' }}</td>
     <td  (click)="moveProcess(item)">{{ item.total | number: '1.2-2'}}</td>
-    <td (click)="moveProcess(item)">{{ processStatus[item.status] }}</td>
+    <td (click)="moveProcess(item)" class="d-flex">
+      <div class="w-75">{{ processStatus[item.status] }}</div>
+      <div class="w-25" *ngIf="processStatus[item.status] == processStatus.error_loading"><img src="/assets/img/icons/warning.svg" class="img-size"></div>
+     </td>
     <td>
       <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)"></i>
     </td>

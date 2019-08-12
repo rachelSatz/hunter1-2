@@ -17,7 +17,7 @@ export class SendEmailIncorrectComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   emails: string[] = [];
-
+  PAYMENTS_INSTRUCTIONS = 'payments_instructions';
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               public processService: ProcessService,
@@ -61,7 +61,8 @@ export class SendEmailIncorrectComponent implements OnInit {
   sendMail(): void {
     if (this.emails !== null && this.emails.length > 0) {
 
-      this.mtbService.sentEmailRecordIncorrect( this.data.processId, this.emails).then(response => {
+      this.mtbService.sentEmailRecordIncorrect( this.data.processId,
+        this.emails, this.data.criteria, this.data.files_list).then(response => {
         if (response === 'Ok') {
           this.notificationService.success('נשלח בהצלחה.');
           this.dialogRef.close();

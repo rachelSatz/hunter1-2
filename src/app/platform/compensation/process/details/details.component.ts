@@ -12,6 +12,7 @@ import { fade } from 'app/shared/_animations/animation';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
+  styleUrls: ['./details.component.css'],
   styles: ['.displayNone { display: none}'],
   animations: [ fade ]
 })
@@ -21,7 +22,8 @@ export class DetailsComponent implements OnInit {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
-  uploadedFile: File [];
+  public files: any[] = [];
+  uploadedFile: File [] = [];
   spin: boolean;
   hasServerError: boolean;
 
@@ -84,4 +86,20 @@ export class DetailsComponent implements OnInit {
         }
       });
   }
+
+  getFileFromDrop(event) {
+    if (event.files != null && event.files.length > 0) {
+      for (const droppedFile of event.files) {
+        if (droppedFile['fileEntry'].isFile) {
+          const fileEntry = droppedFile['fileEntry'] as any;
+          fileEntry.file((file: File) => this.setFile(file));
+        }
+      }
+    }
+  }
+
+  setFile(file: File) {
+    this.uploadedFile.push(file);
+  }
+
 }

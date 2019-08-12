@@ -34,7 +34,7 @@
 
         <mat-select matInput placeholder="סוג מזהה לשליחה"
                     [(ngModel)]="employer.sender_identifier_type" formControlName="identifierType" required>
-          <mat-option *ngFor="let identifier of identifierTypes"
+          <mat-option *ngFor="let identifier of identifierTypes" (selectionChange)="saveChanges = true"
                       [value]="identifier.id">{{identifier.name}}</mat-option>
         </mat-select>
         <mat-error>שדה חובה</mat-error>

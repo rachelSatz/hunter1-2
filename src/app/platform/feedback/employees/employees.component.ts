@@ -18,6 +18,8 @@ import { SendApplicationComponent } from './send-application/send-application.co
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { Location } from '@angular/common';
+import {query} from '@angular/animations';
+import {ProcessService} from '../../../shared/_services/http/process.service';
 
 @Component({
   selector: 'app-employees',
@@ -65,6 +67,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   constructor(public dialog: MatDialog,
               private router: Router,
               public route: ActivatedRoute,
+              private processService: ProcessService,
               private notificationService: NotificationService,
               private feedbackService: FeedbackService,
               public userSession: UserSessionService,
@@ -160,6 +163,58 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     this.dialog.open(InquiriesComponent, {
       data: {'id': item.id, 'contentType': 'employee_repayment', 'inquiries' : item.inquiries},
       width: '860px',
+    });
+  }
+
+  regularFix(): void {
+    const item = this.dataTable.criteria.checkedItems[0];
+    if (this.dataTable.criteria.checkedItems.length === 0
+      || this.dataTable.criteria.checkedItems.length > 1 ||
+      item['status'] !== 'not_defrayed') {
+        this.notificationService.warning('יש לבחור רשומה אחת שלא נפרעה');
+        return;
+    }
+
+    this.router.navigate(['platform', 'process' , 'edit-payments', item['id'] ], {queryParams: {
+      type: 'regular'
+      }});
+  }
+
+  positiveNegativeFix(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0 ||
+      this.dataTable.criteria.checkedItems.some(item => item['status'] !== 'fully_defrayed')) {
+      this.notificationService.warning('יש לבחור רשומות שנפרעו');
+      return;
+    }
+    const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
+    this.processService.positiveNegativeFix(ids).then(response => {
+      if (response['result'] === 'yes') {
+        this.notificationService.success('התהליך נוצר בהצלחה');
+        this.dataTable.criteria.checkedItems = [];
+        this.dataTable.criteria.isCheckAll = false;
+        this.fetchItems();
+      } else {
+        this.notificationService.error('שגיאה');
+      }
+
+    });
+  }
+
+  sendFeedback(): void {
+    const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
+    this.feedbackService.sendFeedback(
+      ids,
+      ['shoshi@smarti.co.il'] ,
+      'rteter').then(response => {
+
+      const result = response.error['result'] === 'The mtb are not with the same process' ? 'התהליך אינו זהה' :
+        response.error['result'] === 'email was not sent' ? 'המייל שגוי' : '';
+      if (result !== '') {
+          this.notificationService.error(result);
+        } else {
+          this.notificationService.success('נשלח בהצלחה');
+
+        }
     });
   }
 

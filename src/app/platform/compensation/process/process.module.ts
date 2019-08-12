@@ -32,6 +32,7 @@ import { EmployeesComponent } from './excel/employees/employees.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import {FileDropModule} from 'ngx-file-drop';
 
 
 const routes: Routes = [
@@ -45,7 +46,10 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule, MatSelectModule, MatChipsModule, MatIconModule,
+    MatFormFieldModule, MatInputModule,
+    MatDialogModule, MatCheckboxModule,
+    MatSelectModule, MatChipsModule, MatIconModule,
+    FileDropModule,
     MatAutocompleteModule,
     DatePickerModule,
     BdSelectModule,
@@ -61,7 +65,10 @@ const routes: Routes = [
     EmployeesComponent,
     ErrorMessageComponent
   ],
-  providers: [ CompensationService, DepartmentService, ProductService, NotificationService, ContactService, EmployerService,
+  providers: [
+    CompensationService, DepartmentService,
+    ProductService, NotificationService,
+    ContactService, EmployerService,
     FilterItemsPipe, GeneralHttpService],
   entryComponents: [
     FormComponent,

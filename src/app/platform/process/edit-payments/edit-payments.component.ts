@@ -12,6 +12,7 @@ import { Company } from 'app/shared/_models/company.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
+import {ProcessService} from '../../../shared/_services/http/process.service';
 
 @Component({
   selector: 'app-edit-payments',
@@ -32,6 +33,7 @@ export class EditPaymentsComponent implements OnInit {
   editPaymentForm: FormGroup;
   error_sum = false;
   sum= 0;
+  type;
 
   lstTypes = Object.keys(Types).map(function(e) {
     return { id: e, name: Types[e] };
@@ -53,6 +55,7 @@ export class EditPaymentsComponent implements OnInit {
               private selectUnit: SelectUnitService,
               private fb: FormBuilder,
               private mtbService: MonthlyTransferBlockService,
+              private processService: ProcessService,
               private ref: ChangeDetectorRef,
               private notificationService: NotificationService,
               private _location: Location) { }
@@ -62,7 +65,7 @@ export class EditPaymentsComponent implements OnInit {
       this.mtb = this.route.snapshot.data.mtb;
       this.arryMtb.push(this.route.snapshot.data.mtb);
     }
-
+    this.type = this.route.snapshot.queryParams['type'];
     this.companies = this.selectUnit.getCompanies();
     this.initForm();
 
@@ -98,7 +101,7 @@ export class EditPaymentsComponent implements OnInit {
     });
   }
 
-  addMtb(mtb?: Object): void {
+  addMtb(mtb?: any): void {
     const mtbControl = {
       'id': [mtb  ? +mtb['id'] : null],
       'salary': [mtb  ? +mtb['salary'] : null,  Validators.required],
@@ -124,12 +127,12 @@ export class EditPaymentsComponent implements OnInit {
 
     const mtbGroup = (<FormArray>this.editPaymentForm.get('mtb'));
     mtbGroup.push(this.fb.group(mtbControl));
-    this.arryMtb.push(this.mtb);
   }
 
   removeMtb(index: number): void {
     const mtbGroup = (<FormArray>this.editPaymentForm.get('mtb'));
     mtbGroup.removeAt(index);
+    this.calcSumSplit();
   }
 
   getMtbArrControls(): any[] {
@@ -157,6 +160,7 @@ export class EditPaymentsComponent implements OnInit {
   remove(m: any, index: number): void {
     const transfer = (<FormArray>m.get('transfer_clause'));
     transfer.removeAt(index);
+    this.calcSumSplit();
   }
 
   selectedProducts(item): void {
@@ -168,13 +172,23 @@ export class EditPaymentsComponent implements OnInit {
        this.notificationService.warning('' , ' סה"כ לא שווה לסהכ פיצול ');
     } else {
       if (form.valid) {
-        this.mtbService.setEditPayments(this.mtb.id, form.value).then(r => {
-          if (r['result'] === 'no') {
-            this.notificationService.error('הפיצול נכשל', '');
-          } else {
-            this.previous();
-          }
-        });
+        if (this.type !== 'regular') {
+          this.mtbService.setEditPayments(this.mtb.id, form.value).then(r => {
+            if (r['result'] === 'no') {
+              this.notificationService.error('הפיצול נכשל', '');
+            } else {
+              this.previous();
+            }
+          });
+        } else {
+          this.processService.regularFix(this.mtb.id, form.value).then(r => {
+            if (r['result'] === 'false') {
+              this.notificationService.error('השידור נכשל', '');
+            } else {
+              this.previous();
+            }
+          });
+        }
       }
     }
   }
@@ -182,9 +196,7 @@ export class EditPaymentsComponent implements OnInit {
 
   sumPercent(m: any, transfer: FormGroup, index, i): void {
     const salary = m.value.salary;
-    this.sum = parseFloat((this.sum -
-      this.arryMtb[index].transfer_clause[i].transfer_sum + transfer.value.transfer_sum).toFixed(2));
-    this.arryMtb[index].transfer_clause[i].transfer_sum = transfer.value.transfer_sum;
+    this.calcSumSplit();
     if (this.sum !== this.mtb.amount) {
       this.error_sum = true;
     } else {
@@ -192,6 +204,19 @@ export class EditPaymentsComponent implements OnInit {
 
     }
     transfer.patchValue({'transfer_percent':  (transfer.value.transfer_sum / salary * 100).toFixed(2)});
+  }
+
+  calcSumSplit(): void {
+    const mtb = this.editPaymentForm.get('mtb').value;
+    let sum_t = 0;
+
+
+    mtb.forEach(mt => {
+      mt.transfer_clause.forEach( t => {
+        sum_t += t.transfer_sum;
+      });
+    });
+    this.sum =  sum_t;
   }
 
   previous() {

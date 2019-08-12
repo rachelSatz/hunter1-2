@@ -254,12 +254,18 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   }
 
   openDialogSendFileEmail(): void {
-    this.dialog.open(SendEmailIncorrectComponent, {
-      data: {processId : this.processDataService.activeProcess.processID,
-        employerId : this.selectUnitService.currentEmployerID},
-      width: '550px',
-      panelClass: 'send-email-dialog'
-    });
+    if (this.checkedRowItems()) {
+      this.dialog.open(SendEmailIncorrectComponent, {
+        data: {
+          processId: this.processDataService.activeProcess.processID,
+          criteria: this.dataTable.criteria,
+          files_list : this.dataTable.criteria.checkedItems.map(item => item['id']),
+          employerId: this.selectUnitService.currentEmployerID
+        },
+        width: '550px',
+        panelClass: 'send-email-dialog'
+      });
+    }
   }
 
   ngOnDestroy() {

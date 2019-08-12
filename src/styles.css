@@ -95,6 +95,12 @@ a:hover {
   color: #00adee;
 }
 
+.black-color {
+  color: #fff;
+  background-color: black;
+
+}
+
 .yellow-color {
   color: #ebc372;
 }

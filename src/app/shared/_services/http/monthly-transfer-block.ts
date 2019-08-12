@@ -87,17 +87,26 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
   }
 
   markValid(ids: number[], criteria: DataTableCriteria ): Promise<any> {
-    const request = this.getTokenHeader();
-
     return this.http.post(this.endPoint + '/markValid',
-  {ids: ids,  searchCriteria: this.setDataTableParams(criteria)}, request)
+  {ids: ids,  searchCriteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
   }
 
-  sentEmailRecordIncorrect(id: number, mtb: any): Promise<any> {
-    return this.http.post(this.endPoint + '/setEditPayments/' +  id, mtb , this.getTokenHeader())
+  sentEmailRecordIncorrect(processID: number, recipient: any[] , criteria: DataTableCriteria, files_list: any): Promise<any> {
+    const data = {
+      searchCriteria: this.setDataTableParams(criteria), recipient: recipient, files_list: files_list};
+    return this.http.post(this.endPoint + '/sentEmailRecordIncorrect/' +  processID, data , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+  saveComment(mtb_id: number, comment: string): Promise<any> {
+
+    return this.http.post(this.endPoint + '/saveComment/' + mtb_id,
+      { comment: comment} , this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);

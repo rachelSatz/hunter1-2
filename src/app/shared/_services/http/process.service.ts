@@ -46,21 +46,12 @@ export class ProcessService extends BaseHttpService {
       .then(response => response as DataTableResponse);
   }
 
-  downloadMasav(id: number): Promise<string> {
-    return this.http.post(this.endPoint + '/downloadMasav', {'processId': id}, this.getTokenHeader())
-
+  downloadPaymentsInstruction(id: number): Promise<any> {
+    return this.http.post(this.endPoint + '/downloadPaymentsInstruction', {'processId': id}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);
   }
-
-  downloadExcel(id: number): Promise<string> {
-    return this.http.post(this.endPoint + '/downloadMasavExcel', {'processId': id}, this.getTokenHeader())
-      .toPromise()
-      .then(response => response)
-      .catch(() => null);
-  }
-
 
   newProcess(values: any, file?: File, fileDeposition?: File ): Promise<boolean> {
     const formData = new FormData();
@@ -188,5 +179,19 @@ export class ProcessService extends BaseHttpService {
       .catch(() => null);
   }
 
+  regularFix(id: number, mtb: any): Promise<any> {
+    return this.http.post(this.endPoint + '/regularFix/' +  id, mtb , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+  positiveNegativeFix(ids: number[]): Promise<any> {
+
+    return this.http.post(this.endPoint + '/positiveNegativeFix' , {'mtbIds' : ids} , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
 }
 

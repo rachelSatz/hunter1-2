@@ -28,30 +28,43 @@
   </div>
 </div>
 <app-data-table tableName="מעקב ברמת עובד" [columns]="columns" (fetchItems)="fetchItems()"
-                [hasCheckColumn]="false" [hasActionsHeader]="userSession.getPermissionsType('operations')">
+                [hasCheckColumn]="true" [hasActionsHeader]="userSession.getPermissionsType('operations')">
   <div class="table-header">
+      <div class="row mr-1">
+        <div class="ml-3 d-flex mr-auto">
+          <button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2">פעולות</button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="regularFix()">מתקן 2</button>
+            <button mat-menu-item (click)="positiveNegativeFix()"> מתקן 1+6 </button>
+            <button mat-menu-item (click)="sendFeedback()"> שליחת היזונים חוזרים</button>
+          </mat-menu>
+        </div>
+     </div>
   </div>
-  <tr *ngFor="let employee of dataTable.items" class="pointer" >
-    <td>{{ employee.name }}</td>
-    <td>{{ employee.personal_id }}</td>
-    <td>{{ employee.salary_month | date:'MM/yy'}}</td>
-    <td>{{ employee.company_name}}</td>
-    <td>{{ productTypes[employee.product_type]}}</td>
-    <td>{{ employee.product_code}}</td>
-    <td>{{ employee.amount | number: '1.2-2'}}</td>
-    <td>{{ employee.deposit_month | date: 'dd/MM/yyyy' }}</td>
-    <td>{{ employee.updated_at | date: 'dd/MM/yyyy' }}</td>
-    <td>{{ statuses[employee.status]}}</td>
-    <td >
-      <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog(employee)">
+  <tr *ngFor="let item of dataTable.items" class="pointer"  [ngClass]="{ 'checked': item.checked }" >
+    <td class="check-column">
+      <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
     </td>
-    <td (click)="openCommentsDialog(employee)">
-      <i *ngIf="employee.comments.length === 0" class="fa fa-comment-o"></i>
-      <i *ngIf="employee.comments.length > 0" class="fa fa-comment"></i>
+    <td>{{ item.name }}</td>
+    <td>{{ item.personal_id }}</td>
+    <td>{{ item.salary_month | date:'MM/yy'}}</td>
+    <td>{{ item.company_name}}</td>
+    <td>{{ productTypes[item.product_type]}}</td>
+    <td>{{ item.product_code}}</td>
+    <td>{{ item.amount | number: '1.2-2'}}</td>
+    <td>{{ item.deposit_month | date: 'dd/MM/yyyy' }}</td>
+    <td>{{ item.updated_at | date: 'dd/MM/yyyy' }}</td>
+    <td>{{ statuses[item.status]}}</td>
+    <td >
+      <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog(item)">
+    </td>
+    <td (click)="openCommentsDialog(item)">
+      <i *ngIf="item.comments.length === 0" class="fa fa-comment-o"></i>
+      <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
     </td>
     <td *ngIf="dataTable.hasActionsHeader">
-      <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(employee)">
-      <span class="grey-circle mr-3" (click)="openInquiriesDetailsDialog(employee)">{{ employee.inquiries.length }}</span>
+      <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(item)">
+      <span class="grey-circle mr-3" (click)="openInquiriesDetailsDialog(item)">{{ item.inquiries.length }}</span>
     </td>
   </tr>
 </app-data-table>
