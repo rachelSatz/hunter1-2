@@ -2,7 +2,7 @@ import * as FileSaver from 'file-saver';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { Component, OnDestroy, OnInit, ViewChild  } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { FormComponent } from './form/form.component';
 import { DetailsComponent } from './details/details.component';
@@ -39,7 +39,6 @@ export class ProcessComponent implements OnInit, OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   sub = new Subscription;
-
   productTypes = ProductType;
 
   statuses = CompensationStatus;
@@ -61,7 +60,6 @@ export class ProcessComponent implements OnInit, OnDestroy {
   nameCompany = 'company';
   nameUserId = 'user_id';
   compensationId: number;
-
   readonly columns  = [
     { name: 'created_at', label: 'תאריך יצירת בקשה', searchOptions: { isDate: true }},
     { name: 'updated_at', label: 'תאריך עדכון בקשה', searchable: false},
@@ -115,7 +113,6 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
   fetchItems() {
     this.compensationId = this.route.snapshot.params['id'];
-
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
     const departmentId = this.selectUnit.currentDepartmentID;
@@ -311,7 +308,10 @@ export class ProcessComponent implements OnInit, OnDestroy {
       width: '800px'
     });
   }
-
+  getIfThereFiles(item: Compensation): string {
+    return item.files.items.length === 0 ? 'fa fa-info-circle grey-color fa-size' :
+      'fa fa-info-circle green-color fa-size';
+  }
   getValidityImage(item: Compensation): string {
     const balance = item.has_by_safebox || item.portal_balance <= 0 ? 'reported_balance' : 'portal_balance';
 
