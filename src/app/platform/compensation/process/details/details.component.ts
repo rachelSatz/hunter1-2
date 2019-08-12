@@ -23,7 +23,7 @@ export class DetailsComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   public files: any[] = [];
-  uploadedFile: File [] = [];
+  uploadedFile: File[];
   spin: boolean;
   hasServerError: boolean;
 
@@ -92,13 +92,17 @@ export class DetailsComponent implements OnInit {
       for (const droppedFile of event.files) {
         if (droppedFile['fileEntry'].isFile) {
           const fileEntry = droppedFile['fileEntry'] as any;
-          fileEntry.file((file: File) => this.setFile(file));
+          fileEntry.file((file: File) =>  this.setFile(file));
         }
       }
     }
   }
 
+
   setFile(file: File) {
+    if (this.uploadedFile === undefined) {
+      this.uploadedFile = [];
+    }
     this.uploadedFile.push(file);
   }
 
