@@ -38,6 +38,7 @@ export class EmployerService extends BaseHttpService {
      .catch(() => null);
   }
 
+
   getAllEmployers(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
 
@@ -69,6 +70,7 @@ export class EmployerService extends BaseHttpService {
     .toPromise()
     .then(response => response as any);
   }
+
   saveNewEmployer(employer: Employer, organizationID: number): Promise<any> {
     employer.organizationId = organizationID;
     return this.http.post(this.endPoint, employer, this.getTokenHeader())
@@ -76,6 +78,15 @@ export class EmployerService extends BaseHttpService {
       .then(response => response)
       .catch(response => response);
   }
+
+  getIsEmployerFile(employer_id: number): Promise<any> {
+    const request = this.getTokenHeader();
+    const path_url = this.endPoint + '/' + employer_id +  '/fileEmployerPoaAndAP';
+    return this.http.get(path_url, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+  }
+
 
   updateEmployer(employer: Employer, id: number): Promise<any> {
     return this.http.post(this.endPoint  + '/update/' + id, employer, this.getTokenHeader())

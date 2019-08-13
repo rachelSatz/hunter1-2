@@ -12,6 +12,7 @@ import { Month } from 'app/shared/_const/month-bd-select';
 import { Process } from 'app/shared/_models/process.model';
 import { FileDepositionComponent } from './file-deposition/file-deposition.component';
 import { fade } from 'app/shared/_animations/animation';
+import {EmployerService} from '../../../../shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-process-data',
@@ -55,6 +56,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private dialog: MatDialog,
+              private employerService: EmployerService,
               private processService: ProcessService,
               private notificationService: NotificationService,
               private selectUnitService: SelectUnitService,
@@ -137,39 +139,56 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
         }
       }
 
+  checkFile(employer_id) {
+    this.employerService.getIsEmployerFile(employer_id).then(response => {
+      if (!response) {
+        const buttons = {cancelButtonText: 'אישור'};
+        const text = 'אינך יכול ';
+        this.notificationService.warning('שגיאת קבצים', text, buttons);
+      }
+    });
+
+  }
+  
   paymentPopup(form: NgForm): void {
     if (form.valid && !this.isSubmitting && ( this.processFile || this.process.file )) {
       this.isSubmitting = true;
       this.hasServerError = false;
+      this.employerService.getIsEmployerFile(this.selectUnitService.currentEmployerID).then(response => {
+        if (!response.result) {
+          const text = 'אין למעסיק קובץ יפויי כח וקובץ פרוטוקול  ';
+          this.notificationService.warning('שגיאת קבצים', text);
+        } else {
+        if (this.selectedType === 'positive') {
+          let text = 'במידה ובוצע תשלום לקופות, הנתונים ילקחו ';
+          text += 'מתוך קובץ ה-XML בהתאם לפרטים שהוזנו בתוכנית השכר. ';
+          text += 'במידה והתשלום לא בוצע לקופות הנך מועבר לקבלת הנחיית תשלום. ';
+          text += 'ניתן יהיה לערוך את פרטי התשלום לפני שידור הנתונים לקופות.';
 
-      if (this.selectedType === 'positive') {
-        let text = 'במידה ובוצע תשלום לקופות, הנתונים ילקחו ';
-        text += 'מתוך קובץ ה-XML בהתאם לפרטים שהוזנו בתוכנית השכר. ';
-        text += 'במידה והתשלום לא בוצע לקופות הנך מועבר לקבלת הנחיית תשלום. ';
-        text += 'ניתן יהיה לערוך את פרטי התשלום לפני שידור הנתונים לקופות.';
+          const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
 
-        const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+          this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
+            if (confirmation['dismiss'] === 'cancel' || confirmation.value) {
+              const isDirect = !!confirmation.value;
+              this.sendFile(isDirect, form, null);
+            } else {
+              this.isSubmitting = false;
+            }
+          });
+        }else {
+          const dialog = this.dialog.open(FileDepositionComponent, {
+            width: '550px',
+            panelClass: 'send-email-dialog'
+          });
 
-        this.notificationService.warning('האם בוצע תשלום לקופות?', text, buttons).then(confirmation => {
-          if (confirmation['dismiss'] === 'cancel' || confirmation.value) {
-            const isDirect = !!confirmation.value;
-            this.sendFile(isDirect, form, null);
-          } else {
-            this.isSubmitting = false;
-          }
-        });
-      }else {
-        const dialog = this.dialog.open(FileDepositionComponent, {
-          width: '550px',
-          panelClass: 'send-email-dialog'
-        });
-
-        this.sub.add(dialog.afterClosed().subscribe(res => {
-          this.sendFile( null, form, res);
-        }));
-      }
+          this.sub.add(dialog.afterClosed().subscribe(res => {
+            this.sendFile( null, form, res);
+          }));
+        }
+        }
+      });
     }
-    }
+  }
 
   sendFile(isDirect: any, form: NgForm, fileDeposition: File): void {
      const data = {
