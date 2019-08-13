@@ -62,7 +62,7 @@
 
   <app-data-table [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false"
                   [hasExtendedSearch]="false" [hasActionsSearch]="false">
-    <tr *ngFor="let item of dataTable.items" class="pointer trtd">
+    <tr *ngFor="let item of dataTable.items" class="pointer tr td">
       <td>{{ item.file_name }}</td>
       <td>{{ item.file_type }}</td>
       <td>{{ item.file_date | date: 'dd/MM/yy' }}</td>

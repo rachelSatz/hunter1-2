@@ -22,6 +22,7 @@ import { DepositsReportService } from 'app/shared/_services/http/deposits-report
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { RequestDepositsReportComponent } from './excel/request-deposits-report/request-deposits-report.component';
+import {DocumentService} from '../../../shared/_services/http/document.service';
 
 
 @Component({
@@ -42,7 +43,8 @@ export class DepositsReportComponent implements OnInit {
               protected notificationService: NotificationService,
               private selectUnit: SelectUnitService,
               private generalService: GeneralHttpService,
-              public userSession: UserSessionService
+              public userSession: UserSessionService,
+              public documentService: DocumentService
               ) {}
 
   sub = new Subscription;
