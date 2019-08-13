@@ -95,8 +95,11 @@ export class CompensationService extends BaseHttpService {
 
   }
 
-  downloadPdfFile(rowID: number): Promise<string> {
-    return this.http.get(this.endPoint + '/' + rowID + '/downloadPdfFile', this.getTokenHeader())
+  downloadPdfFile(rowID: number, hasFileFeedback: Boolean): Promise<string> {
+    const request = this.getTokenHeader();
+    request['params'] = {hasFileFeedback: hasFileFeedback}
+
+    return this.http.get(this.endPoint + '/' + rowID + '/downloadPdfFile', request)
       .toPromise()
       .then(response => response)
       .catch(() => null);

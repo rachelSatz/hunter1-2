@@ -1,25 +1,25 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
+import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { MONTHS } from 'app/shared/_const/months';
 import { ProductType } from 'app/shared/_models/product.model';
 import { Status } from 'app/shared/_models/employee-feedback.model';
+import { ProcessService } from 'app/shared/_services/http/process.service';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
 import { SendApplicationComponent } from './send-application/send-application.component';
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
-import { Location } from '@angular/common';
-import {query} from '@angular/animations';
-import {ProcessService} from '../../../shared/_services/http/process.service';
 
 @Component({
   selector: 'app-employees',
@@ -202,20 +202,26 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   sendFeedback(): void {
     const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
-    this.feedbackService.sendFeedback(
-      ids,
-      ['shoshi@smarti.co.il'] ,
-      'rteter').then(response => {
-
-      const result = response.error['result'] === 'The mtb are not with the same process' ? 'התהליך אינו זהה' :
-        response.error['result'] === 'email was not sent' ? 'המייל שגוי' : '';
-      if (result !== '') {
-          this.notificationService.error(result);
-        } else {
-          this.notificationService.success('נשלח בהצלחה');
-
-        }
+    const dialog = this.dialog.open(SendFeedbackComponent, {
+      data: {ids: ids } ,
+      width: '550px',
     });
+
+    // const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
+    // this.feedbackService.sendFeedback(
+    //   ids,
+    //   ['shoshi@smarti.co.il'] ,
+    //   'rteter').then(response => {
+    //
+    //   const result = response.error['result'] === 'The mtb are not with the same process' ? 'התהליך אינו זהה' :
+    //     response.error['result'] === 'email was not sent' ? 'המייל שגוי' : '';
+    //   if (result !== '') {
+    //       this.notificationService.error(result);
+    //     } else {
+    //       this.notificationService.success('נשלח בהצלחה');
+    //
+    //     }
+    // });
   }
 
   previous(): void {

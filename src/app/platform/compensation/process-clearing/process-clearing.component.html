@@ -49,8 +49,8 @@
     </td>
     <td>
       <span *ngIf="!item.has_file_feedback">טרם</span>
-      <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, 'download')" *ngIf="item.has_file_feedback"></i>
-      <i class="fa fa-eye fa-lg" (click)="PdfFile(item.id, 'show')" *ngIf="item.has_file_feedback"></i>
+      <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, item.has_file_feedback , 'download')" *ngIf="item.has_file_feedback"></i>
+      <!--<i class="fa fa-eye fa-lg" (click)="PdfFile(item.id, 'show')" *ngIf="item.has_file_feedback"></i>-->
     </td>
     <!---->
     <td >

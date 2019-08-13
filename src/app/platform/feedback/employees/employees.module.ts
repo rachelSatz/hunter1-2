@@ -21,6 +21,7 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import {MonthlyTransferBlockService} from '../../../shared/_services/http/monthly-transfer-block';
+import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
 
 const routes: Routes = [{
   path: '', component: EmployeesComponent
@@ -39,8 +40,8 @@ const routes: Routes = [{
     MatIconModule, PipesModule, MatCheckboxModule, MatAutocompleteModule,
   ],
   exports: [],
-  declarations: [EmployeesComponent, SendApplicationComponent],
-  entryComponents: [SendApplicationComponent],
+  declarations: [EmployeesComponent, SendApplicationComponent, SendFeedbackComponent],
+  entryComponents: [SendApplicationComponent, SendFeedbackComponent],
   providers: [
     NotificationService, FeedbackService,
     ContactService, HelpersService,

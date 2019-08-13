@@ -41,7 +41,7 @@
   <span class="header-width f-14">{{ data.sent_date  }}</span>
   <span class="header-width f-14">{{ statuses[data.status]}}</span>
   <span class="header-width f-14">{{ data.group_thing_feedback[0]  ?
-    data.group_thing_feedback[0].handling_status + ' ' + data.error_details : ''}}</span>
+    data.group_thing_feedback[0].handling_status + ' ' + data.error_details  + ' ' + data.group_thing_feedback[0].status_handling_funds: ''}}</span>
   <span class="header-width f-14">{{ data.file_name }}
     <i class="fa fa-download fa-lg ml-2" (click)="downloadFile(data.id)" title="הורד קובץ"></i>
   </span>

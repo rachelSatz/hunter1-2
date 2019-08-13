@@ -219,8 +219,8 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
     }));
   }
 
-  PdfFile(rowId: number, type: string): any {
-    this.compensationService.downloadPdfFile(rowId).then(response => {
+  PdfFile(rowId: number, hasFileFeedback: Boolean, type: string): any {
+    this.compensationService.downloadPdfFile(rowId, hasFileFeedback).then(response => {
       if (response) {
         const byteCharacters = atob(response['data']);
         const byteNumbers = new Array(byteCharacters.length);

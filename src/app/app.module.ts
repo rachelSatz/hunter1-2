@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 
 import { UserSessionService } from './shared/_services/user-session.service';
 import { HelpersService } from './shared/_services/helpers.service';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 const routes = [
   { path: '', loadChildren: 'app/public/public.module#PublicModule' },
