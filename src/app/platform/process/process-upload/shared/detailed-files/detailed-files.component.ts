@@ -98,15 +98,13 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
     if (this.processDataService.activeProcess === undefined) {
       this.processDataService = this.selectUnitService.getProcessData();
     }
-    // this.highlightFileId = this.processDataService.activeProcess.highlightFileId !== undefined ?
-    //   this.processDataService.activeProcess.highlightFileId : 0;
     this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID;
     if (this.processDataService.activeProcess.highlightFileId !== undefined) {
       this.dataTable.criteria.filters['fileId'] = this.processDataService.activeProcess.highlightFileId;
     }
     this.processService.getFilesList(this.dataTable.criteria)
       .then( response => {
-        this.dataTable.setItems(response);
+        this.dataTable.setItems(response,  'file_id');
       });
 
   }

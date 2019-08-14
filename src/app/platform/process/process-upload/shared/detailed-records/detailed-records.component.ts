@@ -93,8 +93,6 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
         column['searchOptions'].labels = response['products'];
       });
     this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
-    // this.highlightRecordId = this.processDataService.activeProcess.highlightRecordId !== undefined ?
-    //   this.processDataService.activeProcess.highlightRecordId : 0;
   }
 
   fetchItems() {

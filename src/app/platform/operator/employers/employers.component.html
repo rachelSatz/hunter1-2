@@ -1,4 +1,4 @@
-<div class="mr-5 px-4">
+<div class="px-4" [ngClass]="{'operator-container': location == 'operator' }">
   <app-data-table tableName="מעסיקים" (fetchItems)="fetchItems()" [columns]="columns"  [hasExtendedSearch]="false" [hasCheckColumn]="false">
     <div class="table-header">
       <div class="row mt-4 mr-1">

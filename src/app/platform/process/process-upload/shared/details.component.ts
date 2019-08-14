@@ -26,8 +26,7 @@ export class DetailsComponent  implements OnInit {
               private router: Router,
               public processDataService: ProcessDataService,
               private processService: ProcessService,
-              private selectUnitService: SelectUnitService,
-              private _location: Location) {
+              private selectUnitService: SelectUnitService) {
   }
 
   ngOnInit() {
@@ -46,7 +45,12 @@ export class DetailsComponent  implements OnInit {
   }
 
   previous() {
-    this._location.back();
-
+    if (this.processDataService.activeProcess.pageNumber === 4 ||
+      this.processDataService.activeProcess.pageNumber === 5) {
+      this.router.navigate(['/platform', 'process', 'new', 1, 'broadcast']);
+    } else {
+      this.router.navigate(['/platform', 'process', 'new', 1 ,
+        'payment', this.processDataService.activeProcess.processID]);
+    }
   }
 }

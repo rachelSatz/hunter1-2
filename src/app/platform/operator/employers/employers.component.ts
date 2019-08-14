@@ -13,12 +13,14 @@ import { UserSessionService } from 'app/shared/_services/user-session.service';
 @Component({
   selector: 'app-employers',
   templateUrl: './employers.component.html',
+  styles: ['.operator-container {margin-right: 60px}'],
   animations: [ slideToggle, placeholder]
 })
 export class EmployersComponent  implements OnInit , OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   sub = new Subscription;
+  location: string;
   employerStatus = EmployerStatus;
 
   readonly columns =  [
@@ -41,6 +43,12 @@ export class EmployersComponent  implements OnInit , OnDestroy {
   }
 
   ngOnInit() {
+    if (this.router.url.includes( 'operator')) {
+      this.location = 'operator';
+    } else {
+      this.location = 'settings';
+    }
+
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
         this.router.navigate([], {
           queryParams: {page: 1},
@@ -54,7 +62,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
   fetchItems() {
     this.dataTable.criteria.filters['organizationId'] = this.selectUnit.currentOrganizationID;
     this.dataTable.criteria.filters['employerId'] = this.selectUnit.currentEmployerID;
-
+    this.dataTable.criteria.filters['location'] = this.location;
     this.employerService.getAllEmployers(this.dataTable.criteria).then(
         response => this.setResponse(response));
   }

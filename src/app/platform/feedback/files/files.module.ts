@@ -6,11 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes} from '@angular/router';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import {
-  MatAutocompleteModule,
-  MatCheckboxModule, MatChipsModule, MatDatepickerModule,
+  MatCheckboxModule, MatChipsModule,
+  MatDatepickerModule,
   MatDialogModule,
-  MatFormFieldModule, MatIconModule,
-  MatInputModule, MatNativeDateModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
   MatOptionModule,
   MatSelectModule,
   MatTooltipModule
@@ -33,9 +34,16 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes),
     DataTableModule,
-    MatInputModule, MatTooltipModule, MatDialogModule, MatFormFieldModule,
-    MatSelectModule, MatOptionModule, MatCheckboxModule, MatFormFieldModule,
-    MatChipsModule, MatIconModule, MatAutocompleteModule, MatDatepickerModule, MatNativeDateModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatChipsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatDatepickerModule,
     BdSelectModule
   ],
   declarations: [FilesComponent, FormComponent],

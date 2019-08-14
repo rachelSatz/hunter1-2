@@ -19,7 +19,7 @@ import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.comp
 import { SendApplicationComponent } from './send-application/send-application.component';
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
-import {SendFeedbackComponent} from './send-feedback/send-feedback.component';
+import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
 
 @Component({
   selector: 'app-employees',
@@ -199,10 +199,10 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
     });
   }
-
   sendFeedback(): void {
-    if (this.dataTable.criteria.checkedItems.length === 0) {
-      this.notificationService.warning('יש לבחור רשומות');
+    if (this.dataTable.criteria.checkedItems.length === 0  ||
+      this.dataTable.criteria.checkedItems.some(item => item['status'] !== 'not_defrayed')) {
+      this.notificationService.warning('יש לבחור רשומות שלא נפרעו');
       return;
     }
     const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
