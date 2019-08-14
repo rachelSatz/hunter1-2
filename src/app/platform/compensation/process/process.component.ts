@@ -45,7 +45,6 @@ export class ProcessComponent implements OnInit, OnDestroy {
   selectStatuses = Object.keys(CompensationStatus).map(function(e) {
     return { id: e, name: CompensationStatus[e] };
   });
-
   sendingMethods = CompensationSendingMethods;
   employers = [];
   companies = [];
@@ -110,6 +109,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
     ));
     this.dataTable.placeHolderSearch = 'חפש עובד';
   }
+
 
   fetchItems() {
     this.compensationId = this.route.snapshot.params['id'];

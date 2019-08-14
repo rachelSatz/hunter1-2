@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
+import { FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { EmployeesComponent } from './employees.component';
+import { MatChipsModule } from '@angular/material/chips';
 import { RouterModule, Routes } from '@angular/router';
 import {
   MatAutocompleteModule,
   MatCheckboxModule,
-  MatChipsModule,
   MatDatepickerModule,
   MatDialogModule,
   MatFormFieldModule,
@@ -14,9 +14,8 @@ import {
   MatSelectModule,
 } from '@angular/material';
 
-import { FormsModule} from '@angular/forms';
 import { FileDropModule } from 'ngx-file-drop';
-
+import { EmployeesComponent } from './employees.component';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
 import { HelpersService } from 'app/shared/_services/helpers.service';
@@ -29,8 +28,7 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { SendApplicationComponent } from './send-application/send-application.component';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
-import {SendFeedbackComponent} from './send-feedback/send-feedback.component';
-// import { SendFeedbackComponent } from 'app/shared/_dialogs/send-feedback/send-feedback.component';
+import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
 
 const routes: Routes = [{
   path: '', component: EmployeesComponent
@@ -43,13 +41,13 @@ const routes: Routes = [{
     MatDatepickerModule,
     RouterModule.forChild(routes),
     MatFormFieldModule,
-    MatInputModule,
     MatDialogModule,
     MatCheckboxModule,
     MatSelectModule,
     MatChipsModule,
     MatIconModule,
     FileDropModule,
+    MatInputModule,
     MatAutocompleteModule,
     DatePickerModule,
     BdSelectModule,
@@ -58,10 +56,6 @@ const routes: Routes = [{
   ],
   declarations: [
     EmployeesComponent,
-    SendApplicationComponent,
-    SendFeedbackComponent
-  ],
-  entryComponents: [
     SendApplicationComponent,
     SendFeedbackComponent
   ],
@@ -74,5 +68,9 @@ const routes: Routes = [{
     ProcessService,
     MonthlyTransferBlockService
   ],
+  entryComponents: [
+    SendApplicationComponent,
+    SendFeedbackComponent
+  ]
 })
 export class EmployeesModule { }

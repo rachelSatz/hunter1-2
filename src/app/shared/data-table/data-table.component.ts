@@ -65,7 +65,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 		this.fetchItems.emit(true);
 	}
 
-	setItems(response: DataTableResponse): void {
+	setItems(response: DataTableResponse, nameId: string = 'id'): void {
 		this.helpers.setPageSpinner(false);
 		this.isLoading = false;
 		this.paginationData.totalItems = response && response.total ? response.total : 0;
@@ -74,7 +74,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 		this.items.map((item) => {
 			item.checked = this.criteria.isCheckAll;
 			this.criteria.checkedItems.map(checkedItem => {
-				if (checkedItem['id'] === item['id']) {
+				if (checkedItem[nameId] === item[nameId]) {
 					item.checked = !this.criteria.isCheckAll;
 				}
 			});
