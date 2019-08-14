@@ -15,6 +15,7 @@
                  (onScroll)="checkLoadEmployees($event)"
                  (serverFilter) = "filter($event, 'employee')"
                  (elementCreated)="checkLoadEmployees($event)"
+                 (onSelect)="employeeCompany(form.value['employee'])"
                  [clientSideSearch]="false"></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && employeesModel.errors ? 'active' : 'inactive'">יש לבחור עובד.</p>
   </div>
@@ -33,7 +34,6 @@
     <bd-select  class="w-50 ml-3" [items]="data.companies" placeholder="חברה מנהלת*" name="company" #company1Model="ngModel"  ngModel  [required]='(!hasClearing && hasClearingEmployer)' multiple="true" ></bd-select>
     <p class="alert alert-danger" [@fade]="form.submitted && companyModel.errors ? 'active' : 'inactive'">יש לבחור חברה מנהלת.</p>
   </div>
-
   <mat-form-field class="w-50 my-3">
     <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="תאריך נכונות (שכר)" name="validity_date" ngModel readonly required>
     <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>

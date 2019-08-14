@@ -43,8 +43,7 @@ export class DepositsReportComponent implements OnInit {
               protected notificationService: NotificationService,
               private selectUnit: SelectUnitService,
               private generalService: GeneralHttpService,
-              public userSession: UserSessionService,
-              public documentService: DocumentService
+              public userSession: UserSessionService
               ) {}
 
   sub = new Subscription;

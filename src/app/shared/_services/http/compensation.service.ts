@@ -9,6 +9,7 @@ import { Compensation } from 'app/shared/_models/compensation.model';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import {Contact} from '../../_models/contact.model';
+import {promise} from 'selenium-webdriver';
 
 
 @Injectable()
@@ -142,6 +143,7 @@ export class CompensationService extends BaseHttpService {
       .catch(() => []);
   }
 
+
   manualChangingStatus(compensation_ids: number[], criteria: DataTableCriteria):  Promise<Compensation[]> {
     return this.http.post(this.endPoint + '/updateSentStatus',
       { compensation_ids: compensation_ids,  searchCriteria: this.setDataTableParams(criteria)},
@@ -150,6 +152,15 @@ export class CompensationService extends BaseHttpService {
       .then(response => response as Compensation[])
       .catch(() => []);
   }
+
+  getCompanyEmployee(employee_id: number): Promise<any> {
+    const path_url = this.endPoint + '/' + employee_id +  '/companyEmployee';
+    const res = this.http.get(path_url, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+    return res;
+  }
+
 
   uploadExcelEmployees(uploadedFile?: File, departmentId?: number): Promise<Object> {
     if (uploadedFile) {

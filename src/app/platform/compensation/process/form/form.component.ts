@@ -10,6 +10,7 @@ import { ProductType } from 'app/shared/_models/product.model';
 import { fade } from 'app/shared/_animations/animation';
 
 
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -26,7 +27,8 @@ export class FormComponent implements OnInit {
   hasClearing = false;
   hasClearingEmployer = false;
   scrollIndex = 1;
-
+  companies = [];
+  res: string;
   dateFilter = (date: Date) =>  (!this.hasClearingEmployer  ||
     (new Date(date.getFullYear() , date.getMonth() + 1 , 0).getDate() ===  date.getDate()))
 
@@ -35,9 +37,11 @@ export class FormComponent implements OnInit {
               private departmentService: DepartmentService,
               private compensationService: CompensationService,
               protected notificationService: NotificationService,
-              private productService: ProductService) {}
+              private productService: ProductService
+               ) {}
 
   ngOnInit() {
+    this.companies = this.data.companies;
     this.loadEmployees();
   }
 
@@ -57,7 +61,7 @@ export class FormComponent implements OnInit {
         this.employees = response;
       }
     });
-  }
+   }
 
   loadProducts(companyID: number): void {
     this.productTypes = [];
@@ -68,6 +72,16 @@ export class FormComponent implements OnInit {
         }
       }
     });
+  }
+
+  employeeCompany(employee_id: number): any {
+   this.compensationService.getCompanyEmployee(employee_id).then(res => {
+     if (res.length > 0) {
+       this.data.companies = res;
+     } else {
+       this.data.companies = this.companies;
+     }
+   });
   }
 
   submit(form: NgForm): void {
