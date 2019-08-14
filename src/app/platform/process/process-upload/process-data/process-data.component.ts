@@ -138,17 +138,6 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
           this.pageNumber += index;
         }
       }
-
-  checkFile(employer_id) {
-    this.employerService.getIsEmployerFile(employer_id).then(response => {
-      if (!response) {
-        const buttons = {cancelButtonText: 'אישור'};
-        const text = 'אינך יכול ';
-        this.notificationService.warning('שגיאת קבצים', text, buttons);
-      }
-    });
-
-  }
   
   paymentPopup(form: NgForm): void {
     if (form.valid && !this.isSubmitting && ( this.processFile || this.process.file )) {
@@ -156,7 +145,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
       this.hasServerError = false;
       this.employerService.getIsEmployerFile(this.selectUnitService.currentEmployerID).then(response => {
         if (!response.result) {
-          const text = 'אין למעסיק קובץ יפויי כח וקובץ פרוטוקול  ';
+          const text = 'אין למעסיק קובץ יפויי כח וקובץ פרוטוקול הרשאה ';
           this.notificationService.warning('שגיאת קבצים', text);
         } else {
         if (this.selectedType === 'positive') {

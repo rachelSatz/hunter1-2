@@ -76,8 +76,8 @@ export class SelectUnitService {
     return  this.getSessionStorage('employerID');
   }
 
-  setEmployerID(val: string): any {
-    sessionStorage.setItem('employerID', val);
+  setEmployerID(val: number): any {
+    sessionStorage.setItem('employerID', val.toString());
   }
 
 
