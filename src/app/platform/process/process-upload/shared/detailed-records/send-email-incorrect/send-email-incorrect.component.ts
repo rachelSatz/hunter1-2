@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialogRef } from '@angular/material';
+
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import {MonthlyTransferBlockService} from '../../../../../../shared/_services/http/monthly-transfer-block';
+import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 
 @Component({
   selector: 'app-send-email-incorrect',

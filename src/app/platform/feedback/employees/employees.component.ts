@@ -13,13 +13,13 @@ import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.component';
 import { SendApplicationComponent } from './send-application/send-application.component';
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
+import {SendFeedbackComponent} from './send-feedback/send-feedback.component';
 
 @Component({
   selector: 'app-employees',
@@ -201,6 +201,10 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   }
 
   sendFeedback(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0) {
+      this.notificationService.warning('יש לבחור רשומות');
+      return;
+    }
     const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
     const dialog = this.dialog.open(SendFeedbackComponent, {
       data: {ids: ids } ,

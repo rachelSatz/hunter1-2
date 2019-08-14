@@ -95,7 +95,7 @@ export class CompensationService extends BaseHttpService {
 
   }
 
-  downloadPdfFile(rowID: number, hasFileFeedback: Boolean): Promise<string> {
+  downloadPdfFile(rowID: number, hasFileFeedback: Boolean): Promise<string[]> {
     const request = this.getTokenHeader();
     request['params'] = {hasFileFeedback: hasFileFeedback}
 

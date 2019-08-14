@@ -323,19 +323,21 @@ export class ProcessComponent implements OnInit, OnDestroy {
   PdfFile(rowId: number, hasFileFeedback: boolean, type: string): any {
       this.compensationService.downloadPdfFile(rowId, hasFileFeedback).then(response => {
         if (response) {
-          const byteCharacters = atob(response['data']);
-          const byteNumbers = new Array(byteCharacters.length);
-          for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-          }
-          const byteArray = new Uint8Array(byteNumbers);
-          const blob = new Blob([byteArray], {type: 'application/pdf'});
-          const fileURL = URL.createObjectURL(blob);
-          if (type === 'show') {
-            window.open(fileURL);
-          } else {
-            FileSaver.saveAs(blob, 'Compensation-Request-Reply.pdf');
-          }
+          response.forEach(r => {
+            const byteCharacters = atob(r['data']);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+              byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], {type: 'application/' + r['ext']});
+            const fileURL = URL.createObjectURL(blob);
+            if (type === 'show') {
+              window.open(fileURL);
+            } else {
+              FileSaver.saveAs(blob, r['filename']);
+            }
+          });
         }else {
           type =  type === 'show' ?  'להציג' : 'להוריד';
           this.notificationService.error('', ' אין אפשרות ' + type +  ' קובץ ');

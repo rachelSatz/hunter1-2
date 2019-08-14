@@ -72,6 +72,15 @@ export class SelectUnitService {
     return null;
   }
 
+  getEmployerID(): any {
+    return  this.getSessionStorage('employerID');
+  }
+
+  setEmployerID(val: string): any {
+    sessionStorage.setItem('employerID', val);
+  }
+
+
   getSessionStorage(val: string): any {
     if (sessionStorage.getItem(val)) {
       return JSON.parse(sessionStorage.getItem(val));

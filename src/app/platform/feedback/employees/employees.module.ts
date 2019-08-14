@@ -6,22 +6,31 @@ import {
   MatAutocompleteModule,
   MatCheckboxModule,
   MatChipsModule,
-  MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, MatNativeDateModule,
-  MatOptionModule, MatSelectModule, MatTooltipModule
+  MatDatepickerModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule,
 } from '@angular/material';
-import { FormsModule } from '@angular/forms';
-import { SendApplicationComponent } from './send-application/send-application.component';
-import { NotificationService } from 'app/shared/_services/notification.service';
-import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
-import { DataTableModule } from 'app/shared/data-table/data-table.module';
-import { FeedbackService } from 'app/shared/_services/http/feedback.service';
-import { ContactService } from 'app/shared/_services/http/contact.service';
-import { HelpersService } from 'app/shared/_services/helpers.service';
-import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+
+import { FormsModule} from '@angular/forms';
+import { FileDropModule } from 'ngx-file-drop';
+
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
+import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
+import { HelpersService } from 'app/shared/_services/helpers.service';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { ContactService } from 'app/shared/_services/http/contact.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import {MonthlyTransferBlockService} from '../../../shared/_services/http/monthly-transfer-block';
-import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
+import { FeedbackService } from 'app/shared/_services/http/feedback.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
+import { SendApplicationComponent } from './send-application/send-application.component';
+import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
+import {SendFeedbackComponent} from './send-feedback/send-feedback.component';
+// import { SendFeedbackComponent } from 'app/shared/_dialogs/send-feedback/send-feedback.component';
 
 const routes: Routes = [{
   path: '', component: EmployeesComponent
@@ -30,22 +39,39 @@ const routes: Routes = [{
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
-    BdSelectModule,
     FormsModule,
+    MatDatepickerModule,
+    RouterModule.forChild(routes),
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatChipsModule,
+    MatIconModule,
+    FileDropModule,
+    MatAutocompleteModule,
+    DatePickerModule,
+    BdSelectModule,
     DataTableModule,
-    MatTooltipModule, MatDialogModule, MatFormFieldModule, MatInputModule,
-    MatSelectModule, MatChipsModule, MatOptionModule, MatDatepickerModule,
-    MatNativeDateModule, MatMenuModule,
-    MatIconModule, PipesModule, MatCheckboxModule, MatAutocompleteModule,
+    PipesModule
   ],
-  exports: [],
-  declarations: [EmployeesComponent, SendApplicationComponent, SendFeedbackComponent],
-  entryComponents: [SendApplicationComponent, SendFeedbackComponent],
+  declarations: [
+    EmployeesComponent,
+    SendApplicationComponent,
+    SendFeedbackComponent
+  ],
+  entryComponents: [
+    SendApplicationComponent,
+    SendFeedbackComponent
+  ],
   providers: [
-    NotificationService, FeedbackService,
-    ContactService, HelpersService,
-    GeneralHttpService, ProcessService,
+    NotificationService,
+    FeedbackService,
+    ContactService,
+    HelpersService,
+    GeneralHttpService,
+    ProcessService,
     MonthlyTransferBlockService
   ],
 })

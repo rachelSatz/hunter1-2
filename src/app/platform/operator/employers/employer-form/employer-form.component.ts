@@ -75,6 +75,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.selectUnit.setEmployerID(this.selectUnit.currentEmployerID);
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
     if (this.route.snapshot.data.employer) {
         this.activeUrl = 'comments';
@@ -180,7 +181,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     // }
   }
   ngOnDestroy() {
-    this.selectUnit.currentEmployerID = 0;
+    this.selectUnit.currentEmployerID = this.selectUnit.getEmployerID();
     this.sub.unsubscribe();
   }
 
