@@ -1,0 +1,31 @@
+<div class="dialog-header">
+    <span class="pointer" (click)="close()">
+    <i class="fa fa-close"></i>
+  </span>
+  <span>העבר לטיפול</span>
+</div>
+<form #form="ngForm" class="py-4">
+  <mat-form-field class="w-100">
+    <mat-chip-list #chipList >
+      <mat-chip *ngFor="let email of emails" [selectable]="selectable"
+                [removable]="removable" (removed)="remove(email)">
+        {{email}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="הוספת כתובת מייל"
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
+  <div class="form-group">
+    <label for="comment">תוכן:</label>
+    <textarea class="form-control" rows="5" id="comment" name="comments"  required [(ngModel)]="comments"></textarea>
+  </div>
+<p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
+  <div mat-dialog-actions class="justify-content-center mt-2">
+    <button class="btn blue-btn" (click)="submit()">שלח</button>
+  </div>
+</form>
+
