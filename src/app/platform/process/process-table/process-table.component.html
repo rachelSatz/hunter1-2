@@ -46,5 +46,8 @@
     <td *ngIf="isDisplay">
       <i class="fa fa-trash fa-lg" (click)="deleteProcess(item.id)" title="מחיקה"></i>
     </td>
+    <td>
+      <i class="fa fa-angle-double-left" (click)="detailsFiles(item)"></i>
+    </td>
   </tr>
 </app-data-table>

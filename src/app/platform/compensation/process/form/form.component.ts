@@ -66,7 +66,7 @@ export class FormComponent implements OnInit {
   loadProducts(companyID: number, employee_id: number): void {
     this.productTypes = [];
     this.productService.getProductByCompany(employee_id, companyID).then(types => {
-      if (types.length = 0 || (types.length = 1 && types[0] === 'study' )) {
+      if (types.length === 0 || (types.length === 1 && types[0] === 'study' )) {
         this.productService.getProductTypesByCompany(companyID).then(typesAll => {
           for (const i in typesAll) {
             if (typesAll[i] !== 'study') {

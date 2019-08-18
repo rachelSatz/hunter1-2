@@ -13,7 +13,7 @@ import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { OperatorTasksService } from 'app/shared/_services/http/operator-tasks';
 import { PlatformComponent } from '../../../platform.component';
-import {EmployeeStatus} from '../../../../shared/_models/monthly-transfer-block';
+import { EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
 
 @Component({
   selector: 'app-ongoing-operation',
