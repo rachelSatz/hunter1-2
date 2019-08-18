@@ -6,10 +6,7 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade } from 'app/shared/_animations/animation';
 import { FeedbackService } from '../../../../shared/_services/http/feedback.service';
 import { NotificationService } from '../../../../shared/_services/notification.service';
-
-export interface Email {
-  name: string;
-}
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-inquiry-form',
@@ -23,11 +20,12 @@ export class SendFeedbackComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
-
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   emails: string[] = [];
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+              private dialog: MatDialog,
               private dialogRef: MatDialogRef<SendFeedbackComponent>,
               private contactService: ContactService,
               private helpers: HelpersService,

@@ -20,7 +20,6 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { AppHttpService } from '../shared/_services/http/app-http.service';
 import { ProductService } from '../shared/_services/http/product.service';
 import { TimerService } from '../shared/_services/http/timer';
-import {SendFeedbackComponent} from './feedback/employees/send-feedback/send-feedback.component';
 
 
 const routes: Routes = [

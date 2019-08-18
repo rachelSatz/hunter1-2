@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
 
+
 @Injectable()
 export class ProductService extends BaseHttpService {
 
@@ -75,6 +76,15 @@ export class ProductService extends BaseHttpService {
         .toPromise()
         .then(response => response);
     }
+  }
+
+  getProductByCompany(employee_id: number , company_id: number): Promise<string[]> {
+     const path_url = this.endPoint + '/productByCompany' + '?cId=' + company_id + '&' + 'eId=' + employee_id;
+    const res = this.http.get(path_url, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as string[])
+      .catch(() => []);
+    return res;
   }
 
   getFullCompanies(): Observable<Company[]> {
