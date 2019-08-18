@@ -11,6 +11,7 @@ import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { Process, ProcessStatus, ProcessType } from 'app/shared/_models/process.model';
+import {PlatformComponent} from '../../platform.component';
 
 @Component({
   selector: 'app-process-table',
@@ -40,13 +41,17 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     { name: 'total', label: 'סכום' },
     { name: 'status', label: 'סטטוס ' , isSort: false },
     { name: 'download', label: 'הורדה', isSort: false },
-    { name: 'delete', label: 'מחיקה' , isSort: false , isDisplay: this.isDisplay},
+    {name: 'actions', label: 'פעולות' , isSort: false, isDisplay: this.isDisplay},
+    {name: 'files', label: 'פרוט קבצים' , isSort: false}
+
+    // { name: 'delete', label: 'מחיקה' , isSort: false , isDisplay: this.isDisplay},
   ];
 
   constructor(route: ActivatedRoute, private router: Router,
               private processService: ProcessService,
               private selectUnit: SelectUnitService,
               private userSession: UserSessionService,
+              private platformComponent: PlatformComponent,
               protected notificationService: NotificationService,
               public processDataService: ProcessDataService) {
   }
@@ -151,5 +156,21 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
         );
       }
     });
+  }
+
+  detailsFiles(item): void {
+    const year = new Date(item.date);
+
+    this.platformComponent.organizationId =  this.selectUnit.currentOrganizationID;
+    this.platformComponent.employerId = item.employer_id;
+    this.platformComponent.departmentId = item.dep_id;
+
+    this.selectUnit.changeOrganizationEmployerDepartment(
+      this.selectUnit.currentOrganizationID,
+      item.employer_id,
+      item.dep_id);
+
+    this.router.navigate(['/platform', 'feedback', 'files'],
+        {queryParams: {processId: item.id, year: year.getFullYear(), month: year.getMonth() + 1}});
   }
 }

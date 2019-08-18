@@ -200,32 +200,16 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     });
   }
   sendFeedback(): void {
-    if (this.dataTable.criteria.checkedItems.length === 0  ||
+    if ((this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) ||
       this.dataTable.criteria.checkedItems.some(item => item['status'] !== 'not_defrayed')) {
       this.notificationService.warning('יש לבחור רשומות שלא נפרעו');
       return;
     }
     const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
     const dialog = this.dialog.open(SendFeedbackComponent, {
-      data: {ids: ids } ,
+      data: {ids: ids, criteria: this.dataTable.criteria } ,
       width: '550px',
     });
-
-    // const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
-    // this.feedbackService.sendFeedback(
-    //   ids,
-    //   ['shoshi@smarti.co.il'] ,
-    //   'rteter').then(response => {
-    //
-    //   const result = response.error['result'] === 'The mtb are not with the same process' ? 'התהליך אינו זהה' :
-    //     response.error['result'] === 'email was not sent' ? 'המייל שגוי' : '';
-    //   if (result !== '') {
-    //       this.notificationService.error(result);
-    //     } else {
-    //       this.notificationService.success('נשלח בהצלחה');
-    //
-    //     }
-    // });
   }
 
   previous(): void {

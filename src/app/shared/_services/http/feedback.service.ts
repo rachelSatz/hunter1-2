@@ -49,9 +49,11 @@ export class FeedbackService extends BaseHttpService {
       .then(response => response);
   }
 
-  sendFeedback(mtbs: any, recipient: any, comment: string): Promise<any> {
+
+  sendFeedback(mtbs: any, recipient: any, comment: string, criteria?: DataTableCriteria): Promise<any> {
     return this.http.post(this.endPoint + '/feedback',
-      {mtbs: mtbs, recipient: recipient, comment: comment}, this.getTokenHeader())
+      {mtbs: mtbs, recipient: recipient, comment: comment, criteria: this.setDataTableParams(criteria)},
+      this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);

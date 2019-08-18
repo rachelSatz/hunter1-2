@@ -1,15 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef } from '@angular/material';
 
-import { ContactService } from 'app/shared/_services/http/contact.service';
-import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade } from 'app/shared/_animations/animation';
-import { FeedbackService } from '../../../../shared/_services/http/feedback.service';
-import { NotificationService } from '../../../../shared/_services/notification.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
+import { ContactService } from 'app/shared/_services/http/contact.service';
+import { FeedbackService } from 'app/shared/_services/http/feedback.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
-export interface Email {
-  name: string;
-}
 
 @Component({
   selector: 'app-inquiry-form',
@@ -25,7 +23,7 @@ export class SendFeedbackComponent implements OnInit {
   addOnBlur = true;
 
   emails: string[] = [];
-
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog,
               private dialogRef: MatDialogRef<SendFeedbackComponent>,
@@ -42,7 +40,8 @@ export class SendFeedbackComponent implements OnInit {
       this.feedbackService.sendFeedback(
         this.data.ids,
         this.emails,
-        this.comments).then(response => {
+        this.comments,
+        this.data.criteria).then(response => {
         if (response['result'] !== 'yes') {
         const result = response.error['result'] === 'The mtb are not with the same process' ? 'התהליך אינו זהה' :
           response.error['result'] === 'email was not sent' ?  'המייל שגוי' :

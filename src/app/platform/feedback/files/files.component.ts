@@ -37,6 +37,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
   selectMonth: number;
   statuses = Status;
   fileId: number;
+  processId: number;
 
   list_status = Object.keys(Status).map(function(e) {
     return { id: e, name: Status[e] };
@@ -75,7 +76,12 @@ export class FilesComponent implements OnInit, OnDestroy  {
 
   ngOnInit() {
     this.fileId = this.route.snapshot.queryParams['fileId'];
-    this.selectYear = this.year;
+    this.processId = this.route.snapshot.queryParams['processId'];
+    this.selectYear = this.route.snapshot.queryParams['year'];
+    this.selectYear = this.selectYear ?  Number(this.selectYear) : this.year;
+    const month = this.route.snapshot.queryParams['month'];
+    this.selectMonth = month ? Number(month) : this.selectMonth;
+
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
       this.router.navigate([], {
         queryParams: {page: 1},
@@ -102,6 +108,9 @@ export class FilesComponent implements OnInit, OnDestroy  {
       this.dataTable.criteria.filters['organizationId'] = organizationId;
       if (this.fileId !== undefined) {
         this.dataTable.criteria.filters['fileId'] = this.fileId;
+      }
+      if (this.processId !== undefined) {
+        this.dataTable.criteria.filters['processId'] = this.processId;
       }
       this.feedbackService.getFileFeedbacks(this.dataTable.criteria)
         .then(response => {
