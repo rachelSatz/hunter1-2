@@ -2,18 +2,13 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef } from '@angular/material';
 
 import { fade } from 'app/shared/_animations/animation';
-<<<<<<< HEAD
-import { FeedbackService } from '../../../../shared/_services/http/feedback.service';
-import { NotificationService } from '../../../../shared/_services/notification.service';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-=======
+
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
->>>>>>> 940fbd475ae1f54838714a35c8b86ff22c2212b0
 
 @Component({
   selector: 'app-inquiry-form',
@@ -29,7 +24,6 @@ export class SendFeedbackComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   emails: string[] = [];
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialog: MatDialog,
