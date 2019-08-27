@@ -20,14 +20,13 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { AppHttpService } from '../shared/_services/http/app-http.service';
 import { ProductService } from '../shared/_services/http/product.service';
 import { TimerService } from '../shared/_services/http/timer';
-import {SendFeedbackComponent} from './feedback/employees/send-feedback/send-feedback.component';
 
 
 const routes: Routes = [
   {
     path: '', component: PlatformComponent, canActivate: [IsAuthenticatedGuard], children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', loadChildren: 'app/platform/dashboard/dashboard.module#DashboardModule' },
+      { path: '', redirectTo: 'process/table', pathMatch: 'full' },
+      // { path: 'dashboard', loadChildren: 'app/platform/dashboard/dashboard.module#DashboardModule' },
       { path: 'employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },
       { path: 'contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },

@@ -42,7 +42,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     { name: 'status', label: 'סטטוס ' , isSort: false },
     { name: 'download', label: 'הורדה', isSort: false },
     {name: 'actions', label: 'פעולות' , isSort: false, isDisplay: this.isDisplay},
-    {name: 'files', label: 'פרוט קבצים' , isSort: false}
+    // {name: 'files', label: 'פרוט קבצים' , isSort: false}
 
     // { name: 'delete', label: 'מחיקה' , isSort: false , isDisplay: this.isDisplay},
   ];

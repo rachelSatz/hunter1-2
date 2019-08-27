@@ -41,6 +41,7 @@ export class MonthlyTransferBlock {
   company_id: number;
   defrayal_error: any;
   sent_file_name: string;
+  group_thing_id: number;
 }
 
 

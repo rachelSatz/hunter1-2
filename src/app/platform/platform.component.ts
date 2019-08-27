@@ -53,7 +53,7 @@ export class PlatformComponent implements OnInit {
   ];
 
   readonly menuLinks = [
-    { url: 'dashboard', subUrl: 'no_permissions', label: 'דף הבית' },
+    // { url: 'dashboard', subUrl: 'no_permissions', label: 'דף הבית' },
 
     { url: 'compensation', label: 'יתרות לפיצויים', subMenuLinks: [
         { url: 'process', label: 'מעקב יתרות לפיצויים' },

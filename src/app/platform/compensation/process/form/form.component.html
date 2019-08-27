@@ -19,13 +19,13 @@
                  [clientSideSearch]="false"></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && employeesModel.errors ? 'active' : 'inactive'">יש לבחור עובד.</p>
   </div>
-  <div class="row  mt-4" [@fade]="hasClearing || hasClearingEmployer? 'inactive' : 'active' ">
+  <div class="row  mt-4" [@fade]="hasClearing || hasClearingEmployer || hasAllEmployer? 'inactive' : 'active' ">
     <div class="col-5 p-0">
-      <bd-select [items]="data.companies" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel" (onSelect)="loadProducts($event)" ngModel  [required]='!hasClearing && !hasClearingEmployer' ></bd-select>
+      <bd-select [items]="data.companies" placeholder="חברה מנהלת*" name="company" #companyModel="ngModel" (onSelect)="loadProducts($event)" ngModel  [required]='!hasClearing && !hasClearingEmployer && !hasAllEmployer' ></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && companyModel.errors ? 'active' : 'inactive'">יש לבחור חברה מנהלת.</p>
     </div>
     <div class="offset-1 col-5">
-      <bd-select [items]="productTypes" placeholder="סוג מוצר*" name="product_type" #productModel="ngModel" ngModel  [required]='!hasClearing && !hasClearingEmployer' ></bd-select>
+      <bd-select [items]="productTypes" placeholder="סוג מוצר*" name="product_type" #productModel="ngModel" ngModel  [required]='!hasClearing && !hasClearingEmployer && !hasAllEmployer' ></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && productModel.errors ? 'active' : 'inactive'">יש לבחור סוג מוצר.</p>
     </div>
   </div>

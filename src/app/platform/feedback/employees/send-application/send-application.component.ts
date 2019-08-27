@@ -5,6 +5,8 @@ import { ProductType } from 'app/shared/_models/product.model';
 import { ClauseType, FeedBackStatus } from 'app/shared/_models/transfer_clause.model';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import * as FileSaver from 'file-saver';
+import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 
 @Component({
   selector: 'app-send-application',
@@ -16,6 +18,7 @@ export class SendApplicationComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<SendApplicationComponent>,
               public mtbService: MonthlyTransferBlockService,
               public notification: NotificationService,
+              public feedbackService: FeedbackService,
               @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   productType = ProductType;
@@ -39,6 +42,21 @@ export class SendApplicationComponent implements OnInit {
         }
       }
     );
+  }
+
+  downloadFile(groupThingId: number) {
+
+    this.feedbackService.downloadGroupThingFile(groupThingId).then(response => {
+      const fileName = response['fileName'];
+      const byteCharacters = atob(response['blob']);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], {type: 'application//pdf'});
+      FileSaver.saveAs(blob, fileName);
+    });
   }
 
   close() {

@@ -26,6 +26,8 @@ export class FormComponent implements OnInit {
   hasServerError: boolean;
   hasClearing = false;
   hasClearingEmployer = false;
+  hasAllEmployer = false;
+
   scrollIndex = 1;
   companies = [];
   res: string;
@@ -55,10 +57,12 @@ export class FormComponent implements OnInit {
   loadEmployees(val?: string): void {
     this.departmentService.getEmployees(this.data.departmentId, val, this.scrollIndex)
     .then(response => {
-      if (!val) {
+      if (this.employees.length !== 0 && !val) {
         this.employees = [...this.employees, ...response];
       } else {
-        this.employees = response;
+        const first = [{'id': 0 , 'nameFull': 'כלל העובדים'}];
+        this.employees = [...first, ...response];
+        // this.employees = response;
       }
     });
    }
@@ -75,13 +79,18 @@ export class FormComponent implements OnInit {
   }
 
   employeeCompany(employee_id: number): any {
-   this.compensationService.getCompanyEmployee(employee_id).then(res => {
-     if (res.length > 0) {
-       this.data.companies = res;
-     } else {
-       this.data.companies = this.companies;
-     }
-   });
+    if (employee_id === 0) {
+      this.hasAllEmployer = true;
+      return;
+    }
+    this.hasAllEmployer = false;
+    this.compensationService.getCompanyEmployee(employee_id).then(res => {
+      if (res.length > 0) {
+        this.data.companies = res;
+      } else {
+        this.data.companies = this.companies;
+      }
+    });
   }
 
   submit(form: NgForm): void {
@@ -90,10 +99,14 @@ export class FormComponent implements OnInit {
       if (this.hasClearingEmployer && this.data.employerID === 0) {
         this.notificationService.error('', 'יש לבחור מעסיק.');
       } else {
-        if (this.hasClearing && this.hasClearingEmployer) {
+        // if (this.hasClearing && this.hasClearingEmployer) {
+        //   form.value['company_id'] = '';
+        // }
+        // form.value['event_code'] = this.hasClearingEmployer ? '9302' : this.hasClearing ? '9303' : '9301';
+        if (this.hasAllEmployer) {
           form.value['company_id'] = '';
         }
-        form.value['event_code'] = this.hasClearingEmployer ? '9302' : this.hasClearing ? '9303' : '9301';
+        form.value['event_code'] = this.hasAllEmployer ? '9300' : '9301';
         form.value['employer_id'] = this.data.employerID;
         form.value['department_id'] = this.data.departmentId;
         this.compensationService.newCompensation(form.value).then(response => {

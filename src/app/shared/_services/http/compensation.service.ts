@@ -8,9 +8,6 @@ import { UserSessionService } from '../user-session.service';
 import { Compensation } from 'app/shared/_models/compensation.model';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
-import {Contact} from '../../_models/contact.model';
-import {promise} from 'selenium-webdriver';
-
 
 @Injectable()
 
@@ -98,7 +95,7 @@ export class CompensationService extends BaseHttpService {
 
   downloadPdfFile(rowID: number, hasFileFeedback: Boolean): Promise<string[]> {
     const request = this.getTokenHeader();
-    request['params'] = {hasFileFeedback: hasFileFeedback}
+    request['params'] = {hasFileFeedback: hasFileFeedback};
 
     return this.http.get(this.endPoint + '/' + rowID + '/downloadPdfFile', request)
       .toPromise()

@@ -18,12 +18,20 @@ export class FormComponent implements OnInit {
   spin: boolean;
   productType = ProductType;
   statuses = Status;
+  error: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<FormComponent>,
               private feedbackService: FeedbackService) { }
 
   ngOnInit() {
+    const feedback = this.data.group_thing_feedback[0];
+    const status_handling = feedback.status_handling_funds;
+
+    this.error =  feedback  ? feedback.handling_status
+      + ' ' + this.data.error_details
+      + (status_handling === null || feedback.handling_status.includes(status_handling)
+        ? '' : ' ' + feedback.status_handling_funds ) : '';
   }
 
   downloadFile(id: number) {

@@ -126,7 +126,10 @@ export class EmployeesComponent implements OnInit , OnDestroy {
       data: {'id': item.id, 'contentType': 'employee_repayment',
         'employerId': this.selectUnitService.currentEmployerID, 'companyId': item.company_id,
         'file_name': item.sent_file_name, 'product_code': item.product_code,
-        'product_type': item.product_type, 'employee_id': item.personal_id, 'employee_name': item.name},
+        'product_type': item.product_type, 'employee_id': item.personal_id, 'employee_name': item.name,
+        'amount': item.amount
+
+      },
       width: '550px',
     });
 

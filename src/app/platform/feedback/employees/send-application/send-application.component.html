@@ -20,11 +20,15 @@
   <span class="header-width bold f-14">שכר</span>
   <span class="header-width bold f-14">חודש שכר</span>
   <span class="header-width bold f-14">חודש הפרשה</span>
+  <span class="header-width bold f-14">שם קובץ שנשלח</span>
 </div>
 <div class="d-flex p-2 border-bottom">
   <span class="header-width f-14">{{ data.salary}}</span>
   <span class="header-width f-14">{{ data.salary_month |  date: 'MM/yy'}}</span>
   <span class="header-width f-14">{{ data.salary_month |  date: 'dd/MM/yy'}}</span>
+  <span class="header-width f-14">{{ data.sent_file_name }}
+    <i class="fa fa-download fa-lg ml-2" (click)="downloadFile(data.group_thing_id)" title="הורד קובץ"></i>
+  </span>
 </div>
 <div class="d-flex p-2 mt-2">
   <span class="header-width bold f-14">סעיף הפרשה</span>
