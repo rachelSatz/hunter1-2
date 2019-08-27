@@ -60,9 +60,9 @@ export class FormComponent implements OnInit {
       if (this.employees.length !== 0 && !val) {
         this.employees = [...this.employees, ...response];
       } else {
-        const first = [{'id': 0 , 'nameFull': 'כלל העובדים'}];
-        this.employees = [...first, ...response];
-        // this.employees = response;
+        // const first = [{'id': 0 , 'nameFull': 'כלל העובדים'}];
+        // this.employees = [...first, ...response];
+        this.employees = response;
       }
     });
    }
