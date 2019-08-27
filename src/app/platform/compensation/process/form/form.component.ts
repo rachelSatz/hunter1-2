@@ -67,12 +67,22 @@ export class FormComponent implements OnInit {
     });
    }
 
-  loadProducts(companyID: number): void {
+  loadProducts(companyID: number, employee_id: number): void {
     this.productTypes = [];
-    this.productService.getProductTypesByCompany(companyID).then(types => {
-      for (const i in types) {
-        if (types[i] !== 'study') {
-          this.productTypes.push({ id: types[i], name: this.productTypeLabels[types[i]] });
+    this.productService.getProductByCompany(employee_id, companyID).then(types => {
+      if (types.length === 0 || (types.length === 1 && types[0] === 'study' )) {
+        this.productService.getProductTypesByCompany(companyID).then(typesAll => {
+          for (const i in typesAll) {
+            if (typesAll[i] !== 'study') {
+              this.productTypes.push({id: typesAll[i], name: this.productTypeLabels[typesAll[i]]});
+            }
+          }
+        });
+      } else {
+        for (const i in types) {
+          if (types[i] !== 'study') {
+            this.productTypes.push({id: types[i], name: this.productTypeLabels[types[i]]});
+          }
         }
       }
     });

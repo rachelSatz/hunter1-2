@@ -2,11 +2,12 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatChipInputEvent, MatDialog, MatDialogRef } from '@angular/material';
 
 import { fade } from 'app/shared/_animations/animation';
+
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 
 @Component({
@@ -21,11 +22,11 @@ export class SendFeedbackComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
-
-  emails: string[] = [];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  emails: string[] = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+              private dialog: MatDialog,
               private dialogRef: MatDialogRef<SendFeedbackComponent>,
               private contactService: ContactService,
               private helpers: HelpersService,
