@@ -9,6 +9,7 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+// import {CreatingEmployerComponent} from './creating-employer/creating-employer.component';
 
 const routes: Routes = [
   { path: '', component: EmployersComponent },
