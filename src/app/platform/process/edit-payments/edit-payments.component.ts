@@ -124,7 +124,6 @@ export class EditPaymentsComponent implements OnInit {
         })
       ])
     };
-
     const mtbGroup = (<FormArray>this.editPaymentForm.get('mtb'));
     mtbGroup.push(this.fb.group(mtbControl));
   }

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';

@@ -11,10 +11,13 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 // import {CreatingEmployerComponent} from './creating-employer/creating-employer.component';
 
+
 const routes: Routes = [
   { path: '', component: EmployersComponent },
   { path: 'form', loadChildren: 'app/platform/operator/employers/employer-form/employer-form.module#EmployerFormModule' },
-  { path: 'new', loadChildren: 'app/platform/operator/employers/new-employer/new-employer.module#NewEmployerModule' }
+  { path: 'new', loadChildren: 'app/platform/operator/employers/new-employer/new-employer.module#NewEmployerModule' },
+  // { path: 'creating', component: CreatingEmployerComponent }
+  { path: 'creating', loadChildren: 'app/platform/operator/employers/creating-employer/creating-employer.module#CreatingEmployerModule'}
 ];
 
 @NgModule({
@@ -25,7 +28,9 @@ const routes: Routes = [
     MatDialogModule,
     BdSelectModule
   ],
-  declarations: [EmployersComponent],
+  declarations: [
+    EmployersComponent
+  ],
   providers: [EmployerService, NotificationService]
 })
 export class EmployersModule { }
