@@ -12,6 +12,8 @@ import {
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
+import {HttpClientModule} from '@angular/common/http';
+import {HttpModule} from '@angular/http';
 
 
 const routes: Routes = [
@@ -23,6 +25,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     BdSelectModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule, MatIconModule
