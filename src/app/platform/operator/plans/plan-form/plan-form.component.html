@@ -4,7 +4,8 @@
     <div class="col-3">
       <h3 class="mb-5">הגדרות תוכנית עבודה</h3>
       <mat-form-field class="w-75 mb-3">
-        <input matInput type="text" name="name" [(ngModel)]="plan.name" placeholder="שם התוכנית" #name="ngModel" required>
+        <input matInput type="text" name="name" maxlength="50" [(ngModel)]="plan.name" placeholder="שם התוכנית"
+               #name="ngModel" required>
         <mat-error *ngIf="name.errors && form.submitted">יש לבחור שם לתוכנית.</mat-error>
       </mat-form-field>
       <div class="w-75 mb-3">

@@ -46,6 +46,8 @@ export class FilesComponent implements OnInit, OnDestroy  {
     return { id: e, name: ProductType[e] };
   });
   readonly columns = [
+    {name: 'process_name', label: 'שם תהליך', searchable: false},
+    {name: 'month', label: 'חודש', searchable: false},
     {name: 'company_name', label: 'חברה מנהלת', searchable: false},
     {name: 'employer_name', label: 'שם מעסיק', searchable: false},
     {name: 'amount', label: 'סכום', searchable: false},
@@ -147,16 +149,38 @@ export class FilesComponent implements OnInit, OnDestroy  {
     }));
   }
 
-  openCommentsDialog(item: any): void {
+  openCommentsDialog(item?: any): void {
+    let ids = [];
+    if (!item) {
+      if (this.dataTable.criteria.checkedItems.length === 0) {
+        this.dataTable.setNoneCheckedWarning();
+        return;
+      }
+
+      ids = this.dataTable.criteria.checkedItems.map(i => i['id']);
+    } else {
+      ids = [item.id];
+    }
+
     const dialog =  this.dialog.open(CommentsFormComponent, {
-      data: {'id': item.id, 'contentType': 'file_repayment', 'comments' : item.comments},
+      data: {'ids': ids, 'contentType': 'file_repayment', 'comments' : item ?  item.comments : []},
       width: '550px',
     });
 
     this.sub.add(dialog.afterClosed().subscribe(comments => {
       if (comments) {
-        this.generalService.getComments(item.id, 'groupthing').then(response => {
-          item.comments = response;
+        this.generalService.getComments(ids, 'groupthing').then(response => {
+          if (item) {
+            item.comments = [response];
+            item.checked = false;
+          } else {
+            this.dataTable.criteria.checkedItems.forEach(obj => {
+              obj['comments'] = response.filter(r => r['object_id'] === obj['id']);
+              obj['checked'] = false;
+            });
+          }
+          this.dataTable.criteria.checkedItems = [];
+          this.dataTable.criteria.isCheckAll = false;
         });
       }
     }));

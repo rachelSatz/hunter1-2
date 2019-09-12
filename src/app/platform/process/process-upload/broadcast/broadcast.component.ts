@@ -14,6 +14,7 @@ import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { DateUpdateComponent } from './date-update/date-update.component';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import {Subscription} from 'rxjs';
+import { PlatformComponent } from 'app/platform/platform.component';
 
 
 
@@ -51,6 +52,8 @@ export class BroadcastComponent implements OnInit, OnDestroy {
               private notificationService: NotificationService,
               public userSession: UserSessionService,
               private selectUnitService: SelectUnitService,
+              private platformComponent: PlatformComponent,
+              private selectUnit: SelectUnitService,
               private _location: Location) {}
 
   ngOnInit() {
@@ -130,5 +133,20 @@ export class BroadcastComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  aa() {
+    const processData = this.processDataService.activeProcess;
+    this.platformComponent.employerId = this.process_details.employer_id;
+    this.platformComponent.departmentId = this.process_details.dep_id;
+
+    this.selectUnit.changeOrganizationEmployerDepartment(
+      this.platformComponent.organizationId,
+      this.platformComponent.employerId,
+      this.platformComponent.departmentId);
+
+    this.router.navigate(['/platform', 'feedback', 'files'],
+      {queryParams: {processId: processData.processID,
+          year: processData.year, month: processData.month}});
   }
 }

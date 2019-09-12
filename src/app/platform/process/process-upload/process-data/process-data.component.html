@@ -74,18 +74,24 @@
               <p class="text-dark">{{ process.file.name }}</p>
             </div>
           </file-drop>
-          <p class="text-danger" *ngIf="fileTypeError">יש להעלות קבצי DAT בלבד.</p>
+        <div class="d-flex ltr">
+
+          <!--<p class="text-left w-50 blue-color pointer" (click)="openAddFile(1)" > העלאת קבצים נוספים</p>-->
+          <p class="text-danger w-50 " *ngIf="fileTypeError"> .בלבד DAT   יש להעלות קבצי </p>
         </div>
+        </div>
+        <!--<p class="align-items-end text-left"> העלאת קבצים נוספים</p>-->
     </div>
   <p [@fade]="hasServerError ? 'active': 'inactive'" class="alert alert-danger">שגיאת שרת, נסה שנית או צור קשר.</p>
   <div class="d-flex justify-content-between mt-2">
      <span (click)="setPage(-1, form)">
-       <p *ngIf="pageNumber === 2" class="pointer mt-5 blue-color">
+       <p *ngIf="pageNumber === 2" class="pointer mt-5 blue-color ">
          <i class="fa fa-angle-right ml-1"></i>
          <span>חזור</span>
        </p>
      </span>
     <button class="btn blue-btn mt-5" (click)=" pageNumber === 2 ? paymentPopup(form): setPage(1, form)" >המשך</button>
+
   </div>
 </form>
 

@@ -146,16 +146,38 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   }
 
-  openCommentsDialog(item: any): void {
+  openCommentsDialog(item?: any): void {
+    let ids = [];
+    if (!item) {
+      if (this.dataTable.criteria.checkedItems.length === 0) {
+        this.dataTable.setNoneCheckedWarning();
+        return;
+      }
+
+      ids = this.dataTable.criteria.checkedItems.map(i => i['id']);
+    } else {
+      ids = [item.id];
+    }
+
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'id': item.id, 'contentType': 'monthlytransferblock', 'comments' : item.comments},
+      data: {'ids': ids, 'contentType': 'monthlytransferblock', 'comments' : item ?  item.comments : []},
       width: '550px',
     });
 
     this.sub.add(dialog.afterClosed().subscribe(comments => {
       if (comments) {
-        this.generalService.getComments(item.id, 'monthlytransferblock').then(response => {
-          item.comments = response;
+        this.generalService.getComments(ids, 'monthlytransferblock').then(response => {
+          if (item) {
+            item.comments = [response];
+            item.checked = false;
+          } else {
+            this.dataTable.criteria.checkedItems.forEach(obj => {
+              obj['comments'] = response.filter(r => r['object_id'] === obj['id']);
+              obj['checked'] = false;
+            });
+          }
+          this.dataTable.criteria.checkedItems = [];
+          this.dataTable.criteria.isCheckAll = false;
         });
       }
     }));

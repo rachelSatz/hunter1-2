@@ -29,6 +29,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   @Input() items = [];
 
   nameEmployerProductCode = 'product_id';
+  employerProductId = 'employer_product_id';
   nameEmployeeName = 'employee_id';
 
   depositType = Object.keys(DepositType).map(function(e) {
@@ -42,7 +43,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     { name: 'deposit_type', label: 'סוג תקבול' , searchOptions: { labels: this.depositType } },
     { name: this.nameEmployerProductCode , sortName: 'employer_product__code', label: 'מספר קופה בשכר',
       subLabel: 'שם קופה', searchOptions: { labels: [] } },
-    { name: 'employer_product_name', sortName: 'employer_product__code', label: 'שם קופה בשכר' , searchable: false },
+    { name: this.employerProductId, sortName: 'employer_product__code', label: 'שם קופה בשכר' , searchOptions: { labels: [] } },
     { name: 'employer_product_type', sortName: 'employer_product__type', label: 'סוג קופה' , searchable: false },
     { name: 'deposit_status', isSort: false , label: 'מעמד' , searchable: false },
     { name: 'employee_status', isSort: false , label: 'סטטוס' , searchable: false },
@@ -91,6 +92,8 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
         column['searchOptions'].labels = response['employees'];
         column = this.dataTable.searchColumn(this.nameEmployerProductCode);
         column['searchOptions'].labels = response['products'];
+        column = this.dataTable.searchColumn(this.employerProductId);
+        column['searchOptions'].labels = response['employer_products'];
       });
     this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
   }

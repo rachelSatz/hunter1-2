@@ -23,6 +23,8 @@ export class FileFeedback {
   inquiries: Inquiry;
   comments: Comment;
   group_thing_feedback: GroupThingFeedback;
+  feedback_a: string;
+  feedback_emp: string;
 }
 
 export class GroupThingFeedback {

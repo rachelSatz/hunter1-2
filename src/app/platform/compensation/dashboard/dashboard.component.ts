@@ -43,9 +43,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private globalFunc(): void {
-    this.searchCriteria['employerId'] = this.selectUnit.currentEmployerID;
-    this.searchCriteria['organizationId'] = this.selectUnit.currentOrganizationID;
-    this.searchCriteria['departmentId'] = this.selectUnit.currentDepartmentID;
+    this.searchCriteria['employer_id'] = this.selectUnit.currentEmployerID;
+    this.searchCriteria['organization_id'] = this.selectUnit.currentOrganizationID;
+    this.searchCriteria['department_id'] = this.selectUnit.currentDepartmentID;
 
     this.getDefaultDate();
     this.fetchItems();
@@ -54,8 +54,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getDefaultDate(): void {
     this.date = new Date();
     this.date.setMonth(this.date.getMonth() - 1 );
-    this.searchCriteria['dateTo'] = formatDate(new Date() , 'yyyy-MM-dd', 'en-US', '+0530').toString() ;
-    this.searchCriteria['dateFrom'] = formatDate(this.date, 'yyyy-MM-dd', 'en-US', '+0530').toString() ;
+    this.searchCriteria['created_at[to]'] = formatDate(new Date() , 'yyyy-MM-dd', 'en-US', '+0530').toString() ;
+    this.searchCriteria['created_at[from]'] = formatDate(this.date, 'yyyy-MM-dd', 'en-US', '+0530').toString() ;
   }
 
 

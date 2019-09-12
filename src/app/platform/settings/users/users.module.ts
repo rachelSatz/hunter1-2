@@ -8,7 +8,7 @@ import { AppHttpService } from 'app/shared/_services/http/app-http.service';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { UserService } from 'app/shared/_services/http/user.service';
 import { UsersComponent } from './users.component';
-import {NotificationService} from '../../../shared/_services/notification.service';
+import {NotificationService} from 'app/shared/_services/notification.service';
 
 const routes: Routes = [
   { path: '', component: UsersComponent },

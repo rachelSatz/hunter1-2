@@ -4,15 +4,15 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 
+import { FileDepositionComponent } from './file-deposition/file-deposition.component';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import { ProcessDataService } from 'app/shared/_services/process-data-service';
-import { Month } from 'app/shared/_const/month-bd-select';
 import { Process } from 'app/shared/_models/process.model';
-import { FileDepositionComponent } from './file-deposition/file-deposition.component';
+import { Month } from 'app/shared/_const/month-bd-select';
 import { fade } from 'app/shared/_animations/animation';
-import {EmployerService} from '../../../../shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-process-data',
@@ -145,7 +145,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
       this.hasServerError = false;
       this.employerService.getIsEmployerFile(this.selectUnitService.currentEmployerID).then(response => {
         if (!response.result) {
-          const text = 'אין למעסיק קובץ יפויי כח וקובץ פרוטוקול הרשאה ';
+          const text = 'אין למעסיק קובץ יפוי כח וקובץ פרוטוקול הרשאה ';
           this.notificationService.warning('שגיאת קבצים', text);
         } else {
         if (this.selectedType === 'positive') {
@@ -165,14 +165,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
             }
           });
         }else {
-          const dialog = this.dialog.open(FileDepositionComponent, {
-            width: '550px',
-            panelClass: 'send-email-dialog'
-          });
-
-          this.sub.add(dialog.afterClosed().subscribe(res => {
-            this.sendFile( null, form, res);
-          }));
+          this.openAddFile(-1, form);
         }
         }
       });
@@ -211,6 +204,23 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
           this.notificationService.error('העלאת הקובץ נכשלה');
         }
       });
+  }
+
+  openAddFile(type: number, form?): void {
+    const dialog = this.dialog.open(FileDepositionComponent, {
+      width: '550px',
+      panelClass: 'send-email-dialog'
+    });
+
+    this.sub.add(dialog.afterClosed().subscribe(res => {
+      if (type === -1) {
+        this.sendFile(null, form, res);
+      } else {
+        // this.files = [];
+        // this.files = [res];
+        // this.files.push(this.processFile);
+      }
+    }));
   }
 
   ngOnDestroy() {

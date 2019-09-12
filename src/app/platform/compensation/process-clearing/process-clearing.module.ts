@@ -15,9 +15,9 @@ import { ContactService } from 'app/shared/_services/http/contact.service';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { ProcessClearingComponent } from './process-clearing.component';
 import { FormComponent } from './form/form.component';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 
 
 const routes: Routes = [
@@ -39,17 +39,12 @@ const routes: Routes = [
     MatIconModule,
     MatAutocompleteModule,
     DatePickerModule,
-    DataTableModule,
-    PipesModule
+    PipesModule,
+    DataTableModule
   ],
   declarations: [
     ProcessClearingComponent,
     FormComponent,
-    // DetailsComponent,
-    // AddFileComponent,
-    // ExcelComponent,
-    // EmployeesComponent,
-    // ErrorMessageComponent
   ],
   providers: [
     CompensationService,
@@ -63,11 +58,6 @@ const routes: Routes = [
   ],
   entryComponents: [
     FormComponent,
-    // DetailsComponent,
-    // AddFileComponent,
-    // ExcelComponent,
-    // EmployeesComponent,
-    // ErrorMessageComponent
   ],
 })
 export class ProcessClearingModule {}

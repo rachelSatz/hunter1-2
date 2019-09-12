@@ -7,6 +7,7 @@ export class Process {
   id: number;
   employer_name: string;
   department_name: string;
+  dep_id: number;
   employer: Employer;
   month;
   monthName;

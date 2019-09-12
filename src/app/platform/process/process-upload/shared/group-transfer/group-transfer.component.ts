@@ -54,7 +54,7 @@ export class  GroupTransferComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
 
-      this.mtbService.createMTBGroup(
+      this.mtbService.createMtbGroup(
         this.data.ids,
         form.value.product,
         form.value.bank_account,
@@ -68,7 +68,7 @@ export class  GroupTransferComponent implements OnInit {
 
             this.notificationService.warning(
               '', 'קבוצה זו קימת האם ברצונך לפתוח קבוצה חדשה?', buttons).then(confirmation => {
-                this.mtbService.createMTBGroup(
+                this.mtbService.createMtbGroup(
                   this.data.ids,
                   form.value.product,
                   form.value.bank_account,

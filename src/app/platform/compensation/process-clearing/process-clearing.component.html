@@ -1,4 +1,5 @@
-<app-data-table #mainTable tableName="מעקב יתרות לפיצויים מסלקה" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true" [hasActionsHeader] = false>
+<app-data-table #mainTable tableName="מעקב יתרות לפיצויים מסלקה" [columns]="columns" (fetchItems)="fetchItems()"
+                [hasCheckColumn]="true" [hasActionsHeader] = false>
   <div class="table-header">
     <div class="row mt-4 mr-1">
       <div class="float-left">
@@ -6,6 +7,7 @@
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="openFormDialog()">בקשה חדשה</button>
           <button mat-menu-item (click)="manualChangingStatus()">שינוי סטטוס</button>
+          <button mat-menu-item (click)="openCommentsDialog()">הוסף הערה</button>
         </mat-menu>
       </div>
       <div class="ml-3 d-flex mr-auto">

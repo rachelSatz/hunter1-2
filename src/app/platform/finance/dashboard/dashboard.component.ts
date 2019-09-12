@@ -1,13 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute} from '@angular/router';
-import { InvoiceService} from '../../../shared/_services/http/invoice.service';
-import { NotificationService} from '../../../shared/_services/notification.service';
-import {SelectUnitService} from '../../../shared/_services/select-unit.service';
-import {NgForm} from '@angular/forms';
-import {EmployerService} from '../../../shared/_services/http/employer.service';
-import {PRODUCT_TYPES} from '../../../shared/_models/employer-financial-details.model';
-import {DoughnutComponent} from '../../../shared/doughnut/doughnut.component';
+import {Component, OnInit, ViewChild} from '@angular/core';
+
 import * as FileSaver from 'file-saver';
+
+import { HelpersService } from 'app/shared/_services/helpers.service';
+import {DoughnutComponent} from 'app/shared/doughnut/doughnut.component';
+import { InvoiceService} from 'app/shared/_services/http/invoice.service';
+import {SelectUnitService} from 'app/shared/_services/select-unit.service';
+import {EmployerService} from 'app/shared/_services/http/employer.service';
+import { NotificationService} from 'app/shared/_services/notification.service';
+import {PRODUCT_TYPES} from 'app/shared/_models/employer-financial-details.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +19,7 @@ import * as FileSaver from 'file-saver';
 })
 export class DashboardComponent implements OnInit {
   @ViewChild(DoughnutComponent) doughnut: DoughnutComponent;
+
 
   totalIds: number;
   organizations = [];
@@ -32,6 +36,7 @@ export class DashboardComponent implements OnInit {
   constructor(route: ActivatedRoute,
               private invoiceService: InvoiceService,
               protected notificationService: NotificationService,
+              private helpers: HelpersService,
               public selectUnitService: SelectUnitService,
               public employerService: EmployerService) {
   }
@@ -44,7 +49,9 @@ export class DashboardComponent implements OnInit {
     if ((onlyZero && this.zeroCount === 0) || (!onlyZero && this.notZeroCount === 0 && this.zeroCount === 0))  {
       this.notificationService.info('אין נתונים להורדה');
     } else if (this.data !== undefined) {
+      this.helpers.setPageSpinner(true);
       this.invoiceService.downloadExcelFinanceDashboard(onlyZero, this.data).then(response => {
+        this.helpers.setPageSpinner(false);
         if (response['message'] !== 'error') {
           const byteCharacters = atob(response['message']['data']);
           const byteNumbers = new Array(byteCharacters.length);

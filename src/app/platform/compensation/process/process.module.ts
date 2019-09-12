@@ -25,14 +25,13 @@ import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 
 import { ProcessComponent } from './process.component';
 import { FormComponent } from './form/form.component';
-import { DetailsComponent } from './details/details.component';
 import { AddFileComponent } from './add-file/add-file.component';
 import { ExcelComponent } from './excel/compensation/compensation.component';
 import { EmployeesComponent } from './excel/employees/employees.component';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { FileDropModule } from 'ngx-file-drop';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
-import {FileDropModule} from 'ngx-file-drop';
 
 
 const routes: Routes = [
@@ -53,13 +52,12 @@ const routes: Routes = [
     MatAutocompleteModule,
     DatePickerModule,
     BdSelectModule,
-    DataTableModule,
-    PipesModule
+    PipesModule,
+    DataTableModule
   ],
   declarations: [
     ProcessComponent,
     FormComponent,
-    DetailsComponent,
     AddFileComponent,
     ExcelComponent,
     EmployeesComponent,
@@ -72,7 +70,6 @@ const routes: Routes = [
     FilterItemsPipe, GeneralHttpService],
   entryComponents: [
     FormComponent,
-    DetailsComponent,
     AddFileComponent,
     ExcelComponent,
     EmployeesComponent,

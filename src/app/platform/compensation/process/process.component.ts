@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { FormComponent } from './form/form.component';
-import { DetailsComponent } from './details/details.component';
+import { DetailsComponent } from '../../../shared/_dialogs/details/details.component';
 import { ProductType } from 'app/shared/_models/product.model';
 import { Compensation } from 'app/shared/_models/compensation.model';
 import { HelpersService } from 'app/shared/_services/helpers.service';
@@ -59,6 +59,8 @@ export class ProcessComponent implements OnInit, OnDestroy {
   nameCompany = 'company';
   nameUserId = 'user_id';
   compensationId: number;
+  linkId: number;
+
   readonly columns  = [
     { name: 'created_at', label: 'תאריך יצירת בקשה', searchOptions: { isDate: true }},
     { name: 'updated_at', label: 'תאריך עדכון בקשה', searchable: false},
@@ -113,17 +115,22 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
   fetchItems() {
     this.compensationId = this.route.snapshot.params['id'];
+    this.linkId = this.route.snapshot.queryParams['linkId'];
+
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
     const departmentId = this.selectUnit.currentDepartmentID;
 
     if (organizationId) {
-      this.dataTable.criteria.filters['employerId'] = employerId;
-      this.dataTable.criteria.filters['organizationId'] = organizationId;
-      this.dataTable.criteria.filters['departmentId'] = departmentId;
-      this.dataTable.criteria.filters['eventCode'] = '9301';
+      this.dataTable.criteria.filters['employer_id'] = employerId;
+      this.dataTable.criteria.filters['organization_id'] = organizationId;
+      this.dataTable.criteria.filters['department_id'] = departmentId;
+      this.dataTable.criteria.filters['event_code'] = '9301';
       if (this.compensationId !== undefined ) {
         this.dataTable.criteria.filters['id'] = this.compensationId;
+      }
+      if (this.linkId !== undefined ) {
+        this.dataTable.criteria.filters['link_id'] = this.linkId;
       }
       this.compensationService.getCompensations(this.dataTable.criteria).then(response => {
         this.setResponse(response);
@@ -234,16 +241,37 @@ export class ProcessComponent implements OnInit, OnDestroy {
     });
   }
 
-  openCommentsDialog(item: any): void {
+  openCommentsDialog(item?: any): void {
+    let ids = [];
+    if (!item) {
+      if (this.dataTable.criteria.checkedItems.length === 0) {
+        this.dataTable.setNoneCheckedWarning();
+        return;
+      }
+
+      ids = this.dataTable.criteria.checkedItems.map(i => i['id']);
+    } else {
+      ids = [item.id];
+    }
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'id': item.id, 'contentType': 'compensation', 'comments' : item.comments},
+      data: {'ids': ids, 'contentType': 'compensation', 'comments' : item ?  item.comments : []},
       width: '450px'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(comments => {
       if (comments) {
-        this.generalService.getComments(item.id, 'compensation').then(response => {
-          item.comments = response;
+        this.generalService.getComments(ids, 'compensation').then(response => {
+          if (item) {
+            item.comments = [response];
+            item.checked = false;
+          } else {
+            this.dataTable.criteria.checkedItems.forEach(obj => {
+              obj['comments'] = response.filter(r => r['object_id'] === obj['id']);
+              obj['checked'] = false;
+            });
+          }
+          this.dataTable.criteria.checkedItems = [];
+          this.dataTable.criteria.isCheckAll = false;
         });
       }
     }));
@@ -308,10 +336,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
       width: '800px'
     });
   }
-  getIfThereFiles(item: Compensation): string {
-    return item.files.items.length === 0 ? 'fa fa-info-circle grey-color fa-size' :
-      'fa fa-info-circle green-color fa-size';
-  }
+
   getValidityImage(item: Compensation): string {
     const balance = item.has_by_safebox || item.portal_balance <= 0 ? 'reported_balance' : 'portal_balance';
 
@@ -331,8 +356,8 @@ export class ProcessComponent implements OnInit, OnDestroy {
             }
             const byteArray = new Uint8Array(byteNumbers);
             const blob = new Blob([byteArray], {type: 'application/' + r['ext']});
-            const fileURL = URL.createObjectURL(blob);
             if (type === 'show') {
+              const fileURL = URL.createObjectURL(blob);
               window.open(fileURL);
             } else {
               FileSaver.saveAs(blob, r['filename']);
@@ -343,6 +368,19 @@ export class ProcessComponent implements OnInit, OnDestroy {
           this.notificationService.error('', ' אין אפשרות ' + type +  ' קובץ ');
         }
       });
+  }
+
+  getFileEmployeeByEmployer(): void {
+    this.compensationService.getfileEmployeeByEmployer(this.linkId).then(response => {
+      const byteCharacters = atob(response['data']);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], {type: 'application/xlsx'});
+      FileSaver.saveAs(blob, 'יתרות לפיצויים' + '' + '.xlsx');
+    });
   }
 
   ngOnDestroy() {

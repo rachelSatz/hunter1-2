@@ -66,6 +66,10 @@ export class ProcessService extends BaseHttpService {
     if (file) {
       formData.append('file', file);
     }
+
+    // for (let i = 0; i <= file.length - 1 ; i++) {
+    //   formData.append('file' , file[i]);
+    // }
     if (fileDeposition) {
       formData.append('attachments', fileDeposition);
     }

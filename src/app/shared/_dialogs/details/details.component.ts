@@ -79,7 +79,7 @@ export class DetailsComponent implements OnInit {
       this.hasServerError = false;
       this.compensationService.deleteFile(this.compensation.id, fileName).then(response => {
         if (response) {
-          this.compensation.files = response['file_list'];
+          this.compensation.files.items = response['file_list'];
           this.dialogRef.close(this.compensation);
         } else {
           this.hasServerError = true;

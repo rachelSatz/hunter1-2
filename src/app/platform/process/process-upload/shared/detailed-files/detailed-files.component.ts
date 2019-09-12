@@ -11,6 +11,7 @@ import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
+import { ProductService } from 'app/shared/_services/http/product.service';
 import { ProductType } from 'app/shared/_models/product.model';
 import { Status } from 'app/shared/_models/file-feedback.model';
 
@@ -18,12 +19,11 @@ import { UpdateAccountNumberComponent } from './update-account-number/update-acc
 import { UpdatePaymentDateComponent } from './update-payment-date/update-payment-date.component';
 import { UpdatePaymentTypeComponent } from './update-payment-type/update-payment-type.component';
 import { AttachReferenceComponent } from './attach-reference/attach-reference.component';
+import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
+import { DetailsComponent } from '../details.component';
 
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
-import { DetailsComponent } from '../details.component';
-import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
-import {ProductService} from '../../../../../shared/_services/http/product.service';
 
 
 @Component({
@@ -211,17 +211,39 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
      }
    }
 
-  openCommentsDialog(item: any): void {
+  openCommentsDialog(item?: any): void {
+    let ids = [];
+    if (!item) {
+      if (this.dataTable.criteria.checkedItems.length === 0) {
+        this.dataTable.setNoneCheckedWarning();
+        return;
+      }
+
+      ids = this.dataTable.criteria.checkedItems.map(i => i['file_id']);
+    } else {
+      ids = [item.file_id];
+    }
+
     const dialog =  this.dialog.open(CommentsFormComponent, {
-      data: {'id': item.file_id, 'contentType': 'groupthing', 'comments' : item.comments},
+      data: {'ids': ids, 'contentType': 'groupthing', 'comments'  : item ?  item.comments : []},
       width: '550px',
       panelClass: 'dialog-file'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(comments => {
       if (comments) {
-        this.generalService.getComments(item.file_id, 'groupthing').then(response => {
-          item.comments = response;
+        this.generalService.getComments(ids, 'groupthing').then(response => {
+          if (item) {
+            item.comments = [response];
+            item.checked = false;
+          } else {
+            this.dataTable.criteria.checkedItems.forEach(obj => {
+              obj['comments'] = response.filter(r => r['object_id'] === obj['file_id']);
+              obj['checked'] = false;
+            });
+          }
+          this.dataTable.criteria.checkedItems = [];
+          this.dataTable.criteria.isCheckAll = false;
         });
       }
     }));

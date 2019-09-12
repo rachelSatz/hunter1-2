@@ -158,6 +158,13 @@ export class CompensationService extends BaseHttpService {
     return res;
   }
 
+  getfileEmployeeByEmployer(id: number): Promise<any> {
+    const res = this.http.get(this.endPoint + '/' + id +  '/fileEmployeeByEmployer', this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+    return res;
+  }
+
 
   uploadExcelEmployees(uploadedFile?: File, departmentId?: number): Promise<Object> {
     if (uploadedFile) {
