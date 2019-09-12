@@ -9,8 +9,10 @@ export class Document {
 
 export enum DocumentTypes {
   other = 'אחר',
+  contract = 'חוזה',
   employer_deposition = 'הצהרת מעסיק',
   employer_poa = 'יפוי כח',
+  customer_details = 'פרטי לקוח',
   authorization_protocol = 'פרוטוקל מורשה חתימה',
   operation_protocol = 'פרוטוקל גורם מתפעל'
 }

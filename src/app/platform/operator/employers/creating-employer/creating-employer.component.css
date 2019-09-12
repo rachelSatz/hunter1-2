@@ -16,6 +16,7 @@
 .blue-btn-outline {
   color:  #00adee;
   outline-color: #00adee;
+  text-decoration-color: #00adee;
 }
 .bd-min-width {
   min-width: 10px !important;
@@ -45,4 +46,19 @@
   height:10px;
   background-color: #00adee;
 }
-
+.width135 {
+  width: 135px;
+}
+button:focus {
+  outline: none !important;
+  box-shadow: none  !important;
+}
+.width15{
+  width: 15%;
+}
+.width38{
+  width: 38%;
+}
+.ml-4-5 {
+  margin-left: 2.3rem !important;
+}

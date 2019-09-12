@@ -95,7 +95,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
         this.selectUnit.changeOrganizationEmployerDepartment(this.plan.organization.id, this.plan.employer.id, this.plan.department.id);
         this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
         this.router.navigate(['/platform', 'feedback', 'files' ],
-          { queryParams: {  fileId: this.plan.task.file.id }});
+          { queryParams: { fileId: this.plan.task.file.id }});
       } else {
         this.processDataService.activeProcess = new Process();
         const data = {'processId': processId, 'highlightFileId': this.plan.task.file.id};

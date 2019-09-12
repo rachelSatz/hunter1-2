@@ -2,9 +2,9 @@
   <form  #form="ngForm" >
     <br>
     <br>
-    <div class="col-5 ">
+    <div >
       <p> {{pageNumber}} מתוך 5</p>
-      <div class="progress" style="height:10px">
+      <div class="progress width38" style="height:10px">
         <div [ngClass]="classProcess"></div>
       </div>
     </div>
@@ -13,7 +13,7 @@
       <div>
       <p class="h5 mb-4 bold"> {{stringTitle}}</p>
       </div>
-      <div class="ml-3 mr-auto ">
+      <div class="ml-4-5 mr-auto ">
         <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline " >שמור וצא מהתהליך</button>
       </div>
     </div>
@@ -23,14 +23,14 @@
           <input matInput  placeholder="שם ארגון" formControlName="newOrganization"  required>
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
-      <P class="f-16 bold mt-5">פרטים</P>
+      <p class="f-16 bold mt-5">פרטים</p>
       <div class="d-flex">
         <mat-form-field >
           <input matInput placeholder="שם מעסיק" formControlName="name" required>
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-5">
-          <input matInput placeholder="מספר ח.פ" formControlName="identifier" required>
+          <input matInput placeholder="מספר ח.פ" formControlName="identifier" maxlength="9" required>
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-5">
@@ -39,12 +39,7 @@
         </mat-form-field>
       </div>
       <div class="d-flex">
-
-        <mat-form-field>
-          <input matInput placeholder="כתובת מייל" formControlName="email"  required>
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
-        <mat-form-field class="mr-5">
+        <mat-form-field >
           <input matInput placeholder="טלפון" formControlName="phone" >
         </mat-form-field>
         <mat-form-field class="mr-5">
@@ -57,7 +52,6 @@
                      required placeholder="פרוייקט"
                      class="bd-min-width" [error]="form.submitted &&
           creatingEmployerForm.controls['employerDetails'].value.project === null" ></bd-select>
-
         </div>
         <div class="bd-width181 mr-5">
           <bd-select [items]="operators" formControlName="operator"
@@ -103,66 +97,64 @@
         </div>
       </div>
     </div>
-    <div formArrayName="contact">
+      <div formArrayName="contact">
       <p class="f-16 bold mt-5">אנשי קשר</p>
-      <link >
-      <div *ngFor="let m of getContactsArrControls(); let index = index; let last = last" [formGroupName]="index">
-        <mat-icon (click)="removeControl(index)" *ngIf="index > 0 || !last" class="pointer remove-account-icon blue-color">highlight_off</mat-icon>
-        <br>
-        <p class="f-12">איש קשר {{  1 + index }}</p>
-        <div class="d-flex">
-        <mat-form-field >
-          <input matInput placeholder="שם פרטי" formControlName="firstName" required>
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
-        <mat-form-field class="mr-5">
-          <input matInput placeholder="שם משפחה" formControlName="lastName" required>
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
-        <mat-form-field class="mr-5">
-          <input matInput placeholder="תפקיד" formControlName="role">
-        </mat-form-field>
+        <div *ngFor="let m of getContactsArrControls(); let index = index; let last = last" [formGroupName]="index">
+          <mat-icon (click)="removeControl(index)" *ngIf="index > 0 || !last" class="pointer remove-account-icon blue-color">highlight_off</mat-icon>
+          <br>
+          <p class="f-12">איש קשר {{  1 + index }}</p>
+          <div class="d-flex">
+            <mat-form-field >
+              <input matInput placeholder="שם פרטי" formControlName="first_name" required>
+              <mat-error>שדה חובה</mat-error>
+                </mat-form-field>
+            <mat-form-field class="mr-5">
+              <input matInput placeholder="שם משפחה" formControlName="last_name" required>
+              <mat-error>שדה חובה</mat-error>
+            </mat-form-field>
+            <mat-form-field class="mr-5">
+            <input matInput placeholder="תפקיד" formControlName="role">
+          </mat-form-field>
+          </div>
+          <div class="d-flex">
+            <mat-form-field>
+              <input matInput placeholder="מספר טלפון" formControlName="phone">
+            </mat-form-field>
+            <mat-form-field class="mr-5">
+              <input matInput placeholder="טלפון נייד" formControlName="mobile" required>
+              <mat-error>שדה חובה</mat-error>
+            </mat-form-field>
+            <mat-form-field class="mr-5">
+              <input matInput placeholder="כתובת מייל" formControlName="email" required>
+              <mat-error>שדה חובה</mat-error>
+            </mat-form-field>
+            <input TYPE="hidden"  formControlName="entity_type"  >
+          </div>
+          <p class="f-14 pointer blue-color" >
+            <i class="fa fa-plus blue-color" (click)="addContact()"></i>
+            <span (click)="addContact()"> איש קשר נוסף</span>
+          </p>
+        </div>
       </div>
-      <div class="d-flex">
-        <mat-form-field>
-          <input matInput placeholder="מספר טלפון" formControlName="phoneContact">
-        </mat-form-field>
-        <mat-form-field class="mr-5">
-          <input matInput placeholder="טלפון נייד" formControlName="phoneContactMobile" required>
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
-        <mat-form-field class="mr-5">
-          <input matInput placeholder="כתובת מייל" formControlName="emailContact" required>
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-      <p class="f-14 pointer blue-color" >
-        <i class="fa fa-plus blue-color" (click)="addContact()"></i>
-        <span (click)="addContact()"> איש קשר נוסף</span>
-      </p>
-    </div>
       <mat-form-field id="comments">
-          <input matInput placeholder="הוספת הערות" formControlName="comments">
-        </mat-form-field>
+         <input matInput placeholder="הוספת הערות" formControlName="comments">
+      </mat-form-field>
     </div>
-
-
     <div [@fade]="pageNumber === 2 ? 'active' : 'inactive'">
       <br>
-      <table class="table table-bordered col-5">
+      <table class="table table-bordered width38">
         <thead>
         <tr>
-          <th scope="col">חוזה</th>
+          <th scope="col"  class="width15">חוזה</th>
           <td scope="col">
             <div class="d-flex">
               <p class="file-label-text" >{{ uploadedFileContract ? (uploadedFileContract.name | slice:0:25) : 'אין קובץ' }}</p>
               <div class="ml-3 mr-auto ">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse">
-                  <img src="app/../assets/img/icons/upload.svg">
-                  <label >
+                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" >
+                  <label class="width135" >
+                    <input type="file" (change)="uploadedFileContract = $event.target.files[0]"  >
+                    <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
-                    <input type="file" (change)="uploadedFileContract = $event.target.files[0]" >
                   </label>
                 </button>
               </div>
@@ -171,44 +163,44 @@
         </tr>
         </thead>
       </table>
-      <p class="alert alert-danger col-5" *ngIf="(!uploadedFileContract) && clickedCoun">יש להכניס חוזה.</p>
+      <p class="alert alert-danger width38" *ngIf="(!uploadedFileContract) && clickedContinue">יש להכניס חוזה.</p>
     </div>
     <div [@fade]="pageNumber === 3 ? 'active' : 'inactive'">
       <br>
-      <table class="table table-bordered col-5">
+      <table class="table table-bordered width38">
         <thead>
         <tr>
-          <th scope="col">יפויי כח</th>
-          <td scope="col">
-            <div class="d-flex">
-              <p class="file-label-text">{{ uploadedFilePoa ? (uploadedFilePoa.name | slice:0:25) : 'אין קובץ' }}</p>
-              <div class="ml-3 mr-auto ">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse">
-                  <img src="../../../../../assets/img/icons/upload.svg">
-                  <label >
-                    העלת קובץ
-                    <input type="file" (change)="uploadedFilePoa = $event.target.files[0]" >
-                  </label>
-                </button>
+          <th scope="col" class="width15">יפויי כח</th>
+            <td scope="col">
+              <div class="d-flex">
+                <p class="file-label-text">{{ uploadedFilePoa ? (uploadedFilePoa.name | slice:0:25) : 'אין קובץ' }}</p>
+                <div class="ml-3 mr-auto ">
+                  <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
+                    <label class="width135" >
+                      <input type="file" (change)="uploadedFilePoa= $event.target.files[0]"  >
+                      <img src="app/../assets/img/icons/upload.svg" class="ml-2">
+                      העלת קובץ
+                    </label>
+                  </button>
+                </div>
               </div>
-            </div>
-          </td>
+            </td>
         </tr>
         </thead>
       </table>
-      <table class="table table-bordered col-5">
+      <table class="table table-bordered width38">
         <thead>
         <tr>
-          <th scope="col">מורשה חתימה</th>
+          <th scope="col"  class="width15">מורשה חתימה</th>
           <td scope="col">
             <div class="d-flex">
               <p class="file-label-text">{{ uploadedFileProtocol ? (uploadedFileProtocol.name | slice:0:25) : 'אין קובץ' }}</p>
               <div class="ml-3 mr-auto ">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse">
-                  <img src="../../../../../assets/img/icons/upload.svg">
-                  <label >
+                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
+                  <label class="width135" >
+                    <input type="file" (change)="uploadedFileProtocol = $event.target.files[0]"  >
+                    <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
-                    <input type="file" (change)="uploadedFileProtocol = $event.target.files[0]" >
                   </label>
                 </button>
               </div>
@@ -217,18 +209,19 @@
         </tr>
         </thead>
       </table>
-      <table class="table table-bordered col-5">
+      <table class="table table-bordered width38">
         <thead>
         <tr>
-          <th scope="col">פרטי הלקוח</th>
+          <th scope="col"  class="width15">פרטי הלקוח</th>
           <td scope="col">
             <div class="d-flex">
               <p class="file-label-text">{{ uploadedFileCustomer ? (uploadedFileCustomer.name | slice:0:25) : 'אין קובץ' }}</p>
-              <div class="ml-3 mr-auto ">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse">
-                  <label >
+              <div class="ml-3 mr-auto">
+                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
+                  <label class="width135" >
+                    <input type="file" (change)="uploadedFileCustomer = $event.target.files[0]"  >
+                    <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
-                    <input type="file" (change)="uploadedFileCustomer = $event.target.files[0]" >
                   </label>
                 </button>
               </div>
@@ -237,18 +230,17 @@
         </tr>
         </thead>
       </table>
-      <p class="alert alert-danger col-5" *ngIf="((!uploadedFilePoa) || (!uploadedFileProtocol) || (!uploadedFileCustomer))&& clickedCoun">יש להכניס את המסמכים הדרושים.</p>
+      <p class="alert alert-danger width38" *ngIf="((!uploadedFilePoa) || (!uploadedFileProtocol) || (!uploadedFileCustomer))&& clickedContinue">יש להכניס את המסמכים הדרושים.</p>
     </div>
-
     <div [@fade]="pageNumber === 4 ? 'active' : 'inactive'" [formGroup]="detailsBank">
       <p class="f-16 bold mt-5">חשבון בנק משלם</p>
       <div class="d-flex" formGroupName="payingBank">
-        <div class="bd-width">
+        <div class="bd-width181">
           <bd-select  [items]="banks" formControlName="name" required
                       [(ngModel)]="selectedBankD"  placeholder="בחר בנק"
                        (onSelect)="getBranches(1)" [error]="!selectedBankD && form.submitted"></bd-select>
         </div>
-        <div class="bd-width mr-5">
+        <div class="bd-width181 mr-5">
           <bd-select [items]="branchesD" formControlName="branchId"
                      [(ngModel)]="selectedBranchD"  placeholder="בחר סניף"
                      [error]="!selectedBranchD && form.submitted"></bd-select>
@@ -261,12 +253,12 @@
       </div>
       <p class="bold mt-5">חשבון להחזר כספים</p>
       <div class="d-flex" formGroupName="receivingBank">
-        <div class="bd-width">
+      <div class="bd-width181">
           <bd-select [items]="banks" formControlName="name" required
                      [(ngModel)]="selectedBankW" placeholder="בחר בנק"
                      (onSelect)="getBranches(2)"  [error]="!selectedBankW && form.submitted"></bd-select>
         </div>
-        <div class="bd-width mr-5">
+        <div class="bd-width181 mr-5">
           <bd-select [items]="branchesW" formControlName="branchId" required
                      [(ngModel)]="selectedBranchW" placeholder="בחר סניף"
                      [error]="!selectedBranchW && form.submitted"></bd-select>
@@ -280,18 +272,20 @@
     </div>
     </div>
     <div [@fade]="pageNumber === 5 ? 'active' : 'inactive'">
-      <table class="table table-bordered col-5">
+      <br>
+      <table class="table table-bordered width38">
         <thead>
         <tr>
-          <th scope="col">קובץ Xml</th>
+          <th scope="col"  class="width15" >קובץ Xml</th>
           <td scope="col">
             <div class="d-flex">
               <p class="file-label-text">{{ uploadedFileXml ? (uploadedFileXml.name | slice:0:25) : 'אין קובץ' }}</p>
               <div class="ml-3 mr-auto ">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse">
-                  <label >
+                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
+                  <label class="width135" >
+                    <input type="file" (change)="uploadedFileXml = $event.target.files[0]"  >
+                    <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
-                    <input type="file" (change)="uploadedFileXml = $event.target.files[0]" >
                   </label>
                 </button>
               </div>
@@ -300,14 +294,14 @@
         </tr>
         </thead>
       </table>
-      <p class="alert alert-danger col-5" *ngIf="(!uploadedFileXml)  && clickedCoun">יש להכניס קובץ Xml.</p>
+      <p class="alert alert-danger width38" *ngIf="(!uploadedFileXml)  && clickedContinue">יש להכניס קובץ Xml.</p>
     </div>
     <br>
     <br>
     <div class="row col-5">
       <button class="btn btn-secondary btn-sm ml-3 ellipse" (click)="backAndCancel()"> {{this.pageNumber === 1 ? 'ביטול' : 'חזור'}}</button>
-      <div class="ml-3 d-flex mr-auto">
-        <button class="btn btn-primary btn-sm ml-md-n2 ellipse btn blue-btn" type="submit" (click)="this.pageNumber === 5 ? submit(from): continueProcess()"  >
+      <div class="ml-4-5 d-flex mr-auto">
+        <button class="btn btn-primary btn-sm ml-md-n2 ellipse btn blue-btn" type="submit" (click)="this.pageNumber === 5 ? submit(): continueProcess()"  >
           {{ this.pageNumber === 5 ? 'סיום' : 'המשך'}}</button>
       </div>
     </div>

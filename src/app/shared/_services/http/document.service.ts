@@ -67,4 +67,13 @@ export class  DocumentService extends BaseHttpService {
     return this.http.post(this.endPoint , data, this.getTokenHeader()).toPromise().then(response => response)
       .catch(() => null);
   }
+
+  uploadFileCollection(employerId: number, files): void {
+    for (const fileEmployer of files) {
+      this.uploadFile(employerId, '', fileEmployer['file'], fileEmployer['documentType']).then(
+
+      );
+    }
+  }
+
 }

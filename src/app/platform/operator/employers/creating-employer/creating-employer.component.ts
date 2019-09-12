@@ -2,13 +2,15 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
-
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { EmployerStatus, IdentifierTypes } from 'app/shared/_models/employer.model';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { DocumentService } from 'app/shared/_services/http/document.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+
+
+import { EmployerStatus, IdentifierTypes } from 'app/shared/_models/employer.model';
 import { PaymentType } from 'app/shared/_models/process.model';
 import { Contact} from 'app/shared/_models/contact.model';
 import { fade } from 'app/shared/_animations/animation';
@@ -17,12 +19,11 @@ import { fade } from 'app/shared/_animations/animation';
   selector: 'app-creating-employer',
   templateUrl: './creating-employer.component.html',
   styleUrls: ['./creating-employer.component.css'],
-  providers: [ContactService],
+  providers: [ContactService, DocumentService],
   animations: [ fade]
 })
 export class CreatingEmployerComponent implements OnInit {
   contact = new Contact();
-  arrayContact: Contact[] = [];
   projects = [];
   banks = [];
   branchesD;
@@ -30,9 +31,9 @@ export class CreatingEmployerComponent implements OnInit {
   operators;
   classProcess;
   pageNumber = 1;
-  selectedBankD: number; // bank number
-  selectedBankW: number; //
-  selectedBranchD; //
+  selectedBankD: number;
+  selectedBankW: number;
+  selectedBranchD;
   selectedBranchW;
   organizations = [];
   uploadedFileXml: File;
@@ -45,7 +46,7 @@ export class CreatingEmployerComponent implements OnInit {
   creatingEmployerForm: FormGroup;
   stringTitle: string;
   detailsBank: FormGroup;
-  clickedCoun = false;
+  clickedContinue = false;
   organizationId: number;
   employerId;
   identifierTypes = Object.keys(IdentifierTypes).map(function(e) {
@@ -60,6 +61,7 @@ export class CreatingEmployerComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private  orgService: OrganizationService,
+    private  documentService: DocumentService,
     private  contactService: ContactService,
     private  generalHttpService: GeneralHttpService,
     private  organizationService: OrganizationService,
@@ -88,11 +90,10 @@ export class CreatingEmployerComponent implements OnInit {
         'employerDetails': this.fb.group({
           'newOrganization': [null, Validators.required],
           'name': [null, Validators.required],
-          'identifier': [null, Validators.required],
+          'identifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'receivedIdentifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'deductionNumber': [],
-          'email': [null,  Validators.required],
-          'phone': [null],
+          'phone': [null , [Validators.pattern('^[0-9]*$')]],
           'address': [null],
           'project': [null, Validators.required],
           'operator': [null, Validators.required],
@@ -102,19 +103,19 @@ export class CreatingEmployerComponent implements OnInit {
           'senderIdentifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'institutionCode5': [null],
           'institutionCode8': [null]
-          // 'email': [null, [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
         }),
         'department': this.fb.group({
           'name': ['כללי', Validators.required]
         }),
         'contact': this.fb.array([
           this.fb.group({
-          'firstName': [null , Validators.required],
-          'lastName': [null , Validators.required],
-          'addressContact': [null],
-          'phoneContact': [null],
-          'phoneContactMobile': [null , Validators.required],
-          'emailContact': [null , Validators.required]
+          'first_name': [null , Validators.required],
+          'last_name': [null , Validators.required],
+          'entity_type': ['employer'],
+          'role': [null],
+          'phone': [null , [Validators.pattern('^[0-9]*$')]],
+          'mobile': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
+          'email': [null , [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]]
         })]),
         'comments':  ['']
       });
@@ -163,9 +164,11 @@ export class CreatingEmployerComponent implements OnInit {
       const contactsGroup = (<FormArray>this.creatingEmployerForm.get('contact'));
       contactsGroup.removeAt(index);
   }
+
   getContactsArrControls(): any[] {
     return (<FormArray>this.creatingEmployerForm.get('contact')).controls;
   }
+
   getOperator(): void {
     this.employerService.getOperator().then(response => {
       this.operators = response;
@@ -173,13 +176,14 @@ export class CreatingEmployerComponent implements OnInit {
   }
   addContact(contact) {
     const contactControl = {
-      // 'id': [contact  ? +contact['id'] : null],
-      'first_name': [contact  ? +contact['firsName'] : null,  Validators.required],
+      'first_name': [contact  ? +contact['firstName'] : null,  Validators.required],
       'last_name': [contact  ? +contact['lastName'] : null,  Validators.required],
       'role': [contact  ? +contact['role'] : null ],
-      'phone': [contact  ? +contact['phoneContact'] : null ],
-      'mobile': [contact  ? +contact['phoneContactMobile'] : null,  Validators.required],
-      'email': [contact  ? +contact['emailContact'] : null,  Validators.required]
+      'entity_type': ['employer'],
+      'phone': [contact  ? +contact['phoneContact'] : null , [Validators.pattern('^[0-9]*$')]],
+      'mobile': [contact  ? +contact['phoneContactMobile'] : null,  [Validators.pattern('^[0-9]*$'), Validators.required]],
+      'email': [contact  ? +contact['emailContact'] : null,
+        [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]]
     };
     const contactGroup = (<FormArray>this.creatingEmployerForm.get('contact'));
     contactGroup.push(this.fb.group(contactControl));
@@ -189,7 +193,7 @@ export class CreatingEmployerComponent implements OnInit {
       this.pageNumber -= 1;
       this.updateData();
     } else {
-     // cancel
+      this._location.back();
     }
   }
 
@@ -233,6 +237,7 @@ export class CreatingEmployerComponent implements OnInit {
       } break;
     }
   }
+
   continueProcess() {
     switch (this.pageNumber) {
       case 1: {
@@ -243,19 +248,19 @@ export class CreatingEmployerComponent implements OnInit {
       }
         break;
       case 2: {
-        this.clickedCoun = true;
+        this.clickedContinue = true;
         if (this.uploadedFileContract) {
           this.pageNumber += 1;
-          this.clickedCoun = false;
+          this.clickedContinue = false;
           this.updateData();
         }
       }
         break;
       case 3: {
-        this.clickedCoun = true;
+        this.clickedContinue = true;
         if (this.uploadedFilePoa && this.uploadedFileProtocol && this.uploadedFileCustomer) {
           this.pageNumber += 1;
-          this.clickedCoun = false;
+          this.clickedContinue = false;
           this.updateData();
         }
       }
@@ -267,16 +272,22 @@ export class CreatingEmployerComponent implements OnInit {
         }
       }
         break;
-      case 5: {
-        this.clickedCoun = true;
-        if (this.uploadedFileXml) {
-          this.updateData();
-        }
-      }
-        break;
     }
   }
-  submit(form: NgForm): void {
+
+  addDocument() {
+    const files: { file: File, documentType: string }[] = [
+      {'file': this.uploadedFileContract, 'documentType': 'contract'},
+      {'file': this.uploadedFilePoa, 'documentType': 'employer_poa'},
+      {'file': this.uploadedFileProtocol, 'documentType': 'authorization_protocol'},
+      {'file': this.uploadedFileCustomer, 'documentType': 'customer_details' },
+    ];
+
+    this.documentService.uploadFileCollection(this.employerId, files);
+  }
+
+  submit(): void {
+    this.clickedContinue = true;
     if (this.uploadedFileXml) {
       this.updateData();
       this.helpers.setPageSpinner(true);
@@ -291,6 +302,7 @@ export class CreatingEmployerComponent implements OnInit {
               this.hasServerError = true;
             } else {
               this.saveContact();
+              this.addDocument();
               this.detailsBank.controls['payingBank'].value['ownerId'] = departmentId;
               this.generalHttpService.addNewBankAccount(this.detailsBank.controls['payingBank'].value)
                 .then(responseB => {
@@ -300,7 +312,7 @@ export class CreatingEmployerComponent implements OnInit {
                         .then(responseR => {
                           if (responseR) {
                             const comments = this.creatingEmployerForm.controls['comments'].value;
-                            if (comments !== '') {
+                            if (comments) {
                               this.generalHttpService.newComment(this.employerId,
                                 this.creatingEmployerForm.controls['comments'].value, 'employer');
                             }

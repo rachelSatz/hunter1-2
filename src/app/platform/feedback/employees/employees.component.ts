@@ -108,6 +108,9 @@ export class EmployeesComponent implements OnInit , OnDestroy {
       this.dataTable.criteria.filters['departmentId'] = departmentId;
       if (this.fileId) {
         this.dataTable.criteria.filters['fileId'] = this.fileId; }
+      if (this.recordId) {
+        this.dataTable.criteria.filters['recordId'] = this.recordId; }
+
       this.feedbackService.searchEmployeeData(this.dataTable.criteria).then(response => {
         this.dataTable.setItems(response);
       });
