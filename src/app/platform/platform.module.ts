@@ -2,8 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatChipsModule, MatFormFieldModule, MatIconModule, MatInputModule } from '@angular/material';
+import {
+  MatMenuModule,
+  MatAutocompleteModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule, MatOptionModule
+} from '@angular/material';
 
 import { PlatformComponent } from './platform.component';
 import { InquiryFormComponent } from '../shared/_dialogs/inquiry-form/inquiry-form.component';
@@ -13,6 +22,7 @@ import { OrganizationService } from 'app/shared/_services/http/organization.serv
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 
+import { DetailsComponent } from 'app/shared/_dialogs/details/details.component';
 import { InquiriesComponent } from '../shared/_dialogs/inquiries/inquiries.component';
 import { IsAuthenticatedGuard } from 'app/shared/_guards/is-authenticated.guard';
 import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
@@ -20,6 +30,9 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { AppHttpService } from '../shared/_services/http/app-http.service';
 import { ProductService } from '../shared/_services/http/product.service';
 import { TimerService } from '../shared/_services/http/timer';
+import { FileDropModule } from 'ngx-file-drop';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 
 
 const routes: Routes = [
@@ -32,8 +45,10 @@ const routes: Routes = [
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
       { path: 'finance/dashboard', loadChildren: 'app/platform/finance/dashboard/dashboard.module#DashboardModule' },
       { path: 'compensation/process', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
-      { path: 'compensation/process-clearing', loadChildren: 'app/platform/compensation/process-clearing/' +
-          'process-clearing.module#ProcessClearingModule' },
+      // { path: 'compensation/process-clearing', loadChildren: 'app/platform/compensation/process-clearing/' +
+      //     'process-clearing.module#ProcessClearingModule' },
+      { path: 'compensation/process-level-hp', loadChildren: 'app/platform/compensation/process-level-hp/' +
+          'process-level-hp.module#ProcessLevelHpModule' },
       { path: 'compensation/deposits-report', loadChildren:
           'app/platform/compensation/deposits-report/deposits-report.module#DepositsReportModule' },
       { path: 'settings/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
@@ -62,18 +77,26 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    BdSelectModule,
-    RouterModule.forChild(routes),
     FormsModule,
-    MatMenuModule,
+    RouterModule.forChild(routes),
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatOptionModule,
     MatChipsModule,
     MatIconModule,
-    MatFormFieldModule,
-    MatInputModule
+    MatMenuModule,
+    FileDropModule,
+    MatAutocompleteModule,
+    DatePickerModule,
+    BdSelectModule,
+    DataTableModule
   ],
   declarations: [PlatformComponent, InquiryFormComponent,
-    CommentsFormComponent, InquiriesComponent],
-  entryComponents: [InquiryFormComponent, CommentsFormComponent, InquiriesComponent],
+    CommentsFormComponent, InquiriesComponent , DetailsComponent],
+  entryComponents: [InquiryFormComponent, CommentsFormComponent, InquiriesComponent, DetailsComponent],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService,
     DatePipe, TimerService, OperatorTasksService, ProductService, AppHttpService]
 })

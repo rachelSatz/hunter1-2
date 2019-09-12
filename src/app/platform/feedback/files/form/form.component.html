@@ -1,4 +1,4 @@
-<span class="pointer" (click)="close()">
++-<span class="pointer" (click)="close()">
     <i class="fa fa-close"></i>
 </span>
 <p class="bold m-0">{{ data.employer_name }}</p>
@@ -44,6 +44,15 @@
   <span class="header-width f-14">{{ data.file_name }}
     <i class="fa fa-download fa-lg ml-2" (click)="downloadFile(data.id)" title="הורד קובץ"></i>
   </span>
+</div>
+
+<div class="d-flex p-2">
+  <span class="width50 bold f-14">היזון ראשוני</span>
+  <span class="width50 bold f-14">היזון מסכם</span>
+</div>
+<div class="d-flex p-2 border-bottom">
+  <span class="width50 f-14">{{ data.feedback_a  }}</span>
+  <span class="width50 f-14">{{ data.feedback_emp }}</span>
 </div>
 <!--<div class="float-left ml-2 mt-5">-->
   <!--<span class="ml-3">-->

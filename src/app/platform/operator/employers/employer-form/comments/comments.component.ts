@@ -24,8 +24,8 @@ export class CommentsComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.userSession.getUser();
-    this.generalService.getComments(this.selectUnit.currentEmployerID, 'employer')
-      .then(response => this.comments = response);
+    this.generalService.getComments([this.selectUnit.currentEmployerID], 'employer')
+      .then(response => this.comments = [response]);
   }
 
   submit() {
@@ -33,7 +33,7 @@ export class CommentsComponent implements OnInit {
       return;
     }
 
-    this.generalService.newComment(this.selectUnit.currentEmployerID, this.comment, 'employer')
+    this.generalService.newComment([this.selectUnit.currentEmployerID], this.comment, 'employer')
       .then(response => {
         if (!response) {
            this.hasServerError = true;

@@ -1,4 +1,4 @@
-<app-data-table tableName="מעקב יתרות לפיצויים" [columns]="columns" (fetchItems)="fetchItems()"
+<app-data-table tableName="מעקב יתרות לפיצויי ברמת עובד" [columns]="columns" (fetchItems)="fetchItems()"
                 [hasCheckColumn]="true" [hasActionsHeader]="userSession.getPermissionsType('compensation')">
   <div class="table-header">
     <div class="row mt-4 mr-1">
@@ -9,6 +9,8 @@
           <button mat-menu-item (click)="openExcelDialog()"> העלאת קובץ בקשות </button>
           <button mat-menu-item (click)="openExcelEmployeesDialog()" *ngIf="dataTable.hasActionsHeader">העלאת קובץ עובדים</button>
           <button mat-menu-item (click)="manualChangingStatus()" *ngIf="dataTable.hasActionsHeader">שינוי סטטוס</button>
+          <button mat-menu-item (click)="openCommentsDialog()">הוסף הערה</button>
+          <button mat-menu-item  (click)="getFileEmployeeByEmployer()" *ngIf="this.linkId !== undefined">הורד אקסל</button>
         </mat-menu>
       </div>
       <div class="ml-3 d-flex mr-auto">
@@ -55,10 +57,15 @@
       <td>
         <img [src]="getValidityImage(item)" class="row-actions" >
       </td>
-      <td *ngIf="dataTable.hasActionsHeader" class="d-flex">
+      <td *ngIf="dataTable.hasActionsHeader">
         <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
+        <!--<span class="grey-circle" (click)="openSendToDialog(item)">-->
+          <!--<i class="fa fa-share fa-flip-horizontal"></i></span>-->
         <span class="grey-circle mr-3 ml-3" (click)="openInquiriesDialog(item)">{{ item.inquiries.length }}</span>
-        <i (click)="openDetailsDialog(item)" [class]="getIfThereFiles(item)" ></i>
+        <span class="grey-circle ml-3" [ngClass]="{ 'green-back-color': item.files.items.length > 0} "
+              (click)="openDetailsDialog(item)">
+          <i class="fa fa-info"></i></span>
+
       </td>
     </tr>
 </app-data-table>

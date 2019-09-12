@@ -18,7 +18,6 @@ import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { AddFileComponent } from './add-file/add-file.component';
 import { DepositsReportComponent } from './deposits-report.component';
 import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
-import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { ProductService } from 'app/shared/_services/http/product.service';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
@@ -31,6 +30,7 @@ import { CompensationService } from 'app/shared/_services/http/compensation.serv
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { DepositsReportService } from 'app/shared/_services/http/deposits-report.service';
 import { RequestDepositsReportComponent } from './excel/request-deposits-report/request-deposits-report.component';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 
 
 const routes: Routes = [
@@ -47,8 +47,8 @@ const routes: Routes = [
     MatAutocompleteModule,
     DatePickerModule,
     BdSelectModule,
-    DataTableModule,
-    PipesModule
+    PipesModule,
+    DataTableModule
   ],
   declarations: [DepositsReportComponent, FormComponent, AddFileComponent, RequestDepositsReportComponent],
   providers: [ DepartmentService, ProductService, NotificationService, ContactService, EmployerService,

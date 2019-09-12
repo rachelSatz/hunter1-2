@@ -113,24 +113,27 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
    || status === this.processStatus.done_processing || status === this.processStatus.transmitted
      || status === this.processStatus.loaded_with_errors  || status === this.processStatus.partially_transmitted) {
      const date = new Date(process.date);
-     let pageNumber = 1;
-     if (status !== this.processStatus.loading) {
-       pageNumber = 3;
-     }
+     const pageNumber = status !== this.processStatus.loading ? 3 : 1;
+
      const data = {
        'pageNumber': pageNumber,
        'processName': process.name,
        'year': date.getFullYear(),
-       'month': date.getMonth(),
+       'month': date.getMonth() + 1,
        'monthName':  this.months[date.getMonth()],
        'processId': process.id,
        'type': process.total > 0 ? 'positive' : 'negative',
-       'status': process.status
+       'status': process.status,
+       'departmentId': process.dep_id
      };
 
      this.processDataService.setProcess(data);
+     if (status === this.processStatus.transmitted) {
+       this.router.navigate(['platform', 'process', 'new', '1', 'broadcast']);
+     } else {
+       this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id]);
+     }
 
-     this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id]);
    }
   }
 

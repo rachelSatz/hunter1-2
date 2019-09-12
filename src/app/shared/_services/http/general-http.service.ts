@@ -26,16 +26,16 @@ export class GeneralHttpService extends BaseHttpService {
       .catch(() => []);
   }
 
-  newComment(objectID: number, content: string, contentType: string): Promise<boolean> {
-    return this.http.post(this.endPoint  + '/' + objectID + '/comment', { 'content': content ,
-      'content_type': contentType}, this.getTokenHeader())
+  newComment(objects: number[], content: string, contentType: string): Promise<boolean> {
+    return this.http.post(this.endPoint  + '/comment', { 'content': content ,
+      'content_type': contentType, 'ids': objects}, this.getTokenHeader())
       .toPromise()
       .then(() => true)
       .catch(() => false);
   }
 
-  getComments(objectID: number, contentType: string): Promise<Object[]> {
-    return this.http.post(this.endPoint + '/' + objectID + '/getComments', {'content_type': contentType},
+  getComments(objects: number[], contentType: string): Promise<Object[]> {
+    return this.http.post(this.endPoint + '/getComments', {'content_type': contentType, ids: objects},
       this.getTokenHeader())
       .toPromise()
       .then(response => response as Object[])

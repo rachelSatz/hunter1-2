@@ -54,7 +54,7 @@ export class TasksComponent implements OnInit , OnDestroy {
 
   createOrEditTask(item: any) {
    if (!item) {
-     item = new TaskModel();
+     item = new TaskModel;
      item.employer['id'] = this.selectUnit.currentEmployerID;
    }
 

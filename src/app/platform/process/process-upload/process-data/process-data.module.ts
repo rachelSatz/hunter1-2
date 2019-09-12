@@ -9,9 +9,7 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { ProcessDataComponent } from './process-data.component';
 import {FileDepositionComponent} from './file-deposition/file-deposition.component';
 
-const routes
-
-: Routes = [
+const routes: Routes = [
   { path: '', component: ProcessDataComponent },
 
 ];

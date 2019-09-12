@@ -56,8 +56,9 @@ export class PlatformComponent implements OnInit {
     // { url: 'dashboard', subUrl: 'no_permissions', label: 'דף הבית' },
 
     { url: 'compensation', label: 'יתרות לפיצויים', subMenuLinks: [
-        { url: 'process', label: 'מעקב יתרות לפיצויים' },
-        { url: 'process-clearing', label: 'מעקב יתרות לפיצויים מסלקה' },
+        { url: 'process', label: 'מעקב יתרות לפיצויים ברמת עובד' },
+        // { url: 'process-clearing', label: 'מעקב יתרות לפיצויים מסלקה' },
+        { url: 'process-level-hp', label: 'מעקב יתרות לפיצויים ברמת ח.פ' },
         { url: 'deposits-report', label: 'מעקב דוח הפקדות' },
         { url: 'dashboard', label: 'מצג סטטוסים' }
         ]

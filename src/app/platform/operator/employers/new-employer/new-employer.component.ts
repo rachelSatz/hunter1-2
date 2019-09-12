@@ -182,7 +182,7 @@ export class NewEmployerComponent implements OnInit {
                          if (response) {
                            const comments = this.newEmployerForm.controls['comments'].value;
                            if (comments !== '') {
-                             this.generalHttpService.newComment(employerId, this.newEmployerForm.controls['comments'].value, 'employer');
+                             this.generalHttpService.newComment([employerId], this.newEmployerForm.controls['comments'].value, 'employer');
                            }
                            this.platformComponent.getOrganizations(true, true);
                            if (this.router.url.includes( 'operator')) {

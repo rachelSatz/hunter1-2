@@ -26,12 +26,12 @@ export class FormComponent implements OnInit {
 
   ngOnInit() {
     const feedback = this.data.group_thing_feedback[0];
-    const status_handling = feedback.status_handling_funds;
+    const status_handling = feedback  ? feedback.status_handling_funds : '';
 
     this.error =  feedback  ? feedback.handling_status
       + ' ' + this.data.error_details
       + (status_handling === null || feedback.handling_status.includes(status_handling)
-        ? '' : ' ' + feedback.status_handling_funds ) : '';
+        ? '' : ' ' + feedback.status_handling_funds ) :  this.data.error_details;
   }
 
   downloadFile(id: number) {

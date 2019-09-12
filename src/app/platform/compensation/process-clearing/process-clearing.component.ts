@@ -109,10 +109,10 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
     const departmentId = this.selectUnit.currentDepartmentID;
 
     if (organizationId) {
-      this.dataTable.criteria.filters['employerId'] = employerId;
-      this.dataTable.criteria.filters['organizationId'] = organizationId;
-      this.dataTable.criteria.filters['departmentId'] = departmentId;
-      this.dataTable.criteria.filters['eventCode'] = '9302';
+      this.dataTable.criteria.filters['employer_id'] = employerId;
+      this.dataTable.criteria.filters['organization_id'] = organizationId;
+      this.dataTable.criteria.filters['department_id'] = departmentId;
+      this.dataTable.criteria.filters['event_code'] = '9302';
       this.compensationService.getCompensations(this.dataTable.criteria).then(response => {
         this.setResponse(response);
       });
@@ -171,15 +171,26 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
     });
   }
 
-  openCommentsDialog(item: any): void {
+  openCommentsDialog(item?: any): void {
+    let ids = [];
+    if (!item) {
+      if (this.dataTable.criteria.checkedItems.length === 0) {
+        this.dataTable.setNoneCheckedWarning();
+        return;
+      }
+
+      ids = this.dataTable.criteria.checkedItems.map(i => i['id']);
+    } else {
+      ids = [item.id];
+    }
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'id': item.id, 'contentType': 'compensation', 'comments' : item.comments},
+      data: {'ids': ids, 'contentType': 'compensation', 'comments' : item ?  item.comments : []},
       width: '450px'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(comments => {
       if (comments) {
-        this.generalService.getComments(item.id, 'compensation').then(response => {
+        this.generalService.getComments(ids, 'compensation').then(response => {
           item.comments = response;
         });
       }

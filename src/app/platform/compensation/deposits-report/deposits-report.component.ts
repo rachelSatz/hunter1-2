@@ -22,7 +22,6 @@ import { DepositsReportService } from 'app/shared/_services/http/deposits-report
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { RequestDepositsReportComponent } from './excel/request-deposits-report/request-deposits-report.component';
-import {DocumentService} from '../../../shared/_services/http/document.service';
 
 
 @Component({
@@ -131,16 +130,38 @@ export class DepositsReportComponent implements OnInit {
     }));
   }
 
-  openCommentsDialog(item: any): void {
+  openCommentsDialog(item?: any): void {
+    let ids = [];
+    if (!item) {
+      if (this.dataTable.criteria.checkedItems.length === 0) {
+        this.dataTable.setNoneCheckedWarning();
+        return;
+      }
+
+      ids = this.dataTable.criteria.checkedItems.map(i => i['id']);
+    } else {
+      ids = [item.id];
+    }
+
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'id': item.id, 'contentType': 'depositsreport', 'comments' : item.comments},
+      data: {'ids': ids, 'contentType': 'depositsreport', 'comments' : item ?  item.comments : []},
       width: '450px'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(comments => {
       if (comments) {
-        this.generalService.getComments(item.id, 'depositsreport').then(response => {
-          item.comments = response;
+        this.generalService.getComments(ids, 'depositsreport').then(response => {
+          if (item) {
+            item.comments = [response];
+            item.checked = false;
+          } else {
+            this.dataTable.criteria.checkedItems.forEach(obj => {
+              obj['comments'] = response.filter(r => r['object_id'] === obj['id']);
+              obj['checked'] = false;
+            });
+          }
+          this.dataTable.criteria.checkedItems = [];
+          this.dataTable.criteria.isCheckAll = false;
         });
       }
     }));

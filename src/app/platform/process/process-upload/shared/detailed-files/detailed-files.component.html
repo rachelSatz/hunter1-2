@@ -15,6 +15,7 @@
               <button mat-menu-item (click)="openGroupTransferDialog()">העבר קבוצה</button>
               <button mat-menu-item (click)=openSent()>פתיחת נעילת שידור</button>
               <button mat-menu-item (click)=sentFile()> שידור קבצים</button>
+              <button mat-menu-item (click)="openCommentsDialog()">הוסף הערה</button>
             </mat-menu>
         </div>
       </div>
@@ -54,8 +55,8 @@
         <i *ngIf="item.status == 'sent' || item.status == 'locked'" class="fa fa-lock"></i>
         <i *ngIf="item.status == 'not_sent'" class="fa fa-unlock"></i>
       </td>
-      <td>
-        <i class="fa fa-angle-double-left" (click)="detailsRecords(item.file_id)"></i>
+      <td (click)="detailsRecords(item.file_id)">
+        <i class="fa fa-angle-double-left" ></i>
       </td>
       </tr>
   </app-data-table>
