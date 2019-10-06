@@ -56,8 +56,17 @@ button:focus {
 .width15{
   width: 15%;
 }
+.edit-icon {
+  cursor: pointer;
+  width: 36px;
+  margin-top: 12px;
+}
 .width38{
   width: 38%;
+}
+.disabledInput {
+  pointer-events: none;
+  opacity: 0.4;
 }
 .ml-4-5 {
   margin-left: 2.3rem !important;

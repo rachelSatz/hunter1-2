@@ -9,6 +9,7 @@ import { EmployerStatus } from 'app/shared/_models/employer.model';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 
 
+
 @Component({
   selector: 'app-employers',
   templateUrl: './employers.component.html',
@@ -20,8 +21,9 @@ export class EmployersComponent  implements OnInit , OnDestroy {
 
   sub = new Subscription;
   location: string;
+  documents: string[];
   employerStatus = EmployerStatus;
-
+  employerId: number;
   readonly columns =  [
     { name: 'organization_name', label: 'ארגון' },
     { name: 'employer_name', label: 'מעסיק' },
@@ -56,6 +58,13 @@ export class EmployersComponent  implements OnInit , OnDestroy {
         this.fetchItems();
       }
     ));
+  }
+  employerEdit(employer): void {
+    if (employer.status === 'on_process') {
+        this.router.navigate(['./', 'creating', employer.id], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['./', 'form' , employer.id],  {relativeTo: this.route});
+    }
   }
 
   fetchItems() {

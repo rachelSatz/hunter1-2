@@ -143,7 +143,6 @@ export class EditPaymentsComponent implements OnInit {
   }
 
   addTransfer(m: any, transfer?: Object): any {
-
     const transferControl = {
       'id': [transfer  ? +transfer['id'] : null],
       'clause_type': [transfer  ? transfer['clause_type'] : '',  Validators.required],
@@ -153,7 +152,6 @@ export class EditPaymentsComponent implements OnInit {
     };
     const transferGroup =  (<FormArray>m.get('transfer_clause'));
     transferGroup.push(this.fb.group(transferControl));
-
   }
 
   remove(m: any, index: number): void {

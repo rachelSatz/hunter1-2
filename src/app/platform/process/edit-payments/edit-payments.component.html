@@ -132,7 +132,7 @@
 
       <p class="border-bottom f-14 bold">פרטי קופה</p>
       <div class="row col-9">
-      <div class="col-3" [ngClass]="{'disabledInput' :  this.type == 'regular'}" >
+      <div class="col-3" [ngClass]="{'disabledInput' :  type == 'regular'}" >
         <bd-select class="w-100" [items]="companies" formControlName="company_id"
                    (onSelect)="selectedProducts($event)"
                    placeholder="חברה מנהלת"

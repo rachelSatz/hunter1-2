@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
-import {Employer, EmployerStatus, IdentifierTypes, Operator} from 'app/shared/_models/employer.model';
+import { Employer, EmployerStatus, IdentifierTypes} from 'app/shared/_models/employer.model';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
@@ -11,7 +11,6 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { EmployersResolve } from 'app/shared/_resolves/employers.resolve';
 import { PaymentType } from 'app/shared/_models/process.model';
 import { Subscription } from 'rxjs';
-
 
 
 @Component({
@@ -75,18 +74,15 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
               private _location: Location) { }
 
   ngOnInit() {
-
     this.selectUnit.setEmployerID(this.selectUnit.currentEmployerID);
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
     if (this.route.snapshot.data.employer) {
         this.activeUrl = 'comments';
         this.employer = this.route.snapshot.data.employer;
         this.setStatus();
-
         if ( this.employer.operator !== null) {
           this.operatorId =  this.employer.operator.id;
         }
-
         this.project.id =  this.employer.project_id;
         this.project.name = this.employer.project_name;
     }
@@ -99,14 +95,12 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
       this.setOperator();
     });
     this.initForm();
-
     this.router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
         this.setActiveUrl(event.url);
       }
     });
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
-
   }
 
   private setActiveUrl(url: string): void {

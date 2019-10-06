@@ -70,9 +70,10 @@ export class  DocumentService extends BaseHttpService {
 
   uploadFileCollection(employerId: number, files): void {
     for (const fileEmployer of files) {
-      this.uploadFile(employerId, '', fileEmployer['file'], fileEmployer['documentType']).then(
-
-      );
+      if (fileEmployer['file'] !== undefined) {
+        this.uploadFile(employerId, '', fileEmployer['file'], fileEmployer['documentType'])
+          .then(response => response);
+      }
     }
   }
 

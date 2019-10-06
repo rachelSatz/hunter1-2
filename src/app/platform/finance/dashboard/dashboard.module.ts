@@ -13,7 +13,7 @@ import {
   MatSelectModule
 } from '@angular/material';
 
-// import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
+import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { InvoiceService } from 'app/shared/_services/http/invoice.service';
 import { NotificationService} from 'app/shared/_services/notification.service';
@@ -38,7 +38,7 @@ const routes: Routes = [
     MatSelectModule,
     MatIconModule,
     MatAutocompleteModule,
-    // DatePickerModule,
+    DatePickerModule,
     BdSelectModule,
     ChartsModule
     // MultiDatepickerModule

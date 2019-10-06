@@ -19,7 +19,7 @@ export class Employer {
   employerCodeSent: string; // מספר מזהה לשליחה
   comments: string;
   bank_accounts: EmployerBankAccount[] = [];
-  organizationId: number;
+  organization_id: number;
   organization_name: string;
   status: string;
   department: Department[];

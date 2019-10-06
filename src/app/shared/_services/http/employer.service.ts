@@ -8,6 +8,7 @@ import { UserSessionService } from '../user-session.service';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { EmployerFinancialDetails } from '../../_models/employer-financial-details.model';
+import {Contact} from '../../_models/contact.model';
 
 
 @Injectable()
@@ -69,14 +70,6 @@ export class EmployerService extends BaseHttpService {
     return this.http.post(this.endPoint, {employer: employer , department: department}, this.getTokenHeader())
     .toPromise()
     .then(response => response as any);
-  }
-
-  saveNewEmployer(employer: Employer, organizationID: number): Promise<any> {
-    employer.organizationId = organizationID;
-    return this.http.post(this.endPoint, employer, this.getTokenHeader())
-      .toPromise()
-      .then(response => response)
-      .catch(response => response);
   }
 
   getIsEmployerFile(employer_id: number): Promise<any> {
@@ -143,13 +136,17 @@ export class EmployerService extends BaseHttpService {
       .then( response => response );
   }
 
+  getEmployerDetailsOnProcess(id: number): Promise<any> {
+    return this.http.get(this.endPoint + '/' + id +  '/editEmployerOnProcess', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as any);
+  }
+
   getEmployerBankAccounts(criteria: DataTableCriteria, employerId: number ): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
-
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
     }
-
     return this.http.get(this.endPoint + '/' + employerId +  '/employerBankAccounts' , request)
       .toPromise()
       .then( response => response )

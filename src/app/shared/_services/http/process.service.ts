@@ -46,6 +46,10 @@ export class ProcessService extends BaseHttpService {
       .then(response => response as DataTableResponse);
   }
 
+  // getProcessesByEmployer(employerId: number): Promise<any> {
+  //
+  // }
+
   downloadPaymentsInstruction(id: number): Promise<any> {
     return this.http.post(this.endPoint + '/downloadPaymentsInstruction', {'processId': id}, this.getTokenHeader())
       .toPromise()
