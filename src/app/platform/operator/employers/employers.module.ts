@@ -16,7 +16,6 @@ const routes: Routes = [
   { path: '', component: EmployersComponent },
   { path: 'form', loadChildren: 'app/platform/operator/employers/employer-form/employer-form.module#EmployerFormModule' },
   { path: 'new', loadChildren: 'app/platform/operator/employers/new-employer/new-employer.module#NewEmployerModule' },
-  // { path: 'creating', component: CreatingEmployerComponent }
   { path: 'creating', loadChildren: 'app/platform/operator/employers/creating-employer/creating-employer.module#CreatingEmployerModule'}
 ];
 

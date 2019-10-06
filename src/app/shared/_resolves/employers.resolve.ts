@@ -25,3 +25,13 @@ export class EmployerBankAccountResolve implements Resolve<EmployerProductBankAc
       .then(response => response as EmployerProductBankAccount);
   }
 }
+
+@Injectable()
+export class CreatingEmployersResolve implements Resolve<any> {
+
+  constructor(private employerService: EmployerService) {}
+
+  resolve(snapshot: ActivatedRouteSnapshot) {
+    return this.employerService.getEmployerDetailsOnProcess(+snapshot.params.id).then(response => response as any);
+  }
+}

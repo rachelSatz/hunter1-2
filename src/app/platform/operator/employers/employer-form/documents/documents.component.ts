@@ -103,7 +103,6 @@ export class DocumentsComponent implements OnInit , OnDestroy {
       width: '500px',
       height: '550px'
     });
-
     this.sub.add(dialog.afterClosed().subscribe(created => {
       if (created) {
         this.fetchItems();
