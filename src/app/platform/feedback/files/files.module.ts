@@ -22,6 +22,8 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import { DocumentService } from 'app/shared/_services/http/document.service';
 
 
 const routes: Routes = [
@@ -47,7 +49,14 @@ const routes: Routes = [
     BdSelectModule
   ],
   declarations: [FilesComponent, FormComponent],
-  providers: [NotificationService, FeedbackService, ContactService, HelpersService, GeneralHttpService],
+  providers: [
+    NotificationService,
+    FeedbackService,
+    ContactService,
+    HelpersService,
+    GeneralHttpService,
+    ProcessService,
+    DocumentService],
   entryComponents: [FormComponent]
 })
 export class FilesModule { }

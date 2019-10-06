@@ -33,6 +33,7 @@ export class InquiryFormComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
+  action = '1';
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   Emails: Email[] = [];
@@ -105,11 +106,26 @@ export class InquiryFormComponent implements OnInit {
       this.data.contentType = this.data.contentType === 'file_repayment' ? 'groupthing' :
                               this.data.contentType === 'employee_repayment' ? 'monthlytransferblock' :
                                 this.data.contentType.replace('_', '');
+      // if (this.activeContentType === 'myhr')
+      // {
+      //   #api myhr
+      // }
       this.generalService.newInquiry(this.data.id,
-        this.comments, this.data.contentType, this.Emails, form.value['contactsAdd'],
-        this.data.employerId, this.data.file_name, this.data.product_code, this.data.product_name, this.data.product_type,
-        this.data.employee_id, this.data.employee_name,
-        this.data.amount,  this.uploadedFile).then(response => {
+        this.comments,
+        this.data.contentType,
+        this.Emails,
+        form.value['contactsAdd'],
+        this.data.employerId,
+        this.data.file_name,
+        this.data.product_code,
+        this.data.product_name,
+        this.data.product_type,
+        this.data.employee_id,
+        this.data.employee_name,
+        this.data.amount,
+        this.action,
+        this.uploadedFile
+      ).then(response => {
         if (response) {
           this.dialogRef.close(true);
         } else {

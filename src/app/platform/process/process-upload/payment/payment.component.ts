@@ -232,12 +232,16 @@ export class PaymentComponent implements OnInit , OnDestroy {
         break;
       }
       case 'detailed-records':
-      case 'detailed-records_incorrect': {
+      case 'detailed-records-incorrect': {
         this.processDataService.activeProcess.returnDetails = true;
-        this.processDataService.activeProcess.incorrect = page === 'detailed-records_incorrect' ? true : false;
+        this.processDataService.activeProcess.incorrect = page === 'detailed-records-incorrect' ? true : false;
         this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
       }
     }
+  }
+
+  setApprovalFile(): void {
+    this.processService.setApprovalFile(this.processDataService.activeProcess.processID).then( response => response);
   }
 
   ngOnDestroy() {

@@ -52,15 +52,12 @@
         <span *ngIf="!item.has_file_feedback && item.files.items.length === 0" >טרם</span>
         <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, item.has_file_feedback, 'download')"
            *ngIf="item.has_file_feedback || item.files.items.length > 0"></i>
-        <!--<i class="fa fa-eye fa-lg" (click)="PdfFile(item.id, 'show')" *ngIf="item.has_file_feedback"></i>-->
       </td>
       <td>
         <img [src]="getValidityImage(item)" class="row-actions" >
       </td>
-      <td *ngIf="dataTable.hasActionsHeader">
+      <td *ngIf="dataTable.hasActionsHeader" class="d-flex">
         <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
-        <!--<span class="grey-circle" (click)="openSendToDialog(item)">-->
-          <!--<i class="fa fa-share fa-flip-horizontal"></i></span>-->
         <span class="grey-circle mr-3 ml-3" (click)="openInquiriesDialog(item)">{{ item.inquiries.length }}</span>
         <span class="grey-circle ml-3" [ngClass]="{ 'green-back-color': item.files.items.length > 0} "
               (click)="openDetailsDialog(item)">

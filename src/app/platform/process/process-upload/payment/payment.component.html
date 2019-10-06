@@ -24,7 +24,12 @@
   <div class="text-center">
     <p class="h5 bold" *ngIf="pageNumber === 2">הקובץ נטען בהצלחה!</p>
     <p class="h5 bold red-color" *ngIf="pageNumber === 5">הקובץ נטען אך נמצאו שגיאות!</p>
+
     <p class="f-12 grey-color">להלן פרטי נתונים הפנסיונים לשידור לקופות</p>
+    <div>
+      <button *ngIf="process_details.status == 'waiting_for_approval'"
+              class="btn blue-btn" (click)="setApprovalFile()">אשר</button>
+    </div>
     <p class="f-12 bold grey-color">יש לאשר לפני השידור</p>
   </div>
   <p class="border-bottom f-14 bold grey-color">פרטי התהליך</p>
@@ -118,7 +123,7 @@
       <span class="black-color bold"> שגיאות</span>
     </p>
     <div>
-      <button class="btn blue-btn" (click)="setPage('detailed-records_incorrect')">הצג שגיאות</button>
+      <button class="btn blue-btn" (click)="setPage('detailed-records-incorrect')">הצג שגיאות</button>
     </div>
     <p class="f-12 mt-2 bold grey-color">יש לתקן את השגויים כדי להמשיך בתהליך/לשדר</p>
   </div>

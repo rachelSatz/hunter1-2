@@ -10,17 +10,13 @@
     <div class="pointer" (click)="loadEntities('company')" [ngClass]="{'active': activeContentType === 'company'}">חברה מנהלת</div>
     <div class="pointer" (click)="loadEntities('employer')" [ngClass]="{'active': activeContentType === 'employer'}">מעסיק</div>
     <div class="pointer" (click)="loadEntities('user')" [ngClass]="{'active': activeContentType === 'user'}">לשכת שרות</div>
+    <div class="pointer" (click)="loadEntities('myhr')" [ngClass]="{'active': activeContentType === 'myhr'}">תוכנות MYHR</div>
   </div>
-  <!--<div class="mb-4">-->
-    <!--<bd-select class="w-100" [items]="entityTypes" name="entity_type" #entityTypeSelect="ngModel"-->
-               <!--(onSelect)="loadEntities($event)"-->
-               <!--ngModel-->
-               <!--placeholder="סוג גורם" [required] = "Emails.length == 0" [error]="entityTypeSelect.errors && form.submitted"></bd-select>-->
-  <!--</div>-->
-  <div class="mb-4 mt-4">
+
+  <div class="mb-4 mt-4" [@fade]="activeContentType !== 'myhr' ? 'active' : 'inactive'">
     <bd-select class="ml-4" name="contactsAdd"  [items]="contacts" placeholder="אנשי קשר"  [multiple]="true" (ngModel)="contactsAdd" ></bd-select>
   </div>
-  <mat-form-field class="w-100">
+  <mat-form-field class="w-100" [@fade]="activeContentType !== 'myhr' ? 'active' : 'inactive'">
     <mat-chip-list #chipList  [required]="contactsAdd.length == 0">
       <mat-chip *ngFor="let email of Emails" [selectable]="selectable"
                 [removable]="removable" (removed)="remove(email)">
@@ -34,11 +30,18 @@
              (matChipInputTokenEnd)="add($event)">
     </mat-chip-list>
   </mat-form-field>
+  <div class="mb-4 mt-5" [@fade]="activeContentType === 'myhr' ? 'active' : 'inactive'">
+    <h6 class="d-flex bold f-12">סיבת העברה</h6>
+    <mat-radio-group [(ngModel)]="action" name="action">
+      <mat-radio-button class="ml-4" value="1">העברת בעלות</mat-radio-button>
+      <mat-radio-button class="ml-4" value="2">הפקת פוליסה</mat-radio-button>
+    </mat-radio-group>
+  </div>
   <div class="form-group">
     <label for="comment">תוכן:</label>
     <textarea class="form-control" rows="5" id="comment" name="comments"  required [(ngModel)]="comments"></textarea>
   </div>
-  <div class="mt-3 pointer">
+  <div class="mt-3 pointer" [@fade]="activeContentType !== 'myhr' ? 'active' : 'inactive'">
     <label class="file-label">
       <img src="/assets/img/icons/circle_arrow_up.png">
       <span class="file-label-text">{{ uploadedFile ? (uploadedFile[0].name | slice : 0:20) : 'העלאת קובץ חדש' }}</span>

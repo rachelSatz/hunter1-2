@@ -18,7 +18,7 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { ErrorMessageComponent } from './error-message/error-message.component';
+import { ErrorMessageComponent } from '../../../shared/_dialogs/error-message/error-message.component';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
@@ -262,7 +262,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
       if (comments) {
         this.generalService.getComments(ids, 'compensation').then(response => {
           if (item) {
-            item.comments = [response];
+            item.comments = response;
             item.checked = false;
           } else {
             this.dataTable.criteria.checkedItems.forEach(obj => {

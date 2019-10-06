@@ -29,6 +29,7 @@ import { SendApplicationComponent } from './send-application/send-application.co
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { DocumentService } from 'app/shared/_services/http/document.service';
 
 const routes: Routes = [{
   path: '', component: EmployeesComponent
@@ -66,7 +67,8 @@ const routes: Routes = [{
     HelpersService,
     GeneralHttpService,
     ProcessService,
-    MonthlyTransferBlockService
+    MonthlyTransferBlockService,
+    DocumentService
   ],
   entryComponents: [
     SendApplicationComponent,

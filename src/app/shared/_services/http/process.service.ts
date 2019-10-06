@@ -197,5 +197,24 @@ export class ProcessService extends BaseHttpService {
       .then(response => response)
       .catch(response => response);
   }
+
+  changeFileToNegative(ids: number[], name: string, departmentId: number, file?: File): Promise<any> {
+    const formData = new FormData();
+    formData.append(name, JSON.stringify(ids));
+    formData.append('attachment', file);
+    formData.append('department_id', departmentId.toString());
+
+    return this.http.post(this.endPoint + '/changeFileToNegative' , formData , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+  setApprovalFile(id): Promise<boolean> {
+    return this.http.post(this.endPoint + '/' + id + '/setApprovalFile' , {},  this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
 }
 

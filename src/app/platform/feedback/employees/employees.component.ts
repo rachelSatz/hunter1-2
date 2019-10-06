@@ -20,6 +20,8 @@ import { SendApplicationComponent } from './send-application/send-application.co
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
+import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
+import { DocumentService } from 'app/shared/_services/http/document.service';
 
 @Component({
   selector: 'app-employees',
@@ -61,6 +63,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     { name: 'created_at', label: 'תאריך יצירה' , searchOptions: { isDate: true } },
     { name: 'updated_at', label: 'תאריך עדכון אחרון' , searchOptions: { isDate: true }},
     { name: 'status', label: 'סטטוס' , searchOptions: { labels: this.statusLabel } },
+    { name: 'status_recourse', label: 'סטטוס פניה', searchable: false},
     { name: 'more', label: 'מידע נוסף' , searchable: false},
     { name: 'comments', label: 'הערות', searchable: false}
   ];
@@ -72,6 +75,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
               private feedbackService: FeedbackService,
               public userSession: UserSessionService,
               private selectUnitService: SelectUnitService,
+              private documentService: DocumentService,
               private generalService: GeneralHttpService,
               private _location: Location) {
 
@@ -239,6 +243,47 @@ export class EmployeesComponent implements OnInit , OnDestroy {
       width: '550px',
     });
   }
+
+  changeFileToNegative(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+
+    this.documentService.getIsNegativeFile(this.selectUnitService.currentEmployerID).then( res => {
+      if (res) {
+        this.sendchangeFileToNegative();
+      } else {
+        this.openAddFile();
+      }
+    });
+
+  }
+
+  openAddFile(): void {
+    const dialog = this.dialog.open(FileDepositionComponent, {
+      width: '550px',
+      panelClass: 'send-email-dialog'
+    });
+
+    this.sub.add(dialog.afterClosed().subscribe(res => {
+      this.sendchangeFileToNegative(res);
+    }));
+  }
+
+  sendchangeFileToNegative(file?: File): void {
+    this.processService.changeFileToNegative(this.dataTable.criteria.checkedItems.map(item => item['id']),
+      'mtbs', this.selectUnitService.currentDepartmentID, file).then( response => {
+      if (response['result']) {
+        this.dataTable.criteria.checkedItems = [];
+        this.dataTable.criteria.isCheckAll = false;
+        return this.notificationService.success('נוצר קובץ שלילי');
+      } else {
+        return this.notificationService.error('שגיאה ביצירת קובץ שלילי');
+      }
+    });
+  }
+
 
   previous(): void {
     this._location.back();

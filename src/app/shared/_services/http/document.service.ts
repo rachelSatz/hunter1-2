@@ -76,4 +76,11 @@ export class  DocumentService extends BaseHttpService {
     }
   }
 
+  getIsNegativeFile(employer_id: number): Promise<boolean> {
+    const path_url = this.endPoint + '/' + employer_id +  '/isNegativeFile';
+    return this.http.get(path_url, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as boolean);
+  }
+
 }

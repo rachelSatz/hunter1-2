@@ -29,7 +29,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   months = MONTHS;
   sub = new Subscription;
 
-  isDisplay = this.userSession.getPermissionsType('operations', true)
+  isDisplay = this.userSession.getPermissionsType('operations', true);
   readonly columns =  [
     { name: 'name', label: 'שם תהליך' },
     { name: 'id', label: 'מספר תהליך' },
@@ -107,11 +107,15 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   }
 
   moveProcess(process: Process): void {
-    if (process.status === 'error_loading') { return this.messageError(process.error_details) ; }
+    if (process.status === 'error_loading' ) { return this.messageError(process.error_details) ; }
+    if (process.status === 'waiting_for_approval' && this.userSession.getRole() !== 'admin') {
+      return this.messageError('ממתין לאישור מנהל') ; }
+
     const status = this.processStatus[process.status];
    if (status === this.processStatus.loading || status ===  this.processStatus.can_be_processed
    || status === this.processStatus.done_processing || status === this.processStatus.transmitted
-     || status === this.processStatus.loaded_with_errors  || status === this.processStatus.partially_transmitted) {
+     || status === this.processStatus.loaded_with_errors  || status === this.processStatus.partially_transmitted
+   || status === this.processStatus.waiting_for_approval) {
      const date = new Date(process.date);
      const pageNumber = status !== this.processStatus.loading ? 3 : 1;
 

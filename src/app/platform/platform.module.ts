@@ -11,12 +11,13 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
-  MatSelectModule, MatOptionModule
+  MatSelectModule, MatOptionModule, MatRadioModule
 } from '@angular/material';
 
 import { PlatformComponent } from './platform.component';
 import { InquiryFormComponent } from '../shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from '../shared/_dialogs/comments-form/comments-form.component';
+import { ErrorMessageComponent } from '../shared/_dialogs/error-message/error-message.component';
 
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -33,6 +34,7 @@ import { TimerService } from '../shared/_services/http/timer';
 import { FileDropModule } from 'ngx-file-drop';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
+import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 
 
 const routes: Routes = [
@@ -87,6 +89,7 @@ const routes: Routes = [
     MatOptionModule,
     MatChipsModule,
     MatIconModule,
+    MatRadioModule,
     MatMenuModule,
     FileDropModule,
     MatAutocompleteModule,
@@ -94,9 +97,23 @@ const routes: Routes = [
     BdSelectModule,
     DataTableModule
   ],
-  declarations: [PlatformComponent, InquiryFormComponent,
-    CommentsFormComponent, InquiriesComponent , DetailsComponent],
-  entryComponents: [InquiryFormComponent, CommentsFormComponent, InquiriesComponent, DetailsComponent],
+  declarations: [
+    PlatformComponent,
+    InquiryFormComponent,
+    CommentsFormComponent,
+    InquiriesComponent ,
+    DetailsComponent,
+    ErrorMessageComponent,
+    FileDepositionComponent
+  ],
+  entryComponents: [
+    InquiryFormComponent,
+    CommentsFormComponent,
+    InquiriesComponent,
+    DetailsComponent,
+    ErrorMessageComponent,
+    FileDepositionComponent
+  ],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService,
     DatePipe, TimerService, OperatorTasksService, ProductService, AppHttpService]
 })

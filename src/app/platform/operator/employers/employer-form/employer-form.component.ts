@@ -49,6 +49,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     {label: 'פיננסי',   url: 'finance' , subUrl: 'finance' },
     {label: 'משימות',   url: 'tasks' , subUrl: 'tasks' },
     {label: 'דוחות',    url: 'reports' , subUrl: 'operations' },
+    {label: 'הגדרות',    url: 'settings' , subUrl: 'no_permissions' },
   ];
 
   statuses = Object.keys(EmployerStatus).map(function(e) {

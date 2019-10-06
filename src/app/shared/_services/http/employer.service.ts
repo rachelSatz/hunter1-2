@@ -80,31 +80,16 @@ export class EmployerService extends BaseHttpService {
   }
 
   getIsEmployerFile(employer_id: number): Promise<any> {
-    const request = this.getTokenHeader();
     const path_url = this.endPoint + '/' + employer_id +  '/fileEmployerPoaAndAP';
     return this.http.get(path_url, this.getTokenHeader())
       .toPromise()
       .then(response => response);
   }
 
-
   updateEmployer(employer: Employer, id: number): Promise<any> {
     return this.http.post(this.endPoint  + '/update/' + id, employer, this.getTokenHeader())
     .toPromise()
     .then(response => response);
-  }
-
-  uploadExcelEmployers(uploadedFile?: File, organizationId?: number): Promise<Object> {
-    if (uploadedFile) {
-      const formData = new FormData();
-      formData.append('file', uploadedFile);
-      formData.append('organizationId',  JSON.stringify(organizationId));
-
-      return this.http.post(this.endPoint + '/uploadExcelEmployers', formData, this.getTokenHeader())
-        .toPromise()
-        .then(response => response as Object)
-        .catch(() => []);
-    }
   }
 
   getEmployerFinance(employerId: number): Promise<EmployerFinancialDetails> {
