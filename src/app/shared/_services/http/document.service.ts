@@ -6,6 +6,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
+import { Employer } from 'app/shared/_models/employer.model';
+import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 
 @Injectable()
@@ -30,6 +32,12 @@ export class  DocumentService extends BaseHttpService {
       .toPromise()
       .then(response => response)
       .catch(response => response);
+  }
+
+  updateDocument(document, id: number): Promise<any> {
+    return this.http.post(this.endPoint  + '/update/' + id, document, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
   }
 
   downloadFile(rowID: number, employerId: number): Promise<string> {
@@ -68,13 +76,27 @@ export class  DocumentService extends BaseHttpService {
       .catch(() => null);
   }
 
-  uploadFileCollection(employerId: number, files): void {
-    for (const fileEmployer of files) {
-      if (fileEmployer['file'] !== undefined) {
-        this.uploadFile(employerId, '', fileEmployer['file'], fileEmployer['documentType'])
-          .then(response => response);
+  uploadFiles(files: File[] , employer_id: number ) {
+    const data = new FormData();
+    const documentTypes = [];
+    const ids = [];
+    for (let i = 0; i <= files.length - 1 ; i++) {
+      if (files[i] !== undefined) {
+        data.append('file', files[i]);
+        if (files[i] instanceof File ) {
+          ids.push(files[i]['id'] === undefined ? 0 : files[i]['id'] );
+          documentTypes.push(i === 0 ? 'contract' : i === 1 ?  'employer_poa' :  i === 2 ? 'authorization_protocol' :  'customer_details');
+        }
       }
     }
-  }
 
+    data.append('documentsType', JSON.stringify(documentTypes));
+    data.append('ids', JSON.stringify(ids));
+
+    return this.http.post(this.endPoint   + '/' +  employer_id + '/update'  , data, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+    // this.http.post(this.endPoint , files, this.getTokenHeader()).toPromise().then(response => response)
+    //      .catch(() => null);
+  }
 }
