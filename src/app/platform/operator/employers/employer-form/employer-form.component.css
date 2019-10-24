@@ -49,4 +49,11 @@ header {
 }
 
 
+.bd-de {
+  top: 14px;
+  width: 183px !important;
+  min-width: 5px !important;
+
+}
+
 

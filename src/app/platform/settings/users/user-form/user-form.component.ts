@@ -51,7 +51,7 @@ export class UserFormComponent implements OnInit {
     if (this.route.snapshot.data.user) {
       this.update = true;
       this.user = new User(this.route.snapshot.data.user);
-      if (!this.user.units) {
+      if (!this.user.units || this.user.units.length === 0) {
         this.user.units = [];
         this.user.units.push(new UserUnitPermission());
       }

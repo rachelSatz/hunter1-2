@@ -30,6 +30,7 @@ export class Employer {
   project_id: number;
   project_name: string;
   received_identifier: string;
+  city_id: number;
 
 
   constructor() {

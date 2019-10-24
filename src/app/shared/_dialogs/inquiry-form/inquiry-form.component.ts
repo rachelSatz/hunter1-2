@@ -124,6 +124,7 @@ export class InquiryFormComponent implements OnInit {
         this.data.employee_name,
         this.data.amount,
         this.action,
+        this.activeContentType,
         this.uploadedFile
       ).then(response => {
         if (response) {

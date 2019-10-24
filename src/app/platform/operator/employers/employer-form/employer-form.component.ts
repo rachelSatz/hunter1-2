@@ -26,7 +26,9 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   operator: string;
   operatorId;
   projects = [];
+  cities = [];
   project = {id: 0, name: ''};
+  city = {id: 0, name: ''};
   status: object;
   saveChanges = false;
   activeUrl: string;
@@ -89,10 +91,13 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     this.employerService.getProjects().then(response => {
       this.projects = response;
     });
-    // this.selectUnit.currentEmployerID, 'employerId'
     this.employerService.getOperator().then(response => {
       this.operators = response;
       this.setOperator();
+    });
+
+    this.employerService.getCity().then(response => {
+      this.cities = response;
     });
     this.initForm();
     this.router.events.forEach((event) => {
@@ -124,6 +129,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
       'identifier': [null , [Validators.pattern('^[0-9]*$'), Validators.required]],
       'receivedIdentifier': [null , [Validators.pattern('^[0-9]*$'), Validators.required]],
       'deductionNumber': [],
+      'city_id': [null,  Validators.required],
       'phone': [null],
       'address': [],
       'project': [this.project,  Validators.required],
