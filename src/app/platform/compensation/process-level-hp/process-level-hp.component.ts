@@ -20,7 +20,7 @@ import { InquiriesComponent } from 'app/shared/_dialogs/inquiries/inquiries.comp
 import { InquiryFormComponent } from 'app/shared/_dialogs/inquiry-form/inquiry-form.component';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_models/compensation.model';
-import { ErrorMessageComponent } from 'app/platform/compensation/process/error-message/error-message.component';
+import { ErrorMessageComponent } from 'app/shared/_dialogs/error-message/error-message.component';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { FormComponent } from 'app/platform/compensation/process-level-hp/form/form.component';
 import { DetailsComponent } from 'app/shared/_dialogs/details/details.component';

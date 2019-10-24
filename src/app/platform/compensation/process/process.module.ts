@@ -28,7 +28,7 @@ import { FormComponent } from './form/form.component';
 import { AddFileComponent } from './add-file/add-file.component';
 import { ExcelComponent } from './excel/compensation/compensation.component';
 import { EmployeesComponent } from './excel/employees/employees.component';
-import { ErrorMessageComponent } from './error-message/error-message.component';
+import { ErrorMessageComponent } from 'app/shared/_dialogs/error-message/error-message.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { FileDropModule } from 'ngx-file-drop';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
@@ -60,8 +60,7 @@ const routes: Routes = [
     FormComponent,
     AddFileComponent,
     ExcelComponent,
-    EmployeesComponent,
-    ErrorMessageComponent
+    EmployeesComponent
   ],
   providers: [
     CompensationService, DepartmentService,
@@ -72,8 +71,7 @@ const routes: Routes = [
     FormComponent,
     AddFileComponent,
     ExcelComponent,
-    EmployeesComponent,
-    ErrorMessageComponent
+    EmployeesComponent
   ],
 })
 export class ProcessModule {}

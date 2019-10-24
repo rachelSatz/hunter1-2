@@ -18,6 +18,9 @@ import { InquiryFormComponent} from 'app/shared/_dialogs/inquiry-form/inquiry-fo
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 
 import { Subscription } from 'rxjs';
+import { ProcessService } from 'app/shared/_services/http/process.service';
+import { DocumentService } from 'app/shared/_services/http/document.service';
+import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 
 
 @Component({
@@ -58,19 +61,19 @@ export class FilesComponent implements OnInit, OnDestroy  {
     {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'updated_at', label: 'תאריך עדכון אחרון',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'broadcast_date', label: 'תאריך שידור', searchOptions: { isDate: true }, isDisplay: false},
-    {name: 'product_type', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }, isDisplay: false},
-    {name: 'actions', label: 'פעולות' , isSort: false, searchable: false},
-    {name: 'records', label: 'פרוט רשומות' , isSort: false, searchable: false}
-  ];
+    {name: 'product_type', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }, isDisplay: false}
+    ];
 
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               protected notificationService: NotificationService,
               private dialog: MatDialog,
+              private processService: ProcessService,
               private userSession: UserSessionService,
               private feedbackService: FeedbackService,
               private selectUnit: SelectUnitService,
+              private documentService: DocumentService,
               private generalService: GeneralHttpService) {
 
   }
@@ -198,6 +201,45 @@ export class FilesComponent implements OnInit, OnDestroy  {
       this.router.navigate(['/platform', 'feedback', 'employees'],
         {queryParams: {fileId: fileId, year: this.dataTable.criteria.filters['year']}});
     }
+  }
+
+  changeFileToNegative(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+
+    this.documentService.getIsNegativeFile(this.selectUnit.currentEmployerID).then( res => {
+      if (res) {
+        this.sendchangeFileToNegative();
+      } else {
+        this.openAddFile();
+      }
+    });
+  }
+
+  openAddFile(): void {
+    const dialog = this.dialog.open(FileDepositionComponent, {
+      width: '550px',
+      panelClass: 'send-email-dialog'
+    });
+
+    this.sub.add(dialog.afterClosed().subscribe(res => {
+        this.sendchangeFileToNegative(res);
+    }));
+  }
+
+  sendchangeFileToNegative(file?: File): void {
+    this.processService.changeFileToNegative(this.dataTable.criteria.checkedItems.map(item => item['id']),
+    'files', this.selectUnit.currentDepartmentID, file).then( response => {
+      if (response['result']) {
+        this.dataTable.criteria.checkedItems = [];
+        this.dataTable.criteria.isCheckAll = false;
+        return this.notificationService.success('נוצר קובץ שלילי');
+      } else {
+        return this.notificationService.error('שגיאה ביצירת קובץ שלילי');
+      }
+    });
   }
 
   ngOnDestroy() {

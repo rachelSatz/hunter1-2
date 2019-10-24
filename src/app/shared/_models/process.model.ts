@@ -112,11 +112,13 @@ export enum ProcessStatus {
   finished = 'הסתיים'  ,
   error_loading = 'שגיאת טעינה',
   error_transmiting = 'שגיאת שליחה',
-  loaded_with_errors = 'נמצאו רשומות שגויאות בקובץ'
+  loaded_with_errors = 'נמצאו רשומות שגויאות בקובץ',
+  waiting_for_approval = 'ממתין לאישור'
 }
 
 export enum ProcessType {
   employer_payment = 'תשלומי מעסיק',
+  employer_withdrawal = 'שלילי',
   regular_fix = 'תיקון סוג 2',
   positive_negative_fix = 'תיקון 6+1',
   direct_employer = 'ישיר',

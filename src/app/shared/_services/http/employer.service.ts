@@ -85,19 +85,6 @@ export class EmployerService extends BaseHttpService {
     .then(response => response);
   }
 
-  uploadExcelEmployers(uploadedFile?: File, organizationId?: number): Promise<Object> {
-    if (uploadedFile) {
-      const formData = new FormData();
-      formData.append('file', uploadedFile);
-      formData.append('organizationId',  JSON.stringify(organizationId));
-
-      return this.http.post(this.endPoint + '/uploadExcelEmployers', formData, this.getTokenHeader())
-        .toPromise()
-        .then(response => response as Object)
-        .catch(() => []);
-    }
-  }
-
   getEmployerFinance(employerId: number): Promise<EmployerFinancialDetails> {
     const request = this.getTokenHeader();
     request['params'] = {employer_id: employerId};
@@ -114,23 +101,13 @@ export class EmployerService extends BaseHttpService {
       .toPromise()
       .then(response =>  response as boolean);
   }
-  // id: number, type?: string, permission = false
+
   getOperator(): Promise<any> {
     const request = this.getTokenHeader();
-    //
-    // request['params'] = { permission: permission};
-    //   ?'  + type + '=' + id
-
     return this.http.get(this.endPoint + '/operators', request)
       .toPromise()
       .then(response => response as any);
   }
-  //
-  // getAllOperators(): Promise<any> {
-  //   return this.http.get(this.endPoint + '/all_operators', this.getTokenHeader())
-  //     .toPromise()
-  //     .then(response => response as any);
-  // }
 
   getProjects(): Promise<any> {
     return this.http.get(this.endPoint + '/projects', this.getTokenHeader()).toPromise()
@@ -187,4 +164,11 @@ export class EmployerService extends BaseHttpService {
       .toPromise()
       .then(response => response);
   }
+
+  getCity(): Promise<any> {
+    return this.http.get(this.endPoint + '/getCity', this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+  }
+
 }

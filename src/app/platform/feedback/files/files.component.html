@@ -18,10 +18,14 @@
   </div>
 </div>
 <app-data-table tableName="מעקב ברמת קובץ" [columns]="columns" (fetchItems)="fetchItems()"
-                [hasCheckColumn]="true" [hasActionsHeader] = "false">
+                [hasCheckColumn]="true" [hasActionsHeader] = "userSession.getPermissionsType('operations')">
   <div class="table-header">
-    <div class="row mt-4 mr-1">
+    <div class="row mr-1">
       <div class="ml-3 d-flex mr-auto">
+        <button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2">פעולות</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="changeFileToNegative()">יצירת קובץ שלילי</button>
+        </mat-menu>
       </div>
     </div>
   </div>
@@ -43,14 +47,9 @@
       <i *ngIf="item.comments.length === 0" class="fa fa-comment-o"></i>
       <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
     </td>
-    <td *ngIf="userSession.getPermissionsType('operations')">
+    <td *ngIf="dataTable.hasActionsHeader">
       <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(item)">
       <span class="grey-circle mr-3" (click)="openInquiriesDetailsDialog(item)">{{ item.inquiries.length }}</span>
     </td>
-    <td>
-      <i *ngIf="item.status !== 'feedback_a'" class="fa fa-angle-double-left" (click)="detailsRecords(item.id)"></i>
-    </td>
-
-
   </tr>
 </app-data-table>

@@ -13,6 +13,7 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 import { FilterItemsPipe } from 'app/shared/_pipes/filter-items.pipe';
 import { ProcessUploadComponent } from './process-upload.component';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
+import { DocumentService } from 'app/shared/_services/http/document.service';
 
 const routes: Routes = [
               { path: '', component: ProcessUploadComponent ,  children: [
@@ -32,7 +33,7 @@ const routes: Routes = [
     PipesModule, FormsModule, MatChipsModule, MatIconModule
   ],
   declarations: [ ProcessUploadComponent ],
-  providers: [ ProcessService, GeneralHttpService, FilterItemsPipe ]
+  providers: [ ProcessService, GeneralHttpService, FilterItemsPipe, DocumentService ]
 
 })
 export class ProcessUploadModule {}

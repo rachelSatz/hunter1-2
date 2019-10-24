@@ -5,7 +5,7 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { AppHttpService } from 'app/shared/_services/http/app-http.service';
 import { UserService } from 'app/shared/_services/http/user.service';
 import { EntityRoles } from 'app/shared/_models/user.model';
-import { NotificationService } from '../../../shared/_services/notification.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 @Component({
   selector: 'app-users',

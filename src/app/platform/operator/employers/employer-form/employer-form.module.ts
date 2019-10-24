@@ -25,7 +25,8 @@ const routes: Routes = [
       { path: 'number', loadChildren: './defrayal/manufacturer-number/manufacturer-number.module#ManufacturerNumberModule' },
       { path: 'finance', loadChildren: './finance/finance.module#FinanceModule' },
       { path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule' },
-      { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' }
+      { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },
+      { path: 'settings', loadChildren: './settings/settings.module#SettingsModule' },
     ] }
   ];
 

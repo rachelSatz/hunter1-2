@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 
-import { FileDepositionComponent } from './file-deposition/file-deposition.component';
+import { FileDepositionComponent } from '../../../../shared/_dialogs/file-deposition/file-deposition.component';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -13,6 +13,7 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 import { Process } from 'app/shared/_models/process.model';
 import { Month } from 'app/shared/_const/month-bd-select';
 import { fade } from 'app/shared/_animations/animation';
+import { DocumentService } from 'app/shared/_services/http/document.service';
 
 @Component({
   selector: 'app-process-data',
@@ -57,6 +58,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private dialog: MatDialog,
               private employerService: EmployerService,
+              private documentService: DocumentService,
               private processService: ProcessService,
               private notificationService: NotificationService,
               private selectUnitService: SelectUnitService,
@@ -164,7 +166,13 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
             }
           });
         }else {
-          this.openAddFile(-1, form);
+          this.documentService.getIsNegativeFile(this.selectUnitService.currentEmployerID).then( res => {
+            if (res) {
+              this.sendFile(null, form, null);
+            } else {
+              this.openAddFile(-1, form);
+            }
+          });
         }
         }
       });
@@ -214,10 +222,6 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
     this.sub.add(dialog.afterClosed().subscribe(res => {
       if (type === -1) {
         this.sendFile(null, form, res);
-      } else {
-        // this.files = [];
-        // this.files = [res];
-        // this.files.push(this.processFile);
       }
     }));
   }

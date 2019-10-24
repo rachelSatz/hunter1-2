@@ -90,6 +90,7 @@ export class  DocumentService extends BaseHttpService {
       }
     }
 
+<<<<<<< HEAD
     data.append('documentsType', JSON.stringify(documentTypes));
     data.append('ids', JSON.stringify(ids));
 
@@ -99,4 +100,13 @@ export class  DocumentService extends BaseHttpService {
     // this.http.post(this.endPoint , files, this.getTokenHeader()).toPromise().then(response => response)
     //      .catch(() => null);
   }
+=======
+  getIsNegativeFile(employer_id: number): Promise<boolean> {
+    const path_url = this.endPoint + '/' + employer_id +  '/isNegativeFile';
+    return this.http.get(path_url, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as boolean);
+  }
+
+>>>>>>> d751721159818238dbd8c1c9a341095102f063a6
 }

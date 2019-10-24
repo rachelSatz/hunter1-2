@@ -163,7 +163,7 @@ export class NewEmployerComponent implements OnInit {
      if (this.newEmployerForm.valid) {
        this.helpers.setPageSpinner(true);
        this.employerService.newEmployer( this.newEmployerForm.controls['employerDetails'].value,
-         this.newEmployerForm.controls['department'].value)
+         this.newEmployerForm.get['department'].value)
          .then(response => {
            if (response) {
              const employerId = response['employer_id'];

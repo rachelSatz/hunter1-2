@@ -6,3 +6,16 @@
   height: 100px;
   width: 500px;
 }
+
+.iconDesign {
+  -webkit-transform: rotate(180deg);
+  color: rgb(148, 148, 148) !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.2em 0 0.2em 0 !important;
+}
+
+.header-width-35 {
+  width: 35%;
+}
