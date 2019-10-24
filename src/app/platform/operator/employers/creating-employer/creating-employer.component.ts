@@ -130,6 +130,7 @@ export class CreatingEmployerComponent implements OnInit {
           'deductionNumber': [],
           'phone': [null , [Validators.pattern('^[0-9]*$')]],
           'address': [null],
+          'city': [null],
           'project': [null, Validators.required],
           'operator': [null, Validators.required],
           'status': ['on_process'],
