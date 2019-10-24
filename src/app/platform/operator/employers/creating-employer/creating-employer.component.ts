@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
 import { PlatformComponent } from 'app/platform/platform.component';
 
@@ -33,11 +33,13 @@ export class CreatingEmployerComponent implements OnInit {
   contact = new Contact();
   projects = [];
   organizations = [];
+  documentId: number;
   banks = [];
   branchesD;
   branchesW;
   operators = [];
   pageNumber = 1;
+  maxPageNumber = 1;
   selectedBankD: number;
   selectedBankW: number;
   selectedBranchD;
@@ -54,6 +56,7 @@ export class CreatingEmployerComponent implements OnInit {
   organizationId: number;
   departmentId;
   employerId;
+  count = 1;
   fileTypeError;
   identifierTypes = Object.keys(IdentifierTypes).map(function(e) {
     return { id: e, name: IdentifierTypes[e] };
@@ -93,6 +96,7 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initForm();
     this.employerService.getProjects().then(response => this.projects = response);
     this.getOperator();
     this.generalHttpService.getBanks(true).then(banks => {
@@ -112,7 +116,6 @@ export class CreatingEmployerComponent implements OnInit {
         }
       });
     });
-    this.initForm();
   }
 
   initForm(): void {
@@ -175,23 +178,25 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   uploadData(data) {
+    this.employerId = this.employer.id;
     this.creatingEmployerForm.get('creatingEmployer.employerDetails').patchValue({
       organization: this.employer.organization_id,
       name: this.employer.name,
       identifier: this.employer.identifier,
-      receivedIdentifier: this.employer.received_identifier,
+      receivedIdentifier: this.employer.received_identifier ? this.employer.received_identifier : null,
       phone: this.employer.phone,
       address: this.employer.address,
-      project: this.employer.project_id,
-      paymentType: this.employer.payment_type,
-      operator: this.employer.operator.id,
+      city: this.employer.city,
+      project: this.employer.project_id ? this.employer.project_id : null,
+      paymentType: this.employer.payment_type ? this.employer.payment_type : null,
+      operator: this.employer.operator ?  this.employer.operator.id : null,
       status: 'on_process',
-      identifierType: this.employer.sender_identifier_type,
-      senderIdentifier: this.employer.sender_identifier,
-      institutionCode5: this.employer.institution_code_5,
-      institutionCode8: this.employer.institution_code_8
+      identifierType: this.employer.sender_identifier_type ? this.employer.sender_identifier_type : null,
+      senderIdentifier: this.employer.sender_identifier ? this.employer.sender_identifier : null,
+      institutionCode5: this.employer.institution_code_5 ? this.employer.institution_code_5 : null,
+      institutionCode8: this.employer.institution_code_8 ? this.employer.institution_code_8 : null
     });
-    if (data.items.contacts) {
+    if (data.items.contacts.length > 0) {
       data.items.contacts.forEach((contact, index) => {
         const contactControl = {
           'first_name': [contact ? contact.first_name : null, Validators.required],
@@ -210,11 +215,9 @@ export class CreatingEmployerComponent implements OnInit {
         } else {
           contactGroup.push(this.fb.group(contactControl));
         }
-
       });
     }
-    if (data.items.documents) {
-
+    if (data.items.documents.length > 0) {
       data.items.documents.forEach( document => {
         switch (document.document_type) {
           case 'contract': this.uploadedFileContract = document; break;
@@ -224,7 +227,7 @@ export class CreatingEmployerComponent implements OnInit {
         }
       });
     }
-    if (data.items.bank) {
+    if (data.items.bank.length > 0 ) {
       this.selectedBankD = data.items.bank[0].bank_id.toString();
       this.branchesD = this.banks.find( b => b.id === this.selectedBankD).bank_branches;
       this.selectedBranchD = data.items.bank[0].branch_id;
@@ -253,8 +256,8 @@ export class CreatingEmployerComponent implements OnInit {
 
   copyBankRow(): void {
     this.selectedBankW = this.selectedBankD;
-    this.selectedBranchW = this.selectedBranchD;
     this.getBranches(2);
+    this.selectedBranchW = this.selectedBranchD;
     const bankGroup = (<FormGroup>this.creatingEmployerForm.get('detailsBank.payingBank').value);
     this.creatingEmployerForm.get('detailsBank.receivingBank').patchValue({'accountNumber': bankGroup['accountNumber']});
   }
@@ -268,7 +271,10 @@ export class CreatingEmployerComponent implements OnInit {
     } else {
       this.branchesW = this.banks.find( b => b.id === this.selectedBankW).bank_branches;
       if  (!this.branchesW.find( b => b.id === this.selectedBankW.toString())) {
-        this.selectedBankW = 0;
+        if (this.count !== 1) {
+          this.selectedBranchW = 0;
+        }
+        this.count += 1;
       }
     }
   }
@@ -281,6 +287,18 @@ export class CreatingEmployerComponent implements OnInit {
   removeControl(index: number): void {
       const contactsGroup = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact'));
       contactsGroup.removeAt(index);
+      if (this.route.snapshot) {
+        this.deleteEmployerContact(5);
+      }
+  }
+
+  deleteEmployerContact(id) {
+    this.notificationService.warning('האם ברצונך למחוק את האיש קשר?')
+      .then(confirmation => {
+        if (confirmation.value) {
+          this.contactService.deleteEmployerContact(id).then(response => response);
+        }
+      });
   }
 
   getContactsArrControls() {
@@ -320,6 +338,9 @@ export class CreatingEmployerComponent implements OnInit {
 
   backAndCancel(): void {
     if (this.pageNumber !== 1) {
+      if (this.maxPageNumber < this.pageNumber) {
+        this.maxPageNumber = this.pageNumber;
+      }
       this.pageNumber -= 1;
     } else {
       this._location.back();
@@ -371,41 +392,51 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   addDocument(): void {
-    const files: { file: File, documentType: string }[] = [
-      {'file': this.uploadedFileContract, 'documentType': 'contract'},
-      {'file': this.uploadedFilePoa, 'documentType': 'employer_poa'},
-      {'file': this.uploadedFileProtocol, 'documentType': 'authorization_protocol'},
-      {'file': this.uploadedFileCustomer, 'documentType': 'customer_details' },
-    ];
-    this.documentService.uploadFileCollection(this.employerId, files);
+    const files = [this.uploadedFileContract, this.uploadedFilePoa, this.uploadedFileProtocol, this.uploadedFileCustomer];
+    this.documentService.uploadFiles(files, this.employerId).then(response => response);
   }
 
-  updateDate() {
-    const employer = this.creatingEmployerForm.get('creatingEmployer.employerDetails');
-    employer.value['identifierType'] = employer.value['identifierType'] ?  employer.value['identifierType'] : 'private_company' ;
-    employer.value['senderIdentifier'] = employer.value['senderIdentifier'] ? employer.value['senderIdentifier']
-      : employer.value['identifier'];
-    employer.value['paymentType'] = employer.value['paymentType'] ?  employer.value['paymentType'] : 'bank_transfer' ;
+  // updateDetailsEmployer() {
+  //   const employer = this.creatingEmployerForm.get('creatingEmployer.employerDetails');
+  //   employer.value['identifierType'] = employer.value['identifierType'] ?  employer.value['identifierType'] : 'private_company' ;
+  //   employer.value['senderIdentifier'] = employer.value['senderIdentifier'] ? employer.value['senderIdentifier']
+  //     : employer.value['identifier'];
+  //   employer.value['paymentType'] = employer.value['paymentType'] ?  employer.value['paymentType'] : 'bank_transfer' ;
+  // }
+
+  updateData() {
+    this.employerService.updateEmployer(this.creatingEmployerForm.get('creatingEmployer.employerDetails').value, this.employer.id)
+      .then(response => {
+        if (response) {
+          this.departmentId = response['department_id'];
+          this.addContactsDocsBank();
+        } else {
+          this.helpers.setPageSpinner(false);
+          this.hasServerError = true;
+        }
+      });
   }
 
-  addData(pageNum: number): void {
-    this.helpers.setPageSpinner(true);
-    if ( pageNum === 1 ) {
-       this.updateDate();
+  addContactsDocsBank() {
+    this.saveContact();
+    if (this.maxPageNumber !== 1) {
+      this.addDocument();
     }
-    if (this.route.snapshot.params.id) {
-
-      this.employerService.updateEmployer(this.creatingEmployerForm.get('creatingEmployer.employerDetails').value, this.employer.id)
-        .then(response => {
-          if (response) {
-
-          } else {
-            this.helpers.setPageSpinner(false);
-            this.hasServerError = true;
-          }
-        });
-
+    if (this.maxPageNumber >= 4) {
+      this.addBankAccount();
     }
+    if (this.maxPageNumber === 5) {
+      this.sendFile();
+    }
+    this.helpers.setPageSpinner(false);
+    if (this.router.url.includes( 'operator')) {
+      this.router.navigate(['/platform', 'operator' , 'employers']);
+    }else {
+      this.router.navigate(['/platform', 'employers']);
+    }
+  }
+
+  addData() {
     this.employerService.newEmployer(
       this.creatingEmployerForm.get('creatingEmployer.employerDetails').value,
       this.creatingEmployerForm.get('creatingEmployer.department').value).then(response => {
@@ -416,42 +447,47 @@ export class CreatingEmployerComponent implements OnInit {
           this.helpers.setPageSpinner(false);
           this.hasServerError = true;
         } else {
-          this.saveContact();
-          if (pageNum !== 1) {
-            this.addDocument();
-          }
-          if (pageNum >= 4) {
-            this.addBankAccount();
-          }
-          if (pageNum === 5) {
-              this.sendFile();
-          }
-          this.helpers.setPageSpinner(false);
-          if (this.router.url.includes( 'operator')) {
-            this.router.navigate(['/platform', 'operator' , 'employers']);
-          }else {
-            this.router.navigate(['/platform', 'employers']);
-          }
+          this.addContactsDocsBank();
         }
-        this.helpers.setPageSpinner(false);
       }
     });
   }
 
+  insertData(): void {
+    this.helpers.setPageSpinner(true);
+    // if ( this.maxPageNumber === 1 ) {
+    //   this.updateDetailsEmployer();
+    // }
+    if (this.route.snapshot.params.id) {
+      this.updateData();
+    } else {
+      this.addData();
+    }
+  }
+
   addBankAccount(): void {
     this.creatingEmployerForm.get('detailsBank.payingBank').value.ownerId = this.departmentId;
-    this.generalHttpService.addNewBankAccount(this.creatingEmployerForm.get('detailsBank.payingBank').value)
-      .then(response => {
-        if (response) {
-          this.creatingEmployerForm.get('detailsBank.receivingBank').value['ownerId'] = this.departmentId;
-          this.generalHttpService.addNewBankAccount(this.creatingEmployerForm.get('detailsBank.receivingBank').value)
-            .then(responseAdd => {
-              if (responseAdd) {
-
-              }
-            });
-        }
+    if ( this.route.snapshot.params.id && this.route.snapshot.data.items.bank.length > 0) {
+      this.generalHttpService.updateBank(this.creatingEmployerForm.get('detailsBank.payingBank').value ,
+        this.route.snapshot.data.items.bank[0].id)
+        .then(response => {
+          if (response) {
+            this.creatingEmployerForm.get('detailsBank.receivingBank').value['ownerId'] = this.departmentId;
+            this.generalHttpService.updateBank(this.creatingEmployerForm.get('detailsBank.receivingBank').value,
+              this.route.snapshot.data.items.bank[1].id)
+              .then(responseAdd => responseAdd);
+          }
         });
+    } else {
+      this.generalHttpService.addNewBankAccount(this.creatingEmployerForm.get('detailsBank.payingBank').value)
+        .then(response => {
+          if (response) {
+            this.creatingEmployerForm.get('detailsBank.receivingBank').value['ownerId'] = this.departmentId;
+            this.generalHttpService.addNewBankAccount(this.creatingEmployerForm.get('detailsBank.receivingBank').value)
+              .then(responseAdd => responseAdd);
+          }
+        });
+    }
   }
 
   isDetailsContact() {
@@ -473,7 +509,6 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   validationFile(file: File): boolean {
-
     return (['docx', 'doc',  'pdf'].includes(file.name.split('.').pop()));
   }
 
@@ -531,45 +566,39 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   submitEmployerConstruction(): void {
-    if (!this.uploadedFileXml || this.fileTypeError) {
-       this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+    this.maxPageNumber = this.maxPageNumber > this.pageNumber ? this.maxPageNumber : this.pageNumber;
+    if (this.uploadedFileXml && !this.fileTypeError) {
+      return this.submit();
     }
-
-    if (this.pageNumber === 1) {
-      if (this.validation()) {
-        this.addData(this.pageNumber);
-      }
-    } else {
-      if (this.pageNumber === 2 || this.pageNumber === 3 ) {
-        this.addData( this.uploadedFileContract ? this.pageNumber : this.pageNumber - 1);
-      } else {
-        if (this.pageNumber === 4 ) {
-          if (this.isDetailsBank() && this.creatingEmployerForm.controls['detailsBank'].valid) {
-            this.addData(this.pageNumber);
-          } else {
-            if ( this.isDetailsBank() === false) {
-              this.addData(this.pageNumber - 1);
-            }
-          }
-        } else {
-          if (this.pageNumber === 5) {
-              if (this.uploadedFileXml && !this.fileTypeError) {
-                this.submit();
-              } else {
-                this.addData(this.pageNumber - 1);
-              }
-          }
+    if (this.maxPageNumber === 5) {
+      this.maxPageNumber = 4;
+    }
+    this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+    switch (this.maxPageNumber) {
+      case 1: {
+        if (this.validation()) {
+        this.insertData();
+      }} break;
+      case 2:
+      case 3: {
+        if (!this.uploadedFileContract) {
+          this.maxPageNumber = 1;
         }
-      }
+          this.insertData();
+      } break;
+      case 4: {
+        if (!this.isDetailsBank() && !this.creatingEmployerForm.controls['detailsBank'].valid) {
+          this.maxPageNumber = 3;
+        }
+          this.insertData();
+      } break;
     }
   }
 
   submit(): void {
-    // this.clickedContinue = true;
-    if (this.uploadedFileXml && !this.fileTypeError) {
-      this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
-      this.addData(this.pageNumber);
-    }
+    this.maxPageNumber = this.maxPageNumber > this.pageNumber ? this.maxPageNumber : this.pageNumber;
+    this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
+    this.insertData();
   }
 
 }
