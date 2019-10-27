@@ -45,22 +45,17 @@
         </mat-form-field>
       </div>
       <div class="d-flex">
-        <mat-form-field>
-          <input matInput placeholder="מספר מזהה שולח" formControlName="receivedIdentifier" maxlength="9"  minlength="9" required>
-          <mat-error>ח.פ אינו תקין</mat-error>
-        </mat-form-field>
-        <mat-form-field class="mr-5">
+        <mat-form-field >
           <input matInput placeholder="טלפון" maxlength="10" minlength="7" formControlName="phone">
         </mat-form-field>
         <mat-form-field class="mr-5">
           <input matInput placeholder="כתובת" formControlName="address" >
         </mat-form-field>
-      </div>
-      <div class="d-flex">
-          <mat-form-field class="mr-5">
-            <input matInput placeholder="עיר" formControlName="city" >
-          </mat-form-field>
+        <div class="bd-width181 mr-5">
+          <bd-select [items]="cities" placeholder="עיר" [(ngModel)]="employer.city_id"  formControlName="city_id"
+                     class="d-inline-block bd-de bd-min-width" [error]="employer.city_id == 0 && form.submitted" ></bd-select>
         </div>
+      </div>
       <div class="d-flex">
         <div class="bd-width181">
           <bd-select [items]="projects" formControlName="project"
@@ -94,6 +89,12 @@
                  [required]="creatingEmployerForm.get('creatingEmployer.employerDetails').value.paymentType === 'masav'">
         </mat-form-field>
       </div>
+        <div class="d-flex">
+          <mat-form-field>
+            <input matInput placeholder="מספר מזהה שולח" formControlName="receivedIdentifier" maxlength="9"  minlength="9" required>
+            <mat-error>ח.פ אינו תקין</mat-error>
+          </mat-form-field>
+        </div>
       <div>
         <p class="f-16 bold mt-5">סליקה</p>
         <div class="d-flex">
@@ -112,7 +113,8 @@
       <div formArrayName="contact">
       <p class="f-16 bold mt-5">אנשי קשר</p>
         <div *ngFor=" let contact of getContactsArrControls(); let index = index; let last = last" [formGroupName]="index">
-          <mat-icon (click)="removeControl(index)" *ngIf="index > 0 || !last" class="pointer remove-account-icon blue-color">highlight_off</mat-icon>
+          <mat-icon [ngClass]="{'disabledInput' : route.snapshot.params.id && index < route.snapshot.data.items.contacts.length }"
+                    (click)="removeControl(index)" *ngIf="index > 0 || !last" class="pointer remove-account-icon blue-color">highlight_off</mat-icon>
           <br>
           <p class="f-12">איש קשר {{  1 + index }}</p>
           <div class="d-flex" [ngClass]="{'disabledInput' : route.snapshot.params.id && index < route.snapshot.data.items.contacts.length }">

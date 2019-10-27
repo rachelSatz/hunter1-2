@@ -6,8 +6,7 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
-import { Employer } from 'app/shared/_models/employer.model';
-import { el } from '@angular/platform-browser/testing/src/browser_util';
+
 
 
 @Injectable()
@@ -76,6 +75,13 @@ export class  DocumentService extends BaseHttpService {
       .catch(() => null);
   }
 
+  getIsNegativeFile(employer_id: number): Promise<boolean> {
+    const path_url = this.endPoint + '/' + employer_id +  '/isNegativeFile';
+    return this.http.get(path_url, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as boolean);
+  }
+
   uploadFiles(files: File[] , employer_id: number ) {
     const data = new FormData();
     const documentTypes = [];
@@ -90,15 +96,6 @@ export class  DocumentService extends BaseHttpService {
       }
     }
 
-<<<<<<< HEAD
-  getIsNegativeFile(employer_id: number): Promise<boolean> {
-    const path_url = this.endPoint + '/' + employer_id +  '/isNegativeFile';
-    return this.http.get(path_url, this.getTokenHeader())
-      .toPromise()
-      .then(response => response as boolean);
-  }
-
-=======
     data.append('documentsType', JSON.stringify(documentTypes));
     data.append('ids', JSON.stringify(ids));
 
@@ -108,5 +105,5 @@ export class  DocumentService extends BaseHttpService {
     // this.http.post(this.endPoint , files, this.getTokenHeader()).toPromise().then(response => response)
     //      .catch(() => null);
   }
->>>>>>> 'm'
+
 }

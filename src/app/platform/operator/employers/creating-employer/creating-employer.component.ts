@@ -57,6 +57,8 @@ export class CreatingEmployerComponent implements OnInit {
   departmentId;
   employerId;
   count = 1;
+  cities = [];
+  city = {id: 0, name: ''};
   fileTypeError;
   identifierTypes = Object.keys(IdentifierTypes).map(function(e) {
     return { id: e, name: IdentifierTypes[e] };
@@ -96,7 +98,13 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.route.snapshot.params.id) {
+      this.helpers.setPageSpinner(true);
+    }
     this.initForm();
+    this.employerService.getCity().then(response => {
+      this.cities = response;
+    });
     this.employerService.getProjects().then(response => this.projects = response);
     this.getOperator();
     this.generalHttpService.getBanks(true).then(banks => {
@@ -104,7 +112,6 @@ export class CreatingEmployerComponent implements OnInit {
       this.organizationService.getOrganizationsNameAndId().then(response => {
         this.organizations = response;
         if (this.route.snapshot.params.id) {
-          this.helpers.setPageSpinner(true);
           this.employerService.getEmployer(this.route.snapshot.params.id).then( responseEmployer => {
             if (responseEmployer) {
               this.employer = responseEmployer;
@@ -130,7 +137,7 @@ export class CreatingEmployerComponent implements OnInit {
           'deductionNumber': [],
           'phone': [null , [Validators.pattern('^[0-9]*$')]],
           'address': [null],
-          'city': [null],
+          'city_id': [null],
           'project': [null, Validators.required],
           'operator': [null, Validators.required],
           'status': ['on_process'],
@@ -187,7 +194,7 @@ export class CreatingEmployerComponent implements OnInit {
       receivedIdentifier: this.employer.received_identifier ? this.employer.received_identifier : null,
       phone: this.employer.phone,
       address: this.employer.address,
-      city: this.employer.city,
+      city: this.employer.city_id,
       project: this.employer.project_id ? this.employer.project_id : null,
       paymentType: this.employer.payment_type ? this.employer.payment_type : null,
       operator: this.employer.operator ?  this.employer.operator.id : null,
@@ -288,9 +295,6 @@ export class CreatingEmployerComponent implements OnInit {
   removeControl(index: number): void {
       const contactsGroup = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact'));
       contactsGroup.removeAt(index);
-      if (this.route.snapshot) {
-        this.deleteEmployerContact(5);
-      }
   }
 
   deleteEmployerContact(id) {
@@ -392,18 +396,34 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
-  addDocument(): void {
+  addDocumentBankFile(): void {
     const files = [this.uploadedFileContract, this.uploadedFilePoa, this.uploadedFileProtocol, this.uploadedFileCustomer];
-    this.documentService.uploadFiles(files, this.employerId).then(response => response);
+    this.documentService.uploadFiles(files, this.employerId).then(response =>  {
+      if (response) {
+        if (this.maxPageNumber >= 4) {
+          this.addBankAccount();
+        } else {
+          this.helpers.setPageSpinner(false);
+          if (this.router.url.includes( 'operator')) {
+            this.router.navigate(['/platform', 'operator' , 'employers']);
+          } else {
+            this.router.navigate(['/platform', 'employers']);
+          }
+        }
+        if (this.maxPageNumber === 5) {
+          this.sendFile();
+        } else {
+          this.helpers.setPageSpinner(false);
+          if (this.router.url.includes( 'operator')) {
+            this.router.navigate(['/platform', 'operator' , 'employers']);
+          } else {
+            this.router.navigate(['/platform', 'employers']);
+          }
+        }
+      }
+    });
   }
 
-  // updateDetailsEmployer() {
-  //   const employer = this.creatingEmployerForm.get('creatingEmployer.employerDetails');
-  //   employer.value['identifierType'] = employer.value['identifierType'] ?  employer.value['identifierType'] : 'private_company' ;
-  //   employer.value['senderIdentifier'] = employer.value['senderIdentifier'] ? employer.value['senderIdentifier']
-  //     : employer.value['identifier'];
-  //   employer.value['paymentType'] = employer.value['paymentType'] ?  employer.value['paymentType'] : 'bank_transfer' ;
-  // }
 
   updateData() {
     this.employerService.updateEmployer(this.creatingEmployerForm.get('creatingEmployer.employerDetails').value, this.employer.id)
@@ -421,19 +441,14 @@ export class CreatingEmployerComponent implements OnInit {
   addContactsDocsBank() {
     this.saveContact();
     if (this.maxPageNumber !== 1) {
-      this.addDocument();
-    }
-    if (this.maxPageNumber >= 4) {
-      this.addBankAccount();
-    }
-    if (this.maxPageNumber === 5) {
-      this.sendFile();
-    }
-    this.helpers.setPageSpinner(false);
-    if (this.router.url.includes( 'operator')) {
-      this.router.navigate(['/platform', 'operator' , 'employers']);
-    }else {
-      this.router.navigate(['/platform', 'employers']);
+      this.addDocumentBankFile();
+    } else {
+      this.helpers.setPageSpinner(false);
+      if (this.router.url.includes( 'operator')) {
+        this.router.navigate(['/platform', 'operator' , 'employers']);
+      } else {
+        this.router.navigate(['/platform', 'employers']);
+      }
     }
   }
 
@@ -456,9 +471,6 @@ export class CreatingEmployerComponent implements OnInit {
 
   insertData(): void {
     this.helpers.setPageSpinner(true);
-    // if ( this.maxPageNumber === 1 ) {
-    //   this.updateDetailsEmployer();
-    // }
     if (this.route.snapshot.params.id) {
       this.updateData();
     } else {
@@ -544,14 +556,13 @@ export class CreatingEmployerComponent implements OnInit {
         data.processId = response['processId'];
         data['file'] =  this.uploadedFileXml ;
         this.platformComponent.getOrganizations(true, true);
-
+        this.processDataService.setProcess(data);
+        this.helpers.setPageSpinner(false);
         if (this.router.url.includes( 'operator')) {
           this.router.navigate(['/platform', 'operator' , 'employers']);
         } else {
-            this.router.navigate(['/platform', 'employers']);
+          this.router.navigate(['/platform', 'employers']);
         }
-
-        this.processDataService.setProcess(data);
       } else {
         this.notificationService.error('העלאת הקובץ נכשלה');
       }
