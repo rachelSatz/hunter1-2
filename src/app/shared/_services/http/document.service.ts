@@ -6,6 +6,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
+import { Employer } from 'app/shared/_models/employer.model';
+import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 
 
@@ -75,6 +77,34 @@ export class  DocumentService extends BaseHttpService {
       .catch(() => null);
   }
 
+<<<<<<< HEAD
+=======
+  uploadFiles(files: File[] , employer_id: number ) {
+    const data = new FormData();
+    const documentTypes = [];
+    const ids = [];
+    for (let i = 0; i <= files.length - 1 ; i++) {
+      if (files[i] !== undefined) {
+        data.append('file', files[i]);
+        if (files[i] instanceof File ) {
+          ids.push(files[i]['id'] === undefined ? 0 : files[i]['id'] );
+          documentTypes.push(i === 0 ? 'contract' : i === 1 ?  'employer_poa' :  i === 2 ? 'authorization_protocol' :  'customer_details');
+        }
+      }
+    }
+
+<<<<<<< HEAD
+    data.append('documentsType', JSON.stringify(documentTypes));
+    data.append('ids', JSON.stringify(ids));
+
+    return this.http.post(this.endPoint   + '/' +  employer_id + '/update'  , data, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+    // this.http.post(this.endPoint , files, this.getTokenHeader()).toPromise().then(response => response)
+    //      .catch(() => null);
+  }
+=======
+>>>>>>> 8d9358f7b783d47a36d2c4c55660c65a3e9867f2
   getIsNegativeFile(employer_id: number): Promise<boolean> {
     const path_url = this.endPoint + '/' + employer_id +  '/isNegativeFile';
     return this.http.get(path_url, this.getTokenHeader())
@@ -82,6 +112,7 @@ export class  DocumentService extends BaseHttpService {
       .then(response => response as boolean);
   }
 
+<<<<<<< HEAD
   uploadFiles(files: File[] , employer_id: number ) {
     const data = new FormData();
     const documentTypes = [];
@@ -106,4 +137,7 @@ export class  DocumentService extends BaseHttpService {
     //      .catch(() => null);
   }
 
+=======
+>>>>>>> d751721159818238dbd8c1c9a341095102f063a6
+>>>>>>> 8d9358f7b783d47a36d2c4c55660c65a3e9867f2
 }
