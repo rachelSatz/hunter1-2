@@ -57,11 +57,8 @@ export class CreatingEmployerComponent implements OnInit {
   departmentId;
   employerId;
   count = 1;
-<<<<<<< HEAD
   cities = [];
   city = {id: 0, name: ''};
-=======
->>>>>>> 8d9358f7b783d47a36d2c4c55660c65a3e9867f2
   fileTypeError;
   identifierTypes = Object.keys(IdentifierTypes).map(function(e) {
     return { id: e, name: IdentifierTypes[e] };
@@ -101,7 +98,6 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   ngOnInit() {
-<<<<<<< HEAD
     if (this.route.snapshot.params.id) {
       this.helpers.setPageSpinner(true);
     }
@@ -109,9 +105,6 @@ export class CreatingEmployerComponent implements OnInit {
     this.employerService.getCity().then(response => {
       this.cities = response;
     });
-=======
-    this.initForm();
->>>>>>> 8d9358f7b783d47a36d2c4c55660c65a3e9867f2
     this.employerService.getProjects().then(response => this.projects = response);
     this.getOperator();
     this.generalHttpService.getBanks(true).then(banks => {
@@ -201,11 +194,7 @@ export class CreatingEmployerComponent implements OnInit {
       receivedIdentifier: this.employer.received_identifier ? this.employer.received_identifier : null,
       phone: this.employer.phone,
       address: this.employer.address,
-<<<<<<< HEAD
       city: this.employer.city_id,
-=======
-      city: this.employer.city,
->>>>>>> 8d9358f7b783d47a36d2c4c55660c65a3e9867f2
       project: this.employer.project_id ? this.employer.project_id : null,
       paymentType: this.employer.payment_type ? this.employer.payment_type : null,
       operator: this.employer.operator ?  this.employer.operator.id : null,
@@ -419,7 +408,6 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
-<<<<<<< HEAD
   addDocumentBankFile(): void {
     const files = [this.uploadedFileContract, this.uploadedFilePoa, this.uploadedFileProtocol, this.uploadedFileCustomer];
     this.documentService.uploadFiles(files, this.employerId).then(response =>  {
@@ -448,20 +436,6 @@ export class CreatingEmployerComponent implements OnInit {
     });
   }
 
-=======
-  addDocument(): void {
-    const files = [this.uploadedFileContract, this.uploadedFilePoa, this.uploadedFileProtocol, this.uploadedFileCustomer];
-    this.documentService.uploadFiles(files, this.employerId).then(response => response);
-  }
-
-  // updateDetailsEmployer() {
-  //   const employer = this.creatingEmployerForm.get('creatingEmployer.employerDetails');
-  //   employer.value['identifierType'] = employer.value['identifierType'] ?  employer.value['identifierType'] : 'private_company' ;
-  //   employer.value['senderIdentifier'] = employer.value['senderIdentifier'] ? employer.value['senderIdentifier']
-  //     : employer.value['identifier'];
-  //   employer.value['paymentType'] = employer.value['paymentType'] ?  employer.value['paymentType'] : 'bank_transfer' ;
-  // }
->>>>>>> 8d9358f7b783d47a36d2c4c55660c65a3e9867f2
 
   updateData() {
     this.employerService.updateEmployer(this.creatingEmployerForm.get('creatingEmployer.employerDetails').value, this.employer.id)
@@ -479,7 +453,6 @@ export class CreatingEmployerComponent implements OnInit {
   addContactsDocsBank() {
     this.saveContact();
     if (this.maxPageNumber !== 1) {
-<<<<<<< HEAD
       this.addDocumentBankFile();
     } else {
       this.helpers.setPageSpinner(false);
@@ -489,22 +462,6 @@ export class CreatingEmployerComponent implements OnInit {
         this.router.navigate(['/platform', 'employers']);
       }
     }
-=======
-      this.addDocument();
-    }
-    if (this.maxPageNumber >= 4) {
-      this.addBankAccount();
-    }
-    if (this.maxPageNumber === 5) {
-      this.sendFile();
-    }
-    this.helpers.setPageSpinner(false);
-    if (this.router.url.includes( 'operator')) {
-      this.router.navigate(['/platform', 'operator' , 'employers']);
-    }else {
-      this.router.navigate(['/platform', 'employers']);
-    }
->>>>>>> 8d9358f7b783d47a36d2c4c55660c65a3e9867f2
   }
 
   addData() {
@@ -526,12 +483,6 @@ export class CreatingEmployerComponent implements OnInit {
 
   insertData(): void {
     this.helpers.setPageSpinner(true);
-<<<<<<< HEAD
-=======
-    // if ( this.maxPageNumber === 1 ) {
-    //   this.updateDetailsEmployer();
-    // }
->>>>>>> 8d9358f7b783d47a36d2c4c55660c65a3e9867f2
     if (this.route.snapshot.params.id) {
       this.updateData();
     } else {
