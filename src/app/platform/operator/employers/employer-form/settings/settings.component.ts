@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { Employer } from 'app/shared/_models/employer.model';
+import { UserPermissionService } from 'app/shared/_services/user-permission.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 
 @Component({
   selector: 'app-settings',
@@ -15,9 +17,12 @@ export class SettingsComponent implements OnInit {
   comment: string;
   employerId: number;
   employer: Employer;
+  role = this.userSession.getRole() !== 'employer';
+
 
   constructor( private route: ActivatedRoute,
                private employerService: EmployerService,
+               private userSession: UserSessionService,
                protected notificationService: NotificationService) { }
 
   ngOnInit() {

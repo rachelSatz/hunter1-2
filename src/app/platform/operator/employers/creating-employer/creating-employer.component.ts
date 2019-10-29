@@ -46,9 +46,9 @@ export class CreatingEmployerComponent implements OnInit {
   selectedBranchW;
   uploadedFileXml: File;
   uploadedFilePoa: File;
-  uploadedFileContract: File;
-  uploadedFileProtocol: File;
-  uploadedFileCustomer: File;
+  uploadedFileContract: number;
+  uploadedFileProtocol: number;
+  uploadedFileCustomer: number;
   hasServerError: boolean;
   creatingEmployerForm: FormGroup;
   clickedContinue: boolean;
