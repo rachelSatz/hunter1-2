@@ -68,15 +68,6 @@ export class  DocumentService extends BaseHttpService {
       .catch(() => null);
   }
 
-  uploadFileCollection(employerId: number, files): void {
-    for (const fileEmployer of files) {
-      if (fileEmployer['file'] !== undefined) {
-        this.uploadFile(employerId, '', fileEmployer['file'], fileEmployer['documentType'])
-          .then(response => response);
-      }
-    }
-  }
-
   getIsNegativeFile(employer_id: number): Promise<boolean> {
     const path_url = this.endPoint + '/' + employer_id +  '/isNegativeFile';
     return this.http.get(path_url, this.getTokenHeader())

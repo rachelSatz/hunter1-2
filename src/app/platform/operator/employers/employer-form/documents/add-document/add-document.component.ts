@@ -41,7 +41,6 @@ export class AddDocumentComponent implements OnInit {
       if (this.data) {
         this.employerId = this.selectUnit.currentEmployerID;
       }
-
       this.documentService.uploadFile(this.employerId, this.description,
         this.uploadedFile, this.documentType)
         .then(response => {
