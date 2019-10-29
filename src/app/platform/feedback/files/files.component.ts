@@ -9,7 +9,6 @@ import { Status } from 'app/shared/_models/file-feedback.model';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
@@ -68,12 +67,12 @@ export class FilesComponent implements OnInit, OnDestroy  {
     ];
 
 
-  constructor(private route: ActivatedRoute,
+  constructor(public route: ActivatedRoute,
               private router: Router,
               protected notificationService: NotificationService,
               private dialog: MatDialog,
               private processService: ProcessService,
-              private userSession: UserSessionService,
+              // private userSession: UserSessionService,
               private feedbackService: FeedbackService,
               private selectUnit: SelectUnitService,
               private documentService: DocumentService,

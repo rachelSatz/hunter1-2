@@ -88,7 +88,7 @@ export class CreatingEmployerComponent implements OnInit {
     private generalHttpService: GeneralHttpService,
     private organizationService: OrganizationService,
     private employerService: EmployerService,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private helpers: HelpersService,
     private  platformComponent: PlatformComponent,
     private notificationService: NotificationService,
