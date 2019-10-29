@@ -25,7 +25,7 @@ export class CommentsComponent implements OnInit {
   ngOnInit() {
     this.user = this.userSession.getUser();
     this.generalService.getComments([this.selectUnit.currentEmployerID], 'employer')
-      .then(response => this.comments = [response]);
+      .then(response => this.comments = response);
   }
 
   submit() {

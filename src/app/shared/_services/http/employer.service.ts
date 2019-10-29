@@ -120,12 +120,6 @@ export class EmployerService extends BaseHttpService {
       .then( response => response );
   }
 
-  monthlyReports(employerId: number): Promise<any> {
-    return this.http.get(this.endPoint + '/' + employerId +  '/monthlyReports' , this.getTokenHeader())
-      .toPromise()
-      .then( response => response );
-  }
-
   getEmployerDetailsOnProcess(id: number): Promise<any> {
     return this.http.get(this.endPoint + '/' + id +  '/editEmployerOnProcess', this.getTokenHeader())
       .toPromise()

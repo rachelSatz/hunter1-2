@@ -14,6 +14,7 @@ import { OrganizationService } from 'app/shared/_services/http/organization.serv
 import { UserService } from 'app/shared/_services/http/user.service';
 
 import { UsersResolve } from 'app/shared/_resolves/users.resolve';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 
 const routes: Routes = [
   { path: '', component: UserFormComponent },
@@ -27,7 +28,8 @@ const routes: Routes = [
     FormsModule,
     MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule,
     BdSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    // DataTableModule
   ],
   declarations: [UserFormComponent],
   providers: [UserService, EmployerService, OrganizationService, UsersResolve]

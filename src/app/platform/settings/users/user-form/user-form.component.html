@@ -63,6 +63,26 @@
         <i class="fa fa-plus-circle fa-2x pointer blue-color" (click)="addUnitPermissionRow()" *ngIf="last"></i>
       </div>
     </div>
+
+    <!--<app-data-table tableName="ישויות" [columns]="columns" (fetchItems)="fetchItems()"-->
+                    <!--[@fade]="user.role !== 'admin' ? 'active' : 'inactive'">-->
+      <!--<div class="table-header">-->
+        <!--<div class="row mt-4 mr-1">-->
+          <!--<div class="ml-3 d-flex mr-auto">-->
+            <!--<button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת ישות</button>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<tr *ngFor="let item of dataTable.items" class="pointer">-->
+        <!--<td>{{ item.organization_name }}</td>-->
+        <!--<td>{{ item.employer_name }}</td>-->
+        <!--<td>{{ item.department_name }}</td>-->
+        <!--<td>-->
+          <!--<img title="עריכת ישות" src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image"/>-->
+          <!--<img title="מחיקת ישות" src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image"/>-->
+        <!--</td>-->
+      <!--</tr>-->
+    <!--</app-data-table>-->
     <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">{{ message }}</p>
 
     <div class="mt-3">

@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 
@@ -14,6 +14,7 @@ import { Employer } from 'app/shared/_models/employer.model';
 import { EntityRoles } from 'app/shared/_models/user.model';
 import { User } from 'app/shared/_models/user.model';
 import { fade } from 'app/shared/_animations/animation';
+// import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
 @Component({
   selector: 'app-user-form',
@@ -22,6 +23,9 @@ import { fade } from 'app/shared/_animations/animation';
   animations: [ fade ]
 })
 export class UserFormComponent implements OnInit {
+
+  // @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+
 
   user = new User(null);
   hasServerError: boolean;
@@ -46,6 +50,7 @@ export class UserFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.fetchItems();
     this.organizationService.getOrganizations().then(
       response => this.organizations = response);
     if (this.route.snapshot.data.user) {
@@ -57,6 +62,15 @@ export class UserFormComponent implements OnInit {
       }
     }
   }
+
+
+  // fetchItems() {
+    // this.userService.getUsers(this.dataTable.criteria).then(response => {
+    //   this.dataTable.setItems(response);
+    //   this.user = response;
+    // });
+  // }
+
 
   selectedEmployer(permission: UserUnitPermission, index: number): Employer[] {
     if (this.organizations.length > 0) {

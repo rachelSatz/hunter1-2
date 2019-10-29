@@ -36,7 +36,7 @@
         <span>מספר תהליך:</span>
         <p class="bold mr-1">{{process_details.id}}</p>
       </div>
-      <div class="d-flex">
+      <div class="d-flex ">
         <div class="d-flex w-50">
           <span>שם התהליך: </span>
           <p class="bold mr-1">{{process_details.name}}</p>
@@ -94,7 +94,7 @@
       <div class="text-center mt-5 pb-5" *ngIf="permissionsType">
         <button *ngIf="process_details.status !== 'transmitted'" class="btn blue-btn" [disabled]="((!valid) && !isRefund) || (process_details.sent_status == 'sent')" (click)="transfer();
         processDataService.activeProcess.pageNumber = 5">שידור לקופות</button>
-        <button *ngIf="process_details.status === 'transmitted'" class="btn blue-btn" (click)="aa()">היזונים חוזרים</button>
+        <button *ngIf="process_details.status === 'transmitted'" class="btn blue-btn" (click)="submitFeedBack()">היזונים חוזרים</button>
       </div>
     </div>
 <div class="col-6 offset-3" [@fade]="pageNumber === 2? 'active': 'inactive'">

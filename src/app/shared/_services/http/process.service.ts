@@ -46,10 +46,6 @@ export class ProcessService extends BaseHttpService {
       .then(response => response as DataTableResponse);
   }
 
-  // getProcessesByEmployer(employerId: number): Promise<any> {
-  //
-  // }
-
   downloadPaymentsInstruction(id: number): Promise<any> {
     return this.http.post(this.endPoint + '/downloadPaymentsInstruction', {'processId': id}, this.getTokenHeader())
       .toPromise()
@@ -71,9 +67,6 @@ export class ProcessService extends BaseHttpService {
       formData.append('file', file);
     }
 
-    // for (let i = 0; i <= file.length - 1 ; i++) {
-    //   formData.append('file' , file[i]);
-    // }
     if (fileDeposition) {
       formData.append('attachments', fileDeposition);
     }
@@ -216,6 +209,13 @@ export class ProcessService extends BaseHttpService {
 
   setApprovalFile(id): Promise<boolean> {
     return this.http.post(this.endPoint + '/' + id + '/setApprovalFile' , {},  this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+  getCommentBroadcast(id): Promise<string> {
+    return this.http.get(this.endPoint + '/' + id + '/getCommentBroadcast' ,  this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);

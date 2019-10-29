@@ -15,7 +15,7 @@ import { DatePipe } from '@angular/common';
 })
 export class NewTaskFormComponent implements OnInit {
 
-  status = 'not_started';
+  status = 'in_progress';
   curDate;
   employee;
   operator;

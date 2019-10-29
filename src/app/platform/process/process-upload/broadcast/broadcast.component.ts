@@ -104,14 +104,22 @@ export class BroadcastComponent implements OnInit, OnDestroy {
   }
 
   transfer() {
-    this.processService.transfer( this.processId, 'processId')
-      .then(response => {
-        if (response.ok === false) {
-          this.notificationService.error('', 'לא הצליח לשדר קובץ');
-        }else {
-          this.pageNumber = 2;
+    this.processService.getCommentBroadcast(this.processDataService.activeProcess.employer_id).then(comment => {
+      const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+      if (comment === null) {comment = ''; }
+      this.notificationService.warning('אשר שידור', comment , buttons).then(confirmation => {
+        if (confirmation.value) {
+          this.processService.transfer(this.processId, 'processId')
+            .then(response => {
+              if (response.ok === false) {
+                this.notificationService.error('', 'לא הצליח לשדר קובץ');
+              } else {
+                this.pageNumber = 2;
+              }
+            });
         }
       });
+  });
   }
 
   setPage(type) {
@@ -135,7 +143,7 @@ export class BroadcastComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  aa() {
+  submitFeedBack() {
     const processData = this.processDataService.activeProcess;
     this.platformComponent.employerId = this.process_details.employer_id;
     this.platformComponent.departmentId = this.process_details.dep_id;

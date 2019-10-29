@@ -9,8 +9,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 
 @Component({
   selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['../../../shared/data-table/data-table.component.css']
+  templateUrl: './users.component.html'
 })
 export class UsersComponent  implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;

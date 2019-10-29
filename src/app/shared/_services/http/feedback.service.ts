@@ -30,6 +30,15 @@ export class FeedbackService extends BaseHttpService {
 
   }
 
+  getSendFeedbackByProcessId(id): Promise<any> {
+
+    return this.http.get(this.endPoint + '/' + id + '/getSendFeedbackByProcessId', this.getTokenHeader())
+      .toPromise()
+      .then(response => response )
+      .catch(() => null);
+
+  }
+
   searchEmployeeData(criteria: DataTableCriteria): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
 

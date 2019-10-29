@@ -309,23 +309,26 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
         if (this.isRelevant()) {
+          this.processService.getCommentBroadcast(this.processDataService.activeProcess.employer_id).then(comment => {
           const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
-          this.notificationService.warning('אשר שידור', '', buttons).then(confirmation => {
-            if (confirmation.value) {
-              this.processService.transfer(
-                this.dataTable.criteria.checkedItems.map(item => item['file_id']),
-                'filesList', this.dataTable.criteria)
-                .then(response => {
-                  if (response.ok === false) {
-                    const title = response.status === 400 ? 'סטטוס או תאריך תשלום לא תקינים' :
-                      response.status === 404 ? 'לא נמצא קובץ לשידור' : 'השידור נכשל';
-                    this.notificationService.error('', title);
-                  } else {
-                    this.notificationService.success('', 'שודר בהצלחה');
-                    this.endAction();
-                  }
-                });
-            }
+          if (comment === null) {comment = ''; }
+          this.notificationService.warning('אשר שידור', comment , buttons).then(confirmation => {
+              if (confirmation.value) {
+                this.processService.transfer(
+                  this.dataTable.criteria.checkedItems.map(item => item['file_id']),
+                  'filesList', this.dataTable.criteria)
+                  .then(response => {
+                    if (response.ok === false) {
+                      const title = response.status === 400 ? 'סטטוס או תאריך תשלום לא תקינים' :
+                        response.status === 404 ? 'לא נמצא קובץ לשידור' : 'השידור נכשל';
+                      this.notificationService.error('', title);
+                    } else {
+                      this.notificationService.success('', 'שודר בהצלחה');
+                      this.endAction();
+                    }
+                  });
+              }
+            });
           });
         } else {
           this.notificationService.error('', 'אין אפשרות לשדר רשומה לא רלוונטית');

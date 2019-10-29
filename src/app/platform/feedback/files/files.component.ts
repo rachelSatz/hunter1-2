@@ -26,6 +26,7 @@ import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/fil
 @Component({
   selector: 'app-files',
   templateUrl: './files.component.html',
+  styleUrls: ['./files.component.css'],
   animations: [ slideToggle, placeholder ]
 })
 export class FilesComponent implements OnInit, OnDestroy  {
@@ -41,6 +42,8 @@ export class FilesComponent implements OnInit, OnDestroy  {
   statuses = Status;
   fileId: number;
   processId: number;
+  feedbackDate: string;
+  processName: string;
 
   list_status = Object.keys(Status).map(function(e) {
     return { id: e, name: Status[e] };
@@ -116,7 +119,13 @@ export class FilesComponent implements OnInit, OnDestroy  {
       }
       if (this.processId !== undefined) {
         this.dataTable.criteria.filters['processId'] = this.processId;
+        this.feedbackService.getSendFeedbackByProcessId(this.processId)
+          .then(response => {
+            this.processName = response['process__name'];
+            this.feedbackDate = response['updated_at'];
+          });
       }
+
       this.feedbackService.getFileFeedbacks(this.dataTable.criteria)
         .then(response => {
           this.dataTable.setItems(response);

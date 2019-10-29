@@ -16,6 +16,7 @@ export class ProcessDataService {
     this.activeProcess.type = data['type'];
     this.activeProcess.processID = data['processId'];
     this.activeProcess.departmentId = data['departmentId'];
+    this.activeProcess.employer_id = data['employerId'];
     this.activeProcess.isDirect = data['isDirect'];
     this.activeProcess.file = data['file'];
     this.activeProcess.pageIndex = 2;

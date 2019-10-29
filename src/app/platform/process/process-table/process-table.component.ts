@@ -128,7 +128,8 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
        'processId': process.id,
        'type': process.total > 0 ? 'positive' : 'negative',
        'status': process.status,
-       'departmentId': process.dep_id
+       'departmentId': process.dep_id,
+       'employerId': process.employer_id
      };
 
      this.processDataService.setProcess(data);
