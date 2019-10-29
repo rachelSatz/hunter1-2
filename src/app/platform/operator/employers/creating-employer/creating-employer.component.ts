@@ -309,15 +309,6 @@ export class CreatingEmployerComponent implements OnInit {
       });
   }
 
-  deleteEmployerContact(id) {
-    this.notificationService.warning('האם ברצונך למחוק את האיש קשר?')
-      .then(confirmation => {
-        if (confirmation.value) {
-          this.contactService.deleteEmployerContact(id).then(response => response);
-        }
-      });
-  }
-
   getContactsArrControls() {
      return (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact')).controls;
   }

@@ -32,6 +32,7 @@ export class  DocumentService extends BaseHttpService {
       .catch(response => response);
   }
 
+
   downloadFile(rowID: number, employerId: number): Promise<string> {
     const options = this.getTokenHeader();
 
@@ -66,6 +67,30 @@ export class  DocumentService extends BaseHttpService {
     data.append('documentType', documentType);
     return this.http.post(this.endPoint , data, this.getTokenHeader()).toPromise().then(response => response)
       .catch(() => null);
+  }
+
+  uploadFiles(files: File[] , employer_id: number ) {
+    const data = new FormData();
+    const documentTypes = [];
+    const ids = [];
+    for (let i = 0; i <= files.length - 1 ; i++) {
+      if (files[i] !== undefined) {
+        data.append('file', files[i]);
+        if (files[i] instanceof File ) {
+          ids.push(files[i]['id'] === undefined ? 0 : files[i]['id'] );
+          documentTypes.push(i === 0 ? 'contract' : i === 1 ?  'employer_poa' :  i === 2 ? 'authorization_protocol' :  'customer_details');
+        }
+      }
+    }
+
+    data.append('documentsType', JSON.stringify(documentTypes));
+    data.append('ids', JSON.stringify(ids));
+
+    return this.http.post(this.endPoint   + '/' +  employer_id + '/update'  , data, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+    // this.http.post(this.endPoint , files, this.getTokenHeader()).toPromise().then(response => response)
+    //      .catch(() => null);
   }
 
   getIsNegativeFile(employer_id: number): Promise<boolean> {
