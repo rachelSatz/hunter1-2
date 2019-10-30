@@ -20,6 +20,7 @@ import { Subscription } from 'rxjs';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 
 
 @Component({
@@ -72,7 +73,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
               protected notificationService: NotificationService,
               private dialog: MatDialog,
               private processService: ProcessService,
-              // private userSession: UserSessionService,
+              public userSession: UserSessionService,
               private feedbackService: FeedbackService,
               private selectUnit: SelectUnitService,
               private documentService: DocumentService,

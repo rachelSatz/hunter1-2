@@ -56,11 +56,7 @@
                      class="d-inline-block bd-de bd-min-width" [error]="employer.city_id == 0 && form.submitted" ></bd-select>
         </div>
       </div>
-      <div class="d-flex">
-          <mat-form-field class="mr-5">
-            <input matInput placeholder="עיר" formControlName="city" >
-          </mat-form-field>
-        </div>
+
       <div class="d-flex">
         <div class="bd-width181">
           <bd-select [items]="projects" formControlName="project"
@@ -154,9 +150,9 @@
           </mat-form-field>
         </div>
       </div>
-      <p class="f-14 pointer blue-color" >
-        <i class="fa fa-plus blue-color" (click)="addContact()"></i>
-        <span (click)="addContact()"> איש קשר נוסף</span>
+      <p class="f-14 pointer blue-color" (click)="addContact()" >
+        <i class="fa fa-plus blue-color"></i>
+        <span > איש קשר נוסף</span>
       </p>
     </div>
     <div [@fade]="pageNumber === 2 ? 'active' : 'inactive'">
@@ -172,8 +168,8 @@
                 <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" >
                   <label class="width135" >
                     <input type="file"  accept=".docx,.doc,.pdf " (change)= "uploadedFileContract === undefined ?
-                      uploadedFileContract = $event.target.files[0] : uploadedFileContract.id ? documentId = uploadedFileContract.id : 0;
-                      uploadedFileContract = $event.target.files[0]; uploadedFileContract.id = documentId;" >
+                      uploadedFileContract = $event.target.files[0] : uploadedFileContract['id'] ? documentId = uploadedFileContract['id'] : 0;
+                      uploadedFileContract = $event.target.files[0]; uploadedFileContract['id'] = documentId;" >
                     <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
                   </label>
@@ -200,8 +196,8 @@
                   <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
                     <label class="width135" >
                       <input type="file" accept=".docx,.doc,.pdf " (change)="uploadedFilePoa === undefined ?
-                      uploadedFilePoa = $event.target.files[0] : uploadedFilePoa.id ? documentId = uploadedFilePoa.id : 0;
-                      uploadedFilePoa = $event.target.files[0]; uploadedFilePoa.id = documentId;">
+                      uploadedFilePoa = $event.target.files[0] : uploadedFilePoa['id']  ? documentId = uploadedFilePoa['id']  : 0;
+                      uploadedFilePoa = $event.target.files[0]; uploadedFilePoa['id']  = documentId;">
                       <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                       העלת קובץ
                     </label>
@@ -223,8 +219,8 @@
                 <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
                   <label class="width135" >
                     <input type="file" accept=".docx,.doc,.pdf " (change)="uploadedFileProtocol === undefined ?
-                      uploadedFileProtocol = $event.target.files[0] : uploadedFileProtocol.id ? documentId = uploadedFileProtocol.id : 0;
-                      uploadedFileProtocol = $event.target.files[0]; uploadedFileProtocol.id = documentId;">
+                      uploadedFileProtocol = $event.target.files[0] : uploadedFileProtocol['id']  ? documentId = uploadedFileProtocol['id']  : 0;
+                      uploadedFileProtocol = $event.target.files[0]; uploadedFileProtocol['id'] = documentId;">
                     <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
                   </label>
@@ -246,8 +242,8 @@
                 <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
                   <label class="width135" >
                     <input type="file" accept=".docx,.doc,.pdf " (change)="uploadedFileCustomer === undefined ?
-                      uploadedFileCustomer = $event.target.files[0] : uploadedFileCustomer.id ? documentId = uploadedFileCustomer.id : 0;
-                      uploadedFileCustomer = $event.target.files[0]; uploadedFileCustomer.id = documentId;"  >
+                      uploadedFileCustomer = $event.target.files[0] : uploadedFileCustomer['id']  ? documentId = uploadedFileCustomer['id']  : 0;
+                      uploadedFileCustomer = $event.target.files[0]; uploadedFileCustomer['id']  = documentId;"  >
                     <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
                   </label>

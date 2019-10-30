@@ -14,9 +14,9 @@ import {
 
 import { CreatingEmployerComponent } from './creating-employer.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import {ContactService} from '../../../../shared/_services/http/contact.service';
-import {DocumentService} from '../../../../shared/_services/http/document.service';
-import {ProcessService} from '../../../../shared/_services/http/process.service';
+import { ContactService } from 'app/shared/_services/http/contact.service';
+import { DocumentService } from 'app/shared/_services/http/document.service';
+import { ProcessService } from 'app/shared/_services/http/process.service';
 
 
 const routes: Routes = [
