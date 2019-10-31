@@ -22,6 +22,7 @@ import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comment
 import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { DocumentService } from 'app/shared/_services/http/document.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-employees',
@@ -77,6 +78,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
               private selectUnitService: SelectUnitService,
               private documentService: DocumentService,
               private generalService: GeneralHttpService,
+              private helpers: HelpersService,
               private _location: Location) {
 
   }
@@ -153,7 +155,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   openCommentsDialog(item?: any): void {
     let ids = [];
     if (!item) {
-      if (this.dataTable.criteria.checkedItems.length === 0) {
+      if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
         this.dataTable.setNoneCheckedWarning();
         return;
       }
@@ -164,26 +166,35 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     }
 
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'ids': ids, 'contentType': 'monthlytransferblockfeed', 'comments' : item ?  item.comments : [],
+      data: {'ids': ids, 'contentType': 'monthlytransferblock', 'comments' : item ?  item.comments : [],
         'criteria': this.dataTable.criteria},
       width: '550px',
     });
 
     this.sub.add(dialog.afterClosed().subscribe(comments => {
+      this.helpers.setPageSpinner(true);
       if (comments) {
-        this.generalService.getComments(ids, 'monthlytransferblock').then(response => {
-          if (item) {
-            item.comments = [response];
-            item.checked = false;
-          } else {
-            this.dataTable.criteria.checkedItems.forEach(obj => {
-              obj['comments'] = response.filter(r => r['object_id'] === obj['id']);
-              obj['checked'] = false;
-            });
-          }
-          this.dataTable.criteria.checkedItems = [];
+        if (!this.dataTable.criteria.isCheckAll) {
+          this.generalService.getComments(ids, 'monthlytransferblock').then(response => {
+            if (item) {
+              item.comments = response;
+              item.checked = false;
+            } else {
+              this.dataTable.criteria.checkedItems.forEach(obj => {
+                obj['comments'] = response.filter(r => r['object_id'] === obj['id']);
+                obj['checked'] = false;
+              });
+            }
+            this.dataTable.criteria.checkedItems = [];
+            this.dataTable.criteria.isCheckAll = false;
+          });
+        }else {
           this.dataTable.criteria.isCheckAll = false;
-        });
+          this.fetchItems();
+        }
+        this.helpers.setPageSpinner(false);
+      } else {
+        this.helpers.setPageSpinner(false);
       }
     }));
   }
