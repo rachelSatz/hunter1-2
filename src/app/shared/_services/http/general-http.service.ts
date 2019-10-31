@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 import { Bank } from '../../_models/bank.model';
+import { DataTableCriteria } from 'app/shared/data-table/classes/data-table-criteria';
 
 
 @Injectable()
@@ -26,16 +27,17 @@ export class GeneralHttpService extends BaseHttpService {
       .catch(() => []);
   }
 
-  newComment(objects: number[], content: string, contentType: string): Promise<boolean> {
+  newComment(objects: number[], content: string, contentType: string, criteria?: DataTableCriteria ): Promise<boolean> {
     return this.http.post(this.endPoint  + '/comment', { 'content': content ,
-      'content_type': contentType, 'ids': objects}, this.getTokenHeader())
+      'content_type': contentType, 'ids': objects, 'criteria': this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
       .then(() => true)
       .catch(() => false);
   }
 
   getComments(objects: number[], contentType: string): Promise<Object[]> {
-    return this.http.post(this.endPoint + '/getComments', {'content_type': contentType, ids: objects},
+    return this.http.post(this.endPoint + '/getComments',
+      {'content_type': contentType, ids: objects},
       this.getTokenHeader())
       .toPromise()
       .then(response => response as Object[])

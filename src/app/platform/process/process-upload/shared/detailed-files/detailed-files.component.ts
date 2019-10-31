@@ -225,7 +225,8 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
     }
 
     const dialog =  this.dialog.open(CommentsFormComponent, {
-      data: {'ids': ids, 'contentType': 'groupthing', 'comments'  : item ?  item.comments : []},
+      data: {'ids': ids, 'contentType': 'groupthing', 'comments'  : item ?  item.comments : [],
+        'criteria': this.dataTable.criteria},
       width: '550px',
       panelClass: 'dialog-file'
     });

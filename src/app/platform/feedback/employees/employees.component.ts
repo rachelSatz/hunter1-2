@@ -164,7 +164,8 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     }
 
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'ids': ids, 'contentType': 'monthlytransferblock', 'comments' : item ?  item.comments : []},
+      data: {'ids': ids, 'contentType': 'monthlytransferblockfeed', 'comments' : item ?  item.comments : [],
+        'criteria': this.dataTable.criteria},
       width: '550px',
     });
 

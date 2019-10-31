@@ -29,7 +29,8 @@ export class CommentsFormComponent implements OnInit {
     this.data.contentType = this.data.contentType === 'file_repayment' ? 'groupthing' :
       this.data.contentType === 'employee_repayment' ? 'monthlytransferblock' : this.data.contentType;
 
-    this.generalService.newComment(this.data.ids, this.content, this.data.contentType).then(response => {
+    this.generalService.newComment(this.data.ids, this.content,
+      this.data.contentType, this.data.criteria).then(response => {
       if (response) {
         this.dialogRef.close(this.content);
       } else {
