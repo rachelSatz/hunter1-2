@@ -219,7 +219,7 @@ export class ProcessLevelHpComponent implements OnInit, OnDestroy {
   openCommentsDialog(item?: any): void {
     let ids = [];
     if (!item) {
-      if (this.dataTable.criteria.checkedItems.length === 0) {
+      if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
         this.dataTable.setNoneCheckedWarning();
         return;
       }
@@ -229,15 +229,18 @@ export class ProcessLevelHpComponent implements OnInit, OnDestroy {
       ids = [item.id];
     }
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'ids': ids, 'contentType': 'compensation', 'comments' : item ?  item.comments : []},
+      data: {'ids': ids, 'contentType': 'compensation', 'comments' : item ?  item.comments : [],
+        'criteria': this.dataTable.criteria},
       width: '450px'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(comments => {
+      this.helpers.setPageSpinner(true);
       if (comments) {
+        if (!this.dataTable.criteria.isCheckAll) {
         this.generalService.getComments(ids, 'compensation').then(response => {
           if (item) {
-            item.comments = [response];
+            item.comments = response;
             item.checked = false;
           } else {
             this.dataTable.criteria.checkedItems.forEach(obj => {
@@ -245,9 +248,16 @@ export class ProcessLevelHpComponent implements OnInit, OnDestroy {
               obj['checked'] = false;
             });
           }
-          this.dataTable.criteria.checkedItems = [];
           this.dataTable.criteria.isCheckAll = false;
+          this.dataTable.criteria.checkedItems = [];
         });
+        }else {
+          this.dataTable.criteria.isCheckAll = false;
+          this.fetchItems();
+        }
+        this.helpers.setPageSpinner(false);
+      }else {
+        this.helpers.setPageSpinner(false);
       }
     }));
   }

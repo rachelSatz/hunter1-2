@@ -18,7 +18,7 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { ErrorMessageComponent } from '../../../shared/_dialogs/error-message/error-message.component';
+import { ErrorMessageComponent } from 'app/shared/_dialogs/error-message/error-message.component';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { CompensationService } from 'app/shared/_services/http/compensation.service';
@@ -114,6 +114,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
 
   fetchItems() {
+    this.helpers.setPageSpinner(true);
     this.compensationId = this.route.snapshot.params['id'];
     this.linkId = this.route.snapshot.queryParams['linkId'];
 
@@ -134,6 +135,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
       }
       this.compensationService.getCompensations(this.dataTable.criteria).then(response => {
         this.setResponse(response);
+        this.helpers.setPageSpinner(false);
       });
     }
   }
@@ -244,7 +246,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
   openCommentsDialog(item?: any): void {
     let ids = [];
     if (!item) {
-      if (this.dataTable.criteria.checkedItems.length === 0) {
+      if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
         this.dataTable.setNoneCheckedWarning();
         return;
       }
@@ -254,25 +256,35 @@ export class ProcessComponent implements OnInit, OnDestroy {
       ids = [item.id];
     }
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'ids': ids, 'contentType': 'compensation', 'comments' : item ?  item.comments : []},
+      data: {'ids': ids, 'contentType': 'compensation', 'comments' : item ?  item.comments : [],
+        'criteria': this.dataTable.criteria},
       width: '450px'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(comments => {
+      this.helpers.setPageSpinner(true);
       if (comments) {
-        this.generalService.getComments(ids, 'compensation').then(response => {
-          if (item) {
-            item.comments = response;
-            item.checked = false;
-          } else {
-            this.dataTable.criteria.checkedItems.forEach(obj => {
-              obj['comments'] = response.filter(r => r['object_id'] === obj['id']);
-              obj['checked'] = false;
-            });
-          }
-          this.dataTable.criteria.checkedItems = [];
+        if (!this.dataTable.criteria.isCheckAll) {
+          this.generalService.getComments(ids, 'compensation').then(response => {
+            if (item) {
+              item.comments = response;
+              item.checked = false;
+            } else {
+              this.dataTable.criteria.checkedItems.forEach(obj => {
+                obj['comments'] = response.filter(r => r['object_id'] === obj['id']);
+                obj['checked'] = false;
+              });
+            }
+            this.dataTable.criteria.isCheckAll = false;
+            this.dataTable.criteria.checkedItems = [];
+          });
+        }else {
           this.dataTable.criteria.isCheckAll = false;
-        });
+          this.fetchItems();
+        }
+        this.helpers.setPageSpinner(false);
+      } else {
+        this.helpers.setPageSpinner(false);
       }
     }));
   }

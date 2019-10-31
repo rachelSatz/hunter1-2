@@ -184,7 +184,8 @@ export class ProcessClearingComponent implements OnInit, OnDestroy {
       ids = [item.id];
     }
     const dialog = this.dialog.open(CommentsFormComponent, {
-      data: {'ids': ids, 'contentType': 'compensation', 'comments' : item ?  item.comments : []},
+      data: {'ids': ids, 'contentType': 'compensation', 'comments' : item ?  item.comments : [],
+        'criteria': this.dataTable.criteria},
       width: '450px'
     });
 

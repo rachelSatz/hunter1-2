@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 
-import { FileDepositionComponent } from '../../../../shared/_dialogs/file-deposition/file-deposition.component';
+import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -216,7 +216,8 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
   openAddFile(type: number, form?): void {
     const dialog = this.dialog.open(FileDepositionComponent, {
       width: '550px',
-      panelClass: 'send-email-dialog'
+      panelClass: 'send-email-dialog',
+      disableClose: true
     });
 
     this.sub.add(dialog.afterClosed().subscribe(res => {

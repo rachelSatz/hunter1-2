@@ -175,7 +175,8 @@ export class FilesComponent implements OnInit, OnDestroy  {
     }
 
     const dialog =  this.dialog.open(CommentsFormComponent, {
-      data: {'ids': ids, 'contentType': 'file_repayment', 'comments' : item ?  item.comments : []},
+      data: {'ids': ids, 'contentType': 'file_repayment', 'comments' : item ?  item.comments : [],
+        'criteria': this.dataTable.criteria},
       width: '550px',
     });
 
