@@ -34,6 +34,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   isCompensation = false;
   fileType = FileType;
   employeeStatus = EmployeeStatus;
+  feedbackError = [5, 6, 7, 8, 18, 19]
 
   constructor(protected route: ActivatedRoute,
               private router: Router,
@@ -71,7 +72,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   taskCompletedDialog(): void {
     const processId = this.plan.task.process.id;
     if (this.isRecord) {
-      if (this.plan.type.id === 8) {
+      if ( this.feedbackError.indexOf(this.plan.type.id)  !== -1) {
         this.platformComponent.isWorkQueue = true;
         this.platformComponent.organizationId = this.plan.organization.id;
         this.platformComponent.employerId = this.plan.employer.id;
@@ -87,7 +88,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
         this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
       }
     } else if (this.isFile) {
-      if (this.plan.type.id === 8) {
+      if ( this.feedbackError.indexOf(this.plan.type.id) !== -1) {
         this.platformComponent.isWorkQueue = true;
         this.platformComponent.organizationId = this.plan.organization.id;
         this.platformComponent.employerId = this.plan.employer.id;

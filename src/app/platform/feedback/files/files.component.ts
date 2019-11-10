@@ -88,16 +88,17 @@ export class FilesComponent implements OnInit, OnDestroy  {
     this.selectYear = this.route.snapshot.queryParams['year'];
     this.selectYear = this.selectYear ?  Number(this.selectYear) : this.year;
     const month = this.route.snapshot.queryParams['month'];
+    if (this.fileId && !this.processId) {}
     this.selectMonth = month ? Number(month) : this.selectMonth;
-
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
       this.router.navigate([], {
         queryParams: {page: 1},
         relativeTo: this.route
       });
-       this.fetchItems();
+      this.fetchItems();
       }
     ));
+
   }
 
   fetchItems() {
@@ -125,7 +126,6 @@ export class FilesComponent implements OnInit, OnDestroy  {
             this.feedbackDate = response['updated_at'];
           });
       }
-
       this.feedbackService.getFileFeedbacks(this.dataTable.criteria)
         .then(response => {
           this.dataTable.setItems(response);
