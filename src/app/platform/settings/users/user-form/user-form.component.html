@@ -1,11 +1,17 @@
 <div class="mr-5 px-4">
-  <form #form="ngForm" (ngSubmit)="submit(form)">
+  <form #form="ngForm" >
     <div class="row">
       <div [ngClass]="{'displayNone': update}">
         <span class="h4 mb-4" >יצירת משתמש חדש</span>
       </div>
       <div [ngClass]="{'displayNone': !update}">
         <span class="h4 mb-4" >עדכון משתמש חדש</span>
+        <a class="mr-2 align-middle" (click)="changeProjectManager()">
+          <i class="material-icons " title="העברת ישות בין מתפעילים">
+            swap_horizontal_circle
+          </i>
+        </a>
+
       </div>
       <div class="d-flex mr-auto">
         <a (click)="previous()">
@@ -52,41 +58,44 @@
       </div>
     </div>
 
-
-    <div class="unit" [@fade]="user.role !== 'admin' ? 'active' : 'inactive'">
-      <p class="bold h6">בחר ישויות</p>
-      <div class="w-50 d-flex align-items-center mb-2" *ngFor="let permission of user.units; let last = last; let index = index">
-        <i class="fa fa-times fa-2x pointer red-color" (click)="removeUnitPermissionRow(index)" *ngIf="index > 0"></i>
-        <bd-select class="ml-4" [name]="'organization' + index" [items]="organizations" placeholder="ארגון" [(ngModel)]="permission.organization_id" ></bd-select>
-        <bd-select class="ml-4" [name]="'employer' + index" [items]="selectedEmployer(permission, index)" placeholder="מעסיק" [(ngModel)]="permission.employer_id"></bd-select>
-        <bd-select [name]="'department' + index" [items]="selectedDepartment(permission)" placeholder="מחלקות"   [(ngModel)]="permission.departments" [multiple]="true"></bd-select>
-        <i class="fa fa-plus-circle fa-2x pointer blue-color" (click)="addUnitPermissionRow()" *ngIf="last"></i>
-      </div>
+    <div class="w-50">
+      <app-data-table tableName="" [columns]="columns" [hasExtendedSearch]="false"
+                      [hasActionsSearch]="false"
+                      [hasCheckColumn]="true"
+                      (fetchItems)="fetchItems()"
+                      [@fade]="user.role !== 'admin' ? 'active' : 'inactive'">
+        <div class="table-header">
+          <p class="bold h6">בחר ישויות</p>
+          <div class="w-50 d-flex align-items-center mb-2" [@fade]="add ? 'active' : 'inactive'">
+            <bd-select class="ml-4" name="organization" [items]="organizations" placeholder="ארגון" [(ngModel)]="permission.organization_id"  ></bd-select>
+            <bd-select class="ml-4" name="employer" [items]="selectedEmployer()" placeholder="מעסיק"  [(ngModel)]="permission.employer_id"></bd-select>
+            <bd-select name="department" [items]="selectedDepartment()" placeholder="מחלקות" [multiple]="true" [(ngModel)]="permission.departments"></bd-select>
+            <button class="btn blue-btn mr-2" (click)="addUnitPermissionRow(); add = false" >הוסף</button>
+          </div>
+          <div class="row mt-4 mr-1">
+            <div class="ml-3 d-flex mr-auto">
+              <button  *ngIf="!add" class="btn blue-btn"  (click)="add = true">הוספת ישות</button>
+            </div>
+          </div>
+        </div>
+        <tr *ngFor="let item of dataTable.items" class="pointer">
+          <td  class="check-column">
+            <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
+          </td>
+          <td>{{ item.organization_name }}</td>
+          <td>{{ item.employer_name }}</td>
+          <td>{{ item.department_name }}</td>
+          <td>
+            <!--<img title="עריכה" src="/assets/img/icons/edit_grey.png" (click)="editUnitPermissionRow(item.permission_id)" class="row-image"/>-->
+            <img title="מחיקה" src="/assets/img/icons/delete.svg" (click)="removeUnitPermissionRow(item.permission_id)" class="row-image"/>
+          </td>
+        </tr>
+      </app-data-table>
     </div>
-
-    <!--<app-data-table tableName="ישויות" [columns]="columns" (fetchItems)="fetchItems()"-->
-                    <!--[@fade]="user.role !== 'admin' ? 'active' : 'inactive'">-->
-      <!--<div class="table-header">-->
-        <!--<div class="row mt-4 mr-1">-->
-          <!--<div class="ml-3 d-flex mr-auto">-->
-            <!--<button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת ישות</button>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<tr *ngFor="let item of dataTable.items" class="pointer">-->
-        <!--<td>{{ item.organization_name }}</td>-->
-        <!--<td>{{ item.employer_name }}</td>-->
-        <!--<td>{{ item.department_name }}</td>-->
-        <!--<td>-->
-          <!--<img title="עריכת ישות" src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image"/>-->
-          <!--<img title="מחיקת ישות" src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image"/>-->
-        <!--</td>-->
-      <!--</tr>-->
-    <!--</app-data-table>-->
     <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">{{ message }}</p>
 
     <div class="mt-3">
-      <button class="btn blue-btn" type="submit">שלח</button>
+      <button class="btn blue-btn" type="submit" (click)="submit(form)">שלח</button>
     </div>
   </form>
 </div>

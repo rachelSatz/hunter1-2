@@ -17,6 +17,10 @@ export class SelectUnitService {
     sessionStorage.setItem('organizations', JSON.stringify(organizations));
   }
 
+  getOrganizations(): any {
+    return this.getSessionStorage('organizations');
+  }
+
   setCompanies(companies: any): void {
     sessionStorage.setItem('companies', JSON.stringify(companies));
   }

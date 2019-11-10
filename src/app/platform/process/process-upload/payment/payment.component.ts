@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import * as FileSaver from 'file-saver';
 
 import { SendFileEmailComponent } from 'app/platform/process/process-upload/payment/send-file-email/send-file-email.component';
+import { GroupHistoryComponent } from 'app/platform/process/process-upload/payment/group-history/group-history.component';
 import { InformationMessageComponent } from './information-message/information-message.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
@@ -18,6 +19,8 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { Process } from 'app/shared/_models/process.model';
 import { EmailComponent } from './email/email.component';
 import { fade } from 'app/shared/_animations/animation';
+import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
+import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 
 
 @Component({
@@ -34,6 +37,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private processService: ProcessService,
+              private monthlyService: MonthlyTransferBlockService,
               public  processDataService: ProcessDataService,
               private notificationService: NotificationService,
               private helpers: HelpersService,
@@ -107,6 +111,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
           if (this.processDataService.activeProcess.returnDetails) {
             time = 0;
           }
+          this.openDialogGroupHistory();
           setTimeout(() => {
             this.pageNumber = 2;
             this.processDataService.activeProcess.pageNumber = 3;
@@ -157,6 +162,21 @@ export class PaymentComponent implements OnInit , OnDestroy {
       width: '550px',
       panelClass: 'information-message'
     });
+  }
+
+  openDialogGroupHistory():  void {
+    this.helpers.setPageSpinner(true);
+    this.monthlyService.groupHistory(this.processId).then(
+      res =>  {
+        this.helpers.setPageSpinner(false);
+        if (res && res.length > 0) {
+          this.dialog.open(GroupHistoryComponent, {
+            data: {'processId' : this.processId , items: res},
+            width: '1000px',
+          });
+        }
+      });
+
   }
 
   openDialog(): void {

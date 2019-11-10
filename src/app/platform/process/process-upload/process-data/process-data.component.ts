@@ -1,19 +1,19 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
+import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
+import { DocumentService } from 'app/shared/_services/http/document.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { Process } from 'app/shared/_models/process.model';
 import { Month } from 'app/shared/_const/month-bd-select';
 import { fade } from 'app/shared/_animations/animation';
-import { DocumentService } from 'app/shared/_services/http/document.service';
 
 @Component({
   selector: 'app-process-data',

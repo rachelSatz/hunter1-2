@@ -19,6 +19,9 @@ import { EmailComponent } from './email/email.component';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { InformationMessageComponent } from './information-message/information-message.component';
 import {SendFileEmailComponent} from './send-file-email/send-file-email.component';
+import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
+import { GroupHistoryComponent } from './group-history/group-history.component';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 
 
 const routes: Routes = [
@@ -36,11 +39,25 @@ const routes: Routes = [
     MatChipsModule, MatIconModule, MatAutocompleteModule, MatProgressBarModule, MatMenuModule,
     BdSelectModule,
     PipesModule,
-    DatePickerModule
+    DatePickerModule,
+    DataTableModule
   ],
-  providers: [ProcessService, NotificationService, HelpersService, ContactService],
-  declarations: [PaymentComponent, EmailComponent, InformationMessageComponent, SendFileEmailComponent],
-  entryComponents: [ EmailComponent, InformationMessageComponent, SendFileEmailComponent]
+  providers: [
+    ProcessService,
+    NotificationService,
+    HelpersService,
+    ContactService,
+    MonthlyTransferBlockService],
+  declarations: [PaymentComponent,
+    EmailComponent,
+    InformationMessageComponent,
+    SendFileEmailComponent,
+    GroupHistoryComponent],
+  entryComponents: [
+    EmailComponent,
+    InformationMessageComponent,
+    SendFileEmailComponent,
+    GroupHistoryComponent]
 
 })
 export class PaymentModule {

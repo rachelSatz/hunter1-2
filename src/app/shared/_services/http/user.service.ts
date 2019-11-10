@@ -17,12 +17,6 @@ export class UserService extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/users';
 
-  getEmployers(): Promise<Employer[]> {
-    return this.http.get(this.apiUrl  + '/employers', this.getTokenHeader())
-    .toPromise()
-    .then(response => response as Employer[]);
-  }
-
   getUsers(criteria?: DataTableCriteria): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
 
@@ -62,4 +56,25 @@ export class UserService extends BaseHttpService {
       .toPromise()
       .then(response => response as User[]);
   }
+
+  deleteUnitUser(id): Promise<boolean> {
+    return this.http.delete(this.endPoint + '/' + id + '/deleteUnitUser', this.getTokenHeader())
+      .toPromise()
+      .then(() =>  true );
+  }
+
+  addUnitUser(permission, userId: number): Promise<any> {
+    return this.http.post(this.endPoint + '/' + userId + '/addUnitUser', {permission: permission} , this.getTokenHeader())
+      .toPromise()
+      .then(response => response );
+  }
+
+  changeProjectManager(userId: number, operatorId: number, isCheckAll: boolean, items: number[]): Promise<any> {
+    return this.http.post(this.endPoint + '/' + userId + '/changeProjectManager',
+      {is_check_all:  isCheckAll, operator_id: operatorId, items: items}
+      , this.getTokenHeader())
+      .toPromise()
+      .then(response => response );
+  }
+
 }
