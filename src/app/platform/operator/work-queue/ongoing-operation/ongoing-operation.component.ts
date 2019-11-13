@@ -14,6 +14,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { OperatorTasksService } from 'app/shared/_services/http/operator-tasks';
 import { PlatformComponent } from '../../../platform.component';
 import { EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-ongoing-operation',
@@ -31,10 +32,15 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   hours: string;
   isRecord = false;
   isFile = false;
+  isErrorLoading = false;
   isCompensation = false;
+  isErrorTransmit = false;
+  noMorePlans = false;
+  noMoreTask = false;
   fileType = FileType;
+  isPaymentInstructions = false;
   employeeStatus = EmployeeStatus;
-  feedbackError = [5, 6, 7, 8, 18, 19]
+  feedbackError = [5, 6, 7, 8, 18, 19];
 
   constructor(protected route: ActivatedRoute,
               private router: Router,
@@ -45,6 +51,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
               private selectUnit: SelectUnitService,
               private timerService: TimerService,
               private operatorTasks: OperatorTasksService,
+              private helpers: HelpersService,
               private platformComponent: PlatformComponent) { }
 
   ngOnInit() {
@@ -55,8 +62,12 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   }
 
   fetchItems(): void {
+    this.helpers.setPageSpinner(true);
     this.planService.getSinglePlan().then(response => {
-      if (response['message'] === 'No plan found' || response['message'] === 'No task found') {
+      if (response['message'] === 'No plan found' ) {
+        this.noMorePlans = true;
+      } else if ( response['message'] === 'No task found') {
+        this.noMoreTask = true;
       } else if (response['message'] === 'Success!') {
         this.plan = response['data'];
         if (this.plan !== null && this.plan.task !== null) {
@@ -64,48 +75,81 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
             this.isRecord = true;
           } else if (this.plan.task.file !== undefined) {
             this.isFile = true;
+          } else if (this.plan.task.process.error_details !== undefined) {
+            if (this.plan.task.process.error_details === 'No Payment instructions') {
+              this.plan.task.message = 'אין הנחיות לתשלום';
+              this.isPaymentInstructions = true;
+            } else if (this.plan.task.process.status === 'error_transmiting') {
+              this.plan.task.message = 'שגיאת שידור';
+              this.isErrorTransmit = true;
+            } else {
+              this.plan.task.message = this.plan.task.process.error_details;
+              this.isErrorLoading = true;
+            }
           }
         }
       }
+      this.helpers.setPageSpinner(false);
     });
   }
+
+  initializationPlatform(): void {
+    this.platformComponent.isWorkQueue = true;
+    this.platformComponent.organizationId = this.plan.organization.id;
+    this.platformComponent.employerId = this.plan.employer.id;
+    this.platformComponent.departmentId = this.plan.department.id;
+    this.selectUnit.changeOrganizationEmployerDepartment(this.plan.organization.id, this.plan.employer.id, this.plan.department.id);
+    this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
+  }
+
+  recordToExecute(processId): void {
+    if ( this.feedbackError.indexOf(this.plan.type.id)  !== -1) {
+      this.router.navigate(['/platform', 'feedback', 'employees' ],
+        { queryParams: { recordId: this.plan.task.record.id }});
+    } else {
+      this.processDataService.activeProcess = new Process();
+      const data = {'processId': processId, 'highlightRecordId': this.plan.task.record.id};
+      this.processDataService.setProcess(data);
+      this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
+    }
+  }
+
+  fileToExecute(processId): void {
+    if ( this.feedbackError.indexOf(this.plan.type.id) !== -1) {
+      this.router.navigate(['/platform', 'feedback', 'files' ],
+        { queryParams: { fileId: this.plan.task.file.id }});
+    } else {
+      this.processDataService.activeProcess = new Process();
+      const data = {'processId': processId, 'highlightFileId': this.plan.task.file.id};
+      this.processDataService.setProcess(data);
+      this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
+    }
+  }
+
+  errorLoadingFileToExecute(): void {
+    this.router.navigate(['/platform', 'process', 'table' ],
+      { queryParams: { processId: this.plan.task.process.id }});
+  }
+
+  paymentInstructionsErrorToExecute(processId) {
+    this.router.navigate(['/platform', 'process', 'new', 0, 'payment', processId],
+      {queryParams: { page: 3}});
+  }
+
   taskCompletedDialog(): void {
     const processId = this.plan.task.process.id;
+    this.initializationPlatform();
     if (this.isRecord) {
-      if ( this.feedbackError.indexOf(this.plan.type.id)  !== -1) {
-        this.platformComponent.isWorkQueue = true;
-        this.platformComponent.organizationId = this.plan.organization.id;
-        this.platformComponent.employerId = this.plan.employer.id;
-        this.platformComponent.departmentId = this.plan.department.id;
-        this.selectUnit.changeOrganizationEmployerDepartment(this.plan.organization.id, this.plan.employer.id, this.plan.department.id);
-        this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
-        this.router.navigate(['/platform', 'feedback', 'employees' ],
-          { queryParams: { recordId: this.plan.task.record.id }});
-      } else {
-        this.processDataService.activeProcess = new Process();
-        const data = {'processId': processId, 'highlightRecordId': this.plan.task.record.id};
-        this.processDataService.setProcess(data);
-        this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
-      }
+     this.recordToExecute(processId);
     } else if (this.isFile) {
-      if ( this.feedbackError.indexOf(this.plan.type.id) !== -1) {
-        this.platformComponent.isWorkQueue = true;
-        this.platformComponent.organizationId = this.plan.organization.id;
-        this.platformComponent.employerId = this.plan.employer.id;
-        this.platformComponent.departmentId = this.plan.department.id;
-        this.selectUnit.changeOrganizationEmployerDepartment(this.plan.organization.id, this.plan.employer.id, this.plan.department.id);
-        this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
-        this.router.navigate(['/platform', 'feedback', 'files' ],
-          { queryParams: { fileId: this.plan.task.file.id }});
-      } else {
-        this.processDataService.activeProcess = new Process();
-        const data = {'processId': processId, 'highlightFileId': this.plan.task.file.id};
-        this.processDataService.setProcess(data);
-
-        this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
-      }
+      this.fileToExecute(processId);
     } else if (this.isCompensation) {
-      this.router.navigate(['/platform', 'compensations', 'process', 94]);
+    } else if (this.isErrorLoading) {
+       this.errorLoadingFileToExecute();
+    } else if ( this.isPaymentInstructions) {
+      this.paymentInstructionsErrorToExecute(processId);
+    } else if (this.isErrorTransmit) {
+
     }
   }
 

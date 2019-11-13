@@ -61,6 +61,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
 
   ngOnInit() {
     this.organizationId = this.selectUnitService.currentOrganizationID;
+    // this.pageNumber = this.route.snapshot.queryParams['page'];
     if (this.processDataService.activeProcess !== undefined) {
       this.selectUnitService.setProcessData(this.processDataService);
     } else {
@@ -87,6 +88,7 @@ export class PaymentComponent implements OnInit , OnDestroy {
     }
     this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
 
+    this.pageNumber = this.route.snapshot.queryParams['page'] ? this.route.snapshot.queryParams['page'] : this.pageNumber;
   }
 
   fetchItems() {
@@ -110,6 +112,8 @@ export class PaymentComponent implements OnInit , OnDestroy {
           setTimeout(() => {
             this.pageNumber = 2;
             this.processDataService.activeProcess.pageNumber = 3;
+            this.pageNumber = this.route.snapshot.queryParams['page'] ? 3 : 2;
+
             this.sub.unsubscribe();
             }, time);
 

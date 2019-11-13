@@ -28,6 +28,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
   months = MONTHS;
   sub = new Subscription;
+  processId;
 
   isDisplay = this.userSession.getPermissionsType('operations', true);
   readonly columns =  [
@@ -42,12 +43,10 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     { name: 'status', label: 'סטטוס ' , isSort: false },
     { name: 'download', label: 'הורדה', isSort: false },
     {name: 'actions', label: 'פעולות' , isSort: false, isDisplay: this.isDisplay},
-    // {name: 'files', label: 'פרוט קבצים' , isSort: false}
-
-    // { name: 'delete', label: 'מחיקה' , isSort: false , isDisplay: this.isDisplay},
   ];
 
-  constructor(route: ActivatedRoute, private router: Router,
+  constructor(public route: ActivatedRoute,
+              private router: Router,
               private processService: ProcessService,
               private selectUnit: SelectUnitService,
               private userSession: UserSessionService,
@@ -57,6 +56,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.processId = this.route.snapshot.queryParams['processId'];
     this.dataTable.criteria.filters['year'] = this.year;
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
         this.dataTable.paginationData.currentPage = 1;
@@ -75,6 +75,9 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
       this.dataTable.criteria.filters['departmentId'] = departmentId;
       this.dataTable.criteria.filters['employerId'] = employerId;
       this.dataTable.criteria.filters['organizationId'] = organizationId;
+      if (this.processId) {
+        this.dataTable.criteria.filters['processId'] = this.processId;
+      }
       this.processService.getProcesses(this.dataTable.criteria).then(
         response => this.dataTable.setItems(response));
     }

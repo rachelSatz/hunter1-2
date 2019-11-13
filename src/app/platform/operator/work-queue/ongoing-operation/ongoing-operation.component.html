@@ -24,12 +24,12 @@
         <span class="bold">פירוט שגיאה:</span>
         <p class="mr-1">{{ plan.task.message }}</p>
       </div>
-      <span class="bold">מידע נוסף:</span>
-      <p class="mr-1">{{  plan.task.additional_info }}</p>
+      <span class="bold" *ngIf="!isErrorLoading && !isErrorTransmit && !isPaymentInstructions">מידע נוסף:</span>
+      <p class="mr-1">{{  plan.task.additional_info  }}</p>
     </div>
     <br>
     <div *ngIf="isRecord">
-      <span class="bold f-18">שגיאה ברמת רשומה</span>
+      <span class="bold f-18">{{ '(' + plan.type.name + ')' }} שגיאה ברמת רשומה</span>
 
       <div class="d-flex mt-3">
         <div class="d-flex w-50">
@@ -74,8 +74,9 @@
     <button class="btn blue-btn mr-5" (click)="taskCompletedDialog()">לביצוע</button>
     <!--<button class="btn blue-btn mr-5" (click)="skipTaskDialog()">דילוג על משימה</button>-->
   </div>
-  <div *ngIf="plan == null">
-    <span class="red-color f-18">לא קיימות משימות </span>
+  <div *ngIf="plan == null && (noMoreTask || noMorePlans)">
+    <span class="red-color f-18" *ngIf="noMorePlans">לא קיימות תוכניות </span>
+    <span class="red-color f-18" *ngIf="noMoreTask">לא קיימות משימות </span>
     <div class="d-flex ">
       <img src="../../../../../assets/img/thumb-photostock-vector-check-list-icon-vector.jpg" height="300"
            width="300" />

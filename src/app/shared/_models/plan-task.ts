@@ -44,20 +44,22 @@ export class Record {
   working_days_in_month: number;
 
 }
+
 export class File {
   id: number;
   file_type: string;
   amount: number;
   process_id: number;
 }
+
 export class Process {
   id: number;
   name: string;
   date: string;
+  error_details: string;
   total: number;
   type: string;
   status: string;
-
 }
 
 

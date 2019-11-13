@@ -27,5 +27,4 @@ export class FileDepositionComponent implements OnInit {
       this.hasServerError = true;
     }
   }
-
 }
