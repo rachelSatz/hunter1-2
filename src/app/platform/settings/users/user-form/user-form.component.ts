@@ -14,20 +14,27 @@ import { Employer } from 'app/shared/_models/employer.model';
 import { EntityRoles } from 'app/shared/_models/user.model';
 import { User } from 'app/shared/_models/user.model';
 import { fade } from 'app/shared/_animations/animation';
-// import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { MatDialog } from '@angular/material';
+import { ChangeProjectManagerComponent } from './change-project-manager/change-project-manager.component';
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  styles: [`.check-module { width: 140px; } .displayNone{ display: none}` ],
+  styles: [`.check-module { width: 140px; } .displayNone{ display: none}
+  ::ng-deep .change-projectManager-component .mat-dialog-container { overflow: visible; }` ],
   animations: [ fade ]
 })
 export class UserFormComponent implements OnInit {
 
-  // @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
 
   user = new User(null);
+  permission = new UserUnitPermission();
   hasServerError: boolean;
   organizations = [];
   departments = [];
@@ -36,57 +43,57 @@ export class UserFormComponent implements OnInit {
   message: string;
   moduleTypes = ModuleTypes;
   update = false;
+  add = false;
 
   roles = Object.keys(EntityRoles).map(function (e) {
     return {id: e, name: EntityRoles[e]};
   });
+
+
+  readonly columns =  [
+    { name: 'org', label: 'שם ארגון', searchable: false},
+    { name: 'emp', label: 'שם מעסיק', searchOptions: false},
+    { name: 'dep', label: 'שם מחלקה' , searchable: false}
+  ];
+
 
   constructor(private route: ActivatedRoute,
               private employerService: EmployerService,
               private router: Router,
               private userService: UserService,
               private organizationService: OrganizationService,
+              private notificationService: NotificationService,
+              private selectUnit: SelectUnitService,
+              private dialog: MatDialog,
               private _location: Location) {
   }
 
   ngOnInit() {
-    // this.fetchItems();
-    this.organizationService.getOrganizations().then(
-      response => this.organizations = response);
+    this.organizations = this.selectUnit.getOrganizations();
     if (this.route.snapshot.data.user) {
       this.update = true;
       this.user = new User(this.route.snapshot.data.user);
-      if (!this.user.units || this.user.units.length === 0) {
-        this.user.units = [];
-        this.user.units.push(new UserUnitPermission());
-      }
     }
   }
 
+  fetchItems() {
+    if (!this.user.units || this.user.units.length === 0) {
+      this.user.units = [];
+    }
 
-  // fetchItems() {
-    // this.userService.getUsers(this.dataTable.criteria).then(response => {
-    //   this.dataTable.setItems(response);
-    //   this.user = response;
-    // });
-  // }
+    this.addToUnitUser(this.user.units);
+  }
 
-
-  selectedEmployer(permission: UserUnitPermission, index: number): Employer[] {
+  selectedEmployer(): Employer[] {
     if (this.organizations.length > 0) {
       const selectedOrganization = this.organizations.find(o => {
-        return +o.id === +permission.organization_id;
+        return +o.id === +this.permission.organization_id;
       });
 
       this.employers = selectedOrganization ? selectedOrganization.employer : [];
-      if (!this.employers.some(n => n.id === permission.employer_id)) {
-        permission.employer_id = null;
-        if ( permission.departments) {
-          const a = new UserUnitPermission();
-          a.employer_id = permission.employer_id;
-          a.organization_id = permission.organization_id;
-          this.user.units[index] = a;
-        }
+      if (!this.employers.some(n => n.id === this.permission.employer_id)) {
+        this.permission.employer_id = null;
+        this.permission.departments = null;
       }
       return this.employers;
     }
@@ -94,14 +101,23 @@ export class UserFormComponent implements OnInit {
     return [];
   }
 
-  selectedDepartment(permission: UserUnitPermission): Department[] {
+  selectedDepartment(): Department[] {
     const selectedEmployer = this.employers;
 
     if (selectedEmployer) {
       const selectedDepartment = (<Employer[]>selectedEmployer).find(e => {
-        return +e.id === +permission.employer_id;
+        return +e.id === +this.permission.employer_id;
       });
+
       if (selectedDepartment) {
+        if (this.permission.departments) {
+          const isDepartments = this.permission.departments.filter(de => {
+            return selectedDepartment.department.find(d => d.id === de);
+          });
+          if (isDepartments.length === 0) {
+            this.permission.departments = null;
+          }
+        }
         return selectedDepartment.department;
       }
     }
@@ -122,12 +138,59 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  addUnitPermissionRow(): void {
-    this.user.units.push(new UserUnitPermission());
+  changeProjectManager(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+
+    const items = this.dataTable.criteria.checkedItems.map(item => item['permission_id']);
+
+    const dialog = this.dialog.open(ChangeProjectManagerComponent,
+      {
+        data: {  'items': items,
+          'isCheckAll': this.dataTable.criteria.isCheckAll,
+          'userId': this.user.id},
+        width: '450px',
+        panelClass: 'change-projectManager-component'
+      });
+
+
+    dialog.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.addToUnitUser(data);
+        }
+      });
   }
 
-  removeUnitPermissionRow(index: number): void {
-    this.user.units.splice(index, 1);
+  removeUnitPermissionRow(id): void {
+    const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+    this.notificationService.warning('האם ברצונך לבצע מחיקה', '' , buttons).then(confirmation => {
+      if (confirmation.value) {
+        this.userService.deleteUnitUser(id).then(response => {
+          if (response) {
+            this.addToUnitUser(this.user.units.filter(u => u.permission_id !== id));
+          }
+        });
+      }
+    });
+  }
+
+  addUnitPermissionRow(): void {
+    this.userService.addUnitUser(this.permission, this.user.id).then(response => {
+      if (response) {
+        this.addToUnitUser(response);
+      }
+    });
+  }
+
+  addToUnitUser(items): void {
+    this.user.units = items;
+    this.permission = new UserUnitPermission();
+    const d = new DataTableResponse(this.user.units, this.user.units.length, 1);
+    this.dataTable.criteria.limit = this.user.units.length;
+    this.dataTable.setItems(d, 'permission_id');
   }
 
   private handleResponse(isSaved: any): void {
@@ -141,14 +204,12 @@ export class UserFormComponent implements OnInit {
         this.message = 'שגיאת שרת, נסה שנית או צור קשר.';
       } else {
         this.previous();
-        // this.router.navigate(['platform', 'settings', 'users']);
       }
     }
   }
 
   previous(): void {
     this._location.back();
-    // this.router.navigate(['platform', 'settings', 'users']);
   }
 
   hasDisabled(index: number): boolean {

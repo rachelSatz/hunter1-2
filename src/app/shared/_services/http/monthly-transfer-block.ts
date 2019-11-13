@@ -104,11 +104,26 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
   }
 
   saveComment(mtb_id: number, comment: string): Promise<any> {
-
     return this.http.post(this.endPoint + '/saveComment/' + mtb_id,
       { comment: comment} , this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
   }
+
+  groupHistory(processID: number): Promise<any> {
+    return this.http.get(this.endPoint + '/groupHistory/' + processID, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+  changeGroupByHistory(groups: any): Promise<boolean> {
+    return this.http.post(this.endPoint + '/change_group_by_history', groups, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+
 }
