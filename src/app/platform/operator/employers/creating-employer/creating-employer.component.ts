@@ -309,6 +309,10 @@ export class CreatingEmployerComponent implements OnInit {
       });
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> feature/workqueue
   getContactsArrControls() {
      return (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact')).controls;
   }
