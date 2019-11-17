@@ -85,6 +85,9 @@ export class FinanceComponent implements OnInit {
             this.openDatePicker = true;
           }
         }
+      } else {
+        // this.financialDetails.currency = CURRENCY.ils;
+        // this.financialDetails.language = LANGUAGE.he;
       }
     });
 

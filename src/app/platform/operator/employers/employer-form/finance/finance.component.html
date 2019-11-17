@@ -13,7 +13,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-6 col-lg-3">
-      <bd-select [items]="currencyItems" placeholder="מטבע" #currencySelect="ngModel" name="currency"  [(ngModel)]="financialDetails.currency" required></bd-select>
+      <bd-select [items]="currencyItems" placeholder="מטבע" #currencySelect="ngModel" name="currency"  [(ngModel)]="financialDetails.currency" required>financialDetails.currency</bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && currencySelect.errors ? 'active' : 'inactive'">יש לבחור מטבע.</p>
     </div>
     <div class="col-6 col-lg-3">

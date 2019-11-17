@@ -95,6 +95,10 @@ export class DashboardComponent implements OnInit {
           this.totalIds = response['not_zero_count'] + response['zero_count'];
           this.doughnut.doughnutChartData = [response['not_zero_count'], response['zero_count']];
         } else if (response['message'] === 'no_data') {
+          this.zeroCount = 0;
+          this.notZeroCount = 0;
+          this.totalIds = 0;
+          this.doughnut.doughnutChartData = [0, 0];
           this.notificationService.info('לא נמצאו נתונים');
         } else {
           this.notificationService.error(response['message']);
