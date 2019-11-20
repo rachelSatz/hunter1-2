@@ -76,7 +76,7 @@ export enum STATUS {
 
 export enum ERROR_STATUS {
   num_employees_max = 'מספר עובדים גבוה',
-  num_employee_min = 'מספר עובדים נמוך',
+  num_employees_min = 'מספר עובדים נמוך',
   no_payment = 'אין פרטי תשלום',
   partial_payment = 'פרטי תשלום חלקיים',
 }

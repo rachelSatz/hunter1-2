@@ -75,22 +75,23 @@ export class FinanceComponent implements OnInit {
 
   ngOnInit() {
     this.employerService.getAllEmployers(null, true).then(
-      response => this.payEmployers = response['items']);
-    this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(response => {
-      if (response.id) {
-        this.financialDetails = response;
-        if (this.financialDetails != null && this.financialDetails.payment_time === 'no_payment') {
-          this.isNoPaymentTime = true;
-          if (this.financialDetails.payment_time_validity === 'month') {
-            this.openDatePicker = true;
+      response => {
+        this.payEmployers = response['items'];
+        this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(res => {
+          if (res.id) {
+            this.financialDetails = res;
+            if (this.financialDetails != null && this.financialDetails.payment_time === 'no_payment') {
+              this.isNoPaymentTime = true;
+              if (this.financialDetails.payment_time_validity === 'month') {
+                this.openDatePicker = true;
+              }
+            }
+          } else {
+            // this.financialDetails.currency = CURRENCY.ils;
+            // this.financialDetails.language = LANGUAGE.he;
           }
-        }
-      } else {
-        // this.financialDetails.currency = CURRENCY.ils;
-        // this.financialDetails.language = LANGUAGE.he;
-      }
-    });
-
+        });
+      });
   }
 
   addProductRow(): void {

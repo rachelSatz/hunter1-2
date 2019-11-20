@@ -25,6 +25,8 @@
     <td class="check-column">
       <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
     </td>
+    <!--<td [title]="item.error !== null ? error_status[item.error] : ''"></td>-->
+
     <td [title]="item.error !== null ? error_status[item.error] : ''">{{ item.employer_financial_details.employer.name}}</td>
     <!--matTooltip={{item.errorDescription}}-->
     <td >{{ item.green_invoice_document !== null ? item.green_invoice_document.number : ''}}</td>
