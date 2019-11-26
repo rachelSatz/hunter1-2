@@ -1,0 +1,3 @@
+::ng-deep .change-status-dialog .mat-dialog-container {
+  overflow: visible;
+}
