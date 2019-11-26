@@ -1,3 +1,4 @@
+<script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
 <div class="mr-5 px-4">
   <form #form="ngForm" >
     <div class="row">
@@ -46,6 +47,8 @@
       </div>
     </div>
     <div>
+      <textarea name="content" id="editor"></textarea>
+
       <p class="bold h6">בחר מודולים</p>
       <div *ngFor="let module of user.modules; let i = index" class="d-flex mb-2">
         <mat-checkbox class="check-module" [(ngModel)]="module.isEnabled" [name]="'module_' + i">{{ moduleTypes[module.name] }}</mat-checkbox>
@@ -99,3 +102,10 @@
     </div>
   </form>
 </div>
+<script>
+  InlineEditor
+    .create( document.querySelector( '#editor' ) )
+    .catch( error => {
+      console.error( error );
+    } );
+</script>

@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
@@ -6,7 +7,6 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { TaskService } from 'app/shared/_services/http/task.service';
 import { TaskModel, Comment } from 'app/shared/_models/task.model';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-new-task-form',
@@ -58,7 +58,7 @@ export class NewTaskFormComponent implements OnInit {
       form.value['status'] = this.status;
       form.value['employerId'] = this.selectUnit.currentEmployerID;
       form.value['dueDate'] = this.convertDate.transform( form.value['date']  , 'yyyy-MM-dd');
-      form.value['dueDate'] = form.value['dueDate'] + ' ' + form.value['hour']
+      form.value['dueDate'] = form.value['dueDate'] + ' ' + form.value['hour'];
       this.taskService.createTask(form.value).then(response => {
         if (response.includes('Could not update')) {
           this.notificationService.error('', 'אירעה שגיאה');

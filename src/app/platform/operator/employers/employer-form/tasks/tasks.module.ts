@@ -10,7 +10,7 @@ import {
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { NewTaskFormComponent } from './new-task-form/new-task-form.component';
 import { TaskService } from 'app/shared/_services/http/task.service';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
 const routes: Routes = [
@@ -23,8 +23,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     DataTableModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
+    // OwlDateTimeModule,
+    // OwlNativeDateTimeModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatTooltipModule, MatFormFieldModule, MatDialogModule
