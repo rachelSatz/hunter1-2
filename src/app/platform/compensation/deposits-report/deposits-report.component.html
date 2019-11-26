@@ -40,7 +40,10 @@
     <td *ngIf="dataTable.hasActionsHeader" class="d-flex">
       <img src="/assets/img/icons/forward_green.png" (click)="openInquiriesFormDialog(item)">
       <span class="grey-circle mr-3 ml-3" (click)="openInquiriesDialog(item)">{{ item.inquiries.length }}</span>
-      <img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">
+      <!--<img src="/assets/img/icons/details_grey.png" (click)="openDetailsDialog(item)">-->
+      <span class="grey-circle ml-3" [ngClass]="{ 'green-back-color': item.files.length > 0} "
+            (click)="openDetailsDialog(item)">
+          <i class="fa fa-info"></i></span>
     </td>
     </tr>
 </app-data-table>

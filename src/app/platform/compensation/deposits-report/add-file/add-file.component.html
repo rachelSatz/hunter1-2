@@ -23,11 +23,17 @@
   <button class="btn blue-btn" (click)="submit()">הוספה</button>
 </div>
 
-<app-data-table tableName="" [columns]="columns"
-                [hasCheckColumn]="false"
-                [hasActionsHeader] = false
-                [hasExtendedSearch]="false" [hasActionsSearch]="false">
-  <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }">
+<table class="mt-2 table table-bordered table-hover">
+  <thead>
+  <tr>
+    <td>שם הקובץ</td>
+    <td>סוג</td>
+    <td>תאור</td>
+    <td>תאריך העלאה</td>
+    <td>אפשריות</td>
+  </tr>
+  </thead>
+  <tr *ngFor="let item of data.files" class="pointer" [ngClass]="{ 'checked': item.checked }">
     <td>{{ item.name }}</td>
     <td>{{ item.ext }}</td>
     <td>{{ item.description }}</td>
@@ -37,4 +43,4 @@
       <i class="fa fa-times-circle fa-lg" (click)="deleteFile(item.id)" ></i>
     </td>
   </tr>
-</app-data-table>
+</table>

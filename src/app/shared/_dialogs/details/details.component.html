@@ -38,8 +38,6 @@
   </div>
   <div class="mt-3 pointer mb-3">
     <file-drop ng2FileDrop [ngClass]="{ 'file-uploaded': uploadedFile }" (onFileDrop)="getFileFromDrop($event)">
-      <!--<img src="/assets/img/icons/circle_arrow_up.png">-->
-      <!--<img src="/assets/img/icons/cloud-backup.svg" class="mb-1 icon-sm" >-->
       <i class="fa fa-times ml-2 pointer" *ngIf="uploadedFile" (click)="uploadedFile = undefined"></i>
       <label class="text-center pointer grey-color f-12"   *ngIf="!uploadedFile">
         <img src="/assets/img/icons/circle_arrow_up.png">
@@ -48,30 +46,31 @@
       </label>
 
       <div class="text-center" *ngIf="uploadedFile">
-        <!--<i class="fa fa-check-circle-o mb-3"></i>-->
         <p class="text-dark">{{ uploadedFile[0].name  | truncate: 25}}</p>
       </div>
     </file-drop>
-
-    <!--<label class="file-label">-->
-      <!--<img src="/assets/img/icons/circle_arrow_up.png">-->
-      <!--<span class="file-label-text">{{ uploadedFile ? (uploadedFile[0].name | truncate: 25) : 'העלאת קובץ חדש' }}</span>-->
-      <!--<input type="file" (change)="uploadedFile = $event.target.files" multiple>-->
-    <!--</label>-->
   </div>
 
-  <app-data-table [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false"
-                  [hasExtendedSearch]="false" [hasActionsSearch]="false">
-    <tr *ngFor="let item of dataTable.items" class="pointer tr td">
+  <table class="mt-2 table table-bordered table-hover">
+    <thead>
+    <tr>
+      <td>שם הקובץ</td>
+      <td>סוג</td>
+      <td>תאריך העלאה</td>
+      <td>אפשריות</td>
+    </tr>
+    </thead>
+    <tr *ngFor="let item of compensation.files" class="pointer" [ngClass]="{ 'checked': item.checked }">
       <td>{{ item.file_name }}</td>
       <td>{{ item.file_type }}</td>
       <td>{{ item.file_date | date: 'dd/MM/yy' }}</td>
       <td>
-      <i class="fa fa-download fa-lg ml-2" (click)="downloadFile(item.file_name, item.file_type)" ></i>
-      <i class="fa fa-times-circle fa-lg" (click)="deleteFile(item.file_name)" ></i>
+        <i class="fa fa-download fa-lg ml-2" (click)="downloadFile(item.file_name, item.file_type)" ></i>
+        <i class="fa fa-times-circle fa-lg" (click)="deleteFile(item.file_name)" ></i>
       </td>
     </tr>
-  </app-data-table>
+  </table>
+
 
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
 <div mat-dialog-actions class="justify-content-center">

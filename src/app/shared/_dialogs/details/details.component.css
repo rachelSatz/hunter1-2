@@ -34,3 +34,15 @@
 .icon-sm {
   height: 35px;
 }
+
+.table thead tr td {
+  padding: 5px !important;
+  vertical-align: middle;
+  text-align: center !important;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-color: #000000;
+  font-weight: bold;
+  cursor: pointer;
+}

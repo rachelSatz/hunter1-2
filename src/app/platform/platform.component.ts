@@ -272,15 +272,19 @@ export class PlatformComponent implements OnInit {
     }
     if (!is_Employer && !this.isWorkQueue) {
       this.departmentId = this.departments.length > 0 ? this.departments[0].id : 0;
-      this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, +employerId,
-        +this.departmentId);
+      if (this.departmentId === 0) {
+        this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, +employerId,
+          +this.departmentId);
+      }
     }
     this.isWorkQueue = false;
     this.helpers.setPageSpinner(false);
   }
 
   selectDepartment(departmentID: number): void {
-    this.selectUnit.changeDepartment(+departmentID);
+    this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, this.employerId,
+      +departmentID);
+    // this.selectUnit.changeDepartment(+departmentID);
   }
 
   navigate(link, subLink) {

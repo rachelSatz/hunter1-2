@@ -1,6 +1,7 @@
 import { Inquiry } from './inquiry';
 import { Comment } from './comment';
 import { EmployerBankAccount } from './employer-bank-account.model';
+import { ManualStatus } from './employee-feedback.model';
 
 export class FileFeedback {
   id: number;
@@ -24,6 +25,7 @@ export class FileFeedback {
   comments: Comment;
   group_thing_feedback: GroupThingFeedback;
   feedback_a: string;
+  manual_status: string;
   feedback_emp: string;
 }
 

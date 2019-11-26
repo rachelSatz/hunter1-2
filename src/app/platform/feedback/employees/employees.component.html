@@ -39,6 +39,7 @@
             <button mat-menu-item (click)="changeFileToNegative()">יצירת קובץ שלילי</button>
             <button mat-menu-item (click)="sendFeedback()"> שליחת היזונים חוזרים</button>
             <button mat-menu-item (click)="openCommentsDialog()">הוסף הערה</button>
+            <button mat-menu-item (click)="changeStatus()">שינוי סטטוס פניה</button>
           </mat-menu>
         </div>
      </div>
@@ -49,15 +50,16 @@
     </td>
     <td>{{ item.name }}</td>
     <td>{{ item.personal_id }}</td>
-    <td>{{ item.salary_month | date:'MM/yy'}}</td>
-    <td>{{ item.company_name}}</td>
-    <td>{{ productTypes[item.product_type]}}</td>
-    <td>{{ item.product_code}}</td>
-    <td>{{ item.amount | number: '1.2-2'}}</td>
+    <td>{{ item.salary_month | date:'MM/yy' }}</td>
+    <td>{{ item.company_name }}</td>
+    <td>{{ productTypes[item.product_type] }}</td>
+    <td>{{ item.product_code }}</td>
+    <td>{{ item.amount | number: '1.2-2' }}</td>
     <td>{{ item.deposit_month | date: 'dd/MM/yyyy' }}</td>
     <td>{{ item.updated_at | date: 'dd/MM/yyyy' }}</td>
     <td>{{ statuses[item.status]}}</td>
-    <td>{{ item.inquiries.length > 0  ? item.inquiries[item.inquiries.length -1].content : ''}}</td>
+    <!--<td> {{ item.manual_status }}</td>-->
+    <td>{{  item.manual_status ? manualStatus[item.manual_status]: '' }}</td>
     <td >
       <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog(item)">
     </td>

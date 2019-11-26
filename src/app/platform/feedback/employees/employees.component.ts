@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 
 import { MONTHS } from 'app/shared/_const/months';
 import { ProductType } from 'app/shared/_models/product.model';
-import { Status } from 'app/shared/_models/employee-feedback.model';
+import { ManualStatus, Status } from 'app/shared/_models/employee-feedback.model';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
@@ -23,6 +23,7 @@ import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { DocumentService } from 'app/shared/_services/http/document.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import { ChangeStatusComponent } from 'app/shared/_dialogs/change-status/change-status.component';
 
 @Component({
   selector: 'app-employees',
@@ -52,6 +53,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   });
   productTypes = ProductType;
   displayBack = false;
+  manualStatus = ManualStatus;
 
   readonly columns =  [
     { name: 'name', label: 'עובד', searchable: false},
@@ -195,6 +197,30 @@ export class EmployeesComponent implements OnInit , OnDestroy {
         this.helpers.setPageSpinner(false);
       } else {
         this.helpers.setPageSpinner(false);
+      }
+    }));
+  }
+
+  changeStatus(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+
+    const ids = this.dataTable.criteria.checkedItems.map(i => i['id']);
+
+    const dialog = this.dialog.open(ChangeStatusComponent, {
+      data: {'ids': ids, 'contentType': 'monthlytransferblock',
+        'criteria': this.dataTable.criteria},
+      width: '400px',
+      panelClass: 'change-status-dialog'
+    });
+
+    this.sub.add(dialog.afterClosed().subscribe(res => {
+      if (res) {
+        this.dataTable.criteria.checkedItems = [];
+        this.dataTable.criteria.isCheckAll = false;
+        this.fetchItems();
       }
     }));
   }

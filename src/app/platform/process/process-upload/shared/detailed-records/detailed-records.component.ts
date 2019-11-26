@@ -136,6 +136,20 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
           const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
+          // let isDoubleEntity = false;
+          // this.dataTable.items.forEach(i => {
+          //   if (!isDoubleEntity) {
+          //     this.dataTable.criteria.checkedItems.forEach(c => {
+          //       if (i.id !== c['id'] && i.personal_id === c['personal_id'] &&
+          //         i.product_id === c['product_id'] && i.employer_product_code === c['employer_product_code']) {
+          //         isDoubleEntity = true;
+          //         return;
+          //       }
+          //     });
+          //   } else{
+          //     return;
+          //   }
+          // });
           const dialog = this.dialog.open(GroupTransferComponent, {
             data: { 'ids': ids,
                     'processId': this.processDataService.activeProcess.processID,

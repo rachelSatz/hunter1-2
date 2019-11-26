@@ -47,13 +47,13 @@ export class DepositsReportService extends BaseHttpService {
       .catch(() => null);
   }
 
-  getFile(id: number): Promise<any> {
-
-    return this.http.get(this.endPoint + '/getFile/' + id, this.getTokenHeader())
-      .toPromise()
-      .then(response => response)
-      .catch(() => null);
-  }
+  // getFile(id: number): Promise<any> {
+  //
+  //   return this.http.get(this.endPoint + '/getFile/' + id, this.getTokenHeader())
+  //     .toPromise()
+  //     .then(response => response)
+  //     .catch(() => null);
+  // }
 
   uploadFile(description: string, id: number, uploadedFile?: File): Promise<boolean> {
 
