@@ -40,7 +40,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   fileType = FileType;
   isPaymentInstructions = false;
   employeeStatus = EmployeeStatus;
-  feedbackError = [5, 6, 7, 8, 18, 19];
+  feedbackError = [5, 6, 7, 8, 18, 20];
 
   constructor(protected route: ActivatedRoute,
               private router: Router,
@@ -76,7 +76,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
           } else if (this.plan.task.file !== undefined) {
             this.isFile = true;
           } else if (this.plan.task.process.error_details !== undefined) {
-            if (this.plan.task.process.error_details === 'No Payment instructions') {
+            if (this.plan.task.process.status === 'No Payment instructions') {
               this.plan.task.message = 'אין הנחיות לתשלום';
               this.isPaymentInstructions = true;
             } else if (this.plan.task.process.status === 'error_transmiting') {

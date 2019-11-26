@@ -279,7 +279,7 @@ export class PlatformComponent implements OnInit {
     this.helpers.setPageSpinner(false);
   }
 
-  selectDepartment(departmentID: number): void {
+  selectDepartment(departmentID): void {
     this.selectUnit.changeDepartment(+departmentID);
   }
 
