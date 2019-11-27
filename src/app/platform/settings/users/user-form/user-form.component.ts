@@ -11,7 +11,7 @@ import { UserUnitPermission } from 'app/shared/_models/user-unit-permission.mode
 import { ModuleTypes } from 'app/shared/_models/user-module.model';
 import { Department } from 'app/shared/_models/department.model';
 import { Employer } from 'app/shared/_models/employer.model';
-import { EntityRoles } from 'app/shared/_models/user.model';
+import { EntityRoles, TeamLeader } from 'app/shared/_models/user.model';
 import { User } from 'app/shared/_models/user.model';
 import { fade } from 'app/shared/_animations/animation';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
@@ -20,12 +20,8 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { MatDialog } from '@angular/material';
 import { ChangeProjectManagerComponent } from './change-project-manager/change-project-manager.component';
-// import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-// import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-// import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-// import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-// import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
-// import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 
 @Component({
   selector: 'app-user-form',
@@ -35,7 +31,7 @@ import { ChangeProjectManagerComponent } from './change-project-manager/change-p
   animations: [ fade ]
 })
 export class UserFormComponent implements OnInit {
-
+  public Editor = ClassicEditor;
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
 
@@ -51,8 +47,13 @@ export class UserFormComponent implements OnInit {
   update = false;
   add = false;
 
+
   roles = Object.keys(EntityRoles).map(function (e) {
     return {id: e, name: EntityRoles[e]};
+  });
+
+  groups = Object.keys(TeamLeader).map(function (e) {
+    return {id: e, name: TeamLeader[e]};
   });
 
 
@@ -72,19 +73,17 @@ export class UserFormComponent implements OnInit {
               private selectUnit: SelectUnitService,
               private dialog: MatDialog,
               private _location: Location) {
+    // const ClassicEditor = require( '@ckeditor/ckeditor5-build-classic' );
     // ClassicEditor
-    //   .create( document.querySelector( '#editor' ), {
-    //     // plugins: [ Essentials, Paragraph, Bold, Italic, Alignment ],     // <--- MODIFIED
-    //     toolbar: [ 'bold', 'italic', 'alignment' ]                       // <--- MODIFIED
-    //   } )
+    //   .create( document.querySelector( '#editor' ) )
     //   .then( editor => {
-    //     console.log( 'Editor was initialized', editor );
+    //     console.log( editor );
     //   } )
     //   .catch( error => {
-    //     console.error( error.stack );
+    //     console.error( error );
     //   } );
   }
-
+  // public editor = CKEditor;
   ngOnInit() {
     this.organizations = this.selectUnit.getOrganizations();
     if (this.route.snapshot.data.user) {
