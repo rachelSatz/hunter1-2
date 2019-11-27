@@ -9,6 +9,7 @@ export class EmployeeFeedback extends EmployeePayment {
   company_name;
   product_type;
   product_code;
+  manual_status: string;
   sum;
 }
 
@@ -20,7 +21,9 @@ export enum Status {
 }
 
 export enum ManualStatus {
-  fully_defrayed_manual = 'נפרע במלאו ידני'
+  fully_defrayed_manual = 'נפרע במלאו ידני',
+  no_relevant = 'לא רלונטי',
+  in_treatment = 'בטיפול'
 }
 
 export enum ApplicationStatusLabel {

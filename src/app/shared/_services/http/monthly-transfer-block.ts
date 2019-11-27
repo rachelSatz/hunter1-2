@@ -118,8 +118,8 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
       .catch(response => response);
   }
 
-  changeGroupByHistory(groups: any): Promise<boolean> {
-    return this.http.post(this.endPoint + '/change_group_by_history', groups, this.getTokenHeader())
+  changeGroupByHistory(processId: number, groups: any): Promise<boolean> {
+    return this.http.post(this.endPoint + '/changeGroupByHistory/' + processId, groups, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);

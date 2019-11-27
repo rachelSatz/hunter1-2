@@ -65,16 +65,13 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
               public processDataService: ProcessDataService) {}
 
   ngOnInit() {
-
     if (this.route.snapshot.params.status === '0') {
         this.processDataService.activeProcess = null;
     }
-
     if (this.route.snapshot.params.status === '2') {
       this.processDataService.activeProcess = new Process();
       this.processDataService.activeProcess.type = 'negative';
     }
-
     this.process = this.processDataService.activeProcess ?  this.processDataService.activeProcess : new Process();
   }
 
@@ -139,7 +136,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
           this.pageNumber += index;
         }
       }
-  
+
   paymentPopup(form: NgForm): void {
     if (form.valid && !this.isSubmitting && ( this.processFile || this.process.file )) {
       this.isSubmitting = true;

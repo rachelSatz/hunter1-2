@@ -12,91 +12,90 @@
   </div>
   <div class="d-flex mt-5" [ngClass]="{ 'disabledDiv': !permissionsType }">
     <form #form="ngForm" (ngSubmit)="submit(form)"  [formGroup]="employerForm">
-      <div   class=" d-flex">
-    <div class="mb-3">
-      <mat-form-field>
-        <input matInput type="text" [(ngModel)]="employer.name" placeholder="שם מעסיק"
-               (change)="saveChanges = true" formControlName="name">
-      </mat-form-field>
-      <mat-form-field class="mr-3">
-        <input matInput type="text" [(ngModel)]="employer.identifier" placeholder="מספר ח.פ"
-               (change)="saveChanges = true" formControlName="identifier">
-      </mat-form-field>
-      <mat-form-field class="mr-3">
-        <input matInput type="text" [(ngModel)]="employer.received_identifier" placeholder="מספר מזהה שולח"
-               (change)="saveChanges = true" formControlName="receivedIdentifier">
-      </mat-form-field>
-      <mat-form-field class="mr-3">
-        <input matInput type="text" [(ngModel)]="employer.deduction_number" placeholder="מספר תיק ניכויים"
-               (change)="saveChanges = true" formControlName="deductionNumber">
-      </mat-form-field>
-      <mat-form-field class="mr-3">
-
-        <mat-select matInput placeholder="סוג מזהה לשליחה"
-                    [(ngModel)]="employer.sender_identifier_type" formControlName="identifierType" required>
-          <mat-option *ngFor="let identifier of identifierTypes" (selectionChange)="saveChanges = true"
-                      [value]="identifier.id">{{identifier.name}}</mat-option>
-        </mat-select>
-        <mat-error>שדה חובה</mat-error>
-      </mat-form-field>
-      <mat-form-field  class="mr-3">
-        <input matInput placeholder="מספר מזהה לשליחה"  [(ngModel)]="employer.sender_identifier"
-               formControlName="senderIdentifier" maxlength="9" (change)="saveChanges = true">
-        <mat-error>שדה חובה</mat-error>
-      </mat-form-field>
-        <bd-select [items]="cities" placeholder="עיר" [(ngModel)]="employer.city_id"  formControlName="city_id"
-                   class="mr-3 d-inline-block bd-de" [error]="employer.city_id == 0 && form.submitted" required
-                   (onSelect)="saveChanges = true"></bd-select>
-      <mat-form-field  class="mr-3">
-        <input matInput type="text" placeholder="כתובת" [(ngModel)]="employer.address"
-               (change)="saveChanges = true" formControlName="address">
-      </mat-form-field>
-    </div>
-  </div>
-      <div  class="mt-4">
+      <div class="d-flex">
+          <div class="mb-3">
+              <mat-form-field>
+                <input matInput type="text" [(ngModel)]="employer.name" placeholder="שם מעסיק"
+                       (change)="saveChanges = true" formControlName="name">
+              </mat-form-field>
+              <mat-form-field class="mr-3">
+                <input matInput type="text" [(ngModel)]="employer.identifier" placeholder="מספר ח.פ"
+                       (change)="saveChanges = true" formControlName="identifier">
+              </mat-form-field>
+              <mat-form-field class="mr-3">
+                <input matInput type="text" [(ngModel)]="employer.received_identifier" placeholder="מספר מזהה שולח"
+                       (change)="saveChanges = true" formControlName="receivedIdentifier">
+              </mat-form-field>
+              <mat-form-field class="mr-3">
+                <input matInput type="text" [(ngModel)]="employer.deduction_number" placeholder="מספר תיק ניכויים"
+                       (change)="saveChanges = true" formControlName="deductionNumber">
+              </mat-form-field>
+            <div class="mr-1 d-inline-block bd-de">
+             <bd-select [items]="identifierTypes" placeholder="סוג מזהה לשליחה"
+                           [(ngModel)]="employer.sender_identifier_type" formControlName="identifierType" required
+                           class="mr-3 d-inline-block bd-de" [error]="(employer.city_id == 0 ||
+                            employer.sender_identifier_type == null) && form.submitted" required
+                           (onSelect)="saveChanges = true"></bd-select>
+            </div>
+              <mat-form-field  class="mr-5">
+                <input matInput placeholder="מספר מזהה לשליחה"  [(ngModel)]="employer.sender_identifier"
+                       formControlName="senderIdentifier" maxlength="9" (change)="saveChanges = true">
+                <mat-error>שדה חובה</mat-error>
+              </mat-form-field>
+            <div class="mr-4 d-inline-block bd-de">
+              <bd-select [items]="cities" placeholder="עיר" [(ngModel)]="employer.city_id"  formControlName="city_id"
+                         [error]="(employer.city_id == 0 ||
+                            employer.city_id == null) && form.submitted" required
+                         (onSelect)="saveChanges = true"></bd-select>
+            </div>
+            <mat-form-field  class="mr-4">
+              <input matInput type="text" placeholder="כתובת" [(ngModel)]="employer.address"
+                     (change)="saveChanges = true" formControlName="address">
+            </mat-form-field>
+          </div>
+      </div>
+      <div class="mt-4">
         <mat-form-field>
           <input matInput type="number" placeholder="טלפון" [(ngModel)]="employer.phone"
                  (change)="saveChanges = true" formControlName="phone" maxlength="12">
         </mat-form-field>
-        <mat-form-field class="mr-3">
-          <mat-select matInput placeholder="פרוייקט" [(ngModel)]="employer.project_id"
-                      (selectionChange)="saveChanges = true" formControlName="project" required>
-            <mat-option *ngFor="let proj of projects" [value]="proj.id">{{proj.name}}</mat-option>
-          </mat-select>
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
+        <div class="mr-3 d-inline-block bd-de">
+          <bd-select [items]="projects" placeholder="פרוייקט"
+                     [(ngModel)]="employer.project_id" formControlName="project" required
+                     [error]="(employer.project_id == 0 ||
+                              employer.project_id == null) && form.submitted" required
+                     (onSelect)="saveChanges = true"></bd-select>
+        </div>
+        <div class="mr-4 d-inline-block bd-de"  *ngIf="operator">
+            <bd-select  [items]="operators" placeholder="מנהל תיק"
+                       [(ngModel)]="employer.operator.id" formControlName="operator" required
+                       [error]="(employer.operator.id == 0 ||
+                                employer.operator.id == null) && form.submitted" required
+                       (onSelect)="saveChanges = true"></bd-select>
+        </div>
+        <div class="mr-4 d-inline-block bd-de" *ngIf="!operator">
+          <bd-select  [items]="operators" placeholder="מנהל תיק"
+                      [(ngModel)]="employer.operator" formControlName="operator" required
+                      [error]="(employer.operator == 0 ||
+                                employer.operator == null) && form.submitted" required
+                      (onSelect)="saveChanges = true"></bd-select>
+        </div>
+        <div class="mr-4 d-inline-block bd-de">
+          <bd-select [items]="statuses" placeholder="סטטוס"
+                     [(ngModel)]="employer.status" formControlName="status" required
+                     [error]="(employer.status == 0 ||
+                              employer.status == null) && form.submitted" required
+                     (onSelect)="saveChanges = true"></bd-select>
+        </div>
+        <div class="mr-4 d-inline-block bd-de">
+            <bd-select [items]="paymentType" placeholder="סוג תשלום"
+                       [(ngModel)]="employer.payment_type" formControlName="paymentType" required
+                       [error]="(employer.payment_type == 0 ||
+                                employer.payment_type == null) && form.submitted" required
+                       (onSelect)="saveChanges = true"></bd-select>
+        </div>
 
-        <mat-form-field class="mr-3" *ngIf="operator">
-          <mat-select matInput placeholder="מנהל תיק"  [(ngModel)]="employer.operator.id"
-                      (selectionChange)="saveChanges = true"
-                      formControlName="operator">
-            <mat-option *ngFor="let operat of operators" [value]="operat.id">
-              {{operat.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="mr-3" *ngIf="!operator">
-          <mat-select matInput placeholder="מנהל תיק"  [(ngModel)]="employer.operator"
-                      (selectionChange)="saveChanges = true"
-                      formControlName="operator">
-            <mat-option *ngFor="let operat of operators" [value]="operat.id">
-              {{operat.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="mr-3">
-          <mat-select placeholder="סטטוס"  [(ngModel)]="employer.status" formControlName="status"
-                      (selectionChange)="saveChanges = true">
-            <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="mr-3">
-          <mat-select matInput placeholder="סוג תשלום" formControlName="paymentType"
-                      [(ngModel)]="employer.payment_type" (selectionChange)="saveChanges = true">
-            <mat-option *ngFor="let payment of paymentType" [value]="payment.id">{{payment.name}}</mat-option>
-          </mat-select>
-          <mat-error>שדה חובה</mat-error>
-        </mat-form-field>
-        <mat-form-field class="mr-3">
+        <mat-form-field class="mr-4">
           <input matInput placeholder="קוד מוסד(5)"  [(ngModel)]="employer.institution_code_5"
                  [required]="employerForm.value.paymentType === 'masav'"
                  formControlName="institutionCode5" maxlength="5" (change)="saveChanges = true">

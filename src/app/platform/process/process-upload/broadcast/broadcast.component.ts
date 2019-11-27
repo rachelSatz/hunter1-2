@@ -62,11 +62,7 @@ export class BroadcastComponent implements OnInit, OnDestroy {
     if (this.processDataService.activeProcess === undefined) {
       this.processDataService = this.selectUnitService.getProcessData();
     }
-    this.processService.getUploadFile(this.processDataService.activeProcess.processID).subscribe(response => {
-      this.process_details = response;
-    });
-
-    this.process_details = new ProcessDetails;
+    this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
     this.type = this.processDataService.activeProcess.type;
     this.processId = this.processDataService.activeProcess.processID;
     this.isRefund = this.type !== 'positive';
@@ -75,7 +71,10 @@ export class BroadcastComponent implements OnInit, OnDestroy {
     } else {
       this.pageNumber = 2;
     }
-    this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
+    this.process_details = new ProcessDetails;
+    this.processService.getUploadFile(this.processDataService.activeProcess.processID).subscribe(response => {
+      this.process_details = response;
+    });
 
   }
 

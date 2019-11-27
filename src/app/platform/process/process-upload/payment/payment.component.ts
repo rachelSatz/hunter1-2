@@ -64,21 +64,19 @@ export class PaymentComponent implements OnInit , OnDestroy {
   showInfoMessage = true;
 
   ngOnInit() {
+    this.pageNumber = this.route.snapshot.queryParams['page'];
     this.organizationId = this.selectUnitService.currentOrganizationID;
-    // this.pageNumber = this.route.snapshot.queryParams['page'];
     if (this.processDataService.activeProcess !== undefined) {
       this.selectUnitService.setProcessData(this.processDataService);
     } else {
       this.processDataService = this.selectUnitService.getProcessData();
     }
     this.process_details = new ProcessDetails;
-    if (this.processDataService.activeProcess.pageNumber === 3) {
+    if (this.processDataService.activeProcess && this.processDataService.activeProcess.pageNumber === 3) {
       this.pageNumber = 2;
     }
     this.processId = this.route.snapshot.params['id'];
-
     this.processDataService.activeProcess.pageNumber = 2;
-
     if (this.processDataService.activeProcess.status === 'can_be_processed' ||
       this.processDataService.activeProcess.status === 'done_processing') {
       this.processService.getUploadFileDone(this.processId).then( response => this.set_process(response));
@@ -91,7 +89,6 @@ export class PaymentComponent implements OnInit , OnDestroy {
       });
     }
     this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
-
     this.pageNumber = this.route.snapshot.queryParams['page'] ? this.route.snapshot.queryParams['page'] : this.pageNumber;
   }
 

@@ -21,6 +21,8 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
+import { ManualStatus } from 'app/shared/_models/employee-feedback.model';
+import { ChangeStatusComponent } from 'app/shared/_dialogs/change-status/change-status.component';
 
 
 @Component({
@@ -44,6 +46,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
   processId: number;
   feedbackDate: string;
   processName: string;
+  manualStatus = ManualStatus;
 
   list_status = Object.keys(Status).map(function(e) {
     return { id: e, name: Status[e] };
@@ -59,6 +62,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
     {name: 'amount', label: 'סכום', searchable: false},
     {name: 'code', label: 'קוד אוצר', searchable: false},
     {name: 'status', label: 'סטטוס', searchOptions: { labels: this.list_status } },
+    {name: 'status_recourse', label: 'סטטוס פניה', searchable: false},
     {name: 'more', label: 'מידע נוסף', searchable: false},
     {name: 'comments', label: 'הערות', searchable: false},
     {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},
@@ -78,7 +82,6 @@ export class FilesComponent implements OnInit, OnDestroy  {
               private selectUnit: SelectUnitService,
               private documentService: DocumentService,
               private generalService: GeneralHttpService) {
-
   }
 
 
@@ -90,16 +93,17 @@ export class FilesComponent implements OnInit, OnDestroy  {
     const month = this.route.snapshot.queryParams['month'];
     if (this.fileId && !this.processId) {}
     this.selectMonth = month ? Number(month) : this.selectMonth;
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-      this.router.navigate([], {
-        queryParams: {page: 1},
-        relativeTo: this.route
-      });
-      this.fetchItems();
-      }
-    ));
-
+    this.sub.add(
+      this.selectUnit.unitSubject.subscribe(() => {
+            this.router.navigate([], {
+              queryParams: {page: 1},
+              relativeTo: this.route
+            });
+            this.fetchItems();
+        }
+      ));
   }
+
 
   fetchItems() {
     const organizationId = this.selectUnit.currentOrganizationID;
@@ -131,7 +135,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
           this.dataTable.setItems(response);
         });
     } else {
-      this.notificationService.warning('יש לבחור מחלקה');
+      return this.notificationService.warning('יש לבחור מחלקה');
     }
   }
 
@@ -158,6 +162,29 @@ export class FilesComponent implements OnInit, OnDestroy  {
           item.inquiries = response
         );
       }
+    }));
+  }
+
+  changeStatus(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+
+    const ids = this.dataTable.criteria.checkedItems.map(i => i['id']);
+
+    const dialog = this.dialog.open(ChangeStatusComponent, {
+      data: {'ids': ids, 'contentType': 'groupthing',
+        'criteria': this.dataTable.criteria},
+      width: '400px',
+      panelClass: 'change-status-dialog'
+    });
+
+    this.sub.add(dialog.afterClosed().subscribe(res => {
+      if (res) {
+        this.dataTable.criteria.checkedItems = [];
+        this.dataTable.criteria.isCheckAll = false;
+        this.fetchItems(); }
     }));
   }
 

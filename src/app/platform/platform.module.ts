@@ -35,6 +35,7 @@ import { FileDropModule } from 'ngx-file-drop';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
+import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
 
 
 const routes: Routes = [
@@ -104,7 +105,8 @@ const routes: Routes = [
     InquiriesComponent ,
     DetailsComponent,
     ErrorMessageComponent,
-    FileDepositionComponent
+    FileDepositionComponent,
+    ChangeStatusComponent
   ],
   entryComponents: [
     InquiryFormComponent,
@@ -112,7 +114,8 @@ const routes: Routes = [
     InquiriesComponent,
     DetailsComponent,
     ErrorMessageComponent,
-    FileDepositionComponent
+    FileDepositionComponent,
+    ChangeStatusComponent
   ],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService,
     DatePipe, TimerService, OperatorTasksService, ProductService, AppHttpService]

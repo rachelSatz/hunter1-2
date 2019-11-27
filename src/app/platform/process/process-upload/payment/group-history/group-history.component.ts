@@ -32,7 +32,7 @@ export class GroupHistoryComponent implements OnInit {
   }
 
   submit(): void {
-    this.monthlyService.changeGroupByHistory(this.data.items).then(
+    this.monthlyService.changeGroupByHistory(this.data.processId , this.data.items).then(
       res => this.dialogRef.close());
   }
 
