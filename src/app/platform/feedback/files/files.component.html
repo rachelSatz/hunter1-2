@@ -41,6 +41,7 @@
         <button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2">פעולות</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="changeFileToNegative()">יצירת קובץ שלילי</button>
+          <button mat-menu-item (click)="changeStatus()">שינוי סטטוס פניה</button>
         </mat-menu>
       </div>
     </div>
@@ -56,6 +57,7 @@
     <td  (click)="detailsRecords(item.id, item.status)">{{ item.amount | number: '1.2-2' }}</td>
     <td  (click)="detailsRecords(item.id, item.status)">{{ item.product_code }}</td>
     <td  (click)="detailsRecords(item.id, item.status)">{{ statuses[item.status] }}</td>
+    <td (click)="detailsRecords(item.id, item.status)"> {{  item.manual_status ?  manualStatus[item.manual_status] : ''}}</td>
     <td>
       <img src="/assets/img/icons/details_grey.png" (click)="openFormDialog(item)">
     </td>

@@ -49,9 +49,9 @@
         <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
       </td>
       <td>
-        <span *ngIf="!item.has_file_feedback && item.files.items.length === 0" >טרם</span>
+        <span *ngIf="!item.has_file_feedback && item.files.length === 0" >טרם</span>
         <i class="fa fa-download fa-lg ml-2" (click)="PdfFile(item.id, item.has_file_feedback, 'download')"
-           *ngIf="item.has_file_feedback || item.files.items.length > 0"></i>
+           *ngIf="item.has_file_feedback || item.files.length > 0"></i>
       </td>
       <td>
         <img [src]="getValidityImage(item)" class="row-actions" >
@@ -59,7 +59,7 @@
       <td *ngIf="dataTable.hasActionsHeader" class="d-flex">
         <img src="/assets/img/icons/forward_green.png" (click)="openSendToDialog(item)">
         <span class="grey-circle mr-3 ml-3" (click)="openInquiriesDialog(item)">{{ item.inquiries.length }}</span>
-        <span class="grey-circle ml-3" [ngClass]="{ 'green-back-color': item.files.items.length > 0} "
+        <span class="grey-circle ml-3" [ngClass]="{ 'green-back-color': item.files.length > 0} "
               (click)="openDetailsDialog(item)">
           <i class="fa fa-info"></i></span>
 

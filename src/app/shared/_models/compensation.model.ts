@@ -13,7 +13,7 @@ export class Compensation {
   employer_id: string;
   portal_balance: number;
   has_by_safebox: boolean;
-  files: DataTableResponse;
+  files: any;
   code_error: string;
   error_details: string;
   feedback_level: string;

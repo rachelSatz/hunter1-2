@@ -1,9 +1,8 @@
 import { ActivatedRoute } from '@angular/router';
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { DocumentService } from 'app/shared/_services/http/document.service';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { DepositsReportService } from 'app/shared/_services/http/deposits-report.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
@@ -12,24 +11,24 @@ import * as FileSaver from 'file-saver';
 @Component({
   selector: 'app-add-file',
   templateUrl: './add-file.component.html',
-  styleUrls: ['../../../../shared/data-table/data-table.component.css'],
-  styles: ['table td { word-wrap:break-word }'],
+  styles: ['table td { word-wrap:break-word }', '.table { border: none }', '.table thead tr td {\n' +
+  '  padding: 5px !important;\n' +
+  '  vertical-align: middle;\n' +
+  '  text-align: center !important;\n' +
+  '  border-top: none;\n' +
+  '  border-left: none;\n' +
+  '  border-right: none;\n' +
+  '  border-color: #000000;\n' +
+  '  font-weight: bold;\n' +
+  '  cursor: pointer;\n' +
+  '}'],
 })
 export class AddFileComponent implements OnInit {
 
-  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   uploadedFile: File;
   hasServerError: boolean;
   description = '';
-
-  readonly  columns  = [
-    { name: 'file_name', label: 'שם הקובץ' },
-    { name: 'file_type', label: 'סוג' },
-    { name: 'description', label: 'תאור' },
-    { name: 'file_upload', label: 'תאריך העלאה' },
-    { name: 'null', label: 'אפשריות' }
-  ];
 
   constructor(protected route: ActivatedRoute,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -40,8 +39,6 @@ export class AddFileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.depositsReportService.getFile(this.data.id).then(
-      response =>  this.dataTable.setItems(response));
   }
 
   submit(): void {
@@ -50,7 +47,7 @@ export class AddFileComponent implements OnInit {
       this.depositsReportService.uploadFile(
         this.description, this.data.id, this.uploadedFile).then(response => {
         if (response) {
-          this.dialogRef.close();
+          this.dialogRef.close(true);
         } else {
           this.hasServerError = true;
         }
@@ -87,7 +84,9 @@ export class AddFileComponent implements OnInit {
         if (confirmation.value) {
           this.documentService.deleteFile(id, this.data.id).then(response => {
             if (response) {
-              this.ngOnInit();
+              this.dialogRef.close(true);
+            } else {
+              this.hasServerError = true;
             }
           });
         }

@@ -8,30 +8,23 @@ import { CompensationService } from 'app/shared/_services/http/compensation.serv
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { Compensation } from 'app/shared/_models/compensation.model';
 import { fade } from 'app/shared/_animations/animation';
+import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.css'],
-  styles: ['.displayNone { display: none}'],
+  styles: ['.displayNone { display: none}' , '.table { border: none }'],
   animations: [ fade ]
 })
 
-// '::ng-deep table td { word-wrap:break-word } ::ng-deep table {  table-layout:fixed }
 export class DetailsComponent implements OnInit {
 
-  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   public files: any[] = [];
   uploadedFile: File[];
   spin: boolean;
   hasServerError: boolean;
-
-  readonly columns =  [
-    { column: 'file_name', label: 'שם הקובץ' , searchable: false },
-    { column: 'file_type', label: 'סוג' , searchable: false},
-    { column: 'file_upload', label: 'תאריך העלאה' , searchable: false }
-  ];
 
   constructor(protected route: ActivatedRoute,
               @Inject(MAT_DIALOG_DATA) public compensation: Compensation,
@@ -40,11 +33,6 @@ export class DetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchItems();
-  }
-
-  fetchItems() {
-    this.dataTable.setItems(this.compensation.files);
   }
 
   submit(form: NgForm): void {

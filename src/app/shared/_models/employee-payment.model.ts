@@ -2,7 +2,6 @@ import { Employee } from './employee.model';
 import { Product } from './product.model';
 import { ProductEmployer } from './product-employer.model';
 import {Process} from './process.model';
-import {Employer} from "./employer.model";
 
 export class EmployeePayment {
   id: number;
@@ -10,52 +9,9 @@ export class EmployeePayment {
   employee: Employee;
   product: Product;
   productEmployer: ProductEmployer;
-  DateStatusWorks: string;
-  ExemptSumLepizuyim: number;
-  ExemptSumMaasik: number;
-  ExemptSumOvdanKosherAvoda: number;
-  ExemptSumOved: number;
-  ExemptSumShonotMaasik: number;
-  ExemptSumShonotOved: number;
-  ExemptSumTagmulim: number;
-  ExemptSumTagmulimPrat: number;
-  KodPolisa: string;
-  MonthlyEmployeeStatusId: number;
-  OvdanKosher: number;
-  Partjobs: number;
-  PercentMaasik: number;
-  PercentOvdankosher: number;
-  PercentOved: number;
-  PercentPezutim: number;
-  PercentShonotMaasik: number;
-  PercentShonotOved: number;
-  PercentTagmulim: number;
-  PercentTagmulimPrat: number;
-  Salary: number;
-  SumTotal: number;
-  Ovdankosher: number;
-  ShonotMaasik: number;
-  ShonotOved: number;
-  SumMaasik: number;
-  SumOved: number;
-  SumPitzuim: number;
-  SumTagmulim: number;
-  SumTagmulimPrat: number;
-  TaarichErech: string;
-  WorkingDaysMonthly: number;
-  KOD_FILE: number;
-  WorksInSalary: StatusWorksInSalary;
-  YatzranId: number;
   close: boolean;
-  groupId: number;
-  dateMonthPay: number;
-  fileId: number;
   remark: string;
-  statusDeposit: Statusdeposit;
-  sugTakbul: SugTakbul;
   productType: productType;
-  KindPay: KindPay;
-  SentToSafeBoxes: SentToSafeBoxes;
   labels = {
     SentToSafeBoxes: {
       Waiting: 'ממתין לטיפול',
@@ -122,17 +78,6 @@ export class EmployeePayment {
   }
 }
 
-enum SentToSafeBoxes {
-  Waiting = 0,
-  sent = 1,
-  Erorr = 2,
-  passErorr = 3,
-  passGood = 4,
-  notSent = 5,
-  notHaveSafebox = 6,
-  safetransferapproval = 7,
-  fileNotFound = 8,
-}
 enum productType {
   UNKNOWN = 0,
   Keren_Pensia = 1,
@@ -141,45 +86,4 @@ enum productType {
   Bituah_Briut = 4,
   Pure_savings_policy = 5,
   Pure_risk_policy = 6,
-}
-
-enum KindPay {
-  check = 0,
-  Masab_Supplier = 1,
-  Masab_gaml = 2,
-}
-
-enum Statusdeposit {
-  Isnull = 0,
-  Worker = 1,
-  SelfEmployed = 2,
-  Shareholder = 3,
-}
-
-enum SugTakbul {
-
-  Current = 1,
-  OneTime = 2,
-  Convalescence = 3,
-  Differential = 4,
-  Overtime = 5,
-}
-
-
-enum StatusWorksInSalary {
-  notNeed = 0,
-  Monthly = 1,
-  Hourly = 2,
-  LackOfsalary = 3,
-  Seasonal = 4,
-  LeavingWork = 5,
-  MaternityLeave = 6,
-  Pregnancy = 7,
-  UnpaidVacation = 8,
-  Death = 9,
-  DepositAnotherFund = 10,
-  OfficeTooffice = 11,
-  Retirement = 12,
-  Other = 13,
-  NewEmployee = 14,
 }

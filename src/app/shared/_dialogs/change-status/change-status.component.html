@@ -1,0 +1,14 @@
+<div class="dialog-header">
+  <button mat-dialog-close>
+    <i class="fa fa-close"></i>
+  </button>  <span>שינוי סטטוס פניה</span>
+</div>
+<form #form="ngForm">
+  <div class="d-flex align-items-center py-4">
+    <bd-select [items]="manualStatus" placeholder="סטטוס" name="status"
+               #statuseModel="ngModel" [(ngModel)]="status" required
+               [error]="status == '' && form.submitted"></bd-select>
+  </div>
+  <button class="btn blue-btn" (click)="submit()">שמור</button>
+
+</form>

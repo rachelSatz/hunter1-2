@@ -27,7 +27,8 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-deposits-report',
-  templateUrl: './deposits-report.component.html'
+  templateUrl: './deposits-report.component.html',
+  styleUrls: ['./deposits-report.component.css'],
 })
 export class DepositsReportComponent implements OnInit {
 
