@@ -52,6 +52,10 @@
                    [(ngModel)]="user.team_leader" required></bd-select>
       </div>
     </div>
+    <p class="bold h6">הוספת חתימה למיילים</p>
+    <div class="w-25">
+      <ckeditor [editor]="Editor" data=""  [(ngModel)]="user.signature_html" name="html"></ckeditor>
+    </div>
     <div>
       <p class="bold h6">בחר מודולים</p>
       <div *ngFor="let module of user.modules; let i = index" class="d-flex mb-2">
@@ -64,10 +68,6 @@
         </mat-radio-group>
       </div>
     </div>
-    <div class="w-50">
-      <ckeditor [editor]="Editor" data=""  [(ngModel)]="user.signature_html" name="html"></ckeditor>
-    </div>
-
 
     <div class="w-50">
       <app-data-table tableName="" [columns]="columns" [hasExtendedSearch]="false"
