@@ -16,6 +16,7 @@ import { UserService } from 'app/shared/_services/http/user.service';
 import { UsersResolve } from 'app/shared/_resolves/users.resolve';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { ChangeProjectManagerComponent } from './change-project-manager/change-project-manager.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 const routes: Routes = [
   { path: '', component: UserFormComponent },
@@ -30,7 +31,8 @@ const routes: Routes = [
     MatFormFieldModule, MatInputModule, MatCheckboxModule, MatRadioModule, MatSelectModule, MatButtonModule,
     BdSelectModule,
     ReactiveFormsModule,
-    DataTableModule
+    DataTableModule,
+    CKEditorModule
   ],
   declarations: [UserFormComponent, ChangeProjectManagerComponent],
   providers: [UserService, EmployerService, OrganizationService, UsersResolve],

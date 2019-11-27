@@ -57,7 +57,7 @@ export class TasksComponent implements OnInit , OnDestroy {
      item = new TaskModel;
      item.employer['id'] = this.selectUnit.currentEmployerID;
    }
-
+   console.log('1');
    const dialog = this.dialog.open(NewTaskFormComponent, {
       data: item,
       width: '650px',

@@ -174,12 +174,12 @@ export class NewEmployerComponent implements OnInit {
              } else {
                this.newEmployerForm.controls['payingBank'].value['ownerId'] = departmentId;
                this.generalHttpService.addNewBankAccount(this.newEmployerForm.controls['payingBank'].value)
-                 .then(response => {
-                   if (response) {
+                 .then(res => {
+                   if (res) {
                      this.newEmployerForm.controls['receivingBank'].value['ownerId'] = departmentId;
                      this.generalHttpService.addNewBankAccount(this.newEmployerForm.controls['receivingBank'].value)
-                       .then(response => {
-                         if (response) {
+                       .then(re  => {
+                         if (re) {
                            const comments = this.newEmployerForm.controls['comments'].value;
                            if (comments !== '') {
                              this.generalHttpService.newComment([employerId], this.newEmployerForm.controls['comments'].value, 'employer');

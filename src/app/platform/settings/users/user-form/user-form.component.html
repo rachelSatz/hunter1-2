@@ -42,8 +42,19 @@
     </div>
     <div class="row mb-4">
       <div class="col-6 col-lg-3">
-        <bd-select [items]="roles" placeholder="סוג משתמש" #roleSelect="ngModel" name="role" [(ngModel)]="user.role" required></bd-select>
+        <bd-select [items]="roles" placeholder="סוג משתמש" #roleSelect="ngModel" name="role"
+                   [(ngModel)]="user.role" required></bd-select>
       </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-6 col-lg-3">
+        <bd-select [items]="groups" placeholder="קבוצה" #groupSelect="ngModel" name="group"
+                   [(ngModel)]="user.team_leader" required></bd-select>
+      </div>
+    </div>
+    <p class="bold h6">הוספת חתימה למיילים</p>
+    <div class="w-25">
+      <ckeditor [editor]="Editor" data=""  [(ngModel)]="user.signature_html" name="html"></ckeditor>
     </div>
     <div>
       <p class="bold h6">בחר מודולים</p>
@@ -99,3 +110,4 @@
     </div>
   </form>
 </div>
+

@@ -11,6 +11,8 @@ export class User {
   token: string;
   role: string;
   email: string;
+  team_leader: string;
+  signature_html: string;
   units: UserUnitPermission[] = [];
   modules: UserModule[] = [];
   is_registered: boolean;
@@ -25,6 +27,8 @@ export class User {
       this.last_name = user.last_name;
       this.token = user.token;
       this.role = user.role;
+      this.team_leader = user.team_leader;
+      this.signature_html = user.signature_html;
       this.email = user.email;
       this.units = user.units;
       const modules = user.modules;
@@ -48,4 +52,10 @@ export enum EntityRoles {
   admin =  'מנהל',
   operator = 'מתפעל',
   employer =  'מעסיק',
+}
+
+export enum TeamLeader {
+  general =  'כללי',
+  small_employer_manager = 'רעות',
+  big_employer_manager =  'סזי',
 }
