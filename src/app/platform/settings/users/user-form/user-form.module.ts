@@ -19,7 +19,7 @@ import { ChangeProjectManagerComponent } from './change-project-manager/change-p
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 const routes: Routes = [
-  { path: '', component: UserFormComponent },
+  { path: '', component: UserFormComponent },    
   { path: ':id', component: UserFormComponent, resolve: { user: UsersResolve } }
 ];
 

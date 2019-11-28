@@ -11,6 +11,7 @@ import { PlanService} from 'app/shared/_services/http/plan.service';
 import { UserService} from 'app/shared/_services/http/user.service';
 import { User} from 'app/shared/_models/user.model';
 import { Subscription } from 'rxjs';
+import {IdentifierTypes} from '../../../../shared/_models/employer.model';
 
 @Component({
   selector: 'app-plan-form',
@@ -29,7 +30,10 @@ export class PlanFormComponent implements OnInit  {
   sub: Subscription;
   categoriesData = [];
   date = '09/07/2019 ';
-
+  group = ['צוות רעות', 'צוות סזי'];
+  groups = Object.keys(IdentifierTypes).map(function(e) {
+    return { id: e, name: IdentifierTypes[e] };
+  });
   constructor(private router: Router,
               private route: ActivatedRoute,
               private taskService: TaskService,
@@ -44,7 +48,7 @@ export class PlanFormComponent implements OnInit  {
     if (this.route.snapshot.data.plan) {
       this.plan = this.route.snapshot.data.plan;
     }
-
+    this.groups = this.group;
     this.userService.usersList().then(response => this.operators = response['items']);
     this.planService.getTypes().then(response => this.types = response);
   }

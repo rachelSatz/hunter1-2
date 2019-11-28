@@ -57,6 +57,12 @@ export enum EmployerStatus {
   on_process = 'בהקמה'
 }
 
+export enum TeemLeader {
+  teemLaderOne = 'מעסיק פעיל',
+  inactive = 'מעסיק לא פעיל',
+  on_process = 'בהקמה'
+}
+
 export enum IdentifierTypes {
   private_company = 'ח.פ',
   public_company = 'ח"צ',
