@@ -13,7 +13,7 @@ import { MatDialogRef} from '@angular/material';
 @Component({
   selector: 'app-proactive-invoice-form',
   templateUrl: './proactive-invoice-form.component.html',
-  styles: ['#styleFormat { height: 200px; padding-top: 20px }'],
+  styles: ['#styleFormat { height: 200px; padding-top: 20px }', '::ng-deep .mat-dialog-container {overflow: visible;}'],
   animations: [ fade ]
 })
 export class ProactiveInvoiceFormComponent implements OnInit {
