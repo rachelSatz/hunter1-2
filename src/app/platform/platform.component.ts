@@ -272,7 +272,7 @@ export class PlatformComponent implements OnInit {
     }
     if (!is_Employer && !this.isWorkQueue) {
       this.departmentId = this.departments.length > 0 ? this.departments[0].id : 0;
-      if (this.departmentId === 0) {
+      if (this.departmentId === 0 || this.departmentId === '0') {
         this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, +employerId,
           +this.departmentId);
       }

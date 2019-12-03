@@ -21,6 +21,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { MatDialog } from '@angular/material';
 import { ChangeProjectManagerComponent } from './change-project-manager/change-project-manager.component';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { UploadAdapter } from '../../../../shared/_services/UploadAdapter';
 
 
 @Component({
@@ -141,6 +142,8 @@ export class UserFormComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
+    // const a = this.Editor;
+    // var aaa =this.Editor.getDate();
     this.hasServerError = false;
     if (form.valid) {
       if (this.user.modules.some(m => m.isEnabled) &&
@@ -234,5 +237,11 @@ export class UserFormComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  onReady(eventData) {
+    eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
+      return new UploadAdapter(loader);
+    };
   }
 }
