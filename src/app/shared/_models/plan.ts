@@ -6,6 +6,7 @@ export class Plan {
   id: number;
   name: string;
   users: any;
+  team_leader: string[];
   start_time: string;
   end_time: string;
   is_active: boolean;

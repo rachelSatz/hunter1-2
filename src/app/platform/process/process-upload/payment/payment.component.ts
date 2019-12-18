@@ -64,7 +64,9 @@ export class PaymentComponent implements OnInit , OnDestroy {
   showInfoMessage = true;
 
   ngOnInit() {
-    this.pageNumber = this.route.snapshot.queryParams['page'];
+    const page = this.route.snapshot.queryParams['page'];
+    if (page)  {
+      this.pageNumber = this.route.snapshot.queryParams['page'];}
     this.organizationId = this.selectUnitService.currentOrganizationID;
     if (this.processDataService.activeProcess !== undefined) {
       this.selectUnitService.setProcessData(this.processDataService);

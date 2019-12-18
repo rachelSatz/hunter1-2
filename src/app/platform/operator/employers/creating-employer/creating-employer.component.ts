@@ -49,12 +49,12 @@ export class CreatingEmployerComponent implements OnInit {
   uploadedFileContract: File;
   uploadedFileProtocol: File;
   uploadedFileCustomer: File;
+  employeeFileName: string;
   hasServerError: boolean;
   creatingEmployerForm: FormGroup;
   clickedContinue: boolean;
   isEdit = false;
   organizationId: number;
-
   departmentId;
   employerId;
   count = 1;
@@ -235,6 +235,9 @@ export class CreatingEmployerComponent implements OnInit {
         }
       });
     }
+    if (data.items.employee_file) {
+     this.employeeFileName = this.getNameFile(data.items.employee_file);
+    }
     if (data.items.bank.length > 0 ) {
       this.selectedBankD = data.items.bank[0].bank_id.toString();
       this.branchesD = this.banks.find( b => b.id === this.selectedBankD).bank_branches;
@@ -250,6 +253,11 @@ export class CreatingEmployerComponent implements OnInit {
       });
     }
     this.helpers.setPageSpinner(false);
+  }
+
+  getNameFile(pathFile: string) {
+     const res = pathFile.split('\\');
+     return res[res.length - 1];
   }
 
   enableOrganization(form: NgForm , isEdit: Boolean): void {
@@ -371,48 +379,66 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
-  continueProcess(): void {
-    switch (this.pageNumber) {
-      case 1: {
-        if (this.creatingEmployerForm.get('creatingEmployer').valid) {
-          this.pageNumber += 1;
-        }
-      } break;
-      case 2: {
-        if (this.uploadedFileContract && this.validationFile(this.uploadedFileContract)) {
-          this.pageNumber += 1;
-        }
-      } break;
-      case 3: {
-        this.clickedContinue = true;
-        if (this.uploadedFilePoa && this.uploadedFileProtocol && this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) &&
-          this.validationFile(this.uploadedFileProtocol) && this.validationFile(this.uploadedFileCustomer)) {
-          this.pageNumber += 1;
-          this.clickedContinue = false;
-        }
-      } break;
-      case 4: {
-        if (this.creatingEmployerForm.get('detailsBank').valid) {
-          this.pageNumber += 1;
-        }
-      } break;
-    }
+  private checkValidFiles(): boolean {
+      return (this.uploadedFilePoa && this.validationFile(this.uploadedFilePoa) ||
+              this.uploadedFileCustomer && this.validationFile(this.uploadedFileCustomer) ||
+              this.uploadedFileContract && this.validationFile(this.uploadedFileContract) ||
+              this.uploadedFileProtocol && this.validationFile(this.uploadedFileProtocol));
   }
 
-  addDocumentBankFile(): void {
-    const files = [this.uploadedFileContract, this.uploadedFilePoa, this.uploadedFileProtocol, this.uploadedFileCustomer];
-    this.documentService.uploadFiles(files, this.employerId).then(response =>  {
-      if (response) {
-        if (this.maxPageNumber >= 4) {
-          this.addBankAccount();
-        } else if (this.maxPageNumber === 5) {
-          this.sendFile();
-        } else {
-          this.routerViewEmployer();
-        }
+  continueProcess(): void {
+    if (this.pageNumber === 1 && this.validation()) {
+        this.pageNumber += 1;
+    } else if (this.pageNumber === 2 || this.pageNumber === 3) {
+      if (this.checkValidFiles() || (!this.uploadedFilePoa && !this.uploadedFileCustomer && !this.uploadedFileContract &&
+        !this.uploadedFileProtocol)) {
+        this.pageNumber += 1;
       }
-    });
+    } else if (this.pageNumber === 4 && ((this.isDetailsBank() && this.creatingEmployerForm.controls['detailsBank'].valid) ||
+                !this.isDetailsBank())) {
+      this.pageNumber += 1;
+    }
+    // switch (this.pageNumber) {
+    //   case 1: {
+    //     // if (this.creatingEmployerForm.get('creatingEmployer').valid) {
+    //       this.pageNumber += 1;
+    //     // }
+    //   } break;
+    //   case 2: {
+    //     if (this.uploadedFileContract && this.validationFile(this.uploadedFileContract)) {
+    //       this.pageNumber += 1;
+    //     }
+    //   } break;
+    //   case 3: {
+    //     this.clickedContinue = true;
+    //     if (this.uploadedFilePoa && this.uploadedFileProtocol && this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa)
+    //     && this.validationFile(this.uploadedFileProtocol) && this.validationFile(this.uploadedFileCustomer)) {
+    //       this.pageNumber += 1;
+    //       this.clickedContinue = false;
+    //     }
+    //   } break;
+      // case 4: {
+      //   if (this.creatingEmployerForm.get('detailsBank').valid) {
+      //     this.pageNumber += 1;
+      //   }
+      // } break;
+    // }
   }
+
+  // addDocumentBankFile(): void {
+  //   const files = [this.uploadedFileContract, this.uploadedFilePoa, this.uploadedFileProtocol, this.uploadedFileCustomer];
+  //   this.documentService.uploadFiles(files, this.employerId).then(response =>  {
+  //     if (response) {
+  //       if (this.maxPageNumber >= 4) {
+  //         this.addBankAccount();
+  //       } else if (this.maxPageNumber === 5) {
+  //         this.sendFile();
+  //       } else {
+  //         this.routerViewEmployer();
+  //       }
+  //     }
+  //   });
+  // }
 
 
   updateData() {
@@ -430,8 +456,16 @@ export class CreatingEmployerComponent implements OnInit {
 
   addContactsDocsBank() {
     this.saveContact();
-    if (this.maxPageNumber !== 1) {
-      this.addDocumentBankFile();
+    if (this.checkValidFiles()) {
+      const files = [this.uploadedFileContract, this.uploadedFilePoa, this.uploadedFileProtocol, this.uploadedFileCustomer];
+      this.documentService.uploadFiles(files, this.employerId).then(response =>  {
+        if (response) {}});
+    }
+    if (this.creatingEmployerForm.get('detailsBank').valid) {
+        this.addBankAccount();
+    }
+    if (this.uploadedFileXml && !this.fileTypeError) {
+      this.sendFile();
     } else {
       this.routerViewEmployer();
     }
@@ -567,38 +601,46 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   submitEmployerConstruction(): void {
-    this.maxPageNumber = this.maxPageNumber > this.pageNumber ? this.maxPageNumber : this.pageNumber;
-    if (this.uploadedFileXml && !this.fileTypeError) {
-      return this.submit();
-    }
-    if (this.maxPageNumber === 5) {
-      this.maxPageNumber = 4;
-    }
-    this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
-    switch (this.maxPageNumber) {
-      case 1: {
-        if (this.validation()) {
-        this.insertData();
-      }} break;
-      case 2:
-      case 3: {
-        if (!this.uploadedFileContract) {
-          this.maxPageNumber = 1;
-        }
-          this.insertData();
-      } break;
-      case 4: {
-        if (!this.isDetailsBank() && !this.creatingEmployerForm.controls['detailsBank'].valid) {
-          this.maxPageNumber = 3;
-        }
-          this.insertData();
-      } break;
-    }
+    // this.maxPageNumber = this.maxPageNumber > this.pageNumber ? this.maxPageNumber : this.pageNumber;
+    // if (this.uploadedFileXml && !this.fileTypeError) {
+    //   return this.submit();
+    // }
+    // if (this.maxPageNumber === 5) {
+    //   this.maxPageNumber = 4;
+    // }
+    // this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+    // switch (this.maxPageNumber) {
+    //   case 1: {
+    //     if (this.validation()) {
+    //     this.insertData();
+    //   }} break;
+    //   case 2:
+    //   case 3: {
+    //     if (!this.uploadedFileContract) {
+    //       this.maxPageNumber = 1;
+    //     }
+    //       this.insertData();
+    //   } break;
+    //   case 4: {
+    //     if (!this.isDetailsBank() && !this.creatingEmployerForm.controls['detailsBank'].valid) {
+    //       this.maxPageNumber = 3;
+    //     }
+    //       this.insertData();
+    //   } break;
+    // }
   }
 
   submit(): void {
     this.maxPageNumber = this.maxPageNumber > this.pageNumber ? this.maxPageNumber : this.pageNumber;
-    this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
+    if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
+        this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
+        this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
+        this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
+        (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
+      this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
+    } else {
+      this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+    }
     this.insertData();
   }
 }

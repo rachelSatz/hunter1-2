@@ -13,7 +13,7 @@
       <p class="h5 mb-4 bold">{{detailsPage[pageNumber-1].title}}</p>
       </div>
       <div class="ml-4-5 mr-auto ">
-        <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline " (click)="submitEmployerConstruction()">שמור וצא מהתהליך</button>
+        <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline " (click)="submit()">שמור וצא מהתהליך</button>
       </div>
     </div>
     <div [@fade]="pageNumber === 1 ? 'active' : 'inactive'" formGroupName="creatingEmployer">
@@ -36,7 +36,7 @@
                      && form.submitted && !isEdit"  ></bd-select>
         </div>
           <mat-form-field class="mr-5">
-            <input matInput placeholder="מעסיק" formControlName="name" maxlength="20"  required>
+            <input matInput placeholder="מעסיק" formControlName="name" maxlength="50"  required>
             <mat-error>שדה חובה</mat-error>
           </mat-form-field>
         <mat-form-field class="mr-5">
@@ -305,7 +305,7 @@
           <th scope="col"  class="width15" >קובץ Xml</th>
           <td scope="col">
             <div class="d-flex">
-              <p class="file-label-text">{{ uploadedFileXml ? (uploadedFileXml.name | slice:0:25) : 'אין קובץ' }}</p>
+              <p class="file-label-text">{{ employeeFileName ? employeeFileName : uploadedFileXml ? (uploadedFileXml.name | slice:0:25) : 'אין קובץ' }}</p>
               <div class="ml-3 mr-auto ">
                 <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
                   <label class="width135" >

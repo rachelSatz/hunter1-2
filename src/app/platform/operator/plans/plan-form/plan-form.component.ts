@@ -9,7 +9,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { TaskService} from 'app/shared/_services/http/task.service';
 import { PlanService} from 'app/shared/_services/http/plan.service';
 import { UserService} from 'app/shared/_services/http/user.service';
-import { User} from 'app/shared/_models/user.model';
+import {TeamLeaderTask, User} from 'app/shared/_models/user.model';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./plan-form.component.css']
 })
 export class PlanFormComponent implements OnInit  {
-
+  user = new User(null);
   plan = new Plan;
   types = [];
   subTypes = [];
@@ -28,8 +28,11 @@ export class PlanFormComponent implements OnInit  {
   isSubmitting = false;
   sub: Subscription;
   categoriesData = [];
-  date = '09/07/2019 ';
-
+  date = '09/07/2019';
+  userOfTeamLeader: string[];
+  groups = Object.keys(TeamLeaderTask).map(function (e) {
+    return {id: e, name: TeamLeaderTask[e]};
+  });
   constructor(private router: Router,
               private route: ActivatedRoute,
               private taskService: TaskService,
@@ -43,8 +46,13 @@ export class PlanFormComponent implements OnInit  {
     this.timestamps = TIMESTAMPS;
     if (this.route.snapshot.data.plan) {
       this.plan = this.route.snapshot.data.plan;
+      if (this.plan.team_leader) {
+        this.plan.team_leader = [this.route.snapshot.data.plan['team_leader']];
+        if (this.plan.team_leader.indexOf('small_and_big_managers') !== -1 ) {
+          this.plan.team_leader = ['small_employer_manager', 'big_employer_manager'];
+        }
+      }
     }
-
     this.userService.usersList().then(response => this.operators = response['items']);
     this.planService.getTypes().then(response => this.types = response);
   }
@@ -61,6 +69,34 @@ export class PlanFormComponent implements OnInit  {
     this.categoriesData = event.container.data;
   }
 
+  checkUsersOfTeamLeader() {
+    let isEquals = true;
+    this.userOfTeamLeader.forEach( user => {
+      if (this.plan.users.indexOf(user) === -1) {
+        isEquals = false;
+      }
+    });
+    return isEquals;
+  }
+
+  removeTeamLeader() {
+    if (!this.checkUsersOfTeamLeader()) {
+      this.plan.team_leader = null;
+    }
+  }
+
+  setGroup() {
+    this.plan.users = null;
+    if (this.plan.team_leader) {
+      this.userService.getOperatorOfTeamLeader(this.plan.team_leader).then(
+        response => {
+          if (response) {
+            this.plan.users = response;
+            this.userOfTeamLeader = response;
+          }
+        });
+    }
+  }
 
   addPlanRow(): void {
     this.plan.categories.push(new Categories());
@@ -72,8 +108,7 @@ export class PlanFormComponent implements OnInit  {
 
   selectedSubType(typeId: any): void {
     this.subTypes = [];
-
-      this.subTypes = this.types.find(a => a.id === typeId.type.id || a.id === typeId.type.name).subtypes;
+    this.subTypes = this.types.find(a => a.id === typeId.type.id || a.id === typeId.type.name).subtypes;
     // } else if (index !== undefined) {
     //     //   this.subTypes = this.types.find(a => a.id === index.type.name).subtypes;
     //     // }
@@ -90,17 +125,22 @@ export class PlanFormComponent implements OnInit  {
 
   submit(form: NgForm): void {
     if (form.valid) {
-      this.plan.categories.forEach(item => {
-        item.salary_date_start = this.datePipe.transform(item.salary_date_start, 'yyyy-MM-dd');
-        item.salary_date_end = this.datePipe.transform(item.salary_date_end, 'yyyy-MM-dd');
-      });
-      if (this.plan.id) {
-        this.planService.update(this.plan)
-          .then(response => this.handleResponse(response));
-      } else {
-        this.planService.create(this.plan)
-          .then(response => this.handleResponse(response));
-      }
+        this.plan.categories.forEach(item => {
+          item.salary_date_start = this.datePipe.transform(item.salary_date_start, 'yyyy-MM-dd');
+          item.salary_date_end = this.datePipe.transform(item.salary_date_end, 'yyyy-MM-dd');
+        });
+        if (this.plan.team_leader && this.plan.team_leader.indexOf('small_employer_manager') !== -1 &&
+            this.plan.team_leader.indexOf('big_employer_manager') !== -1) {
+          this.plan.team_leader = ['small_and_big_managers'];
+        }
+        if (this.plan.id) {
+          this.planService.update(this.plan)
+            .then(response => this.handleResponse(response));
+        } else {
+          this.planService.create(this.plan)
+            .then(response => this.handleResponse(response));
+        }
+
     }
   }
 
@@ -116,7 +156,7 @@ export class PlanFormComponent implements OnInit  {
     this._location.back();
   }
 
-  aaa(start_time, end_time): boolean {
+  validationsDate(start_time, end_time): boolean {
     const date_start_time = new Date(this.date  + start_time);
     const date_end_time = new Date(this.date + end_time);
     if (date_start_time.getTime() > date_end_time.getTime()) {

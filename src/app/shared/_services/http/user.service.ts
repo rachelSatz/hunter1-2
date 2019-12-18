@@ -31,6 +31,14 @@ export class UserService extends BaseHttpService {
 
   }
 
+  getOperatorOfTeamLeader(team: string[]): Promise<any> {
+    const request = this.getTokenHeader();
+    return this.http.post(this.endPoint + '/' + 'operator_of_team_leader', {'team': team}, request)
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
   getUser(id: number): Promise<User> {
     return this.http.get(this.endPoint + '/' + id, this.getTokenHeader())
       .toPromise()

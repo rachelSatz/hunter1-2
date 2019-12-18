@@ -188,7 +188,6 @@ export class ProcessService extends BaseHttpService {
   }
 
   positiveNegativeFix(ids: number[]): Promise<any> {
-
     return this.http.post(this.endPoint + '/positiveNegativeFix' , {'mtbIds' : ids} , this.getTokenHeader())
       .toPromise()
       .then(response => response)
