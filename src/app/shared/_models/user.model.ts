@@ -59,3 +59,8 @@ export enum TeamLeader {
   small_employer_manager = 'רעות',
   big_employer_manager =  'סזי',
 }
+
+export enum TeamLeaderTask {
+  small_employer_manager = 'רעות',
+  big_employer_manager =  'סזי',
+}

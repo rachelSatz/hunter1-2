@@ -1,4 +1,3 @@
-
 <form #form="ngForm" class="mr-5 px-4">
   <div class="row">
     <div class="col-3">
@@ -8,29 +7,30 @@
                #name="ngModel" required>
         <mat-error *ngIf="name.errors && form.submitted">יש לבחור שם לתוכנית.</mat-error>
       </mat-form-field>
-      <div class="w-75 mb-3">
-        <bd-select name="users" [items]="operators" placeholder="מתפעלים"
-                   [(ngModel)]="plan.users" [multiple]="true" required
-                   [error]="(plan.users === undefined) && form.submitted"></bd-select>
+      <div class="d-flex align-items-center mb-lg-3">
+        <div class="fa-w-2">
+        <bd-select [items]="groups" placeholder="קבוצה" [multiple]="true" #groupSelect="ngModel" name="group"
+                   [(ngModel)]="plan.team_leader" (onSelect)="setGroup()"></bd-select>
       </div>
-      <!--<div class="w-75 mb-3">-->
-        <!--<bd-select name="users" [items]="groups" placeholder="קבוצה"-->
-                   <!--[(ngModel)]="plan.users" [multiple]="true" required-->
-                   <!--[error]="(plan.users === undefined) && form.submitted"></bd-select>-->
-      <!--</div>-->
+        <div class="w-50 mr-3">
+          <bd-select name="users" [items]="operators" placeholder="מתפעלים" (onSelect)="removeTeamLeader()"
+                     [(ngModel)]="plan.users" [multiple]="true"
+                     [error]="(plan.users === undefined) && form.submitted"></bd-select>
+        </div>
+      </div>
       <p class="h5">בחר טווח שעות עבודת התוכנית *</p>
       <div class="mb-3">
-        <mat-form-field>
+        <mat-form-field  class="fa-w-2">
           <mat-select [(ngModel)]="plan.start_time" name="start_time" placeholder="שעה התחלה" required>
             <mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">{{ timestamp }}</mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field class="mr-3">
+        <mat-form-field class="w-50 mr-3">
           <mat-select [(ngModel)]="plan.end_time" name="end_time" placeholder="שעת סיום" required>
             <mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">{{ timestamp }}</mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-error *ngIf="aaa(plan.start_time, plan.end_time) && form.submitted">תאריך סיום לא יכול להיות קטן מתאריך התחלה</mat-error>
+        <mat-error *ngIf="validationsDate(plan.start_time, plan.end_time) && form.submitted">תאריך סיום לא יכול להיות קטן מתאריך התחלה</mat-error>
       </div>
     </div>
       <!--<div class="d-flex justify-content-center fixed-bottom">-->
