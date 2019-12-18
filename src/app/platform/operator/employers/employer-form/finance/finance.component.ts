@@ -37,6 +37,7 @@ export class FinanceComponent implements OnInit {
   payEmployers: any;
   isEstablishingPayment: boolean;
   currentEmpId = 0;
+  displayMasav = false;
 
   paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function(e) {
     return { id: e, name: PAYMENT_TERMS[e] };
@@ -80,6 +81,9 @@ export class FinanceComponent implements OnInit {
         this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(res => {
           if (res.id) {
             this.financialDetails = res;
+            if (this.financialDetails.employer.id === this.financialDetails.pay_employer.id) {
+              this.displayMasav = true;
+            }
             if (this.financialDetails != null && this.financialDetails.payment_time === 'no_payment') {
               this.isNoPaymentTime = true;
               if (this.financialDetails.payment_time_validity === 'month') {
@@ -134,6 +138,7 @@ export class FinanceComponent implements OnInit {
       this.isEstablishingPayment = false;
     }
   }
+
 
   selectDueDate(): void {
     if (this.financialDetails.payment_time_validity !== undefined && this.financialDetails.payment_time_validity === 'month') {

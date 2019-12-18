@@ -22,6 +22,8 @@ export class EmployerFinancialDetails {
   est_ids_count: number;
   est_invoice_id: string;
   creditCardLastDigits: string;
+  min_payment: string;
+  is_masav: number;
 
   constructor() {
       this.id = 0;
@@ -34,8 +36,8 @@ export class EmployerFinancialDetails {
 export class EmployerFinancialProduct {
   id: number;
   product_type: string;
-  is_zero: string;
-  show_details: string;
+  is_zero: boolean;
+  show_details: boolean;
   additional_payment_amount: number;
   additional_payment_desc: string;
   financial_payments: EmployerFinancialPayments[] = [];

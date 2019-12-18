@@ -9,6 +9,7 @@ import { fade } from 'app/shared/_animations/animation';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService} from '../../../../shared/_services/notification.service';
 import { MatDialogRef} from '@angular/material';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-proactive-invoice-form',
@@ -23,6 +24,7 @@ export class ProactiveInvoiceFormComponent implements OnInit {
   message: string;
   invoice: string;
   hasServerError = false;
+  spin: boolean;
 
   constructor(private route: ActivatedRoute, private router: Router, private invoiceService: InvoiceService,
               private employerService: EmployerService,  private selectUnit: SelectUnitService,
@@ -39,10 +41,17 @@ export class ProactiveInvoiceFormComponent implements OnInit {
       this.hasServerError = false;
       this.invoiceService.createInvoice(form.value).then(response => {
         if (response != null) {
-          if (response['message'] !== 'success') {
-            this.hasServerError = true;
-            this.message = response['message'];
-          } else {
+          if (response['message'] === 'excel') {
+            if (response['blob'] !== '') {
+              this.hasServerError = false;
+              this.downloadExcel(response['blob']);
+              this.message = response['message'];
+            } else {
+              this.hasServerError = true;
+              this.message = response['message'];
+              this.notificationService.info('אירעה שגיאה בהורדת קובץ האקסל');
+            }
+          } else if (response['message'] === 'success') {
             this.hasServerError = false;
             this.notificationService.success('נשמר בהצלחה.');
             this.dialogRef.close();
@@ -53,5 +62,19 @@ export class ProactiveInvoiceFormComponent implements OnInit {
 
       });
     }
+  }
+
+  downloadExcel(blob_res: string): void {
+    this.spin = true;
+    const fileName = 'סיכום יצירת חשבוניות';
+    const byteCharacters = atob(blob_res['data']);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+    FileSaver.saveAs(blob, fileName + '' + '.xlsx');
+    this.spin = false;
   }
 }

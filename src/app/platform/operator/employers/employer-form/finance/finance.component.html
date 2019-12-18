@@ -50,6 +50,9 @@
       <mat-form-field class="col-6 col-lg-3">
         <input matInput type="text" name="credit_card_last_digits" [(ngModel)]="financialDetails.creditCardLastDigits" placeholder="ספרות אחרונות של כרטיס אשראי">
       </mat-form-field>
+      <mat-form-field class="col-6 col-lg-3">
+        <input matInput type="text" name="min_payment" [(ngModel)]="financialDetails.min_payment" placeholder="סכום מינימום לתשלום">
+      </mat-form-field>
   </div>
 
   <div class="row mb-3">
@@ -71,6 +74,9 @@
   </div>
   <div class="row">
     <mat-checkbox name="direct_debit_commission" [(ngModel)]="financialDetails.direct_debit_commission" >עמלת הוראת קבע</mat-checkbox>
+  </div>
+  <div class="row" *ngIf="displayMasav">
+    <mat-checkbox [checked]="financialDetails.is_masav" name="is_masav" [(ngModel)]="financialDetails.is_masav">תשלום מיידי באמצעות מסב</mat-checkbox>
   </div>
   <div class="row">
     <mat-checkbox [checked]="financialDetails.est_payment_amount > 0 ? true : false" name="establishing_payment" (change)="addEstablishing($event.checked)" >תשלום הקמה</mat-checkbox>
@@ -122,10 +128,10 @@
       <i class="fa fa-close fa-2x pointer blue-color" title="מחיקה" (click)="deletePaymentRow(index1, index)" *ngIf="index != 0"></i>
     </div>
     <div class="row">
-      <mat-checkbox [name]="'is_zero' + index1" [(ngModel)]="product.is_zero" >הצג אפסים</mat-checkbox>
+      <mat-checkbox name="is_zero" [(ngModel)]="product.is_zero" [checked]="product.is_zero">הצג אפסים</mat-checkbox>
     </div>
     <div class="row">
-      <mat-checkbox [name]="'show_details' + index1" [(ngModel)]="product.show_details">הצג פרטים בחשבונית</mat-checkbox>
+      <mat-checkbox name="show_details" [(ngModel)]="product.show_details" [checked]="product.show_details">הצג פרטים בחשבונית</mat-checkbox>
     </div>
     <div class="row">
       <mat-checkbox [checked]="displayCheckedAdditional(product)" name="additional_payment" (change)="showAdditionalPayment(index1, $event.checked)">תוספת קבועה לתשלום</mat-checkbox>
