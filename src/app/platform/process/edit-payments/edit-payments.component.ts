@@ -13,6 +13,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import {ProcessService} from '../../../shared/_services/http/process.service';
+import { TransferClause } from 'app/shared/_models/transfer_clause.model';
 
 @Component({
   selector: 'app-edit-payments',
@@ -31,7 +32,6 @@ export class EditPaymentsComponent implements OnInit {
   products = [];
   companies: Company[] = [];
   editPaymentForm: FormGroup;
-  error_sum = false;
   sum= 0;
   type;
 
@@ -101,7 +101,7 @@ export class EditPaymentsComponent implements OnInit {
     });
   }
 
-  addMtb(mtb?: any): void {
+  addMtb(mtb?: any, clause?: TransferClause): void {
     const mtbControl = {
       'id': [mtb  ? +mtb['id'] : null],
       'salary': [mtb  ? +mtb['salary'] : null,  Validators.required],
@@ -116,10 +116,10 @@ export class EditPaymentsComponent implements OnInit {
       'deposit_status': [mtb ? mtb['deposit_status'] : null,  Validators.required],
       'transfer_clause':  this.fb.array([
         this.fb.group({
-          'id': [null ],
-          'clause_type':  [null , Validators.required],
-          'transfer_sum':  [null , Validators.required],
-          'transfer_percent':  [null,  Validators.required],
+          'id': [null],
+          'clause_type':  [clause ? clause.clause_type : null , Validators.required],
+          'transfer_sum':  [clause ? clause.transfer_sum : null , Validators.required],
+          'transfer_percent':  [clause ? clause.expected_percent.toString() : null,  Validators.required],
           'exempt_sum': [0 , Validators.required],
         })
       ])
@@ -194,13 +194,17 @@ export class EditPaymentsComponent implements OnInit {
   sumPercent(m: any, transfer: FormGroup, index, i): void {
     const salary = m.value.salary;
     this.calcSumSplit();
-    if (this.sum !== this.mtb.amount) {
-      this.error_sum = true;
-    } else {
-      this.error_sum = false;
-
-    }
     transfer.patchValue({'transfer_percent':  (transfer.value.transfer_sum / salary * 100).toFixed(2)});
+    const clause = new TransferClause;
+    const subSum =  this.mtb.amount - this.sum;
+    if (subSum > 0) {
+      clause.transfer_sum = +subSum.toFixed(2);
+      clause.expected_sum = 0;
+      clause.clause_type = transfer.value.clause_type;
+      clause.expected_percent = +(subSum / salary * 100).toFixed(2);
+      this.addMtb(this.mtb, clause);
+      this.sum += +subSum;
+    }
   }
 
   calcSumSplit(): void {

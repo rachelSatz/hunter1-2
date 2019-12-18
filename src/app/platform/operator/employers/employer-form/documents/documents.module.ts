@@ -8,6 +8,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { AddDocumentComponent } from './add-document/add-document.component';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { MatDialogModule } from '@angular/material';
+import { FileDropModule } from 'ngx-file-drop';
 
 const routes: Routes = [{path: '', component: DocumentsComponent }];
 
@@ -17,7 +18,8 @@ const routes: Routes = [{path: '', component: DocumentsComponent }];
     RouterModule.forChild(routes),
     DataTableModule,
     MatDialogModule,
-    BdSelectModule
+    BdSelectModule,
+    FileDropModule
   ],
   declarations: [DocumentsComponent, AddDocumentComponent],
   entryComponents: [AddDocumentComponent],

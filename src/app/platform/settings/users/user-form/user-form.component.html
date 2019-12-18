@@ -54,7 +54,7 @@
     </div>
     <p class="bold h6">הוספת חתימה למיילים</p>
     <div class="w-25">
-      <ckeditor [editor]="Editor" data=""  [(ngModel)]="user.signature_html" name="html"></ckeditor>
+      <ckeditor [editor]="Editor" data=""  (ready)="onReady($event)" [(ngModel)]="user.signature_html" name="html"></ckeditor>
     </div>
     <div>
       <p class="bold h6">בחר מודולים</p>

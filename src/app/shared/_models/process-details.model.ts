@@ -16,6 +16,7 @@ export class ProcessDetails {
   sent_status: string;
   count: number;
   dep_id: number;
+  is_deposition: boolean;
 
   constructor() {
     this.employer_name = '';
