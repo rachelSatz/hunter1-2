@@ -35,6 +35,17 @@ export class AddDocumentComponent implements OnInit {
     this.organizations = this.selectUnit.getOrganization();
   }
 
+  getFileFromDrop(event) {
+    if (event.files != null && event.files.length > 0) {
+      for (const droppedFile of event.files) {
+        if (droppedFile['fileEntry'].isFile) {
+          const fileEntry = droppedFile['fileEntry'] as any;
+          fileEntry.file((file: File) =>  this.setFile(file));
+        }
+      }
+    }
+  }
+
 
   submit(form: NgForm) {
     if (form.valid && this.uploadedFile) {
@@ -57,6 +68,13 @@ export class AddDocumentComponent implements OnInit {
   loadEmployers(organizationID: number): void {
     this.employers = this.organizations.find(o => o.id === organizationID).employer;
     this.employers.sort((a, b) => a.id - b.id);
+  }
+
+  setFile(file: File) {
+    // if (this.uploadedFile === undefined) {
+    //   this.uploadedFile = [];
+    // }
+    this.uploadedFile = file;
   }
 
   close() {

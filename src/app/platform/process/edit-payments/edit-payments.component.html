@@ -84,7 +84,7 @@
         {{ mtb.percent_other_employer}}
       </span>
       <span class="header-width f-14">{{ mtb.amount }}</span>
-      <span class="header-width f-14" [ngClass]="{'red': error_sum }" > {{ sum}}</span>
+      <span class="header-width f-14" [ngClass]="{'red': this.sum !== this.mtb.amount }" > {{ sum}}</span>
     </div>
   </div>
   <button class="btn blue-btn mt-3" (click)="addMtb(mtb)">צור פיצול נוסף</button>
