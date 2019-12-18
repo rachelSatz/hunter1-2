@@ -38,7 +38,8 @@ export class FormComponent implements OnInit {
     }
     this.departmentService.getDepartments(this.selectUnit.currentEmployerID)
       .then(response => this.departments = response.items);
-    this.companies = this.selectUnit.getCompanies();
+    this.companies = this.selectUnit.getCompanies().filter( n => n.id !== '1');
+
     if (this.manufacturerNumber.length > 0 && this.manufacturerNumber !== null) {
       this.initForm(this.manufacturerNumber);
     } else {

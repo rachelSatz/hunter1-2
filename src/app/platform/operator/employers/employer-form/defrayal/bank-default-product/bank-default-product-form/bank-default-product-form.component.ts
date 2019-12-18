@@ -31,8 +31,7 @@ export class BankDefaultProductFormComponent implements OnInit {
               private _location: Location) { }
 
   ngOnInit() {
-    this.companies = this.selectUnit.getCompanies();
-
+    this.companies = (this.selectUnit.getCompanies()).filter( n =>  n.id !== '1');
     if (this.route.snapshot.data.employerBankAccount) {
       this.employerProductBankAccount = this.route.snapshot.data.employerBankAccount;
     }
