@@ -27,7 +27,6 @@ export class ContactFormComponent implements OnInit {
 
   hasServerError: boolean;
   entities = [];
-  // navigate: any;
   employers = [];
   location: string;
   entityTypes = Object.keys(EntityTypes).map(function(e) {
@@ -117,7 +116,6 @@ export class ContactFormComponent implements OnInit {
 
   showContact(email): void {
     if (email.valid) {
-
       this.contactService.getContactByEmail( email.value, this.contact.id ? this.contact.id : 0
         , this.selectUnit.currentEmployerID).then(
         response => {

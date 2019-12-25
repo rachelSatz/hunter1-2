@@ -22,6 +22,7 @@ export class Categories {
   salary_date_start: any;
   salary_date_end: any;
   tasks_amount: number;
+  days_amount: number;
   type: PlanCategorySubType;
 
   constructor() {

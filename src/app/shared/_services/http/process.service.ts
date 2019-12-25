@@ -53,7 +53,7 @@ export class ProcessService extends BaseHttpService {
       .catch(() => null);
   }
 
-  newProcess(values: any, file?: File, fileDeposition?: File ): Promise<boolean> {
+  newProcess(values: any, file?: File, fileDeposition?: File, isCreate = false): Promise<boolean> {
     const formData = new FormData();
     formData.append('departmentId', values.departmentId);
     if (values.isDirect != null) {
@@ -70,7 +70,12 @@ export class ProcessService extends BaseHttpService {
     if (fileDeposition) {
       formData.append('attachments', fileDeposition);
     }
-
+    if (isCreate) {
+      return this.http.post(this.endPoint + '/upload_employee_file',  formData, this.getTokenHeader())
+        .toPromise()
+        .then(response => response)
+        .catch(response => response);
+    }
     return this.http.post(this.endPoint + '/uploadFile',  formData, this.getTokenHeader())
       .toPromise()
       .then(response => response)

@@ -16,6 +16,10 @@
         <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline " (click)="submit()">שמור וצא מהתהליך</button>
       </div>
     </div>
+    <div *ngIf="pageNumber !== 1">
+      <p class="h6 mb-4 bold">{{ creatingEmployerForm.get('creatingEmployer.employerDetails.name').value + ' ' +
+                                 creatingEmployerForm.get('creatingEmployer.employerDetails.identifier').value}}</p>
+    </div>
     <div [@fade]="pageNumber === 1 ? 'active' : 'inactive'" formGroupName="creatingEmployer">
       <div formGroupName="employerDetails">
         <div class="d-flex" *ngIf="!route.snapshot.params.id">
@@ -305,7 +309,8 @@
           <th scope="col"  class="width15" >קובץ Xml</th>
           <td scope="col">
             <div class="d-flex">
-              <p class="file-label-text">{{ employeeFileName ? employeeFileName : uploadedFileXml ? (uploadedFileXml.name | slice:0:25) : 'אין קובץ' }}</p>
+              <p class="file-label-text">{{  uploadedFileXml ? (uploadedFileXml.name | slice:0:25) :
+                  employeeFileName ? employeeFileName :'אין קובץ' }}</p>
               <div class="ml-3 mr-auto ">
                 <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
                   <label class="width135" >

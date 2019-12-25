@@ -20,6 +20,7 @@ import { PaymentType } from 'app/shared/_models/process.model';
 import { Contact} from 'app/shared/_models/contact.model';
 import { fade } from 'app/shared/_animations/animation';
 import { ActivatedRoute, Router} from '@angular/router';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 
 @Component({
@@ -71,7 +72,7 @@ export class CreatingEmployerComponent implements OnInit {
   });
 
   detailsPage = [ {title : 'הקמת פרטי ארגון - שלב 1', progress : 'progress-bar process1'},
-    {title : 'העלת חוזה - שלב 2', progress : 'progress-bar process2'},
+    {title : 'העלת חוזה - שלב 2' , progress : 'progress-bar process2'},
     {title : 'העלת קבצי הארגון- שלב 3', progress : 'progress-bar process3'},
     {title : 'פרטי בנק של הארגון - שלב 4', progress : 'progress-bar process4'},
     {title : 'קליטת עובדים - שלב 5', progress : 'progress-bar process5'},
@@ -236,7 +237,7 @@ export class CreatingEmployerComponent implements OnInit {
       });
     }
     if (data.items.employee_file) {
-     this.employeeFileName = this.getNameFile(data.items.employee_file);
+      this.employeeFileName = this.getNameFile(data.items.employee_file);
     }
     if (data.items.bank.length > 0 ) {
       this.selectedBankD = data.items.bank[0].bank_id.toString();
@@ -256,8 +257,10 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   getNameFile(pathFile: string) {
-     const res = pathFile.split('\\');
-     return res[res.length - 1];
+     pathFile = pathFile.split('\\').join('/');
+     let res = pathFile.split('/');
+     res =  res[res.length - 1].split('.')
+     return res[0];
   }
 
   enableOrganization(form: NgForm , isEdit: Boolean): void {
@@ -365,10 +368,14 @@ export class CreatingEmployerComponent implements OnInit {
 
   saveContact(): void {
    const  contactSingle = this.creatingEmployerForm.get('creatingEmployer.contact').value;
-   contactSingle.forEach( c => {
-     this.contactService.newContact(c, this.employerId).then(
-       response => this.handleResponse(response));
+   if (contactSingle.length > 0 ) {
+     contactSingle.forEach( c => {
+       if ( c['first_name'] || c['last_name'] || c['mobile'] || c['email']) {
+         this.contactService.newContact(c, this.employerId).then(
+           response => this.handleResponse(response));
+       }
      });
+   }
   }
 
   private handleResponse(response: any): void {
@@ -490,6 +497,7 @@ export class CreatingEmployerComponent implements OnInit {
         if (this.employerId === 0) {
           this.helpers.setPageSpinner(false);
           this.hasServerError = true;
+          this.notificationService.error('האירגון קיים במערכת');
         } else {
           this.addContactsDocsBank();
         }
@@ -579,7 +587,7 @@ export class CreatingEmployerComponent implements OnInit {
       'pageNumber': 1
     };
 
-    this.processService.newProcess(data, this.uploadedFileXml).then(response => {
+    this.processService.newProcess(data, this.uploadedFileXml, null, true).then(response => {
       if (response['processId']) {
         data.processId = response['processId'];
         data['file'] =  this.uploadedFileXml ;
@@ -600,7 +608,7 @@ export class CreatingEmployerComponent implements OnInit {
       && (this.isDetailsContact() && contact.valid || this.isDetailsContact() === false);
   }
 
-  submitEmployerConstruction(): void {
+  // submitEmployerConstruction(): void {
     // this.maxPageNumber = this.maxPageNumber > this.pageNumber ? this.maxPageNumber : this.pageNumber;
     // if (this.uploadedFileXml && !this.fileTypeError) {
     //   return this.submit();
@@ -628,10 +636,9 @@ export class CreatingEmployerComponent implements OnInit {
     //       this.insertData();
     //   } break;
     // }
-  }
+  // }
 
   submit(): void {
-    this.maxPageNumber = this.maxPageNumber > this.pageNumber ? this.maxPageNumber : this.pageNumber;
     if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
         this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
         this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&

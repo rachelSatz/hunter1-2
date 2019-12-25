@@ -50,12 +50,15 @@
             <!--<mat-error [@fade]="typeIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>-->
           </div>
           <div class="mx-3 bd-select-container">
-            <bd-select  [name]="'subType_id' + index"  [items]="subTypes" #subTypeIDSelect="ngModel" [(ngModel)]="row.type.id"  placeholder="תוכנית משנה" required></bd-select>
+            <bd-select  [name]="'subType_id' + index"  [items]="subTypes" #subTypeIDSelect="ngModel" [(ngModel)]="row.type.id"  (onSelect)="setDataSubType(row.type.id)" placeholder="תוכנית משנה" required></bd-select>
             <!--<mat-error [@fade]="subTypeIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>-->
           </div>
         </div>
-        <mat-form-field class="w-25 mb-3 mr-3">
+        <mat-form-field [ngClass]="classAmount">
           <input matInput type="number" [name]="'amount' + index" [(ngModel)]="row.tasks_amount" placeholder="כמות" required>
+        </mat-form-field>
+        <mat-form-field class="w-20 mb-3 mr-3" *ngIf="inProgress || row.days_amount">
+          <input matInput type="number" [name]="'days_amount' + index" [(ngModel)]="row.days_amount" placeholder="מספר ימים" >
         </mat-form-field>
         <div class="d-flex w-50 mb-3">
           <mat-form-field class="ml-3 mr-3">

@@ -12,9 +12,15 @@
       <p class="mr-1">{{plan.employer.name}}</p>
     </div>
     <div class="d-flex mt-3">
-      <div class="d-flex w-50">
+      <div class="d-flex w-50" *ngIf="!isCompensation">
         <span class="bold">שם תהליך:</span>
         <p class="mr-1">{{plan.task.process.name }}</p>
+      </div>
+      <div *ngIf="isCompensation" >
+        <div class="d-flex w-50">
+          <span class="bold">שם העובד:</span>
+          <p class="mr-1">{{plan.task.compensation}}</p>
+        </div>
       </div>
       <span class="bold">חודש ייחוס:</span>
       <p class="mr-1">{{  plan.task.process.date }}</p>

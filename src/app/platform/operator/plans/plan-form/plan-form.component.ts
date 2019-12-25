@@ -28,7 +28,12 @@ export class PlanFormComponent implements OnInit  {
   isSubmitting = false;
   sub: Subscription;
   categoriesData = [];
+  fileInProgress =  22;
+  compensation = 23;
+  recordInProgress =  20;
   date = '09/07/2019';
+  inProgress = false;
+  classAmount = 'w-25 mb-3 mr-3';
   userOfTeamLeader: string[];
   groups = Object.keys(TeamLeaderTask).map(function (e) {
     return {id: e, name: TeamLeaderTask[e]};
@@ -104,6 +109,16 @@ export class PlanFormComponent implements OnInit  {
 
   deletePlanRow(index: number): void {
     this.plan.categories.splice(index, 1);
+  }
+
+  setDataSubType(typeId: any): void {
+    if (typeId === this.fileInProgress || typeId === this.recordInProgress || typeId === this.compensation) {
+      this.inProgress = true;
+      this.classAmount = 'w-20 mb-3 mr-3';
+    } else {
+      this.inProgress = false;
+      this.classAmount = 'w-25 mb-3 mr-3';
+    }
   }
 
   selectedSubType(typeId: any): void {

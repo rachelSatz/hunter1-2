@@ -1,3 +1,5 @@
+import {Compensation} from './compensation.model';
+
 export class PlanTask {
   id: number;
   organization_name: string;
@@ -27,6 +29,7 @@ export class Task {
   record: Record;
   file: File;
   process: Process;
+  compensation: Compensation;
 }
 
 export class Record {
