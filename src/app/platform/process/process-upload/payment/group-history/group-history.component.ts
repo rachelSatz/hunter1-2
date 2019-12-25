@@ -27,9 +27,13 @@ export class GroupHistoryComponent implements OnInit {
     { name: 'employee_name', label: 'קופה בשכר עכשווי' , searchable: false }];
 
   ngOnInit() {
-    const data = new DataTableResponse(this.data.items, 1, this.data.items.length);
+    const data = new DataTableResponse(this.data.items,  this.data.items.length, 1);
     this.dataTable.setItems(data);
   }
+
+  // fetchItems() {
+  //
+  // }
 
   submit(): void {
     this.monthlyService.changeGroupByHistory(this.data.processId , this.data.items).then(

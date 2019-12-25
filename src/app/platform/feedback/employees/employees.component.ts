@@ -252,7 +252,8 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   positiveNegativeFix(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 ||
-      this.dataTable.criteria.checkedItems.some(item => item['status'] !== 'fully_defrayed')) {
+      this.dataTable.criteria.checkedItems.some(item =>
+        item['status'] !== 'fully_defrayed' && item['status'] !== 'not_defrayed' )) {
       this.notificationService.warning('יש לבחור רשומות שנפרעו');
       return;
     }
