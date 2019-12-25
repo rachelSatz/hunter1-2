@@ -59,7 +59,9 @@ export class BroadcastComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.organizationId = this.selectUnitService.currentOrganizationID;
 
-    if (this.processDataService.activeProcess === undefined) {
+    if (this.processDataService.activeProcess !== undefined) {
+      this.selectUnitService.setProcessData(this.processDataService);
+    } else {
       this.processDataService = this.selectUnitService.getProcessData();
     }
     this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
