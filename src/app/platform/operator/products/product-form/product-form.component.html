@@ -30,35 +30,92 @@
                      placeholder="סוג קופה" [error]="typeSelect.errors && form.submitted" required></bd-select>
         </div>
     </div>
-    <p class="border-bottom f-14 bold grey-color">בנקים</p>
-    <div class="d-flex align-items-center mt-3" *ngFor="let ba of product.bank_account;  let last = last; let index = index">
-      <div  class="d-flex align-items-center mt-3" *ngIf="ba.is_active || (ba.id == undefined)" >
-      <div class="bd-select-container">
-        <bd-select [name]="'bank_id' + index"
-                   [items]="banks" #bankIDSelect="ngModel"
-                   [(ngModel)]="ba.bank_id" placeholder="בחר בנק"
-                   required
-                   [error]="bankIDSelect.errors && form.submitted"></bd-select>
-      </div>
-      <div class="bd-select-container mr-3">
-        <bd-select [name]="'branch_id' + index"
-                   [items]="selectedBankBranch(index)"
-                   #branchIDSelect="ngModel"
-                   [(ngModel)]="ba.branch_id"
-                   placeholder="בחר סניף" required
-                   [error]="branchIDSelect.errors && form.submitted"></bd-select>
-      </div>
-      <mat-form-field class="mr-3">
-        <input matInput type="text" [name]="'account_number' + index" [(ngModel)]="ba.account_number" placeholder="מס' חשבון" maxlength="9" pattern="^\d{5,9}$" required>
-        <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
-      </mat-form-field>
-      <mat-checkbox class="mx-3" [name]="'is_primary' + index" [(ngModel)]="ba.is_primary" (change)="primaryBankChecked(index, $event.checked)">ראשי</mat-checkbox>
-      <i class="fa fa-close fa-2x pointer blue-color" title="מחיקה" (click)="deleteBankRow(index)" *ngIf="index != 0"></i>
-      </div>
-      <i class="fa fa-plus-circle fa-2x pointer blue-color" title="הוספה" (click)="addBankRow()" *ngIf="last"></i>
-    </div>
-    <div class="mt-3">
+    <div class="mt-3 mb-1">
       <button class="btn blue-btn" type="submit" (click)="submit(form)">שמירה</button>
     </div>
+  </form>
+  <form #form1="ngForm">
+  <p class="border-bottom f-14 bold grey-color">בנקים</p>
+    <!--<div class="d-flex align-items-center mt-3" *ngFor="let ba of product.bank_account;  let last = last; let index = index">-->
+      <!--<div  class="d-flex align-items-center mt-3" *ngIf="ba.is_active || (ba.id == undefined)" >-->
+      <!--<div class="bd-select-container">-->
+        <!--<bd-select [name]="'bank_id' + index"-->
+                   <!--[items]="banks" #bankIDSelect="ngModel"-->
+                   <!--[(ngModel)]="ba.bank_id" placeholder="בחר בנק"-->
+                   <!--required-->
+                   <!--[error]="bankIDSelect.errors && form.submitted"></bd-select>-->
+      <!--</div>-->
+      <!--<div class="bd-select-container mr-3">-->
+        <!--<bd-select [name]="'branch_id' + index"-->
+                   <!--[items]="selectedBankBranch(index)"-->
+                   <!--#branchIDSelect="ngModel"-->
+                   <!--[(ngModel)]="ba.branch_id"-->
+                   <!--placeholder="בחר סניף" required-->
+                   <!--[error]="branchIDSelect.errors && form.submitted"></bd-select>-->
+      <!--</div>-->
+        <!---->
+      <!--<mat-form-field class="mr-3">-->
+        <!--<input matInput type="text" [name]="'account_number' + index" [(ngModel)]="ba.account_number" placeholder="מס' חשבון" maxlength="9" pattern="^\d{5,9}$" required>-->
+        <!--<mat-error>יש להקיש מעל 5 ספרות.</mat-error>-->
+      <!--</mat-form-field>-->
+      <!--<mat-checkbox class="mx-3" [name]="'is_primary' + index" [(ngModel)]="ba.is_primary" (change)="primaryBankChecked(index, $event.checked)">ראשי</mat-checkbox>-->
+      <!--<i class="fa fa-close fa-2x pointer blue-color" title="מחיקה" (click)="deleteBankRow(index)" *ngIf="index != 0"></i>-->
+      <!--</div>-->
+      <!--<i class="fa fa-plus-circle fa-2x pointer blue-color" title="הוספה" (click)="addBankRow()" *ngIf="last"></i>-->
+    <!--</div>-->
+
+    <div class="d-flex align-items-center mt-3" *ngIf="product.id" >
+        <div  class="d-flex align-items-center mt-3"  >
+        <div class="bd-select-container">
+            <bd-select name="bank_id"
+            [items]="banks" #bankIDSelect="ngModel"
+            [(ngModel)]="bank_account.bank_id" placeholder="בחר בנק"
+            required
+            [error]="bankIDSelect.errors && form1.submitted"></bd-select>
+            </div>
+            <div class="bd-select-container mr-3">
+            <bd-select name="branch_id"
+            [items]="selectedBankBranch()"
+            #branchIDSelect="ngModel"
+            [(ngModel)]="bank_account.branch_id"
+            placeholder="בחר סניף" required
+            [error]="branchIDSelect.errors && form1.submitted"></bd-select>
+            </div>
+
+            <mat-form-field class="mr-3">
+            <input matInput type="text" name="account_number" [(ngModel)]="bank_account.account_number" placeholder="מס' חשבון" maxlength="9" pattern="^\d{5,9}$" required>
+            <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
+            </mat-form-field>
+            <mat-checkbox class="mx-3" name="is_primary" [(ngModel)]="bank_account.is_primary" >ראשי</mat-checkbox>
+          <button class="btn blue-btn"  (click)="addProductBankAccount(form1)">הוספת בנק</button>
+        </div>
+    </div>
+
+
+    <app-data-table tableName="" [columns]="columns"
+                    [hasCheckColumn]="false"
+                    [hasActionsHeader]="false"
+                    [hasExtendedSearch]="false"
+                    [hasActionsSearch]="false"
+                    [hasCheckColumn]="false"
+    (fetchItems)="fetchItems()" >
+      <div class="table-header">
+
+      </div>
+      <tr *ngFor="let item of dataTable.items" class="pointer" >
+        <td>{{ item.bank_name }}</td>
+        <td>{{ item.branch_name}}</td>
+        <td>{{ item.account_number}}</td>
+        <td>
+          <i *ngIf="item.is_primary" class="material-icons">
+            done
+          </i>
+        </td>
+        <!--<td>-->
+          <!--<img title="עריכה" src="/assets/img/icons/edit_grey.png" (click)="editBankRow(item)" class="row-image"/>-->
+          <!--<img title="מחיקה" src="/assets/img/icons/delete.svg" (click)="deleteBankRow(item)" class="row-image"/>-->
+        <!--</td>-->
+      </tr>
+    </app-data-table>
   </form>
 </div>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { ExtendedProduct} from '../_models/product.model';
 import { ProductService } from '../_services/http/product.service';
+import { DataTableCriteria } from 'app/shared/data-table/classes/data-table-criteria';
 
 @Injectable()
 export class ProductResolve implements Resolve<ExtendedProduct> {

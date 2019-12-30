@@ -1,7 +1,7 @@
 import { NgForm} from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
 
 import { fade } from 'app/shared/_animations/animation';
@@ -11,6 +11,9 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { ExtendedProduct, ProductType } from 'app/shared/_models/product.model';
 import { GeneralHttpService} from 'app/shared/_services/http/general-http.service';
 import { RedirectedProductComponent } from './redirected-product/redirected-product.component';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
+import { Alert } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-product-from',
@@ -19,6 +22,17 @@ import { RedirectedProductComponent } from './redirected-product/redirected-prod
   animations: [ fade ]
 })
 export class ProductFormComponent implements OnInit {
+
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+
+
+  readonly columns =  [
+    { name: 'bank', label: 'בנק', searchable: false},
+    { name: 'branch', label: 'סניף', searchable: false},
+    { name: 'account', label: 'חשבון'},
+    { name: 'main', label: 'ראשי?', searchable: false}
+  ];
+
   hasServerError: boolean;
 
   entities = [];
@@ -29,6 +43,7 @@ export class ProductFormComponent implements OnInit {
     return { id: e, name: ProductType[e] };
   });
   allProducts = [];
+  bank_account= new BankAccount();
 
   constructor(private route: ActivatedRoute,
               private productService: ProductService,
@@ -42,15 +57,23 @@ export class ProductFormComponent implements OnInit {
     this.loadBanks();
     if (this.route.snapshot.data.product) {
       this.product = this.route.snapshot.data.product.data;
-      if (this.product.bank_account === null || this.product.bank_account.length === 0) {
-        this.product.bank_account.push(new BankAccount());
-      }
+
+
     }
     this.loadEntities();
     this.productService.getProductsList().then(response =>
       this.allProducts = response
     );
+    this.fetchItems();
   }
+
+  fetchItems() {
+    const bank_account = new DataTableResponse(this.product.bank_account, this.product.bank_account.length, 1);
+    this.dataTable.criteria.limit = this.product.bank_account.length;
+    this.dataTable.setItems(bank_account);
+  }
+
+
 
   loadEntities(): void {
       this.productService.getCompanies().then(response => this.entities = response);
@@ -62,22 +85,17 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
-  addBankRow(): void {
-    this.product.bank_account.push(new BankAccount());
-  }
+  // addBankRow(): void {
+  //   this.bank_account.push(new BankAccount());
+  // }
+  //
+  // deleteBankRow(index: number): void {
+  //   this.bank_account.splice(index, 1);
+  // }
 
-  deleteBankRow(index: number): void {
-    if (!this.product.bank_account[index].id) {
-      this.product.bank_account.splice(index, 1);
-    } else {
-      this.product.bank_account[index].is_active = false;
-    }
-  }
-
-  selectedBankBranch(index?: number): any {
-    const bank_account = this.product.bank_account[index];
-    const bankId = bank_account.bank_id;
-    const branchId = bank_account.branch_id;
+  selectedBankBranch(): any {
+    const bankId = this.bank_account.bank_id;
+    const branchId = this.bank_account.branch_id;
 
     if (this.banks.length > 0 && bankId) {
       const selectedBank = this.banks.find(bank => {
@@ -87,7 +105,7 @@ export class ProductFormComponent implements OnInit {
       if (!selectedBank.bank_branches.find(b => {
         return +b.id === +branchId;
       })) {
-        this.product.bank_account[index].branch_id = 0;
+        this.bank_account.branch_id = 0;
       }
 
       return selectedBank ? selectedBank.bank_branches : [];
@@ -95,33 +113,35 @@ export class ProductFormComponent implements OnInit {
     return [];
   }
 
-  primaryBankChecked(index: number, isChecked: boolean): void {
-    if (!isChecked) {
-      this.checked = false;
-      return;
-    } else {
-      this.product.bank_account.forEach( b => b.is_primary = false);
-      this.checked = true;
-      this.product.bank_account[index].is_primary = isChecked;
-    }
-  }
+  // primaryBankChecked(index: number, isChecked: boolean): void {
+  //   if (!isChecked) {
+  //     this.checked = false;
+  //     return;
+  //   } else {
+  //     this.product.bank_account.forEach( b => b.is_primary = false);
+  //     this.checked = true;
+  //     this.product.bank_account[index].is_primary = isChecked;
+  //   }
+  // }
 
   submit(form: NgForm): void {
     this.hasServerError = false;
     if (form.valid) {
-      if ( this.checked ||  this.product.bank_account.some(b => b.is_primary === true)) {
-        const id = this.product.id ? this.product.id : 0;
-        this.productService.createUpdateProduct(id, this.product).then(response => this.handleResponse(response));
-      } else {
-        this.notificationService.error('', 'חייב לבחור לפחות בנק אחד דיפולט');
-      }
+    //   if ( this.checked ||  this.product.bank_account.some(b => b.is_primary === true)) {
+      const id = this.product.id ? this.product.id : 0;
+      this.productService.createUpdateProduct(id, this.product).then(response => this.handleResponse(response));
+      // } else {
+      //   this.notificationService.error('', 'חייב לבחור לפחות בנק אחד דיפולט');
+      // }
     }
   }
 
   private handleResponse(response: any): void {
     const message = response['message'];
     if (message === 'success') {
-      this.previous();
+      this.notificationService.success('שמירה בוצע בהצלחה');
+      this.product = response['data'];
+      // this.previous();
     } else {
       let mes = '';
       if (message === 'like') {
@@ -143,5 +163,35 @@ export class ProductFormComponent implements OnInit {
       width: '650px',
       panelClass: 'dialog-file'
     });
+  }
+
+  editBankRow(item): void {
+
+  }
+
+  deleteBankRow(item): void {
+
+  }
+
+  addProductBankAccount(form: NgForm): void {
+    if (form.valid) {
+      if (this.product.bank_account.length === 0 && !this.bank_account.is_primary) {
+        return this.notificationService.error('חייב לבחור בנק דיפולט');
+      }
+
+      if (this.product.bank_account.some(b => b.is_primary)  && this.bank_account.is_primary) {
+        const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+        this.notificationService.warning('האם ברצונך להחליף את הבנק דיפולט?', '', buttons).then(confirmation => {
+          if (!confirmation.value) {
+            this.bank_account.is_primary = false;
+          }
+          this.productService.createUpdateProductBankAccount
+          (this.product.id, this.bank_account).then(response => this.handleResponse(response));
+        });
+      }else {
+        this.productService.createUpdateProductBankAccount
+        (this.product.id, this.bank_account).then(response => this.handleResponse(response));
+      }
+    }
   }
 }

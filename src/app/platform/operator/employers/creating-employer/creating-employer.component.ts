@@ -259,7 +259,7 @@ export class CreatingEmployerComponent implements OnInit {
   getNameFile(pathFile: string) {
      pathFile = pathFile.split('\\').join('/');
      let res = pathFile.split('/');
-     res =  res[res.length - 1].split('.')
+     res =  res[res.length - 1].split('.');
      return res[0];
   }
 
@@ -452,6 +452,7 @@ export class CreatingEmployerComponent implements OnInit {
     this.employerService.updateEmployer(this.creatingEmployerForm.get('creatingEmployer.employerDetails').value, this.employer.id)
       .then(response => {
         if (response) {
+          this.platformComponent.getOrganizations(true, true);
           this.departmentId = response['department_id'];
           this.addContactsDocsBank();
         } else {
@@ -492,6 +493,7 @@ export class CreatingEmployerComponent implements OnInit {
       this.creatingEmployerForm.get('creatingEmployer.employerDetails').value,
       this.creatingEmployerForm.get('creatingEmployer.department').value).then(response => {
       if (response) {
+        this.platformComponent.getOrganizations(true, true);
         this.employerId = response['employer_id'];
         this.departmentId = response['department_id'];
         if (this.employerId === 0) {

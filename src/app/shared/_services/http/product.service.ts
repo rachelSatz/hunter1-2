@@ -12,6 +12,7 @@ import {AllProducts, ExtendedProduct, RedirectedProduct} from 'app/shared/_model
 import { Observable } from 'rxjs';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import { BankAccount } from 'app/shared/_models/bank.model';
 
 
 @Injectable()
@@ -73,6 +74,18 @@ export class ProductService extends BaseHttpService {
         .then(response => response);
     } else {
       return this.http.put(this.endPoint + '/' + id + '/createUpdateProduct', product, this.getTokenHeader())
+        .toPromise()
+        .then(response => response);
+    }
+  }
+
+  createUpdateProductBankAccount(id: number, bank_account: BankAccount): Promise<any> {
+    if (bank_account.id === undefined) {
+      return this.http.post(this.endPoint + '/' + id + '/createUpdateProductBankAccount', bank_account, this.getTokenHeader())
+        .toPromise()
+        .then(response => response);
+    } else {
+      return this.http.put(this.endPoint + '/' + id + '/createUpdateProductBankAccount', bank_account, this.getTokenHeader())
         .toPromise()
         .then(response => response);
     }

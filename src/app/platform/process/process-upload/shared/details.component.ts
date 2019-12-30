@@ -45,7 +45,11 @@ export class DetailsComponent  implements OnInit {
   }
 
   previous() {
-    if (this.processDataService.activeProcess.pageNumber === 4 ||
+     if ( this.router.url.includes('records/')) {
+       this.type = 'records';
+       return this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
+     }
+      if (this.processDataService.activeProcess.pageNumber === 4 ||
       this.processDataService.activeProcess.pageNumber === 5) {
       this.router.navigate(['/platform', 'process', 'new', 1, 'broadcast']);
     } else {
