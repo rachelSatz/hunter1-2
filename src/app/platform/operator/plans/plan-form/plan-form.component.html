@@ -57,7 +57,7 @@
         <mat-form-field [ngClass]="classAmount">
           <input matInput type="number" [name]="'amount' + index" [(ngModel)]="row.tasks_amount" placeholder="כמות" required>
         </mat-form-field>
-        <mat-form-field class="w-20 mb-3 mr-3" *ngIf="inProgress || row.days_amount">
+        <mat-form-field class="w-5 mb-3 mr-3" *ngIf="row.days_amount || row.type.id === fileInProgress || row.type.id === recordInProgress">
           <input matInput type="number" [name]="'days_amount' + index" [(ngModel)]="row.days_amount" placeholder="מספר ימים" >
         </mat-form-field>
         <div class="d-flex w-50 mb-3">

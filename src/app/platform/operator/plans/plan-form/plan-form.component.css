@@ -8,7 +8,12 @@
   border: 1px solid #b3b3b3;
   max-height: 600px;
 }
-
+.w-5 {
+  width: 5% !important;
+}
+.w-10 {
+  width: 10% !important;
+}
 .task-item {
   height: 50px;
   width: 90%;

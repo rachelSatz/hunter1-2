@@ -58,8 +58,10 @@ export class ProcessComponent implements OnInit, OnDestroy {
   });
   nameCompany = 'company';
   nameUserId = 'user_id';
+  compensation: number;
   compensationId: number;
   linkId: number;
+  planId: number;
 
   readonly columns  = [
     { name: 'created_at', label: 'תאריך יצירת בקשה', searchOptions: { isDate: true }},
@@ -96,6 +98,8 @@ export class ProcessComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.compensation = this.route.snapshot.queryParams['id'];
+    this.planId = this.route.snapshot.queryParams['planId'];
     this.productService.getCompanies().then(response => {
       const column = this.dataTable.searchColumn(this.nameCompany);
       this.companies = response;
@@ -127,12 +131,17 @@ export class ProcessComponent implements OnInit, OnDestroy {
       this.dataTable.criteria.filters['organization_id'] = organizationId;
       this.dataTable.criteria.filters['department_id'] = departmentId;
       this.dataTable.criteria.filters['event_code'] = '9301';
+
       if (this.compensationId !== undefined ) {
         this.dataTable.criteria.filters['id'] = this.compensationId;
+      }
+      if (this.compensation) {
+        this.dataTable.criteria.filters['id'] = this.compensation;
       }
       if (this.linkId !== undefined ) {
         this.dataTable.criteria.filters['link_id'] = this.linkId;
       }
+
       this.compensationService.getCompensations(this.dataTable.criteria).then(response => {
         this.setResponse(response);
         this.helpers.setPageSpinner(false);

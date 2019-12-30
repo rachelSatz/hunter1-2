@@ -9,7 +9,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
   styleUrls: ['./change-status.component.css']
 })
 export class ChangeStatusComponent implements OnInit {
-
   manualStatus = Object.keys(ManualStatus).map(function(e) {
     return { id: e, name: ManualStatus[e] };
   });
@@ -23,7 +22,8 @@ export class ChangeStatusComponent implements OnInit {
 
   submit(): void {
     if (this.status !== undefined) {
-      this.feedbackService.changeStatus(this.data.ids, this.data.contentType, this.status, this.data.criteria).then(res => {
+      this.feedbackService.changeStatus(this.data.ids, this.data.contentType, this.data.planId, this.status, this.data.criteria)
+        .then(res => {
         this.dialogRef.close(true);
       });
     }

@@ -1,10 +1,10 @@
 import { MatDialog } from '@angular/material';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-
+import { Process, ProcessType } from 'app/shared/_models/process.model';
 import { PlanTask } from 'app/shared/_models/plan-task';
 import { FileType } from 'app/shared/_models/group-thing';
-import { Process } from 'app/shared/_models/process.model';
+import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_models/compensation.model';
 import { TimerService } from 'app/shared/_services/http/timer';
 import { PlanService } from 'app/shared/_services/http/plan.service';
 import { TaskTimer, TaskTimerLabels } from 'app/shared/_models/timer.model';
@@ -15,6 +15,8 @@ import { OperatorTasksService } from 'app/shared/_services/http/operator-tasks';
 import { PlatformComponent } from '../../../platform.component';
 import { EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import {UserSessionService} from '../../../../shared/_services/user-session.service';
+
 
 @Component({
   selector: 'app-ongoing-operation',
@@ -30,21 +32,27 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   seconds: string;
   minutes: string;
   hours: string;
-  isRecord = false;
-  isFile = false;
-  isErrorLoading = false;
-  isCompensation = false;
-  isErrorTransmit = false;
   noMorePlans = false;
   noMoreTask = false;
   fileType = FileType;
-  isPaymentInstructions = false;
   employeeStatus = EmployeeStatus;
   feedbackError = [5, 6, 7, 8, 18, 20, 22];
+  compensationType = 23
+
+  errorsDetails = {
+    compensationEmployer: {error: false, title : 'ייתרות לפיצויים ברמת ח.פ', function: 'recordToExecute'},
+    compensationEmployee: {error: false, title : 'ייתרות לפיצויים ברמת עובד', function: 'compensationEmployeeToExecute'},
+    fileLoading: {error: false, title : 'שגיאה בהעלת קובץ', function: 'errorLoadingFileToExecute'},
+    fileTransmit: {error: false, title : 'שגיאה בשידור קובץ', function: 'errorLoadingFileToExecute', comment: 'שגיאת שידור'},
+    paymentInstructions: {error: false, title : 'שליחת הנחיות לתשלום', function: 'paymentInstructionsErrorToExecute'},
+    file: {error: false, title : 'שגיאה בהיזון חוזר', function: 'fileToExecute'},
+    record: {error: false, title : 'שגיאה בהיזון חוזר', function: 'recordToExecute'},
+  };
 
   constructor(protected route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
+              private userSession: UserSessionService,
               protected notificationService: NotificationService,
               public processDataService: ProcessDataService,
               private planService: PlanService,
@@ -72,21 +80,18 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
         this.plan = response['data'];
         if (this.plan !== null && this.plan.task !== null) {
           if (this.plan.task.record !== undefined) {
-            this.isRecord = true;
+            this.errorsDetails['record'].error = true;
           } else if (this.plan.task.file !== undefined) {
-            this.isFile = true;
+            this.errorsDetails['file'].error = true;
           } else if (this.plan.task.compensation) {
-            this.isCompensation = true;
+            this.errorsDetails['compensationEmployee'].error = true;
           } else if (this.plan.task.process.error_details !== undefined) {
             if (this.plan.task.process.status === 'No Payment instructions') {
-              this.plan.task.message = 'אין הנחיות לתשלום';
-              this.isPaymentInstructions = true;
+              this.errorsDetails['paymentInstructions'].error = true;
             } else if (this.plan.task.process.status === 'error_transmiting') {
-              this.plan.task.message = 'שגיאת שידור';
-              this.isErrorTransmit = true;
+              this.errorsDetails['fileTransmit'].error = true;
             } else {
-              this.plan.task.message = this.plan.task.process.error_details;
-              this.isErrorLoading = true;
+              this.errorsDetails['fileLoading'].error = true;
             }
           }
         }
@@ -104,25 +109,44 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
     this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
   }
 
-  recordToExecute(processId): void {
+  getCurrentError(): any {
+    for (const error in this.errorsDetails) {
+      if (this.errorsDetails[error].error === true) {
+        return error;
+      }
+    }
+  }
+
+  getType(): string {
+    return ProcessType[this.plan.task.process.type];
+  }
+  getTypeSendingMethods(): string {
+    return CompensationSendingMethods[this.plan.task.compensation.sending_method];
+  }
+
+  getStatus(): string {
+    return CompensationStatus[this.plan.task.compensation.status];
+  }
+
+  recordToExecute(): void {
     if ( this.feedbackError.indexOf(this.plan.type.id)  !== -1) {
       this.router.navigate(['/platform', 'feedback', 'employees' ],
-        { queryParams: { recordId: this.plan.task.record.id }});
+        { queryParams: { recordId: this.plan.task.record.id , planId: this.plan.id}});
     } else {
       this.processDataService.activeProcess = new Process();
-      const data = {'processId': processId, 'highlightRecordId': this.plan.task.record.id};
+      const data = {'processId': this.plan.task.process.id, 'highlightRecordId': this.plan.task.record.id};
       this.processDataService.setProcess(data);
       this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
     }
   }
 
-  fileToExecute(processId): void {
+  fileToExecute(): void {
     if ( this.feedbackError.indexOf(this.plan.type.id) !== -1) {
       this.router.navigate(['/platform', 'feedback', 'files' ],
-        { queryParams: { fileId: this.plan.task.file.id }});
+        { queryParams: { fileId: this.plan.task.file.id , planId: this.plan.id}});
     } else {
       this.processDataService.activeProcess = new Process();
-      const data = {'processId': processId, 'highlightFileId': this.plan.task.file.id};
+      const data = {'processId': this.plan.task.process.id, 'highlightFileId': this.plan.task.file.id};
       this.processDataService.setProcess(data);
       this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
     }
@@ -133,25 +157,26 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
       { queryParams: { processId: this.plan.task.process.id }});
   }
 
-  paymentInstructionsErrorToExecute(processId) {
-    this.router.navigate(['/platform', 'process', 'new', 0, 'payment', processId],
+  paymentInstructionsErrorToExecute() {
+    this.router.navigate(['/platform', 'process', 'new', 0, 'payment', this.plan.task.process.id],
       {queryParams: { page: 3}});
   }
 
   taskCompletedDialog(): void {
-    const processId = this.plan.task.process.id;
     this.initializationPlatform();
-    if (this.isRecord) {
-     this.recordToExecute(processId);
-    } else if (this.isFile) {
-      this.fileToExecute(processId);
-    } else if (this.isCompensation) {
-    } else if (this.isErrorLoading) {
-       this.errorLoadingFileToExecute();
-    } else if ( this.isPaymentInstructions) {
-      this.paymentInstructionsErrorToExecute(processId);
-    } else if (this.isErrorTransmit) {
+    const error = this.getCurrentError();
+    this[this.errorsDetails[error].function]();
+  }
 
+  compensationEmployeeToExecute(): void {
+    if (this.plan.type.id === this.compensationType) {
+      this.router.navigate(['/platform', 'compensation', 'process' ],
+        { queryParams: { id: this.plan.task.compensation.id , planId: this.plan.id}});
+    } else {
+      this.processDataService.activeProcess = new Process();
+      const data = {'processId': this.plan.task.process.id, 'highlightRecordId': this.plan.task.record.id};
+      this.processDataService.setProcess(data);
+      this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
     }
   }
 

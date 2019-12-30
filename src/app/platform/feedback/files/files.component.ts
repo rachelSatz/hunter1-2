@@ -43,6 +43,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
   selectMonth: number;
   statuses = Status;
   fileId: number;
+  planId: string;
   processId: number;
   feedbackDate: string;
   processName: string;
@@ -87,6 +88,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
 
   ngOnInit() {
     this.fileId = this.route.snapshot.queryParams['fileId'];
+    this.planId = this.route.snapshot.queryParams['planId'];
     this.processId = this.route.snapshot.queryParams['processId'];
     this.selectYear = this.route.snapshot.queryParams['year'];
     this.selectYear = this.selectYear ?  Number(this.selectYear) : this.year;
@@ -175,7 +177,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
 
     const dialog = this.dialog.open(ChangeStatusComponent, {
       data: {'ids': ids, 'contentType': 'groupthing',
-        'criteria': this.dataTable.criteria},
+        'criteria': this.dataTable.criteria, 'planId': this.planId},
       width: '400px',
       panelClass: 'change-status-dialog'
     });

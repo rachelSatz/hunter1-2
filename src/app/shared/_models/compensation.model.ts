@@ -10,7 +10,12 @@ export class Compensation {
   created_at: string;
   updated_at: string;
   company_id: string;
+  company: string;
   employer_id: string;
+  employee_name: string;
+  employee_identifier: string;
+  validity_date: string;
+  sending_method: string;
   portal_balance: number;
   has_by_safebox: boolean;
   files: any;

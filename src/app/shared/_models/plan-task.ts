@@ -2,6 +2,7 @@ import {Compensation} from './compensation.model';
 
 export class PlanTask {
   id: number;
+  company: string;
   organization_name: string;
   employer_name: string;
   task: Task;

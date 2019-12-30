@@ -33,7 +33,7 @@ export class PlanFormComponent implements OnInit  {
   recordInProgress =  20;
   date = '09/07/2019';
   inProgress = false;
-  classAmount = 'w-25 mb-3 mr-3';
+  classAmount = 'w-20 mb-3 mr-3';
   userOfTeamLeader: string[];
   groups = Object.keys(TeamLeaderTask).map(function (e) {
     return {id: e, name: TeamLeaderTask[e]};
@@ -114,10 +114,11 @@ export class PlanFormComponent implements OnInit  {
   setDataSubType(typeId: any): void {
     if (typeId === this.fileInProgress || typeId === this.recordInProgress || typeId === this.compensation) {
       this.inProgress = true;
-      this.classAmount = 'w-20 mb-3 mr-3';
+      this.classAmount = 'w-10 mb-3 mr-3';
     } else {
       this.inProgress = false;
-      this.classAmount = 'w-25 mb-3 mr-3';
+      this.classAmount = 'w-20 mb-3 mr-3';
+
     }
   }
 
