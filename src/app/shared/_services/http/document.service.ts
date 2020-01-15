@@ -58,13 +58,16 @@ export class  DocumentService extends BaseHttpService {
       .catch(() => null);
   }
 
-  uploadFile(employerId, description: string, file: File, documentType) {
+  uploadFile(employerId, description: string, file: File, documentType, planId?: number) {
     this.file = file;
     const data = new FormData();
     data.append('file', file);
     data.append('description', description);
     data.append('employerId', employerId);
     data.append('documentType', documentType);
+    if (planId) {
+      data.append('planId', planId.toString());
+    }
     return this.http.post(this.endPoint , data, this.getTokenHeader()).toPromise().then(response => response)
       .catch(() => null);
   }
@@ -89,8 +92,6 @@ export class  DocumentService extends BaseHttpService {
     return this.http.post(this.endPoint   + '/' +  employer_id + '/update'  , data, this.getTokenHeader())
       .toPromise()
       .then(response => response);
-    // this.http.post(this.endPoint , files, this.getTokenHeader()).toPromise().then(response => response)
-    //      .catch(() => null);
   }
 
   getIsNegativeFile(employer_id: number): Promise<boolean> {

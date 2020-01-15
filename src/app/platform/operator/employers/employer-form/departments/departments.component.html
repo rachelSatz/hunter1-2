@@ -12,7 +12,7 @@
       <td>{{ item.name }}</td>
       <td>{{ item.id }}</td>
       <td *ngIf="role">
-        <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+        <img src="/assets/img/icons/edit_grey.png" (click)="navigateForm(item.id)"  class="row-image">
       </td>
     </tr>
   </app-data-table>

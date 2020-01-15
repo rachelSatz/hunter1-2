@@ -1,4 +1,5 @@
 import {Compensation} from './compensation.model';
+import {Employer} from './employer.model';
 
 export class PlanTask {
   id: number;
@@ -31,6 +32,7 @@ export class Task {
   file: File;
   process: Process;
   compensation: Compensation;
+  employer: Employer;
 }
 
 export class Record {

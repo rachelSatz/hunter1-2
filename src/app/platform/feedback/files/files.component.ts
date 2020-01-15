@@ -114,8 +114,9 @@ export class FilesComponent implements OnInit, OnDestroy  {
     if (this.selectMonth !== undefined) {
       this.dataTable.criteria.filters['month'] = this.selectMonth;
     }
-    this.dataTable.criteria.filters['year'] = this.selectYear;
-
+    if (!this.planId) {
+      this.dataTable.criteria.filters['year'] = this.selectYear;
+    }
 
     if (departmentId !== 0) {
       this.dataTable.criteria.filters['departmentId'] = departmentId;

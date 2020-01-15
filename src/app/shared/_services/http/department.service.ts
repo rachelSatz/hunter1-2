@@ -50,8 +50,8 @@ export class DepartmentService extends BaseHttpService {
       .catch(() => []);
   }
 
-  update(department: Department): Promise<boolean> {
-    return this.http.put(this.endPoint + '/' + department.id, department, this.getTokenHeader())
+  update(department: Department, planId?: number): Promise<boolean> {
+    return this.http.put(this.endPoint + '/' + department.id, {department: department, planId: planId} , this.getTokenHeader())
       .toPromise()
       .then(() => true)
       .catch(() => false);

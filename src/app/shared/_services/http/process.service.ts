@@ -46,8 +46,9 @@ export class ProcessService extends BaseHttpService {
       .then(response => response as DataTableResponse);
   }
 
-  downloadPaymentsInstruction(id: number): Promise<any> {
-    return this.http.post(this.endPoint + '/downloadPaymentsInstruction', {'processId': id}, this.getTokenHeader())
+  downloadPaymentsInstruction(id: number, planId?: number): Promise<any> {
+    return this.http.post(this.endPoint + '/downloadPaymentsInstruction', {'processId': id, 'planId': planId},
+      this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);
@@ -123,10 +124,9 @@ export class ProcessService extends BaseHttpService {
       .then(response => response)
       .catch(response => response);
   }
-
-  sendEmail(processId: number, recipient: any[]): Promise<string> {
+  sendEmail(processId: number, recipient: any[], planId?: number): Promise<string> {
     return this.http.post(this.endPoint + '/sendPaymentsInstruction' ,
-      {processId: processId, recipient: recipient},
+      {processId: processId, recipient: recipient, planId: planId},
       this.getTokenHeader())
       .toPromise()
       .then(response => response)
@@ -178,7 +178,7 @@ export class ProcessService extends BaseHttpService {
       .catch(response => response);
   }
 
-  deleteProcess(processId: number): Promise<any> {
+  deleteProcess(processId: number, planId?: number): Promise<any> {
     return this.http.delete(this.endPoint + '/' + processId,  this.getTokenHeader())
       .toPromise()
       .then(response => response)
