@@ -113,6 +113,11 @@ export class SelectUnitService {
     this.currentDepartmentID = departmentId;
     this.unitSubject.next(organizationId);
   }
+  changeOrganization(organizationId: number): void {
+    sessionStorage.setItem('organizationID', JSON.stringify(organizationId));
+    this.currentOrganizationID = organizationId;
+    this.unitSubject.next(organizationId);
+  }
 
 }
 

@@ -92,6 +92,40 @@ export class TimerType {
   color: string;
 }
 
+export enum CategoryTypeCompensation {
+  compensationEmployeeType = 23,
+  compensationEmployerType = 24,
+  compensationEmployeeSendType = 25,
+  compensationEmployerSendType = 26,
+}
+
+export enum CategoryTypeFeedback {
+  fileOngPaidFailed = 5,
+  fileNegPaidFailed = 6,
+  fileNegPartiallyPaid = 7,
+  fileOngPartiallyPaid = 8,
+  recordPaidFailed = 18,
+  recordInProgress = 20,
+  fileInProgress = 22,
+}
+
+export enum CategoryTypErrors {
+  fileUploadError = 1,
+  paymentInstructions = 2,
+  fileTransmittedError = 3,
+}
+
+
+export enum CategoryTypeEmployerError {
+  employerEstablishmentErrorContact = 27,
+  employerEstablishmentErrorPa = 28,
+  employerEstablishmentErrorContract = 31,
+  employerEstablishmentErrorProtocol = 32,
+  employerEstablishmentErrorBankAccount = 33,
+  employerEstablishmentError = 34,
+}
+
+
 export enum TimerTypeLabels {
   phones = 'שיחות טלפון',
   mails = 'מיילים',

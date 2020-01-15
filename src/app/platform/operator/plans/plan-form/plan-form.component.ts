@@ -4,13 +4,14 @@ import { ActivatedRoute, Router} from '@angular/router';
 import { Component, OnInit} from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
-import { Categories, Plan, TIMESTAMPS } from 'app/shared/_models/plan';
+import { Categories, Plan, TIMESTAMPS, CategoryTypeEmployerError } from 'app/shared/_models/plan';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { TaskService} from 'app/shared/_services/http/task.service';
 import { PlanService} from 'app/shared/_services/http/plan.service';
 import { UserService} from 'app/shared/_services/http/user.service';
-import {TeamLeaderTask, User} from 'app/shared/_models/user.model';
+import { TeamLeaderTask, User} from 'app/shared/_models/user.model';
 import { Subscription } from 'rxjs';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-plan-form',
@@ -26,11 +27,11 @@ export class PlanFormComponent implements OnInit  {
   timestamps = [];
   isSubmitFailed = false;
   isSubmitting = false;
+  update = false;
   sub: Subscription;
   categoriesData = [];
-  fileInProgress =  22;
-  compensation = 23;
-  recordInProgress =  20;
+  daysAmountTasks = [22, 23, 20, 24, 25, 26];
+  employerEstablishmentError = Object.values(CategoryTypeEmployerError);
   date = '09/07/2019';
   inProgress = false;
   classAmount = 'w-20 mb-3 mr-3';
@@ -50,6 +51,7 @@ export class PlanFormComponent implements OnInit  {
   ngOnInit() {
     this.timestamps = TIMESTAMPS;
     if (this.route.snapshot.data.plan) {
+      this.update = true;
       this.plan = this.route.snapshot.data.plan;
       if (this.plan.team_leader) {
         this.plan.team_leader = [this.route.snapshot.data.plan['team_leader']];
@@ -74,6 +76,21 @@ export class PlanFormComponent implements OnInit  {
     this.categoriesData = event.container.data;
   }
 
+  isCreatingEmployer(row): boolean {
+    if (this.update) {
+      if (row.salary_date_start !== null) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (this.employerEstablishmentError.indexOf(row.type.id) === -1) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
   checkUsersOfTeamLeader() {
     let isEquals = true;
     this.userOfTeamLeader.forEach( user => {
@@ -112,7 +129,7 @@ export class PlanFormComponent implements OnInit  {
   }
 
   setDataSubType(typeId: any): void {
-    if (typeId === this.fileInProgress || typeId === this.recordInProgress || typeId === this.compensation) {
+    if (this.daysAmountTasks.indexOf(typeId) !== -1) {
       this.inProgress = true;
       this.classAmount = 'w-10 mb-3 mr-3';
     } else {

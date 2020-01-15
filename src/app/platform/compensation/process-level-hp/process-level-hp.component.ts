@@ -49,7 +49,8 @@ export class ProcessLevelHpComponent implements OnInit, OnDestroy {
     return { id: e, name: CompensationSendingMethods[e] };
   });
   responseTimes = [{id: 2, name: '0-2'}, {id: 4, name: '2-4'}, {id: 5, name: '5+'}];
-
+  compensation;
+  planId;
   nameCompany = 'company';
   nameUserId = 'user_id';
   compensationId: number;
@@ -84,6 +85,9 @@ export class ProcessLevelHpComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.compensation = this.route.snapshot.queryParams['id'];
+    this.planId = this.route.snapshot.queryParams['planId'];
+
     this.productService.getCompanies().then(response => {
       const column = this.dataTable.searchColumn(this.nameCompany);
       this.companies = response;
@@ -103,6 +107,8 @@ export class ProcessLevelHpComponent implements OnInit, OnDestroy {
 
   fetchItems() {
     this.compensationId = this.route.snapshot.params['id'];
+    this.compensation = this.route.snapshot.queryParams['id'];
+    this.planId = this.route.snapshot.queryParams['planId'];
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
     const departmentId = this.selectUnit.currentDepartmentID;
@@ -112,8 +118,8 @@ export class ProcessLevelHpComponent implements OnInit, OnDestroy {
       this.dataTable.criteria.filters['organization_id'] = organizationId;
       this.dataTable.criteria.filters['department_id'] = departmentId;
       this.dataTable.criteria.filters['event_code'] = '9300';
-      if (this.compensationId !== undefined ) {
-        this.dataTable.criteria.filters['id'] = this.compensationId;
+      if (this.compensationId !== undefined || this.compensation ) {
+        this.dataTable.criteria.filters['id'] = this.compensationId ? this.compensationId : this.compensation;
       }
       this.compensationService.getCompensations(this.dataTable.criteria).then(response => {
         this.setResponse(response);
@@ -137,7 +143,7 @@ export class ProcessLevelHpComponent implements OnInit, OnDestroy {
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
 
     this.helpers.setPageSpinner(true);
-    this.compensationService.sendCompensations(items, this.dataTable.criteria).then(response => {
+    this.compensationService.sendCompensations(items, this.dataTable.criteria, this.planId).then(response => {
       this.helpers.setPageSpinner(false);
       if (response) {
         if (response['list_exceptions'].length > 0) {
@@ -208,7 +214,7 @@ export class ProcessLevelHpComponent implements OnInit, OnDestroy {
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
 
-    this.compensationService.manualChangingStatus(items, this.dataTable.criteria).then(response => {
+    this.compensationService.manualChangingStatus(items, this.dataTable.criteria, this.planId).then(response => {
       this.dataTable.criteria.checkedItems = [];
       this.dataTable.criteria.isCheckAll = false;
 

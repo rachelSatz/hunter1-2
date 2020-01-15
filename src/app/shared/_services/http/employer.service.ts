@@ -17,7 +17,7 @@ export class EmployerService extends BaseHttpService {
   constructor(userSession: UserSessionService, private http: HttpClient) {
     super(userSession);
   }
- 
+
   readonly endPoint = this.apiUrl + '/employers';
 
   getEmployer(id: number): Promise<Employer> {
@@ -73,7 +73,7 @@ export class EmployerService extends BaseHttpService {
   }
 
   getIsEmployerFile(employer_id: number): Promise<any> {
-    const path_url = this.endPoint + '/' + employer_id +  '/fileEmployerPoaAndAP';
+    const path_url = this.endPoint + '/' + employer_id +  '/check_file_employer';
     return this.http.get(path_url, this.getTokenHeader())
       .toPromise()
       .then(response => response);

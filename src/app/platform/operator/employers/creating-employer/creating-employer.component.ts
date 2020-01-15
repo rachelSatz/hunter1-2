@@ -21,6 +21,7 @@ import { Contact} from 'app/shared/_models/contact.model';
 import { fade } from 'app/shared/_animations/animation';
 import { ActivatedRoute, Router} from '@angular/router';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {Month} from '../../../../shared/_const/month-bd-select';
 
 
 @Component({
@@ -54,12 +55,17 @@ export class CreatingEmployerComponent implements OnInit {
   hasServerError: boolean;
   creatingEmployerForm: FormGroup;
   clickedContinue: boolean;
+  planId: number;
   isEdit = false;
   organizationId: number;
   departmentId;
   employerId;
   count = 1;
   cities = [];
+  month: number;
+  year: number;
+  readonly months = Month;
+  readonly years = [];
   fileTypeError;
   identifierTypes = Object.keys(IdentifierTypes).map(function(e) {
     return { id: e, name: IdentifierTypes[e] };
@@ -102,6 +108,10 @@ export class CreatingEmployerComponent implements OnInit {
     if (this.route.snapshot.params.id) {
       this.helpers.setPageSpinner(true);
     }
+    if (this.route.snapshot.queryParams) {
+      this.pageNumber = this.route.snapshot.queryParams['pageNum'];
+      this.planId = this.route.snapshot.queryParams['planId'];
+    }
     this.initForm();
     this.employerService.getCity().then(response => {
       this.cities = response;
@@ -136,7 +146,7 @@ export class CreatingEmployerComponent implements OnInit {
           'identifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'receivedIdentifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'deductionNumber': [],
-          'phone': [null , [Validators.pattern('^[0-9]*$')]],
+          'phone': [null, [Validators.pattern('[0-9]{0-10}')]],
           'address': [null],
           'city_id': [null],
           'project': [null, Validators.required],
@@ -157,8 +167,8 @@ export class CreatingEmployerComponent implements OnInit {
             'last_name': [null , Validators.required],
             'entity_type': ['employer'],
             'role': [null],
-            'phone': [null , [Validators.pattern('^[0-9]*$')]],
-            'mobile': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
+            'phone': [null, Validators.pattern('^[0-9]*$')],
+            'mobile': [null, Validators.pattern('^[0-9]*$')],
             'email': [null , [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
             'comment':  ['']
           })]),
@@ -182,6 +192,10 @@ export class CreatingEmployerComponent implements OnInit {
           'type': ['withdrawal'],
           'isPrimary': [true],
         })
+      }),
+      'xmlFile': this.fb.group({
+        'month': [null],
+        'year': [null],
       })
     });
   }
@@ -212,8 +226,8 @@ export class CreatingEmployerComponent implements OnInit {
           'last_name': [contact ? contact.last_name : null, Validators.required],
           'role': [contact ? contact.role : null],
           'entity_type': ['employer'],
-          'phone': [contact ? contact.phone : null, [Validators.pattern('^[0-9]*$')]],
-          'mobile': [contact ? contact.mobile : null, [Validators.pattern('^[0-9]*$'), Validators.required]],
+          'phone': [contact ? contact.phone : null, Validators.pattern('^[0-9]*$')],
+          'mobile': [contact ? contact.mobile : null, Validators.pattern('^[0-9]*$')],
           'email': [contact ? contact.email : null,
             [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
           'comment':  contact.comment
@@ -334,7 +348,8 @@ export class CreatingEmployerComponent implements OnInit {
     const  contactSingle = this.creatingEmployerForm.get('creatingEmployer.contact').value;
     let validContact = true;
     contactSingle.forEach( c => {
-      if (c['first_name'] === null || c['last_name'] === null || c['mobile'] === null || c['email'] === null) {
+      const phone = c['mobile'] !== null ? c['mobile'] : c['phone'] !== null ? c['phone'] : null;
+      if (c['first_name'] === null || c['last_name'] === null || phone === null  || c['email'] === null) {
          validContact = false;
       }
     });
@@ -345,7 +360,7 @@ export class CreatingEmployerComponent implements OnInit {
         'role': [ null ],
         'entity_type': ['employer'],
         'phone': [null , [Validators.pattern('^[0-9]*$')]],
-        'mobile': [null,  [Validators.pattern('^[0-9]*$'), Validators.required]],
+        'mobile': [null,  [Validators.pattern('^[0-9]*$')]],
         'email': [null,
           [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
         'comment':  ['']
@@ -393,8 +408,13 @@ export class CreatingEmployerComponent implements OnInit {
               this.uploadedFileProtocol && this.validationFile(this.uploadedFileProtocol));
   }
 
+  private checkValidData(): boolean {
+    const employer = this.creatingEmployerForm.get('creatingEmployer.employerDetails');
+    return (employer.value['phone'] !== null && employer.get('phone').valid) || employer.value['phone'] === null;
+  }
+
   continueProcess(): void {
-    if (this.pageNumber === 1 && this.validation()) {
+    if (this.pageNumber === 1 && this.validation() && this.checkValidData()) {
         this.pageNumber += 1;
     } else if (this.pageNumber === 2 || this.pageNumber === 3) {
       if (this.checkValidFiles() || (!this.uploadedFilePoa && !this.uploadedFileCustomer && !this.uploadedFileContract &&
@@ -405,48 +425,7 @@ export class CreatingEmployerComponent implements OnInit {
                 !this.isDetailsBank())) {
       this.pageNumber += 1;
     }
-    // switch (this.pageNumber) {
-    //   case 1: {
-    //     // if (this.creatingEmployerForm.get('creatingEmployer').valid) {
-    //       this.pageNumber += 1;
-    //     // }
-    //   } break;
-    //   case 2: {
-    //     if (this.uploadedFileContract && this.validationFile(this.uploadedFileContract)) {
-    //       this.pageNumber += 1;
-    //     }
-    //   } break;
-    //   case 3: {
-    //     this.clickedContinue = true;
-    //     if (this.uploadedFilePoa && this.uploadedFileProtocol && this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa)
-    //     && this.validationFile(this.uploadedFileProtocol) && this.validationFile(this.uploadedFileCustomer)) {
-    //       this.pageNumber += 1;
-    //       this.clickedContinue = false;
-    //     }
-    //   } break;
-      // case 4: {
-      //   if (this.creatingEmployerForm.get('detailsBank').valid) {
-      //     this.pageNumber += 1;
-      //   }
-      // } break;
-    // }
   }
-
-  // addDocumentBankFile(): void {
-  //   const files = [this.uploadedFileContract, this.uploadedFilePoa, this.uploadedFileProtocol, this.uploadedFileCustomer];
-  //   this.documentService.uploadFiles(files, this.employerId).then(response =>  {
-  //     if (response) {
-  //       if (this.maxPageNumber >= 4) {
-  //         this.addBankAccount();
-  //       } else if (this.maxPageNumber === 5) {
-  //         this.sendFile();
-  //       } else {
-  //         this.routerViewEmployer();
-  //       }
-  //     }
-  //   });
-  // }
-
 
   updateData() {
     this.employerService.updateEmployer(this.creatingEmployerForm.get('creatingEmployer.employerDetails').value, this.employer.id)
@@ -499,7 +478,7 @@ export class CreatingEmployerComponent implements OnInit {
         if (this.employerId === 0) {
           this.helpers.setPageSpinner(false);
           this.hasServerError = true;
-          this.notificationService.error('האירגון קיים במערכת');
+          this.notificationService.error('המעסיק קיים במערכת');
         } else {
           this.addContactsDocsBank();
         }
@@ -578,9 +557,11 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   sendFile(): void {
+    const month = this.creatingEmployerForm.get('xmlFile.month');
+    const year = this.creatingEmployerForm.get('xmlFile.year');
     const data = {
-      'month':  new Date().getMonth().toString(),
-      'year': new Date().getFullYear().toString(),
+      'month':  month ? month.toString() : new Date().getMonth().toString(),
+      'year': year ? year.toString() : new Date().getFullYear().toString(),
       'processName': '',
       'departmentId': this.departmentId,
       'type': 'positive',
@@ -604,52 +585,37 @@ export class CreatingEmployerComponent implements OnInit {
 
   validation(): boolean {
     const employer = this.creatingEmployerForm.get('creatingEmployer.employerDetails');
-    const contact = this.creatingEmployerForm.get('creatingEmployer.contact');
+    const contacts1 = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact')).controls;
+    contacts1.forEach(
+       contact => {
+        if (contact.get('mobile').value === null || contact.get('mobile').value === '') {
+          contact.get('phone').setValidators(Validators.required);
+          contact.get('mobile').clearValidators();
+          contact.get('mobile').updateValueAndValidity();
+        } else if (contact.get('phone').value === null || contact.get('phone').value === '' ) {
+          contact.get('mobile').setValidators(Validators.required);
+          contact.get('phone').clearValidators();
+          contact.get('phone').updateValueAndValidity();
+        }
+      });
+    const contacts = this.creatingEmployerForm.get('creatingEmployer.contact');
     return ((employer.value['newOrganization'] !== null || employer.value['organization'] !== null) &&
       employer.value['name'].value !== null && employer.value['identifier'] !== null)
-      && (this.isDetailsContact() && contact.valid || this.isDetailsContact() === false);
+      && (this.isDetailsContact() && contacts.valid || this.isDetailsContact() === false);
   }
 
-  // submitEmployerConstruction(): void {
-    // this.maxPageNumber = this.maxPageNumber > this.pageNumber ? this.maxPageNumber : this.pageNumber;
-    // if (this.uploadedFileXml && !this.fileTypeError) {
-    //   return this.submit();
-    // }
-    // if (this.maxPageNumber === 5) {
-    //   this.maxPageNumber = 4;
-    // }
-    // this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
-    // switch (this.maxPageNumber) {
-    //   case 1: {
-    //     if (this.validation()) {
-    //     this.insertData();
-    //   }} break;
-    //   case 2:
-    //   case 3: {
-    //     if (!this.uploadedFileContract) {
-    //       this.maxPageNumber = 1;
-    //     }
-    //       this.insertData();
-    //   } break;
-    //   case 4: {
-    //     if (!this.isDetailsBank() && !this.creatingEmployerForm.controls['detailsBank'].valid) {
-    //       this.maxPageNumber = 3;
-    //     }
-    //       this.insertData();
-    //   } break;
-    // }
-  // }
-
   submit(): void {
-    if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
+    if (this.validation()) {
+      if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
         this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
         this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
         this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
         (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
-      this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
-    } else {
-      this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+        this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
+      } else {
+        this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+      }
+      this.insertData();
     }
-    this.insertData();
   }
 }

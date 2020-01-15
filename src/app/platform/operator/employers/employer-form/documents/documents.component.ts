@@ -26,8 +26,9 @@ export class DocumentsComponent implements OnInit , OnDestroy {
   sub = new Subscription;
   documentTypes = DocumentTypes;
   role = this.userSession.getRole() !== 'employer';
+  planId: number;
 
-  constructor(route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private documentService: DocumentService,
               private router: Router,
               private userSession: UserSessionService,
@@ -45,6 +46,7 @@ export class DocumentsComponent implements OnInit , OnDestroy {
   ];
 
   ngOnInit() {
+    this.planId = this.route.snapshot.queryParams['planId'];
     if (this.router.url.includes('employers')) {
       this.pathEmployers = true;
       this.dataTable.criteria.limit = 5;
@@ -99,7 +101,7 @@ export class DocumentsComponent implements OnInit , OnDestroy {
 
   addDocument() {
     const dialog = this.dialog.open(AddDocumentComponent, {
-      data: this.pathEmployers,
+      data: {'pathEmployers': this.pathEmployers, 'planId': this.planId},
       width: '500px',
       height: '550px'
     });
