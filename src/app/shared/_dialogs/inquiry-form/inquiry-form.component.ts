@@ -34,6 +34,7 @@ export class InquiryFormComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   action = '1';
+  isAttachFile = this.data.contentType === 'compensation' && this.data.isAttachFile ? true : false;
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   Emails: Email[] = [];
@@ -125,6 +126,7 @@ export class InquiryFormComponent implements OnInit {
         this.data.amount,
         this.action,
         this.activeContentType,
+        this.isAttachFile,
         this.uploadedFile
       ).then(response => {
         if (response) {

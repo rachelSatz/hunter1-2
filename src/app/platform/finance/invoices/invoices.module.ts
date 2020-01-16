@@ -5,10 +5,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule,
-  MatSelectModule, MatIconModule, MatAutocompleteModule } from '@angular/material';
+import {
+  MatFormFieldModule,
+  MatInputModule,
+  MatDialogModule,
+  MatCheckboxModule,
+  MatSelectModule,
+  MatIconModule,
+  MatAutocompleteModule ,
+  MatDatepickerModule} from '@angular/material';
 
-import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { InvoiceService } from 'app/shared/_services/http/invoice.service';
 import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
@@ -29,9 +35,14 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
-    MatFormFieldModule, MatInputModule, MatDialogModule, MatCheckboxModule, MatSelectModule, MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatIconModule,
     MatAutocompleteModule,
-    DatePickerModule,
+    MatDatepickerModule,
     DataTableModule,
     BdSelectModule,
     PipesModule

@@ -324,6 +324,8 @@ export class PlatformComponent implements OnInit {
     }
   }
 
+
+
   // @HostListener('window:beforeunload', ['$event'])
   // beforeUnloadHander(event) {
   //   console.log(event);

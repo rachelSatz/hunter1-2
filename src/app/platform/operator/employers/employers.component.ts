@@ -24,6 +24,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
   documents: string[];
   employerStatus = EmployerStatus;
   employerId: number;
+  role = this.userSession.getRole();
   readonly columns =  [
     { name: 'organization_name', label: 'ארגון' },
     { name: 'employer_name', label: 'מעסיק' },

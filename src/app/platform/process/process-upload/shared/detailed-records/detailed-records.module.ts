@@ -12,7 +12,8 @@ import {
   MatProgressBarModule,
   MatTooltipModule,
   MatProgressSpinnerModule,
-  MatDatepickerModule, MatAutocompleteModule, MatChipsModule
+  MatAutocompleteModule,
+  MatChipsModule
 } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
@@ -23,6 +24,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { SendEmailIncorrectComponent } from './send-email-incorrect/send-email-incorrect.component';
 import { FileDropModule } from 'ngx-file-drop';
+import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 
 
 const route: Routes = [
@@ -49,7 +51,7 @@ const route: Routes = [
     DataTableModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    MatDatepickerModule
+    DatePickerModule
   ],
   providers: [ NotificationService, ContactService],
   declarations: [DetailedRecordsComponent, SendEmailIncorrectComponent],

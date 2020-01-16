@@ -42,6 +42,8 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   errorsDetails = {
     compensationEmployer: {error: false, title : 'ייתרות לפיצויים ברמת ח.פ', function: 'compensationEmployerToExecute'},
     compensationEmployee: {error: false, title : 'ייתרות לפיצויים ברמת עובד', function: 'compensationEmployeeToExecute'},
+    fileLoading: {error: false, title : 'שגיאה בהעלאת קובץ', function: 'errorLoadingFileToExecute'},
+    fileTransmit: {error: false, title : 'שגיאה בשידור קובץ', function: 'errorLoadingFileToExecute', comment: 'שגיאת שידור'},
     fileError: {error: false, title : 'שגיאת קובץ לפני שידור', function: 'errorLoadingFileToExecute'},
     paymentInstructions: {error: false, title : 'שליחת הנחיות לתשלום', function: 'paymentInstructionsErrorToExecute'},
     file: {error: false, title : 'שגיאה בהיזון חוזר', function: 'fileToExecute'},

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule , FormGroup} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FinanceComponent } from './finance.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -9,12 +9,12 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatRadioModule,
-  MatSelectModule,
+  MatSelectModule
 } from '@angular/material';
 import { MatDividerModule } from '@angular/material/divider';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
-import { DatePickerModule } from '../../../../../shared/app-date-picker/app-date-picker.module';
+import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 
 const routes: Routes = [{ path: '', component: FinanceComponent }];
 

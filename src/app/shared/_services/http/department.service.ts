@@ -64,6 +64,13 @@ export class DepartmentService extends BaseHttpService {
       .catch(() => false);
   }
 
+  delete(id: number): Promise<boolean> {
+    return this.http.delete(this.endPoint + '/' + id, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
+
   addSNInCompanies(obj: any): Promise<any> {
     return this.http.post(this.endPoint + '/addSNInCompanies' ,  [obj], this.getTokenHeader())
       .toPromise()

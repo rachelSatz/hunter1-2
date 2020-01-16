@@ -196,7 +196,7 @@ export class DepositsReportComponent implements OnInit {
     const dialog = this.dialog.open(InquiryFormComponent, {
       data: {'id': item.id, 'contentType': 'deposits_report',
         'employerId': item.employer_id, 'companyId': item.company_id},
-      width: '450px'
+      width: '500px'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(created => {

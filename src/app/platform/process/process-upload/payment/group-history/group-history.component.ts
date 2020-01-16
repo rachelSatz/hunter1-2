@@ -7,7 +7,8 @@ import { DataTableResponse } from 'app/shared/data-table/classes/data-table-resp
 
 @Component({
   selector: 'app-group-history',
-  templateUrl: './group-history.component.html'
+  templateUrl: './group-history.component.html',
+  styles: ['.height500 { height: 500px; }'],
 })
 export class GroupHistoryComponent implements OnInit {
 

@@ -6,7 +6,6 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   MatAutocompleteModule,
   MatCheckboxModule,
-  MatDatepickerModule,
   MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
@@ -30,7 +29,6 @@ import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-t
 import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DocumentService } from 'app/shared/_services/http/document.service';
-import { ChangeStatusComponent } from 'app/shared/_dialogs/change-status/change-status.component';
 
 const routes: Routes = [{
   path: '', component: EmployeesComponent
@@ -40,7 +38,6 @@ const routes: Routes = [{
   imports: [
     CommonModule,
     FormsModule,
-    MatDatepickerModule,
     RouterModule.forChild(routes),
     MatFormFieldModule,
     MatDialogModule,

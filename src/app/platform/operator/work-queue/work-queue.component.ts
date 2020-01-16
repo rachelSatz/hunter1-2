@@ -14,8 +14,7 @@ export class WorkQueueComponent implements OnInit {
     {label: 'מיילים',   link: 'emails'},
     {label: 'תפעול שוטף', link: 'ongoing-operation'},
     {label: 'הדרכה', link: 'guidance'},
-    {label: 'הפסקה', link: 'break'},
-    {label: 'משימות דחופות', link: 'Urgent tasks'}
+    {label: 'הפסקה', link: 'break'}
   ];
 
   constructor() { }

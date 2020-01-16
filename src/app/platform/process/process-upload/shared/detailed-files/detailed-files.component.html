@@ -27,9 +27,8 @@
       <td>{{ item.group_id}}</td>
       <td [ngClass]=" { 'redColor' : item.company_name == 'null company'}">{{ item.company_name }}</td>
       <td>
-      <img src="/assets/img/icons/details_grey.png" [title]="getTitle(item.employer_products)[0]" *ngIf="!getTitle(item.employer_products)[1]">
-      <img src="/assets/img/icons/details_grey.png" *ngIf="getTitle(item.employer_products)[1]" title="{{ getTitle(item.employer_products)[0] }}
-      {{ getTitle(item.employer_products)[1] }}">
+        <img src="/assets/img/icons/details_grey.png"
+             matTooltip="{{  title[item.file_id] }}">
       </td>
       <td>{{ productType[item.product_type] }}</td>
       <td>{{ item.product_code }}</td>

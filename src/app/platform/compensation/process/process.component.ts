@@ -301,6 +301,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
   openSendToDialog(item: Compensation): void {
     const dialog = this.dialog.open(InquiryFormComponent, {
       data: {'id': item.id, 'contentType': 'compensation',
+        'isAttachFile': item.has_file_feedback || item.files.length > 0,
         'employerId': item.employer_id,
         'companyId': item.company_id,
         'error_details': item.feedback_level === 'record' ?
