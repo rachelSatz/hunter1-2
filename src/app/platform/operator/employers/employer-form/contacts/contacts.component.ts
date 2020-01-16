@@ -19,7 +19,7 @@ export class ContactsComponent implements OnInit , OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   sub = new Subscription;
-
+  planId: number;
   pathEmployers = false;
   entity_types = EntityTypes;
   location: string;
@@ -46,6 +46,7 @@ export class ContactsComponent implements OnInit , OnDestroy {
   ];
 
   ngOnInit() {
+    this.planId = this.route.snapshot.queryParams['planId'];
     if (this.router.url.includes( 'employers')) {
         this.location = 'employers';
         this.dataTable.criteria.limit = 5;
@@ -76,6 +77,10 @@ export class ContactsComponent implements OnInit , OnDestroy {
           });
         }
       });
+  }
+
+  navigateForm() {
+    this.router.navigate(['./', 'form'], {relativeTo: this.route, queryParams: {planId: this.planId}});
   }
 
   fetchItems() {

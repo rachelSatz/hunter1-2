@@ -50,7 +50,8 @@
       </div>
       <div class="d-flex">
         <mat-form-field >
-          <input matInput placeholder="טלפון" maxlength="10" minlength="7" formControlName="phone">
+          <input matInput  placeholder="טלפון" maxlength="10" minlength="7" formControlName="phone">
+          <mat-error *ngIf="!creatingEmployerForm.get('creatingEmployer.employerDetails').get('phone').valid">טלפון לא תקין</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-5">
           <input matInput placeholder="כתובת" formControlName="address" >
@@ -64,26 +65,22 @@
       <div class="d-flex">
         <div class="bd-width181">
           <bd-select [items]="projects" formControlName="project"
-                     required placeholder="פרוייקט" class="bd-min-width" [error]="form.submitted &&
-          creatingEmployerForm.get('creatingEmployer.employerDetails').value.project === null" ></bd-select>
+                     required placeholder="פרוייקט *" class="bd-min-width" ></bd-select>
         </div>
         <div class="bd-width181 mr-5">
           <bd-select [items]="operators" formControlName="operator"
-                     required placeholder="מנהל תיק" class="bd-min-width" [error]="form.submitted &&
-          creatingEmployerForm.get('creatingEmployer.employerDetails').value.operator === null"></bd-select>
+                     required placeholder="מנהל תיק *" class="bd-min-width" ></bd-select>
         </div>
         <div class="bd-width181 mr-5">
           <bd-select [items]="statuses" formControlName="status" [ngClass]="{'disabledInput' : true }"
-                     required placeholder="סטטוס" class="bd-min-width" [error]="form.submitted &&
-                     creatingEmployerForm.get('creatingEmployer.employerDetails').value.status === null" ></bd-select>
+                     required placeholder="סטטוס" class="bd-min-width"  ></bd-select>
         </div>
     </div>
       <div class="d-flex">
         <mat-form-field>
-          <mat-select matInput placeholder="סוג תשלום" formControlName="paymentType" >
+          <mat-select matInput placeholder="סוג תשלום *" formControlName="paymentType" >
             <mat-option *ngFor="let payment of paymentType" [value]="payment.id">{{payment.name}}</mat-option>
           </mat-select>
-          <mat-error>שדה חובה</mat-error>
         </mat-form-field>
         <mat-form-field class="mr-5">
           <input matInput placeholder="קוד מוסד[5]" formControlName="institutionCode5" maxlength="5" minlength="5"
@@ -105,8 +102,7 @@
         <div class="d-flex">
           <div class="bd-width181">
             <bd-select [items]="identifierTypes" formControlName="identifierType"
-                       required placeholder="סוג מזהה לשליחה" class="bd-min-width" [error]="form.submitted &&
-                        creatingEmployerForm.get('creatingEmployer.employerDetails').value.identifierType === null"></bd-select>
+                       required placeholder="סוג מזהה לשליחה" class="bd-min-width" ></bd-select>
           </div>
           <mat-form-field  class="mr-5">
             <input matInput type="text" placeholder="מספר מזהה לשליחה" formControlName="senderIdentifier" maxlength="9" required >
@@ -125,11 +121,9 @@
           <div class="d-flex" [ngClass]="{'disabledInput' : route.snapshot.params.id && index < route.snapshot.data.items.contacts.length }">
             <mat-form-field >
               <input matInput placeholder="שם פרטי" formControlName="first_name"  required>
-              <mat-error >שדה חובה</mat-error>
                 </mat-form-field>
             <mat-form-field class="mr-5">
               <input matInput placeholder="שם משפחה" formControlName="last_name" required>
-              <mat-error>שדה חובה</mat-error>
             </mat-form-field>
             <mat-form-field class="mr-5">
             <input matInput placeholder="תפקיד" formControlName="role">
@@ -137,15 +131,13 @@
           </div>
           <div class="d-flex" [ngClass]="{'disabledInput' : route.snapshot.params.id && index < route.snapshot.data.items.contacts.length}">
             <mat-form-field>
-              <input matInput placeholder="מספר טלפון" maxlength="10" minlength="7" formControlName="phone" >
+              <input matInput placeholder="מספר טלפון *" maxlength="10" minlength="7" formControlName="phone">
             </mat-form-field>
             <mat-form-field class="mr-5">
-              <input matInput placeholder="טלפון נייד" maxlength="10" minlength="9" formControlName="mobile"  required>
-              <mat-error>שדה חובה</mat-error>
+              <input matInput placeholder="טלפון נייד *" maxlength="10" minlength="9" formControlName="mobile">
             </mat-form-field>
             <mat-form-field class="mr-5">
-              <input matInput placeholder="כתובת מייל" formControlName="email"  required>
-              <mat-error>שדה חובה</mat-error>
+              <input matInput placeholder="כתובת מייל *" formControlName="email"  required>
             </mat-form-field>
             <input TYPE="hidden"  formControlName="entity_type">
           </div>
@@ -303,6 +295,18 @@
     </div>
     <div [@fade]="pageNumber === 5 ? 'active' : 'inactive'">
       <br>
+      <div class="d-flex" formGroupName="xmlFile">
+        <mat-form-field class="w-20">
+          <mat-select [(ngModel)]="month" placeholder="בחר חודש" formControlName="month">
+            <mat-option *ngFor="let month of months" [value]="month.id">{{ month.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-20 mr-4">
+          <mat-select  placeholder="בחר שנה" [(ngModel)]="year" formControlName="year" >
+            <mat-option *ngFor="let year of years" [value]="year.id">{{ year.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <table class="table table-bordered width38">
         <thead>
         <tr>

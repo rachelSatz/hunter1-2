@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
@@ -15,10 +15,11 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 export class DepartmentsComponent implements OnInit  {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
-
+  planId: number;
   role = this.userSession.getRole() !== 'employer';
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private departmentService: DepartmentService,
               protected notificationService: NotificationService,
               public userSession: UserSessionService,
@@ -31,11 +32,15 @@ export class DepartmentsComponent implements OnInit  {
   ];
 
   ngOnInit() {
+    this.planId = this.route.snapshot.queryParams['planId'];
     this.dataTable.criteria.limit = 5;
   }
 
-  fetchItems() {
+  navigateForm(itemId) {
+    this.router.navigate(['./', 'form', itemId], {relativeTo: this.route, queryParams: {planId: this.planId}});
+  }
 
+  fetchItems() {
     this.departmentService.getDepartments(this.selectUnit.currentEmployerID)
       .then(response => this.dataTable.setItems(response));
   }

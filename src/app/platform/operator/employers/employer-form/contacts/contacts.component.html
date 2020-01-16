@@ -4,7 +4,7 @@
     <div class="table-header" >
       <div class="row mt-4 mr-1">
         <div class="ml-3 d-flex mr-auto mb-3">
-          <button class="btn blue-btn" [routerLink]="['./', 'form']"
+          <button class="btn blue-btn" (click)="navigateForm()" [routerLink]="['./', 'form']"
                   *ngIf="role">הוספת איש קשר</button>
         </div>
       </div>

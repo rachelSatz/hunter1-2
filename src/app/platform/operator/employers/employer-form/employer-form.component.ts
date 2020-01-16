@@ -34,7 +34,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   activeUrl: string;
   sub = new Subscription;
   permissionsType = this.userSession.getRole() !== 'employer';
-
+ planId: number;
 
   headers = [
     {label: 'הערות',    url: 'comments' , subUrl: 'no_permissions'  },
@@ -76,6 +76,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
               private _location: Location) { }
 
   ngOnInit() {
+    this.planId = this.route.snapshot.queryParams['planId'];
     this.selectUnit.setEmployerID(this.selectUnit.currentEmployerID);
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
     if (this.route.snapshot.data.employer) {

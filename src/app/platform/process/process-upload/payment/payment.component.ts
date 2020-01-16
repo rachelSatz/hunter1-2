@@ -62,11 +62,14 @@ export class PaymentComponent implements OnInit , OnDestroy {
   subscription = new Subscription;
   organizationId: number;
   showInfoMessage = true;
+  planId;
 
   ngOnInit() {
     const page = this.route.snapshot.queryParams['page'];
+    this.planId = this.route.snapshot.queryParams['planId'];
     if (page)  {
-      this.pageNumber = this.route.snapshot.queryParams['page'];}
+      this.pageNumber = this.route.snapshot.queryParams['page'];
+    }
     this.organizationId = this.selectUnitService.currentOrganizationID;
     if (this.processDataService.activeProcess !== undefined) {
       this.selectUnitService.setProcessData(this.processDataService);
@@ -196,14 +199,14 @@ export class PaymentComponent implements OnInit , OnDestroy {
 
   openDialogSendFileEmail(): void {
     this.dialog.open(SendFileEmailComponent, {
-      data: {processId : this.processId, employerId : this.process_details.employer_id},
+      data: {processId : this.processId, employerId : this.process_details.employer_id, planId : this.planId},
       width: '550px',
       panelClass: 'send-email-dialog'
     });
   }
 
   downloadPaymentsInstruction(): void {
-    this.processService.downloadPaymentsInstruction(this.processId).then(response => {
+    this.processService.downloadPaymentsInstruction(this.processId, this.planId).then(response => {
       response.forEach(function (value) {
         const byteCharacters = atob(value['data']);
         const byteNumbers = new Array(byteCharacters.length);

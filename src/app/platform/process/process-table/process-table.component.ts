@@ -29,6 +29,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   months = MONTHS;
   sub = new Subscription;
   processId;
+  planId;
 
   isDisplay = this.userSession.getPermissionsType('operations', true);
   readonly columns =  [
@@ -57,6 +58,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.processId = this.route.snapshot.queryParams['processId'];
+    this.planId = this.route.snapshot.queryParams['planId'];
     this.dataTable.criteria.filters['year'] = this.year;
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
         this.dataTable.paginationData.currentPage = 1;
@@ -155,7 +157,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     this.notificationService.warning('האם ברצונך למחוק תהליך?', '', buttons).then(confirmation => {
       if (confirmation.value) {
 
-        this.processService.deleteProcess( processId).then(
+        this.processService.deleteProcess(processId).then(
           response => {
             if (response) {
               this.notificationService.success('המחיקה בוצע בהצלחה' );

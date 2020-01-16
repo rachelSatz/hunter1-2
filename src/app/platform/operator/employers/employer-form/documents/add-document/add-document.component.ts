@@ -13,7 +13,7 @@ import { DocumentService } from 'app/shared/_services/http/document.service';
   animations: [ fade ]
 })
 export class AddDocumentComponent implements OnInit {
-
+  planId: number;
   uploadedFile: File;
   description = '';
   hasServerError;
@@ -33,6 +33,7 @@ export class AddDocumentComponent implements OnInit {
 
   ngOnInit() {
     this.organizations = this.selectUnit.getOrganization();
+
   }
 
   getFileFromDrop(event) {
@@ -51,9 +52,10 @@ export class AddDocumentComponent implements OnInit {
     if (form.valid && this.uploadedFile) {
       if (this.data) {
         this.employerId = this.selectUnit.currentEmployerID;
+        this.planId = this.data.planId;
       }
       this.documentService.uploadFile(this.employerId, this.description,
-        this.uploadedFile, this.documentType)
+        this.uploadedFile, this.documentType, this.planId)
         .then(response => {
           if (!response) {
             this.hasServerError = true;

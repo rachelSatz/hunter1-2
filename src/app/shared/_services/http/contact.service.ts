@@ -47,9 +47,9 @@ export class  ContactService extends BaseHttpService {
       .catch(() => null);
   }
 
-  newContact(contact: Contact, employerId: number): Promise<any> {
+  newContact(contact: Contact, employerId: number, planId?: number): Promise<any> {
     contact.employer_id = employerId;
-    return this.http.post(this.endPoint, contact, this.getTokenHeader())
+    return this.http.post(this.endPoint, {contact: contact, planId: planId}, this.getTokenHeader())
     .toPromise()
     .then(response => response)
     .catch(response => response);

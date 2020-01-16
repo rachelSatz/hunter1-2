@@ -57,17 +57,17 @@
         <mat-form-field [ngClass]="classAmount">
           <input matInput type="number" [name]="'amount' + index" [(ngModel)]="row.tasks_amount" placeholder="כמות" required>
         </mat-form-field>
-        <mat-form-field class="w-5 mb-3 mr-3" *ngIf="row.days_amount || row.type.id === fileInProgress || row.type.id === recordInProgress">
+        <mat-form-field class="w-5 mb-3 mr-3" *ngIf="row.days_amount || daysAmountTasks.indexOf(row.type.id) !== -1">
           <input matInput type="number" [name]="'days_amount' + index" [(ngModel)]="row.days_amount" placeholder="מספר ימים" >
         </mat-form-field>
-        <div class="d-flex w-50 mb-3">
+        <div class="d-flex w-50 mb-3" *ngIf="isCreatingEmployer(row)">
           <mat-form-field class="ml-3 mr-3">
           <input matInput [matDatepicker]="salary_start_date" [(ngModel)]="row.salary_date_start"
                  [name]="'salary_start_date' + index"  [max]="row.salary_date_end" placeholder="חודש התחלה" [ngModelOptions]="{timezone: ''}" required>
           <mat-datepicker-toggle matSuffix [for]="salary_start_date"></mat-datepicker-toggle>
           <mat-datepicker #salary_start_date [startView]="'year'"></mat-datepicker>
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field >
           <input matInput [min]="row.salary_date_start" [matDatepicker]="salary_end_date" [(ngModel)]="row.salary_date_end"
                  [name]="'salary_end_date' + index"   placeholder="חודש סיום" [ngModelOptions]="{timezone: ''}" required>
           <mat-datepicker-toggle matSuffix [for]="salary_end_date"></mat-datepicker-toggle>

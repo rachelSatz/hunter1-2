@@ -166,7 +166,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
 
     this.helpers.setPageSpinner(true);
-    this.compensationService.sendCompensations(items, this.dataTable.criteria).then(response => {
+    this.compensationService.sendCompensations(items, this.dataTable.criteria, this.planId).then(response => {
       this.helpers.setPageSpinner(false);
       if (response) {
         if (response['list_exceptions'].length > 0) {
@@ -181,7 +181,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
           this.dataTable.criteria.isCheckAll = false;
           this.fetchItems();
         }
-      }else {
+      } else {
         this.notificationService.error(' הבקשות נכשלו. ', 'הבקשות נכשלו.');
       }
     });
@@ -244,7 +244,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
 
-    this.compensationService.manualChangingStatus(items, this.dataTable.criteria).then(response => {
+    this.compensationService.manualChangingStatus(items, this.dataTable.criteria, this.planId).then(response => {
         this.dataTable.criteria.checkedItems = [];
         this.dataTable.criteria.isCheckAll = false;
 
