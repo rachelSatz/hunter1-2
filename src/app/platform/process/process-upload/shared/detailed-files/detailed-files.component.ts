@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { PaymentType, EmployerProduct } from 'app/shared/_models/process.model';
+import { PaymentType } from 'app/shared/_models/process.model';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
@@ -25,6 +25,7 @@ import { DetailsComponent } from '../details.component';
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import { OpenSentComponent } from 'app/platform/process/process-upload/shared/detailed-files/open-sent/open-sent.component';
 
 
 @Component({
@@ -80,6 +81,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   highlightFileId: number;
   organizationId: number;
   subscription = new Subscription;
+  title = {};
 
 
   ngOnInit() {
@@ -107,6 +109,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
     this.processService.getFilesList(this.dataTable.criteria)
       .then( response => {
         this.dataTable.setItems(response,  'file_id');
+        this.getTitle();
       });
 
   }
@@ -275,7 +278,6 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
 
           this.notificationService.warning(body, '', buttons).then(confirmation => {
             if (confirmation.value) {
-              // this.processService.update('notRelevant', val, items.map(item => item['file_id']) )
               this.processService.update('notRelevant', val, items.map(item => item['file_id']), this.dataTable.criteria )
                 .then(response => {
                   if (response) {
@@ -294,27 +296,43 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
 
   openSent(): void {
     if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
-      const items = this.dataTable.criteria.checkedItems;
-      // const filesList = { 'filesList' : items.map(item => item['file_id'])};
 
       if (this.isUnLockedBroadcast()) {
-        this.processService.unlockProcessFiles(items.map(item => item['file_id']), this.dataTable.criteria).then( r => {
-            if (r['authorized'] === false && r['success'] === 'Message_Sent') {
-                this.notificationService.success('', 'ממתין לאישור מנהל');
-            } else  if (r['authorized'] === true && r['success'] === true) {
-              this.notificationService.success('', 'נפתח בהצלחה');
-              this.endAction();
-            } else {
-              this.notificationService.error('שגיאה', r['success']);
-            }
-          }
-        );
+        const role = this.userSession.getRole();
+
+        if (role !== 'admin') {
+          const dialog = this.dialog.open(OpenSentComponent, {
+            width: '550px',
+          });
+
+          this.sub.add(dialog.afterClosed().subscribe((comment) => {
+            this.unLockedBroadcast(comment);
+          }));
+        } else {
+          this.unLockedBroadcast('');
+        }
+
       } else {
         this.notificationService.error('', 'יש לבחור רק נעולים');
       }
     }else {
       this.dataTable.setNoneCheckedWarning();
     }
+  }
+  unLockedBroadcast(comment?: string): void {
+    const items = this.dataTable.criteria.checkedItems;
+    this.processService.unlockProcessFiles(items.map(item => item['file_id']),
+      this.dataTable.criteria, comment).then(r => {
+        if (r['authorized'] === false && r['success'] === 'Message_Sent') {
+          this.notificationService.success('', 'ממתין לאישור מנהל');
+        } else if (r['authorized'] === true && r['success'] === true) {
+          this.notificationService.success('', 'נפתח בהצלחה');
+          this.endAction();
+        } else {
+          this.notificationService.error('שגיאה', r['success']);
+        }
+      }
+    );
   }
 
    sentFile(): void {
@@ -378,17 +396,19 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  getTitle(employer_products: EmployerProduct[]): string[] {
-    const title = [];
-    if (employer_products.length === 0) {
-      title[0] = '';
-    } else if (employer_products.length > 1) {
-      title[0] = employer_products[0].code + ' - ' + employer_products[0].name;
-      title[1] = employer_products[1].code + ' - ' + employer_products[1].name;
-    } else {
-      title[0] = employer_products[0].code + ' - ' + employer_products[0].name;
-    }
-    return title;
+  getTitle(): void {
+    this.dataTable.items.forEach( it => {
+      it.employer_products.forEach( e => {
+        if (it.file_id in  this.title) {
+          const p = e.code + ' - ' + e.name;
+          if (!this.title[it.file_id].includes(p)) {
+            this.title[it.file_id] = this.title[it.file_id] + '\n' + p;
+          }
+        } else {
+          this.title[it.file_id] = e.code + ' - ' + e.name;
+        }
+      });
+    });
   }
 
   endAction(): void {

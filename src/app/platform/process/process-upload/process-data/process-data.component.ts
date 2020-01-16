@@ -35,14 +35,11 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
 
   process = new Process;
 
-  readonly months = Month;
 
-  readonly years = [
-    {'id': 2016, 'name': '2016'},
-    {'id': 2017, 'name': '2017'},
-    {'id': 2018, 'name': '2018'},
-    {'id': 2019, 'name': '2019'}
-  ];
+  readonly months = Month;
+  year = new Date().getFullYear();
+  readonly years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
+
   readonly types = [
     {'id': 'positive', 'name': 'חיובי'},
     {'id': 'negative', 'name': 'שלילי'}
@@ -50,9 +47,8 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
 
   public files: any[] = [];
   spin: boolean ;
-  processFile: File;
+  processFile: File[] = [];
   fileTypeError = false;
-  currentYear = new Date().getFullYear();
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -62,7 +58,8 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
               private processService: ProcessService,
               private notificationService: NotificationService,
               private selectUnitService: SelectUnitService,
-              public processDataService: ProcessDataService) {}
+              public processDataService: ProcessDataService) {
+  }
 
   ngOnInit() {
     if (this.route.snapshot.params.status === '0') {
@@ -80,33 +77,36 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
       for (const droppedFile of event.files) {
         if (droppedFile['fileEntry'].isFile) {
           const fileEntry = droppedFile['fileEntry'] as any;
-          fileEntry.file((file: File) => this.setFile(file));
+          fileEntry.file((file: File) => this.setFile([file]));
         }
       }
     }
   }
 
-  setFile(file: File) {
-    const ext = file.name.substr(file.name.indexOf('.') + 1);
-    if (['xml', 'dat', 'xlsx', 'xls'].indexOf(ext.toLowerCase()) === -1) {
-      this.fileTypeError = true;
-      return;
-    }
-    this.fileTypeError = false;
-    const type = file.name.indexOf('NEG') === -1 ? 'positive' : 'negative';
-    if (type !== this.selectedType) {
-      this.notificationService.warning('הקובץ שהועלה אינו תואם את סוג הקובץ שבחרת', 'האם תרצה לשנות את סוג התהליך?').then(confirmation => {
-        if (confirmation.value) {
-          this.selectedType = this.selectedType === 'positive' ? 'negative' : 'positive';
-          this.process.type = this.selectedType;
-          this.processFile = file;
-        } else {
-          this.processFile = null;
-          this.fileInput.nativeElement.value = null;
-        }
-      });
-    } else {
-      this.processFile = file;
+  setFile(files: File[]) {
+    for (let i = 0; i < files.length; i++) {
+      const ext = files[i].name.substr(files[i].name.indexOf('.') + 1);
+      if (['xml', 'dat', 'xlsx', 'xls'].indexOf(ext.toLowerCase()) === -1) {
+        this.fileTypeError = true;
+        break;
+      }
+      this.fileTypeError = false;
+      const type = files[i].name.indexOf('NEG') === -1 ? 'positive' : 'negative';
+      if (type !== this.selectedType) {
+        this.notificationService.warning('הקובץ שהועלה אינו תואם את סוג הקובץ שבחרת',
+          'האם תרצה לשנות את סוג התהליך?').then(confirmation => {
+          if (confirmation.value) {
+            this.selectedType = this.selectedType === 'positive' ? 'negative' : 'positive';
+            this.process.type = this.selectedType;
+            this.processFile.push(files[i]);
+          } else {
+            this.processFile = [];
+            this.fileInput.nativeElement.value = null;
+          }
+        });
+      } else {
+        this.processFile.push(files[i]);
+      }
     }
   }
 
@@ -138,7 +138,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
       }
 
   paymentPopup(form: NgForm): void {
-    if (form.valid && !this.isSubmitting && ( this.processFile || this.process.file )) {
+    if (form.valid && !this.isSubmitting && ( this.processFile.length > 0 || this.process.file )) {
       this.isSubmitting = true;
       this.hasServerError = false;
       this.employerService.getIsEmployerFile(this.selectUnitService.currentEmployerID).then(response => {

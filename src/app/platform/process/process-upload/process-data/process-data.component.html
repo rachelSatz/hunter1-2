@@ -11,8 +11,8 @@
         <mat-error>שדה חובה.</mat-error>
       </mat-form-field>
       <mat-form-field class="w-50 mr-4">
-        <mat-select [(value)]="currentYear" name="year" placeholder="בחר שנה" [(ngModel)]="process.year" required>
-          <mat-option *ngFor="let year of years" [value]="year.id">{{ year.name }}</mat-option>
+        <mat-select  name="year" placeholder="בחר שנה" [(ngModel)]="process.year" required>
+          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
         </mat-select>
         <mat-error>שדה חובה.</mat-error>
       </mat-form-field>
@@ -55,21 +55,22 @@
         <div class="mt-5">
           <mat-spinner class="mx-auto mb-3" *ngIf="spin"></mat-spinner>
           <file-drop [ngClass]="{ 'file-uploaded': processFile }" ng2FileDrop (onFileDrop)="getFileFromDrop($event)">
-            <i class="fa fa-times ml-2 pointer" (click)="processFile = null; process.file = null"
-               *ngIf="processFile || process.file"></i>
-            <label class="text-center pointer" *ngIf="!processFile && !process.file" (change)="setFile($event.target.files[0])">
+            <i class="fa fa-times ml-2 pointer" (click)="processFile = []; process.file = null"
+               *ngIf="processFile.length  > 0 || process.file"></i>
+            <label class="text-center pointer" *ngIf="processFile.length === 0 && !process.file" (change)="setFile($event.target.files)">
               <img src="/assets/img/icons/cloud-backup.svg" class="mb-1 icon-lg">
               <p class="h5 grey-color">בחר קובץ להעלאה</p>
               <p class="h5 grey-color">או גרור קבצים לכאן</p>
-              <input type="file" #fileInput>
+              <input type="file" #fileInput multiple="true" >
             </label>
-            <div class="text-center" *ngIf="processFile">
+            <div class="text-center" *ngIf="processFile.length  > 0">
               <i class="fa fa-check-circle-o mb-3"></i>
-              <p class="text-dark">{{ processFile.name }}</p>
+              <p class="text-dark">העלו <span> {{ processFile.length }} </span>קבצים </p>
+              <p class="text-dark">{{ processFile[0].name }}</p>
             </div>
-            <div class="text-center" *ngIf="process.file">
+            <div class="text-center" *ngIf="process.files">
               <i class="fa fa-check-circle-o mb-3"></i>
-              <p class="text-dark">{{ process.file.name }}</p>
+              <p class="text-dark">{{ process.file[0].name }}</p>
             </div>
           </file-drop>
         <div class="d-flex">

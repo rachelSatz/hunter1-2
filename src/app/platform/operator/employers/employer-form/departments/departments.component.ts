@@ -5,6 +5,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class DepartmentsComponent implements OnInit  {
 
   constructor(private route: ActivatedRoute,
               private departmentService: DepartmentService,
+              protected notificationService: NotificationService,
               public userSession: UserSessionService,
               private selectUnit: SelectUnitService) {
   }
@@ -37,6 +39,18 @@ export class DepartmentsComponent implements OnInit  {
     this.departmentService.getDepartments(this.selectUnit.currentEmployerID)
       .then(response => this.dataTable.setItems(response));
   }
+
+  deleteDepartment(id): void {
+    this.departmentService.delete(id)
+      .then(response => {
+        if (response) {
+          this.fetchItems();
+        } else {
+          this.notificationService.error('שגיאה במחיקת מחלקה');
+        }
+      });
+  }
+
 
 
 }

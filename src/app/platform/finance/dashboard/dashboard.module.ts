@@ -19,7 +19,6 @@ import { InvoiceService } from 'app/shared/_services/http/invoice.service';
 import { NotificationService} from 'app/shared/_services/notification.service';
 import { DoughnutComponent} from 'app/shared/doughnut/doughnut.component';
 import { ChartsModule } from 'ng2-charts';
-// import { MultiDatepickerModule } from 'app/shared/multidatepicker/multidatepicker.module';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent }
@@ -41,7 +40,6 @@ const routes: Routes = [
     DatePickerModule,
     BdSelectModule,
     ChartsModule
-    // MultiDatepickerModule
   ],
   providers: [InvoiceService, NotificationService]
 })

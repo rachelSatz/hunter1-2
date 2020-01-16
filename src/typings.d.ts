@@ -1,18 +1,25 @@
 /* SystemJS module definition */
+// import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 declare var module: NodeModule;
 interface NodeModule {
   id: string;
 }
-declare module '@ckeditor/ckeditor5-build-classic' {}
+declare module '@ckeditor/ckeditor5-build-classic' {
 
-// declare module '@ckeditor/ckeditor5-build-classic' {}
-//   const ClassicEditor: any;
-//
-//   export = ClassicEditor;
-// }
-// import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic' {}
-// declare module '@ckeditor/ckeditor5-build-classic' {
-//   const ClassicEditorBuild: any;
-//
-//   export default ClassicEditorBuild;
-// }
+  // ClassicEditor
+  //   .create( document.querySelector( '#editor' ), {
+  //     fontFamily: {
+  //       options: [
+  //         'default',
+  //         'Ubuntu, Arial, sans-serif',
+  //         'Ubuntu Mono, Courier New, Courier, monospace'
+  //       ]
+  //     },
+  //     toolbar: [
+  //       'heading', 'bulletedList', 'numberedList', 'fontFamily', 'undo', 'redo'
+  //     ]
+  //   } )
+  //   .then()
+  //   .catch(err => alert(err));
+}

@@ -11,6 +11,7 @@ export class User {
   token: string;
   role: string;
   email: string;
+  email_password: string;
   team_leader: string;
   signature_html: string;
   units: UserUnitPermission[] = [];
@@ -19,6 +20,7 @@ export class User {
 
   constructor(user: User) {
     this.units.push(new UserUnitPermission());
+    this.signature_html = '';
     if (user) {
       this.id = user.id;
       this.username = user.username;
@@ -30,6 +32,7 @@ export class User {
       this.team_leader = user.team_leader;
       this.signature_html = user.signature_html;
       this.email = user.email;
+      this.email_password = user.email_password;
       this.units = user.units;
       const modules = user.modules;
       this.modules = Object.keys(ModuleTypes).map(function(e) {

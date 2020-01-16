@@ -20,7 +20,6 @@ import { PaymentType } from 'app/shared/_models/process.model';
 import { Contact} from 'app/shared/_models/contact.model';
 import { fade } from 'app/shared/_animations/animation';
 import { ActivatedRoute, Router} from '@angular/router';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 
 @Component({
@@ -589,7 +588,7 @@ export class CreatingEmployerComponent implements OnInit {
       'pageNumber': 1
     };
 
-    this.processService.newProcess(data, this.uploadedFileXml, null, true).then(response => {
+    this.processService.newProcess(data, [this.uploadedFileXml], null, true).then(response => {
       if (response['processId']) {
         data.processId = response['processId'];
         data['file'] =  this.uploadedFileXml ;

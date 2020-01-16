@@ -40,11 +40,14 @@ export class RegisterComponent implements OnInit {
             this.userSession.login({username: '', token: response['token']});
             this.userSession.setRole(response['role']);
             this.router.navigate(['/platform']);
+            this.userSession.setUserModules(response['module']);
+
           } else if (response.status === 403) {
             this.router.navigate(['/', 'login']);
           } else {
             this.hasServerError = true;
           }
+
           this.helpers.setPageSpinner(false);
           this.isSubmitting = false;
         });

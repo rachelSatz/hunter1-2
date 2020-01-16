@@ -9,7 +9,8 @@ import {
   MatDialogModule,
   MatSelectModule,
   MatIconModule,
-  MatAutocompleteModule } from '@angular/material';
+  MatAutocompleteModule
+} from '@angular/material';
 
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
@@ -27,6 +28,7 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import {FileDropModule} from 'ngx-file-drop';
 import { FormComponent } from './form/form.component';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 
 

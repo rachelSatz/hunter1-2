@@ -73,7 +73,7 @@ export class EmployerService extends BaseHttpService {
   }
 
   getIsEmployerFile(employer_id: number): Promise<any> {
-    const path_url = this.endPoint + '/' + employer_id +  '/fileEmployerPoaAndAP';
+    const path_url = this.endPoint + '/' + employer_id +  '/checkFileEmployer';
     return this.http.get(path_url, this.getTokenHeader())
       .toPromise()
       .then(response => response);

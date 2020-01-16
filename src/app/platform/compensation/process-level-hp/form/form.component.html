@@ -12,7 +12,8 @@
              [@fade]="hasClearing ? 'inactive' : 'active' "
              name="company" #companyModel="ngModel" ngModel ></bd-select>
   <mat-form-field class="w-50 my-3">
-    <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="תאריך נכונות (שכר)" name="validity_date" ngModel readonly required>
+    <input matInput class="pointer" (click)="datePicker.open()"
+           [matDatepicker]="datePicker" placeholder="תאריך נכונות (שכר)" name="validity_date" ngModel readonly required>
     <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
     <mat-datepicker #datePicker></mat-datepicker>
     <mat-error>שדה חובה.</mat-error>

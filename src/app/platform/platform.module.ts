@@ -11,7 +11,9 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
-  MatSelectModule, MatOptionModule, MatRadioModule
+  MatSelectModule,
+  MatOptionModule,
+  MatRadioModule
 } from '@angular/material';
 
 import { PlatformComponent } from './platform.component';

@@ -5,7 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
-  MatCheckboxModule, MatDatepickerModule,
+  MatCheckboxModule,
+  MatDatepickerModule,
   MatDividerModule,
   MatFormFieldModule,
   MatInputModule, MatMenuModule,

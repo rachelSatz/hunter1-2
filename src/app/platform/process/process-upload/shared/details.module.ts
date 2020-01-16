@@ -10,7 +10,8 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule, MatMenuModule, MatProgressBarModule,
-  MatSelectModule, MatTooltipModule
+  MatSelectModule, MatTooltipModule,
+  MatDatepickerModule
 } from '@angular/material';
 import {FormsModule} from '@angular/forms';
 
@@ -19,12 +20,12 @@ import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { GroupTransferComponent } from './group-transfer/group-transfer.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { AttachReferenceComponent } from './detailed-files/attach-reference/attach-reference.component';
 import { UpdatePaymentTypeComponent } from './detailed-files/update-payment-type/update-payment-type.component';
 import { UpdatePaymentDateComponent } from './detailed-files/update-payment-date/update-payment-date.component';
 import { UpdateAccountNumberComponent } from './detailed-files/update-account-number/update-account-number.component';
+import { OpenSentComponent } from 'app/platform/process/process-upload/shared/detailed-files/open-sent/open-sent.component';
 
 
 const routes: Routes = [
@@ -45,14 +46,25 @@ const routes: Routes = [
     FormsModule, MatTooltipModule,
     PipesModule,
     BdSelectModule,
-    DatePickerModule,
+    MatDatepickerModule,
     DataTableModule
   ],
   providers: [MonthlyTransferBlockService, GeneralHttpService],
-  declarations: [ DetailsComponent, UpdatePaymentTypeComponent, AttachReferenceComponent, GroupTransferComponent,
-    UpdateAccountNumberComponent, UpdatePaymentDateComponent],
-  entryComponents: [ UpdatePaymentTypeComponent, AttachReferenceComponent,
-    UpdateAccountNumberComponent, UpdatePaymentDateComponent, GroupTransferComponent]
+  declarations: [
+    DetailsComponent,
+    UpdatePaymentTypeComponent,
+    AttachReferenceComponent,
+    GroupTransferComponent,
+    UpdateAccountNumberComponent,
+    UpdatePaymentDateComponent,
+    OpenSentComponent],
+  entryComponents: [
+    UpdatePaymentTypeComponent,
+    AttachReferenceComponent,
+    UpdateAccountNumberComponent,
+    UpdatePaymentDateComponent,
+    GroupTransferComponent,
+    OpenSentComponent]
 
 })
 export class DetailsModule { }

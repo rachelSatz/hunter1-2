@@ -20,6 +20,7 @@ export class ProcessUploadComponent {
               private processDataService: ProcessDataService,
               private  selectUnitService: SelectUnitService) {}
 
+
   setHeaderColor(): number {
     const currentRoute = (this.router.url).split('/');
     if (currentRoute[5]) {
@@ -43,38 +44,6 @@ export class ProcessUploadComponent {
       }
     }
   }
-
-  // setPage(route) {
-  //   if (this.processDataService.activeProcess === undefined) {
-  //     return;
-  //   }
-  //   if (this.processDataService.activeProcess.pageNumber >= 4 || this.processDataService.activeProcess.pageNumber === 2) {
-  //     return;
-  //   }
-  //   switch (route) {
-  //     case 'payment': {
-  //         if ( this.processDataService.activeProcess.pageNumber === 1 && !this.processDataService.activeProcess.file) {
-  //           this.router.navigate(['/platform', 'process', 'new', 'payment']);
-  //           break;
-  //         }
-  //
-  //
-  //       this.router.navigate(['/platform', 'process', 'new', 'payment']);
-  //       break;
-  //     }
-  //     case 'broadcast': {
-  //       this.router.navigate(['/platform', 'process', 'new', 'broadcast']);
-  //       break;
-  //     }
-  //     case 'new': {
-  //       if (this.processDataService.activeProcess.pageNumber === 3) {
-  //         return;
-  //       }
-  //         this.router.navigate(['/platform', 'process', 'new', 1]);
-  //     }
-  //   }
-  // }
-
 }
 
 
