@@ -14,7 +14,7 @@ export class Compensation {
   employer_id: string;
   employee_name: string;
   employee_identifier: string;
-  validity_date: string;
+  validity_date: Date;
   sending_method: string;
   portal_balance: number;
   has_by_safebox: boolean;

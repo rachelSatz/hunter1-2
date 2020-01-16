@@ -10,7 +10,8 @@
     <div class="pointer" (click)="loadEntities('company')" [ngClass]="{'active': activeContentType === 'company'}">חברה מנהלת</div>
     <div class="pointer" (click)="loadEntities('employer')" [ngClass]="{'active': activeContentType === 'employer'}">מעסיק</div>
     <div class="pointer" (click)="loadEntities('user')" [ngClass]="{'active': activeContentType === 'user'}">לשכת שרות</div>
-    <div class="pointer" (click)="loadEntities('myhr')" [ngClass]="{'active': activeContentType === 'myhr'}">תוכנות MYHR</div>
+    <div *ngIf="(this.data.contentType !== 'compensation' && this.data.contentType !== 'deposits_report')" class="pointer"
+         (click)="loadEntities('myhr')" [ngClass]="{'active':activeContentType === 'myhr'}">תוכנות MYHR</div>
   </div>
 
   <div class="mb-4 mt-4" [@fade]="activeContentType !== 'myhr' ? 'active' : 'inactive'">
@@ -51,6 +52,11 @@
       <input type="file" (change)="uploadedFile = $event.target.files" multiple>
     </label>
   </div>
+  <!--|| this.data.contentType === 'deposits_report'-->
+  <div *ngIf="this.data.contentType === 'compensation' && this.data.isAttachFile">
+    <mat-checkbox [name]="isAttachFile" [(ngModel)]="isAttachFile" (change)="isAttachFile">צרף קובץ יתרות לפיצויים</mat-checkbox>
+  </div>
+
 
 <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">שגיאת שרת, נסה שנית או צור קשר.</p>
   <div mat-dialog-actions class="justify-content-center mt-2">

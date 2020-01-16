@@ -28,6 +28,7 @@
     "@ckeditor/ckeditor5-angular": "^1.1.2",
     "@ckeditor/ckeditor5-build-classic": "^15.0.0",
     "@ckeditor/ckeditor5-editor-classic": "^15.0.0",
+    "@ckeditor/ckeditor5-font": "^16.0.0",
     "@fortawesome/fontawesome-free": "^5.5.0",
     "@types/history": "^4.7.2",
     "@types/slideout": "^0.1.19",
@@ -58,7 +59,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.0",
     "@angular/cli": "^7.3.5",
-    "@angular/compiler-cli": "^7.0.2",
+    "@angular/compiler-cli": "7.0.2",
     "@angular/language-service": "7.0.2",
     "@types/chart.js": "^2.7.53",
     "@types/file-saver": "^2.0.0",

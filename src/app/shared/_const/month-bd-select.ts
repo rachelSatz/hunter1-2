@@ -13,4 +13,14 @@
   { 'id': 12, 'name': 'דצמבר'}
 ];
 
+//  const year_now = new Date().getFullYear();
+//  const  year = 2016;
+//
+// export years =  [];
+//
+// for (let i = year ; i >= year_now; i++) {
+//   years.append(['id': year, 'name': year ] );
+// }
+
+
 

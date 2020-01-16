@@ -54,7 +54,7 @@ export class GeneralHttpService extends BaseHttpService {
 
   newInquiry(objectID: number, content: string, contentType: string, emails_list: any[], contact_list: any[],
              employer_id: number, file_name: string, product_code: string, product_name: string, product_type: string,
-             employee_id: string, employee_name: string, amount: number, action: string, activeContentType: string,
+             employee_id: string, employee_name: string, amount: number, action: string, activeContentType: string, isAttachFile: boolean,
              uploadedFile?: File[]): Promise<boolean> {
     const values = {
       content: content,
@@ -70,7 +70,9 @@ export class GeneralHttpService extends BaseHttpService {
       employee_name: employee_name,
       amount: amount,
       action: action,
-      activeContentType: activeContentType
+      activeContentType: activeContentType,
+      is_attach_file: isAttachFile
+
     };
     const formData = new FormData();
     formData.append('values', JSON.stringify(values));

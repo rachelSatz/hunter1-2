@@ -21,7 +21,8 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { MatDialog } from '@angular/material';
 import { ChangeProjectManagerComponent } from './change-project-manager/change-project-manager.component';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { UploadAdapter } from '../../../../shared/_services/UploadAdapter';
+import { UploadAdapter } from 'app/shared/_services/UploadAdapter';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 
 
 @Component({
@@ -36,6 +37,8 @@ export class UserFormComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
 
+
+
   user = new User(null);
   permission = new UserUnitPermission();
   hasServerError: boolean;
@@ -47,7 +50,7 @@ export class UserFormComponent implements OnInit {
   moduleTypes = ModuleTypes;
   update = false;
   add = false;
-
+  role = this.userSeService.getRole();
 
   roles = Object.keys(EntityRoles).map(function (e) {
     return {id: e, name: EntityRoles[e]};
@@ -69,29 +72,23 @@ export class UserFormComponent implements OnInit {
               private employerService: EmployerService,
               private router: Router,
               private userService: UserService,
+              private userSeService: UserSessionService,
               private organizationService: OrganizationService,
               private notificationService: NotificationService,
               private selectUnit: SelectUnitService,
               private dialog: MatDialog,
               private _location: Location) {
-    // const ClassicEditor = require( '@ckeditor/ckeditor5-build-classic' );
-    // ClassicEditor
-    //   .create( document.querySelector( '#editor' ) )
-    //   .then( editor => {
-    //     console.log( editor );
-    //   } )
-    //   .catch( error => {
-    //     console.error( error );
-    //   } );
   }
-  // public editor = CKEditor;
+
   ngOnInit() {
+
     this.organizations = this.selectUnit.getOrganizations();
     if (this.route.snapshot.data.user) {
       this.update = true;
       this.user = new User(this.route.snapshot.data.user);
     }
   }
+
 
   fetchItems() {
     if (!this.user.units || this.user.units.length === 0) {
@@ -142,8 +139,6 @@ export class UserFormComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
-    // const a = this.Editor;
-    // var aaa =this.Editor.getDate();
     this.hasServerError = false;
     if (form.valid) {
       if (this.user.modules.some(m => m.isEnabled) &&
@@ -240,6 +235,27 @@ export class UserFormComponent implements OnInit {
   }
 
   onReady(eventData) {
+
+    // eventData.ui.getEditableElement().parentElement.insertBefore(
+    //   eventData.ui.view.toolbar.element,
+    //   eventData.ui.getEditableElement()
+    // );
+    //
+    // ClassicEditor
+    //   .create( document.querySelector( '#editor' ), {
+    //     fontFamily: {
+    //       options: [
+    //         'default',
+    //         'Ubuntu, Arial, sans-serif',
+    //         'Ubuntu Mono, Courier New, Courier, monospace'
+    //       ]
+    //     },
+    //     toolbar: [
+    //       'heading', 'bulletedList', 'numberedList', 'fontFamily', 'undo', 'redo'
+    //     ]
+    //   } )
+    //   .then()
+    //   .catch( err => alert(err));
     eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
       return new UploadAdapter(loader);
     };

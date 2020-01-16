@@ -1,6 +1,5 @@
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import {EntityRoles} from '../_models/user.model';
 
 @Injectable()
 export class UserSessionService {

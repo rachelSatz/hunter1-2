@@ -571,7 +571,7 @@ export class CreatingEmployerComponent implements OnInit {
       'pageNumber': 1
     };
 
-    this.processService.newProcess(data, this.uploadedFileXml, null, true).then(response => {
+    this.processService.newProcess(data, [this.uploadedFileXml], null, true).then(response => {
       if (response['processId']) {
         data.processId = response['processId'];
         data['file'] =  this.uploadedFileXml ;

@@ -97,6 +97,7 @@ export enum Types {
   Provident_and_pension_funds_accept_only_employee_employer_or_self_employeed_benefits =
     'קופות גמל וקרנות פנסיה מקבלות רק הטבות לעובדים, למעביד או לעצמאים',
   self_employeed_clause_for_a_wage_worker = 'פטור עצמי לעובד שכיר',
+  Found_exempt_amount_for_a_study_fund = 'נמצא סכום פטור לקרן השתלמות'
 
 }
 

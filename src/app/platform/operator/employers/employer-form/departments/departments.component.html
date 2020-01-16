@@ -12,7 +12,8 @@
       <td>{{ item.name }}</td>
       <td>{{ item.id }}</td>
       <td *ngIf="role">
-        <img src="/assets/img/icons/edit_grey.png" (click)="navigateForm(item.id)"  class="row-image">
+        <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
+        <img src="/assets/img/icons/delete.svg" class="row-image" *ngIf="dataTable.items.length>1" (click)="deleteDepartment(item.id)">
       </td>
     </tr>
   </app-data-table>
