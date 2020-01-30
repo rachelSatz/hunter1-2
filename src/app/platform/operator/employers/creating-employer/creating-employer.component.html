@@ -302,8 +302,8 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field class="w-20 mr-4">
-          <mat-select  placeholder="בחר שנה" [(ngModel)]="year" formControlName="year" >
-            <mat-option *ngFor="let year of years" [value]="year.id">{{ year.name }}</mat-option>
+          <mat-select  placeholder="בחר שנה" [(ngModel)]="selectYear" formControlName="year" >
+            <mat-option *ngFor="let year of years" [value]="year" >{{ year }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

@@ -63,9 +63,10 @@ export class CreatingEmployerComponent implements OnInit {
   count = 1;
   cities = [];
   month: number;
-  year: number;
+  selectYear: number;
+  yearN = new Date().getFullYear();
   readonly months = Month;
-  readonly years = [];
+  readonly years = [ this.yearN, (this.yearN - 1) , (this.yearN - 2), (this.yearN - 3)];
   fileTypeError;
   identifierTypes = Object.keys(IdentifierTypes).map(function(e) {
     return { id: e, name: IdentifierTypes[e] };
@@ -109,7 +110,7 @@ export class CreatingEmployerComponent implements OnInit {
       this.helpers.setPageSpinner(true);
     }
     if (this.route.snapshot.queryParams) {
-      this.pageNumber = this.route.snapshot.queryParams['pageNum'];
+      // this.pageNumber = this.route.snapshot.queryParams['pageNum'];
       this.planId = this.route.snapshot.queryParams['planId'];
     }
     this.initForm();
@@ -557,8 +558,8 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   sendFile(): void {
-    const month = this.creatingEmployerForm.get('xmlFile.month');
-    const year = this.creatingEmployerForm.get('xmlFile.year');
+    const month = this.creatingEmployerForm.get('xmlFile.month').value;
+    const year = this.creatingEmployerForm.get('xmlFile.year').value;
     const data = {
       'month':  month ? month.toString() : new Date().getMonth().toString(),
       'year': year ? year.toString() : new Date().getFullYear().toString(),
