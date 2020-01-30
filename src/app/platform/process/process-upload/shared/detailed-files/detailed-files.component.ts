@@ -82,9 +82,11 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   organizationId: number;
   subscription = new Subscription;
   title = {};
+  planId;
 
 
   ngOnInit() {
+    this.planId = this.route.snapshot.queryParams['planId'];
     this.organizationId = this.selectUnitService.currentOrganizationID;
     this.productService.getCompanies().then(response => {
       const column = this.dataTable.searchColumn(this.nameCompany);
@@ -353,6 +355,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
                         response.status === 404 ? 'לא נמצא קובץ לשידור' : 'השידור נכשל';
                       this.notificationService.error('', title);
                     } else {
+                      this.processService.deletePlanTask(this.processDataService.activeProcess.processID);
                       this.notificationService.success('', 'שודר בהצלחה');
                       this.endAction();
                     }

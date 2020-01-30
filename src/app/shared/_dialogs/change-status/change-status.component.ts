@@ -22,7 +22,7 @@ export class ChangeStatusComponent implements OnInit {
 
   submit(): void {
     if (this.status !== undefined) {
-      this.feedbackService.changeStatus(this.data.ids, this.data.contentType, this.data.planId, this.status, this.data.criteria)
+      this.feedbackService.changeStatus(this.data.ids, this.data.contentType, this.status, this.data.criteria)
         .then(res => {
         this.dialogRef.close(true);
       });

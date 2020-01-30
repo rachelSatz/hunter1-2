@@ -15,7 +15,6 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 export class DepartmentsComponent implements OnInit  {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
-  planId: number;
   role = this.userSession.getRole() !== 'employer';
 
   constructor(private route: ActivatedRoute,
@@ -32,12 +31,11 @@ export class DepartmentsComponent implements OnInit  {
   ];
 
   ngOnInit() {
-    this.planId = this.route.snapshot.queryParams['planId'];
     this.dataTable.criteria.limit = 5;
   }
 
   navigateForm(itemId) {
-    this.router.navigate(['./', 'form', itemId], {relativeTo: this.route, queryParams: {planId: this.planId}});
+    this.router.navigate(['./', 'form', itemId], {relativeTo: this.route});
   }
 
   fetchItems() {

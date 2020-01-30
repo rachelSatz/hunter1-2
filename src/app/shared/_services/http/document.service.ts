@@ -72,7 +72,7 @@ export class  DocumentService extends BaseHttpService {
       .catch(() => null);
   }
 
-  uploadFiles(files: File[] , employer_id: number ) {
+  uploadFiles(files: File[] , employer_id: number) {
     const data = new FormData();
     const documentTypes = [];
     const ids = [];

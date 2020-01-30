@@ -39,7 +39,6 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   sub = new Subscription();
   year = new Date().getFullYear();
   fileId: string;
-  planId: string;
   recordId: string;
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
   months = MONTHS;
@@ -88,7 +87,6 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   ngOnInit() {
     this.fileId = this.route.snapshot.queryParams['fileId'];
-    this.planId = this.route.snapshot.queryParams['planId'];
     this.displayBack = this.fileId !== undefined && this.fileId !== '0' ? true : false;
     this.recordId = this.route.snapshot.queryParams['recordId'];
     this.selectYear = this.fileId ? Number(this.route.snapshot.queryParams['year']) : this.year;
@@ -110,7 +108,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     if (this.selectMonth !== undefined) {
       this.dataTable.criteria.filters['month'] = this.selectMonth;
     }
-    if (!this.planId) {
+    if (!this.recordId) {
       this.dataTable.criteria.filters['year'] = this.selectYear;
     }
     if (departmentId !== 0) {
@@ -125,7 +123,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
       this.feedbackService.searchEmployeeData(this.dataTable.criteria).then(response => {
         this.dataTable.setItems(response);
       });
-    }else { this.notificationService.warning('יש לבחור מחלקה'); }
+    } else { this.notificationService.warning('יש לבחור מחלקה'); }
   }
 
   openApplicationDialog(item: any): void {
@@ -214,7 +212,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
     const dialog = this.dialog.open(ChangeStatusComponent, {
       data: {'ids': ids, 'contentType': 'monthlytransferblock',
-        'criteria': this.dataTable.criteria, 'planId': this.planId},
+        'criteria': this.dataTable.criteria},
       width: '400px',
       panelClass: 'change-status-dialog'
     });

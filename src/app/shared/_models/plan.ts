@@ -109,12 +109,17 @@ export enum CategoryTypeFeedback {
   fileInProgress = 22,
 }
 
-export enum CategoryTypErrors {
+export enum CategoryTypeErrors {
   fileUploadError = 1,
   paymentInstructions = 2,
   fileTransmittedError = 3,
+  fileWithErrors = 4,
+  fileCanBeProcess = 41,
 }
 
+export enum CategoryTypeEmployerDefrayal {
+  employerNotUseMonth = 40,
+}
 
 export enum CategoryTypeEmployerError {
   employerEstablishmentErrorContact = 27,

@@ -56,7 +56,7 @@ export class ContactFormComponent implements OnInit {
                private _location: Location) {}
 
   ngOnInit() {
-    this.planId = this.route.snapshot.queryParams['planId'];
+    this.planId = this.route.snapshot.queryParams['planId'] ? this.route.snapshot.queryParams['planId'] : null;
     this.organizations = this.selectUnit.getOrganization();
     if (this.router.url.includes( 'employers')) {
       this.pathEmployers = true;
@@ -177,7 +177,7 @@ export class ContactFormComponent implements OnInit {
         this.contactService.updateContact(this.contact)
           .then(response => this.handleResponse(response));
       } else {
-        this.contactService.newContact(this.contact, this.employerId, this.planId)
+        this.contactService.newContact(this.contact, this.employerId)
           .then(response => this.handleResponse(response));
       }
   }

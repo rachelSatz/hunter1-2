@@ -22,7 +22,7 @@
     </div>
     <div [@fade]="pageNumber === 1 ? 'active' : 'inactive'" formGroupName="creatingEmployer">
       <div formGroupName="employerDetails">
-        <div class="d-flex" *ngIf="!route.snapshot.params.id">
+        <div class="d-flex" *ngIf="!route.snapshot.params.id && role == 'admin'">
           <mat-form-field [ngClass]="{'disabledInput' : !isEdit}">
             <input matInput placeholder="ארגון חדש" formControlName="newOrganization" [required]="isEdit">
             <mat-error>שדה חובה</mat-error>
@@ -72,8 +72,8 @@
                      required placeholder="מנהל תיק *" class="bd-min-width" ></bd-select>
         </div>
         <div class="bd-width181 mr-5">
-          <bd-select [items]="statuses" formControlName="status" [ngClass]="{'disabledInput' : true }"
-                     required placeholder="סטטוס" class="bd-min-width"  ></bd-select>
+          <bd-select [items]="saleMans" formControlName="operator"
+                     required placeholder="איש מכירות" class="bd-min-width" ></bd-select>
         </div>
     </div>
       <div class="d-flex">
@@ -92,10 +92,16 @@
         </mat-form-field>
       </div>
         <div class="d-flex">
-          <mat-form-field>
-            <input matInput placeholder="מספר מזהה שולח" formControlName="receivedIdentifier" maxlength="9"  minlength="9" required>
-            <mat-error>ח.פ אינו תקין</mat-error>
-          </mat-form-field>
+          <div class="bd-width181">
+           <mat-form-field>
+             <input matInput placeholder="מספר מזהה שולח" formControlName="receivedIdentifier" maxlength="9"  minlength="9" required>
+             <mat-error>ח.פ אינו תקין</mat-error>
+           </mat-form-field>
+          </div>
+          <div class="bd-width181 mr-5">
+            <bd-select [items]="statuses" formControlName="status"
+                       required placeholder="סטטוס" class="bd-min-width"  ></bd-select>
+          </div>
         </div>
       <div>
         <p class="f-16 bold mt-5">סליקה</p>
@@ -179,7 +185,7 @@
       <p class="alert alert-danger width38" *ngIf="(!uploadedFileContract)  ">יש להכניס חוזה.</p>
       <p class="text-danger w-50 " *ngIf="uploadedFileContract && !validationFile(uploadedFileContract)"> יש להעלות רק קבצי docx או pdf </p>
     </div>
-    <div [@fade]="pageNumber === 3 ? 'active' : 'inactive'">
+    <div [@fade]="pageNumber === 2 ? 'active' : 'inactive'">
       <br>
       <table class="table table-bordered width38">
         <thead>

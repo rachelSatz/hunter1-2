@@ -104,8 +104,8 @@ export class GeneralHttpService extends BaseHttpService {
       .catch(() => null);
   }
 
-  addNewBankAccount(bank: any): Promise<any> {
-    return this.http.put(this.endPoint  +  '/addNewBankAccount', bank , this.getTokenHeader())
+  addNewBankAccount(bank: any, planId?: number): Promise<any> {
+    return this.http.put(this.endPoint  +  '/addNewBankAccount', {bank: bank, planId: planId}, this.getTokenHeader())
       .toPromise()
       .then(response => response as any)
       .catch(() => null);

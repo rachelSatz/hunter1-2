@@ -22,6 +22,7 @@ import { fade } from 'app/shared/_animations/animation';
 import { ActivatedRoute, Router} from '@angular/router';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {Month} from '../../../../shared/_const/month-bd-select';
+import {UserSessionService} from '../../../../shared/_services/user-session.service';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class CreatingEmployerComponent implements OnInit {
   branchesD;
   branchesW;
   operators = [];
+  saleMans = [];
   pageNumber = 1;
   maxPageNumber = 1;
   selectedBankD: number;
@@ -55,7 +57,6 @@ export class CreatingEmployerComponent implements OnInit {
   hasServerError: boolean;
   creatingEmployerForm: FormGroup;
   clickedContinue: boolean;
-  planId: number;
   isEdit = false;
   organizationId: number;
   departmentId;
@@ -63,6 +64,7 @@ export class CreatingEmployerComponent implements OnInit {
   count = 1;
   cities = [];
   month: number;
+  role = this.userSession.getRole();
   selectYear: number;
   yearN = new Date().getFullYear();
   readonly months = Month;
@@ -96,6 +98,7 @@ export class CreatingEmployerComponent implements OnInit {
     private generalHttpService: GeneralHttpService,
     private organizationService: OrganizationService,
     private employerService: EmployerService,
+    public userSession: UserSessionService,
     public route: ActivatedRoute,
     private helpers: HelpersService,
     private  platformComponent: PlatformComponent,
@@ -109,16 +112,15 @@ export class CreatingEmployerComponent implements OnInit {
     if (this.route.snapshot.params.id) {
       this.helpers.setPageSpinner(true);
     }
-    if (this.route.snapshot.queryParams) {
-      // this.pageNumber = this.route.snapshot.queryParams['pageNum'];
-      this.planId = this.route.snapshot.queryParams['planId'];
-    }
     this.initForm();
     this.employerService.getCity().then(response => {
       this.cities = response;
     });
+    // tslint:disable-next-line:radix
+    this.pageNumber = this.route.snapshot.queryParams['page'] ? parseInt(this.route.snapshot.queryParams['page']) : 1;
     this.employerService.getProjects().then(response => this.projects = response);
     this.getOperator();
+    this.getSaleMans();
     this.generalHttpService.getBanks(true).then(banks => {
       this.banks = banks;
       this.organizationService.getOrganizationsNameAndId().then(response => {
@@ -147,7 +149,7 @@ export class CreatingEmployerComponent implements OnInit {
           'identifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'receivedIdentifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'deductionNumber': [],
-          'phone': [null, [Validators.pattern('[0-9]{0-10}')]],
+          'phone': [null, Validators.pattern('^[0-9]*$')],
           'address': [null],
           'city_id': [null],
           'project': [null, Validators.required],
@@ -345,6 +347,13 @@ export class CreatingEmployerComponent implements OnInit {
     });
   }
 
+  getSaleMans(): void {
+    this.employerService.getOperator().then(response => {
+      this.saleMans = response;
+    });
+  }
+
+
   addContact(): void {
     const  contactSingle = this.creatingEmployerForm.get('creatingEmployer.contact').value;
     let validContact = true;
@@ -504,9 +513,14 @@ export class CreatingEmployerComponent implements OnInit {
         .then(response => {
           if (response) {
             this.creatingEmployerForm.get('detailsBank.receivingBank').value['ownerId'] = this.departmentId;
-            this.generalHttpService.updateBank(this.creatingEmployerForm.get('detailsBank.receivingBank').value,
-              this.route.snapshot.data.items.bank[1].id)
-              .then(responseAdd => responseAdd);
+            if (this.route.snapshot.data.items.bank[1]) {
+              this.generalHttpService.updateBank(this.creatingEmployerForm.get('detailsBank.receivingBank').value,
+                this.route.snapshot.data.items.bank[1].id)
+                .then(responseAdd => responseAdd);
+            } else {
+              this.generalHttpService.addNewBankAccount(this.creatingEmployerForm.get('detailsBank.receivingBank').value)
+                .then(responseAdd => responseAdd);
+            }
           }
         });
     } else {
@@ -561,7 +575,7 @@ export class CreatingEmployerComponent implements OnInit {
     const month = this.creatingEmployerForm.get('xmlFile.month').value;
     const year = this.creatingEmployerForm.get('xmlFile.year').value;
     const data = {
-      'month':  month ? month.toString() : new Date().getMonth().toString(),
+      'month':  month ? month.toString() : (new Date().getMonth() + 1).toString(),
       'year': year ? year.toString() : new Date().getFullYear().toString(),
       'processName': '',
       'departmentId': this.departmentId,
@@ -577,6 +591,10 @@ export class CreatingEmployerComponent implements OnInit {
         data['file'] =  this.uploadedFileXml ;
         this.platformComponent.getOrganizations(true, true);
         this.processDataService.setProcess(data);
+        if (this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active') {
+          this.processService.updatePaymentType(this.employerId,
+            this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['paymentType']);
+        }
         this.routerViewEmployer();
       } else {
         this.notificationService.error('העלאת הקובץ נכשלה');

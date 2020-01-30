@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
+import {EnumValue} from '@angular/compiler-cli/src/ngtsc/metadata';
 
 @Injectable()
 export class ProcessService extends BaseHttpService {
@@ -46,8 +47,16 @@ export class ProcessService extends BaseHttpService {
       .then(response => response as DataTableResponse);
   }
 
-  downloadPaymentsInstruction(id: number, planId?: number): Promise<any> {
-    return this.http.post(this.endPoint + '/downloadPaymentsInstruction', {'processId': id, 'planId': planId},
+  deletePlanTask(processId: number): Promise<any> {
+    return this.http.post(this.endPoint + '/deletePlanTask', { 'processId': processId},
+      this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  downloadPaymentsInstruction(id: number): Promise<any> {
+    return this.http.post(this.endPoint + '/downloadPaymentsInstruction', {'processId': id},
       this.getTokenHeader())
       .toPromise()
       .then(response => response)
@@ -93,15 +102,23 @@ export class ProcessService extends BaseHttpService {
       .catch(response => response);
   }
 
-   transfer(processID: any, name: string, criteria?: DataTableCriteria): Promise<any> {
-
-    const data = criteria ? { [name]: processID,
-      searchCriteria: this.setDataTableParams(criteria)} : {[name]: processID};
-
-    return this.http.post(this.endPoint  + '/transmit', data , this.getTokenHeader())
+  updatePaymentType(employerId: number, paymentType: string ): Promise<boolean> {
+    return this.http.post(this.endPoint + '/updatePaymentType',
+      { employerId: employerId , paymentType: paymentType}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
+  }
+
+   transfer(processID: any, name: string, criteria?: DataTableCriteria): Promise<any> {
+
+    const data = criteria ? { [name]: processID, searchCriteria: this.setDataTableParams(criteria)} : {[name]: processID};
+
+
+     return this.http.post(this.endPoint + '/transmit', data, this.getTokenHeader())
+       .toPromise()
+       .then(response => response)
+       .catch(response => response);
   }
 
   getUploadFile(processId: number): Observable<any> {
@@ -126,9 +143,9 @@ export class ProcessService extends BaseHttpService {
       .then(response => response)
       .catch(response => response);
   }
-  sendEmail(processId: number, recipient: any[], planId?: number): Promise<string> {
-    return this.http.post(this.endPoint + '/sendPaymentsInstruction' ,
-      {processId: processId, recipient: recipient, planId: planId},
+  sendEmail(processId: number, recipient: any[]): Promise<string> {
+    return this.http.post(this.endPoint + '/sendPaymentsInstruction',
+      {processId: processId, recipient: recipient},
       this.getTokenHeader())
       .toPromise()
       .then(response => response)
@@ -180,7 +197,7 @@ export class ProcessService extends BaseHttpService {
       .catch(response => response);
   }
 
-  deleteProcess(processId: number, planId?: number): Promise<any> {
+  deleteProcess(processId: number): Promise<any> {
     return this.http.delete(this.endPoint + '/' + processId,  this.getTokenHeader())
       .toPromise()
       .then(response => response)

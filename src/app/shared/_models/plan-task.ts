@@ -28,6 +28,7 @@ export class Task {
   id: number;
   message: string;
   additional_info: string;
+  last_process: string;
   record: Record;
   file: File;
   process: Process;

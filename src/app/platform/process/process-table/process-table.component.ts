@@ -141,7 +141,13 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
      if (status === this.processStatus.transmitted) {
        this.router.navigate(['platform', 'process', 'new', '1', 'broadcast']);
      } else {
-       this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id]);
+       if (this.planId) {
+         this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id],
+           {queryParams: {planId: this.planId}});
+       } else {
+         this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id]);
+       }
+
      }
 
    }
