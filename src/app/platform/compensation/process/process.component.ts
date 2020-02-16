@@ -99,7 +99,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.compensation = this.route.snapshot.queryParams['id'];
-    this.planId = this.route.snapshot.queryParams['planId'];
+    // this.planId = this.route.snapshot.queryParams['planId'];
     this.productService.getCompanies().then(response => {
       const column = this.dataTable.searchColumn(this.nameCompany);
       this.companies = response;
@@ -162,11 +162,10 @@ export class ProcessComponent implements OnInit, OnDestroy {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
 
     this.helpers.setPageSpinner(true);
-    this.compensationService.sendCompensations(items, this.dataTable.criteria, this.planId).then(response => {
+    this.compensationService.sendCompensations(items, this.dataTable.criteria).then(response => {
       this.helpers.setPageSpinner(false);
       if (response) {
         if (response['list_exceptions'].length > 0) {
@@ -244,7 +243,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
 
-    this.compensationService.manualChangingStatus(items, this.dataTable.criteria, this.planId).then(response => {
+    this.compensationService.manualChangingStatus(items, this.dataTable.criteria).then(response => {
         this.dataTable.criteria.checkedItems = [];
         this.dataTable.criteria.isCheckAll = false;
 

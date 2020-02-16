@@ -16,6 +16,7 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProductType } from 'app/shared/_models/product.model';
 
 import { Subscription } from 'rxjs';
+import {ProcessService} from '../../../../../shared/_services/http/process.service';
 
 @Component({
   selector: 'app-detailed-records',
@@ -60,12 +61,14 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
               private router: Router,
               private dialog: MatDialog,
               public processDataService: ProcessDataService,
+              public processService: ProcessService,
               public userSession: UserSessionService,
               private  monthlyTransferBlockService: MonthlyTransferBlockService ,
               protected  notificationService: NotificationService,
               private selectUnitService: SelectUnitService) { }
   sub = new Subscription;
   subscription = new Subscription;
+  // planId: number;
   depositStatus = DepositStatus;
   employeeStatus = EmployeeStatus;
   depositTypes = DepositType;
@@ -78,7 +81,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
 
   ngOnInit() {
     this.organizationId = this.selectUnitService.currentOrganizationID;
-
+    // this.planId = this.route.snapshot.queryParams['planId'] ? this.route.snapshot.queryParams['planId'] : null;
     if (this.processDataService.activeProcess === undefined) {
       this.processDataService = this.selectUnitService.getProcessData();
     }
@@ -119,6 +122,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
           if (response.items.length > 0 || !this.incorrectPage) {
             this.dataTable.setItems(response);
           } else {
+            this.processService.deletePlanTask(this.processDataService.activeProcess.processID);
             if (this.processDataService.activeProcess.pageNumber === 4 || this.processDataService.activeProcess.pageNumber === 5) {
               this.router.navigate(['/platform', 'process', 'new', 1, 'broadcast']);
             } else {

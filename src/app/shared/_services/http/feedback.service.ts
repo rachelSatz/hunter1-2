@@ -68,10 +68,10 @@ export class FeedbackService extends BaseHttpService {
       .catch(response => response);
   }
 
-  changeStatus(ids: number[] , contentType: string, planId: string, status: string , criteria?: DataTableCriteria): Promise<boolean> {
+  changeStatus(ids: number[] , contentType: string, status: string , criteria?: DataTableCriteria): Promise<boolean> {
     return this.http.post(this.endPoint  + '/changeStatus', { 'ids': ids ,
       'content_type': contentType, 'status': status, 'criteria':
-        this.setDataTableParams(criteria), 'planId': planId}, this.getTokenHeader())
+        this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
       .then(() => true)
       .catch(() => false);

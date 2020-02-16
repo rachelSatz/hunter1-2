@@ -72,7 +72,7 @@ export class  DocumentService extends BaseHttpService {
       .catch(() => null);
   }
 
-  uploadFiles(files: File[] , employer_id: number ) {
+  uploadFiles(files: File[] , employer_id: number) {
     const data = new FormData();
     const documentTypes = [];
     const ids = [];
@@ -83,6 +83,8 @@ export class  DocumentService extends BaseHttpService {
           ids.push(files[i]['id'] === undefined ? 0 : files[i]['id'] );
           documentTypes.push(i === 0 ? 'contract' : i === 1 ?  'employer_poa' :  i === 2 ? 'authorization_protocol' :  'customer_details');
         }
+
+
       }
     }
 

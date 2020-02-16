@@ -54,7 +54,8 @@ export class Operator {
 export enum EmployerStatus {
   active = 'מעסיק פעיל',
   inactive = 'מעסיק לא פעיל',
-  on_process = 'בהקמה'
+  on_process = 'בהקמה',
+  moved_association = 'הועבר לשיוך מנהל תיק',
 }
 
 export enum IdentifierTypes {
