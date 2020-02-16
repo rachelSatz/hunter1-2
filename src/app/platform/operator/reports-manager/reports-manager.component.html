@@ -1,0 +1,293 @@
+<div>
+  <p class="mr-5 h5 bold font-rubik">מבט כללי</p>
+  <hr class="mr-5">
+  <div class="border-shadow-main p-3 mt-2 mr-5">
+    <div class="d-flex">
+      <mat-form-field class="bd-width190 font-rubik">
+        <input matInput [matDatepicker]="datePickerFrom" [max]="endDate" placeholder=" מתאריך" [value]="startDate" [(ngModel)]="startDate" >
+        <mat-datepicker-toggle matSuffix [for]="datePickerFrom"></mat-datepicker-toggle>
+        <mat-datepicker #datePickerFrom ></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="bd-width190 mr-5 font-rubik">
+        <input matInput [matDatepicker]="datePickerTo" [min]="startDate" [max]="toDay" [(ngModel)]="endDate" [value]="endDate"  placeholder=" עד תאריך">
+        <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
+        <mat-datepicker #datePickerTo></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="d-flex">
+      <div class="bd-width190 font-rubik">
+        <bd-select [items]="projects"  placeholder="פרויקט" [(ngModel)]="projectsId"
+                   class="bd-min-width"></bd-select>
+      </div>
+      <div class="bd-width190 mr-5 font-rubik">
+        <bd-select [items]="operators" placeholder="מנהל תיק" [(ngModel)]="operatorId"
+                   class="bd-min-width" (onSelect)="getOrganizations()" ></bd-select>
+      </div>
+      <div class="bd-width190 mr-5 font-rubik">
+        <bd-select [items]="organizations"  placeholder="ארגון" [(ngModel)]="organizationId"
+                   label="value" class="bd-min-width" (onSelect)="getEmployers()"></bd-select>
+      </div>
+      <div class="bd-width190 mr-5 font-rubik">
+        <bd-select [items]="employers" placeholder="מעסיק" [(ngModel)]="employerId"
+                   label="value" class="bd-min-width" ></bd-select>
+      </div>
+      <div class="bd-width190 mr-5 font-rubik">
+        <bd-select [items]="employers" placeholder="מחלקה"
+                   class="bd-min-width" ></bd-select>
+      </div>
+      <button class="btn btn-primary ellipse blue-btn font-rubik" type="submit" (click)="submit()"><img
+        src="../../../../assets/img/filter.png" class="ml-1" height="16" width="16"/>סנן</button>
+    </div>
+  </div>
+  <br>
+  <p class="mr-5 h5 bold font-rubik"> תוצאות של {{startDate}} - {{endDate}}</p>
+  <hr class="mr-5">
+  <div class="d-flex">
+    <div class="h-350 w-25 mr-6">
+      <div class="d-flex mt-8">
+        <img src="../../../../assets/img/sq.png" height="88" width="97"/>
+        <div class="py-sm-2">
+          <p class="h3 bold font-rubik">סטטוס מעסיקים</p>
+          <p class="text-center font-rubik">בתיבה זו תוכלו לצפות בפרטי המעסיקים</p>
+        </div>
+      </div>
+    </div>
+    <div class="border-shadow w-25 h-350 mr-5">
+      <br><br>
+      <img src="../../../../assets/img/status (1).png" class="rounded mx-auto d-block" height="64" width="64"/>
+      <p class="h6 bold text-center py-2 font-rubik">מס' מעסיקים</p>
+      <p class="blue-color font-weight-bold f-60 text-center font-rubik py-3">{{reportsData.employers_count}}</p>
+      <hr class="mr-3 ml-3">
+      <div class="d-flex justify-content-center">
+        <p class="text-center font-rubik"> לרשימה המלאה</p>
+        <div class="mr-3">
+          <img src="../../../../assets/img/left.png" height="16"  width="16"/>
+        </div>
+      </div>
+    </div>
+    <div class="border-shadow w-25 h-350 mr-2">
+      <br><br>
+      <img src="../../../../assets/img/name (1).png" class="rounded mx-auto d-block" height="64" width="64"/>
+      <p class="h6 bold text-center py-2 font-rubik ">מס' תעודות זהות</p>
+      <div class="d-flex justify-content-center  py-2">
+        <p class="h6 bold font-rubik">עם אפסים</p>
+        <div class="green-background-color mr-6 circle-size rounded-circle">
+          <p class="h6 white-color bold text-center py-sm-4 font-rubik">{{reportsData.employees_count}}</p>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <p class="h6 bold font-rubik ">בלי אפסים</p>
+        <p class="h6 green1-color bold text-center py-2 mr-6 font-rubik ">{{reportsData.employees_count}}</p>
+      </div>
+      <hr class="mr-3 ml-3">
+      <div class="d-flex justify-content-center">
+        <p class="text-center font-rubik"> לרשימה המלאה</p>
+        <div class="mr-3">
+          <img src="../../../../assets/img/left.png" height="16"  width="16"/>
+        </div>
+      </div>
+    </div>
+    <div class="border-shadow w-25 h-350 mr-3">
+      <p class="h6 bold font-rubik mr-4 mt-3">קבצים</p>
+      <hr class="mr-3 ml-3">
+      <div class="d-flex">
+        <div class="mr-6">
+          <div class="white-background-color mr-3 mt-3 on-circle">
+            <p class="h6 bold font-rubik"> 132</p>
+          </div>
+          <img src="../../../../assets/img/folder -blue.png" height="64" width="64"/>
+          <p class="h6 font-rubik">מס' קבצים</p>
+        </div>
+        <div class="mr-4">
+          <div class="white-background-color mr-3 mt-3 on-circle">
+            <p class="h6 bold font-rubik"> 132</p>
+          </div>
+          <img src="../../../../assets/img/folder.png" class="" height="64" width="64"/>
+          <p class="h6 font-rubik">כמה נטענו</p>
+        </div>
+        <div class="mr-4">
+          <div class="white-background-color mr-3 mt-3 on-circle mt-2">
+            <p class="h6 bold font-rubik"> 132</p>
+          </div>
+          <img src="../../../../assets/img/folder (1).png" height="64" width="64"/>
+          <p class="h6 font-rubik">כמה שודרו</p>
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="mr-6 rounded-circle grey-background-color m-t-50p">
+          <img src="../../../../assets/img/folder-write.png" height="24" width="24"/>
+        </div>
+        <p class="h6 mr-3 font-rubik m-t-50p"> 4ממתינים לשידור</p>
+      </div>
+      <hr class="mr-3 ml-3">
+      <div class="d-flex justify-content-center">
+        <p class="text-center font-rubik"> לרשימה המלאה</p>
+        <div class="mr-3">
+          <img src="../../../../assets/img/left.png" height="16"  width="16"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="mr-5">
+  <div class="mr-5">
+    <div class="border-shadow w-100 ">
+      <p class="h6 font-rubik bold  mr-4 mt-3">היזונים ראשוניים</p>
+      <hr class="mr-3 ml-3 py-3">
+      <ul class="d-flex mr-5 mt-1">
+        <img src="../../../../assets/img/tick.png" height="16" width="16"/>
+        <p class="h6 bold font-rubik mr-6">תקינים</p>
+        <p class="h6  font-rubik mr-35 ">היזונים ראשוניים</p>
+        <div class="w-250p mr-35">
+          <p class="h6 bold font-rubik yellow1-color">{{reportsData.feedback_a}}</p>
+        </div>
+        <img src="../../../../assets/img/left.png" height="16"  width="16"/>
+      </ul>
+      <hr class="mt-sm-2">
+      <ul class="d-flex mr-5 mt-1">
+        <img src="../../../../assets/img/close.png" height="16" width="16"/>
+        <p class="h6 bold font-rubik mr-6">ללא מענה</p>
+        <p class="h6 font-rubik mr-34">היזונים ראשוניים</p>
+        <div class="w-250p mr-35">
+          <p class="h6 bold font-rubik yellow1-color">{{reportsData.feedback_a_unanswered}}</p>
+        </div>
+        <img src="../../../../assets/img/left.png" height="16"  width="16"/>
+      </ul>
+      <hr class="mt-sm-2">
+      <ul class="d-flex mr-5 mt-1">
+        <img src="../../../../assets/img/cancel.png" height="16" width="16"/>
+        <p class="h6 bold font-rubik mr-6">תקולים</p>
+        <p class="h6  font-rubik mr-35">היזונים ראשוניים</p>
+        <div class="w-250p mr-35">
+          <p class="h6 bold font-rubik">{{reportsData.feedback_a_failed}}</p>
+        </div>
+        <img src="../../../../assets/img/left.png" height="16"  width="16"/>
+      </ul>
+    </div>
+    <div class="d-flex py-3">
+      <div class="w-30 mr-3">
+        <div class="d-flex mt-6">
+          <img src="../../../../assets/img/insert (1).png" height="70" width="70" class="mr-2"/>
+          <div class="py-sm-2 mr-3">
+            <p class="h3 bold font-rubik">היזונים חוזרים</p>
+            <p class="text-center font-rubik">בתיבה זו תוכלו לצפות בפרטי ההיזונים</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-shadow w-50">
+        <p class="h6 font-rubik bold  mr-4 mt-3"> ברמת קובץ</p>
+        <hr class="mr-3 ml-3">
+        <div class="d-flex mt-5">
+          <div class="">
+            <div class="border circle-size rounded-circle mr-6 py-4">
+              <p class="h6 font-rubik text-center mr-0">125</p>
+            </div>
+            <p class="h6 font-rubik text-center mr-6 mt-2">לא נפרע</p>
+          </div>
+          <div class="mr-5">
+            <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
+              <p class="h6 font-rubik green1-color text-center mr-0">125</p>
+            </div>
+            <p class="mr-6 h6 mt-2 text-center font-rubik">נפרע במלואו</p>
+          </div>
+          <div class="mr-5">
+            <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
+              <p class="h6 font-rubik yellow1-color text-center mr-0">125</p>
+            </div>
+            <p class="mr-6 h6 mt-2 text-center font-rubik">נפרע חלקית</p>
+          </div>
+          <div class="mr-5">
+            <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
+              <p class="h6 font-rubik orange-color text-center mr-0">125</p>
+            </div>
+            <p class="mr-6 h6 mt-2 text-center font-rubik">נכשל</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-shadow w-30 mr-3">
+        <p class="h6 font-rubik bold  mr-4 mt-3">ברמת עובד</p>
+        <hr class="mr-3 ml-3">
+        <div class="d-flex mt-5 mr-5">
+          <div class="">
+            <div class="border circle-size rounded-circle mr-6 py-4">
+              <p class="h6 font-rubik text-center mr-0">125</p>
+            </div>
+            <p class="h6 font-rubik text-center mr-6 mt-2">לא נפרע</p>
+          </div>
+          <div class="mr-5">
+            <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
+              <p class="h6 font-rubik green1-color text-center mr-0">125</p>
+            </div>
+            <p class="mr-6 h6 mt-2 text-center font-rubik">נפרע במלואו</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="border-shadow w-40">
+        <p class="h6 bold font-rubik  mr-4 mt-3">היזון מסכם</p>
+        <hr class="mr-3 ml-3">
+        <p class="h5 font-rubik bold text-center mt-5 mb-0">תקינים</p>
+        <p class="green1-color font-weight-bold f-60 text-center font-rubik">3564</p>
+      </div>
+      <div class="border-shadow w-40 mr-3">
+        <p class="h6 bold font-rubik  mr-4 mt-3">היזון מסכם</p>
+        <hr class="mr-3 ml-3">
+        <p class=" h5 font-rubik bold text-center mt-5 mb-0">ללא מענה</p>
+        <p class="grey-color font-weight-bold f-60 text-center font-rubik ">356</p>
+      </div>
+      <div class="border-shadow w-40  mr-3">
+        <p class="h6 bold font-rubik  mr-4 mt-3">היזון מסכם</p>
+        <hr class="mr-3 ml-3">
+        <p class="h5 font-rubik bold text-center mt-5 mb-0">תקולים</p>
+        <p class="orange-color font-weight-bold f-60 text-center font-rubik ">74</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="mr-5">
+  <div class="d-flex h-350">
+    <div class="d-flex h-75 w-25 mr-6">
+      <div class="d-flex mt-6">
+        <img src="../../../../assets/img/turn (1).png" height="64" width="64" class="mr-2"/>
+        <div class="py-sm-2 mr-3">
+          <p class="h3 bold font-rubik">מעקב פניות</p>
+          <p class="text-center font-rubik">בתיבה זו תוכלו לצפות אחר פניות</p>
+        </div>
+      </div>
+    </div>
+    <div class="w-1250p">
+      <div class="d-flex mt-4">
+        <p class="h6 font-rubik bold ">פניות ברמת קובץ</p>
+        <p class="h6 font-rubik bold mr-6">פניות ברמת עובד</p>
+        <p class="h6 font-rubik bold mr-3">ייתרות לפיצויים ברמת ח.פ</p>
+        <p class="h6 font-rubik bold mr-6">ייתרות לפיצויים ברמת עובד</p>
+      </div>
+      <table class="table border-shadow-main  w-1250p mr-3 " >
+        <tbody>
+        <tr>
+          <th scope="row" class="font-rubik">MyHR</th>
+          <td class="font-rubik">Mark</td>
+          <td class="font-rubik">Otto</td>
+          <td class="font-rubik">@mdo</td>
+          <td class="font-rubik">@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row" class="font-rubik" >חברה מנהלת</th>
+          <td class="font-rubik">Jacob</td>
+          <td class="font-rubik">Thornton</td>
+          <td class="font-rubik">@fat</td>
+          <td class="font-rubik">@fat</td>
+        </tr>
+        <tr>
+          <th scope="row" class="font-rubik">מעסיק</th>
+          <td class="font-rubik">Larry</td>
+          <td class="font-rubik">the Bird</td>
+          <td class="font-rubik">@twitter</td>
+          <td class="font-rubik">@twitter</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
