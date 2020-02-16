@@ -39,6 +39,12 @@ export class EmployerService extends BaseHttpService {
      .catch(() => null);
   }
 
+  getEmployerByOrganization(id: number): Promise<Employer[]> {
+    return this.http.get(this.endPoint + '/' + id + '/employerByOrganization' , this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Employer)
+      .catch(() => null);
+  }
 
   getAllEmployers(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();

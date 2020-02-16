@@ -37,6 +37,23 @@ export class OrganizationService extends BaseHttpService {
       .catch(() => null);
   }
 
+
+  getReport(organization, project, employer, operator, startDate, endDate): Promise<any> {
+    const formData = new FormData();
+    formData.append('organizationId', organization.toString());
+    formData.append('projectId' , project.toString());
+    formData.append('employerId' , employer.toString());
+    formData.append('operatorId' , operator.toString());
+    formData.append('startDate' , startDate.toString());
+    formData.append('endDate' , endDate.toString());
+
+
+    return this.http.post(this.apiUrl + '/reports/' + 'statusEmployerReport', formData, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as any);
+
+  }
+
   getOrganizationsNameAndId(): Promise<Organization[]> {
     return this.http.get(this.endPoint + '/organizationsForSelector', this.getTokenHeader())
       .toPromise()
@@ -46,6 +63,12 @@ export class OrganizationService extends BaseHttpService {
 
   getOrganization(id: number): Promise<Organization> {
     return this.http.get(this.endPoint + '/' + id , this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Organization)
+      .catch(() => null);
+  }
+  getOrganizationByOperator(id: number): Promise<Organization[]> {
+    return this.http.get(this.endPoint + '/' + id + '/organizationByOperator' , this.getTokenHeader())
       .toPromise()
       .then(response => response as Organization)
       .catch(() => null);

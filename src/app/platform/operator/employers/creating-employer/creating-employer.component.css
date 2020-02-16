@@ -2,6 +2,26 @@
   border: 2px solid ;
   border-radius: 18px;
 }
+/*.file-uploaded  ::ng-deep .drop-zone {*/
+/*  border: 1px solid #b7b7b7 !important;*/
+/*}*/
+
+/*::ng-deep .drop-zone {*/
+/*  position: relative;*/
+/*  display: flex;*/
+/*  !*align-items: center;*!*/
+/*  justify-content: center;*/
+/*  width: 250px;*/
+/*  height: 20px !important;*/
+/*  border: 1px dashed !important;*/
+/*  border-radius: 0 !important;*/
+/*  margin: 0 !important;*/
+/*}*/
+
+/*::ng-deep .content {*/
+/*  height: initial !important;*/
+/*  padding: 10px 0;*/
+/*}*/
 
 .bd-width181 {
   width: 181px;

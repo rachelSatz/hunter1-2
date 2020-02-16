@@ -165,27 +165,30 @@
           <th scope="col"  class="width15">חוזה</th>
           <td scope="col">
             <div class="d-flex">
-              <p class="file-label-text" >{{ uploadedFileContract ? (uploadedFileContract.name | slice:0:25) : 'אין קובץ' }}</p>
-              <div class="ml-3 mr-auto ">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" >
+              <p class="file-label-text">{{fileUpload(uploadedFileContract)}}</p>
+              <!--                <mat-progress-bar *ngIf="process_file === 100" class="mt-5" mode="determinate" [value]="process_file"></mat-progress-bar>-->
+              <div class="ml-3 mr-auto" >
+                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" *ngIf="!uploadedFileContract">
                   <label class="width135" >
-                    <input type="file"  accept=".docx,.doc,.pdf " (change)= "uploadedFileContract === undefined ?
+                    <input type="file" accept=".docx,.doc,.pdf " (change)= "uploadedFileContract === undefined ?
                       uploadedFileContract = $event.target.files[0] : uploadedFileContract['id'] ? documentId = uploadedFileContract['id'] : 0;
-                      uploadedFileContract = $event.target.files[0]; uploadedFileContract['id'] = documentId;" >
+                      uploadedFileContract = $event.target.files[0]; uploadedFileContract['id'] = documentId;">
                     <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
                   </label>
                 </button>
+                <div *ngIf="uploadedFileContract">
+                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileContract)" ></i>
+                  <i class="fa fa-trash fa-lg" (click)="uploadedFileContract = deleteFile(uploadedFileContract)" title="מחיקה"></i>
+                </div>
               </div>
             </div>
           </td>
         </tr>
         </thead>
       </table>
-      <p class="alert alert-danger width38" *ngIf="(!uploadedFileContract)  ">יש להכניס חוזה.</p>
-      <p class="text-danger w-50 " *ngIf="uploadedFileContract && !validationFile(uploadedFileContract)"> יש להעלות רק קבצי docx או pdf </p>
-    </div>
-    <div [@fade]="pageNumber === 2 ? 'active' : 'inactive'">
+<!--      <p class="alert alert-danger width38" *ngIf="(!uploadedFileContract)  ">יש להכניס חוזה.</p>-->
+<!--      <p class="text-danger w-50 " *ngIf="uploadedFileContract && !validationFile(uploadedFileContract)"> יש להעלות רק קבצי docx או pdf </p>-->
       <br>
       <table class="table table-bordered width38">
         <thead>
@@ -193,9 +196,10 @@
           <th scope="col" class="width15">יפויי כח</th>
             <td scope="col">
               <div class="d-flex">
-                <p class="file-label-text">{{ uploadedFilePoa ? (uploadedFilePoa.name | slice:0:25) : 'אין קובץ' }}</p>
-                <div class="ml-3 mr-auto ">
-                  <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
+                <p class="file-label-text">{{fileUpload(uploadedFilePoa)}}</p>
+<!--                <mat-progress-bar *ngIf="process_file === 100" class="mt-5" mode="determinate" [value]="process_file"></mat-progress-bar>-->
+                <div class="ml-3 mr-auto" >
+                  <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" *ngIf="!uploadedFilePoa">
                     <label class="width135" >
                       <input type="file" accept=".docx,.doc,.pdf " (change)="uploadedFilePoa === undefined ?
                       uploadedFilePoa = $event.target.files[0] : uploadedFilePoa['id']  ? documentId = uploadedFilePoa['id']  : 0;
@@ -204,6 +208,10 @@
                       העלת קובץ
                     </label>
                   </button>
+                  <div *ngIf="uploadedFilePoa">
+                    <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFilePoa)" ></i>
+                    <i class="fa fa-trash fa-lg" (click)="uploadedFilePoa = deleteFile(uploadedFilePoa)" title="מחיקה"></i>
+                  </div>
                 </div>
               </div>
             </td>
@@ -216,9 +224,10 @@
           <th scope="col"  class="width15">מורשה חתימה</th>
           <td scope="col">
             <div class="d-flex">
-              <p class="file-label-text">{{ uploadedFileProtocol ? (uploadedFileProtocol.name | slice:0:25) : 'אין קובץ' }}</p>
-              <div class="ml-3 mr-auto ">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
+              <p class="file-label-text">{{fileUpload(uploadedFileProtocol)}}</p>
+              <!--                <mat-progress-bar *ngIf="process_file === 100" class="mt-5" mode="determinate" [value]="process_file"></mat-progress-bar>-->
+              <div class="ml-3 mr-auto" >
+                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" *ngIf="!uploadedFileProtocol">
                   <label class="width135" >
                     <input type="file" accept=".docx,.doc,.pdf " (change)="uploadedFileProtocol === undefined ?
                       uploadedFileProtocol = $event.target.files[0] : uploadedFileProtocol['id']  ? documentId = uploadedFileProtocol['id']  : 0;
@@ -227,6 +236,10 @@
                     העלת קובץ
                   </label>
                 </button>
+                <div *ngIf="uploadedFileProtocol">
+                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileProtocol)" ></i>
+                  <i class="fa fa-trash fa-lg" (click)="uploadedFileProtocol = deleteFile(uploadedFileProtocol)" title="מחיקה"></i>
+                </div>
               </div>
             </div>
           </td>
@@ -239,17 +252,22 @@
           <th scope="col"  class="width15">פרטי הלקוח</th>
           <td scope="col">
             <div class="d-flex">
-              <p class="file-label-text">{{ uploadedFileCustomer ? (uploadedFileCustomer.name | slice:0:25) : 'אין קובץ' }}</p>
-              <div class="ml-3 mr-auto">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
+              <p class="file-label-text">{{fileUpload(uploadedFileCustomer)}}</p>
+              <!--                <mat-progress-bar *ngIf="process_file === 100" class="mt-5" mode="determinate" [value]="process_file"></mat-progress-bar>-->
+              <div class="ml-3 mr-auto" >
+                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" *ngIf="!uploadedFileCustomer">
                   <label class="width135" >
                     <input type="file" accept=".docx,.doc,.pdf " (change)="uploadedFileCustomer === undefined ?
                       uploadedFileCustomer = $event.target.files[0] : uploadedFileCustomer['id']  ? documentId = uploadedFileCustomer['id']  : 0;
-                      uploadedFileCustomer = $event.target.files[0]; uploadedFileCustomer['id']  = documentId;"  >
+                      uploadedFileCustomer = $event.target.files[0]; uploadedFileCustomer['id']  = documentId;">
                     <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
                   </label>
                 </button>
+                <div *ngIf="uploadedFileCustomer">
+                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileCustomer)" ></i>
+                  <i class="fa fa-trash fa-lg" (click)="uploadedFileCustomer = deleteFile(uploadedFileCustomer)" title="מחיקה"></i>
+                </div>
               </div>
             </div>
           </td>
@@ -259,6 +277,9 @@
       <p class="text-danger w-50 " *ngIf="uploadedFilePoa && !validationFile(uploadedFilePoa) || uploadedFileProtocol && !validationFile(uploadedFileProtocol) ||
        uploadedFileCustomer && !validationFile(uploadedFileCustomer)"> יש להעלות רק קבצי docx או pdf </p>
       <p class="alert alert-danger width38" *ngIf="((!uploadedFilePoa) || (!uploadedFileProtocol) || (!uploadedFileCustomer))&& clickedContinue">יש להכניס את המסמכים הדרושים.</p>
+      <mat-checkbox name="direct_debit_commission"  >שולם תשלום שוטף בגין טיפול</mat-checkbox>
+      <br>
+      <mat-checkbox name="direct_debit_commission"  >תשלום ח"פ עבור ההקמה</mat-checkbox>
     </div>
     <div [@fade]="pageNumber === 4 ? 'active' : 'inactive'" formGroupName="detailsBank">
       <p class="f-16 bold mt-5">חשבון בנק משלם</p>

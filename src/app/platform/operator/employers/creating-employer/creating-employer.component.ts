@@ -23,6 +23,7 @@ import { ActivatedRoute, Router} from '@angular/router';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {Month} from '../../../../shared/_const/month-bd-select';
 import {UserSessionService} from '../../../../shared/_services/user-session.service';
+import * as FileSaver from 'file-saver';
 
 
 @Component({
@@ -66,6 +67,7 @@ export class CreatingEmployerComponent implements OnInit {
   month: number;
   role = this.userSession.getRole();
   selectYear: number;
+  process_file: number;
   yearN = new Date().getFullYear();
   readonly months = Month;
   readonly years = [ this.yearN, (this.yearN - 1) , (this.yearN - 2), (this.yearN - 3)];
@@ -92,7 +94,6 @@ export class CreatingEmployerComponent implements OnInit {
     private router: Router,
     private selectUnit: SelectUnitService,
     private processService: ProcessService,
-    private orgService: OrganizationService,
     private documentService: DocumentService,
     private contactService: ContactService,
     private generalHttpService: GeneralHttpService,
@@ -106,6 +107,7 @@ export class CreatingEmployerComponent implements OnInit {
     public processDataService: ProcessDataService,
     private _location: Location) {
     this.organizationId = 0;
+    this.process_file = 0;
   }
 
   ngOnInit() {
@@ -290,6 +292,61 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
+  uploadFile(file, event): void {
+    if (file === undefined) {
+      file = event;
+    } else {
+      if (file['id']) {
+        this.documentId = file['id'];
+      } else {
+        this.documentId = 0;
+        file = event;
+        file['id'] = this.documentId;
+      }
+    }
+  }
+
+  deleteFile(file) {
+    if (file.id) {
+      this.notificationService.warning('האם ברצונך למחוק את הקובץ?')
+        .then(confirmation => {
+          if (confirmation.value) {
+            this.documentService.deleteFile(file.id, this.employerId).then(response => {
+              if (response) {
+                return file = null;
+              }
+            });
+          }
+        });
+    } else {
+      return file =  null;
+    }
+  }
+
+  showFile(file): void {
+    let blob;
+    if (file.id) {
+      this.documentService.downloadFile(file.id, this.employerId).then( response => {
+        if (response) {
+          const byte = atob(response['data']);
+          const byteNumbers = new Array(byte.length);
+          for (let i = 0; i < byte.length; i++) {
+            byteNumbers[i] = byte.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          blob = new Blob([byteArray], {type: 'application/pdf'});
+          const fileURL = URL.createObjectURL(blob);
+          window.open(fileURL);
+        }
+      });
+    } else {
+      blob = new Blob([file.slice()], {type: 'application/pdf'});
+      const fileURL = URL.createObjectURL(blob);
+      window.open(fileURL);
+    }
+
+  }
+
   copyBankRow(): void {
     this.selectedBankW = this.selectedBankD;
     this.getBranches(2);
@@ -335,6 +392,14 @@ export class CreatingEmployerComponent implements OnInit {
           this.contactService.deleteEmployerContact(id).then(response => response);
         }
       });
+  }
+
+  fileUpload(file) {
+    if (file) {
+      return file.name;
+    } else {
+      return 'אין קובץ';
+    }
   }
 
   getContactsArrControls() {
@@ -425,8 +490,16 @@ export class CreatingEmployerComponent implements OnInit {
 
   continueProcess(): void {
     if (this.pageNumber === 1 && this.validation() && this.checkValidData()) {
-        this.pageNumber += 1;
-    } else if (this.pageNumber === 2 || this.pageNumber === 3) {
+      const employerIdentifiers = this.validIdEmployer();
+      if (employerIdentifiers.length > 0 ) {
+        this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
+          {confirmButtonText: 'אישור'}).then(
+          confirmation => {
+            if (confirmation.value) {
+              this.pageNumber += 1;
+            }}
+        );
+      }} else if (this.pageNumber === 2 || this.pageNumber === 3) {
       if (this.checkValidFiles() || (!this.uploadedFilePoa && !this.uploadedFileCustomer && !this.uploadedFileContract &&
         !this.uploadedFileProtocol)) {
         this.pageNumber += 1;
@@ -571,6 +644,8 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
+
+
   sendFile(): void {
     const month = this.creatingEmployerForm.get('xmlFile.month').value;
     const year = this.creatingEmployerForm.get('xmlFile.year').value;
@@ -623,18 +698,42 @@ export class CreatingEmployerComponent implements OnInit {
       && (this.isDetailsContact() && contacts.valid || this.isDetailsContact() === false);
   }
 
-  submit(): void {
-    if (this.validation()) {
-      if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
-        this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
-        this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
-        this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
-        (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
-        this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
-      } else {
-        this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+  validIdEmployer() {
+    const employerIdentifiers = [];
+    this.selectUnit.getOrganization().forEach(org => {
+      if (org.id !== this.creatingEmployerForm.get('creatingEmployer.employerDetails').get('organization')) {
+        org.employer.forEach(emp => {
+          if (emp.identifier === this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['identifier']) {
+            employerIdentifiers.push(org.name);
+          }
+        });
       }
-      this.insertData();
+    });
+    return employerIdentifiers;
+  }
+
+  submit(): void {
+    const employerIdentifiers = this.validIdEmployer();
+    if (employerIdentifiers.length > 0 ) {
+      this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
+          {confirmButtonText: 'אישור'}).then(
+        confirmation => {
+          if (!confirmation.value) {
+            if (this.validation()) {
+              if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
+                this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
+                this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
+                this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
+                (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
+                this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
+              } else {
+                this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+              }
+              this.insertData();
+            }
+        } }
+      );
     }
   }
+
 }
