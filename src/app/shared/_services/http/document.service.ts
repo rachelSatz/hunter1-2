@@ -83,6 +83,8 @@ export class  DocumentService extends BaseHttpService {
           ids.push(files[i]['id'] === undefined ? 0 : files[i]['id'] );
           documentTypes.push(i === 0 ? 'contract' : i === 1 ?  'employer_poa' :  i === 2 ? 'authorization_protocol' :  'customer_details');
         }
+
+
       }
     }
 

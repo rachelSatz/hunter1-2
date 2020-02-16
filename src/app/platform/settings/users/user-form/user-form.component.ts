@@ -91,10 +91,9 @@ export class UserFormComponent implements OnInit {
 
 
   fetchItems() {
-    if (!this.user.units || this.user.units.length === 0) {
+    if (this.user.units === undefined || this.user.units.length === 1 || this.user.units[0] === new UserUnitPermission()) {
       this.user.units = [];
     }
-
     this.addToUnitUser(this.user.units);
   }
 
@@ -192,11 +191,17 @@ export class UserFormComponent implements OnInit {
   }
 
   addUnitPermissionRow(): void {
-    this.userService.addUnitUser(this.permission, this.user.id).then(response => {
-      if (response) {
-        this.addToUnitUser(response);
-      }
-    });
+    if (this.user.id) {
+      this.userService.addUnitUser(this.permission, this.user.id).then(response => {
+        if (response) {
+          this.addToUnitUser(response);
+        }
+      });
+    }else {
+      this.user.units.push(this.permission);
+      this.addToUnitUser(this.user.units);
+
+    }
   }
 
   addToUnitUser(items): void {

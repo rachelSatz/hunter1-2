@@ -35,7 +35,6 @@ export class ContactFormComponent implements OnInit {
   productTypes = Object.keys(ProductType).map(function(e) {
     return { id: e, name: ProductType[e] };
   });
-  planId: number;
   types = Type;
   is_warning = false;
   employerId = 0;
@@ -56,7 +55,6 @@ export class ContactFormComponent implements OnInit {
                private _location: Location) {}
 
   ngOnInit() {
-    this.planId = this.route.snapshot.queryParams['planId'] ? this.route.snapshot.queryParams['planId'] : null;
     this.organizations = this.selectUnit.getOrganization();
     if (this.router.url.includes( 'employers')) {
       this.pathEmployers = true;

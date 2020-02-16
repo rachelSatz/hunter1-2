@@ -58,8 +58,8 @@
       </div>
       <div class="mt-4">
         <mat-form-field>
-          <input matInput type="number" placeholder="טלפון" [(ngModel)]="employer.phone"
-                 (change)="saveChanges = true" formControlName="phone" maxlength="12">
+          <input matInput  placeholder="טלפון" [(ngModel)]="employer.phone"
+                 (change)="saveChanges = true" formControlName="phone" maxlength="11" minlength="7">
         </mat-form-field>
         <div class="mr-3 d-inline-block bd-de">
           <bd-select [items]="projects" placeholder="פרוייקט"
