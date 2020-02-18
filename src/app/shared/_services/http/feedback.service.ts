@@ -52,6 +52,15 @@ export class FeedbackService extends BaseHttpService {
       .catch(() => null);
   }
 
+  getTransfer(mtb_id: number, sent_group_id: number, status_sent_group: string): Promise<any> {
+    const request = this.getTokenHeader();
+    request['params'] = {mtbId : mtb_id, sentGroupId: sent_group_id, status_sent_group: status_sent_group};
+    return this.http.get(this.endPoint + '/getTransfer', request)
+      .toPromise()
+      .then(response => response);
+  }
+
+
   downloadGroupThingFile(id: number): Promise<any> {
     return this.http.get(this.apiUrl + '/files/' + id + '/downloadFile', this.getTokenHeader())
       .toPromise()

@@ -91,7 +91,7 @@ export class UserFormComponent implements OnInit {
 
 
   fetchItems() {
-    if (this.user.units === undefined || this.user.units.length === 1 || this.user.units[0] === new UserUnitPermission()) {
+    if (this.user.units === undefined) {
       this.user.units = [];
     }
     this.addToUnitUser(this.user.units);
@@ -141,7 +141,7 @@ export class UserFormComponent implements OnInit {
     this.hasServerError = false;
     if (form.valid) {
       if (this.user.modules.some(m => m.isEnabled) &&
-        ((this.user.units.length > 0 && this.user.units[0].organization_id) || this.user.role === 'admin')) {
+        ((this.user.units.length > 0 && this.user.units[0].organization_id) || this.user.role === 'admin' || this.user.id === undefined)) {
         if (this.user.id) {
           this.userService.updateUser(this.user, this.user.id).then(response => this.handleResponse(response));
         } else {
@@ -191,17 +191,19 @@ export class UserFormComponent implements OnInit {
   }
 
   addUnitPermissionRow(): void {
-    if (this.user.id) {
+    // if (this.user.id) {
       this.userService.addUnitUser(this.permission, this.user.id).then(response => {
         if (response) {
           this.addToUnitUser(response);
         }
       });
-    }else {
-      this.user.units.push(this.permission);
-      this.addToUnitUser(this.user.units);
+    // }
 
-    }
+    // else {
+    //   this.user.units.push(this.permission);
+    //   this.addToUnitUser(this.user.units);
+    //
+    // }
   }
 
   addToUnitUser(items): void {
@@ -222,7 +224,11 @@ export class UserFormComponent implements OnInit {
         this.hasServerError = true;
         this.message = 'שגיאת שרת, נסה שנית או צור קשר.';
       } else {
-        this.previous();
+        if (this.user.id === undefined) {
+          this.user.id = isSaved['userId'];
+        } else {
+          this.previous();
+        }
       }
     }
   }

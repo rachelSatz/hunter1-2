@@ -127,10 +127,16 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   }
 
   openApplicationDialog(item: any): void {
-    this.dialog.open(SendApplicationComponent, {
-      data: item,
-      width: '1350px',
+    this.helpers.setPageSpinner(false);
+    this.feedbackService.getTransfer(item.id, item.sent_group_id, item.status_sent_group).then(response => {
+      item.transfer_clause = response;
+      this.helpers.setPageSpinner(true);
+      this.dialog.open(SendApplicationComponent, {
+        data: item,
+        width: '1350px',
+      });
     });
+
   }
 
   openInquiresDialog(item: any): void {
@@ -156,6 +162,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   }
 
   openCommentsDialog(item?: any): void {
+    this.helpers.setPageSpinner(true);
     let ids = [];
     if (!item) {
       if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
@@ -166,8 +173,11 @@ export class EmployeesComponent implements OnInit , OnDestroy {
       ids = this.dataTable.criteria.checkedItems.map(i => i['id']);
     } else {
       ids = [item.id];
+
+
     }
 
+    this.helpers.setPageSpinner(false);
     const dialog = this.dialog.open(CommentsFormComponent, {
       data: {'ids': ids, 'contentType': 'monthlytransferblock', 'comments' : item ?  item.comments : [],
         'criteria': this.dataTable.criteria},

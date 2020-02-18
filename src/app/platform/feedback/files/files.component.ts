@@ -90,6 +90,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
     this.fileId = this.route.snapshot.queryParams['fileId'];
     this.planId = this.route.snapshot.queryParams['planId'];
     this.processId = this.route.snapshot.queryParams['processId'];
+    this.processName = this.route.snapshot.queryParams['processName'];
     this.selectYear = this.route.snapshot.queryParams['year'];
     this.selectYear = this.selectYear ?  Number(this.selectYear) : this.year;
     const month = this.route.snapshot.queryParams['month'];
@@ -129,8 +130,9 @@ export class FilesComponent implements OnInit, OnDestroy  {
         this.dataTable.criteria.filters['processId'] = this.processId;
         this.feedbackService.getSendFeedbackByProcessId(this.processId)
           .then(response => {
-            this.processName = response['process__name'];
-            this.feedbackDate = response['updated_at'];
+            if (response) {
+              this.feedbackDate = response['updated_at'];
+            }
           });
       }
       this.feedbackService.getFileFeedbacks(this.dataTable.criteria)

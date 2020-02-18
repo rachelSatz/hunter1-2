@@ -156,6 +156,6 @@ export class BroadcastComponent implements OnInit, OnDestroy {
 
     this.router.navigate(['/platform', 'feedback', 'files'],
       {queryParams: {processId: processData.processID,
-          year: processData.year, month: processData.month}});
+          year: processData.year, month: processData.month, processName: processData.name}});
   }
 }
