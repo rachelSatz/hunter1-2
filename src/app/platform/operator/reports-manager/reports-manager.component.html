@@ -1,5 +1,5 @@
 <div>
-  <p class="mr-5 h5 bold font-rubik">מבט כללי</p>
+  <p class="mr-6 mb-n2 h4 bold font-rubik">מבט כללי</p>
   <hr class="mr-5">
   <div class="border-shadow-main p-3 mt-2 mr-5">
     <div class="d-flex">
@@ -17,7 +17,7 @@
     <div class="d-flex">
       <div class="bd-width190 font-rubik">
         <bd-select [items]="projects"  placeholder="פרויקט" [(ngModel)]="projectsId"
-                   class="bd-min-width"></bd-select>
+                   class="bd-min-width" (onSelect)="getOperatorByProject()"></bd-select>
       </div>
       <div class="bd-width190 mr-5 font-rubik">
         <bd-select [items]="operators" placeholder="מנהל תיק" [(ngModel)]="operatorId"
@@ -28,19 +28,19 @@
                    label="value" class="bd-min-width" (onSelect)="getEmployers()"></bd-select>
       </div>
       <div class="bd-width190 mr-5 font-rubik">
-        <bd-select [items]="employers" placeholder="מעסיק" [(ngModel)]="employerId"
-                   label="value" class="bd-min-width" ></bd-select>
-      </div>
-      <div class="bd-width190 mr-5 font-rubik">
-        <bd-select [items]="employers" placeholder="מחלקה"
+        <bd-select [items]="employers" placeholder="מעסיק" [(ngModel)]="employerId" (onSelect)="getDepartment()"
                    class="bd-min-width" ></bd-select>
       </div>
-      <button class="btn btn-primary ellipse blue-btn font-rubik" type="submit" (click)="submit()"><img
+      <div class="bd-width190 mr-5 font-rubik">
+        <bd-select [items]="departments" placeholder="מחלקה" [(ngModel)]="departmentId"
+                   class="bd-min-width" ></bd-select>
+      </div>
+      <button class="btn btn-primary ellipse blue-btn font-rubik mt-sm-2 mr-7" type="submit" (click)="submit()"><img
         src="../../../../assets/img/filter.png" class="ml-1" height="16" width="16"/>סנן</button>
     </div>
   </div>
   <br>
-  <p class="mr-5 h5 bold font-rubik"> תוצאות של {{startDate}} - {{endDate}}</p>
+  <p class="mr-5 h5 bold font-rubik"> תוצאות של {{datePipe.transform(startDate, 'MM-yyyy')}} עד {{datePipe.transform(endDate, 'MM-yyyy')}}</p>
   <hr class="mr-5">
   <div class="d-flex">
     <div class="h-350 w-25 mr-6">
@@ -70,14 +70,16 @@
       <img src="../../../../assets/img/name (1).png" class="rounded mx-auto d-block" height="64" width="64"/>
       <p class="h6 bold text-center py-2 font-rubik ">מס' תעודות זהות</p>
       <div class="d-flex justify-content-center  py-2">
-        <p class="h6 bold font-rubik">עם אפסים</p>
+        <p class="h6 bold font-rubik mt-sm-4 ml-md-4 ">עם אפסים</p>
         <div class="green-background-color mr-6 circle-size rounded-circle">
-          <p class="h6 white-color bold text-center py-sm-4 font-rubik">{{reportsData.employees_count}}</p>
+          <p class="h6 white-color bold text-center py-sm-4 ml-lg-2 font-rubik">{{reportsData.employees_count}}</p>
         </div>
       </div>
       <div class="d-flex justify-content-center">
-        <p class="h6 bold font-rubik ">בלי אפסים</p>
-        <p class="h6 green1-color bold text-center py-2 mr-6 font-rubik ">{{reportsData.employees_count}}</p>
+        <p class="h6 bold font-rubik mr-4">בלי אפסים</p>
+        <div class="mr-6 ml-3 w-100p">
+          <p class="h6 green1-color bold text-center py-2 font-rubik ">{{reportsData.employees_count}}</p>
+        </div>
       </div>
       <hr class="mr-3 ml-3">
       <div class="d-flex justify-content-center">
@@ -92,32 +94,36 @@
       <hr class="mr-3 ml-3">
       <div class="d-flex">
         <div class="mr-6">
-          <div class="white-background-color mr-3 mt-3 on-circle">
-            <p class="h6 bold font-rubik"> 132</p>
+          <div class="white-background-color mr-2 w-50p mt-3 justify-content-center on-circle">
+            <p class="h6 bold font-rubik text-center"> {{reportsData.files}}</p>
           </div>
           <img src="../../../../assets/img/folder -blue.png" height="64" width="64"/>
           <p class="h6 font-rubik">מס' קבצים</p>
         </div>
         <div class="mr-4">
-          <div class="white-background-color mr-3 mt-3 on-circle">
-            <p class="h6 bold font-rubik"> 132</p>
+          <div class="white-background-color mr-2 w-50p mt-3 justify-content-center on-circle">
+            <p class="h6 bold font-rubik text-center"> {{reportsData.files_loading}}</p>
           </div>
           <img src="../../../../assets/img/folder.png" class="" height="64" width="64"/>
           <p class="h6 font-rubik">כמה נטענו</p>
         </div>
         <div class="mr-4">
-          <div class="white-background-color mr-3 mt-3 on-circle mt-2">
-            <p class="h6 bold font-rubik"> 132</p>
+          <div class="white-background-color mr-2 w-50p mt-3 justify-content-center on-circle mt-2">
+            <p class="h6 bold font-rubik text-center"> {{reportsData.files_transmitted}}</p>
           </div>
           <img src="../../../../assets/img/folder (1).png" height="64" width="64"/>
           <p class="h6 font-rubik">כמה שודרו</p>
         </div>
       </div>
-      <div class="d-flex">
-        <div class="mr-6 rounded-circle grey-background-color m-t-50p">
-          <img src="../../../../assets/img/folder-write.png" height="24" width="24"/>
+      <div class="d-flex mt-2">
+        <div class="mr-7 rounded-circle grey-background-color sq-45p mt-3">
+          <img src="../../../../assets/img/folder-write.png" class="mr-mt-f2" height="24" width="24"/>
         </div>
-        <p class="h6 mr-3 font-rubik m-t-50p"> 4ממתינים לשידור</p>
+        <div class="d-flex mt-sm-n3 mb-5">
+          <p class="h6 mr-3 font-rubik m-t-50p">ממתינים לשידור</p>
+          <p class="h6 mr-1 font-rubik m-t-50p">{{reportsData.files_loading}}</p>
+        </div>
+
       </div>
       <hr class="mr-3 ml-3">
       <div class="d-flex justify-content-center">
@@ -179,25 +185,25 @@
         <div class="d-flex mt-5">
           <div class="">
             <div class="border circle-size rounded-circle mr-6 py-4">
-              <p class="h6 font-rubik text-center mr-0">125</p>
+              <p class="h6 font-rubik text-center mr-0">{{reportsData.file_not_defrayed}}</p>
             </div>
             <p class="h6 font-rubik text-center mr-6 mt-2">לא נפרע</p>
           </div>
           <div class="mr-5">
             <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
-              <p class="h6 font-rubik green1-color text-center mr-0">125</p>
+              <p class="h6 font-rubik green1-color text-center mr-0">{{reportsData.file_fully_defrayed}}</p>
             </div>
             <p class="mr-6 h6 mt-2 text-center font-rubik">נפרע במלואו</p>
           </div>
           <div class="mr-5">
             <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
-              <p class="h6 font-rubik yellow1-color text-center mr-0">125</p>
+              <p class="h6 font-rubik yellow1-color text-center mr-0">{{reportsData.file_partially_paid}}</p>
             </div>
             <p class="mr-6 h6 mt-2 text-center font-rubik">נפרע חלקית</p>
           </div>
           <div class="mr-5">
             <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
-              <p class="h6 font-rubik orange-color text-center mr-0">125</p>
+              <p class="h6 font-rubik orange-color text-center mr-0">{{reportsData.file_feedback_a_failed}}</p>
             </div>
             <p class="mr-6 h6 mt-2 text-center font-rubik">נכשל</p>
           </div>
@@ -209,13 +215,13 @@
         <div class="d-flex mt-5 mr-5">
           <div class="">
             <div class="border circle-size rounded-circle mr-6 py-4">
-              <p class="h6 font-rubik text-center mr-0">125</p>
+              <p class="h6 font-rubik text-center mr-0">{{reportsData.mtb_not_defrayed}}</p>
             </div>
             <p class="h6 font-rubik text-center mr-6 mt-2">לא נפרע</p>
           </div>
           <div class="mr-5">
             <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
-              <p class="h6 font-rubik green1-color text-center mr-0">125</p>
+              <p class="h6 font-rubik green1-color text-center mr-0">{{reportsData.mtb_defrayed}}</p>
             </div>
             <p class="mr-6 h6 mt-2 text-center font-rubik">נפרע במלואו</p>
           </div>
@@ -227,19 +233,19 @@
         <p class="h6 bold font-rubik  mr-4 mt-3">היזון מסכם</p>
         <hr class="mr-3 ml-3">
         <p class="h5 font-rubik bold text-center mt-5 mb-0">תקינים</p>
-        <p class="green1-color font-weight-bold f-60 text-center font-rubik">3564</p>
+        <p class="green1-color font-weight-bold f-60 text-center font-rubik">{{reportsData.feedback}}</p>
       </div>
       <div class="border-shadow w-40 mr-3">
         <p class="h6 bold font-rubik  mr-4 mt-3">היזון מסכם</p>
         <hr class="mr-3 ml-3">
         <p class=" h5 font-rubik bold text-center mt-5 mb-0">ללא מענה</p>
-        <p class="grey-color font-weight-bold f-60 text-center font-rubik ">356</p>
+        <p class="grey-color font-weight-bold f-60 text-center font-rubik ">{{reportsData.feedback_unanswered}}</p>
       </div>
       <div class="border-shadow w-40  mr-3">
         <p class="h6 bold font-rubik  mr-4 mt-3">היזון מסכם</p>
         <hr class="mr-3 ml-3">
         <p class="h5 font-rubik bold text-center mt-5 mb-0">תקולים</p>
-        <p class="orange-color font-weight-bold f-60 text-center font-rubik ">74</p>
+        <p class="orange-color font-weight-bold f-60 text-center font-rubik ">{{reportsData.feedback_failed}}</p>
       </div>
     </div>
   </div>
@@ -256,34 +262,34 @@
       </div>
     </div>
     <div class="w-1250p">
-      <div class="d-flex mt-4">
-        <p class="h6 font-rubik bold ">פניות ברמת קובץ</p>
-        <p class="h6 font-rubik bold mr-6">פניות ברמת עובד</p>
-        <p class="h6 font-rubik bold mr-3">ייתרות לפיצויים ברמת ח.פ</p>
-        <p class="h6 font-rubik bold mr-6">ייתרות לפיצויים ברמת עובד</p>
+      <div class="d-flex mt-4 w-70 mr-35">
+        <p class="h6 font-rubik bold mr-n7">פניות ברמת קובץ</p>
+        <p class="h6 font-rubik bold mr-7">פניות ברמת עובד</p>
+        <p class="h6 font-rubik bold mr-5 ">ייתרות לפיצויים ברמת ח.פ</p>
+        <p class="h6 font-rubik bold mr-5">ייתרות לפיצויים ברמת עובד</p>
       </div>
       <table class="table border-shadow-main  w-1250p mr-3 " >
         <tbody>
         <tr>
           <th scope="row" class="font-rubik">MyHR</th>
-          <td class="font-rubik">Mark</td>
-          <td class="font-rubik">Otto</td>
-          <td class="font-rubik">@mdo</td>
-          <td class="font-rubik">@mdo</td>
+          <td class="font-rubik blue-color bold">{{reportsData.requests_my_hr_file}}</td>
+          <td class="font-rubik bold">{{reportsData.requests_my_hr_mtb}}</td>
+          <td class="font-rubik blue-color bold">{{reportsData.requests_my_hr_com_er}}</td>
+          <td class="font-rubik bold">{{reportsData.requests_my_hr_com_ee}}</td>
         </tr>
         <tr>
           <th scope="row" class="font-rubik" >חברה מנהלת</th>
-          <td class="font-rubik">Jacob</td>
-          <td class="font-rubik">Thornton</td>
-          <td class="font-rubik">@fat</td>
-          <td class="font-rubik">@fat</td>
+          <td class="font-rubik blue-color bold">{{reportsData.requests_company_file}}</td>
+          <td class="font-rubik bold">{{reportsData.requests_company_mtb}}</td>
+          <td class="font-rubik blue-color bold">{{reportsData.requests_company_com_er}}</td>
+          <td class="font-rubik bold">{{reportsData.requests_company_com_ee}}</td>
         </tr>
         <tr>
           <th scope="row" class="font-rubik">מעסיק</th>
-          <td class="font-rubik">Larry</td>
-          <td class="font-rubik">the Bird</td>
-          <td class="font-rubik">@twitter</td>
-          <td class="font-rubik">@twitter</td>
+          <td class="font-rubik blue-color bold">{{reportsData.requests_employer_file}}</td>
+          <td class="font-rubik bold">{{reportsData.requests_employer_mtb}}</td>
+          <td class="font-rubik blue-color bold">{{reportsData.requests_employer_com_er}}</td>
+          <td class="font-rubik bold">{{reportsData.requests_employer_com_ee}}</td>
         </tr>
         </tbody>
       </table>

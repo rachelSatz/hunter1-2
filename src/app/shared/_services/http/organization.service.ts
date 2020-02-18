@@ -67,11 +67,13 @@ export class OrganizationService extends BaseHttpService {
       .then(response => response as Organization)
       .catch(() => null);
   }
-  getOrganizationByOperator(id: number): Promise<Organization[]> {
-    return this.http.get(this.endPoint + '/' + id + '/organizationByOperator' , this.getTokenHeader())
+
+  getOrganizationByOperator(id: number, projectId?: number): Promise<Organization[]> {
+    const request = this.getTokenHeader();
+    request['params'] = {operatorId: id, projectId: projectId};
+    return this.http.get(this.endPoint + '/organizationByOperator', request)
       .toPromise()
-      .then(response => response as Organization)
-      .catch(() => null);
+      .then(response => response as any);
   }
 
   saveNewOrganization(organization: Organization): Promise<boolean> {

@@ -3,7 +3,8 @@ import {OrganizationService} from '../../../shared/_services/http/organization.s
 import {EmployerService} from '../../../shared/_services/http/employer.service';
 import {SelectUnitService} from '../../../shared/_services/select-unit.service';
 import {DatePipe} from '@angular/common';
-import {ReportsData} from '../../../shared/_models/plan-task';
+import {HelpersService} from '../../../shared/_services/helpers.service';
+import {ReportsData} from '../../../shared/_models/report_manage';
 
 @Component({
   selector: 'app-reports-manager',
@@ -16,9 +17,11 @@ export class ReportsManagerComponent implements OnInit {
   projects = [];
   operators = [];
   employers = [];
+  departments = [];
   toDay = new Date();
   startDate;
   endDate;
+  departmentId = 0;
   operatorId = 0;
   projectsId = 0;
   organizationId = 0;
@@ -28,10 +31,12 @@ export class ReportsManagerComponent implements OnInit {
     private datePipe: DatePipe,
     private organizationService: OrganizationService,
     private employerService: EmployerService,
-    private selectUnit: SelectUnitService
+    private selectUnit: SelectUnitService,
+    private helpers: HelpersService
   ) { }
 
   ngOnInit() {
+    this.helpers.setPageSpinner(true);
     this.startDate = this.datePipe.transform(new Date(2018, 0o1, 0o1), 'yyyy-MM-dd');
     this.endDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.employerService.getProjects().then(response => this.projects = response);
@@ -40,28 +45,37 @@ export class ReportsManagerComponent implements OnInit {
     this.organizationService.getReport(this.organizationId , this.projectsId, this.employerId , this.operatorId, this.startDate,
       this.endDate).then( response => {
         this.reportsData = response['reportsData'];
+        this.helpers.setPageSpinner(false);
     });
   }
 
   getOrganizations() {
-     this.organizationService.getOrganizationByOperator(this.operatorId).then(
+     this.organizationService.getOrganizationByOperator(this.operatorId, this.projectsId).then(
        response => this.organizations = response);
   }
 
+  getOperatorByProject() {
+    this.employerService.getOperator(true, this.projectsId).then(
+      response => this.operators = response
+    );
+  }
+
+  getDepartment() {
+    this.departments = this.employers[0].department;
+  }
+
   getEmployers() {
-    this.employers = this.selectUnit.getOrganization().find(o => o.id === this.organizationId).employer;
-    if (this.employers.length > 1) {
-      if (!this.employers.some(e => e.id === 0)) {
-        this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
-      }
-    }
-    this.employers.sort((a, b) => a.id - b.id);
+    this.employers = (this.selectUnit.getOrganization()).find(o => o.id == this.organizationId).employer;
   }
 
   submit() {
+    this.helpers.setPageSpinner(true)
     this.startDate = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
     this.endDate = this.datePipe.transform(this.endDate, 'yyyy-MM-dd');
      this.organizationService.getReport(this.organizationId , this.projectsId, this.employerId , this.operatorId, this.startDate,
-      this.endDate);
+      this.endDate).then(response => {
+       this.reportsData = response['reportsData'];
+       this.helpers.setPageSpinner(false);
+     });
   }
 }

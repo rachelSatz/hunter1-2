@@ -93,8 +93,16 @@ a:hover {
   width: 1212px;
 }
 
+.ml-4h{
+  margin-left: 2rem !important;
+}
+
 .w-250p {
   width: 250px;
+}
+
+.w-50p {
+  width: 50px;
 }
 
 .title {

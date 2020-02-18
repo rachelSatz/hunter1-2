@@ -69,35 +69,6 @@ export class Process {
   status: string;
 }
 
-export class ReportsData {
-  organization_count: number;
-  employers_count: number;
-  employees_count: number;
-  file_feedback_a_failed: number;
-  file_not_defrayed: number;
-  file_partially_paid: number;
-  file_fully_defrayed: number;
-  mtb_defrayed: number;
-  mtb_not_defrayed: number;
-  requests_company_file: number;
-  requests_employer_file: number;
-  requests_my_hr_file: number;
-  requests_company_mtb: number;
-  requests_employer_mtb: number;
-  requests_my_hr_mtb: number;
-  requests_company_com_er: number;
-  requests_employer_com_er: number;
-  requests_my_hr_com_er: number;
-  requests_company_com_ee: number;
-  requests_employer_com_ee: number;
-  requests_my_hr_com_ee: number;
-  feedback_a_failed: number;
-  feedback_failed: number;
-  feedback_a: number;
-  feedback_a_unanswered: number;
-  feedback: number;
-  feedback_unanswered: number;
-}
 
 
 

@@ -37,6 +37,19 @@
 .h-350{
   height: 350px;
 }
+.sq-45p{
+  width: 45px;
+  height: 45px;
+}
+
+.border {
+  border: 2px solid #dee2e6 !important;
+}
+
+.mr-mt-f2{
+  margin-top: 0.6rem !important;
+  margin-right: 0.6rem !important;
+}
 
 .on-circle {
   height: 30px;

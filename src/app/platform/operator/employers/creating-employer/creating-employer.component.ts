@@ -58,7 +58,7 @@ export class CreatingEmployerComponent implements OnInit {
   hasServerError: boolean;
   creatingEmployerForm: FormGroup;
   clickedContinue: boolean;
-  isEdit = false;
+  isEdit = 'exist' ;
   organizationId: number;
   departmentId;
   employerId;
@@ -83,10 +83,9 @@ export class CreatingEmployerComponent implements OnInit {
   });
 
   detailsPage = [ {title : 'הקמת פרטי ארגון - שלב 1', progress : 'progress-bar process1'},
-    {title : 'העלת חוזה - שלב 2' , progress : 'progress-bar process2'},
-    {title : 'העלת קבצי הארגון- שלב 3', progress : 'progress-bar process3'},
-    {title : 'פרטי בנק של הארגון - שלב 4', progress : 'progress-bar process4'},
-    {title : 'קליטת עובדים - שלב 5', progress : 'progress-bar process5'},
+    {title : 'העלת קבצי הארגון- שלב 2', progress : 'progress-bar process3'},
+    {title : 'פרטי בנק של הארגון - שלב 3', progress : 'progress-bar process4'},
+    {title : 'קליטת עובדים - שלב 4', progress : 'progress-bar process5'},
   ];
 
   constructor(
@@ -283,7 +282,6 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   enableOrganization(form: NgForm , isEdit: Boolean): void {
-    this.isEdit = !isEdit;
     if (isEdit) {
       this.creatingEmployerForm.get('creatingEmployer.employerDetails').patchValue({'newOrganization': null});
     } else {
@@ -319,7 +317,7 @@ export class CreatingEmployerComponent implements OnInit {
           }
         });
     } else {
-      return file =  null;
+      return file = undefined;
     }
   }
 
@@ -380,19 +378,19 @@ export class CreatingEmployerComponent implements OnInit {
   removeControl(index: number): void {
       const contactsGroup = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact'));
       contactsGroup.removeAt(index);
-      if (this.route.snapshot) {
-        this.deleteEmployerContact(5);
-      }
+      // if (this.route.snapshot) {
+      //   this.contactService.deleteEmployerContact(5).then(response => response);
+      // }
   }
 
-  deleteEmployerContact(id) {
-    this.notificationService.warning('האם ברצונך למחוק את האיש קשר?')
-      .then(confirmation => {
-        if (confirmation.value) {
-          this.contactService.deleteEmployerContact(id).then(response => response);
-        }
-      });
-  }
+  // deleteEmployerContact(id) {
+  //   this.notificationService.warning('האם ברצונך למחוק את האיש קשר?')
+  //     .then(confirmation => {
+  //       if (confirmation.value) {
+  //         this.contactService.deleteEmployerContact(id).then(response => response);
+  //       }
+  //     });
+  // }
 
   fileUpload(file) {
     if (file) {
@@ -423,8 +421,8 @@ export class CreatingEmployerComponent implements OnInit {
     const  contactSingle = this.creatingEmployerForm.get('creatingEmployer.contact').value;
     let validContact = true;
     contactSingle.forEach( c => {
-      const phone = c['mobile'] !== null ? c['mobile'] : c['phone'] !== null ? c['phone'] : null;
-      if (c['first_name'] === null || c['last_name'] === null || phone === null  || c['email'] === null) {
+      const phone = c['mobile'] ? c['mobile'] : c['phone'] ? c['phone'] : null;
+      if (!c['first_name'] || !c['last_name'] || !phone || !c['email']) {
          validContact = false;
       }
     });
@@ -488,18 +486,25 @@ export class CreatingEmployerComponent implements OnInit {
     return (employer.value['phone'] !== null && employer.get('phone').valid) || employer.value['phone'] === null;
   }
 
+  warningIdentifiers(employerIdentifiers): boolean | void {
+    if (employerIdentifiers.length > 0) {
+      this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
+        {confirmButtonText: 'אישור'}).then(
+        confirmation => {
+          return !!confirmation.value;
+        }
+      );
+    }
+    return true;
+  }
+
   continueProcess(): void {
     if (this.pageNumber === 1 && this.validation() && this.checkValidData()) {
       const employerIdentifiers = this.validIdEmployer();
-      if (employerIdentifiers.length > 0 ) {
-        this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
-          {confirmButtonText: 'אישור'}).then(
-          confirmation => {
-            if (confirmation.value) {
-              this.pageNumber += 1;
-            }}
-        );
-      }} else if (this.pageNumber === 2 || this.pageNumber === 3) {
+      if (this.warningIdentifiers(employerIdentifiers)) {
+        this.pageNumber += 1;
+      }
+    } else if (this.pageNumber === 2 || this.pageNumber === 3) {
       if (this.checkValidFiles() || (!this.uploadedFilePoa && !this.uploadedFileCustomer && !this.uploadedFileContract &&
         !this.uploadedFileProtocol)) {
         this.pageNumber += 1;
@@ -608,6 +613,13 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
+  aaaa(event) {
+    this.uploadedFileContract === undefined ? this.uploadedFileContract = event.target.files[0] :
+      this.uploadedFileContract['id'] ? this.documentId = this.uploadedFileContract['id'] : 0 ;
+    this.uploadedFileContract = event.target.files[0]; this.uploadedFileContract['id'] = this.documentId;
+
+  }
+
   isDetailsContact() {
     const contacts = this.creatingEmployerForm.get('creatingEmployer.contact').value;
     let isContact = false;
@@ -701,7 +713,7 @@ export class CreatingEmployerComponent implements OnInit {
   validIdEmployer() {
     const employerIdentifiers = [];
     this.selectUnit.getOrganization().forEach(org => {
-      if (org.id !== this.creatingEmployerForm.get('creatingEmployer.employerDetails').get('organization')) {
+      if (Number(org.id) !== this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['organization']) {
         org.employer.forEach(emp => {
           if (emp.identifier === this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['identifier']) {
             employerIdentifiers.push(org.name);
@@ -714,25 +726,19 @@ export class CreatingEmployerComponent implements OnInit {
 
   submit(): void {
     const employerIdentifiers = this.validIdEmployer();
-    if (employerIdentifiers.length > 0 ) {
-      this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
-          {confirmButtonText: 'אישור'}).then(
-        confirmation => {
-          if (!confirmation.value) {
-            if (this.validation()) {
-              if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
-                this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
-                this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
-                this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
-                (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
-                this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
-              } else {
-                this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
-              }
-              this.insertData();
-            }
-        } }
-      );
+    if (this.warningIdentifiers(employerIdentifiers)) {
+      if (this.validation()) {
+        if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
+          this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
+          this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
+          this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
+          (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
+          this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
+        } else {
+          this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+        }
+        this.insertData();
+      }
     }
   }
 

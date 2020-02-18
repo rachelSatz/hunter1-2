@@ -108,13 +108,14 @@ export class EmployerService extends BaseHttpService {
       .then(response =>  response as boolean);
   }
 
-  getOperator(isIncludesAdmin: boolean = true): Promise<any> {
+  getOperator(isIncludesAdmin: boolean = true, projectId?: number): Promise<any> {
     const request = this.getTokenHeader();
-    request['params'] = {is_includes_admin: isIncludesAdmin};
+    request['params'] = {is_includes_admin: isIncludesAdmin, projectId: projectId};
     return this.http.get(this.endPoint + '/operators', request)
       .toPromise()
       .then(response => response as any);
   }
+
 
   getProjects(): Promise<any> {
     return this.http.get(this.endPoint + '/projects', this.getTokenHeader()).toPromise()
