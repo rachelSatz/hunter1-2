@@ -11,8 +11,6 @@ import {Observable} from 'rxjs';
 import {Company} from '../../_models/company.model';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 
-
-
 @Injectable()
 export class PlanService extends BaseHttpService {
 

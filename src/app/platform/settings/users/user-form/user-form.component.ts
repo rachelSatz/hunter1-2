@@ -81,7 +81,6 @@ export class UserFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.organizations = this.selectUnit.getOrganizations();
     if (this.route.snapshot.data.user) {
       this.update = true;

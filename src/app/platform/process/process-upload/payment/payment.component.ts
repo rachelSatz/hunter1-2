@@ -19,7 +19,6 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { Process } from 'app/shared/_models/process.model';
 import { EmailComponent } from './email/email.component';
 import { fade } from 'app/shared/_animations/animation';
-import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 
 

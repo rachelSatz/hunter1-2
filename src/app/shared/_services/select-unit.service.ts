@@ -44,8 +44,6 @@ export class SelectUnitService {
     return this.getSessionStorage('processData');
   }
 
-
-
   setTaskTimer(task: any): void {
     sessionStorage.setItem('task', JSON.stringify(task));
   }
@@ -83,7 +81,6 @@ export class SelectUnitService {
   setEmployerID(val: number): any {
     sessionStorage.setItem('employerID', val.toString());
   }
-
 
   getSessionStorage(val: string): any {
     if (sessionStorage.getItem(val)) {

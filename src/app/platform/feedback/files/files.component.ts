@@ -56,14 +56,14 @@ export class FilesComponent implements OnInit, OnDestroy  {
     return { id: e, name: ProductType[e] };
   });
   readonly columns = [
-    {name: 'process_name', label: 'שם תהליך', searchable: false},
+    {name: 'process_name', label: 'שם תהליך', sortName: 'process__name', searchable: false},
     {name: 'month', label: 'חודש', searchable: false},
     {name: 'company_name', label: 'חברה מנהלת', searchable: false},
     {name: 'employer_name', label: 'שם מעסיק', searchable: false},
     {name: 'amount', label: 'סכום', searchable: false},
     {name: 'code', label: 'קוד אוצר', searchable: false},
     {name: 'status', label: 'סטטוס', searchOptions: { labels: this.list_status } },
-    {name: 'status_recourse', label: 'סטטוס פניה', searchable: false},
+    {name: 'manual_status', label: 'סטטוס פניה', searchable: false},
     {name: 'more', label: 'מידע נוסף', searchable: false},
     {name: 'comments', label: 'הערות', searchable: false},
     {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},

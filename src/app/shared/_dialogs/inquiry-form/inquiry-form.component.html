@@ -9,9 +9,9 @@
   <div class="d-flex status status-bar">
     <div class="pointer" (click)="loadEntities('company')" [ngClass]="{'active': activeContentType === 'company'}">חברה מנהלת</div>
     <div class="pointer" (click)="loadEntities('employer')" [ngClass]="{'active': activeContentType === 'employer'}">מעסיק</div>
-    <div class="pointer" (click)="loadEntities('user')" [ngClass]="{'active': activeContentType === 'user'}">לשכת שרות</div>
+    <div class="pointer" (click)="loadEntities('service_office')" [ngClass]="{'active': activeContentType === 'user'}">לשכת שרות</div>
     <div *ngIf="(this.data.contentType !== 'compensation' && this.data.contentType !== 'deposits_report')" class="pointer"
-         (click)="loadEntities('myhr')" [ngClass]="{'active':activeContentType === 'myhr'}">תוכנות MYHR</div>
+         (click)="loadEntities('myhr')" [ngClass]="{'active':activeContentType === 'my_hr'}">תוכנות MYHR</div>
   </div>
 
   <div class="mb-4 mt-4" [@fade]="activeContentType !== 'myhr' ? 'active' : 'inactive'">
