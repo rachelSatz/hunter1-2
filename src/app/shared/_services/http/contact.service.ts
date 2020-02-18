@@ -56,7 +56,7 @@ export class  ContactService extends BaseHttpService {
   }
 
   updateContact(contact: Contact): Promise<any> {
-    return this.http.put(this.endPoint + '/' + contact.id, contact, this.getTokenHeader())
+    return this.http.put(this.endPoint + '/' + contact.id, {contact: contact}, this.getTokenHeader())
     .toPromise()
     .then(response => response)
     .catch(response => response);

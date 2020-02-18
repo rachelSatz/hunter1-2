@@ -504,9 +504,14 @@ export class CreatingEmployerComponent implements OnInit {
         .then(response => {
           if (response) {
             this.creatingEmployerForm.get('detailsBank.receivingBank').value['ownerId'] = this.departmentId;
-            this.generalHttpService.updateBank(this.creatingEmployerForm.get('detailsBank.receivingBank').value,
-              this.route.snapshot.data.items.bank[1].id)
-              .then(responseAdd => responseAdd);
+            if (this.route.snapshot.data.items.bank[1]) {
+              this.generalHttpService.updateBank(this.creatingEmployerForm.get('detailsBank.receivingBank').value,
+                this.route.snapshot.data.items.bank[1].id)
+                .then(responseAdd => responseAdd);
+            } else {
+              this.generalHttpService.addNewBankAccount(this.creatingEmployerForm.get('detailsBank.receivingBank').value)
+                .then(responseAdd => responseAdd);
+            }
           }
         });
     } else {
