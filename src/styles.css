@@ -38,6 +38,29 @@ ul {
 input[type=file] {
   display: none;
 }
+.mr-34{
+  margin-right: 33.5rem !important;
+}
+.mr-7{
+  margin-right: 7rem !important;
+}
+
+.mr-15{
+  margin-right: 15rem !important;
+}
+
+.w-70 {
+  width: 70% !important;
+}
+
+.mr-n7,
+.mx-n7 {
+  margin-right: -6rem !important;
+}
+
+.mr-35{
+  margin-right: 35rem !important;
+}
 
 .m-t-50p{
   margin-top: 50px;
@@ -101,6 +124,10 @@ a:hover {
   width: 250px;
 }
 
+.w-640p {
+  width: 635px;
+}
+
 .w-50p {
   width: 50px;
 }
@@ -126,6 +153,10 @@ a:hover {
 
 .orange-color {
   color: #ff6635;
+}
+
+.mr-7{
+  margin-right: 7rem !important;
 }
 
 .green-background-color {
@@ -439,6 +470,11 @@ button[mat-dialog-close] {
   margin-top: 8rem !important;
 }
 
+.circle-size {
+  width: 4em;
+  height: 4em;
+}
+
 .mt-6 {
   margin-top: 6rem !important;
 }
@@ -456,3 +492,7 @@ button[mat-dialog-close] {
   /*width: 80% !important;*/
   /*right: 11%;*/
 /*}*/
+
+.mr-6{
+  margin-right: 4rem !important;
+}
