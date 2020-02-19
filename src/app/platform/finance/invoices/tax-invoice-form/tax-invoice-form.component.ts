@@ -38,7 +38,7 @@ export class TaxInvoiceFormComponent implements OnInit {
       this.hasServerError = false;
       form.value['for_month'] = this.datePipe.transform(form.value['for_month'], 'yyyy-MM-dd');
 
-      this.invoiceService.createTaxInoices(
+      this.invoiceService.createTaxInvoices(
         this.data.ids , form.value).then(response => {
         if (response['message'] !== 'success') {
           this.hasServerError = true;

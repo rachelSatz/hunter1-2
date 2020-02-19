@@ -12,7 +12,7 @@ import {ReportsData} from '../../../shared/_models/report_manage';
   styleUrls: ['./reports-manager.component.css']
 })
 export class ReportsManagerComponent implements OnInit {
-  reportsData: ReportsData;
+  reportsData = new  ReportsData();
   organizations = [];
   projects = [];
   operators = [];

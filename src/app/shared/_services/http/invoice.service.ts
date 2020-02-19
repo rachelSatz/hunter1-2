@@ -118,9 +118,17 @@ export class InvoiceService  extends BaseHttpService {
       .catch(() => null);
   }
 
-  createTaxInoices(invoiceIds: number[], date: string): Promise<string> {
+  createTaxInvoices(invoiceIds: number[], date: string): Promise<string> {
     return this.http.post(this.endPoint + '/createTaxInvoices',
       { invoiceIds: invoiceIds, data: date }, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  createTransactionInvoices(invoiceIds: number[]): Promise<string> {
+    return this.http.post(this.endPoint + '/createTransactionInvoices',
+      { invoiceIds: invoiceIds}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);

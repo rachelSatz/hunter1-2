@@ -30,6 +30,7 @@ export class ManualInvoice {
     this.employer_financial_details = new EmployerFinancialDetails();
     this.invoice_details.push(new ManualInvoiceDetails());
     this.tax_type = 'before';
+    this.remark = '';
   }
 }
 
