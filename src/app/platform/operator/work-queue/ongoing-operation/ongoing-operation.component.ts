@@ -17,7 +17,7 @@ import { EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { UserSessionService} from '../../../../shared/_services/user-session.service';
 import { CategoryTypeCompensation, CategoryTypeEmployerError,
-         CategoryTypErrors, CategoryTypeFeedback} from '../../../../shared/_models/plan';
+         CategoryTypeErrors, CategoryTypeFeedback, CategoryTypeEmployerDefrayal} from '../../../../shared/_models/plan';
 
 
 @Component({
@@ -42,6 +42,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   errorsDetails = {
     compensationEmployer: {error: false, title : 'ייתרות לפיצויים ברמת ח.פ', function: 'compensationEmployerToExecute'},
     compensationEmployee: {error: false, title : 'ייתרות לפיצויים ברמת עובד', function: 'compensationEmployeeToExecute'},
+    employerNotDefrayal: {error: false, title : 'מעסיק שלא נסלק', function: 'employerNotDefrayalToExecute'},
     fileLoading: {error: false, title : 'שגיאה בהעלאת קובץ', function: 'errorLoadingFileToExecute'},
     fileTransmit: {error: false, title : 'שגיאה בשידור קובץ', function: 'errorLoadingFileToExecute', comment: 'שגיאת שידור'},
     fileError: {error: false, title : 'שגיאת קובץ לפני שידור', function: 'errorLoadingFileToExecute'},
@@ -86,16 +87,19 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
             this.errorsDetails['employerError'].error = true;
           } else {
             switch (this.plan.type.id) {
-              case CategoryTypErrors.fileUploadError:
-              case CategoryTypErrors.fileTransmittedError: this.errorsDetails['fileError'].error = true; break;
+              case CategoryTypeErrors.fileUploadError:
+              case CategoryTypeErrors.fileCanBeProcess:
+              case CategoryTypeErrors.fileWithErrors:
+              case CategoryTypeErrors.fileTransmittedError: this.errorsDetails['fileError'].error = true; break;
               case CategoryTypeFeedback.recordInProgress:
               case CategoryTypeFeedback.recordPaidFailed: this.errorsDetails['record'].error = true; break;
+              case CategoryTypeEmployerDefrayal.employerNotUseMonth: this.errorsDetails['employerNotDefrayal'].error = true; break;
               case CategoryTypeFeedback.fileNegPaidFailed:
               case CategoryTypeFeedback.fileNegPartiallyPaid:
               case CategoryTypeFeedback.fileOngPaidFailed:
               case CategoryTypeFeedback.fileOngPartiallyPaid:
               case CategoryTypeFeedback.fileInProgress: this.errorsDetails['file'].error = true; break;
-              case CategoryTypErrors.paymentInstructions: this.errorsDetails['paymentInstructions'].error = true; break;
+              case CategoryTypeErrors.paymentInstructions: this.errorsDetails['paymentInstructions'].error = true; break;
               case CategoryTypeCompensation.compensationEmployeeType:
               case CategoryTypeCompensation.compensationEmployeeSendType: this.errorsDetails['compensationEmployee'].error = true; break;
               case CategoryTypeCompensation.compensationEmployerType:
@@ -170,6 +174,10 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   errorLoadingFileToExecute(): void {
     this.router.navigate(['/platform', 'process', 'table' ],
       { queryParams: { processId: this.plan.task.process.id, planId: this.plan.id}});
+  }
+
+  employerNotDefrayalToExecute(): void {
+    this.router.navigate(['/platform', 'process', 'new', 0]);
   }
 
   paymentInstructionsErrorToExecute(): void {

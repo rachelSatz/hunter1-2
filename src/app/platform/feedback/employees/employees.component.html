@@ -60,16 +60,16 @@
     <td>{{ statuses[item.status]}}</td>
     <!--<td> {{ item.manual_status }}</td>-->
     <td>{{  item.manual_status ? manualStatus[item.manual_status]: '' }}</td>
-    <td >
+    <td>
       <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog(item)">
     </td>
     <td (click)="openCommentsDialog(item)">
-      <i *ngIf="item.comments.length === 0" class="fa fa-comment-o"></i>
-      <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
+      <i *ngIf="item.comments_count === 0" class="fa fa-comment-o"></i>
+      <i *ngIf="item.comments_count > 0" class="fa fa-comment"></i>
     </td>
     <td *ngIf="dataTable.hasActionsHeader">
       <img src=" /assets/img/icons/forward_green.png" title="שלח" (click)="openInquiresDialog(item)">
-      <span class="grey-circle mr-3" (click)="openInquiriesDetailsDialog(item)">{{ item.inquiries.length }}</span>
+      <span class="grey-circle mr-3" (click)="openInquiriesDetailsDialog(item)">{{ item.inquiries_count   }}</span>
     </td>
   </tr>
 </app-data-table>

@@ -55,6 +55,7 @@ export class GeneralHttpService extends BaseHttpService {
   newInquiry(objectID: number, content: string, contentType: string, emails_list: any[], contact_list: any[],
              employer_id: number, file_name: string, product_code: string, product_name: string, product_type: string,
              employee_id: string, employee_name: string, amount: number, action: string, activeContentType: string, isAttachFile: boolean,
+             company_id: string,
              uploadedFile?: File[]): Promise<boolean> {
     const values = {
       content: content,
@@ -71,6 +72,7 @@ export class GeneralHttpService extends BaseHttpService {
       amount: amount,
       action: action,
       activeContentType: activeContentType,
+      company_id: company_id,
       is_attach_file: isAttachFile
 
     };
@@ -104,8 +106,8 @@ export class GeneralHttpService extends BaseHttpService {
       .catch(() => null);
   }
 
-  addNewBankAccount(bank: any): Promise<any> {
-    return this.http.put(this.endPoint  +  '/addNewBankAccount', bank , this.getTokenHeader())
+  addNewBankAccount(bank: any, planId?: number): Promise<any> {
+    return this.http.put(this.endPoint  +  '/addNewBankAccount', {bank: bank, planId: planId}, this.getTokenHeader())
       .toPromise()
       .then(response => response as any)
       .catch(() => null);

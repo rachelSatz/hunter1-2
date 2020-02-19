@@ -1,45 +1,46 @@
 <div class="mr-5 px-4">
+  <br><br>
+  <div>
+    <p> {{pageNumber}} מתוך 4</p>
+    <div class="progress width38" style="height:10px">
+      <div [ngClass]="detailsPage[pageNumber-1].progress"></div>
+    </div>
+  </div>
+  <br>
+  <div class="row col-5 ">
+    <div><p class="h5 mb-4 bold">{{detailsPage[pageNumber-1].title}}</p>
+    </div>
+    <div class="ml-4-5 mr-auto ">
+      <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline " (click)="submit()">שמור וצא מהתהליך</button>
+    </div>
+  </div>
+  <div *ngIf="pageNumber !== 1">
+    <p class="h6 mb-4 bold">{{ creatingEmployerForm.get('creatingEmployer.employerDetails.name').value + ' ' +
+    creatingEmployerForm.get('creatingEmployer.employerDetails.identifier').value}}</p>
+  </div>
+  <p class="f-16 bold mt-5" *ngIf="pageNumber === 1">סוג הארגון</p>
+  <mat-radio-group *ngIf="!route.snapshot.params.id && role == 'admin' && pageNumber === 1"  [(ngModel)]="isEdit">
+    <mat-radio-button class="ml-4" value="exist" >אירגון קיים</mat-radio-button>
+    <mat-radio-button  class="mr-5" value="new" >אירגון חדש</mat-radio-button>
+  </mat-radio-group>
   <form  #form="ngForm" [formGroup]="creatingEmployerForm">
-    <br><br>
-    <div>
-      <p> {{pageNumber}} מתוך 5</p>
-      <div class="progress width38" style="height:10px">
-        <div [ngClass]="detailsPage[pageNumber-1].progress"></div>
-      </div>
-    </div>
-    <br>
-    <div class="row col-5 ">
-      <div>
-      <p class="h5 mb-4 bold">{{detailsPage[pageNumber-1].title}}</p>
-      </div>
-      <div class="ml-4-5 mr-auto ">
-        <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline " (click)="submit()">שמור וצא מהתהליך</button>
-      </div>
-    </div>
-    <div *ngIf="pageNumber !== 1">
-      <p class="h6 mb-4 bold">{{ creatingEmployerForm.get('creatingEmployer.employerDetails.name').value + ' ' +
-                                 creatingEmployerForm.get('creatingEmployer.employerDetails.identifier').value}}</p>
-    </div>
     <div [@fade]="pageNumber === 1 ? 'active' : 'inactive'" formGroupName="creatingEmployer">
       <div formGroupName="employerDetails">
-        <div class="d-flex" *ngIf="!route.snapshot.params.id">
-          <mat-form-field [ngClass]="{'disabledInput' : !isEdit}">
-            <input matInput placeholder="ארגון חדש" formControlName="newOrganization" [required]="isEdit">
+        <div class="d-flex mt-3">
+          <div class="bd-width181" *ngIf=" isEdit === 'exist' || route.snapshot.params.id" >
+            <bd-select [items]="organizations" formControlName="organization"  placeholder="ארגון"
+                       label="value" class="bd-min-width" [error]="creatingEmployerForm.get('creatingEmployer.employerDetails').value.organization === null
+                     && form.submitted" [required]="isEdit === 'exist'" ></bd-select>
+          </div>
+          <mat-form-field *ngIf="isEdit === 'new'">
+            <input matInput placeholder="ארגון חדש" formControlName="newOrganization" [required]="isEdit === 'new'">
             <mat-error>שדה חובה</mat-error>
           </mat-form-field>
-          <div>
-            <img src="/assets/img/icons/edit_grey.png" class="row-image edit-icon"
-                 (click)="enableOrganization(form, isEdit)">
-          </div>
+
         </div>
-      <p class="f-16 bold mt-5">פרטים</p>
+      <p class="f-16 bold mt-5">פרטי מעסיק</p>
       <div class="d-flex">
-        <div class="bd-width181" [ngClass]="{'disabledInput' : isEdit || route.snapshot.params.id }">
-          <bd-select [items]="organizations" formControlName="organization" [required]="!isEdit" placeholder="ארגון"
-                     label="value" class="bd-min-width" [error]="creatingEmployerForm.get('creatingEmployer.employerDetails').value.organization === null
-                     && form.submitted && !isEdit"  ></bd-select>
-        </div>
-          <mat-form-field class="mr-5">
+          <mat-form-field >
             <input matInput placeholder="מעסיק" formControlName="name" maxlength="50"  required>
             <mat-error>שדה חובה</mat-error>
           </mat-form-field>
@@ -65,16 +66,20 @@
       <div class="d-flex">
         <div class="bd-width181">
           <bd-select [items]="projects" formControlName="project"
-                     required placeholder="פרוייקט *" class="bd-min-width" ></bd-select>
+                      placeholder="פרוייקט *" class="bd-min-width" ></bd-select>
         </div>
         <div class="bd-width181 mr-5">
           <bd-select [items]="operators" formControlName="operator"
-                     required placeholder="מנהל תיק *" class="bd-min-width" ></bd-select>
+                      placeholder="מנהל תיק *" class="bd-min-width" ></bd-select>
         </div>
         <div class="bd-width181 mr-5">
-          <bd-select [items]="statuses" formControlName="status" [ngClass]="{'disabledInput' : true }"
+          <bd-select [items]="statuses" formControlName="status"
                      required placeholder="סטטוס" class="bd-min-width"  ></bd-select>
         </div>
+<!--        <div class="bd-width181 mr-5">-->
+<!--          <bd-select [items]="saleMans" formControlName="operator"-->
+<!--                      placeholder="איש מכירות" class="bd-min-width" ></bd-select>-->
+<!--        </div>-->
     </div>
       <div class="d-flex">
         <mat-form-field>
@@ -92,21 +97,20 @@
         </mat-form-field>
       </div>
         <div class="d-flex">
-          <mat-form-field>
-            <input matInput placeholder="מספר מזהה שולח" formControlName="receivedIdentifier" maxlength="9"  minlength="9" required>
-            <mat-error>ח.פ אינו תקין</mat-error>
-          </mat-form-field>
+           <mat-form-field>
+             <input matInput placeholder="מספר מזהה שולח *" formControlName="receivedIdentifier" maxlength="9"  minlength="9" >
+<!--             <mat-error>ח.פ אינו תקין</mat-error>-->
+           </mat-form-field>
         </div>
       <div>
         <p class="f-16 bold mt-5">סליקה</p>
         <div class="d-flex">
           <div class="bd-width181">
             <bd-select [items]="identifierTypes" formControlName="identifierType"
-                       required placeholder="סוג מזהה לשליחה" class="bd-min-width" ></bd-select>
+                        placeholder="סוג מזהה לשליחה *" class="bd-min-width" ></bd-select>
           </div>
           <mat-form-field  class="mr-5">
-            <input matInput type="text" placeholder="מספר מזהה לשליחה" formControlName="senderIdentifier" maxlength="9" required >
-            <mat-error >שדה חובה</mat-error>
+            <input matInput type="text" placeholder="מספר מזהה לשליחה *" formControlName="senderIdentifier" maxlength="9" >
           </mat-form-field>
         </div>
       </div>
@@ -120,10 +124,10 @@
           <p class="f-12">איש קשר {{  1 + index }}</p>
           <div class="d-flex" [ngClass]="{'disabledInput' : route.snapshot.params.id && index < route.snapshot.data.items.contacts.length }">
             <mat-form-field >
-              <input matInput placeholder="שם פרטי" formControlName="first_name"  required>
-                </mat-form-field>
+              <input matInput placeholder="שם פרטי" formControlName="first_name" [required]="isDetailsContact()" >
+            </mat-form-field>
             <mat-form-field class="mr-5">
-              <input matInput placeholder="שם משפחה" formControlName="last_name" required>
+              <input matInput placeholder="שם משפחה" formControlName="last_name" [required]="isDetailsContact()" >
             </mat-form-field>
             <mat-form-field class="mr-5">
             <input matInput placeholder="תפקיד" formControlName="role">
@@ -131,13 +135,15 @@
           </div>
           <div class="d-flex" [ngClass]="{'disabledInput' : route.snapshot.params.id && index < route.snapshot.data.items.contacts.length}">
             <mat-form-field>
-              <input matInput placeholder="מספר טלפון *" maxlength="10" minlength="7" formControlName="phone">
+              <input matInput placeholder="מספר טלפון" maxlength="10" minlength="7" formControlName="phone"
+                     [required]="!this.creatingEmployerForm.get('creatingEmployer.contact').value[index].mobile">
             </mat-form-field>
             <mat-form-field class="mr-5">
-              <input matInput placeholder="טלפון נייד *" maxlength="10" minlength="9" formControlName="mobile">
+              <input matInput placeholder="טלפון נייד" maxlength="10" minlength="9" formControlName="mobile"
+                     [required]="!this.creatingEmployerForm.get('creatingEmployer.contact').value[index].phone">
             </mat-form-field>
             <mat-form-field class="mr-5">
-              <input matInput placeholder="כתובת מייל *" formControlName="email"  required>
+              <input matInput placeholder="כתובת מייל" formControlName="email" [required]="isDetailsContact()">
             </mat-form-field>
             <input TYPE="hidden"  formControlName="entity_type">
           </div>
@@ -159,37 +165,37 @@
           <th scope="col"  class="width15">חוזה</th>
           <td scope="col">
             <div class="d-flex">
-              <p class="file-label-text" >{{ uploadedFileContract ? (uploadedFileContract.name | slice:0:25) : 'אין קובץ' }}</p>
-              <div class="ml-3 mr-auto ">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" >
+              <p class="file-label-text">{{fileUpload(uploadedFileContract)}}</p>
+              <div class="ml-3 mr-auto" >
+                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" *ngIf="!uploadedFileContract">
                   <label class="width135" >
-                    <input type="file"  accept=".docx,.doc,.pdf " (change)= "uploadedFileContract === undefined ?
+                    <input type="file" accept=".docx,.doc,.pdf " (change)= "uploadedFileContract === undefined ?
                       uploadedFileContract = $event.target.files[0] : uploadedFileContract['id'] ? documentId = uploadedFileContract['id'] : 0;
-                      uploadedFileContract = $event.target.files[0]; uploadedFileContract['id'] = documentId;" >
+                      uploadedFileContract = $event.target.files[0]; uploadedFileContract['id'] = documentId;">
                     <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
                   </label>
                 </button>
+                <div *ngIf="uploadedFileContract">
+                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileContract)" ></i>
+                  <i class="fa fa-trash fa-lg" (click)="uploadedFileContract = deleteFile(uploadedFileContract)" title="מחיקה"></i>
+                </div>
               </div>
             </div>
           </td>
         </tr>
         </thead>
       </table>
-      <p class="alert alert-danger width38" *ngIf="(!uploadedFileContract)  ">יש להכניס חוזה.</p>
-      <p class="text-danger w-50 " *ngIf="uploadedFileContract && !validationFile(uploadedFileContract)"> יש להעלות רק קבצי docx או pdf </p>
-    </div>
-    <div [@fade]="pageNumber === 3 ? 'active' : 'inactive'">
-      <br>
       <table class="table table-bordered width38">
         <thead>
         <tr>
           <th scope="col" class="width15">יפויי כח</th>
             <td scope="col">
               <div class="d-flex">
-                <p class="file-label-text">{{ uploadedFilePoa ? (uploadedFilePoa.name | slice:0:25) : 'אין קובץ' }}</p>
-                <div class="ml-3 mr-auto ">
-                  <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
+                <p class="file-label-text">{{fileUpload(uploadedFilePoa)}}</p>
+<!--                <mat-progress-bar *ngIf="process_file === 100" class="mt-5" mode="determinate" [value]="process_file"></mat-progress-bar>-->
+                <div class="ml-3 mr-auto" >
+                  <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" *ngIf="!uploadedFilePoa">
                     <label class="width135" >
                       <input type="file" accept=".docx,.doc,.pdf " (change)="uploadedFilePoa === undefined ?
                       uploadedFilePoa = $event.target.files[0] : uploadedFilePoa['id']  ? documentId = uploadedFilePoa['id']  : 0;
@@ -198,6 +204,10 @@
                       העלת קובץ
                     </label>
                   </button>
+                  <div *ngIf="uploadedFilePoa">
+                    <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFilePoa)" ></i>
+                    <i class="fa fa-trash fa-lg" (click)="uploadedFilePoa = deleteFile(uploadedFilePoa)" title="מחיקה"></i>
+                  </div>
                 </div>
               </div>
             </td>
@@ -210,9 +220,10 @@
           <th scope="col"  class="width15">מורשה חתימה</th>
           <td scope="col">
             <div class="d-flex">
-              <p class="file-label-text">{{ uploadedFileProtocol ? (uploadedFileProtocol.name | slice:0:25) : 'אין קובץ' }}</p>
-              <div class="ml-3 mr-auto ">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
+              <p class="file-label-text">{{fileUpload(uploadedFileProtocol)}}</p>
+              <!--                <mat-progress-bar *ngIf="process_file === 100" class="mt-5" mode="determinate" [value]="process_file"></mat-progress-bar>-->
+              <div class="ml-3 mr-auto" >
+                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" *ngIf="!uploadedFileProtocol">
                   <label class="width135" >
                     <input type="file" accept=".docx,.doc,.pdf " (change)="uploadedFileProtocol === undefined ?
                       uploadedFileProtocol = $event.target.files[0] : uploadedFileProtocol['id']  ? documentId = uploadedFileProtocol['id']  : 0;
@@ -221,6 +232,10 @@
                     העלת קובץ
                   </label>
                 </button>
+                <div *ngIf="uploadedFileProtocol">
+                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileProtocol)" ></i>
+                  <i class="fa fa-trash fa-lg" (click)="uploadedFileProtocol = deleteFile(uploadedFileProtocol)" title="מחיקה"></i>
+                </div>
               </div>
             </div>
           </td>
@@ -233,17 +248,22 @@
           <th scope="col"  class="width15">פרטי הלקוח</th>
           <td scope="col">
             <div class="d-flex">
-              <p class="file-label-text">{{ uploadedFileCustomer ? (uploadedFileCustomer.name | slice:0:25) : 'אין קובץ' }}</p>
-              <div class="ml-3 mr-auto">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
+              <p class="file-label-text">{{fileUpload(uploadedFileCustomer)}}</p>
+              <!--                <mat-progress-bar *ngIf="process_file === 100" class="mt-5" mode="determinate" [value]="process_file"></mat-progress-bar>-->
+              <div class="ml-3 mr-auto" >
+                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" *ngIf="!uploadedFileCustomer">
                   <label class="width135" >
                     <input type="file" accept=".docx,.doc,.pdf " (change)="uploadedFileCustomer === undefined ?
                       uploadedFileCustomer = $event.target.files[0] : uploadedFileCustomer['id']  ? documentId = uploadedFileCustomer['id']  : 0;
-                      uploadedFileCustomer = $event.target.files[0]; uploadedFileCustomer['id']  = documentId;"  >
+                      uploadedFileCustomer = $event.target.files[0]; uploadedFileCustomer['id']  = documentId;">
                     <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
                   </label>
                 </button>
+                <div *ngIf="uploadedFileCustomer">
+                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileCustomer)" ></i>
+                  <i class="fa fa-trash fa-lg" (click)="uploadedFileCustomer = deleteFile(uploadedFileCustomer)" title="מחיקה"></i>
+                </div>
               </div>
             </div>
           </td>
@@ -254,7 +274,7 @@
        uploadedFileCustomer && !validationFile(uploadedFileCustomer)"> יש להעלות רק קבצי docx או pdf </p>
       <p class="alert alert-danger width38" *ngIf="((!uploadedFilePoa) || (!uploadedFileProtocol) || (!uploadedFileCustomer))&& clickedContinue">יש להכניס את המסמכים הדרושים.</p>
     </div>
-    <div [@fade]="pageNumber === 4 ? 'active' : 'inactive'" formGroupName="detailsBank">
+    <div [@fade]="pageNumber === 3 ? 'active' : 'inactive'" formGroupName="detailsBank">
       <p class="f-16 bold mt-5">חשבון בנק משלם</p>
       <div class="d-flex" formGroupName="payingBank">
         <div class="bd-width181">
@@ -291,9 +311,12 @@
         </mat-form-field>
       </div>
       <div class="mt-3 pb-3">
+        <mat-checkbox name="direct_debit_commission"  >שולם תשלום שוטף בגין טיפול</mat-checkbox>
+        <br>
+        <mat-checkbox name="direct_debit_commission"  >תשלום ח"פ עבור ההקמה</mat-checkbox>
+      </div>
     </div>
-    </div>
-    <div [@fade]="pageNumber === 5 ? 'active' : 'inactive'">
+    <div [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
       <br>
       <div class="d-flex" formGroupName="xmlFile">
         <mat-form-field class="w-20">
@@ -338,7 +361,7 @@
       <button class="btn btn-secondary btn-sm ml-3 ellipse" (click)="backAndCancel()"> {{pageNumber === 1 ? 'ביטול' : 'חזור'}}</button>
       <div class="ml-4-5 d-flex mr-auto">
         <button class="btn btn-primary btn-sm ml-md-n2 ellipse btn blue-btn" type="submit"  [disabled]="pageNumber === 5 && uploadedFileXml && fileTypeError" (click)="pageNumber === 5 ? submit(): continueProcess()" >
-          {{ pageNumber === 5 ? 'סיום' : 'המשך'}}</button>
+          {{ pageNumber === 4 ? 'סיום' : 'המשך'}}</button>
       </div>
     </div>
     <br>

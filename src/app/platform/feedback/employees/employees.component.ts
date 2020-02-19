@@ -39,7 +39,6 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   sub = new Subscription();
   year = new Date().getFullYear();
   fileId: string;
-  planId: string;
   recordId: string;
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
   months = MONTHS;
@@ -58,16 +57,16 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   readonly columns =  [
     { name: 'name', label: 'עובד', searchable: false},
-    { name: 'personal_id', label: 'ת"ז' , searchable: false},
-    { name: 'month', label: 'חודש שכר' , searchable: false},
-    { name: 'company_name', label: 'חברה מנהלת' , searchable: false},
-    { name: 'product_type', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }},
+    { name: 'personal_id', label: 'ת"ז', sortName: 'employee_chr__employee__identifier' , searchable: false},
+    { name: 'payment_month', label: 'חודש שכר' , searchable: false},
+    { name: 'company_name', label: 'חברה מנהלת', sortName: 'group_thing__group__product__company__name' , searchable: false},
+    { name: 'product_type', label: 'סוג מוצר', sortName: 'group_thing__group__product__type', searchOptions: {labels: this.selectProductType}},
     { name: 'product_code', label: 'קוד אוצר' , searchable: false},
-    { name: 'amount', label: 'סכום', searchable: false },
+    { name: 'amount', label: 'סכום', sortName: 'sum', searchable: false },
     { name: 'created_at', label: 'תאריך יצירה' , searchOptions: { isDate: true } },
     { name: 'updated_at', label: 'תאריך עדכון אחרון' , searchOptions: { isDate: true }},
     { name: 'status', label: 'סטטוס' , searchOptions: { labels: this.statusLabel } },
-    { name: 'status_recourse', label: 'סטטוס פניה', searchable: false},
+    { name: 'manual_status', label: 'סטטוס פניה', searchable: true},
     { name: 'more', label: 'מידע נוסף' , searchable: false},
     { name: 'comments', label: 'הערות', searchable: false}
   ];
@@ -88,7 +87,6 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   ngOnInit() {
     this.fileId = this.route.snapshot.queryParams['fileId'];
-    this.planId = this.route.snapshot.queryParams['planId'];
     this.displayBack = this.fileId !== undefined && this.fileId !== '0' ? true : false;
     this.recordId = this.route.snapshot.queryParams['recordId'];
     this.selectYear = this.fileId ? Number(this.route.snapshot.queryParams['year']) : this.year;
@@ -110,7 +108,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     if (this.selectMonth !== undefined) {
       this.dataTable.criteria.filters['month'] = this.selectMonth;
     }
-    if (!this.planId) {
+    if (!this.recordId) {
       this.dataTable.criteria.filters['year'] = this.selectYear;
     }
     if (departmentId !== 0) {
@@ -125,14 +123,20 @@ export class EmployeesComponent implements OnInit , OnDestroy {
       this.feedbackService.searchEmployeeData(this.dataTable.criteria).then(response => {
         this.dataTable.setItems(response);
       });
-    }else { this.notificationService.warning('יש לבחור מחלקה'); }
+    } else { this.notificationService.warning('יש לבחור מחלקה'); }
   }
 
   openApplicationDialog(item: any): void {
-    this.dialog.open(SendApplicationComponent, {
-      data: item,
-      width: '1350px',
+    this.helpers.setPageSpinner(false);
+    this.feedbackService.getTransfer(item.id, item.sent_group_id, item.status_sent_group).then(response => {
+      item.transfer_clause = response;
+      this.helpers.setPageSpinner(true);
+      this.dialog.open(SendApplicationComponent, {
+        data: item,
+        width: '1350px',
+      });
     });
+
   }
 
   openInquiresDialog(item: any): void {
@@ -158,6 +162,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   }
 
   openCommentsDialog(item?: any): void {
+    this.helpers.setPageSpinner(true);
     let ids = [];
     if (!item) {
       if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
@@ -168,8 +173,11 @@ export class EmployeesComponent implements OnInit , OnDestroy {
       ids = this.dataTable.criteria.checkedItems.map(i => i['id']);
     } else {
       ids = [item.id];
+
+
     }
 
+    this.helpers.setPageSpinner(false);
     const dialog = this.dialog.open(CommentsFormComponent, {
       data: {'ids': ids, 'contentType': 'monthlytransferblock', 'comments' : item ?  item.comments : [],
         'criteria': this.dataTable.criteria},
@@ -214,7 +222,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
     const dialog = this.dialog.open(ChangeStatusComponent, {
       data: {'ids': ids, 'contentType': 'monthlytransferblock',
-        'criteria': this.dataTable.criteria, 'planId': this.planId},
+        'criteria': this.dataTable.criteria},
       width: '400px',
       panelClass: 'change-status-dialog'
     });

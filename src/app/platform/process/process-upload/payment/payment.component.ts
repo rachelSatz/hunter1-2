@@ -19,7 +19,6 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { Process } from 'app/shared/_models/process.model';
 import { EmailComponent } from './email/email.component';
 import { fade } from 'app/shared/_animations/animation';
-import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 
 
@@ -199,14 +198,14 @@ export class PaymentComponent implements OnInit , OnDestroy {
 
   openDialogSendFileEmail(): void {
     this.dialog.open(SendFileEmailComponent, {
-      data: {processId : this.processId, employerId : this.process_details.employer_id, planId : this.planId},
+      data: {processId : this.processId, employerId : this.process_details.employer_id},
       width: '550px',
       panelClass: 'send-email-dialog'
     });
   }
 
   downloadPaymentsInstruction(): void {
-    this.processService.downloadPaymentsInstruction(this.processId, this.planId).then(response => {
+    this.processService.downloadPaymentsInstruction(this.processId).then(response => {
       response.forEach(function (value) {
         const byteCharacters = atob(value['data']);
         const byteNumbers = new Array(byteCharacters.length);
@@ -262,7 +261,8 @@ export class PaymentComponent implements OnInit , OnDestroy {
       case 'detailed-records-incorrect': {
         this.processDataService.activeProcess.returnDetails = true;
         this.processDataService.activeProcess.incorrect = page === 'detailed-records-incorrect' ? true : false;
-        this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
+        this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records'],
+          {queryParams: {planId: this.planId}});
       }
     }
   }

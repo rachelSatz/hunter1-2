@@ -23,6 +23,14 @@
         <span class="bold" >שם חברה מנהלת:</span>
         <p class="mr-1">{{plan.company ? plan.company : plan.task.compensation.company}}</p>
       </div>
+      <div *ngIf="errorsDetails['employerNotDefrayal'].error">
+        <div class="d-flex mt-3">
+          <div class="d-flex w-50" >
+            <span class="bold">תאריך אחרון שמעסיק זה נסלק</span>
+            <p class="mr-1">{{plan.task.last_process}}</p>
+          </div>
+        </div>
+      </div>
       <div *ngIf="errorsDetails['paymentInstructions'].error || errorsDetails['fileError'].error">
         <div class="d-flex mt-3">
           <div class="d-flex w-50" >

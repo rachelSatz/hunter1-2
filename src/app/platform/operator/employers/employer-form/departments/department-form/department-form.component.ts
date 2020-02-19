@@ -19,7 +19,6 @@ import {PlatformComponent} from '../../../../../platform.component';
   animations: [ fade ]
 })
 export class DepartmentFormComponent implements OnInit {
-  planId: number;
   department = new Department();
   banks = [];
   isEdit = false;
@@ -42,7 +41,6 @@ export class DepartmentFormComponent implements OnInit {
     this.loadBanks();
     if (this.route.snapshot.data.department) {
       this.department = this.route.snapshot.data.department;
-      this.planId = this.route.snapshot.queryParams['planId'];
       if (this.department.bank_account_deposit == null) {
         this.department.bank_account_deposit = new EmployerBankAccount;
       }
@@ -87,7 +85,7 @@ export class DepartmentFormComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
       if (this.department.id) {
-        this.departmentService.update(this.department, this.planId)
+        this.departmentService.update(this.department)
           .then(response => this.handleResponse(response));
       } else {
         this.departmentService.create(this.department, this.selectUnit.currentEmployerID)

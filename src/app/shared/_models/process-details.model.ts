@@ -7,6 +7,7 @@ export class ProcessDetails {
   total: number;
   date: string;
   records_count: number;
+  mtbs_count: number;
   groups_count: number;
   department_name: string;
   employer_name: string;

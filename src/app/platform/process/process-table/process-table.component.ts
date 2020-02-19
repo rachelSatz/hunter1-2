@@ -96,15 +96,17 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   downloadFileProcess(processId: number): void {
     this.processService.downloadFileProcess(processId).then(response => {
       if (response.ok) {
-        const byteCharacters = atob(response['blob']);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'application/dat'});
-        const fileURL = URL.createObjectURL(blob);
-          FileSaver.saveAs(blob, response['fileName']);
+        response['blobs'].forEach((item, index) => {
+          const byteCharacters = atob(item);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], {type: 'application/dat'});
+          const fileURL = URL.createObjectURL(blob);
+          FileSaver.saveAs(blob, response['fileNames'][index]);
+        });
       }else {
         this.notificationService.error('', ' אין אפשרות להוריד את הקובץ ');
       }
@@ -141,7 +143,13 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
      if (status === this.processStatus.transmitted) {
        this.router.navigate(['platform', 'process', 'new', '1', 'broadcast']);
      } else {
-       this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id]);
+       if (this.planId) {
+         this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id],
+           {queryParams: {planId: this.planId}});
+       } else {
+         this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id]);
+       }
+
      }
 
    }

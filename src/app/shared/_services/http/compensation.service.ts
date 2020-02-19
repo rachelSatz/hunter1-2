@@ -83,14 +83,12 @@ export class CompensationService extends BaseHttpService {
     }
   }
 
-  sendCompensations(compensation_ids: number[], criteria: DataTableCriteria, planId?: number): Promise<any> {
-
+  sendCompensations(compensation_ids: number[], criteria: DataTableCriteria): Promise<any> {
     return this.http.post(this.endPoint + '/send', { compensation_ids: compensation_ids,
-      searchCriteria: this.setDataTableParams(criteria), planId: planId}, this.getTokenHeader())
+      searchCriteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
     .toPromise()
     .then(response => response as any)
     .catch(response => response as any);
-
   }
 
   downloadPdfFile(rowID: number, hasFileFeedback: Boolean): Promise<string[]> {
@@ -140,10 +138,9 @@ export class CompensationService extends BaseHttpService {
       .catch(() => []);
   }
 
-
-  manualChangingStatus(compensation_ids: number[], criteria: DataTableCriteria, planId?: number ):  Promise<Compensation[]> {
+  manualChangingStatus(compensation_ids: number[], criteria: DataTableCriteria):  Promise<Compensation[]> {
     return this.http.post(this.endPoint + '/updateSentStatus',
-      { compensation_ids: compensation_ids,  searchCriteria: this.setDataTableParams(criteria), planId: planId},
+      { compensation_ids: compensation_ids,  searchCriteria: this.setDataTableParams(criteria)},
       this.getTokenHeader())
       .toPromise()
       .then(response => response as Compensation[])

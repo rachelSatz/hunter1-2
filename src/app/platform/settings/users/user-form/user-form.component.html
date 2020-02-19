@@ -78,7 +78,7 @@
                       [hasActionsSearch]="false"
                       [hasCheckColumn]="true"
                       (fetchItems)="fetchItems()"
-                      [@fade]="user.role !== 'admin' ? 'active' : 'inactive'">
+                      [@fade]="user.role !== 'admin' && user.id !== undefined ? 'active' : 'inactive'   ">
         <div class="table-header">
           <p class="bold h6">בחר ישויות</p>
           <div class="w-50 d-flex align-items-center mb-2" [@fade]="add ? 'active' : 'inactive'">

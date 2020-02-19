@@ -9,7 +9,9 @@ import {
   MatIconModule,
   MatInputModule,
   MatOptionModule,
-  MatSelectModule
+  MatSelectModule,
+  MatProgressBarModule,
+  MatCheckboxModule
 } from '@angular/material';
 
 import { CreatingEmployerComponent } from './creating-employer.component';
@@ -17,6 +19,9 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
+import { FileDropModule } from 'ngx-file-drop';
+import {MatRadioModule} from '@angular/material/radio';
+
 
 
 const routes: Routes = [
@@ -35,7 +40,7 @@ const routes: Routes = [
     MatInputModule,
     MatSelectModule,
     MatOptionModule,
-    MatIconModule
+    MatIconModule, MatProgressBarModule, MatCheckboxModule, FileDropModule, MatRadioModule
   ],
   declarations: [ CreatingEmployerComponent ],
   providers: [

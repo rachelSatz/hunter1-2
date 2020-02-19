@@ -26,7 +26,7 @@ export class SelectUnitService {
   }
 
   getOrganization(): any {
-    return  this.getSessionStorage('organizations');
+    return this.getSessionStorage('organizations');
   }
 
   getCompanies(): any {
@@ -43,8 +43,6 @@ export class SelectUnitService {
   getProcessData(): any {
     return this.getSessionStorage('processData');
   }
-
-
 
   setTaskTimer(task: any): void {
     sessionStorage.setItem('task', JSON.stringify(task));
@@ -84,7 +82,6 @@ export class SelectUnitService {
     sessionStorage.setItem('employerID', val.toString());
   }
 
-
   getSessionStorage(val: string): any {
     if (sessionStorage.getItem(val)) {
       return JSON.parse(sessionStorage.getItem(val));
@@ -113,6 +110,7 @@ export class SelectUnitService {
     this.currentDepartmentID = departmentId;
     this.unitSubject.next(organizationId);
   }
+
   changeOrganization(organizationId: number): void {
     sessionStorage.setItem('organizationID', JSON.stringify(organizationId));
     this.currentOrganizationID = organizationId;

@@ -52,6 +52,15 @@ export class FeedbackService extends BaseHttpService {
       .catch(() => null);
   }
 
+  getTransfer(mtb_id: number, sent_group_id: number, status_sent_group: string): Promise<any> {
+    const request = this.getTokenHeader();
+    request['params'] = {mtbId : mtb_id, sentGroupId: sent_group_id, status_sent_group: status_sent_group};
+    return this.http.get(this.endPoint + '/getTransfer', request)
+      .toPromise()
+      .then(response => response);
+  }
+
+
   downloadGroupThingFile(id: number): Promise<any> {
     return this.http.get(this.apiUrl + '/files/' + id + '/downloadFile', this.getTokenHeader())
       .toPromise()
@@ -68,10 +77,10 @@ export class FeedbackService extends BaseHttpService {
       .catch(response => response);
   }
 
-  changeStatus(ids: number[] , contentType: string, planId: string, status: string , criteria?: DataTableCriteria): Promise<boolean> {
+  changeStatus(ids: number[] , contentType: string, status: string , criteria?: DataTableCriteria): Promise<boolean> {
     return this.http.post(this.endPoint  + '/changeStatus', { 'ids': ids ,
       'content_type': contentType, 'status': status, 'criteria':
-        this.setDataTableParams(criteria), 'planId': planId}, this.getTokenHeader())
+        this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
       .then(() => true)
       .catch(() => false);

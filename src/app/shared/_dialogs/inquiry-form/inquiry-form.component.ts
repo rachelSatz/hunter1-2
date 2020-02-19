@@ -88,12 +88,7 @@ export class InquiryFormComponent implements OnInit {
 
     if (content_type === 'employer') {
       objectId = this.data.employerId;
-
     }
-
-    // if (content_type === 'user') {
-    // }
-
     this.contactService.getEmployerContacts(objectId , this.data.employerId, content_type,
       this.data.contentType).then(types => {
       this.contacts = types;
@@ -127,6 +122,7 @@ export class InquiryFormComponent implements OnInit {
         this.action,
         this.activeContentType,
         this.isAttachFile,
+        this.data.companyId,
         this.uploadedFile
       ).then(response => {
         if (response) {

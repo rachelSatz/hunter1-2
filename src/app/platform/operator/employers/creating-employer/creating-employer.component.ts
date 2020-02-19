@@ -22,6 +22,8 @@ import { fade } from 'app/shared/_animations/animation';
 import { ActivatedRoute, Router} from '@angular/router';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {Month} from '../../../../shared/_const/month-bd-select';
+import {UserSessionService} from '../../../../shared/_services/user-session.service';
+import * as FileSaver from 'file-saver';
 
 
 @Component({
@@ -40,6 +42,7 @@ export class CreatingEmployerComponent implements OnInit {
   branchesD;
   branchesW;
   operators = [];
+  saleMans = [];
   pageNumber = 1;
   maxPageNumber = 1;
   selectedBankD: number;
@@ -55,15 +58,16 @@ export class CreatingEmployerComponent implements OnInit {
   hasServerError: boolean;
   creatingEmployerForm: FormGroup;
   clickedContinue: boolean;
-  planId: number;
-  isEdit = false;
+  isEdit = 'exist' ;
   organizationId: number;
   departmentId;
   employerId;
   count = 1;
   cities = [];
   month: number;
+  role = this.userSession.getRole();
   selectYear: number;
+  process_file: number;
   yearN = new Date().getFullYear();
   readonly months = Month;
   readonly years = [ this.yearN, (this.yearN - 1) , (this.yearN - 2), (this.yearN - 3)];
@@ -79,10 +83,9 @@ export class CreatingEmployerComponent implements OnInit {
   });
 
   detailsPage = [ {title : 'הקמת פרטי ארגון - שלב 1', progress : 'progress-bar process1'},
-    {title : 'העלת חוזה - שלב 2' , progress : 'progress-bar process2'},
-    {title : 'העלת קבצי הארגון- שלב 3', progress : 'progress-bar process3'},
-    {title : 'פרטי בנק של הארגון - שלב 4', progress : 'progress-bar process4'},
-    {title : 'קליטת עובדים - שלב 5', progress : 'progress-bar process5'},
+    {title : 'העלת קבצי הארגון- שלב 2', progress : 'progress-bar process3'},
+    {title : 'פרטי בנק של הארגון - שלב 3', progress : 'progress-bar process4'},
+    {title : 'קליטת עובדים - שלב 4', progress : 'progress-bar process5'},
   ];
 
   constructor(
@@ -90,12 +93,12 @@ export class CreatingEmployerComponent implements OnInit {
     private router: Router,
     private selectUnit: SelectUnitService,
     private processService: ProcessService,
-    private orgService: OrganizationService,
     private documentService: DocumentService,
     private contactService: ContactService,
     private generalHttpService: GeneralHttpService,
     private organizationService: OrganizationService,
     private employerService: EmployerService,
+    public userSession: UserSessionService,
     public route: ActivatedRoute,
     private helpers: HelpersService,
     private  platformComponent: PlatformComponent,
@@ -103,22 +106,22 @@ export class CreatingEmployerComponent implements OnInit {
     public processDataService: ProcessDataService,
     private _location: Location) {
     this.organizationId = 0;
+    this.process_file = 0;
   }
 
   ngOnInit() {
     if (this.route.snapshot.params.id) {
       this.helpers.setPageSpinner(true);
     }
-    if (this.route.snapshot.queryParams) {
-      // this.pageNumber = this.route.snapshot.queryParams['pageNum'];
-      this.planId = this.route.snapshot.queryParams['planId'];
-    }
     this.initForm();
     this.employerService.getCity().then(response => {
       this.cities = response;
     });
+    // tslint:disable-next-line:radix
+    this.pageNumber = this.route.snapshot.queryParams['page'] ? parseInt(this.route.snapshot.queryParams['page']) : 1;
     this.employerService.getProjects().then(response => this.projects = response);
     this.getOperator();
+    this.getSaleMans();
     this.generalHttpService.getBanks(true).then(banks => {
       this.banks = banks;
       this.organizationService.getOrganizationsNameAndId().then(response => {
@@ -147,7 +150,7 @@ export class CreatingEmployerComponent implements OnInit {
           'identifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'receivedIdentifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'deductionNumber': [],
-          'phone': [null, [Validators.pattern('[0-9]{0-10}')]],
+          'phone': [null, Validators.pattern('^[0-9]*$')],
           'address': [null],
           'city_id': [null],
           'project': [null, Validators.required],
@@ -279,13 +282,67 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   enableOrganization(form: NgForm , isEdit: Boolean): void {
-    this.isEdit = !isEdit;
     if (isEdit) {
       this.creatingEmployerForm.get('creatingEmployer.employerDetails').patchValue({'newOrganization': null});
     } else {
       this.creatingEmployerForm.get('creatingEmployer.employerDetails').patchValue({'organization': null});
       this.organizationId = 0;
     }
+  }
+
+  uploadFile(file, event): void {
+    if (file === undefined) {
+      file = event;
+    } else {
+      if (file['id']) {
+        this.documentId = file['id'];
+      } else {
+        this.documentId = 0;
+        file = event;
+        file['id'] = this.documentId;
+      }
+    }
+  }
+
+  deleteFile(file) {
+    if (file.id) {
+      this.notificationService.warning('האם ברצונך למחוק את הקובץ?')
+        .then(confirmation => {
+          if (confirmation.value) {
+            this.documentService.deleteFile(file.id, this.employerId).then(response => {
+              if (response) {
+                return file = null;
+              }
+            });
+          }
+        });
+    } else {
+      return file = undefined;
+    }
+  }
+
+  showFile(file): void {
+    let blob;
+    if (file.id) {
+      this.documentService.downloadFile(file.id, this.employerId).then( response => {
+        if (response) {
+          const byte = atob(response['data']);
+          const byteNumbers = new Array(byte.length);
+          for (let i = 0; i < byte.length; i++) {
+            byteNumbers[i] = byte.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          blob = new Blob([byteArray], {type: 'application/pdf'});
+          const fileURL = URL.createObjectURL(blob);
+          window.open(fileURL);
+        }
+      });
+    } else {
+      blob = new Blob([file.slice()], {type: 'application/pdf'});
+      const fileURL = URL.createObjectURL(blob);
+      window.open(fileURL);
+    }
+
   }
 
   copyBankRow(): void {
@@ -321,18 +378,26 @@ export class CreatingEmployerComponent implements OnInit {
   removeControl(index: number): void {
       const contactsGroup = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact'));
       contactsGroup.removeAt(index);
-      if (this.route.snapshot) {
-        this.deleteEmployerContact(5);
-      }
+      // if (this.route.snapshot) {
+      //   this.contactService.deleteEmployerContact(5).then(response => response);
+      // }
   }
 
-  deleteEmployerContact(id) {
-    this.notificationService.warning('האם ברצונך למחוק את האיש קשר?')
-      .then(confirmation => {
-        if (confirmation.value) {
-          this.contactService.deleteEmployerContact(id).then(response => response);
-        }
-      });
+  // deleteEmployerContact(id) {
+  //   this.notificationService.warning('האם ברצונך למחוק את האיש קשר?')
+  //     .then(confirmation => {
+  //       if (confirmation.value) {
+  //         this.contactService.deleteEmployerContact(id).then(response => response);
+  //       }
+  //     });
+  // }
+
+  fileUpload(file) {
+    if (file) {
+      return file.name;
+    } else {
+      return 'אין קובץ';
+    }
   }
 
   getContactsArrControls() {
@@ -345,12 +410,19 @@ export class CreatingEmployerComponent implements OnInit {
     });
   }
 
+  getSaleMans(): void {
+    this.employerService.getOperator().then(response => {
+      this.saleMans = response;
+    });
+  }
+
+
   addContact(): void {
     const  contactSingle = this.creatingEmployerForm.get('creatingEmployer.contact').value;
     let validContact = true;
     contactSingle.forEach( c => {
-      const phone = c['mobile'] !== null ? c['mobile'] : c['phone'] !== null ? c['phone'] : null;
-      if (c['first_name'] === null || c['last_name'] === null || phone === null  || c['email'] === null) {
+      const phone = c['mobile'] ? c['mobile'] : c['phone'] ? c['phone'] : null;
+      if (!c['first_name'] || !c['last_name'] || !phone || !c['email']) {
          validContact = false;
       }
     });
@@ -414,9 +486,24 @@ export class CreatingEmployerComponent implements OnInit {
     return (employer.value['phone'] !== null && employer.get('phone').valid) || employer.value['phone'] === null;
   }
 
+  warningIdentifiers(employerIdentifiers): boolean | void {
+    if (employerIdentifiers.length > 0) {
+      this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
+        {confirmButtonText: 'אישור'}).then(
+        confirmation => {
+          return !!confirmation.value;
+        }
+      );
+    }
+    return true;
+  }
+
   continueProcess(): void {
     if (this.pageNumber === 1 && this.validation() && this.checkValidData()) {
+      const employerIdentifiers = this.validIdEmployer();
+      if (this.warningIdentifiers(employerIdentifiers)) {
         this.pageNumber += 1;
+      }
     } else if (this.pageNumber === 2 || this.pageNumber === 3) {
       if (this.checkValidFiles() || (!this.uploadedFilePoa && !this.uploadedFileCustomer && !this.uploadedFileContract &&
         !this.uploadedFileProtocol)) {
@@ -526,6 +613,13 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
+  aaaa(event) {
+    this.uploadedFileContract === undefined ? this.uploadedFileContract = event.target.files[0] :
+      this.uploadedFileContract['id'] ? this.documentId = this.uploadedFileContract['id'] : 0 ;
+    this.uploadedFileContract = event.target.files[0]; this.uploadedFileContract['id'] = this.documentId;
+
+  }
+
   isDetailsContact() {
     const contacts = this.creatingEmployerForm.get('creatingEmployer.contact').value;
     let isContact = false;
@@ -562,11 +656,13 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
+
+
   sendFile(): void {
     const month = this.creatingEmployerForm.get('xmlFile.month').value;
     const year = this.creatingEmployerForm.get('xmlFile.year').value;
     const data = {
-      'month':  month ? month.toString() : new Date().getMonth().toString(),
+      'month':  month ? month.toString() : (new Date().getMonth() + 1).toString(),
       'year': year ? year.toString() : new Date().getFullYear().toString(),
       'processName': '',
       'departmentId': this.departmentId,
@@ -582,6 +678,10 @@ export class CreatingEmployerComponent implements OnInit {
         data['file'] =  this.uploadedFileXml ;
         this.platformComponent.getOrganizations(true, true);
         this.processDataService.setProcess(data);
+        if (this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active') {
+          this.processService.updatePaymentType(this.employerId,
+            this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['paymentType']);
+        }
         this.routerViewEmployer();
       } else {
         this.notificationService.error('העלאת הקובץ נכשלה');
@@ -610,18 +710,36 @@ export class CreatingEmployerComponent implements OnInit {
       && (this.isDetailsContact() && contacts.valid || this.isDetailsContact() === false);
   }
 
-  submit(): void {
-    if (this.validation()) {
-      if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
-        this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
-        this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
-        this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
-        (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
-        this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
-      } else {
-        this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+  validIdEmployer() {
+    const employerIdentifiers = [];
+    this.selectUnit.getOrganization().forEach(org => {
+      if (Number(org.id) !== this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['organization']) {
+        org.employer.forEach(emp => {
+          if (emp.identifier === this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['identifier']) {
+            employerIdentifiers.push(org.name);
+          }
+        });
       }
-      this.insertData();
+    });
+    return employerIdentifiers;
+  }
+
+  submit(): void {
+    const employerIdentifiers = this.validIdEmployer();
+    if (this.warningIdentifiers(employerIdentifiers)) {
+      if (this.validation()) {
+        if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
+          this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
+          this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
+          this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
+          (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
+          this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
+        } else {
+          this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+        }
+        this.insertData();
+      }
     }
   }
+
 }

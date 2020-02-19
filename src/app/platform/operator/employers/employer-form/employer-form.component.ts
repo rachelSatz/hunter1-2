@@ -131,7 +131,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
       'receivedIdentifier': [null , [Validators.pattern('^\\d{9}$'), Validators.required]],
       'deductionNumber': [],
       'city_id': [null,  Validators.required],
-      'phone': [null],
+      'phone': [null, [Validators.pattern('[0-9]{0-10}')]],
       'address': [],
       'project': [this.project,  Validators.required],
       'operator': [this.operator,  Validators.required],
