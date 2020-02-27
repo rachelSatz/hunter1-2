@@ -9,6 +9,7 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import {EmployerMovesManagerComponent} from './creating-employer/employer-moves-manager/employer-moves-manager.component';
 // import {CreatingEmployerComponent} from './creating-employer/creating-employer.component';
 
 
@@ -25,11 +26,14 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     DataTableModule,
     MatDialogModule,
-    BdSelectModule
+    BdSelectModule,
+
   ],
   declarations: [
-    EmployersComponent
+    EmployersComponent, EmployerMovesManagerComponent
   ],
-  providers: [EmployerService, NotificationService]
+  providers: [EmployerService, NotificationService],
+  entryComponents: [EmployerMovesManagerComponent]
+
 })
 export class EmployersModule { }

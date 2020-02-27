@@ -10,6 +10,8 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade, slideInOut } from 'app/shared/_animations/animation';
 import { TaskTimerLabels } from '../shared/_models/timer.model';
 import { TimerService } from '../shared/_services/http/timer';
+import {EmployeeService} from '../shared/_services/http/employee.service';
+import {EmployerService} from '../shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-platform',
@@ -23,6 +25,7 @@ export class PlatformComponent implements OnInit {
   organizations = [];
   employers = [];
   departments = [];
+  employersNumber: number;
   // organizationId: number;
   // employerId: any;
   // departmentId: any;
@@ -45,7 +48,6 @@ export class PlatformComponent implements OnInit {
     { id: 2, icon: 'question-circle', label: 'תור עבודה', link: 'work-queue', role: 'operator'},
     { id: 3, icon: 'list-ul', label: 'משימות', link: 'tasks', role: 'operator'},
     { id: 4, icon: 'user', label: 'מעסיקים', link: 'employers', role: 'operator'},
-    // { id: 4, icon: 'user', label: 'הקמת מעסיק', link: 'creatingEmployer', role: 'operator'},
     { id: 5, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
     { id: 6, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
     { id: 7, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
@@ -95,7 +97,8 @@ export class PlatformComponent implements OnInit {
               public helpers: HelpersService,
               public timerService: TimerService,
               private operatorTasks: OperatorTasksService,
-              private productService: ProductService) {
+              private productService: ProductService,
+              private employerService: EmployerService) {
 
     const company = this.selectUnit.getCompanies() as any[];
     if ( company.length <= 0) {
@@ -136,6 +139,9 @@ export class PlatformComponent implements OnInit {
 
     this.setActiveUrl(this.router.url);
 
+    this.employerService.getNewEmployer().then( response => {
+      this.employersNumber = this.userSession.newEmployers = response['employer_number'];
+    });
 
     this.router.events.forEach((event) => {
       if (event instanceof NavigationStart) {

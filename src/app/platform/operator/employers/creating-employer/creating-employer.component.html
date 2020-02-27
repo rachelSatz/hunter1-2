@@ -36,7 +36,6 @@
             <input matInput placeholder="ארגון חדש" formControlName="newOrganization" [required]="isEdit === 'new'">
             <mat-error>שדה חובה</mat-error>
           </mat-form-field>
-
         </div>
       <p class="f-16 bold mt-5">פרטי מעסיק</p>
       <div class="d-flex">
@@ -48,6 +47,10 @@
           <input matInput placeholder="מספר ח.פ" formControlName="identifier" maxlength="9"  minlength="9" required>
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
+        <div class="bd-width181 mr-5">
+          <bd-select [items]="statuses" formControlName="status"
+                     required placeholder="סטטוס" class="bd-min-width"  ></bd-select>
+        </div>
       </div>
       <div class="d-flex">
         <mat-form-field >
@@ -72,14 +75,9 @@
           <bd-select [items]="operators" formControlName="operator"
                       placeholder="מנהל תיק *" class="bd-min-width" ></bd-select>
         </div>
-        <div class="bd-width181 mr-5">
-          <bd-select [items]="statuses" formControlName="status"
-                     required placeholder="סטטוס" class="bd-min-width"  ></bd-select>
-        </div>
-<!--        <div class="bd-width181 mr-5">-->
-<!--          <bd-select [items]="saleMans" formControlName="operator"-->
-<!--                      placeholder="איש מכירות" class="bd-min-width" ></bd-select>-->
-<!--        </div>-->
+        <mat-form-field class="mr-5">
+          <input matInput placeholder="איש מכירות" formControlName="salesperson">
+        </mat-form-field>
     </div>
       <div class="d-flex">
         <mat-form-field>
@@ -101,7 +99,13 @@
              <input matInput placeholder="מספר מזהה שולח *" formControlName="receivedIdentifier" maxlength="9"  minlength="9" >
 <!--             <mat-error>ח.פ אינו תקין</mat-error>-->
            </mat-form-field>
+<!--          <mat-form-field class="mr-5">-->
+<!--            <input matInput placeholder="תאריך עדכון אחרון" formControlName="" readonly>-->
+<!--          </mat-form-field>-->
         </div>
+        <mat-form-field class="w-640p">
+          <input matInput placeholder="הוספת הערות" formControlName="comment">
+        </mat-form-field>
       <div>
         <p class="f-16 bold mt-5">סליקה</p>
         <div class="d-flex">
@@ -177,7 +181,8 @@
                   </label>
                 </button>
                 <div *ngIf="uploadedFileContract">
-                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileContract)" ></i>
+                  <i class="fa fa-download fa-lg" (click)="showFile(uploadedFileContract, 'download')" ></i>
+                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileContract, 'show')" ></i>
                   <i class="fa fa-trash fa-lg" (click)="uploadedFileContract = deleteFile(uploadedFileContract)" title="מחיקה"></i>
                 </div>
               </div>
@@ -205,7 +210,8 @@
                     </label>
                   </button>
                   <div *ngIf="uploadedFilePoa">
-                    <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFilePoa)" ></i>
+                    <i class="fa fa-download fa-lg" (click)="showFile(uploadedFilePoa, 'download')" ></i>
+                    <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFilePoa, 'show')" ></i>
                     <i class="fa fa-trash fa-lg" (click)="uploadedFilePoa = deleteFile(uploadedFilePoa)" title="מחיקה"></i>
                   </div>
                 </div>
@@ -233,7 +239,8 @@
                   </label>
                 </button>
                 <div *ngIf="uploadedFileProtocol">
-                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileProtocol)" ></i>
+                  <i class="fa fa-download fa-lg" (click)="showFile(uploadedFileProtocol, 'download')" ></i>
+                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileProtocol, 'show')" ></i>
                   <i class="fa fa-trash fa-lg" (click)="uploadedFileProtocol = deleteFile(uploadedFileProtocol)" title="מחיקה"></i>
                 </div>
               </div>
@@ -261,7 +268,8 @@
                   </label>
                 </button>
                 <div *ngIf="uploadedFileCustomer">
-                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileCustomer)" ></i>
+                  <i class="fa fa-download fa-lg" (click)="showFile(uploadedFileCustomer, 'download')" ></i>
+                  <i class="fa fa-eye fa-lg mr-3 ml-3" (click)="showFile(uploadedFileCustomer, 'show')" ></i>
                   <i class="fa fa-trash fa-lg" (click)="uploadedFileCustomer = deleteFile(uploadedFileCustomer)" title="מחיקה"></i>
                 </div>
               </div>
@@ -270,6 +278,11 @@
         </tr>
         </thead>
       </table>
+      <div class="mt-3 pb-3">
+        <mat-checkbox name="direct_debit_commission"  >שולם תשלום שוטף בגין טיפול</mat-checkbox>
+        <br>
+        <mat-checkbox name="direct_debit_commission"  >תשלום ח"פ עבור ההקמה</mat-checkbox>
+      </div>
       <p class="text-danger w-50 " *ngIf="uploadedFilePoa && !validationFile(uploadedFilePoa) || uploadedFileProtocol && !validationFile(uploadedFileProtocol) ||
        uploadedFileCustomer && !validationFile(uploadedFileCustomer)"> יש להעלות רק קבצי docx או pdf </p>
       <p class="alert alert-danger width38" *ngIf="((!uploadedFilePoa) || (!uploadedFileProtocol) || (!uploadedFileCustomer))&& clickedContinue">יש להכניס את המסמכים הדרושים.</p>
@@ -310,11 +323,6 @@
           <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
         </mat-form-field>
       </div>
-      <div class="mt-3 pb-3">
-        <mat-checkbox name="direct_debit_commission"  >שולם תשלום שוטף בגין טיפול</mat-checkbox>
-        <br>
-        <mat-checkbox name="direct_debit_commission"  >תשלום ח"פ עבור ההקמה</mat-checkbox>
-      </div>
     </div>
     <div [@fade]="pageNumber === 4 ? 'active' : 'inactive'">
       <br>
@@ -337,15 +345,19 @@
           <td scope="col">
             <div class="d-flex">
               <p class="file-label-text">{{  uploadedFileXml ? (uploadedFileXml.name | slice:0:25) :
-                  employeeFileName ? employeeFileName :'אין קובץ' }}</p>
+                  employeeFileName ? (employeeFileName| slice:0:25) :'אין קובץ' }}</p>
               <div class="ml-3 mr-auto ">
-                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline">
+                <button class="btn btn-outline-primary btn-sm ml-md-n2 ellipse blue-btn-outline" *ngIf="!uploadedFileXml && !employeeFileName">
                   <label class="width135" >
                     <input type="file" accept=".xml, .dat, .xlsx, .xls" (change)="uploadedFileXml = $event.target.files[0]; setFile(uploadedFileXml)"  >
                     <img src="app/../assets/img/icons/upload.svg" class="ml-2">
                     העלת קובץ
                   </label>
                 </button>
+                <div *ngIf="uploadedFileXml || employeeFileName">
+                  <i class="fa fa-download fa-lg ml-3" *ngIf="employeeFileName" (click)="showFileXml()" ></i>
+                  <i class="fa fa-trash fa-lg"  (click)="deleteFileXml()" title="מחיקה"></i>
+                </div>
               </div>
             </div>
           </td>
@@ -360,7 +372,8 @@
     <div class="row col-5">
       <button class="btn btn-secondary btn-sm ml-3 ellipse" (click)="backAndCancel()"> {{pageNumber === 1 ? 'ביטול' : 'חזור'}}</button>
       <div class="ml-4-5 d-flex mr-auto">
-        <button class="btn btn-primary btn-sm ml-md-n2 ellipse btn blue-btn" type="submit"  [disabled]="pageNumber === 5 && uploadedFileXml && fileTypeError" (click)="pageNumber === 5 ? submit(): continueProcess()" >
+        <button class="btn btn-primary btn-sm ml-md-n2 ellipse btn blue-btn" type="submit"
+                [disabled]="pageNumber === 4 && uploadedFileXml && fileTypeError" (click)="pageNumber === 4 ? submit(): continueProcess()" >
           {{ pageNumber === 4 ? 'סיום' : 'המשך'}}</button>
       </div>
     </div>

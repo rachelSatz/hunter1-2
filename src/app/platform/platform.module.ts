@@ -38,6 +38,7 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
+import {EmployerMovesManagerComponent} from './operator/employers/creating-employer/employer-moves-manager/employer-moves-manager.component';
 
 
 const routes: Routes = [

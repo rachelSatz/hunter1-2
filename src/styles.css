@@ -35,8 +35,36 @@ ul {
   list-style-type: none;
 }
 
+.mr-6{
+  margin-right: 4rem !important;
+}
+
+
 input[type=file] {
   display: none;
+}
+.mr-34{
+  margin-right: 33.5rem !important;
+}
+.mr-7{
+  margin-right: 7rem !important;
+}
+
+.mr-15{
+  margin-right: 15rem !important;
+}
+
+.w-70 {
+  width: 70% !important;
+}
+
+.mr-n7,
+.mx-n7 {
+  margin-right: -6rem !important;
+}
+
+.mr-35{
+  margin-right: 35rem !important;
 }
 
 .m-t-50p{
@@ -58,7 +86,7 @@ a:hover {
 
 /*--- Custom ---*/
 .font-rubik{
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Rubik', sans-serif !important;
 }
 
 .relative {
@@ -101,6 +129,10 @@ a:hover {
   width: 250px;
 }
 
+.w-640p {
+  width: 635px;
+}
+
 .w-50p {
   width: 50px;
 }
@@ -126,6 +158,10 @@ a:hover {
 
 .orange-color {
   color: #ff6635;
+}
+
+.mr-7{
+  margin-right: 7rem !important;
 }
 
 .green-background-color {
@@ -178,6 +214,10 @@ a:hover {
 .blue-btn {
   background-color: #00adee;
   color: #fff;
+}
+.ellipse{
+  border: 2px solid ;
+  border-radius: 18px;
 }
 
 .btn {
@@ -333,6 +373,19 @@ a:hover {
   color: #fff;
 }
 
+.red-circle{
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  background-color: #00adee;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 10px;
+}
+
 .img-design {
   width: 26px;
   height: 26px;
@@ -437,6 +490,11 @@ button[mat-dialog-close] {
 }
 .mt-8 {
   margin-top: 8rem !important;
+}
+
+.circle-size {
+  width: 4em;
+  height: 4em;
 }
 
 .mt-6 {

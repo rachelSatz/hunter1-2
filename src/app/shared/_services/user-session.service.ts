@@ -9,6 +9,8 @@ export class UserSessionService {
   operator = 'operator';
   feedback = 'feedback';
   modules;
+  newEmployers: number;
+
 
   loginStatus: Subject<boolean> = new Subject;
   role: Subject<string> = new Subject;

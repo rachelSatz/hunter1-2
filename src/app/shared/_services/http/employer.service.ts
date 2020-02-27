@@ -173,4 +173,10 @@ export class EmployerService extends BaseHttpService {
       .then(response => response);
   }
 
+  getNewEmployer(): Promise<number> {
+    return this.http.get(this.endPoint + '/getNewEmployers' , this.getTokenHeader())
+      .toPromise()
+      .then(response => response as number);
+  }
+
 }

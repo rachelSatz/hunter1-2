@@ -21,6 +21,7 @@ import { DocumentService } from 'app/shared/_services/http/document.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { FileDropModule } from 'ngx-file-drop';
 import {MatRadioModule} from '@angular/material/radio';
+import {EmployerMovesManagerComponent} from './employer-moves-manager/employer-moves-manager.component';
 
 
 
@@ -42,14 +43,15 @@ const routes: Routes = [
     MatOptionModule,
     MatIconModule, MatProgressBarModule, MatCheckboxModule, FileDropModule, MatRadioModule
   ],
-  declarations: [ CreatingEmployerComponent ],
+  declarations: [ CreatingEmployerComponent],
   providers: [
     GeneralHttpService,
     FormBuilder,
     CreatingEmployersResolve,
     ContactService,
     DocumentService,
-    ProcessService]
+    ProcessService
+  ],
 })
 export  class CreatingEmployerModule {
 

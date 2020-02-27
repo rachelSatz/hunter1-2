@@ -37,9 +37,15 @@
 .h-350{
   height: 350px;
 }
+
 .sq-45p{
   width: 45px;
   height: 45px;
+}
+
+.circle-size {
+  width: 4em;
+  height: 4em;
 }
 
 .border {

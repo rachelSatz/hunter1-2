@@ -1,10 +1,9 @@
 <div class="px-4" [ngClass]="{'operator-container': location == 'operator' }">
-  <app-data-table tableName="מעסיקים" (fetchItems)="fetchItems()" [columns]="columns"  [hasExtendedSearch]="false" [hasCheckColumn]="false">
+  <app-data-table tableName="מעסיקים" (fetchItems)="fetchItems()" [columns]="columns"
+                  [hasExtendedSearch]="true" [hasCheckColumn]="false" [hasActionsSearch]="false">
     <div class="table-header">
       <div class="row mt-4 mr-1">
         <div class="ml-3 d-flex mr-auto">
-          <!--<button class="btn blue-btn" [routerLink]="['./', 'new']"-->
-                  <!--*ngIf="userSession.getPermissionsType('operations')">הקמת מעסיק</button>-->
           <button class="btn blue-btn" [routerLink]="['./', 'creating']" >הקמת מעסיק</button>
         </div>
       </div>

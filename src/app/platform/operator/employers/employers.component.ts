@@ -19,6 +19,9 @@ import { UserSessionService } from 'app/shared/_services/user-session.service';
 export class EmployersComponent  implements OnInit , OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
+  status = Object.keys(EmployerStatus).map(function(e) {
+    return { id: e, name: EmployerStatus[e] };
+  });
   sub = new Subscription;
   location: string;
   documents: string[];
@@ -26,14 +29,14 @@ export class EmployersComponent  implements OnInit , OnDestroy {
   employerId: number;
   role = this.userSession.getRole();
   readonly columns =  [
-    { name: 'organization_name', label: 'ארגון' },
-    { name: 'employer_name', label: 'מעסיק' },
-    { name: 'entity_number', label: 'מספר ח"פ' },
-    { name: 'email', label: 'כתובת מייל' },
-    { name: 'phone', label: 'טלפון' },
-    { name: 'mobile', label: 'טלפון נייד' },
-    { name: 'address', label: 'כתובת' },
-    { name: 'status', label: 'סטטוס' }
+    { name: 'organization_name', label: 'ארגון', searchable: false },
+    { name: 'employer_name', label: 'מעסיק' , searchable: false},
+    { name: 'entity_number', label: 'מספר ח"פ' , searchable: false},
+    { name: 'email', label: 'כתובת מייל' , searchable: false},
+    { name: 'phone', label: 'טלפון' , searchable: false},
+    { name: 'mobile', label: 'טלפון נייד' , searchable: false},
+    { name: 'address', label: 'כתובת' , searchable: false},
+    { name: 'status', label: 'סטטוס', searchOptions: { labels: this.status }}
 
   ];
 
@@ -50,6 +53,9 @@ export class EmployersComponent  implements OnInit , OnDestroy {
     } else {
       this.location = 'settings';
     }
+    if (this.userSession.newEmployers > 0) {
+      this.employersMovedAssociation();
+    }
 
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
         this.router.navigate([], {
@@ -60,8 +66,15 @@ export class EmployersComponent  implements OnInit , OnDestroy {
       }
     ));
   }
+
+  employersMovedAssociation() {
+    this.dataTable.criteria.filters['status'] = 'moved_association';
+    this.employerService.getAllEmployers(this.dataTable.criteria).then(
+      response => this.setResponse(response));
+  }
+
   employerEdit(employer): void {
-    if (employer.status === 'on_process') {
+    if (employer.status === 'on_process' || employer.status === 'moved_association') {
         this.router.navigate(['./', 'creating', employer.id], {relativeTo: this.route});
     } else {
       this.router.navigate(['./', 'form' , employer.id],  {relativeTo: this.route});
@@ -72,6 +85,9 @@ export class EmployersComponent  implements OnInit , OnDestroy {
     this.dataTable.criteria.filters['organizationId'] = this.selectUnit.currentOrganizationID;
     this.dataTable.criteria.filters['employerId'] = this.selectUnit.currentEmployerID;
     this.dataTable.criteria.filters['location'] = this.location;
+    if (this.route.snapshot.queryParams['operatorId']) {
+      this.dataTable.criteria.filters['operatorId'] = this.route.snapshot.queryParams['operatorId'];
+    }
     this.employerService.getAllEmployers(this.dataTable.criteria).then(
         response => this.setResponse(response));
   }

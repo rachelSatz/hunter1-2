@@ -11,12 +11,14 @@
       <div *ngFor="let el of agentBarEl" class="d-flex pointer">
         <span class="w-100 py-3" *ngIf="checkRole(el.role)" [routerLink]="['/platform', 'operator', el.link]"
               routerLinkActive="selected">{{el.label}}</span>
+        <span *ngIf="el.id == 4 && employersNumber > 0" class="red-circle mt-3 mr-1" >{{ employersNumber}}</span>
       </div>
     </div>
     <div *ngIf="agentBarActive" (click)="restNav()" [routerLink]="['/platform', 'operator', 'work-queue']">
       <p class="py-5 mt-2"></p>
       <div *ngFor="let el of agentBarEl"  class="d-flex pointer">
         <span class="w-100 py-3" *ngIf="checkRole(el.role)"><i class="w-100 fa fa-{{el.icon}}"></i></span>
+        <span *ngIf="el.id == 4 && this.userSession.newEmployers > 0" class="red-circle mt-3 mr-1" >{{ this.userSession.newEmployers}}</span>
       </div>
     </div>
   </div>

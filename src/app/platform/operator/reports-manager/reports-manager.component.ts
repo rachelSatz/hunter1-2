@@ -5,6 +5,7 @@ import {SelectUnitService} from '../../../shared/_services/select-unit.service';
 import {DatePipe} from '@angular/common';
 import {HelpersService} from '../../../shared/_services/helpers.service';
 import {ReportsData} from '../../../shared/_models/report_manage';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-reports-manager',
@@ -12,7 +13,7 @@ import {ReportsData} from '../../../shared/_models/report_manage';
   styleUrls: ['./reports-manager.component.css']
 })
 export class ReportsManagerComponent implements OnInit {
-  reportsData: ReportsData;
+  reportsData = new ReportsData();
   organizations = [];
   projects = [];
   operators = [];
@@ -29,6 +30,7 @@ export class ReportsManagerComponent implements OnInit {
 
   constructor(
     private datePipe: DatePipe,
+    private router: Router,
     private organizationService: OrganizationService,
     private employerService: EmployerService,
     private selectUnit: SelectUnitService,
@@ -49,27 +51,27 @@ export class ReportsManagerComponent implements OnInit {
     });
   }
 
-  getOrganizations() {
+  getOrganizations(): void {
      this.organizationService.getOrganizationByOperator(this.operatorId, this.projectsId).then(
        response => this.organizations = response);
   }
 
-  getOperatorByProject() {
+  getOperatorByProject(): void {
     this.employerService.getOperator(true, this.projectsId).then(
       response => this.operators = response
     );
   }
 
-  getDepartment() {
+  getDepartment(): void {
     this.departments = this.employers[0].department;
   }
 
-  getEmployers() {
+  getEmployers(): void {
     this.employers = (this.selectUnit.getOrganization()).find(o => o.id == this.organizationId).employer;
   }
 
-  submit() {
-    this.helpers.setPageSpinner(true)
+  submit(): void {
+    this.helpers.setPageSpinner(true);
     this.startDate = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
     this.endDate = this.datePipe.transform(this.endDate, 'yyyy-MM-dd');
      this.organizationService.getReport(this.organizationId , this.projectsId, this.employerId , this.operatorId, this.startDate,
@@ -77,5 +79,10 @@ export class ReportsManagerComponent implements OnInit {
        this.reportsData = response['reportsData'];
        this.helpers.setPageSpinner(false);
      });
+  }
+
+  navigateEmployer(): void {
+    this.router.navigate(['/platform', 'operator', 'employers'],
+      {queryParams: { operatorId: this.operatorId}});
   }
 }
