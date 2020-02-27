@@ -28,7 +28,7 @@ export class ReportsManagerComponent implements OnInit {
   employerId = 0;
 
   constructor(
-    private datePipe: DatePipe,
+    public datePipe: DatePipe,
     private organizationService: OrganizationService,
     private employerService: EmployerService,
     private selectUnit: SelectUnitService,
