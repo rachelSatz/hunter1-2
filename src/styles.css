@@ -514,3 +514,7 @@ button[mat-dialog-close] {
   /*width: 80% !important;*/
   /*right: 11%;*/
 /*}*/
+
+.mr-6{
+  margin-right: 4rem !important;
+}

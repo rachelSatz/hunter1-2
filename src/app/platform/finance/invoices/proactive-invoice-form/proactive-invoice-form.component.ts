@@ -10,6 +10,7 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService} from '../../../../shared/_services/notification.service';
 import { MatDialogRef} from '@angular/material';
 import * as FileSaver from 'file-saver';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-proactive-invoice-form',
@@ -26,21 +27,31 @@ export class ProactiveInvoiceFormComponent implements OnInit {
   hasServerError = false;
   spin: boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router, private invoiceService: InvoiceService,
+  constructor( private helpers: HelpersService,
+               private route: ActivatedRoute,
+               private router: Router,
+               private invoiceService: InvoiceService,
               private employerService: EmployerService,  private selectUnit: SelectUnitService,
               private notificationService: NotificationService,
               private dialogRef: MatDialogRef<ProactiveInvoiceFormComponent>) { }
 
   ngOnInit() {
     this.employerService.getAllPayEmployers().then(
-      response => this.employers = response);
+      response =>  {
+        this.employers = response;
+        this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
+        this.employers.sort((a, b) => a.id - b.id);
+      });
   }
 
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
+      this.helpers.setPageSpinner(false);
       this.invoiceService.createInvoice(form.value).then(response => {
+        this.helpers.setPageSpinner(false);
         if (response != null) {
+
           if (response['message'] === 'excel') {
             if (response['blob'] !== '') {
               this.hasServerError = false;

@@ -71,16 +71,16 @@ export class EditPaymentsComponent implements OnInit {
 
   }
 
-
+  // withdraw_to_pending
   initForm(): void {
     this.editPaymentForm = this.fb.group({
       'mtb': this.fb.array([
         this.fb.group({
-          'salary': [null , Validators.required],
+          'salary': [null , this.mtb.file_type !== 'withdraw_to_pending' ?  Validators.required : null],
           'working_days_in_month': [null ],
           'work_month_percentage': [null , Validators.required],
-          'employee_status': [null],
-          'employee_status_start_date': [],
+          'employee_status': [null, this.mtb.file_type !== 'withdraw_to_pending' ?  Validators.required : null],
+          'employee_status_start_date': [null, this.mtb.file_type !== 'withdraw_to_pending' ?  Validators.required : null],
           'salary_month': [null,  Validators.required],
           'company_id': [null,  Validators.required],
           'product_id': [null,  Validators.required],

@@ -60,13 +60,14 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     { name: 'personal_id', label: 'ת"ז', sortName: 'employee_chr__employee__identifier' , searchable: false},
     { name: 'payment_month', label: 'חודש שכר' , searchable: false},
     { name: 'company_name', label: 'חברה מנהלת', sortName: 'group_thing__group__product__company__name' , searchable: false},
-    { name: 'product_type', label: 'סוג מוצר', sortName: 'group_thing__group__product__type', searchOptions: {labels: this.selectProductType}},
+    { name: 'product_type', label: 'סוג מוצר', sortName: 'group_thing__group__product__type',
+      searchOptions: {labels: this.selectProductType}},
     { name: 'product_code', label: 'קוד אוצר' , searchable: false},
     { name: 'amount', label: 'סכום', sortName: 'sum', searchable: false },
     { name: 'created_at', label: 'תאריך יצירה' , searchOptions: { isDate: true } },
     { name: 'updated_at', label: 'תאריך עדכון אחרון' , searchOptions: { isDate: true }},
     { name: 'status', label: 'סטטוס' , searchOptions: { labels: this.statusLabel } },
-    { name: 'manual_status', label: 'סטטוס פניה', searchable: true},
+    { name: 'manual_status', label: 'סטטוס פניה', searchable: false},
     { name: 'more', label: 'מידע נוסף' , searchable: false},
     { name: 'comments', label: 'הערות', searchable: false}
   ];

@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./reports-manager.component.css']
 })
 export class ReportsManagerComponent implements OnInit {
+
   reportsData = new ReportsData();
   organizations = [];
   projects = [];

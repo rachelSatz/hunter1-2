@@ -98,9 +98,12 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     });
   }
   openProactiveInvoice(): void {
-    this.dialog.open(ProactiveInvoiceFormComponent, {
+    const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
       width: '450px'
     });
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+      this.fetchItems();
+    }));
   }
 
   openFinanceExcelDialog(): void {
@@ -111,9 +114,13 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   }
 
   openManualInvoice(): void {
-    this.dialog.open(ManualInvoiceFormComponent, {
+    const dialog = this.dialog.open(ManualInvoiceFormComponent, {
       width: '1100px'
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+      this.fetchItems();
+    }));
   }
 
   openTaxInvoice(): void {
@@ -122,11 +129,34 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       return;
     }
     const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
-    this.dialog.open(TaxInvoiceFormComponent, {
+    const dialog = this.dialog.open(TaxInvoiceFormComponent, {
       data: {'ids': items.map(item => item['id'])},
       width: '450px'
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+      this.fetchItems();
+    }));
   }
+
+  sendTransactionInvoice():  void {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+    const ids = items.map(item => item['id']);
+    this.invoiceService.createTransactionInvoices(ids).then(response => {
+      if (response['message'] !== 'success') {
+        this.notificationService.error(response['message']);
+      } else {
+        this.notificationService.success('נשמר בהצלחה.');
+      }
+    });
+  }
+
+
+
   downloadEmployeesExcel(invoiceId): void {
     this.invoiceService.downloadExcel(invoiceId).then(response => {
       if (response['message'] === 'no_employees') {
