@@ -58,7 +58,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
   readonly columns = [
     {name: 'process_name', label: 'שם תהליך', sortName: 'process__name', searchable: false},
     {name: 'month', label: 'חודש', searchable: false},
-    {name: 'company_name', label: 'חברה מנהלת', searchable: false},
+    {name: 'company_name', sortName: 'company.name', label:  'חברה מנהלת', searchable: false},
     {name: 'employer_name', label: 'שם מעסיק', searchable: false},
     {name: 'amount', label: 'סכום', searchable: false},
     {name: 'code', label: 'קוד אוצר', searchable: false},

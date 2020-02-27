@@ -108,17 +108,17 @@
 
        <div class="col-3 mt11">
          <bd-select  [items]="lstEmployeeStatus" placeholder="סטטוס עובד בחודש"
-                     formControlName="employee_status"  required
-                     [error]="editPaymentForm.value.status === null && form.submitted"></bd-select>
+                     formControlName="employee_status"
+                     ></bd-select>
        </div>
     </div>
       <div class="row col-9">
       <mat-form-field class="col-3">
         <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker"
-               placeholder="תאריך עדכון סטטוס" formControlName="employee_status_start_date" readonly required>
+               placeholder="תאריך עדכון סטטוס" formControlName="employee_status_start_date" readonly>
         <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
         <mat-datepicker #datePicker></mat-datepicker>
-        <mat-error>שדה חובה.</mat-error>
+        <!--<mat-error>שדה חובה.</mat-error>-->
       </mat-form-field>
 
       <mat-form-field class="col-3">
