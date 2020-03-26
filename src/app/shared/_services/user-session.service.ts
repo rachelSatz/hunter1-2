@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import {Employer} from '../_models/employer.model';
 
 @Injectable()
 export class UserSessionService {
@@ -34,7 +35,6 @@ export class UserSessionService {
     }
     return null;
   }
-
 
   getRole(): any {
     if (sessionStorage.getItem('role')) {

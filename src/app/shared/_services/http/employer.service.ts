@@ -72,8 +72,9 @@ export class EmployerService extends BaseHttpService {
   }
 
 
-  newEmployer(employer: any, department: any): Promise<any> {
-    return this.http.post(this.endPoint, {employer: employer , department: department}, this.getTokenHeader())
+  newEmployer(employer: any, department: any, employerDetails: any): Promise<any> {
+    return this.http.post(this.endPoint, {employer: employer , department: department, employerDetails: employerDetails}
+    , this.getTokenHeader())
     .toPromise()
     .then(response => response as any);
   }
@@ -85,8 +86,8 @@ export class EmployerService extends BaseHttpService {
       .then(response => response);
   }
 
-  updateEmployer(employer: Employer, id: number): Promise<any> {
-    return this.http.post(this.endPoint  + '/update/' + id, employer, this.getTokenHeader())
+  updateEmployer(employer: Employer, id: number, employer_details?: any): Promise<any> {
+    return this.http.post(this.endPoint  + '/update/' + id, {employer: employer, employer_details: employer_details}, this.getTokenHeader())
     .toPromise()
     .then(response => response);
   }
@@ -165,6 +166,23 @@ export class EmployerService extends BaseHttpService {
       {data: data}, this.getTokenHeader())
       .toPromise()
       .then(response => response);
+  }
+
+  getEmployeesCountDetails(criteria?: DataTableCriteria, noLimit?: boolean) {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+
+    return this.http.get(this.apiUrl + '/reports/' + 'getEmployeesCountDetails', request)
+      .toPromise()
+      .then(response => response as any);
+
   }
 
   getCity(): Promise<any> {

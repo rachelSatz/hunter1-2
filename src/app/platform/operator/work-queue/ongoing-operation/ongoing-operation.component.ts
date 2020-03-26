@@ -18,6 +18,7 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { UserSessionService} from '../../../../shared/_services/user-session.service';
 import { CategoryTypeCompensation, CategoryTypeEmployerError,
          CategoryTypeErrors, CategoryTypeFeedback, CategoryTypeEmployerDefrayal} from '../../../../shared/_models/plan';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -38,7 +39,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   noMoreTask = false;
   fileType = FileType;
   employeeStatus = EmployeeStatus;
-
+  sub = new Subscription;
   errorsDetails = {
     compensationEmployer: {error: false, title : 'ייתרות לפיצויים ברמת ח.פ', function: 'compensationEmployerToExecute'},
     compensationEmployee: {error: false, title : 'ייתרות לפיצויים ברמת עובד', function: 'compensationEmployeeToExecute'},
@@ -69,19 +70,20 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.text = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';
     this.timerService.reset();
-    this.newTaskTimer('ongoing_operation');
+    // this.newTaskTimer('ongoing_operation');
     this.fetchItems();
   }
 
   fetchItems(): void {
     this.helpers.setPageSpinner(true);
     this.planService.getSinglePlan().then(response => {
-      if (response['message'] === 'No plan found' ) {
+      if (response['message'] === 'No plan-task-timer found' ) {
         this.noMorePlans = true;
       } else if ( response['message'] === 'No task found') {
         this.noMoreTask = true;
       } else if (response['message'] === 'Success!') {
         this.plan = response['data'];
+        this.newPlanTaskTimer(this.plan.id, this.plan.type.name, this.plan.employer.name, this.plan.organization.name);
         if (this.plan !== null && this.plan.task !== null) {
           if (Object.values(CategoryTypeEmployerError).indexOf(this.plan.type.id)  !== -1) {
             this.errorsDetails['employerError'].error = true;
@@ -188,15 +190,14 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   employerErrorToExecute(): void {
     let pageNum = 1;
     let navigate;
-    if (this.plan.task.employer.status === 'on_process') {
+    if (this.plan.task.employer.status === 'on_process' || this.plan.task.employer.status === 'moved_association') {
       if (this.plan.type.id === CategoryTypeEmployerError.employerEstablishmentErrorContact) {
         pageNum = 1;
       } else if (this.plan.type.id === CategoryTypeEmployerError.employerEstablishmentErrorPa ||
-                  this.plan.type.id === CategoryTypeEmployerError.employerEstablishmentErrorProtocol ) {
+                  this.plan.type.id === CategoryTypeEmployerError.employerEstablishmentErrorProtocol ||
+                  this.plan.type.id === CategoryTypeEmployerError.employerEstablishmentErrorContract) {
         pageNum = 3;
-      } else if (this.plan.type.id === CategoryTypeEmployerError.employerEstablishmentErrorContract) {
-        pageNum = 2;
-      }else if (this.plan.type.id === CategoryTypeEmployerError.employerEstablishmentErrorBankAccount) {
+      } else if (this.plan.type.id === CategoryTypeEmployerError.employerEstablishmentErrorBankAccount) {
         pageNum = 4;
       }
       this.router.navigate(['/platform', 'operator', 'employers', 'creating', this.plan.task.employer.id],
@@ -246,11 +247,28 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   //   // });
   // }
 
-  newTaskTimer(taskType: string): void {
-    this.operatorTasks.newTaskTimer(taskType).then(
+  newPlanTaskTimer(planTaskId, type, employer, organization): void {
+    this.operatorTasks.newTaskTimer('', planTaskId).then(
+      response => {
+        if (response > 0 ) {
+          const data = {
+            id: response,
+            planTaskId: planTaskId,
+            type: type,
+            employer: employer,
+            organization: organization
+          };
+          this.selectUnit.setTaskTimer(data);
+        }
+      });
+  }
+
+  newTaskTimer(taskType: string, planTaskId?: number): void {
+    this.operatorTasks.newTaskTimer(taskType, planTaskId).then(
       response => {
         if (response > 0 ) {
           this.task_timer_id = response;
+
           this.taskObj.id = response;
           this.selectUnit.setTaskTimer(this.taskObj);
         }

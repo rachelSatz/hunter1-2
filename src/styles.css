@@ -147,6 +147,10 @@ a:hover {
   color: #56af57;
 }
 
+.white-color {
+  color: #FFFFFF;
+}
+
 .green1-color {
   color: #21CE85;
 }
@@ -162,6 +166,10 @@ a:hover {
 
 .mr-7{
   margin-right: 7rem !important;
+}
+
+.mr-03{
+  margin-top: 0.3rem !important;
 }
 
 .green-background-color {

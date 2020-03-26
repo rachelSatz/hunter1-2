@@ -78,7 +78,6 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   spin: boolean;
   sub = new Subscription;
   statuses = Status;
-  highlightFileId: number;
   organizationId: number;
   subscription = new Subscription;
   title = {};

@@ -1,6 +1,6 @@
 <div class="px-4" [ngClass]="{'operator-container': location == 'operator' }">
   <app-data-table tableName="מעסיקים" (fetchItems)="fetchItems()" [columns]="columns"
-                  [hasExtendedSearch]="true" [hasCheckColumn]="false" [hasActionsSearch]="false">
+                  [hasExtendedSearch]="true" [hasCheckColumn]="false" [hasActionsSearch]="true">
     <div class="table-header">
       <div class="row mt-4 mr-1">
         <div class="ml-3 d-flex mr-auto">
@@ -12,6 +12,7 @@
       <td>{{ item.organization_name }}</td>
       <td>{{ item.name }}</td>
       <td>{{ item.identifier }}</td>
+      <td>{{ item.operator_id }}</td>
       <td>{{ item.email }}</td>
       <td>{{ item.phone }}</td>
       <td>{{ item.mobile }}</td>

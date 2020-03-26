@@ -75,8 +75,8 @@ export class PlanService extends BaseHttpService {
       .catch(() => []);
   }
 
-  // remove(plan: Plan): Promise<boolean> {
-  //   return this.http.delete(this.endPoint + '/' + plan.id,
+  // remove(plan-task-timer: Plan): Promise<boolean> {
+  //   return this.http.delete(this.endPoint + '/' + plan-task-timer.id,
   //     { headers: this.getTokenHeader() }).toPromise()
   //     .then(() => true)
   //     .catch((response) => response.status === 200);

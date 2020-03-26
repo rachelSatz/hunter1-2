@@ -38,7 +38,7 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
-import {EmployerMovesManagerComponent} from './operator/employers/creating-employer/employer-moves-manager/employer-moves-manager.component';
+import { EmployerEmployeesComponent } from './operator/employer-employees/employer-employees.component';
 
 
 const routes: Routes = [
@@ -69,6 +69,7 @@ const routes: Routes = [
       { path: 'operator/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
       { path: 'operator/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
       { path: 'operator/employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },
+      { path: 'operator/employer-employees', loadChildren: 'app/platform/operator/employer-employees.module#EmployerEmployeesModule' },
       { path: 'operator/work-queue', loadChildren: 'app/platform/operator/work-queue/work-queue.module#WorkQueueModule'},
       { path: 'operator/contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
       { path: 'operator/tasks', loadChildren: 'app/platform/operator/employers/employer-form/tasks/tasks.module#TasksModule'},

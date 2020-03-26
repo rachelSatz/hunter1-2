@@ -21,7 +21,7 @@ import { DocumentService } from 'app/shared/_services/http/document.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { FileDropModule } from 'ngx-file-drop';
 import {MatRadioModule} from '@angular/material/radio';
-import {EmployerMovesManagerComponent} from './employer-moves-manager/employer-moves-manager.component';
+import {UserService} from '../../../../shared/_services/http/user.service';
 
 
 
@@ -50,7 +50,8 @@ const routes: Routes = [
     CreatingEmployersResolve,
     ContactService,
     DocumentService,
-    ProcessService
+    ProcessService,
+    UserService
   ],
 })
 export  class CreatingEmployerModule {

@@ -31,12 +31,12 @@ export class EmployerMovesManagerComponent implements OnInit {
     const data = {
       operatorId: this.operatorId,
       comment: this.comment
-    }
+    };
      this.dialogRef.close(data);
   }
 
   cancel(): void {
-    this.dialogRef.close(false);
+    this.dialogRef.close('cancel');
   }
 
 }

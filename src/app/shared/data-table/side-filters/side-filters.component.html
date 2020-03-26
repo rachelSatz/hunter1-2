@@ -37,7 +37,7 @@
 			</div>
 		</div>
 		<div *ngIf="column.searchOptions && column.searchOptions.labels">
-			<bd-select [placeholder]="column.subLabel ? column.subLabel : column.label" [items]="column.searchOptions.labels" outputField="id" [name]="column.name" ngModel></bd-select>
+			<bd-select  [placeholder]="column.subLabel ? column.subLabel : column.label" [items]="column.searchOptions.labels" outputField="id" [name]="column.name" [(ngModel)]="column.selected"></bd-select>
 		</div>
 	</div>
 	<button type="submit" class="mr-5 mt-3 blue-btn" mat-button>חפש</button>

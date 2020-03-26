@@ -23,6 +23,6 @@ const routes = [
     FormsModule
   ],
   providers: [UserSessionService, HelpersService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

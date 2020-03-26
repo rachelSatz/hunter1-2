@@ -1,9 +1,9 @@
 import { Location } from '@angular/common';
-import {Component, OnInit, ViewChild} from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PlatformComponent } from 'app/platform/platform.component';
-
+import { UserService } from 'app/shared/_services/http/user.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -20,14 +20,13 @@ import { PaymentType } from 'app/shared/_models/process.model';
 import { Contact} from 'app/shared/_models/contact.model';
 import { fade } from 'app/shared/_animations/animation';
 import { ActivatedRoute, Router} from '@angular/router';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-import {Month} from '../../../../shared/_const/month-bd-select';
-import {UserSessionService} from '../../../../shared/_services/user-session.service';
+import { Month } from '../../../../shared/_const/month-bd-select';
+import { UserSessionService } from '../../../../shared/_services/user-session.service';
 import * as FileSaver from 'file-saver';
-import {MatDialog} from '@angular/material/dialog';
-import {Subscription} from 'rxjs';
-import {EmployerMovesManagerComponent} from './employer-moves-manager/employer-moves-manager.component';
-import {DataTableComponent} from '../../../../shared/data-table/data-table.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+import { EmployerMovesManagerComponent } from './employer-moves-manager/employer-moves-manager.component';
+import { UserUnitPermission } from '../../../../shared/_models/user-unit-permission.model';
 
 
 @Component({
@@ -105,6 +104,7 @@ export class CreatingEmployerComponent implements OnInit {
     private organizationService: OrganizationService,
     private employerService: EmployerService,
     public userSession: UserSessionService,
+    public userService: UserService,
     public route: ActivatedRoute,
     private helpers: HelpersService,
     private  platformComponent: PlatformComponent,
@@ -168,7 +168,7 @@ export class CreatingEmployerComponent implements OnInit {
           'institutionCode5': [null],
           'institutionCode8': [null],
           'comment': [null],
-          'salesperson': [null],
+          'salesperson': [null]
         }),
         'department': this.fb.group({
           'name': ['כללי', Validators.required]
@@ -184,6 +184,10 @@ export class CreatingEmployerComponent implements OnInit {
             'email': [null , [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
             'comment':  ['']
           })]),
+        'employerPayment': this.fb.group({
+          'paymentForConstruction': [null],
+          'paymentForTreatment': [null]
+        })
       }),
       'detailsBank': this.fb.group({
         'payingBank': this.fb.group({
@@ -232,6 +236,10 @@ export class CreatingEmployerComponent implements OnInit {
       institutionCode8: this.employer.institution_code_8 ? this.employer.institution_code_8 : null,
       comment: data.items.details.comment ? data.items.details.comment : null,
       salesperson: data.items.details.salesperson ? data.items.details.salesperson : null,
+    });
+    this.creatingEmployerForm.get('creatingEmployer.employerPayment').patchValue({
+      paymentForConstruction: data.items.details.payment_for_treatment ? data.items.details.payment_for_treatment : null,
+      paymentForTreatment: data.items.details.payment_for_construction ? data.items.details.payment_for_construction : null,
     });
     if (data.items.contacts.length > 0) {
       data.items.contacts.forEach((contact, index) => {
@@ -290,15 +298,6 @@ export class CreatingEmployerComponent implements OnInit {
      let res = pathFile.split('/');
      res =  res[res.length - 1].split('.');
      return res[0];
-  }
-
-  enableOrganization(form: NgForm , isEdit: Boolean): void {
-    if (isEdit) {
-      this.creatingEmployerForm.get('creatingEmployer.employerDetails').patchValue({'newOrganization': null});
-    } else {
-      this.creatingEmployerForm.get('creatingEmployer.employerDetails').patchValue({'organization': null});
-      this.organizationId = 0;
-    }
   }
 
   deleteFile(file) {
@@ -528,12 +527,12 @@ export class CreatingEmployerComponent implements OnInit {
     return (employer.value['phone'] !== null && employer.get('phone').valid) || employer.value['phone'] === null;
   }
 
-  warningIdentifiers(employerIdentifiers): boolean | void {
+  warningIdentifiers(employerIdentifiers) {
     if (employerIdentifiers.length > 0) {
       this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
         {confirmButtonText: 'אישור'}).then(
         confirmation => {
-          return confirmation.value;
+          return true;
         }
       );
     } else {
@@ -544,7 +543,8 @@ export class CreatingEmployerComponent implements OnInit {
   continueProcess(): void {
     if (this.pageNumber === 1 && this.validation() && this.checkValidData()) {
       const employerIdentifiers = this.validIdEmployer();
-      if (this.warningIdentifiers(employerIdentifiers)) {
+      const bool = this.warningIdentifiers(employerIdentifiers);
+      if (bool) {
         this.pageNumber += 1;
       }
     } else if (this.pageNumber === 2 || this.pageNumber === 3) {
@@ -558,8 +558,9 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
-  updateData() {
-    this.employerService.updateEmployer(this.creatingEmployerForm.get('creatingEmployer.employerDetails').value, this.employer.id)
+  updateData(): void {
+    this.employerService.updateEmployer(this.creatingEmployerForm.get('creatingEmployer.employerDetails').value, this.employer.id,
+      this.creatingEmployerForm.get('creatingEmployer.employerPayment').value)
       .then(response => {
         if (response) {
           this.platformComponent.getOrganizations(true, true);
@@ -572,7 +573,14 @@ export class CreatingEmployerComponent implements OnInit {
       });
   }
 
-  addContactsDocsBank() {
+  addContactsDocsBank(): void {
+    if (this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['operator']) {
+      const permission = new UserUnitPermission();
+      permission.organization_id = this.organizationId;
+      permission.employer_id = this.employerId;
+      this.userService.addUnitUser(permission, this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['operator'])
+        .then(response => response);
+    }
     this.saveContact();
     if (this.checkValidFiles()) {
       const files = [this.uploadedFileContract, this.uploadedFilePoa, this.uploadedFileProtocol, this.uploadedFileCustomer];
@@ -601,7 +609,8 @@ export class CreatingEmployerComponent implements OnInit {
   addData() {
     this.employerService.newEmployer(
       this.creatingEmployerForm.get('creatingEmployer.employerDetails').value,
-      this.creatingEmployerForm.get('creatingEmployer.department').value).then(response => {
+      this.creatingEmployerForm.get('creatingEmployer.department').value,
+      this.creatingEmployerForm.get('creatingEmployer.employerPayment').value).then(response => {
       if (response) {
         this.platformComponent.getOrganizations(true, true);
         this.employerId = response['employer_id'];
@@ -712,10 +721,6 @@ export class CreatingEmployerComponent implements OnInit {
         data['file'] =  this.uploadedFileXml ;
         this.platformComponent.getOrganizations(true, true);
         this.processDataService.setProcess(data);
-        if (this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active') {
-          this.processService.updatePaymentType(this.employerId,
-            this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['paymentType']);
-        }
         this.routerViewEmployer();
       } else {
         this.notificationService.error('העלאת הקובץ נכשלה');
@@ -764,8 +769,8 @@ export class CreatingEmployerComponent implements OnInit {
       confirmation => {
         if (confirmation.value) {
           this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'moved_association';
-          this.insertData();
         }
+        this.insertData();
       }
     );
   }
@@ -780,9 +785,12 @@ export class CreatingEmployerComponent implements OnInit {
     });
 
     this.sub.add(dialog.afterClosed().subscribe(response => {
-      if (response) {
+      if (response['operatorId']) {
+        this.userSession.newEmployers = this.userSession.newEmployers - 1;
         this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['operator'] = response['operatorId'];
         this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['comment'] += ' ' + response['comment'];
+        this.insertData();
+      } else if (response === 'cancel') {
         this.insertData();
       }
     }));
@@ -791,7 +799,7 @@ export class CreatingEmployerComponent implements OnInit {
   submit(): void {
     const status = this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'];
     const employerIdentifiers = this.validIdEmployer();
-    if (this.warningIdentifiers(employerIdentifiers)) {
+    if (this.warningIdentifiers(employerIdentifiers) ? employerIdentifiers : true) {
       if (this.validation()) {
         if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
           this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
@@ -800,11 +808,13 @@ export class CreatingEmployerComponent implements OnInit {
           (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
           this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
           this.userSession.newEmployers = this.userSession.newEmployers - 1;
+          this.processService.updatePaymentType(this.employerId,
+            this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['paymentType']);
           this.insertData();
         } else {
           if (status === 'on_process') {
             this.warningProcess();
-          } else if (status === 'moved_association' && !this.employer.operator) {
+          } else if (status === 'moved_association' && !this.employer.operator && this.role === 'admin') {
             this.warningDialogOperator();
           } else {
             this.insertData();

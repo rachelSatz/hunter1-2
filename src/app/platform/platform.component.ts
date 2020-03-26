@@ -21,6 +21,9 @@ import {EmployerService} from '../shared/_services/http/employer.service';
 })
 export class PlatformComponent implements OnInit {
 
+  employer: string;
+  typeTask: string;
+  organization: string;
   activeUrl: string;
   organizations = [];
   employers = [];
@@ -41,6 +44,7 @@ export class PlatformComponent implements OnInit {
   showTimer = true;
   timerText = '';
   browserRefresh = false;
+  details = true;
 
   role_admin = this.userSession.isPermissions('user_management');
   readonly agentBarEl = [
@@ -108,13 +112,13 @@ export class PlatformComponent implements OnInit {
       if (val instanceof NavigationStart) {
         if (Object.values(TaskTimerLabels).some(a => a === val.url)) {
           this.timerService.reset();
-          this.dispalyTimer(val.url, '');
+          this.displayTimer(val.url, '');
         } else if (this.selectUnit.getTaskTimer() !== 0) {
           this.timerEvents();
         }
       }
       if (val instanceof NavigationEnd) {
-        this.dispalyTimer(val.url, val.urlAfterRedirects);
+        this.displayTimer(val.url, val.urlAfterRedirects);
       }
     });
   }
@@ -150,15 +154,19 @@ export class PlatformComponent implements OnInit {
     });
   }
   timerEvents(): void {
+    this.employer = this.selectUnit.getTaskTimer().employer;
+    this.typeTask = this.selectUnit.getTaskTimer().type;
+    this.organization = this.selectUnit.getTaskTimer().organization;
     this.timerText =  this.selectUnit.getTaskTimer()['text'];
+     // open PlanTaskComponent
     if (this.timerText === undefined) {
-      this.timerText = 'תפעול שוטף';
+      this.timerText = '';
     }
     this.intervals();
-    this.dispalyTimer(this.router.routerState.snapshot.url, '');
+    this.displayTimer(this.router.routerState.snapshot.url, '');
   }
 
-  dispalyTimer(url: string, urlAfterRedirects: string): void {
+  displayTimer(url: string, urlAfterRedirects: string): void {
     if (this.selectUnit.getTaskTimer() !== 0) {
       if (Object.values(TaskTimerLabels).some(a => a === url)) {
         this.showTimer = false;
@@ -174,6 +182,7 @@ export class PlatformComponent implements OnInit {
     }
 
   }
+
   intervals(): void {
     this.timerService.getSecondsObservable().subscribe(val => {
       if (val < 10) {
@@ -322,7 +331,7 @@ export class PlatformComponent implements OnInit {
     this.updateTaskTimer(time);
     this.timerService.reset();
     this.selectUnit.clearTaskTimer();
-    this.router.navigate(['platform', 'operator', 'work-queue']);
+    this.router.navigate(['platform', 'operator', 'work-queue', 'ongoing-operation']);
   }
 
   updateTaskTimer(duration: string): void {
