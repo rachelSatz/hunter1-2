@@ -108,20 +108,20 @@ export enum NO_PAYMENT_TIME {
   month = 'בחירת חודש'
 }
 
-export enum PROJECT_IDS {
-  emx = 'emx',
-  delta = 'דלתא',
-  x_one = 'x-one',
-  digitex = 'דיגיטקס',
-  paycom = 'paycom',
-  clickpay = 'clickpay',
-  col_hamas = 'קול המס',
-  pay4u = 'pay4u',
-  doretnet = 'דורות-נט',
-  resenblat = 'רוזנבלט דנה בעמ',
-  telem = 'תלם',
-  bereshit = 'בראשית ביטוח',
-  misleket = 'מסלקת שכר',
-  matnasim = 'החברה מתנסים',
-  pension_IK = 'פנסיה IK'
-}
+// export enum PROJECT_IDS {
+//   emx = 'emx',
+//   delta = 'דלתא',
+//   x_one = 'x-one',
+//   digitex = 'דיגיטקס',
+//   paycom = 'paycom',
+//   clickpay = 'clickpay',
+//   col_hamas = 'קול המס',
+//   pay4u = 'pay4u',
+//   doretnet = 'דורות-נט',
+//   resenblat = 'רוזנבלט דנה בעמ',
+//   telem = 'תלם',
+//   bereshit = 'בראשית ביטוח',
+//   misleket = 'מסלקת שכר',
+//   matnasim = 'החברה מתנסים',
+//   pension_IK = 'פנסיה IK'
+// }
