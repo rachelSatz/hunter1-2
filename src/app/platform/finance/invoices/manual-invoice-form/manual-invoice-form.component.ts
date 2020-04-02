@@ -109,12 +109,14 @@ export class ManualInvoiceFormComponent implements OnInit {
     this.manualInvoice.invoice_details.push(new ManualInvoiceDetails());
   }
 
-  deleteInvoiceDetailRow(invoiceDetail: ManualInvoiceDetails, index: number): void {
-    this.totalBeforeTax -= +((invoiceDetail.total_payment_amount).toFixed(2));
-    if (this.tax > 0) {
-      this.tax -= +((invoiceDetail.tax_amount).toFixed(2));
+  deleteInvoiceDetailRow(invoiceDetail: ManualInvoiceDetails, index: number, is_saved: boolean): void {
+    if (is_saved) {
+      this.totalBeforeTax -= +((invoiceDetail.total_payment_amount).toFixed(2));
+      if (this.tax > 0) {
+        this.tax -= +((invoiceDetail.tax_amount).toFixed(2));
+      }
+      this.totalIncludeTax -= +((invoiceDetail.total_payment_amount + invoiceDetail.tax_amount).toFixed(2));
     }
-    this.totalIncludeTax -= +((invoiceDetail.total_payment_amount + invoiceDetail.tax_amount).toFixed(2));
     this.manualInvoice.invoice_details.splice(index, 1);
     if (index === 0) {
       this.addInvoiceDetailRow();

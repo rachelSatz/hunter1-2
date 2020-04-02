@@ -2,7 +2,16 @@
 <p>מצג מעסיקים</p>
 <form #form="ngForm">
   <div class="row">
-    <div class="w-20">
+    <!--<mat-form-field class="w-50 mt-2 mr-3">-->
+      <!--<input matInput type="text" name="InvoiceId" [(ngModel)]="invoiceId" placeholder="מספר חשבונית">-->
+      <!--&lt;!&ndash;<mat-hint class="grey-color f-12">בשדה זה ניתן להזין מלל חופשי אשר יתווסף לצורך זיהוי התהליך</mat-hint>&ndash;&gt;-->
+    <!--</mat-form-field>-->
+  </div>
+  <div class="row">
+    <div class="w-20 mr-3">
+      <bd-select [items]="projectIdsItems" placeholder="פרוייקט" name="project_id" #projectIdModel="ngModel" ngModel></bd-select>
+    </div>
+    <div class="w-20 mr-3">
       <bd-select [items]="productTypesItems" placeholder="שם מוצר" name="product_type" #productTypeModel="ngModel" ngModel></bd-select>
     </div>
     <div class="d-flex align-items-center mr-3">
@@ -12,8 +21,14 @@
         <mat-datepicker #datePicker></mat-datepicker>
         <mat-error>שדה חובה.</mat-error>
       </mat-form-field>
-    </div>
 
+      <!--<div class="w-20">-->
+        <!--<input placeholder="מספר חשבונית" name="invoice_id" #invoiceIdModel="ngModel" ngModel>-->
+      <!--</div>-->
+    </div>
+    <!--<mat-form-field>-->
+      <!--<input matInput  placeholder="טלפון"  maxlength="11" minlength="7">-->
+    <!--</mat-form-field>-->
     <!--<div class="d-flex align-items-center mr-3">-->
       <!--<jp-multi-datepicker mode="MONTH"  style="margin-top: -10px;"-->
                            <!--label="בגין חודש"-->

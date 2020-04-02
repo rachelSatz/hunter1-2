@@ -30,6 +30,7 @@
 
     <td [title]="item.error !== null ? error_status[item.error] : ''">{{ item.employer_financial_details.employer.name}}</td>
     <!--matTooltip={{item.errorDescription}}-->
+    <td>{{ item.project_name }}</td>
     <td >{{ item.green_invoice_document !== null ? item.green_invoice_document.number : ''}}</td>
     <td>{{ item.total_amount }}</td>
     <td>{{ item.ids_count }}</td>

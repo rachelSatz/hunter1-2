@@ -47,25 +47,23 @@ export class ProactiveInvoiceFormComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      this.helpers.setPageSpinner(false);
+      this.helpers.setPageSpinner(true);
       this.invoiceService.createInvoice(form.value).then(response => {
         this.helpers.setPageSpinner(false);
         if (response != null) {
-
+          this.message = response['message'];
           if (response['message'] === 'excel') {
             if (response['blob'] !== '') {
-              this.hasServerError = false;
               this.downloadExcel(response['blob']);
-              this.message = response['message'];
             } else {
-              this.hasServerError = true;
-              this.message = response['message'];
               this.notificationService.info('אירעה שגיאה בהורדת קובץ האקסל');
             }
           } else if (response['message'] === 'success') {
-            this.hasServerError = false;
             this.notificationService.success('נשמר בהצלחה.');
             this.dialogRef.close();
+          } else {
+            this.message = response['error']['message'];
+            this.notificationService.error( this.message);
           }
           } else {
             this.notificationService.error('');

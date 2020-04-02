@@ -7,6 +7,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {DataTableComponent} from '../../../../shared/data-table/data-table.component';
 import {NgForm} from '@angular/forms';
 import {DatePipe, Time} from '@angular/common';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-tax-invoice-form',
@@ -22,6 +23,7 @@ export class TaxInvoiceFormComponent implements OnInit {
   message: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+              private helpers: HelpersService,
               private route: ActivatedRoute,
               private router: Router,
               private invoiceService: InvoiceService,
@@ -37,9 +39,13 @@ export class TaxInvoiceFormComponent implements OnInit {
     if (form.valid) {
       this.hasServerError = false;
       form.value['for_month'] = this.datePipe.transform(form.value['for_month'], 'yyyy-MM-dd');
+      form.value['document_date'] = this.datePipe.transform(form.value['document_date'], 'yyyy-MM-dd');
+
+      this.helpers.setPageSpinner(true);
 
       this.invoiceService.createTaxInvoices(
-        this.data.ids , form.value).then(response => {
+        this.data.ids,  this.data.criteria, form.value).then(response => {
+        this.helpers.setPageSpinner(false);
         if (response['message'] !== 'success') {
           this.hasServerError = true;
           this.message = response['message'];
