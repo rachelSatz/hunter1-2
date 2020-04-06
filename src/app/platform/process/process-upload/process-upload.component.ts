@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import {SelectUnitService} from 'app/shared/_services/select-unit.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 
@@ -27,7 +26,6 @@ export class ProcessUploadComponent {
       if (currentRoute[5] === 'payment') {
         return 2;
       }
-
       if (currentRoute[5].split('?')[0] === 'broadcast') {
         return 3;
     }

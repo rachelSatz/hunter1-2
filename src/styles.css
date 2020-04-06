@@ -35,6 +35,11 @@ ul {
   list-style-type: none;
 }
 
+.mr-6{
+  margin-right: 4rem !important;
+}
+
+
 input[type=file] {
   display: none;
 }
@@ -81,7 +86,7 @@ a:hover {
 
 /*--- Custom ---*/
 .font-rubik{
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Rubik', sans-serif !important;
 }
 
 .relative {
@@ -142,6 +147,10 @@ a:hover {
   color: #56af57;
 }
 
+.white-color {
+  color: #FFFFFF;
+}
+
 .green1-color {
   color: #21CE85;
 }
@@ -157,6 +166,10 @@ a:hover {
 
 .mr-7{
   margin-right: 7rem !important;
+}
+
+.mr-03{
+  margin-top: 0.3rem !important;
 }
 
 .green-background-color {
@@ -209,6 +222,10 @@ a:hover {
 .blue-btn {
   background-color: #00adee;
   color: #fff;
+}
+.ellipse{
+  border: 2px solid ;
+  border-radius: 18px;
 }
 
 .btn {
@@ -362,6 +379,19 @@ a:hover {
   background-color: #b3b3b3;
   border-radius: 50%;
   color: #fff;
+}
+
+.blue-circle{
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  background-color: #00adee;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 10px;
 }
 
 .img-design {

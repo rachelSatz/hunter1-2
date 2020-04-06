@@ -1,9 +1,9 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PlatformComponent } from 'app/platform/platform.component';
-
+import { UserService } from 'app/shared/_services/http/user.service';
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -20,10 +20,13 @@ import { PaymentType } from 'app/shared/_models/process.model';
 import { Contact} from 'app/shared/_models/contact.model';
 import { fade } from 'app/shared/_animations/animation';
 import { ActivatedRoute, Router} from '@angular/router';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-import {Month} from '../../../../shared/_const/month-bd-select';
-import {UserSessionService} from '../../../../shared/_services/user-session.service';
+import { Month } from '../../../../shared/_const/month-bd-select';
+import { UserSessionService } from '../../../../shared/_services/user-session.service';
 import * as FileSaver from 'file-saver';
+import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+import { EmployerMovesManagerComponent } from './employer-moves-manager/employer-moves-manager.component';
+import { UserUnitPermission } from '../../../../shared/_models/user-unit-permission.model';
 
 
 @Component({
@@ -65,6 +68,7 @@ export class CreatingEmployerComponent implements OnInit {
   count = 1;
   cities = [];
   month: number;
+  processId: number;
   role = this.userSession.getRole();
   selectYear: number;
   process_file: number;
@@ -81,7 +85,7 @@ export class CreatingEmployerComponent implements OnInit {
   paymentType = Object.keys(PaymentType).map(function(e) {
     return { id: e, name: PaymentType[e] };
   });
-
+  sub = new Subscription;
   detailsPage = [ {title : 'הקמת פרטי ארגון - שלב 1', progress : 'progress-bar process1'},
     {title : 'העלת קבצי הארגון- שלב 2', progress : 'progress-bar process3'},
     {title : 'פרטי בנק של הארגון - שלב 3', progress : 'progress-bar process4'},
@@ -91,6 +95,7 @@ export class CreatingEmployerComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private dialog: MatDialog,
     private selectUnit: SelectUnitService,
     private processService: ProcessService,
     private documentService: DocumentService,
@@ -99,6 +104,7 @@ export class CreatingEmployerComponent implements OnInit {
     private organizationService: OrganizationService,
     private employerService: EmployerService,
     public userSession: UserSessionService,
+    public userService: UserService,
     public route: ActivatedRoute,
     private helpers: HelpersService,
     private  platformComponent: PlatformComponent,
@@ -160,7 +166,9 @@ export class CreatingEmployerComponent implements OnInit {
           'identifierType': [null, Validators.required],
           'senderIdentifier': [null, [Validators.pattern('^[0-9]*$'), Validators.required]],
           'institutionCode5': [null],
-          'institutionCode8': [null]
+          'institutionCode8': [null],
+          'comment': [null],
+          'salesperson': [null]
         }),
         'department': this.fb.group({
           'name': ['כללי', Validators.required]
@@ -176,6 +184,10 @@ export class CreatingEmployerComponent implements OnInit {
             'email': [null , [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
             'comment':  ['']
           })]),
+        'employerPayment': this.fb.group({
+          'paymentForConstruction': [null],
+          'paymentForTreatment': [null]
+        })
       }),
       'detailsBank': this.fb.group({
         'payingBank': this.fb.group({
@@ -217,11 +229,17 @@ export class CreatingEmployerComponent implements OnInit {
       project: this.employer.project_id ? this.employer.project_id : null,
       paymentType: this.employer.payment_type ? this.employer.payment_type : null,
       operator: this.employer.operator ?  this.employer.operator.id : null,
-      status: 'on_process',
+      status: this.employer.status,
       identifierType: this.employer.sender_identifier_type ? this.employer.sender_identifier_type : null,
       senderIdentifier: this.employer.sender_identifier ? this.employer.sender_identifier : null,
       institutionCode5: this.employer.institution_code_5 ? this.employer.institution_code_5 : null,
-      institutionCode8: this.employer.institution_code_8 ? this.employer.institution_code_8 : null
+      institutionCode8: this.employer.institution_code_8 ? this.employer.institution_code_8 : null,
+      comment: data.items.details.comment ? data.items.details.comment : null,
+      salesperson: data.items.details.salesperson ? data.items.details.salesperson : null,
+    });
+    this.creatingEmployerForm.get('creatingEmployer.employerPayment').patchValue({
+      paymentForConstruction: data.items.details.payment_for_treatment ? data.items.details.payment_for_treatment : null,
+      paymentForTreatment: data.items.details.payment_for_construction ? data.items.details.payment_for_construction : null,
     });
     if (data.items.contacts.length > 0) {
       data.items.contacts.forEach((contact, index) => {
@@ -256,6 +274,7 @@ export class CreatingEmployerComponent implements OnInit {
     }
     if (data.items.employee_file) {
       this.employeeFileName = this.getNameFile(data.items.employee_file);
+      this.processId = data.items.process_id;
     }
     if (data.items.bank.length > 0 ) {
       this.selectedBankD = data.items.bank[0].bank_id.toString();
@@ -281,29 +300,6 @@ export class CreatingEmployerComponent implements OnInit {
      return res[0];
   }
 
-  enableOrganization(form: NgForm , isEdit: Boolean): void {
-    if (isEdit) {
-      this.creatingEmployerForm.get('creatingEmployer.employerDetails').patchValue({'newOrganization': null});
-    } else {
-      this.creatingEmployerForm.get('creatingEmployer.employerDetails').patchValue({'organization': null});
-      this.organizationId = 0;
-    }
-  }
-
-  uploadFile(file, event): void {
-    if (file === undefined) {
-      file = event;
-    } else {
-      if (file['id']) {
-        this.documentId = file['id'];
-      } else {
-        this.documentId = 0;
-        file = event;
-        file['id'] = this.documentId;
-      }
-    }
-  }
-
   deleteFile(file) {
     if (file.id) {
       this.notificationService.warning('האם ברצונך למחוק את הקובץ?')
@@ -321,7 +317,7 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
-  showFile(file): void {
+  showFile(file: any, type: string): void {
     let blob;
     if (file.id) {
       this.documentService.downloadFile(file.id, this.employerId).then( response => {
@@ -334,13 +330,26 @@ export class CreatingEmployerComponent implements OnInit {
           const byteArray = new Uint8Array(byteNumbers);
           blob = new Blob([byteArray], {type: 'application/pdf'});
           const fileURL = URL.createObjectURL(blob);
-          window.open(fileURL);
+          if (type === 'show') {
+            window.open(fileURL);
+          } else {
+            FileSaver.saveAs(blob, response['filename']);
+          }
+        } else {
+          {
+            type =  type === 'show' ?  'להציג' : 'להוריד';
+            this.notificationService.error('', ' אין אפשרות ' + type +  ' קובץ ');
+          }
         }
       });
     } else {
       blob = new Blob([file.slice()], {type: 'application/pdf'});
       const fileURL = URL.createObjectURL(blob);
-      window.open(fileURL);
+      if (type === 'show') {
+        window.open(fileURL);
+      } else {
+        FileSaver.saveAs(blob, file.name);
+      }
     }
 
   }
@@ -383,14 +392,47 @@ export class CreatingEmployerComponent implements OnInit {
       // }
   }
 
-  // deleteEmployerContact(id) {
-  //   this.notificationService.warning('האם ברצונך למחוק את האיש קשר?')
-  //     .then(confirmation => {
-  //       if (confirmation.value) {
-  //         this.contactService.deleteEmployerContact(id).then(response => response);
-  //       }
-  //     });
-  // }
+  showFileXml(): void {
+    if (this.employeeFileName) {
+      this.processService.downloadFileProcess(this.processId).then(response => {
+        if (response.ok) {
+          response['blobs'].forEach((item, index) => {
+            const byteCharacters = atob(item);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+              byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], {type: 'application/dat'});
+            FileSaver.saveAs(blob, response['fileNames'][index]);
+          });
+        } else {
+          this.notificationService.error('', ' אין אפשרות להוריד את הקובץ ');
+        }
+      });
+    }
+  }
+
+  deleteFileXml(): void {
+    if (this.employeeFileName) {
+      this.notificationService.warning('האם ברצונך למחוק את הקובץ שנטען?')
+        .then(confirmation => {
+          if (confirmation.value) {
+            this.processService.deleteProcess(this.processId).then(
+              response => {
+                if (response) {
+                  this.notificationService.success('המחיקה בוצע בהצלחה' );
+                  this.employeeFileName = null;
+                } else  {
+                  this.notificationService.error('המחיקה נכשלה', 'אין אפשרות למחוק קובץ ששודר');
+                }
+              });
+            }
+        });
+    } else {
+      this.uploadedFileXml = null;
+    }
+  }
 
   fileUpload(file) {
     if (file) {
@@ -415,7 +457,6 @@ export class CreatingEmployerComponent implements OnInit {
       this.saleMans = response;
     });
   }
-
 
   addContact(): void {
     const  contactSingle = this.creatingEmployerForm.get('creatingEmployer.contact').value;
@@ -486,22 +527,24 @@ export class CreatingEmployerComponent implements OnInit {
     return (employer.value['phone'] !== null && employer.get('phone').valid) || employer.value['phone'] === null;
   }
 
-  warningIdentifiers(employerIdentifiers): boolean | void {
+  warningIdentifiers(employerIdentifiers) {
     if (employerIdentifiers.length > 0) {
       this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
         {confirmButtonText: 'אישור'}).then(
         confirmation => {
-          return !!confirmation.value;
+          return true;
         }
       );
+    } else {
+      return true;
     }
-    return true;
   }
 
   continueProcess(): void {
     if (this.pageNumber === 1 && this.validation() && this.checkValidData()) {
       const employerIdentifiers = this.validIdEmployer();
-      if (this.warningIdentifiers(employerIdentifiers)) {
+      const bool = this.warningIdentifiers(employerIdentifiers);
+      if (bool) {
         this.pageNumber += 1;
       }
     } else if (this.pageNumber === 2 || this.pageNumber === 3) {
@@ -515,8 +558,9 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
-  updateData() {
-    this.employerService.updateEmployer(this.creatingEmployerForm.get('creatingEmployer.employerDetails').value, this.employer.id)
+  updateData(): void {
+    this.employerService.updateEmployer(this.creatingEmployerForm.get('creatingEmployer.employerDetails').value, this.employer.id,
+      this.creatingEmployerForm.get('creatingEmployer.employerPayment').value)
       .then(response => {
         if (response) {
           this.platformComponent.getOrganizations(true, true);
@@ -529,7 +573,14 @@ export class CreatingEmployerComponent implements OnInit {
       });
   }
 
-  addContactsDocsBank() {
+  addContactsDocsBank(): void {
+    if (this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['operator']) {
+      const permission = new UserUnitPermission();
+      permission.organization_id = this.organizationId;
+      permission.employer_id = this.employerId;
+      this.userService.addUnitUser(permission, this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['operator'])
+        .then(response => response);
+    }
     this.saveContact();
     if (this.checkValidFiles()) {
       const files = [this.uploadedFileContract, this.uploadedFilePoa, this.uploadedFileProtocol, this.uploadedFileCustomer];
@@ -558,7 +609,8 @@ export class CreatingEmployerComponent implements OnInit {
   addData() {
     this.employerService.newEmployer(
       this.creatingEmployerForm.get('creatingEmployer.employerDetails').value,
-      this.creatingEmployerForm.get('creatingEmployer.department').value).then(response => {
+      this.creatingEmployerForm.get('creatingEmployer.department').value,
+      this.creatingEmployerForm.get('creatingEmployer.employerPayment').value).then(response => {
       if (response) {
         this.platformComponent.getOrganizations(true, true);
         this.employerId = response['employer_id'];
@@ -613,13 +665,6 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
-  aaaa(event) {
-    this.uploadedFileContract === undefined ? this.uploadedFileContract = event.target.files[0] :
-      this.uploadedFileContract['id'] ? this.documentId = this.uploadedFileContract['id'] : 0 ;
-    this.uploadedFileContract = event.target.files[0]; this.uploadedFileContract['id'] = this.documentId;
-
-  }
-
   isDetailsContact() {
     const contacts = this.creatingEmployerForm.get('creatingEmployer.contact').value;
     let isContact = false;
@@ -656,8 +701,6 @@ export class CreatingEmployerComponent implements OnInit {
     }
   }
 
-
-
   sendFile(): void {
     const month = this.creatingEmployerForm.get('xmlFile.month').value;
     const year = this.creatingEmployerForm.get('xmlFile.year').value;
@@ -678,10 +721,6 @@ export class CreatingEmployerComponent implements OnInit {
         data['file'] =  this.uploadedFileXml ;
         this.platformComponent.getOrganizations(true, true);
         this.processDataService.setProcess(data);
-        if (this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active') {
-          this.processService.updatePaymentType(this.employerId,
-            this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['paymentType']);
-        }
         this.routerViewEmployer();
       } else {
         this.notificationService.error('העלאת הקובץ נכשלה');
@@ -724,22 +763,76 @@ export class CreatingEmployerComponent implements OnInit {
     return employerIdentifiers;
   }
 
-  submit(): void {
-    const employerIdentifiers = this.validIdEmployer();
-    if (this.warningIdentifiers(employerIdentifiers)) {
-      if (this.validation()) {
-        if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
-          this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
-          this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
-          this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
-          (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
-          this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
-        } else {
-          this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'on_process';
+  warningProcess(): void {
+    this.notificationService.warning('האם ברצונך להעביר לשיוך מנהל תיק?', '',
+      {confirmButtonText: 'אישור'}).then(
+      confirmation => {
+        if (confirmation.value) {
+          this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'moved_association';
         }
         this.insertData();
       }
+    );
+  }
+
+  warningDialogOperator(): void {
+    const dialog = this.dialog.open(EmployerMovesManagerComponent, {
+      data: {
+        'operatorId': this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['operator'],
+      },
+      width: '650px',
+      panelClass: 'creating-employer'
+    });
+
+    this.sub.add(dialog.afterClosed().subscribe(response => {
+      if (response['operatorId']) {
+        this.userSession.newEmployers = this.userSession.newEmployers - 1;
+        this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['operator'] = response['operatorId'];
+        this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['comment'] += ' ' + response['comment'];
+        this.insertData();
+      } else if (response === 'cancel') {
+        this.insertData();
+      }
+    }));
+  }
+
+  submit(): void {
+    const status = this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'];
+    const employerIdentifiers = this.validIdEmployer();
+    if (employerIdentifiers.length > 0) {
+      this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
+        {confirmButtonText: 'אישור'}).then(
+        confirmation => {
+          if (confirmation.value) {
+            this.sendData(status);
+          }
+        });
+    } else {
+      this.sendData(status);
     }
   }
 
+  sendData(status) {
+    if (this.validation()) {
+      if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
+        this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
+        this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
+        this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
+        (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
+        this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
+        this.userSession.newEmployers = this.userSession.newEmployers - 1;
+        this.processService.updatePaymentType(this.employerId,
+          this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['paymentType']);
+        this.insertData();
+      } else {
+        if (status === 'on_process') {
+          this.warningProcess();
+        } else if (status === 'moved_association' && !this.employer.operator && this.role === 'admin') {
+          this.warningDialogOperator();
+        } else {
+          this.insertData();
+        }
+      }
+    }
+  }
 }

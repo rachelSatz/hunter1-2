@@ -142,12 +142,6 @@ export class NewEmployerComponent implements OnInit {
     });
   }
 
-  // getAllOperator() {
-  //   this.employerService.getAllOperators().then(response => {
-  //     this.operators = response;
-  //   });
-  // }
-
   enableOrganization(form: NgForm , isEdit: Boolean): void {
     this.isEdit = !isEdit;
     if (isEdit) {
@@ -163,7 +157,7 @@ export class NewEmployerComponent implements OnInit {
      if (this.newEmployerForm.valid) {
        this.helpers.setPageSpinner(true);
        this.employerService.newEmployer( this.newEmployerForm.controls['employerDetails'].value,
-         this.newEmployerForm.get['department'].value)
+         this.newEmployerForm.get['department'].value, null)
          .then(response => {
            if (response) {
              const employerId = response['employer_id'];

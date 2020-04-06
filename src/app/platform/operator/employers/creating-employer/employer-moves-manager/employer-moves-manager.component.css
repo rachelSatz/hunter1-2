@@ -1,0 +1,9 @@
+.button-ok-cancel{
+  border: 2px solid ;
+}
+.left{
+  float: left !important;
+}
+.right{
+  float: right !important;
+}

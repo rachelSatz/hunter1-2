@@ -10,6 +10,8 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade, slideInOut } from 'app/shared/_animations/animation';
 import { TaskTimerLabels } from '../shared/_models/timer.model';
 import { TimerService } from '../shared/_services/http/timer';
+import {EmployeeService} from '../shared/_services/http/employee.service';
+import {EmployerService} from '../shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-platform',
@@ -19,13 +21,14 @@ import { TimerService } from '../shared/_services/http/timer';
 })
 export class PlatformComponent implements OnInit {
 
+  employer: string;
+  typeTask: string;
+  organization: string;
   activeUrl: string;
   // organizations = [];
   employers = [];
   departments = [];
-  // organizationId: number;
-  // employerId: any;
-  // departmentId: any;
+  employersNumber: number;
   @Input() isWorkQueue = false;
   @Input() organizationId: any;
   @Input() employerId: any;
@@ -40,6 +43,8 @@ export class PlatformComponent implements OnInit {
   showTimer = true;
   timerText = '';
   browserRefresh = false;
+  details = true;
+  menuCampaigns = false;
 
   role_admin = this.userSession.isPermissions('user_management');
   readonly agentBarEl = [
@@ -47,15 +52,16 @@ export class PlatformComponent implements OnInit {
     { id: 2, icon: 'question-circle', label: 'תור עבודה', link: 'work-queue', role: 'operator'},
     { id: 3, icon: 'list-ul', label: 'משימות', link: 'tasks', role: 'operator'},
     { id: 4, icon: 'user', label: 'מעסיקים', link: 'employers', role: 'operator'},
-    { id: 5, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
-    { id: 6, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
-    { id: 7, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
+    { id: 5, icon: 'tasks', label: 'קמפיינים', link: 'campaigns', role: 'operator'},
+    { id: 6, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
+    { id: 7, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
+    { id: 8, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
     { id: 9, icon: 'th', label: 'קופות', link: 'products', role: 'admin'},
     { id: 10, icon: 'tasks', label: 'הגדרות מנהל', link: 'plans', role: 'admin'},
-    { id: 10, icon: 'file', label: 'דוחות מנהל', link: 'reports', role: 'admin'},
-    { id: 10, icon: 'th', label: 'תהליכים', link: 'table', role: 'operator'}
+    { id: 11, icon: 'file', label: 'דוחות מנהל', link: 'reports', role: 'admin'},
+    { id: 12, icon: 'th', label: 'תהליכים', link: 'table', role: 'operator'}
 
-  ];
+];
 
   readonly menuLinks = [
     // { url: 'dashboard', subUrl: 'no_permissions', label: 'דף הבית' },
@@ -98,7 +104,8 @@ export class PlatformComponent implements OnInit {
               public helpers: HelpersService,
               public timerService: TimerService,
               private operatorTasks: OperatorTasksService,
-              private productService: ProductService) {
+              private productService: ProductService,
+              private employerService: EmployerService) {
 
     const company = this.selectUnit.getCompanies() as any[];
     if ( company.length <= 0) {
@@ -108,13 +115,13 @@ export class PlatformComponent implements OnInit {
       if (val instanceof NavigationStart) {
         if (Object.values(TaskTimerLabels).some(a => a === val.url)) {
           this.timerService.reset();
-          this.dispalyTimer(val.url, '');
+          this.displayTimer(val.url, '');
         } else if (this.selectUnit.getTaskTimer() !== 0) {
           this.timerEvents();
         }
       }
       if (val instanceof NavigationEnd) {
-        this.dispalyTimer(val.url, val.urlAfterRedirects);
+        this.displayTimer(val.url, val.urlAfterRedirects);
       }
     });
   }
@@ -140,6 +147,9 @@ export class PlatformComponent implements OnInit {
 
     this.setActiveUrl(this.router.url);
 
+    this.employerService.getNewEmployer().then( response => {
+      this.employersNumber = this.userSession.newEmployers = response['employer_number'];
+    });
 
     this.router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
@@ -149,15 +159,19 @@ export class PlatformComponent implements OnInit {
   }
 
   timerEvents(): void {
+    this.employer = this.selectUnit.getTaskTimer().employer;
+    this.typeTask = this.selectUnit.getTaskTimer().type;
+    this.organization = this.selectUnit.getTaskTimer().organization;
     this.timerText =  this.selectUnit.getTaskTimer()['text'];
+     // open PlanTaskComponent
     if (this.timerText === undefined) {
-      this.timerText = 'תפעול שוטף';
+      this.timerText = '';
     }
     this.intervals();
-    this.dispalyTimer(this.router.routerState.snapshot.url, '');
+    this.displayTimer(this.router.routerState.snapshot.url, '');
   }
 
-  dispalyTimer(url: string, urlAfterRedirects: string): void {
+  displayTimer(url: string, urlAfterRedirects: string): void {
     if (this.selectUnit.getTaskTimer() !== 0) {
       if (Object.values(TaskTimerLabels).some(a => a === url)) {
         this.showTimer = false;
@@ -173,6 +187,7 @@ export class PlatformComponent implements OnInit {
     }
 
   }
+
   intervals(): void {
     this.timerService.getSecondsObservable().subscribe(val => {
       if (val < 10) {
@@ -337,11 +352,22 @@ export class PlatformComponent implements OnInit {
     }
   }
 
+  navigateMenu(el) {
+    if (el.id === 5) {
+      this.menuCampaigns = true;
+    } else {
+      this.menuCampaigns = false;
+      this.router.navigate(['/platform', 'operator', el.link]);
+    }
+  }
+
   stopTimer(): void {
     const time = this.hours + ':' + this.minutes + ':' + this.seconds;
     this.updateTaskTimer(time);
     this.timerService.reset();
     this.selectUnit.clearTaskTimer();
+     // this.showTimer = false;
+    // לעדכן שהמשימה על מצב דילוג
     this.router.navigate(['platform', 'operator', 'work-queue']);
   }
 

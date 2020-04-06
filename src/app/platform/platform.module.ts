@@ -38,6 +38,9 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
+import {GroupService} from '../shared/_services/http/group.service';
+import {CampaignsFormComponent} from './campaigns/campaigns-form/campaigns-form.component';
+
 
 
 const routes: Routes = [
@@ -46,6 +49,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'process/table', pathMatch: 'full' },
       { path: 'employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },
       { path: 'contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
+      { path: 'operator/campaigns', loadChildren: 'app/platform/campaigns/campaigns.module#CampaignsModule'},
+      { path: 'operator/campaigns/groups', loadChildren: 'app/platform/campaigns/groups/groups.module#GroupsModule'},
+      { path: 'operator/campaigns/campaigns-form',
+        loadChildren: 'app/platform/campaigns/campaigns-form/campaigns-form.module#CampaignsFormModule'},
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
       { path: 'finance/dashboard', loadChildren: 'app/platform/finance/dashboard/dashboard.module#DashboardModule' },
       { path: 'compensation/process', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
@@ -64,6 +71,8 @@ const routes: Routes = [
       { path: 'operator/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
       { path: 'operator/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
       { path: 'operator/employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },
+      { path: 'operator/employer-employees', loadChildren:
+          'app/platform/operator/employer-employees/employer-employees.module#EmployerEmployeesModule' },
       { path: 'operator/work-queue', loadChildren: 'app/platform/operator/work-queue/work-queue.module#WorkQueueModule'},
       { path: 'operator/contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
       { path: 'operator/tasks', loadChildren: 'app/platform/operator/employers/employer-form/tasks/tasks.module#TasksModule'},
@@ -117,7 +126,7 @@ const routes: Routes = [
     FileDepositionComponent,
     ChangeStatusComponent
   ],
-  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService,
+  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, GroupService,
     DatePipe, TimerService, OperatorTasksService, ProductService, AppHttpService]
 })
 export class PlatformModule {}

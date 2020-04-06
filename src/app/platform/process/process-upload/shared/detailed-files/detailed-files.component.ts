@@ -78,7 +78,6 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   spin: boolean;
   sub = new Subscription;
   statuses = Status;
-  highlightFileId: number;
   organizationId: number;
   subscription = new Subscription;
   title = {};
@@ -180,7 +179,6 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
    openUpdateTypePayDialog(typePay: string, file_id: number): void {
-
     const dialog = this.dialog.open(UpdatePaymentTypeComponent, {
         data: {'typePay': typePay, 'file_id': [file_id], 'dataTable': this.dataTable.criteria},
         width: '550px',

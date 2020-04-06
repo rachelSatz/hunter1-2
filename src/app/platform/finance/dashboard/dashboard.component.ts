@@ -10,7 +10,7 @@ import { InvoiceService} from 'app/shared/_services/http/invoice.service';
 import {SelectUnitService} from 'app/shared/_services/select-unit.service';
 import {EmployerService} from 'app/shared/_services/http/employer.service';
 import { NotificationService} from 'app/shared/_services/notification.service';
-import {PRODUCT_TYPES} from 'app/shared/_models/employer-financial-details.model';
+import { PRODUCT_TYPES } from 'app/shared/_models/employer-financial-details.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,11 +27,17 @@ export class DashboardComponent implements OnInit {
   productTypesItems = Object.keys(PRODUCT_TYPES).map(function(e) {
     return { id: e, name: PRODUCT_TYPES[e] };
   });
+  // projectIdsItems = Object.keys(PROJECT_IDS).map(function(e) {
+  //   return { id: e, name: PROJECT_IDS[e] };
+  // });
   spin: boolean;
   fileName: string;
   data: any;
   zeroCount = 0;
   notZeroCount = 0;
+  invoiceId = 0;
+
+
 
   constructor(route: ActivatedRoute,
               private invoiceService: InvoiceService,

@@ -1,7 +1,18 @@
+export class ReportFilters {
+  projectsId: number;
+  operatorId: number;
+  organizationId: number;
+  employerId: number;
+  departmentId: number;
+  startDate: string;
+  endDate: string;
+}
+
 export class ReportsData {
   organization_count: number;
   employers_count: number;
-  employees_count: number;
+  employees_no_zero_count: number;
+  employees_zero_count: number;
   files: number;
   files_loading: number;
   files_transmitted: number;
@@ -32,7 +43,8 @@ export class ReportsData {
 
   constructor() {
     this.employers_count = 0;
-    this.employees_count = 0;
+    this.employees_no_zero_count = 0;
+    this.employees_zero_count = 0;
     this.files = 0;
     this.files_loading = 0;
     this.files_transmitted = 0;

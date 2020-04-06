@@ -18,7 +18,7 @@ import { ReportsManagerComponent } from './reports-manager.component';
 
 
 const routes: Routes = [
-  { path: '', component: ReportsManagerComponent}
+  { path: '', component: ReportsManagerComponent},
 ];
 
 @NgModule({

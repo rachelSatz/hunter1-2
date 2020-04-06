@@ -1,0 +1,28 @@
+<div class="container mt-lg-8 w-100">
+  <p class="h4 bold">קמפיין חדש</p>
+  <div class="d-flex justify-content-center my-5">
+    <div class="step-title active">
+      <span class="flex-grow-1">סוג קמפיין</span>
+      <div class="triangles">
+        <div [ngClass]="{ 'blue': tab >= 1  }"></div>
+        <div></div>
+      </div>
+    </div>
+    <div class="step-title" [ngClass]="{ 'active': tab >= 2 }">
+      <span class="flex-grow-1">בחירת קבוצה</span>
+      <div class="triangles">
+        <div [ngClass]="{ 'blue': tab === 3 }"></div>
+        <div></div>
+      </div>
+    </div>
+    <div class="step-title" [ngClass]="{ 'active': tab === 3}">
+      <span>תצוגה ויצירה</span>
+    </div>
+  </div>
+  <div>
+    <button mat-button *ngIf="tab !== 1" (click)="back()" class="btn-outline-dark border-dark right">חזור</button>
+    <button mat-button (click)="continue()" class="blue-btn left">המשך</button>
+  </div>
+</div>
+
+

@@ -53,9 +53,12 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     return { id: e, name: PAYMENT_METHOD[e] };
   });
   permissionsType = this.userSession.getPermissionsType('finance');
+  nameProjectName = 'project_id';
+  projects = [];
 
   readonly columns  = [
     { name: 'employer_name', label: 'שם מעסיק', searchable: false},
+    { name: this.nameProjectName, label: 'שם פרויקט', searchOptions: { labels: [] } },
     { name: 'green_invoice_number', label: 'מספר חשבונית בירוקה'},
     { name: 'amount', label: 'סכום'},
     { name: 'amount_ids', label: 'כמות ת"ז' , searchable: false},
@@ -82,6 +85,11 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.employerService.getAllEmployers(null, true).then(
       response => this.employers = response['items']);
+    this.employerService.getProjects().then(response => {
+      const column = this.dataTable.searchColumn(this.nameProjectName);
+      this.projects = response;
+      column['searchOptions'].labels = response;
+    });
     this.fetchItems();
   }
 
@@ -128,14 +136,20 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+    // const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+    const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
+
     const dialog = this.dialog.open(TaxInvoiceFormComponent, {
-      data: {'ids': items.map(item => item['id'])},
+      data: { 'ids': items,
+
+      'criteria' : this.dataTable.criteria},
       width: '450px'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
+      this.dataTable.criteria.checkedItems = [];
+      this.dataTable.criteria.isCheckAll = false;
     }));
   }
 
@@ -144,14 +158,18 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
-    const ids = items.map(item => item['id']);
-    this.invoiceService.createTransactionInvoices(ids).then(response => {
+    const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
+    this.helpers.setPageSpinner(true);
+    this.invoiceService.createTransactionInvoices(ids, this.dataTable.criteria).then(response => {
+      this.helpers.setPageSpinner(false);
+      this.dataTable.criteria.checkedItems = [];
+      this.dataTable.criteria.isCheckAll = false;
       if (response['message'] !== 'success') {
         this.notificationService.error(response['message']);
       } else {
         this.notificationService.success('נשמר בהצלחה.');
       }
+      this.fetchItems();
     });
   }
 

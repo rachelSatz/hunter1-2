@@ -34,7 +34,7 @@ export class InvoiceService  extends BaseHttpService {
     return this.http.post(this.endPoint + '/create_invoice', content, this.getTokenHeader())
       .toPromise()
       .then(response => response as string)
-      .catch(() => null);
+      .catch(response => response as string);
   }
 
   createManualInvoice(manualInvoice: ManualInvoice): Promise<string> {
@@ -118,17 +118,17 @@ export class InvoiceService  extends BaseHttpService {
       .catch(() => null);
   }
 
-  createTaxInvoices(invoiceIds: number[], date: string): Promise<string> {
+  createTaxInvoices(invoiceIds: number[], criteria: DataTableCriteria, date: any): Promise<string> {
     return this.http.post(this.endPoint + '/createTaxInvoices',
-      { invoiceIds: invoiceIds, data: date }, this.getTokenHeader())
+      { invoiceIds: invoiceIds, data: date,  criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);
   }
 
-  createTransactionInvoices(invoiceIds: number[]): Promise<string> {
+  createTransactionInvoices(invoiceIds: number[], criteria: DataTableCriteria): Promise<string> {
     return this.http.post(this.endPoint + '/createTransactionInvoices',
-      { invoiceIds: invoiceIds}, this.getTokenHeader())
+      { invoiceIds: invoiceIds,  criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);

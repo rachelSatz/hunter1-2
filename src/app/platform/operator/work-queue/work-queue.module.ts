@@ -27,6 +27,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { OngoingOperationComponent } from './ongoing-operation/ongoing-operation.component';
 
+
 const routes: Routes = [
   {
     path: '', component: WorkQueueComponent, children: [
@@ -51,8 +52,7 @@ const routes: Routes = [
   ],
 
   declarations: [WorkQueueComponent, SystemTasksComponent, TimerComponent, OngoingOperationComponent],
-  providers: [NotificationService, TimerService, OperatorTasksService, PlanService]
-
+  providers: [NotificationService, TimerService, OperatorTasksService, PlanService],
 
 })
 export class WorkQueueModule { }

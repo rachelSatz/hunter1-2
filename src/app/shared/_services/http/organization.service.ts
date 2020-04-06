@@ -6,6 +6,7 @@ import { UserSessionService } from '../user-session.service';
 import { Organization } from '../../_models/organization.model';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
+import {ReportFilters} from '../../_models/report_manage';
 
 @Injectable()
 export class OrganizationService extends BaseHttpService {
@@ -38,14 +39,14 @@ export class OrganizationService extends BaseHttpService {
   }
 
 
-  getReport(organization, project, employer, operator, startDate, endDate): Promise<any> {
+  getReport(reportsFilters: ReportFilters): Promise<any> {
     const formData = new FormData();
-    formData.append('organizationId', organization.toString());
-    formData.append('projectId' , project.toString());
-    formData.append('employerId' , employer.toString());
-    formData.append('operatorId' , operator.toString());
-    formData.append('startDate' , startDate.toString());
-    formData.append('endDate' , endDate.toString());
+    formData.append('organizationId', reportsFilters.organizationId.toString());
+    formData.append('projectId' , reportsFilters.projectsId.toString());
+    formData.append('employerId' , reportsFilters.employerId.toString());
+    formData.append('operatorId' , reportsFilters.operatorId.toString());
+    formData.append('startDate' , reportsFilters.startDate.toString());
+    formData.append('endDate' , reportsFilters.endDate.toString());
 
 
     return this.http.post(this.apiUrl + '/reports/' + 'statusEmployerReport', formData, this.getTokenHeader())

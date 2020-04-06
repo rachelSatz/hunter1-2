@@ -32,7 +32,7 @@ export class OperatorTasksService extends BaseHttpService {
   //     .then(response => response);
   // }
 
-  newTaskTimer(task_type: string): Promise<any> {
+  newTaskTimer(task_type: string, planTaskId?: number): Promise<any> {
     return this.http.post(this.endPoint + '/createTaskTimer', { 'task_type': task_type }, this.getTokenHeader())
       .toPromise()
       .then(response => response as any)

@@ -66,6 +66,19 @@ bd-select {
   text-align: center;
 }
 
+.subMenu {
+  height: 17.5%;
+  position: fixed;
+  background-color: #62656e;
+  width: 180px;
+  color: #ffffff;
+  top: 330px;
+  text-align: center;
+}
+
+.selectedMenu {
+  background-color: #3D4252;
+}
 
 .closedAgentBar {
   /*z-index: 9999;*/
@@ -106,47 +119,59 @@ bd-select {
   text-align: center;
 }
 
+.details {
+  background-color: #ffffff;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.timer {
+  background-color: #00adee;
+  height: 50px;
+}
+
 .navbartest {
   overflow: hidden;
-  background-color: #00adee;
   position: fixed;
-  bottom: 29px;
+  bottom: 0px;
   left: 29px;
-  width: 17%;
+  width: 15%;
   border-radius: 0.25rem;
-  /*box-shadow: 0 0 0px 10px #aaaaaa;*/
-
 }
 
-.navbartest a {
-  float: left;
-  display: block;
-  color: #00adee;
-  text-align: center;
-  padding: 22px 18px;
-  text-decoration: none;
-  font-size: 17px;
-  /*border: solid 1px rgba(0,0,0,0.5);*/
+/*.navbartest a {*/
+/*  display: block;*/
+/*  text-align: center;*/
+/*  padding: 22px 18px;*/
+/*  text-decoration: none;*/
+/*  font-size: 17px;*/
 
-}
+/*}*/
 .navbartest p {
-  float: left;
   display: block;
-  color: #f2f2f2;
-  text-align: center;
-  /*padding: 14px 16px;*/
   padding-left: 20px;
   padding-top: 23px;
   text-decoration: none;
   font-size: 17px;
 }
-.navbartest a:hover {
+
+.skip:hover {
   background: #f1f1f1;
   color: black;
 }
 
-.navbartest a.active {
-  background-color: #aaa8ab;
+.p-absolute {
+  position: absolute;
+}
+
+.skip{
+  background-color: #2a2e39;
+  height: 40px;
   color: white;
 }
+
+/*.navbartest a {*/
+/*  background-color: #aaa8ab;*/
+/*  color: white;*/
+/*}*/
 

@@ -8,6 +8,7 @@ import { AppHttpService } from 'app/shared/_services/http/app-http.service';
 import { HelpersService} from 'app/shared/_services/helpers.service';
 import { fade } from 'app/shared/_animations/animation';
 import {MatDialog} from '@angular/material';
+import {EmployerService} from '../../shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,6 @@ export class LoginComponent {
       this.hasServerError = false;
       this.helpers.setPageSpinner(true);
       this.isSubmitting = true;
-
 
       this.appHttp.login(form.value.username, form.value.password).then(response => {
         if (response.token) {

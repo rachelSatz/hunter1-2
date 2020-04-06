@@ -19,7 +19,7 @@
   margin-top: 10px;
 }
 
-.ellipse{
+.ellipse-s{
   border: 2px solid ;
   height: 40px;
   min-width: 90px;
@@ -37,9 +37,15 @@
 .h-350{
   height: 350px;
 }
+
 .sq-45p{
   width: 45px;
   height: 45px;
+}
+
+.circle-size {
+  width: 4em;
+  height: 4em;
 }
 
 .border {
