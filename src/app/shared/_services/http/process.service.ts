@@ -243,5 +243,13 @@ export class ProcessService extends BaseHttpService {
       .then(response => response)
       .catch(response => response);
   }
+
+
+  authorizationReceiptCertificate(id): Promise<boolean> {
+    return this.http.post(this.endPoint + '/' + id + '/authorizationReceiptCertificate' , {},  this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
 }
 

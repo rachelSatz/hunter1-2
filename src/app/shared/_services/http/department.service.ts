@@ -6,7 +6,7 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from '../user-session.service';
 
 import { Employee } from 'app/shared/_models/employee.model';
-import { Department } from 'app/shared/_models/department.model';
+import { Department, EmailDepartment } from 'app/shared/_models/department.model';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
 import {DepartmentSerialNumber} from '../../_models/employer.model';
 
@@ -90,5 +90,24 @@ export class DepartmentService extends BaseHttpService {
       .toPromise()
       .then(response => response)
       .catch(response => response);
+  }
+
+  addEmailDepartment(emailDepartment: EmailDepartment): Promise<any> {
+    return this.http.post(this.endPoint + '/addEmailDepartment' , emailDepartment, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+  }
+
+  deleteEmail(id: number): Promise<boolean> {
+    return this.http.delete(this.endPoint + '/deleteEmail/' + id, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  getEmailDepartment(id: number): Promise<any> {
+    return this.http.get(this.endPoint + '/getEmailDepartment/' + id, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
   }
 }

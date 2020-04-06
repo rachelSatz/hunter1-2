@@ -10,3 +10,9 @@ export class Department {
   bank_account_deposit: EmployerBankAccount = new EmployerBankAccount;
   bank_account_withdrawal: EmployerBankAccount = new EmployerBankAccount;
 }
+
+export class EmailDepartment {
+  id: number;
+  name: string;
+  email: string;
+}

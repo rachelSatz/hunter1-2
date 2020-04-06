@@ -9,7 +9,8 @@
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="openUpdatePayDateDialog('', -1)">עדכון תאריך תשלום</button>
             <!--<button mat-menu-item (click)=openWarningMessageComponentDialog(false)>מחיקת שורה</button>-->
-              <button mat-menu-item (click)=openDialogAttachReference()>צירוף אסמכתא</button>
+              <button mat-menu-item (click)="openDialogAttachReference()">צירוף אסמכתא</button>
+              <button mat-menu-item (click)="authorizationReceiptCertificate()">אישור קבלת אסמכתאות</button>
               <button mat-menu-item (click)=openWarningMessageComponentDialog(true)>הפוך ללא רלוונטי</button>
               <button mat-menu-item (click)=openWarningMessageComponentDialog(false)>הפוך  לרלוונטי</button>
               <button mat-menu-item (click)="openGroupTransferDialog()">העבר קבוצה</button>

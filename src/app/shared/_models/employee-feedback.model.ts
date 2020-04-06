@@ -22,7 +22,8 @@ export enum Status {
 
 export enum ManualStatus {
   None = 'ללא סטטוס',
-  fully_defrayed_manual = 'נפרע במלאו ללא שגיאות',
+  fully_defrayed_manual = 'נפרע במלואו ידנית',
+  fully_defrayed_no_errors = 'נפרע במלואו ללא שגיאות',
   no_relevant = 'לא רלונטי',
   in_treatment = 'בטיפול'
 }

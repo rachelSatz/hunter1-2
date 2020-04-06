@@ -124,6 +124,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
         this.selectUnit.changeOrganization(this.plan.organization.id);
       }
       this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
+      this.selectUnit.setAgentBarActive(this.platformComponent.agentBarActive);
     }
   }
 

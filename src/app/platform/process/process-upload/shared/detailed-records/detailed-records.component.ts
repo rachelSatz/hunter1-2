@@ -102,7 +102,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   }
 
   fetchItems() {
-    if (this.organizationId !== this.selectUnitService.currentOrganizationID) {
+    if (+this.organizationId !== +this.selectUnitService.currentOrganizationID) {
       this.router.navigate(['/platform', 'process', 'table']);
     }
     if (this.items.length <= 0) {

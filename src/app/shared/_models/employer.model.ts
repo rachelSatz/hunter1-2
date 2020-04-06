@@ -31,6 +31,9 @@ export class Employer {
   project_name: string;
   received_identifier: string;
   city_id: number;
+  process_upload_auto: boolean;
+  send_payment_instructions_auto: boolean;
+  transmission_product_auto: boolean;
 
 
   constructor() {

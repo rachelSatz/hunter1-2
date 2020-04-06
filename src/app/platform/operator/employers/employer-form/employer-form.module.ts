@@ -13,6 +13,7 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 
+
 const routes: Routes = [
   { path: '', component: EmployerFormComponent},
   { path: ':id', component: EmployerFormComponent, resolve: { employer: EmployersResolve }, children: [

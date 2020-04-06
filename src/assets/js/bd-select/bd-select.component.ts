@@ -33,7 +33,8 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   @Input() clientSideSearch = true;
   @Input() searchableProperties = false;
   @Input() error = false;
-
+  // @Input() filterValue = '';
+  filterValue: string;
   @Output() onSelect: EventEmitter<Object | Object[]> = new EventEmitter();
   @Output() onDeselect: EventEmitter<boolean> = new EventEmitter();
   @Output() onScroll: EventEmitter<boolean> = new EventEmitter();
@@ -43,9 +44,6 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
 
   @ViewChild('filterValueEle') filterElement: ElementRef;
   @ViewChild('optionsEle') optionsElement: ElementRef;
-
-  filterValue: string;
-
 
   unfilteredItems = [];
 

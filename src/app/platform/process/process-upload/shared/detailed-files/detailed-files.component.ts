@@ -98,7 +98,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   }
 
   fetchItems () {
-    if (this.organizationId !== this.selectUnitService.currentOrganizationID) {
+    if (+this.organizationId !== +this.selectUnitService.currentOrganizationID) {
       this.router.navigate(['/platform', 'process', 'table']);
     }
     if (this.processDataService.activeProcess === undefined) {
@@ -136,6 +136,17 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
         this.notificationService.error('', 'אין אפשרות לעדכן רשומה נעולה');
       }
     }
+  }
+
+  authorizationReceiptCertificate(): void {
+    this.processService.authorizationReceiptCertificate(this.processDataService.activeProcess.processID)
+      .then(response => {
+        if (response['ok']) {
+          this.notificationService.success('', 'האישור התקבל בהצלחה');
+        } else {
+          this.notificationService.error('', 'שגיאה באישור');
+        }
+      });
   }
 
   openGroupTransferDialog(): void {

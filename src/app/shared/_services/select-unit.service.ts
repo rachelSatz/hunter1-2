@@ -56,18 +56,13 @@ export class SelectUnitService {
     sessionStorage.removeItem('task');
   }
 
-  changeDepartment(id: number): void {
-    sessionStorage.setItem('departmentID', JSON.stringify(id));
-    this.currentDepartmentID = id;
-    this.unitSubject.next(id);
-  }
-
   getEntityStorage(): any {
     if (sessionStorage.getItem('organizationID')) {
       this.changeOrganizationEmployerDepartment(
         this.getSessionStorage('organizationID'),
         this.getSessionStorage('employerID'),
         this.getSessionStorage('departmentID'));
+
       return 0;
     }
 
@@ -96,6 +91,8 @@ export class SelectUnitService {
     sessionStorage.removeItem('departmentID');
     sessionStorage.removeItem('Organizations');
     sessionStorage.removeItem('task');
+    sessionStorage.removeItem('agentBarActive');
+
 
   }
 
@@ -111,11 +108,48 @@ export class SelectUnitService {
     this.unitSubject.next(organizationId);
   }
 
+  setEntitySessionStorage(organizationId: number, employerId: number, departmentId: number): void {
+    sessionStorage.setItem('organization', JSON.stringify(organizationId));
+    sessionStorage.setItem('employer', JSON.stringify(employerId));
+    sessionStorage.setItem('department', JSON.stringify(departmentId));
+  }
+
+  getEntitySessionStorage(): boolean {
+    if (sessionStorage.getItem('organization')) {
+      this.changeOrganizationEmployerDepartment(this.getSessionStorage('organization'),
+        this.getSessionStorage('employer'),
+        this.getSessionStorage('department'));
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+
+
+
   changeOrganization(organizationId: number): void {
     sessionStorage.setItem('organizationID', JSON.stringify(organizationId));
     this.currentOrganizationID = organizationId;
     this.unitSubject.next(organizationId);
   }
+
+
+  getAgentBarActive(): boolean {
+    if (sessionStorage.getItem('agentBarActive')) {
+      return this.getSessionStorage('agentBarActive');
+    } else {
+      return true;
+    }
+  }
+
+  setAgentBarActive(agentBarActive: boolean): void {
+    sessionStorage.setItem('agentBarActive', JSON.stringify(agentBarActive));
+
+  }
+
+
 
 }
 

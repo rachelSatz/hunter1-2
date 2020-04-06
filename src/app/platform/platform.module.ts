@@ -44,21 +44,17 @@ const routes: Routes = [
   {
     path: '', component: PlatformComponent, canActivate: [IsAuthenticatedGuard], children: [
       { path: '', redirectTo: 'process/table', pathMatch: 'full' },
-      // { path: 'dashboard', loadChildren: 'app/platform/dashboard/dashboard.module#DashboardModule' },
       { path: 'employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },
       { path: 'contacts', loadChildren: 'app/platform/operator/employers/employer-form/contacts/contacts.module#ContactsModule' },
       { path: 'finance/invoices', loadChildren: 'app/platform/finance/invoices/invoices.module#InvoicesModule' },
       { path: 'finance/dashboard', loadChildren: 'app/platform/finance/dashboard/dashboard.module#DashboardModule' },
       { path: 'compensation/process', loadChildren: 'app/platform/compensation/process/process.module#ProcessModule' },
-      // { path: 'compensation/process-clearing', loadChildren: 'app/platform/compensation/process-clearing/' +
-      //     'process-clearing.module#ProcessClearingModule' },
       { path: 'compensation/process-level-hp', loadChildren: 'app/platform/compensation/process-level-hp/' +
           'process-level-hp.module#ProcessLevelHpModule' },
       { path: 'compensation/deposits-report', loadChildren:
           'app/platform/compensation/deposits-report/deposits-report.module#DepositsReportModule' },
       { path: 'settings/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
       { path: 'settings/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
-      { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
       { path: 'compensation/dashboard', loadChildren: 'app/platform/compensation/dashboard/dashboard.module#DashboardModule' },
       { path: 'process/new/:status', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
       { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
@@ -75,7 +71,8 @@ const routes: Routes = [
           'app/platform/operator/employers/employer-form/documents/documents.module#DocumentsModule'},
       { path: 'operator/products', loadChildren: 'app/platform/operator/products/products.module#ProductsModule' },
       { path: 'operator/plans', loadChildren: 'app/platform/operator/plans/plans.module#PlansModule' },
-      { path: 'operator/reports', loadChildren: 'app/platform/operator/reports-manager/reports-manager.module#ReportsManagerModule' }
+      { path: 'operator/reports', loadChildren: 'app/platform/operator/reports-manager/reports-manager.module#ReportsManagerModule' },
+      { path: 'operator/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' }
     ]
   }
 ];

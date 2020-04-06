@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
@@ -20,17 +20,19 @@ import { TimerService } from '../shared/_services/http/timer';
 export class PlatformComponent implements OnInit {
 
   activeUrl: string;
-  organizations = [];
+  // organizations = [];
   employers = [];
   departments = [];
   // organizationId: number;
   // employerId: any;
   // departmentId: any;
   @Input() isWorkQueue = false;
-  @Input() organizationId: number;
+  @Input() organizationId: any;
   @Input() employerId: any;
   @Input() departmentId: any;
   @Input() agentBarActive = true;
+  @Input() organizations = [];
+
   isAgent = false;
   seconds: string;
   minutes: string;
@@ -45,13 +47,13 @@ export class PlatformComponent implements OnInit {
     { id: 2, icon: 'question-circle', label: 'תור עבודה', link: 'work-queue', role: 'operator'},
     { id: 3, icon: 'list-ul', label: 'משימות', link: 'tasks', role: 'operator'},
     { id: 4, icon: 'user', label: 'מעסיקים', link: 'employers', role: 'operator'},
-    // { id: 4, icon: 'user', label: 'הקמת מעסיק', link: 'creatingEmployer', role: 'operator'},
     { id: 5, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
     { id: 6, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
     { id: 7, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
     { id: 9, icon: 'th', label: 'קופות', link: 'products', role: 'admin'},
     { id: 10, icon: 'tasks', label: 'הגדרות מנהל', link: 'plans', role: 'admin'},
-    { id: 10, icon: 'file', label: 'דוחות מנהל', link: 'reports', role: 'admin'}
+    { id: 10, icon: 'file', label: 'דוחות מנהל', link: 'reports', role: 'admin'},
+    { id: 10, icon: 'th', label: 'תהליכים', link: 'table', role: 'operator'}
 
   ];
 
@@ -89,6 +91,7 @@ export class PlatformComponent implements OnInit {
   ];
 
   constructor(private router: Router,
+              private route: ActivatedRoute,
               public userSession: UserSessionService,
               private organizationService: OrganizationService,
               public selectUnit: SelectUnitService,
@@ -126,6 +129,7 @@ export class PlatformComponent implements OnInit {
     this.isAgent =  this.userSession.getRole() !== 'employer';
     this.organizations = this.selectUnit.getOrganization();
     this.selectUnit.getEntityStorage();
+    this.agentBarActive = this.selectUnit.getAgentBarActive();
     if (!this.selectUnit.currentOrganizationID) {
       this.getOrganizations(false);
     } else {
@@ -143,6 +147,7 @@ export class PlatformComponent implements OnInit {
       }
     });
   }
+
   timerEvents(): void {
     this.timerText =  this.selectUnit.getTaskTimer()['text'];
     if (this.timerText === undefined) {
@@ -191,14 +196,30 @@ export class PlatformComponent implements OnInit {
       }
     });
   }
+
   restNav(): void {
     this.agentBarActive = !this.agentBarActive;
-    if (this.agentBarActive ) {
+    if (this.agentBarActive &&  !this.router.url.includes( 'operator/table')) {
         this.selectUnit.changeOrganizationEmployerDepartment
         (this.organizationId, this.employerId, this.departmentId);
-    } else {
+        this.router.navigate(['/platform'], { relativeTo: this.route });
+    } else if (this.agentBarActive &&  this.router.url.includes( 'operator/table')) {
+      this.router.navigate(['/platform'], { relativeTo: this.route });
+      this.selectUnit.getEntitySessionStorage();
+      this.organizationId = this.selectUnit.currentOrganizationID;
+      this.employerId = this.selectUnit.currentEmployerID;
+      this.departmentId = this.selectUnit.currentDepartmentID;
+      if ( +this.organizations[0].id === 0) {
+        this.organizations.splice(0, 1);
+      }
+
+
+
+      // this.selectUnit.changeOrganizationEmployerDepartment
+      // (this.organizationId, this.employerId, this.departmentId);
       // this.selectUnit.changeOrganizationEmployerDepartment(0, 0, 0);
     }
+    this.selectUnit.setAgentBarActive(this.agentBarActive);
   }
 
   getOrganizations(is_loadEmployer: boolean, is_Employer?: boolean): void {
@@ -248,13 +269,19 @@ export class PlatformComponent implements OnInit {
   }
 
   getEmployers(organizationId: number): void {
-    this.employers = this.selectUnit.getOrganization().find(o => o.id === organizationId).employer;
-    if (this.employers.length > 1) {
-      if (!this.employers.some(e => e.id === 0)) {
-        this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
+    if (this.router.url.includes( 'operator/table') &&  +organizationId === 0) {
+      this.employers = [{'id': '0', 'name': 'כלל המעסיקים'}];
+      // this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
+    } else {
+
+      this.employers = this.selectUnit.getOrganization().find(o => o.id === organizationId).employer;
+      if (this.employers.length > 1) {
+        if (!this.employers.some(e => e.id === 0)) {
+          this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
+        }
       }
+      this.employers.sort((a, b) => a.id - b.id);
     }
-    this.employers.sort((a, b) => a.id - b.id);
   }
 
   loadDepartments(employerId: number, is_Employer?: boolean): void {
@@ -286,7 +313,6 @@ export class PlatformComponent implements OnInit {
   selectDepartment(departmentID: number): void {
     this.selectUnit.changeOrganizationEmployerDepartment(this.organizationId, this.employerId,
       +departmentID);
-    // this.selectUnit.changeDepartment(+departmentID);
   }
 
   navigate(link, subLink) {
@@ -325,6 +351,12 @@ export class PlatformComponent implements OnInit {
         response => response);
     }
   }
+
+  // aaa(): string {
+  //   if (this.organizationId === 0) {
+  //     return '';
+  //   }
+  // }
 
 
 

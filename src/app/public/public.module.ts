@@ -11,7 +11,6 @@ import { RegisterComponent } from './register/register.component';
 import { AppHttpService } from 'app/shared/_services/http/app-http.service';
 import { NotificationService } from '../shared/_services/notification.service';
 import { ForgotPasswordComponent } from './login/forgot-password/forgot-password.component';
-import { ProcessComponent } from 'app/platform/compensation/process/process.component';
 
 const routes: Routes = [
   {

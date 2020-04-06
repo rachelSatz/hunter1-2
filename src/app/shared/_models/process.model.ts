@@ -10,6 +10,7 @@ export class Process {
   dep_id: number;
   employer: Employer;
   employer_id: number;
+  organization_id: number;
   month;
   monthName;
   date: string;
@@ -106,13 +107,13 @@ export enum ValidityStatus {
 export enum ProcessStatus {
   loading = 'בטעינה',
   can_be_processed = 'נטען בהצלחה',
-  done_processing = 'מעובד',
+  // done_processing = 'מעובד',
   transmitted = 'שודר',
   partially_transmitted = 'שודר חלקית',
-  feedbacked_once = 'פידבק ראשון' ,
-  finished = 'הסתיים'  ,
+  // feedbacked_once = 'פידבק ראשון' ,
+  // finished = 'הסתיים'  ,
   error_loading = 'שגיאת טעינה',
-  error_transmiting = 'שגיאת שליחה',
+  // error_transmiting = 'שגיאת שליחה',
   loaded_with_errors = 'נמצאו רשומות שגויאות בקובץ',
   waiting_for_approval = 'ממתין לאישור'
 }

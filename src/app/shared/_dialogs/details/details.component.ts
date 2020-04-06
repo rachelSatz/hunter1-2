@@ -1,14 +1,11 @@
-import {  MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import * as FileSaver from 'file-saver';
-
-import { CompensationService } from 'app/shared/_services/http/compensation.service';
-import { DataTableComponent } from 'app/shared/data-table/data-table.component';
-import { Compensation } from 'app/shared/_models/compensation.model';
+import { ActivatedRoute } from '@angular/router';
+import {Component, Inject, OnInit} from '@angular/core';
 import { fade } from 'app/shared/_animations/animation';
-import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
+import {  MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Compensation } from 'app/shared/_models/compensation.model';
+import { CompensationService } from 'app/shared/_services/http/compensation.service';
 
 @Component({
   selector: 'app-details',

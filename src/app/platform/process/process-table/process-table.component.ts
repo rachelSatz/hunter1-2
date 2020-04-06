@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
@@ -11,12 +11,12 @@ import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { Process, ProcessStatus, ProcessType } from 'app/shared/_models/process.model';
-import {PlatformComponent} from '../../platform.component';
+import { PlatformComponent } from '../../platform.component';
 
 @Component({
   selector: 'app-process-table',
   templateUrl: './process-table.component.html',
-  styleUrls: ['./process-table.component.css']
+  styleUrls: ['./process-table.component.css'],
 })
 export class ProcessTableComponent implements OnInit, OnDestroy {
 
@@ -25,25 +25,45 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   processStatus = ProcessStatus;
   processType = ProcessType;
   year = (new Date()).getFullYear();
+  month: number;
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
   months = MONTHS;
   sub = new Subscription;
+  location: string;
   processId;
   planId;
 
+  statuses = Object.keys(ProcessStatus).map(function(e) {
+    return { id: e, name: ProcessStatus[e] };
+  });
+
   isDisplay = this.userSession.getPermissionsType('operations', true);
+  operatorName = 'operator_id';
+  organizationName = 'organization_name';
+  employerName = 'employer_name';
+
+  statuses_selected = [ 'loading',
+  'can_be_processed',
+  'error_loading' ,
+  'loaded_with_errors'];
   readonly columns =  [
-    { name: 'name', label: 'שם תהליך' },
-    { name: 'id', label: 'מספר תהליך' },
-    { name: 'type', label: 'סוג תהליך' },
-    { name: 'employer_name', sortName: 'department__employer__name', label: 'שם מעסיק' },
-    { name: 'department_name', sortName: 'department__name', label: 'שם מחלקה' },
-    { name: 'month', sortName: 'date', label: 'חודש' },
-    { name: 'year', label: 'שנה' , isSort: false },
-    { name: 'total', label: 'סכום' },
-    { name: 'status', label: 'סטטוס ' , isSort: false },
-    { name: 'download', label: 'הורדה', isSort: false },
-    {name: 'actions', label: 'פעולות' , isSort: false, isDisplay: this.isDisplay},
+    { name: 'date', label: 'תאריך טעינה' , searchOptions: { isDate: true }},
+    { name: 'name', label: 'שם תהליך' , searchable: false},
+    { name: 'id', label:  'מס תהליך' , searchable: false},
+    { name: 'type', label: 'סוג תהליך' , searchable: false},
+    { name: this.organizationName , sortName: 'department__employer__organization__name',
+      label: 'שם ארגון'  ,  searchable: false},
+    // , onSelect: 'loadEmployers($event)'
+    { name: this.employerName, sortName: 'department__employer__name', label: 'שם מעסיק'  , searchable: false},
+    { name: 'department_name', sortName: 'department__name', label: 'שם מחלקה' , searchable: false},
+    { name: this.operatorName, sortName: 'department__employer__operator__first_name', label: 'מנהל תיק' , searchOptions: { labels: [] } },
+    { name: 'month', sortName: 'date', label: 'חודש' , searchable: false},
+    { name: 'year', label: 'שנה' , isSort: false , searchable: false},
+    { name: 'total', label: 'סכום' , searchable: false},
+    { name: 'status', label: 'סטטוס' , multiple: true, searchOptions: { labels: this.statuses}},
+    { name: 'status_process', label: 'סטטוס תהליך' , isSort: false , searchable: false},
+    // { name: 'download', label: 'הורדה', isSort: false },
+    {name: 'actions', label: 'פעולות' , isSort: false, isDisplay: this.isDisplay, searchable: false},
   ];
 
   constructor(public route: ActivatedRoute,
@@ -57,6 +77,27 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    if (this.router.url.includes( 'operator')) {
+      this.selectUnit.setEntitySessionStorage(
+        this.platformComponent.organizationId,
+        this.platformComponent.employerId,
+        this.platformComponent.departmentId,
+      );
+
+      this.dataTable.criteria.filters['status'] =  this.statuses_selected;
+      this.platformComponent.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
+      this.platformComponent.organizations.sort((a, b) => a.id - b.id);
+      this.selectUnit.changeOrganization( 0);
+      this.platformComponent.organizationId = '0';
+      this.platformComponent.employerId = '0';
+      this.platformComponent.departmentId = 0;
+
+      this.location = 'operator';
+    } else {
+      this.location = 'process';
+    }
+
     this.processId = this.route.snapshot.queryParams['processId'];
     this.planId = this.route.snapshot.queryParams['planId'];
     this.dataTable.criteria.filters['year'] = this.year;
@@ -69,23 +110,49 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   }
 
   fetchItems() {
+
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
     const departmentId = this.selectUnit.currentDepartmentID;
-
-    if (organizationId) {
+    if (organizationId || this.router.url.includes( 'operator')) {
       this.dataTable.criteria.filters['departmentId'] = departmentId;
       this.dataTable.criteria.filters['employerId'] = employerId;
       this.dataTable.criteria.filters['organizationId'] = organizationId;
       if (this.processId) {
         this.dataTable.criteria.filters['processId'] = this.processId;
       }
-      this.processService.getProcesses(this.dataTable.criteria).then(
-        response => this.dataTable.setItems(response));
+
+    this.dataTable.criteria.filters['year'] = this.year;
+    this.dataTable.criteria.filters['month'] = this.month;
+
+
+    if (this.location === 'operator') {
+      this.dataTable.criteria.filters['location'] = true;
+    } else {
+      this.dataTable.criteria.filters['location'] = false;
+    }
+
+    this.processService.getProcesses(this.dataTable.criteria).then(
+      response => {
+        const users = response.other['users'];
+        const column = this.dataTable.searchColumn(this.operatorName);
+        column['searchOptions'].labels = users;
+        this.dataTable.setItems(response);
+      });
     }
   }
 
   ngOnDestroy() {
+    if (this.router.url.includes( 'operator')) {
+      if (this.selectUnit.getEntitySessionStorage()) {
+        if ( +this.platformComponent.organizations[0].id === 0) {
+          this.platformComponent.organizations.splice(0, 1);
+        }
+        this.platformComponent.organizationId = this.selectUnit.currentOrganizationID;
+        this.platformComponent.employerId = this.selectUnit.currentEmployerID;
+        this.platformComponent.departmentId = this.selectUnit.currentDepartmentID;
+      }
+    }
     this.sub.unsubscribe();
   }
 
@@ -114,13 +181,24 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   }
 
   moveProcess(process: Process): void {
+    if (this.location === 'operator') {
+      if ( +this.platformComponent.organizations[0].id === 0) {
+        this.platformComponent.organizations.splice(0, 1);
+      }
+      this.platformComponent.organizationId = process.organization_id;
+      this.platformComponent.employerId = process.employer_id;
+      this.platformComponent.departmentId = process.dep_id;
+      this.selectUnit.changeOrganizationEmployerDepartment(
+        process.organization_id, process.employer_id, process.dep_id);
+      this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
+      this.selectUnit.setAgentBarActive(this.platformComponent.agentBarActive);
+    }
     if (process.status === 'error_loading' ) { return this.messageError(process.error_details) ; }
     if (process.status === 'waiting_for_approval' && this.userSession.getRole() !== 'admin') {
       return this.messageError('ממתין לאישור מנהל') ; }
-
     const status = this.processStatus[process.status];
    if (status === this.processStatus.loading || status ===  this.processStatus.can_be_processed
-   || status === this.processStatus.done_processing || status === this.processStatus.transmitted
+    || status === this.processStatus.transmitted
      || status === this.processStatus.loaded_with_errors  || status === this.processStatus.partially_transmitted
    || status === this.processStatus.waiting_for_approval) {
      const date = new Date(process.date);

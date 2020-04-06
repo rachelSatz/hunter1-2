@@ -1,7 +1,7 @@
-<div class="col-12 f-12 mb-lg-5">
+<div class="col-12 f-12 mb-lg-5" >
   <div class="float-left">
     <mat-form-field>
-      <mat-select placeholder="חודש שכר" [(ngModel)]="dataTable.criteria.filters['month']" name="month" class="ml-3"
+      <mat-select placeholder="חודש שכר" [(ngModel)]="month" name="month" class="ml-3"
                   (selectionChange)="dataTable.search()">
         <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1">
           {{month}}
@@ -9,7 +9,7 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field class="mr-3">
-    <mat-select placeholder="שנה" [(ngModel)]="dataTable.criteria.filters['year']" name="year" (selectionChange)="dataTable.search()">
+    <mat-select placeholder="שנה" [(ngModel)]="year" name="year" (selectionChange)="dataTable.search()">
       <mat-option *ngFor="let year of years" [value]="year">
         {{year}}
       </mat-option>
@@ -18,32 +18,39 @@
   </div>
 </div>
 
+
+<div class="px-4" [ngClass]="{'operator-container':
+                location == 'operator' }">
 <app-data-table tableName="תהליכים" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false"
-                [hasActionsHeader]="false" [hasExtendedSearch]="false">
+                [hasActionsHeader]="false"   >
   <div class="table-header">
     <div class="row mr-1">
       <div class="ml-3 d-flex mr-auto">
-        <button class="btn blue-btn" (click)="redirectProcessNew()">תהליך חדש</button>
+        <button class="btn blue-btn" (click)="redirectProcessNew()" *ngIf="location != 'operator'">תהליך חדש</button>
       </div>
     </div>
   </div>
   <tr *ngFor="let item of dataTable.items" class="pointer">
+    <td  (click)="moveProcess(item)">{{ item.created_at | date:'dd/MM/yyyy'}}</td>
     <td  (click)="moveProcess(item)">{{ item.name }}</td>
     <td  (click)="moveProcess(item)">{{ item.id }}</td>
     <td  (click)="moveProcess(item)">{{ processType[item.type] }}</td>
+    <td  (click)="moveProcess(item)">{{ item.organization_name }}</td>
     <td  (click)="moveProcess(item)">{{ item.employer_name }}</td>
     <td  (click)="moveProcess(item)">{{ item.department_name }}</td>
+    <td  (click)="moveProcess(item)">{{ item.operator_name }}</td>
     <td  (click)="moveProcess(item)">{{ item.date | date:'MM'}}</td>
     <td  (click)="moveProcess(item)">{{ item.date | date:'yyyy' }}</td>
     <td  (click)="moveProcess(item)">{{ item.total | number: '1.2-2'}}</td>
     <td (click)="moveProcess(item)" class="d-flex">
       <div class="w-75">{{ processStatus[item.status] }}</div>
       <div class="w-25" *ngIf="processStatus[item.status] == processStatus.error_loading"><img src="/assets/img/icons/warning.svg" class="img-size"></div>
-     </td>
-    <td>
-      <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)"></i>
     </td>
+    <td  (click)="moveProcess(item)">{{item.status_process  + '/7' }} </td>
+    <!--<td>-->
+    <!--</td>-->
     <td *ngIf="isDisplay">
+      <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)"></i>
       <i class="fa fa-trash fa-lg" (click)="deleteProcess(item.id)" title="מחיקה"></i>
     </td>
     <!--<td>-->
@@ -51,3 +58,4 @@
     <!--</td>-->
   </tr>
 </app-data-table>
+</div>

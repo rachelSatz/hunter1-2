@@ -81,7 +81,7 @@ export class BroadcastComponent implements OnInit, OnDestroy {
   }
 
   fetchItems() {
-    if (this.organizationId !== this.selectUnitService.currentOrganizationID) {
+    if (+this.organizationId !== +this.selectUnitService.currentOrganizationID) {
       this.router.navigate(['/platform', 'process', 'table']);
     }
   }

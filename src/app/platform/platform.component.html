@@ -3,7 +3,7 @@
     <!--[routerLink]="!agentBarActive ? ['/platform', 'operator', 'work-queue']: ['/platform', 'dashboard']"-->
     <div *ngIf="!agentBarActive">
       <div class="d-flex pointer home-page-color mb-5">
-        <span class="w-100 py-3" (click)="restNav()" [routerLink]="['/platform']">חזרה לסליקה</span>
+        <span class="w-100 py-3" (click)="restNav()">חזרה לסליקה</span>
       </div>
       <!--<div class="d-flex pointer py-3">-->
         <!--<i class="w-100 fa fa-search"></i>-->
@@ -56,8 +56,8 @@
               </ng-container>
             </ul>
           </div>
-          <div class="d-flex align-items-center" [@fade]="!agentBarActive? 'inactive' : 'active'">
-            <bd-select [items]="organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)"></bd-select>
+          <div class="d-flex align-items-center" [@fade]="!agentBarActive && !this.router.url.includes('operator/table') ? 'inactive' : 'active'">
+            <bd-select [items]="organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)" ></bd-select>
             <bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
             <bd-select [items]="departments" class="ml-3" [(ngModel)]="departmentId" placeholder="מחלקה" (onSelect)="selectDepartment($event)"
                        [ngClass]="{'disable': employerId === undefined || employerId === '0'}"></bd-select>
