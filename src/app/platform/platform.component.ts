@@ -29,9 +29,6 @@ export class PlatformComponent implements OnInit {
   employers = [];
   departments = [];
   employersNumber: number;
-  // organizationId: number;
-  // employerId: any;
-  // departmentId: any;
   @Input() isWorkQueue = false;
   @Input() organizationId: number;
   @Input() employerId: any;
@@ -45,6 +42,7 @@ export class PlatformComponent implements OnInit {
   timerText = '';
   browserRefresh = false;
   details = true;
+  menuCampaigns = false;
 
   role_admin = this.userSession.isPermissions('user_management');
   readonly agentBarEl = [
@@ -52,13 +50,13 @@ export class PlatformComponent implements OnInit {
     { id: 2, icon: 'question-circle', label: 'תור עבודה', link: 'work-queue', role: 'operator'},
     { id: 3, icon: 'list-ul', label: 'משימות', link: 'tasks', role: 'operator'},
     { id: 4, icon: 'user', label: 'מעסיקים', link: 'employers', role: 'operator'},
-    { id: 5, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
-    { id: 6, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
-    { id: 7, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
+    { id: 5, icon: 'tasks', label: 'קמפיינים', link: 'campaigns', role: 'operator'},
+    { id: 6, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
+    { id: 7, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
+    { id: 8, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
     { id: 9, icon: 'th', label: 'קופות', link: 'products', role: 'admin'},
     { id: 10, icon: 'tasks', label: 'הגדרות מנהל', link: 'plans', role: 'admin'},
-    { id: 10, icon: 'file', label: 'דוחות מנהל', link: 'reports', role: 'admin'}
-
+    { id: 11, icon: 'file', label: 'דוחות מנהל', link: 'reports', role: 'admin'}
   ];
 
   readonly menuLinks = [
@@ -326,12 +324,23 @@ export class PlatformComponent implements OnInit {
     }
   }
 
+  navigateMenu(el) {
+    if (el.id === 5) {
+      this.menuCampaigns = true;
+    } else {
+      this.menuCampaigns = false;
+      this.router.navigate(['/platform', 'operator', el.link]);
+    }
+  }
+
   stopTimer(): void {
     const time = this.hours + ':' + this.minutes + ':' + this.seconds;
     this.updateTaskTimer(time);
     this.timerService.reset();
     this.selectUnit.clearTaskTimer();
-    this.router.navigate(['platform', 'operator', 'work-queue', 'ongoing-operation']);
+     // this.showTimer = false;
+    // לעדכן שהמשימה על מצב דילוג
+    this.router.navigate(['platform', 'operator', 'work-queue']);
   }
 
   updateTaskTimer(duration: string): void {

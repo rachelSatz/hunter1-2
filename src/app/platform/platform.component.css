@@ -66,6 +66,19 @@ bd-select {
   text-align: center;
 }
 
+.subMenu {
+  height: 17.5%;
+  position: fixed;
+  background-color: #62656e;
+  width: 180px;
+  color: #ffffff;
+  top: 330px;
+  text-align: center;
+}
+
+.selectedMenu {
+  background-color: #3D4252;
+}
 
 .closedAgentBar {
   /*z-index: 9999;*/

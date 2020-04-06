@@ -5,22 +5,26 @@
       <div class="d-flex pointer home-page-color mb-5">
         <span class="w-100 py-3" (click)="restNav()" [routerLink]="['/platform']">חזרה לסליקה</span>
       </div>
-      <!--<div class="d-flex pointer py-3">-->
-        <!--<i class="w-100 fa fa-search"></i>-->
-      <!--</div>-->
       <div *ngFor="let el of agentBarEl" class="d-flex pointer">
-        <span class="w-100 py-3" *ngIf="checkRole(el.role)" [routerLink]="['/platform', 'operator', el.link]"
+        <span class="w-100 py-3" *ngIf="checkRole(el.role)" (click)="navigateMenu(el)"
               routerLinkActive="selected">{{el.label}}</span>
-        <span *ngIf="el.id == 4 && employersNumber > 0" class="red-circle mt-3 mr-1" >{{ employersNumber}}</span>
+        <span *ngIf="el.id == 4 && employersNumber > 0" class="blue-circle mt-3 mr-1" >{{ employersNumber}}</span>
       </div>
     </div>
     <div *ngIf="agentBarActive" (click)="restNav()" [routerLink]="['/platform', 'operator', 'work-queue']">
       <p class="py-5 mt-2"></p>
       <div *ngFor="let el of agentBarEl"  class="d-flex pointer">
         <span class="w-100 py-3" *ngIf="checkRole(el.role)"><i class="w-100 fa fa-{{el.icon}}"></i></span>
-        <span *ngIf="el.id == 4 && this.userSession.newEmployers > 0" class="red-circle mt-3 mr-1" >{{ this.userSession.newEmployers}}</span>
+        <span *ngIf="el.id == 4 && this.userSession.newEmployers > 0" class="blue-circle mt-3 mr-1" >{{ this.userSession.newEmployers}}</span>
       </div>
     </div>
+  </div>
+  <div *ngIf="menuCampaigns" class="pointer subMenu mr-7" >
+    <p class="w-100 py-2" (click)="menuCampaigns = false"
+       [routerLink]="['/platform', 'operator', 'campaigns', 'campaigns-form']">קמפיין חדש</p>
+    <p class="w-100 py-2" (click)="menuCampaigns = false" [routerLink]="['/platform', 'operator', 'campaigns']">סטטוס שליחת קמפיין</p>
+    <p class="w-100 py-2 pb-2" (click)="menuCampaigns = false"
+       [routerLink]="['/platform', 'operator', 'campaigns', 'groups']">רשימת קבוצות</p>
   </div>
   <div *ngIf="showTimer" class="navbartest">
     <div class="d-flex timer">
@@ -45,7 +49,7 @@
       </div>
     </div>
     <div class="skip">
-      <a class="pointer mr-6 mt-2 p-absolute" (click)="stopTimer()">דלג ועבור להבא  >></a>
+      <a class="pointer mr-6 mt-2 p-absolute" (click)="stopTimer()">דלג ועבור להבא</a>
     </div>
   </div>
 

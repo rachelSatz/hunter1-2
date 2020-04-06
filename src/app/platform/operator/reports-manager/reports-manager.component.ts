@@ -4,7 +4,7 @@ import {EmployerService} from '../../../shared/_services/http/employer.service';
 import {SelectUnitService} from '../../../shared/_services/select-unit.service';
 import {DatePipe} from '@angular/common';
 import {HelpersService} from '../../../shared/_services/helpers.service';
-import {ReportsData} from '../../../shared/_models/report_manage';
+import {ReportFilters, ReportsData} from '../../../shared/_models/report_manage';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
@@ -14,6 +14,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class ReportsManagerComponent implements OnInit {
   departmentsIds;
+  reportsFilters= new ReportFilters;
   reportsData = new ReportsData();
   organizations = [];
   projects = [];
@@ -42,12 +43,6 @@ export class ReportsManagerComponent implements OnInit {
   ngOnInit() {
     this.helpers.setPageSpinner(true);
     this.insetData();
-    this.organizationService.getReport(this.organizationId , this.projectsId, this.employerId , this.operatorId, this.startDate,
-      this.endDate).then( response => {
-        this.reportsData = response['reportsData'];
-        this.departmentsIds = response['departmentsIds'];
-        this.helpers.setPageSpinner(false);
-    });
   }
 
   insetData() {
@@ -61,6 +56,7 @@ export class ReportsManagerComponent implements OnInit {
     this.employerService.getProjects().then(response => this.projects = response);
     this.employerService.getOperator().then(response => this.operators = response);
     this.organizationService.getOrganizationsNameAndId().then(response => this.organizations = response);
+    this.helpers.setPageSpinner(false);
   }
 
   getOrganizations(): void {
@@ -90,21 +86,37 @@ export class ReportsManagerComponent implements OnInit {
     this.helpers.setPageSpinner(true);
     this.startDate = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
     this.endDate = this.datePipe.transform(this.endDate, 'yyyy-MM-dd');
-     this.organizationService.getReport(this.organizationId , this.projectsId, this.employerId , this.operatorId, this.startDate,
-      this.endDate).then(response => {
+    this.insertReportsFilters();
+     this.organizationService.getReport(this.reportsFilters).then(response => {
        this.reportsData = response['reportsData'];
        this.departmentsIds = response['departmentsIds'];
        this.helpers.setPageSpinner(false);
      });
   }
 
+  insertReportsFilters(): void {
+    this.reportsFilters.projectsId = this.projectsId;
+    this.reportsFilters.operatorId = this.operatorId;
+    this.reportsFilters.organizationId = this.organizationId;
+    this.reportsFilters.employerId = this.employerId;
+    this.reportsFilters.departmentId = this.departmentId;
+    this.reportsFilters.startDate = this.startDate;
+    this.reportsFilters.endDate = this.endDate;
+    this.selectUnit.setReportFilters(this.reportsFilters);
+
+  }
   navigateEmployer(): void {
-    this.router.navigate(['/platform', 'operator', 'employers'],
-      {queryParams: { operatorId: this.operatorId}});
+    if (this.departmentsIds) {
+      this.insertReportsFilters();
+      this.router.navigate(['/platform', 'operator', 'employers'],
+        {queryParams: { report: 'report'}});
+    }
   }
 
   openEmployeeIdsCount(): void {
-    this.router.navigate(['/platform', 'operator', 'employer-employees'] , {relativeTo: this.route});
-      // {queryParams: { departmentsIds: this.departmentsIds, startDate: this.startDate, endDate: this.endDate}});
+    if (this.departmentsIds) {
+      this.insertReportsFilters();
+      this.router.navigate(['/platform', 'operator', 'employer-employees']);
+    }
   }
 }

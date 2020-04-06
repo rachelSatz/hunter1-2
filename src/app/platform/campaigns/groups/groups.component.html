@@ -1,0 +1,26 @@
+<div class="mr-5 px-4">
+  <app-data-table tableName="רשימת קבוצות" [columns]="columns" [hasCheckColumn]="true"
+                  [hasActionsHeader]="true" (fetchItems)="fetchItems()">
+    <div class="table-header">
+      <div class="row mt-4 mr-1">
+        <div class="ml-3 d-flex mr-auto">
+          <button class="btn blue-btn" (click)="openAddToGroupDialog('create')" > <i class="fa fa-plus align-middle mr-2 ml-2"></i> קבוצה חדשה</button>
+        </div>
+      </div>
+    </div>
+    <tr *ngFor="let item of dataTable.items; let index = index" [ngClass]="{ 'checked': item.checked }">
+      <td class="check-column">
+        <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
+      </td>
+      <td class="pointer" (click)="openGroupMembersDialog(item)">{{ item.name }}</td>
+      <td class="pointer"(click)="openGroupMembersDialog(item)">{{ item.created_at.slice(0, 11) }}</td>
+      <td class="pointer"(click)="openGroupMembersDialog(item)">{{ item.group_size }}</td>
+      <td class="row-actions">
+        <i  matTooltip="הוספת מעסיקים לקבוצה" (click)="openAddToGroupDialog('add', item.id, item.name)" class="fa fa-pencil" aria-hidden="true"></i>
+        <i  matTooltip="מחיקת קבוצה" (click)="deleteGroup(item.id, item.name)" class="fa fa-trash" aria-hidden="true"></i>
+      </td>
+      <input type="hidden" id="groupIds" name="groupIds" value="{{ item.id }}">
+    </tr>
+  </app-data-table>
+</div>
+

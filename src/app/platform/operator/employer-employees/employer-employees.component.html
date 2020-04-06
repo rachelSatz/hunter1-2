@@ -1,21 +1,21 @@
-<div>
+<div class="mr-4 px-4">
   <a (click)="previous()">
     <p class="f-14 blue-color">
       <i class="fa fa-angle-right ml-1 ml-lg-2"></i>
       <span>חזור</span>
     </p>
   </a>
-</div>
-<div class="px-4">
-  <app-data-table tableName="מעסיקים ומספר תעודות זהות" (fetchItems)="fetchItems()" [columns]="columns"
-                  [hasExtendedSearch]="true" [hasCheckColumn]="false" [hasActionsSearch]="true">
-    <tr *ngFor="let item of dataTable.items" class="pointer">
-      <td>{{ item.organization_name }}</td>
-      <td>{{ item.name }}</td>
-      <td>{{ item.identifier }}</td>
-      <td>{{ item.operator }}</td>
-      <td>{{ item.employee_product }}</td>
-      <td>{{ item.employee_no_product }}</td>
-    </tr>
-  </app-data-table>
+  <div class="px-4">
+    <app-data-table tableName="מעסיקים ומספר תעודות זהות" (fetchItems)="fetchItems()" [columns]="columns"
+                    [hasExtendedSearch]="false" [hasCheckColumn]="false" [hasActionsSearch]="false" [hasActionsHeader]="false">
+      <tr *ngFor="let item of dataTable.items" class="pointer">
+        <td>{{ item.organization_name }}</td>
+        <td>{{ item.employer_name }}</td>
+        <td>{{ item.employer_identifier }}</td>
+        <td>{{ item.operator_name }}</td>
+        <td>{{ item.employee_product }}</td>
+        <td>{{ item.employee_no_product }}</td>
+      </tr>
+    </app-data-table>
+  </div>
 </div>

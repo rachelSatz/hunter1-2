@@ -7,8 +7,10 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { placeholder, slideToggle } from 'app/shared/_animations/animation';
 import { EmployerStatus } from 'app/shared/_models/employer.model';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
-import {UserService} from '../../../shared/_services/http/user.service';
-
+import { ReportFilters } from '../../../shared/_models/report_manage';
+import { NotificationService } from '../../../shared/_services/notification.service';
+import { MatDialog } from '@angular/material/dialog';
+import { GroupDetailsComponent } from './group-details/group-details.component';
 
 
 @Component({
@@ -23,6 +25,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
   status = Object.keys(EmployerStatus).map(function(e) {
     return { id: e, name: EmployerStatus[e] };
   });
+  reportsFilters = new ReportFilters;
   operators = [];
   operatorName = 'user_id';
   sub = new Subscription;
@@ -49,13 +52,17 @@ export class EmployersComponent  implements OnInit , OnDestroy {
 
   constructor(protected route: ActivatedRoute,
               private router: Router,
+              private dialog: MatDialog,
+              private notificationService: NotificationService,
               private employerService: EmployerService,
               public  userSession: UserSessionService,
               private selectUnit: SelectUnitService) {
   }
 
   ngOnInit() {
-    if (this.router.url.includes( 'operator')) {
+    if (this.route.snapshot.queryParams['report']) {
+      this.location = 'report';
+    } else if (this.router.url.includes( 'operator')) {
       this.location = 'operator';
     } else {
       this.location = 'settings';
@@ -67,11 +74,12 @@ export class EmployersComponent  implements OnInit , OnDestroy {
       this.operators.push({'id': '0', 'name': 'ללא מנהל תיק'});
       column['searchOptions'].labels = this.operators;
     });
-    if (this.userSession.newEmployers > 0 && !this.router.url.includes( 'operatorId') ) {
+
+    if (this.userSession.newEmployers > 0 && this.location === 'operator') {
       this.dataTable.criteria.filters['operatorId'] = this.userSession.getRole() === 'admin' ? 0 : this.userId;
       this.dataTable.criteria.filters['status'] = 'moved_association';
     }
-
+    this.reportsFilters = this.selectUnit.getReportFilters();
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
         this.router.navigate([], {
           queryParams: {page: 1},
@@ -100,16 +108,54 @@ export class EmployersComponent  implements OnInit , OnDestroy {
     this.dataTable.criteria.filters['organizationId'] = this.selectUnit.currentOrganizationID;
     this.dataTable.criteria.filters['employerId'] = this.selectUnit.currentEmployerID;
     this.dataTable.criteria.filters['location'] = this.location;
-    if (this.route.snapshot.queryParams['operatorId']) {
-      this.dataTable.criteria.filters['operatorId'] = this.route.snapshot.queryParams['operatorId'];
+    if (this.reportsFilters) {
+      this.dataTable.criteria.filters['employerId'] = this.reportsFilters.employerId;
+      this.dataTable.criteria.filters['operatorId'] = this.reportsFilters.operatorId;
+      this.dataTable.criteria.filters['organizationId'] = this.reportsFilters.organizationId;
+      this.dataTable.criteria.filters['projectId'] = this.reportsFilters.projectsId;
+      this.dataTable.criteria.filters['status'] = 'active';
     }
     this.employerService.getAllEmployers(this.dataTable.criteria).then(
         response => this.setResponse(response));
+    this.selectUnit.clearReportFilters();
+  }
 
+  previous(): void {
+    if (this.location === 'report') {
+      this.router.navigate(['/platform', 'operator', 'reports']);
+    }
   }
 
   setResponse(response: any): void {
     this.dataTable.setItems(response);
+  }
+
+  createOrSelectGroup(mode: string) {
+    const title = mode === 'create' ? 'הקבוצה נוצרה בהצלחה' : 'המעסיקים נוסף בהצלחה' ;
+    if (this.dataTable.criteria.checkedItems.length === 0 ||
+      this.dataTable.criteria.checkedItems.some(item =>
+        item['status'] !== 'active' )) {
+      this.notificationService.warning('יש לבחור מעסיקים פעילים');
+      return;
+    }
+    const dialog = this.dialog.open(GroupDetailsComponent, {
+      data: {
+        'employers': this.dataTable.criteria.checkedItems,
+        'mode': mode,
+      },
+      width: '400px',
+      panelClass: 'employer'
+    });
+
+    this.sub.add(dialog.afterClosed().subscribe(response => {
+      if (response === 'success') {
+        this.notificationService.success(title);
+      } else if (response === 'error') {
+        this.notificationService.error('יצירת הקבוצה נכשלה');
+      }
+      this.dataTable.criteria.checkedItems = [];
+      this.dataTable.criteria.isCheckAll = false;
+    }));
   }
 
   ngOnDestroy() {

@@ -799,28 +799,40 @@ export class CreatingEmployerComponent implements OnInit {
   submit(): void {
     const status = this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'];
     const employerIdentifiers = this.validIdEmployer();
-    if (this.warningIdentifiers(employerIdentifiers) ? employerIdentifiers : true) {
-      if (this.validation()) {
-        if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
-          this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
-          this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
-          this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
-          (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
-          this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
-          this.userSession.newEmployers = this.userSession.newEmployers - 1;
-          this.processService.updatePaymentType(this.employerId,
-            this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['paymentType']);
-          this.insertData();
-        } else {
-          if (status === 'on_process') {
-            this.warningProcess();
-          } else if (status === 'moved_association' && !this.employer.operator && this.role === 'admin') {
-            this.warningDialogOperator();
-          } else {
-            this.insertData();
+    if (employerIdentifiers.length > 0) {
+      this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
+        {confirmButtonText: 'אישור'}).then(
+        confirmation => {
+          if (confirmation.value) {
+            this.sendData(status);
           }
+        });
+    } else {
+      this.sendData(status);
+    }
+  }
+
+  sendData(status) {
+    if (this.validation()) {
+      if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
+        this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
+        this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
+        this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
+        (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
+        this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
+        this.userSession.newEmployers = this.userSession.newEmployers - 1;
+        this.processService.updatePaymentType(this.employerId,
+          this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['paymentType']);
+        this.insertData();
+      } else {
+        if (status === 'on_process') {
+          this.warningProcess();
+        } else if (status === 'moved_association' && !this.employer.operator && this.role === 'admin') {
+          this.warningDialogOperator();
+        } else {
+          this.insertData();
         }
-       }
+      }
     }
   }
 }

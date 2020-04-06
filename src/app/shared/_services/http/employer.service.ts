@@ -8,13 +8,13 @@ import { UserSessionService } from '../user-session.service';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { EmployerFinancialDetails } from '../../_models/employer-financial-details.model';
-import {Contact} from '../../_models/contact.model';
 
 
 @Injectable()
 export class EmployerService extends BaseHttpService {
 
-  constructor(userSession: UserSessionService, private http: HttpClient) {
+  constructor(userSession: UserSessionService,
+              private http: HttpClient) {
     super(userSession);
   }
 

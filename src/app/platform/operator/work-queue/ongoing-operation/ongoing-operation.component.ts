@@ -83,7 +83,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
         this.noMoreTask = true;
       } else if (response['message'] === 'Success!') {
         this.plan = response['data'];
-        this.newPlanTaskTimer(this.plan.id, this.plan.type.name, this.plan.employer.name, this.plan.organization.name);
+        this.newPlanTaskTimer('ongoing_operation', this.plan.id, this.plan.type.name, this.plan.employer.name, this.plan.organization.name);
         if (this.plan !== null && this.plan.task !== null) {
           if (Object.values(CategoryTypeEmployerError).indexOf(this.plan.type.id)  !== -1) {
             this.errorsDetails['employerError'].error = true;
@@ -247,13 +247,13 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   //   // });
   // }
 
-  newPlanTaskTimer(planTaskId, type, employer, organization): void {
-    this.operatorTasks.newTaskTimer('', planTaskId).then(
+  newPlanTaskTimer(taskType, planTaskId, type, employer, organization): void {
+    this.operatorTasks.newTaskTimer(taskType, planTaskId).then(
       response => {
         if (response > 0 ) {
           const data = {
             id: response,
-            planTaskId: planTaskId,
+            // planTaskId: planTaskId,
             type: type,
             employer: employer,
             organization: organization
@@ -268,7 +268,6 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
       response => {
         if (response > 0 ) {
           this.task_timer_id = response;
-
           this.taskObj.id = response;
           this.selectUnit.setTaskTimer(this.taskObj);
         }

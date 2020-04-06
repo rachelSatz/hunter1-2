@@ -4,7 +4,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DataTableModule} from '../../../shared/data-table/data-table.module';
 import {BdSelectModule} from '../../../../assets/js/bd-select/bd-select.module';
-import {EmployerService} from '../../../shared/_services/http/employer.service';
 import {NotificationService} from '../../../shared/_services/notification.service';
 
 const routes: Routes = [
@@ -21,7 +20,7 @@ const routes: Routes = [
   declarations: [
     EmployerEmployeesComponent
   ],
-  providers: [EmployerService, NotificationService],
+  providers: [NotificationService],
 
 })
 export class EmployerEmployeesModule { }

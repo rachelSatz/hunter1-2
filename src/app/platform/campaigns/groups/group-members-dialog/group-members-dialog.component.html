@@ -1,0 +1,28 @@
+<div class="dialog-header float-left mb-1 d-flex">
+  <button mat-dialog-close class="float-left">
+    <i class="fa fa-close"></i>
+  </button>
+</div>
+<div class="container">
+  <div class="row justify-content-between">
+    <h3 mat-dialog-title class="bold blue-color">{{data.groupName}}</h3>
+  </div>
+  <h6>סה"כ {{data.groupSize}} מעסיקים </h6>
+  <br>
+  <div class="row">
+    <table class="table table-striped" width="400px">
+      <thead>
+      <tr>
+        <td class="text-right h5 text-center">שם ארגון</td>
+        <td class="text-right h5 text-center">שם מעסיק</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of items">
+        <td>{{item.organization}}</td>
+        <td>{{item.employer}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

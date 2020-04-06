@@ -10,6 +10,8 @@ import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
 import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import {EmployerMovesManagerComponent} from './creating-employer/employer-moves-manager/employer-moves-manager.component';
+import { GroupDetailsComponent } from './group-details/group-details.component';
+import {GroupService} from '../../../shared/_services/http/group.service';
 // import {CreatingEmployerComponent} from './creating-employer/creating-employer.component';
 
 
@@ -30,10 +32,10 @@ const routes: Routes = [
 
   ],
   declarations: [
-    EmployersComponent, EmployerMovesManagerComponent
+    EmployersComponent, EmployerMovesManagerComponent, GroupDetailsComponent
   ],
-  providers: [EmployerService, NotificationService],
-  entryComponents: [EmployerMovesManagerComponent]
+  providers: [EmployerService, NotificationService, GroupService],
+  entryComponents: [EmployerMovesManagerComponent, GroupDetailsComponent]
 
 })
 export class EmployersModule { }

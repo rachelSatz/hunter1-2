@@ -1,3 +1,13 @@
+export class ReportFilters {
+  projectsId: number;
+  operatorId: number;
+  organizationId: number;
+  employerId: number;
+  departmentId: number;
+  startDate: string;
+  endDate: string;
+}
+
 export class ReportsData {
   organization_count: number;
   employers_count: number;

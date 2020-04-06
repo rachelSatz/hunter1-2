@@ -15,7 +15,6 @@ export class EmployerMovesManagerComponent implements OnInit {
   date: any;
   operators = [];
   operatorId: number;
-
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<EmployerMovesManagerComponent>,
               private employerService: EmployerService) { }

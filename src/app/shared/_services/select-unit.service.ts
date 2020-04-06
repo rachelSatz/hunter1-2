@@ -56,6 +56,19 @@ export class SelectUnitService {
     sessionStorage.removeItem('task');
   }
 
+  setReportFilters(reportFilters: any): void {
+    sessionStorage.setItem('report', JSON.stringify(reportFilters));
+  }
+
+  getReportFilters(): any {
+    return this.getSessionStorage('report');
+  }
+
+  clearReportFilters(): void {
+    sessionStorage.removeItem('report');
+  }
+
+
   changeDepartment(id: number): void {
     sessionStorage.setItem('departmentID', JSON.stringify(id));
     this.currentDepartmentID = id;
