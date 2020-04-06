@@ -78,24 +78,28 @@ export class FinanceComponent implements OnInit {
     this.employerService.getAllEmployers(null, true).then(
       response => {
         this.payEmployers = response['items'];
-        this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(res => {
-          if (res.id) {
-            this.financialDetails = res;
-            if (this.financialDetails.employer.id === this.financialDetails.pay_employer.id) {
-              this.displayMasav = true;
-            }
-            if (this.financialDetails != null && this.financialDetails.payment_time === 'no_payment') {
-              this.isNoPaymentTime = true;
-              if (this.financialDetails.payment_time_validity === 'month') {
-                this.openDatePicker = true;
-              }
-            }
-          } else {
-            // this.financialDetails.currency = CURRENCY.ils;
-            // this.financialDetails.language = LANGUAGE.he;
-          }
-        });
+        this.fetchItems();
       });
+  }
+
+  fetchItems() {
+    this.employerService.getEmployerFinance(this.selectUnit.currentEmployerID).then(res => {
+      if (res.id) {
+        this.financialDetails = res;
+        if (this.financialDetails.employer.id === this.financialDetails.pay_employer.id) {
+          this.displayMasav = true;
+        }
+        if (this.financialDetails != null && this.financialDetails.payment_time === 'no_payment') {
+          this.isNoPaymentTime = true;
+          if (this.financialDetails.payment_time_validity === 'month') {
+            this.openDatePicker = true;
+          }
+        }
+      } else {
+        // this.financialDetails.currency = CURRENCY.ils;
+        // this.financialDetails.language = LANGUAGE.he;
+      }
+    });
   }
 
   addProductRow(): void {
@@ -173,7 +177,7 @@ export class FinanceComponent implements OnInit {
               this.hasServerError = true;
             } else {
               this.notificationService.success('נשמר בהצלחה.');
-              // setTimeout(() => this.refresh(), 1000);
+              this.fetchItems();
             }
           });
       }

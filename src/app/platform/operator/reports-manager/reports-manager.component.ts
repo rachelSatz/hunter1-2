@@ -75,7 +75,7 @@ export class ReportsManagerComponent implements OnInit {
   }
 
   getEmployers(): void {
-    this.employers = (this.selectUnit.getOrganization()).find(o => o.id == this.organizationId).employer;
+    this.employers = (this.selectUnit.getOrganization()).find(o => o.id === this.organizationId).employer;
   }
 
   clear(): void {
