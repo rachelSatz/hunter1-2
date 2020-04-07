@@ -37,8 +37,11 @@ export class GroupHistoryComponent implements OnInit {
   // }
 
   submit(): void {
+    this.helpers.setPageSpinner(true);
     this.monthlyService.changeGroupByHistory(this.data.processId , this.data.items).then(
-      res => this.dialogRef.close());
+      res => {
+        this.helpers.setPageSpinner(false);
+        this.dialogRef.close(); });
   }
 
 }

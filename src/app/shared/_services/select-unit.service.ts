@@ -145,10 +145,6 @@ export class SelectUnitService {
     }
   }
 
-
-
-
-
   changeOrganization(organizationId: number): void {
     sessionStorage.setItem('organizationID', JSON.stringify(organizationId));
     this.currentOrganizationID = organizationId;
