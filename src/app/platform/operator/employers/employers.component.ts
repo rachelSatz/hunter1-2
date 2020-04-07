@@ -76,7 +76,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
     });
 
     if (this.userSession.newEmployers > 0 && this.location === 'operator') {
-      this.dataTable.criteria.filters['operatorId'] = this.userSession.getRole() === 'admin' ? 0 : this.userId;
+      this.dataTable.criteria.filters['operatorId'] = this.role === 'admin' ? 0 : this.userId;
       this.dataTable.criteria.filters['status'] = 'moved_association';
     }
     this.reportsFilters = this.selectUnit.getReportFilters();
@@ -103,7 +103,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
       const column = this.dataTable.searchColumn('status');
       column['selected'] = this.userSession.newEmployers > 0 ? 'moved_association' : null;
       const columnOperator = this.dataTable.searchColumn('user_id');
-      columnOperator['selected'] = this.userSession.getRole() === 'admin' ? '0' : this.userId.toString();
+      columnOperator['selected'] = this.role === 'admin' ? '0' : this.userId.toString();
     }
     this.dataTable.criteria.filters['organizationId'] = this.selectUnit.currentOrganizationID;
     this.dataTable.criteria.filters['employerId'] = this.selectUnit.currentEmployerID;

@@ -1,4 +1,4 @@
-<div class="col-12 f-12 mb-lg-5" >
+<div class="col-12 f-12 mb-lg-5" *ngIf="location != 'operator'">
   <div class="float-left">
     <mat-form-field>
       <mat-select placeholder="חודש שכר" [(ngModel)]="month" name="month" class="ml-3"
@@ -38,20 +38,27 @@
     <td  (click)="moveProcess(item)">{{ item.organization_name }}</td>
     <td  (click)="moveProcess(item)">{{ item.employer_name }}</td>
     <td  (click)="moveProcess(item)">{{ item.department_name }}</td>
-    <td  (click)="moveProcess(item)">{{ item.operator_name }}</td>
+    <td  (click)="moveProcess(item)" *ngIf="role === 'admin'">{{ item.operator_name }}</td>
     <td  (click)="moveProcess(item)">{{ item.date | date:'MM'}}</td>
     <td  (click)="moveProcess(item)">{{ item.date | date:'yyyy' }}</td>
     <td  (click)="moveProcess(item)">{{ item.total | number: '1.2-2'}}</td>
-    <td (click)="moveProcess(item)" class="d-flex">
-      <div class="w-75">{{ processStatus[item.status] }}</div>
-      <div class="w-25" *ngIf="processStatus[item.status] == processStatus.error_loading"><img src="/assets/img/icons/warning.svg" class="img-size"></div>
+    <td (click)="moveProcess(item)">
+      <div class="row">
+        <div class="w-75">{{ processStatus[item.status] }}</div>
+        <div class="w-25" *ngIf="processStatus[item.status] == processStatus.error_loading"><img src="/assets/img/icons/warning.svg" class="img-size"></div>
+      </div>
     </td>
-    <td  (click)="moveProcess(item)">{{item.status_process  + '/7' }} </td>
+    <td  (click)="moveProcess(item)">{{item.status_process == '-5' ?
+      '5/7 חלקי' :
+      item.status_process == '-6'? '6/7 חלקי' : item.status_process
+      + '/7' }} </td>
     <!--<td>-->
     <!--</td>-->
     <td *ngIf="isDisplay">
+      <div class="row">
       <i class="fa fa-download fa-lg ml-2" (click)="downloadFileProcess(item.id)"></i>
       <i class="fa fa-trash fa-lg" (click)="deleteProcess(item.id)" title="מחיקה"></i>
+      </div>
     </td>
     <!--<td>-->
       <!--<i class="fa fa-angle-double-left" (click)="detailsFiles(item)"></i>-->

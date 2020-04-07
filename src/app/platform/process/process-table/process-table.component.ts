@@ -41,6 +41,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   operatorName = 'operator_id';
   organizationName = 'organization_name';
   employerName = 'employer_name';
+  role = this.userSession.getRole();
 
   statuses_selected = [ 'loading',
   'can_be_processed',
@@ -56,11 +57,12 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     // , onSelect: 'loadEmployers($event)'
     { name: this.employerName, sortName: 'department__employer__name', label: 'שם מעסיק'  , searchable: false},
     { name: 'department_name', sortName: 'department__name', label: 'שם מחלקה' , searchable: false},
-    { name: this.operatorName, sortName: 'department__employer__operator__first_name', label: 'מנהל תיק' , searchOptions: { labels: [] } },
+    { name: this.operatorName, sortName: 'department__employer__operator__first_name',
+      label: 'מנהל תיק' , searchOptions: { labels: [] } , isDisplay: this.role === 'admin'},
     { name: 'month', sortName: 'date', label: 'חודש' , searchable: false},
     { name: 'year', label: 'שנה' , isSort: false , searchable: false},
     { name: 'total', label: 'סכום' , searchable: false},
-    { name: 'status', label: 'סטטוס' , multiple: true, searchOptions: { labels: this.statuses}},
+    { name: 'status', label: 'סטטוס' , selected: this.statuses_selected, multiple: true, searchOptions: { labels: this.statuses}},
     { name: 'status_process', label: 'סטטוס תהליך' , isSort: false , searchable: false},
     // { name: 'download', label: 'הורדה', isSort: false },
     {name: 'actions', label: 'פעולות' , isSort: false, isDisplay: this.isDisplay, searchable: false},
@@ -107,6 +109,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
         this.fetchItems();
       }
     ));
+
   }
 
   fetchItems() {
