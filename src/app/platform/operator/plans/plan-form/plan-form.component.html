@@ -46,11 +46,13 @@
         <p>{{ index + 1 + '.' }} </p>
         <div class="d-flex align-items-center mb-lg-3">
           <div class="bd-select-container">
-            <bd-select [name]="'type_id' + index"  [items]="types" #typeIDSelect="ngModel" [(ngModel)]="row.type.type.id" placeholder="סוג תוכנית" (onSelect)="selectedSubType(row.type)" required></bd-select>
+            <bd-select [name]="'type_id' + index"  [items]="types" #typeIDSelect="ngModel" [(ngModel)]="row.type.type.id"
+                       placeholder="סוג תוכנית" (onSelect)="selectedSubType(row.type)" required></bd-select>
             <!--<mat-error [@fade]="typeIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>-->
           </div>
           <div class="mx-3 bd-select-container">
-            <bd-select  [name]="'subType_id' + index"  [items]="subTypes" #subTypeIDSelect="ngModel" [(ngModel)]="row.type.id"  (onSelect)="setDataSubType(row.type.id)" placeholder="תוכנית משנה" required></bd-select>
+            <bd-select  [name]="'subType_id' + index"  [items]="subTypes" #subTypeIDSelect="ngModel" [(ngModel)]="row.type.id"
+                        (onSelect)="setDataSubType(row.type.id)" placeholder="תוכנית משנה" required></bd-select>
             <!--<mat-error [@fade]="subTypeIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>-->
           </div>
         </div>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-campaigns-summary',
@@ -6,10 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./campaigns-summary.component.css']
 })
 export class CampaignsSummaryComponent implements OnInit {
+  // @Input() campaignForm: FormGroup;
+  // @Input() form: NgForm;
+  @Input() tab: number;
+  @Input() createdAt: string;
+  @Input() request = { submitFailed: false, submitSuccessfully: false };
+  // @Output() tabChange = new EventEmitter<number>();
 
-  constructor() { }
+  campaign: Object;
+
+  constructor() {
+  }
 
   ngOnInit() {
+    // this.campaign = this.campaignForm;
   }
+
 
 }

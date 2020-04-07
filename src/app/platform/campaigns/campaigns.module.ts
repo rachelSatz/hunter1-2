@@ -7,6 +7,7 @@ import {NotificationService} from '../../shared/_services/notification.service';
 import {CampaignsComponent} from './campaigns.component';
 import {GroupService} from '../../shared/_services/http/group.service';
 import { CampaignsFormComponent } from './campaigns-form/campaigns-form.component';
+import {CampaignsFormModule} from './campaigns-form/campaigns-form.module';
 
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     DataTableModule,
-    BdSelectModule
+    BdSelectModule,
+    CampaignsFormModule
   ],
   providers: [NotificationService, GroupService],
   entryComponents: [CampaignsFormComponent]

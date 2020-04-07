@@ -318,7 +318,7 @@
       </div>
       <p class="bold mt-5">חשבון להחזר כספים</p>
       <div class="d-flex" formGroupName="receivingBank">
-      <div class="bd-width181">
+        <div class="bd-width181">
           <bd-select [items]="banks" formControlName="bankId" required
                      [(ngModel)]="selectedBankW" placeholder="בחר בנק"
                      (onSelect)="getBranches(2)"  [error]="!selectedBankW && form.submitted"></bd-select>

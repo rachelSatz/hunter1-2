@@ -1,28 +1,34 @@
-<div class="container mt-lg-8 w-100">
-  <p class="h4 bold">קמפיין חדש</p>
-  <div class="d-flex justify-content-center my-5">
-    <div class="step-title active">
-      <span class="flex-grow-1">סוג קמפיין</span>
-      <div class="triangles">
-        <div [ngClass]="{ 'blue': tab >= 1  }"></div>
-        <div></div>
-      </div>
-    </div>
-    <div class="step-title" [ngClass]="{ 'active': tab >= 2 }">
-      <span class="flex-grow-1">בחירת קבוצה</span>
-      <div class="triangles">
-        <div [ngClass]="{ 'blue': tab === 3 }"></div>
-        <div></div>
-      </div>
-    </div>
-    <div class="step-title" [ngClass]="{ 'active': tab === 3}">
-      <span>תצוגה ויצירה</span>
-    </div>
-  </div>
-  <div>
-    <button mat-button *ngIf="tab !== 1" (click)="back()" class="btn-outline-dark border-dark right">חזור</button>
-    <button mat-button (click)="continue()" class="blue-btn left">המשך</button>
-  </div>
-</div>
+<!--<div class="container mt-lg-8 w-100">-->
+<!--  <p class="h4 bold">קמפיין חדש</p>-->
+<!--  <div class="d-flex justify-content-center my-5">-->
+<!--    <div class="step-title active">-->
+<!--      <span class="flex-grow-1">סוג קמפיין</span>-->
+<!--      <div class="triangles">-->
+<!--        <div [ngClass]="{ 'blue': tab >= 1  }"></div>-->
+<!--        <div></div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="step-title" [ngClass]="{ 'active': tab >= 2 }">-->
+<!--      <span class="flex-grow-1">בחירת קבוצה</span>-->
+<!--      <div class="triangles">-->
+<!--        <div [ngClass]="{ 'blue': tab === 3 }"></div>-->
+<!--        <div></div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="step-title" [ngClass]="{ 'active': tab === 3}">-->
+<!--      <span>תצוגה ויצירה</span>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--    <form #form="ngForm" (ngSubmit)="submit(form.valid)">-->
+<!--      <app-campaigns-type [@fade]="tab === 1 ? 'active' : 'inactive'"></app-campaigns-type>-->
+<!--      <app-campaigns-summary [@fade]="tab > 1 ? 'active' : 'inactive'"></app-campaigns-summary>-->
+<!--      <app-group-select-campaigns  [@fade]="tab === 2 ? 'active' : 'inactive'" ></app-group-select-campaigns>-->
+<!--      <p class="py-3 h4 text-center" *ngIf="tab === 3">ליצירה ושליחת הקמפיין לחץ על סיום ושליחה</p>-->
+<!--    </form>-->
+<!--  <div class="py-3">-->
+<!--    <button mat-button *ngIf="tab !== 1" (click)="back()" class="btn-outline-dark border-dark right">חזור</button>-->
+<!--    <button mat-button (click)="continue()" class="blue-btn left">{{tab === 3 ? 'סיום ושליחה' : 'המשך'}}</button>-->
+<!--  </div>-->
+<!--</div>-->
 
 

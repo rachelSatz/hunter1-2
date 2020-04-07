@@ -10,6 +10,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {CampaignsFormComponent} from './campaigns-form.component';
 import {DataTableModule} from '../../../shared/data-table/data-table.module';
 import {BdSelectModule} from '../../../../assets/js/bd-select/bd-select.module';
+import {CampaignsService} from '../../../shared/_services/http/campains.service';
+import {MatRadioModule} from '@angular/material/radio';
+import {GroupMembersDialogComponent} from '../groups/group-members-dialog/group-members-dialog.component';
+import {FormBuilder} from '@angular/forms';
 
 const routes: Routes = [
   { path: '', component: CampaignsFormComponent }
@@ -24,8 +28,14 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     DataTableModule,
     BdSelectModule,
+    MatRadioModule,
   ],
-  providers: [NotificationService],
+  providers: [NotificationService, CampaignsService, FormBuilder],
+  exports: [
+    CampaignsTypeComponent,
+    CampaignsSummaryComponent,
+    GroupSelectCampaignsComponent
+  ],
   entryComponents: [CampaignsSummaryComponent, CampaignsTypeComponent, GroupSelectCampaignsComponent]
 })
 export class CampaignsFormModule { }
