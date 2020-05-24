@@ -287,6 +287,8 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     }
   }
 
+
+
   ngOnDestroy() {
     this.sub.unsubscribe();
     this.subscription.unsubscribe();

@@ -1,0 +1,46 @@
+.btn-design {
+  width: 135px;
+  height: 28px;
+  border-radius: 23px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  background-color: #ffffff;
+  padding: 0;
+  min-width: 135px;
+  font-family: Rubik;
+  font-size: 14px;
+  border-width: 0px;
+}
+
+.line-height-4point
+{
+  line-height: 4.125;
+}
+
+
+.disabledInput {
+  pointer-events: none;
+  opacity: 0.4;   }
+
+.row-image {
+  width: 30px;
+  height: auto;
+}
+.mat-error
+{
+  font-size: small;
+}
+
+.bd-select-container {
+  height: 44px;
+}
+
+
+.border-margin {
+  margin-left: 50%;
+}
+
+.back-margin {
+  margin-left:225px;
+
+}
+

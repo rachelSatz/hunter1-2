@@ -1,0 +1,16 @@
+<div class="dialog-header float-left mb-1 d-flex">
+  <button mat-dialog-close class="float-left">
+    <i class="fa fa-close"></i>
+  </button>
+</div>
+<form #form="ngForm">
+  <div class="mt-1">
+  <h6 class="bold">עדכון סוג תשלום</h6>
+  <p class="f-12"> סוג תשלום: <span> {{ data.typePay }}</span></p>
+  <bd-select [items]="paymentTypes" name="type" #typeSelect="ngModel" [(ngModel)]="type"  placeholder="בחר סוג תשלום" class="mb-lg-4 w-50" required></bd-select>
+    <p class="alert alert-danger" [@fade]="typeSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה.</p>
+  <div class="text-center">
+    <button class="btn blue-btn" (click)="submit(form)">עדכון</button>
+  </div>
+  </div>
+</form>

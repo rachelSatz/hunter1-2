@@ -10,7 +10,6 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade, slideInOut } from 'app/shared/_animations/animation';
 import { TaskTimerLabels } from '../shared/_models/timer.model';
 import { TimerService } from '../shared/_services/http/timer';
-import {EmployeeService} from '../shared/_services/http/employee.service';
 import {EmployerService} from '../shared/_services/http/employer.service';
 
 @Component({
@@ -75,7 +74,7 @@ export class PlatformComponent implements OnInit {
         ]
     },
     { url: 'process', subUrl: 'operations', label: 'תהליכים', subMenuLinks: [
-      { url: 'new/0', label: 'צור תהליך חדש' },
+      { url: 'new/create', label: 'צור תהליך חדש' },
       { url: 'table', label: 'תהליכים' },
       ]
     },
@@ -336,8 +335,8 @@ export class PlatformComponent implements OnInit {
       this.activeUrl = 'settings';
       return;
     } else {
-      if (subLink === 'new/0') {
-        this.router.navigate(['/platform', link, 'new', 0]);
+      if (subLink === 'new/create') {
+        this.router.navigate(['/platform', link, 'new', 'create']);
       } else {
       this.router.navigate(['/platform', link, subLink]);
       }

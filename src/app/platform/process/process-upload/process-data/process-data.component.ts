@@ -213,7 +213,7 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
   openAddFile(type: number, form?): void {
     const dialog = this.dialog.open(FileDepositionComponent, {
       width: '550px',
-      panelClass: 'send-email-dialog',
+      panelClass: 'deposition-dialog',
       disableClose: true
     });
 

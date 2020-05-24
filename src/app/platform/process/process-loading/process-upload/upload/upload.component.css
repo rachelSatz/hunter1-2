@@ -1,0 +1,52 @@
+
+.btn-remove{
+  width: 93% !important;
+  margin-bottom: 0.2rem;
+}
+
+::ng-deep .form-dialog .mat-dialog-container {
+  background-image: linear-gradient(360deg, #f5f5f5 75%, white 25%);
+}
+
+::ng-deep .form-dialog .drop-zone {
+  border: 1px solid #ababab !important;
+  border-radius: 0 !important;
+  background-color: white;
+  width: 488px;
+  height: 187px !important;
+}
+
+.mt-2p2{
+  margin-top: 2.2rem;
+}
+
+.btn-sm{
+  padding: 0.4rem 0.3rem;
+  font-size: 10px;
+  line-height: 0.5;
+  border-radius: 1.2rem;
+  min-width: 50px !important;
+}
+
+.danger-color {
+  color: #dc3545 !important;
+}
+
+
+.border-danger {
+  max-height: 72px;
+  border: 1px solid transparent;
+}
+
+.border-bottom-danger {
+  border-bottom: 1px solid #dc3545;
+
+}
+
+.mat-dialog-close {
+  background: #fff;
+  border: none;
+  outline: 0;
+  cursor: pointer;
+  text-align: right;
+}

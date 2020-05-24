@@ -1,0 +1,61 @@
+<form #form="ngForm" class="mt-5 font-arial">
+  <div class="float-left">
+    <button class="btn blue-btn" (click)="processDataService.activeProcess.payment_instructions ?
+       setPage(): false">
+      המשך
+    </button>
+  </div>
+  <h5 class="bold">סיכום הנחיות לתשלום</h5>
+  <div class="col-4 row mr-0 pr-0 mt-3"  *ngIf="processLoading.process_details">
+    <div class="d-flex col-6 pr-0">
+      <div class="d-flex bold f-14">
+         סכום לתשלום:
+        {{processLoading.process_details.total}}
+      </div>
+    </div>
+    <div class="d-flex col-6">
+      <div class="d-flex">
+         מספר קופות לתשלום:
+        {{processLoading.process_details.groups_count}}
+      </div>
+    </div>
+  </div>
+  <p class="f-12 mb-2 mt-4">לצורך המשך התהליך עלייך לבחר אחת מהפעלת הנ"ל:</p>
+  <button class="btn btn_payment" (click)="downloadPaymentsInstruction()">
+    <span class="col-10 text-btn">הורדת הנחיות</span>
+    <i class="fa fa-angle-left col-1"></i>
+  </button>
+  <button class="btn btn_payment mr-4" (click)="openDialogSendFileEmail()">
+    <span class="col-10 text-btn">שליחת הנחיות</span>
+    <i class="fa fa-angle-left col-1"></i>
+  </button>
+  <div class="d-flex mt-5 align-items-center mb-2">
+    <span class="f-14">לצפייה ואישורי העברות</span>
+    <span class="f-14 bold mr-1"> לחץ כאן</span>
+    <i class="fa fa-angle-left fa-circle-me mr-3" *ngIf="hasShow" (click)="hasShow = !hasShow"></i>
+    <i class="fa fa-angle-right fa-circle-me mr-3" *ngIf="!hasShow" (click)="hasShow = !hasShow"></i>
+  </div>
+
+  <div [@fade]="hasShow ? 'active' : 'inactive'">
+    <div class="container-fluid pr-0">
+      <header>
+        <div id="mainMenu">
+          <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+            <div class="collapse navbar-collapse">
+              <ul class="navbar-nav">
+                <ng-container *ngFor="let link of headers">
+                  <li class="nav-item"  [ngClass]="{ 'active-i': link.url === activeUrl }">
+                    <a class="menu-link" [routerLink]="[link.url]">
+                      <p>{{ link.label }}</p>
+                    </a>
+                  </li>
+                </ng-container>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </header>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</form>

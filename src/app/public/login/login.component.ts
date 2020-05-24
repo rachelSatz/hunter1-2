@@ -8,14 +8,12 @@ import { AppHttpService } from 'app/shared/_services/http/app-http.service';
 import { HelpersService} from 'app/shared/_services/helpers.service';
 import { fade } from 'app/shared/_animations/animation';
 import {MatDialog} from '@angular/material';
-import {EmployerService} from '../../shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styles: ['.underline { text-decoration: underline !important; } .blue-color { color: #00ADEE !important;}'],
   animations: [ fade ],
-  // entryComponents: [ForgotPasswordComponent]
 })
 export class LoginComponent {
 

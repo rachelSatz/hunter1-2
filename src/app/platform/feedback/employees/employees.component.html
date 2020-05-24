@@ -1,5 +1,5 @@
 <div class="row">
-  <div *ngIf="displayBack" class="d-flex mr-auto">
+  <div *ngIf="displayBack && !isProcess" class="d-flex mr-auto">
     <a (click)="previous()">
       <p class="f-14 blue-color">
         <i class="fa fa-angle-right ml-1 ml-lg-2"></i>
@@ -9,7 +9,7 @@
   </div>
 </div>
 <div class="col-12 f-12 mb-lg-5">
-  <div class="float-left">
+  <div class="float-left" *ngIf="!isProcess">
     <mat-form-field>
       <mat-select placeholder="חודש שכר" [(ngModel)]="this.selectMonth" name="month" class="ml-3"
                   (selectionChange)="dataTable.search()">
@@ -27,19 +27,27 @@
     </mat-form-field>
   </div>
 </div>
-<app-data-table tableName="מעקב ברמת עובד" [columns]="columns" (fetchItems)="fetchItems()"
+<app-data-table [tableName]="" [columns]="columns" (fetchItems)="fetchItems()"
                 [hasCheckColumn]="true" [hasActionsHeader]="userSession.getPermissionsType('operations')">
   <div class="table-header">
       <div class="row mr-1">
         <div class="ml-3 d-flex mr-auto">
-          <button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2">פעולות</button>
+          <button [matMenuTriggerFor]="menu" class="btn blue-btn mr-2" *ngIf="!isSent">פעולות</button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="regularFix()">מתקן 2</button>
             <button mat-menu-item (click)="positiveNegativeFix()"> מתקן 1+6 </button>
             <button mat-menu-item (click)="changeFileToNegative()">יצירת קובץ שלילי</button>
-            <button mat-menu-item (click)="sendFeedback()"> שליחת היזונים חוזרים</button>
+            <button mat-menu-item (click)="sendOnlyFailedFeedback()"> שליחת היזונים חוזרים</button>
             <button mat-menu-item (click)="openCommentsDialog()">הוסף הערה</button>
             <button mat-menu-item (click)="changeStatus()">שינוי סטטוס פניה</button>
+          </mat-menu>
+
+          <button [matMenuTriggerFor]="menuSent" class="btn blue-btn mr-2" *ngIf="isSent">פעולות</button>
+          <mat-menu #menuSent="matMenu">
+            <button mat-menu-item (click)="sendCheckedFeedback()">שליחה</button>
+            <button mat-menu-item (click)="sendAllFeedback()">שליחה כוללת</button>
+            <button mat-menu-item (click)="sendFailedFeedback()">שליחת תקולים</button>
+            <!--<button mat-menu-item (click)="dwonload()">הורדה</button>-->
           </mat-menu>
         </div>
      </div>

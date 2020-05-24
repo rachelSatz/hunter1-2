@@ -28,6 +28,7 @@ export class ProductFormComponent implements OnInit {
 
   readonly columns =  [
     { name: 'bank', label: 'בנק', searchable: false},
+    { name: 'branch_number', label: 'מס סניף', searchable: false},
     { name: 'branch', label: 'סניף', searchable: false},
     { name: 'account', label: 'חשבון'},
     { name: 'main', label: 'ראשי?', searchable: false}
