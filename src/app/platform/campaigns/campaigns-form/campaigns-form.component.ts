@@ -1,41 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
+import { fade } from 'app/shared/_animations/animation';
+import {Campaigns} from '../../../shared/_models/campaigns';
+
 
 @Component({
   selector: 'app-campaigns-form',
   templateUrl: './campaigns-form.component.html',
-  styleUrls: ['./campaigns-form.component.css']
+  styleUrls: ['./campaigns-form.component.css'],
+  animations: [ fade]
 })
 export class CampaignsFormComponent implements OnInit {
   sub = new Subscription;
   tab: number;
-
   request = { submitFailed: false, submitSuccessfully: false };
 
   createdAt: string;
 
   hasActionPermission: boolean;
 
-  // campaignForm = this.fb.group({
-  //   'typeSubForm' : this.fb.group ({
-  //     'name': 				[null, Validators.required, [this.checkNameExists.bind(this)]],
-  //     'module': 			[null, Validators.required],
-  //     'form': 				[null, Validators.required],
-  //     'moduleStatuses': [null, Validators.required],
-  //     'method': 			[null, Validators.required],
-  //     'sendAt':  			[0, Validators.required],
-  //     'repeatEvery': 	[{ value: null, disabled: true }],
-  //   }),
-  //   'groupSubForm' : this.fb.group ({
-  //     'groups': [null],
-  //     'isBackup': [false, Validators.required],
-  //     'isCheckAll' : [false]
-  //   }),
-  // });
+  campaignForm = this.fb.group({
+    'typeSubForm' : this.fb.group ({
+      'name': 				[null, Validators.required, [this.checkNameExists.bind(this)]],
+      'module': 			[null, Validators.required],
+      'form': 				[null, Validators.required],
+      'moduleStatuses': [null, Validators.required],
+      'method': 			[null, Validators.required],
+      'sendAt':  			[0, Validators.required],
+      'repeatEvery': 	[{ value: null, disabled: true }],
+    }),
+    'groupSubForm' : this.fb.group ({
+      'groups': [null],
+      'isBackup': [false, Validators.required],
+      'isCheckAll' : [false]
+    }),
+  });
 
   constructor(
-
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit() {

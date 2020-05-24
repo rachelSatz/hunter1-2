@@ -1,19 +1,71 @@
-<div>
-  <div class="d-flex">
-    <mat-form-field>
-      <input matInput placeholder="שם קמפיין" >
-    </mat-form-field>
-    <mat-select matInput placeholder="סוג מודול"  >
-      <!--    <mat-option *ngFor="let payment of paymentType" [value]="payment.id">{{payment.name}}</mat-option>-->
-    </mat-select>
-    <mat-select matInput placeholder="שם מודול" >
-    </mat-select>
-  </div>
-  <div class="d-flex">
-    <mat-select matInput placeholder="בחירת סטטוס"  >
-      <!--    <mat-option *ngFor="let payment of paymentType" [value]="payment.id">{{payment.name}}</mat-option>-->
-    </mat-select>
-    <mat-select matInput placeholder="סוג שליחה" >
-    </mat-select>
-  </div>
-</div>
+<!--<div>-->
+<!--  <div class="d-flex">-->
+<!--    <mat-form-field class="w-30 mt-sm-n2">-->
+<!--      <input matInput placeholder="שם קמפיין" required maxlength="30">-->
+<!--      <mat-error>יש להקיש שם קמפיין</mat-error>-->
+<!--    </mat-form-field >-->
+<!--    <div class="mr-5 w-30">-->
+<!--      <bd-select [items]="campaignsType"  required class="d-inline-block bd-de bd-min-width"-->
+<!--                 [(ngModel)]="type.type.id" placeholder="סוג המודל"-->
+<!--                 (onSelect)="getSubtype()"  [error]=""></bd-select>-->
+<!--    </div>-->
+<!--    <div class="mr-5 w-30">-->
+<!--      <bd-select [items]="campaignsSubtype"  required-->
+<!--                 [(ngModel)]="subtype" placeholder="שם המודל"-->
+<!--                 [error]=""></bd-select>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="d-flex py-2">-->
+<!--    <div class="w-30">-->
+<!--      <bd-select [items]="statuses"  required class="d-inline-block bd-de bd-min-width"-->
+<!--                 [(ngModel)]="status" placeholder="בחירת סטטוס"-->
+<!--                 [error]=""></bd-select>-->
+<!--    </div>-->
+<!--    <div class="mr-5 w-30">-->
+<!--      <bd-select [items]="statusesSent"  required-->
+<!--                 [(ngModel)]="statusSent" placeholder="סוג שליחה"-->
+<!--                 [error]=""></bd-select>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="my-3 mt-4">-->
+<!--    <p class="h6 bold">זמן שליחה</p>-->
+<!--    <p class="f-12 grey-text">הקמפיין ישלח באופן מיידי.</p>-->
+<!--    <div class="d-flex align-content-between align-items-center">-->
+<!--      <mat-radio-group >-->
+<!--        <div class="d-flex ml-3 pl-5">-->
+<!--          <mat-radio-button value="0" checked="true" class="mat-radio-button ml-4">עכשיו</mat-radio-button>-->
+<!--        </div>-->
+<!--      </mat-radio-group>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;-->
+<!--    <p class="h6 bold">זמן שליחה</p>-->
+<!--    <p class="f-12 grey-text">הקמפיין ישלח לפי זמן שיוגדר</p>-->
+<!--    <div class="d-flex align-content-between align-items-center">-->
+<!--      <mat-radio-group formControlName="sendAt">-->
+<!--      <div class="d-flex ml-3 pl-5">-->
+<!--        <mat-radio-button value="0" class="mat-radio-button ml-4" >עכשיו</mat-radio-button>-->
+<!--        <mat-radio-button [value]="sendAt.value" class="mat-radio-button">בעוד</mat-radio-button>-->
+<!--        <div class="d-flex justify-content-center align-items-center mx-2">-->
+<!--          <i class="fa fa-caret-right pointer" (click)="increment(sendAt, -1)" [ngStyle]="{ 'opacity': sendAt.value > 0 ? '1' : '0' }"></i>-->
+<!--          <input type="number" disabled #sendAt class="increment-input bg-white">-->
+<!--          <i class="fa fa-caret-left pointer" (click)="increment(sendAt, 1)"></i>-->
+<!--        </div>-->
+<!--        <span>ימים</span>-->
+<!--      </div>-->
+<!--      </mat-radio-group>-->
+<!--    </div>-->
+<!--    <p class="h6 bold mt-5">תזכורת חוזרת</p>-->
+<!--    <p class="f-12 grey-text">תזכורות ישלחו לפי מספר ימים שיוגדר</p>-->
+<!--    <div class="w-25 d-flex align-items-center mt-3">-->
+<!--      <mat-checkbox name="sendInDays" class="d-flex align-items-center interval-checkbox no-margin" (change)="setRequired($event.checked, 'typeSubForm.repeatEvery')">וכל</mat-checkbox>-->
+<!--      <div class="d-flex justify-content-center align-items-center mx-2">-->
+<!--        <i class="fa fa-caret-right pointer" (click)="increment(repeatEvery, -1)" [ngStyle]="{ 'opacity': repeatEvery.value > 0 ? '1' : '0' }"></i>-->
+<!--          <input type="number" formControlName="repeatEvery" #repeatEvery class="increment-input bg-white">-->
+<!--        <i class="fa fa-caret-left pointer" (click)="increment(repeatEvery, 1)"></i>-->
+<!--      </div>-->
+<!--      <span>ימים</span>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--    &ndash;&gt;-->
+<!--  </div>-->
+<!--</div>-->
