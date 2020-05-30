@@ -102,6 +102,14 @@ export class EmployerService extends BaseHttpService {
       .catch(() => null);
   }
 
+  getEmployerBasic(): Promise<any> {
+    const request = this.getTokenHeader();
+    return this.http.get(this.endPoint + '/employerBasic', request)
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
   saveFinancialDetails(employerId: number, financialDetails: EmployerFinancialDetails): Promise<boolean> {
     return this.http.post(this.endPoint + '/saveFinanceDetails',
       {financialDetails: financialDetails, employerId: employerId}, this.getTokenHeader())

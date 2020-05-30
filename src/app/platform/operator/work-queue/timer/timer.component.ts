@@ -113,7 +113,7 @@ export class TimerComponent implements OnInit, OnDestroy  {
   }
   updateTaskTimer(duration: string): void {
     if (this.task_timer_id > 0) {
-      this.operatorTasks.updateTaskTimer(this.task_timer_id, duration).then(
+      this.operatorTasks.updateTaskTimer(this.task_timer_id, duration, 'task',).then(
         response => response);
     }
   }

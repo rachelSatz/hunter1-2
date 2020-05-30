@@ -49,6 +49,14 @@ export class FilesComponent implements OnInit, OnDestroy  {
   processName: string;
   manualStatus = ManualStatus;
 
+  statuses_selected = [ 'not_sent',
+    'sent',
+    'sent_failed',
+    'feedback_a',
+    'feedback_a_failed',
+    'partially_paid',
+    'fully_paid',
+    'paid_failed' ]
   list_status = Object.keys(Status).map(function(e) {
     return { id: e, name: Status[e] };
   });
@@ -62,7 +70,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
     {name: 'employer_name', label: 'שם מעסיק', searchable: false},
     {name: 'amount', label: 'סכום', searchable: false},
     {name: 'code', label: 'קוד אוצר', searchable: false},
-    {name: 'status', label: 'סטטוס', searchOptions: { labels: this.list_status } },
+    {name: 'status', label: 'סטטוס', selected: this.statuses_selected, multiple: true, searchOptions: { labels: this.list_status } },
     {name: 'manual_status', label: 'סטטוס פניה', searchable: false},
     {name: 'more', label: 'מידע נוסף', searchable: false},
     {name: 'comments', label: 'הערות', searchable: false},

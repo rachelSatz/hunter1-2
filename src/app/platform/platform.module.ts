@@ -39,7 +39,9 @@ import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.mod
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
 import {GroupService} from '../shared/_services/http/group.service';
-import {CampaignsFormComponent} from './campaigns/campaigns-form/campaigns-form.component';
+import {CampaignsService} from '../shared/_services/http/campains.service';
+import {GroupMembersDialogComponent} from './campaigns/group-members-dialog/group-members-dialog.component';
+import {EditGroupEmployerComponent} from './campaigns/edit-group-employer/edit-group-employer.component';
 
 
 
@@ -109,6 +111,8 @@ const routes: Routes = [
   ],
   declarations: [
     PlatformComponent,
+    GroupMembersDialogComponent,
+    EditGroupEmployerComponent,
     InquiryFormComponent,
     CommentsFormComponent,
     InquiriesComponent ,
@@ -118,6 +122,8 @@ const routes: Routes = [
     ChangeStatusComponent
   ],
   entryComponents: [
+    GroupMembersDialogComponent,
+    EditGroupEmployerComponent,
     InquiryFormComponent,
     CommentsFormComponent,
     InquiriesComponent,
@@ -126,7 +132,7 @@ const routes: Routes = [
     FileDepositionComponent,
     ChangeStatusComponent
   ],
-  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, GroupService,
+  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, GroupService, CampaignsService,
     DatePipe, TimerService, OperatorTasksService, ProductService, AppHttpService]
 })
 export class PlatformModule {}

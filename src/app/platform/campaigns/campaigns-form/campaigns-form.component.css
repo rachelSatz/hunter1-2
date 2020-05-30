@@ -51,7 +51,7 @@
   margin-top: 8rem !important
 }
 
-::ng-deep .cdk-overlay-pane .mat-dialog-container {
+::ng-deep .cdk-overlay-pane {
   overflow: visible;
 }
 

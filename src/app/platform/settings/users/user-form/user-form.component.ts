@@ -236,8 +236,14 @@ export class UserFormComponent implements OnInit {
     this._location.back();
   }
 
+  setPermission(index): void {
+    if (this.user.modules[index].name === 'creating_employer') {
+      this.user.modules[index].permission_type = 'all';
+    }
+  }
+
   hasDisabled(index: number): boolean {
-    if (this.user.role === 'admin') {
+    if (this.user.role === 'admin' ) {
       this.user.modules[index].permission_type = 'all';
       return true;
     }

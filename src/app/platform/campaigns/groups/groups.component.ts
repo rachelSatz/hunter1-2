@@ -6,10 +6,11 @@ import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GroupService} from '../../../shared/_services/http/group.service';
 import {HelpersService} from '../../../shared/_services/helpers.service';
-import {GroupMembersDialogComponent} from './group-members-dialog/group-members-dialog.component';
+import {GroupMembersDialogComponent} from '../group-members-dialog/group-members-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {NotificationService} from '../../../shared/_services/notification.service';
 import {AddToGroupDialogComponent} from './add-to-group-dialog/add-to-group-dialog.component';
+import {EditGroupEmployerComponent} from '../edit-group-employer/edit-group-employer.component';
 
 @Component({
   selector: 'app-groups',
@@ -78,18 +79,13 @@ export class GroupsComponent implements OnInit {
   }
 
   openGroupMembersDialog(group: any): void {
-    this.helpers.setPageSpinner(true);
-    this.groupService.getAllEmployersGroup(group.id).then(response => {
-      this.helpers.setPageSpinner(false);
-      this.dialog.open(GroupMembersDialogComponent, {
-        data: { items: response.items,
-                groupSize: group.group_size,
-                groupName: group.name},
-        width: '450px',
-        height: '500px',
-        panelClass: 'groups',
-      });
+    this.dialog.open(EditGroupEmployerComponent, {
+      data: { groupCurrent: group},
+      width: '450px',
+      height: '600px',
+      panelClass: 'groups',
     });
+
   }
 
   deleteGroup(groupId: number, groupName: string): void {

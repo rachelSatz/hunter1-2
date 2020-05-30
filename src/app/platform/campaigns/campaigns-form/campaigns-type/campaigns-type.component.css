@@ -1,0 +1,77 @@
+.time {
+  height: 5%;
+  border: white;
+}
+::ng-deep .dialog-file .mat-dialog-container {
+  overflow: visible;
+}
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: #00aeee;
+}
+::ng-deep .daySelect {
+  max-width: 500px;
+}
+
+.step-title {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-grow: 1;
+   text-align: center;
+   box-shadow: 0 3px 0 0 #ececec;
+   font-weight: bold;
+   outline: 0;
+ }
+
+.step-title.active {
+  background-color: #126d9b;
+  color: #fff;
+}
+
+.step-title > .triangles {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-title > .triangles > div {
+  border: 20px solid #fff;
+}
+
+.step-title > .triangles > :first-child {
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+}
+
+.step-title > .triangles > :last-child {
+  margin-top: -40px;
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+
+.active > .triangles > .green {
+  border-color: #369B54;
+}
+
+.active > .triangles > :last-child {
+  border-bottom-color: #369B54;
+  border-right-color: #369B54;
+}
+
+.mt-lg-8 {
+  margin-top: 8rem !important
+}
+
+mat-button-toggle {
+  width: 30px;
+  height: 30px;
+}
+
+.mat-button-toggle-checked {
+  background-color: #00aeee;
+  color: white;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #999ba4d9;
+}
+

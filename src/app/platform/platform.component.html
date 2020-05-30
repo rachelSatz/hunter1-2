@@ -19,10 +19,11 @@
       </div>
     </div>
   </div>
-  <div *ngIf="menuCampaigns" class="pointer subMenu mr-7" >
+  <div *ngIf="menuCampaigns" class="pointer subMenu mr-7 z-index-150" >
     <p class="w-100 py-2" (click)="menuCampaigns = false"
-       [routerLink]="['/platform', 'operator', 'campaigns', 'campaigns-form']">קמפיין חדש</p>
-    <p class="w-100 py-2" (click)="menuCampaigns = false" [routerLink]="['/platform', 'operator', 'campaigns']">סטטוס שליחת קמפיין</p>
+       [routerLink]="['/platform', 'operator', 'campaigns', 'campaigns-form']" (click)="deleteExistCampaign()">קמפיין חדש</p>
+    <p class="w-100 py-2" (click)="menuCampaigns = false"
+       [routerLink]="['/platform', 'operator','campaigns']">סטטוס שליחת קמפיין</p>
     <p class="w-100 py-2 pb-2" (click)="menuCampaigns = false"
        [routerLink]="['/platform', 'operator', 'campaigns', 'groups']">רשימת קבוצות</p>
   </div>
@@ -49,7 +50,7 @@
       </div>
     </div>
     <div class="skip">
-      <a class="pointer mr-6 mt-2 p-absolute" (click)="stopTimer()">דלג ועבור להבא</a>
+      <a class="pointer mr-6 mt-2 p-absolute" (click)="stopTimer()">{{isWorkQueue ? 'דלג ועבור למשימה הבאה' : 'עצור ועבור למשימות' }}</a>
     </div>
   </div>
 

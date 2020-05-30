@@ -44,6 +44,18 @@ export class SelectUnitService {
     return this.getSessionStorage('processData');
   }
 
+  setTaskCampaign(campaignData: any): void {
+    sessionStorage.setItem('taskCampaign', JSON.stringify(campaignData));
+  }
+
+  getTaskCampaign(): any {
+    return this.getSessionStorage('taskCampaign');
+  }
+
+  clearTaskCampaign(): void {
+    sessionStorage.removeItem('taskCampaign');
+  }
+
   setTaskTimer(task: any): void {
     sessionStorage.setItem('task', JSON.stringify(task));
   }

@@ -30,6 +30,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	@Input() hasActionsHeader = true;
   @Input() hasActionsSearch = true;
   @Input() hasExtendedSearch = true;
+  @Input() hasLoadingItem = true;
   @Input() placeHolderSearch = 'חפש';
 
 	@Input() limit = 15;

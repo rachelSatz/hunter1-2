@@ -59,6 +59,12 @@ export class GroupService extends BaseHttpService {
       .then(() =>  true );
   }
 
+  deleteEmployerGroup(ids: any[], groupId: number): Promise<boolean> {
+    return this.http.post(this.endPoint + '/deleteEmployerGroup', {ids: ids, groupId: groupId}, this.getTokenHeader())
+      .toPromise()
+      .then(() =>  true );
+  }
+
   updateByExcel(groupId: string, file: File): Promise<string> {
     const request = this.getTokenHeader();
 

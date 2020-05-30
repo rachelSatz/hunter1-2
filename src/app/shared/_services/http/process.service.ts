@@ -143,6 +143,7 @@ export class ProcessService extends BaseHttpService {
       .then(response => response)
       .catch(response => response);
   }
+  
   sendEmail(processId: number, recipient: any[]): Promise<string> {
     return this.http.post(this.endPoint + '/sendPaymentsInstruction',
       {processId: processId, recipient: recipient},
