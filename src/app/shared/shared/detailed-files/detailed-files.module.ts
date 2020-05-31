@@ -26,6 +26,7 @@ import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-t
 import { PaymentInstructionsComponent } from 'app/platform/process/process-loading/payment-instructions/payment-instructions.component';
 import { ReferenceComponent } from 'app/platform/process/process-loading/reference/reference.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
+import { GroupTransferComponent } from 'app/shared/shared/detailed-files/group-transfer/group-transfer.component';
 
 
 const route: Routes = [
@@ -57,10 +58,12 @@ const route: Routes = [
     ReferenceComponent,
     ProcessService],
   declarations: [ DetailedFilesComponent,
+    GroupTransferComponent,
     UpdateAccountNumberComponent,
     UpdatePaymentTypeComponent,
     OpenSentComponent ],
-  entryComponents: [UpdateAccountNumberComponent, UpdatePaymentTypeComponent, OpenSentComponent],
+  entryComponents: [UpdateAccountNumberComponent, UpdatePaymentTypeComponent, OpenSentComponent, GroupTransferComponent],
 
 })
-export class DetailedFilesModule { }
+export class DetailedFilesModule {
+}

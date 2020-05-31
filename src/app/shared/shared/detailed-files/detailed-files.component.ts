@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -18,7 +18,6 @@ import { Status } from 'app/shared/_models/file-feedback.model';
 import { UpdateAccountNumberComponent } from './update-account-number/update-account-number.component';
 import { UpdatePaymentDateComponent } from './update-payment-date/update-payment-date.component';
 import { UpdatePaymentTypeComponent } from './update-payment-type/update-payment-type.component';
-import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
 
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
@@ -26,6 +25,7 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { OpenSentComponent } from 'app/platform/process/process-upload/shared/detailed-files/open-sent/open-sent.component';
 import { PaymentInstructionsComponent } from 'app/platform/process/process-loading/payment-instructions/payment-instructions.component';
 import { ReferenceComponent } from 'app/platform/process/process-loading/reference/reference.component';
+import { GroupTransferComponent } from 'app/shared/shared/detailed-files/group-transfer/group-transfer.component';
 
 
 @Component({

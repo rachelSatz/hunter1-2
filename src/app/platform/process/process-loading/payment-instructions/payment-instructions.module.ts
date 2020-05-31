@@ -11,10 +11,10 @@ import { ProcessLoadingComponent } from 'app/platform/process/process-loading/pr
 
 const routes: Routes = [
   { path: '', component: PaymentInstructionsComponent , children: [
-    { path: '', loadChildren: '../shared/detailed-files/detailed-files.module#DetailedFilesModule' },
-    { path: 'files', loadChildren: '../shared/detailed-files/detailed-files.module#DetailedFilesModule' },
-    { path: 'records', loadChildren: '../shared/detailed-records/detailed-records.module#DetailedRecordsModule' },
-    { path: 'records/:id' , loadChildren:  '../shared/detailed-records/detailed-records.module#DetailedRecordsModule'}
+    { path: '', loadChildren: 'app/shared/shared/detailed-files/detailed-files.module#DetailedFilesModule' },
+    { path: 'files', loadChildren: 'app/shared/shared/detailed-files/detailed-files.module#DetailedFilesModule' },
+    { path: 'records', loadChildren: 'app/shared/shared/detailed-records/detailed-records.module#DetailedRecordsModule' },
+    { path: 'records/:id' , loadChildren:  'app/shared/shared/detailed-records/detailed-records.module#DetailedRecordsModule'}
 
     ]}];
 

@@ -112,6 +112,11 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
   }
 
   setPage(): void {
+    if (this.rows === undefined) {
+        this.notificationService.warning('שים לב', 'עליך לבחור רשומות');
+        return;
+    }
+
     if (((this.rows.isCheckAll && this.rows.checkedItems.length > 0))
       ||  (!this.rows.isCheckAll && this.rows.checkedItems.length < this.processLoading.process_details.groups_count)) {
       const buttons = {confirmButtonText: 'המשך', cancelButtonText: 'ביטול'};

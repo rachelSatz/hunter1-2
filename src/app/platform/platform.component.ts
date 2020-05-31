@@ -42,6 +42,7 @@ export class PlatformComponent implements OnInit {
   task = '/platform/operator/tasks';
   hours: string;
   showTimer = true;
+  showTimerTask = true;
   timerText = '';
   browserRefresh = false;
   details = true;
@@ -370,6 +371,21 @@ export class PlatformComponent implements OnInit {
 
   stopTimer(): void {
     this.showTimer = false;
+    const time = this.hours + ':' + this.minutes + ':' + this.seconds;
+    const type = this.isWorkQueue ? 'task' : 'taskCampaign';
+    this.updateTaskTimer(time, type);
+    this.timerService.reset();
+    if (this.selectUnit.getTaskTimer() && this.selectUnit.getTaskTimer().isSelfTask === true) {
+      this.router.navigate(['platform', 'operator', 'tasks'], {queryParams: {isSelfTask: true}});
+    } else {
+      const nev = this.isWorkQueue ? 'work-queue' : 'tasks';
+      this.router.navigate(['platform', 'operator', nev]);
+      this.selectUnit.clearTaskTimer();
+    }
+  }
+
+  stopTimerTask(): void {
+    this.showTimerTask = false;
     const time = this.hours + ':' + this.minutes + ':' + this.seconds;
     const type = this.isWorkQueue ? 'task' : 'taskCampaign';
     this.updateTaskTimer(time, type);
