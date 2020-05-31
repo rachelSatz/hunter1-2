@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
-import { Router } from '@angular/router';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-incorrect-rows',
@@ -11,9 +11,11 @@ import { Router } from '@angular/router';
 export class IncorrectRowsComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public process_details: ProcessDetails,
-              private router: Router) { }
+              private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
+
+    this.selectUnit.setCountIncorrectRows(this.process_details.count);
   }
 
   setPage(): void {

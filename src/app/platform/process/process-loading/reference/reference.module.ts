@@ -11,8 +11,8 @@ import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
 
 const routes: Routes = [
   { path: '', component: ReferenceComponent , children: [
-      { path: '', loadChildren: '../shared/detailed-files/detailed-files.module#DetailedFilesModule' },
-      { path: 'file', loadChildren: '../shared/detailed-files/detailed-files.module#DetailedFilesModule' },
+      { path: '', loadChildren: 'app/shared/shared/detailed-files/detailed-files.module#DetailedFilesModule' },
+      { path: 'file', loadChildren: 'app/shared/shared/detailed-files/detailed-files.module#DetailedFilesModule' },
     ]}];
 
 

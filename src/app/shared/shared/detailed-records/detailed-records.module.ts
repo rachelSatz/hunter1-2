@@ -28,12 +28,11 @@ import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.mod
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { GroupTransferComponent } from 'app/shared/shared/detailed-records/group-transfer/group-transfer.component';
 
 
 const route: Routes = [
   { path: '', component: DetailedRecordsComponent}
-    // ,  children: [
-  // { path: 'records', loadChildren: './detailed-records.module#DetailedRecordsModule' }]
   ];
 
 @NgModule({
@@ -64,7 +63,7 @@ const route: Routes = [
     MonthlyTransferBlockService,
     ProcessService,
     ProcessDataService],
-  declarations: [DetailedRecordsComponent, SendEmailIncorrectComponent],
-  entryComponents: [SendEmailIncorrectComponent]
+  declarations: [DetailedRecordsComponent, SendEmailIncorrectComponent, GroupTransferComponent],
+  entryComponents: [SendEmailIncorrectComponent, GroupTransferComponent]
 })
 export class DetailedRecordsModule { }

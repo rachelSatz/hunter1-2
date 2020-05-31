@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
-import { CompensationService } from 'app/shared/_services/http/compensation.service';
 import { Compensation, AnswerManufacturer } from 'app/shared/_models/compensation.model';
 import { fade } from 'app/shared/_animations/animation';
 

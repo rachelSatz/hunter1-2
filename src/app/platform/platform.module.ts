@@ -39,7 +39,7 @@ import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.mod
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
 import { GroupService } from '../shared/_services/http/group.service';
-import { GroupTransferComponent } from 'app/platform/process/process-loading/shared/group-transfer/group-transfer.component';
+// import { GroupTransferComponent } from 'app/shared/shared/group-transfer/group-transfer.component';
 
 
 const routes: Routes = [
@@ -115,7 +115,7 @@ const routes: Routes = [
     DetailsComponent,
     ErrorMessageComponent,
     FileDepositionComponent,
-    GroupTransferComponent,
+    // GroupTransferComponent,
     ChangeStatusComponent],
   entryComponents: [
     InquiryFormComponent,
@@ -124,7 +124,7 @@ const routes: Routes = [
     DetailsComponent,
     ErrorMessageComponent,
     FileDepositionComponent,
-    GroupTransferComponent,
+    // GroupTransferComponent,
     ChangeStatusComponent
   ],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, GroupService,

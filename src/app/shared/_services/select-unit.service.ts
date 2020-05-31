@@ -11,7 +11,11 @@ export class SelectUnitService {
   currentEmployerID: number;
   currentDepartmentID: number;
 
+  countIncorrectRows: number;
+
   unitSubject: Subject<number> = new Subject();
+
+  unitIncorrectRows: Subject<number> = new Subject();
 
   setOrganization(organizations: any): void {
     sessionStorage.setItem('organizations', JSON.stringify(organizations));
@@ -165,9 +169,10 @@ export class SelectUnitService {
 
   }
 
-
-
-
+  setCountIncorrectRows(count: number): void {
+    this.countIncorrectRows = count;
+    this.unitIncorrectRows.next(count);
+  }
 
 }
 

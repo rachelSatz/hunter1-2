@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material';
 import { DefrayalError, DepositStatus, DepositType, EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
-import { GroupTransferComponent } from '../group-transfer/group-transfer.component';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
@@ -16,6 +15,7 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ProductType } from 'app/shared/_models/product.model';
 
 import { Subscription } from 'rxjs';
+import { GroupTransferComponent } from 'app/shared/shared/detailed-records/group-transfer/group-transfer.component';
 
 @Component({
   selector: 'app-detailed-records',
@@ -122,12 +122,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
           if (response.items.length > 0 || !this.incorrectPage) {
             this.dataTable.setItems(response);
           } else {
-            // this.processService.deletePlanTask(this.processDataService.activeProcess.processID);
-            if (this.processDataService.activeProcess.pageNumber === 4 || this.processDataService.activeProcess.pageNumber === 5) {
-              this.router.navigate(['/platform', 'process', 'new', 1, 'broadcast']);
-            } else {
-              this.router.navigate(['/platform', 'process', 'new', 1 , 'payment', this.processDataService.activeProcess.processID]);
-            }
+            window.close();
           }
         });
     } else {
@@ -140,20 +135,6 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     if (this.checkedRowItems()) {
       if (this.isLockedBroadcast()) {
           const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
-          // let isDoubleEntity = false;
-          // this.dataTable.items.forEach(i => {
-          //   if (!isDoubleEntity) {
-          //     this.dataTable.criteria.checkedItems.forEach(c => {
-          //       if (i.id !== c['id'] && i.personal_id === c['personal_id'] &&
-          //         i.product_id === c['product_id'] && i.employer_product_code === c['employer_product_code']) {
-          //         isDoubleEntity = true;
-          //         return;
-          //       }
-          //     });
-          //   } else{
-          //     return;
-          //   }
-          // });
           const dialog = this.dialog.open(GroupTransferComponent, {
             data: { 'ids': ids,
                     'processId': this.processDataService.activeProcess.processID,
