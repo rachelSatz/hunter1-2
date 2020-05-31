@@ -15,26 +15,26 @@
 
   <p class="border-bottom border-margin f-14 bold ">חשבון בנק משלם</p>
   <div id="accounts" class="border-bottom mb-lg-3 border-margin" >
-      <div class="d-flex align-items-center">
-        <div class="d-flex align-items-center" [ngClass]="{'disabledInput' : !isEdit}">
-          <div class="bd-select-container">
-            <bd-select name="bank_id"  [items]="banks" #bankIDSelect="ngModel" [(ngModel)]="department.bank_account_deposit.bank_id" placeholder="בחר בנק" (onSelect)="selectedBankBranch()" required></bd-select>
-            <mat-error [@fade]="bankIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
-          </div>
-          <div class="mx-3 bd-select-container">
-            <bd-select name="branch_id"  [items]="bankBranchesDeposit" #branchIDSelect="ngModel" [(ngModel)]="department.bank_account_deposit.branch_id"  placeholder="בחר סניף" required></bd-select>
-            <mat-error [@fade]="branchIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
-          </div>
-          <mat-form-field>
-            <input matInput type="text" name="number" placeholder="מס' חשבון" [(ngModel)]="department.bank_account_deposit.number" maxlength="9" pattern="^\d{5,9}$" required>
-            <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
-          </mat-form-field>
+    <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center" [ngClass]="{'disabledInput' : !isEdit}">
+        <div class="bd-select-container">
+          <bd-select name="bank_id"  [items]="banks" #bankIDSelect="ngModel" [(ngModel)]="department.bank_account_deposit.bank_id" placeholder="בחר בנק" (onSelect)="selectedBankBranch()" required></bd-select>
+          <mat-error [@fade]="bankIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
         </div>
-        <div>
-          <img src="/assets/img/icons/edit_grey.png" class="row-image" (click)="isEdit = true">
+        <div class="mx-3 bd-select-container">
+          <bd-select name="branch_id"  [items]="bankBranchesDeposit" #branchIDSelect="ngModel" [(ngModel)]="department.bank_account_deposit.branch_id"  placeholder="בחר סניף" required></bd-select>
+          <mat-error [@fade]="branchIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
         </div>
-        <i class="fa fa-copy fa-2x pointer blue-color mr-3" title="העתק פרטי חשבון"  (click)="copyBankRow()" *ngIf="validCopy()"></i>
+        <mat-form-field>
+          <input matInput type="text" name="number" placeholder="מס' חשבון" [(ngModel)]="department.bank_account_deposit.number" maxlength="9" pattern="^\d{5,9}$" required>
+          <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
+        </mat-form-field>
       </div>
+      <div>
+        <img src="/assets/img/icons/edit_grey.png" class="row-image" (click)="isEdit = true">
+      </div>
+      <i class="fa fa-copy fa-2x pointer blue-color mr-3" title="העתק פרטי חשבון"  (click)="copyBankRow()" *ngIf="validCopy()"></i>
+    </div>
   </div>
 
   <p class="border-bottom border-margin f-14 bold">חשבון בנק להחזר כספים</p>

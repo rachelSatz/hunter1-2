@@ -7,10 +7,12 @@ import { AppComponent } from './app.component';
 import { UserSessionService } from './shared/_services/user-session.service';
 import { HelpersService } from './shared/_services/helpers.service';
 import { FormsModule } from '@angular/forms';
+import { IsAuthenticatedGuard } from 'app/shared/_guards/is-authenticated.guard';
 
 const routes = [
-  { path: '', loadChildren: 'app/public/public.module#PublicModule' },
+  { path: '' , loadChildren: 'app/public/public.module#PublicModule' },
   { path: 'platform', loadChildren: 'app/platform/platform.module#PlatformModule' },
+  { path: 'records', loadChildren: 'app/shared/shared/detailed-records/detailed-records.module#DetailedRecordsModule' },
   { path: '**', redirectTo: '' }
 ];
 
@@ -22,7 +24,7 @@ const routes = [
     RouterModule.forRoot(routes),
     FormsModule
   ],
-  providers: [UserSessionService, HelpersService],
+  providers: [UserSessionService, HelpersService, IsAuthenticatedGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

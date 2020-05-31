@@ -10,9 +10,8 @@ import { ProcessDetails } from '../../_models/process-details.model';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {DataTableResponse} from '../../data-table/classes/data-table-response';
-import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
-import {EnumValue} from '@angular/compiler-cli/src/ngtsc/metadata';
+import { DataTableResponse } from '../../data-table/classes/data-table-response';
+import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 
 @Injectable()
 export class ProcessService extends BaseHttpService {
@@ -38,9 +37,13 @@ export class ProcessService extends BaseHttpService {
       .then(response => response as DataTableResponse);
   }
 
-  getFilesList(criteria: DataTableCriteria): Promise<DataTableResponse> {
+  getFilesList(criteria: DataTableCriteria, is_reference?: boolean): Promise<DataTableResponse> {
     const options = this.getTokenHeader();
-    options['params'] = this.setDataTableParams(criteria);
+    options['params'] =  this.setDataTableParams(criteria);
+
+    options['params']['is_reference'] = is_reference;
+
+
 
     return this.http.get( this.endPoint + '/filesList', options)
       .toPromise()
@@ -55,8 +58,11 @@ export class ProcessService extends BaseHttpService {
       .catch(() => null);
   }
 
-  downloadPaymentsInstruction(id: number): Promise<any> {
-    return this.http.post(this.endPoint + '/downloadPaymentsInstruction', {'processId': id},
+  downloadPaymentsInstruction(id: number, filesList?: any, criteria?: DataTableCriteria): Promise<any> {
+
+    return this.http.post(this.endPoint + '/downloadPaymentsInstruction', {'processId': id,
+        filesList: filesList,
+        criteria: this.setDataTableParams(criteria)},
       this.getTokenHeader())
       .toPromise()
       .then(response => response)
@@ -94,9 +100,42 @@ export class ProcessService extends BaseHttpService {
       .catch(response => response);
   }
 
-  update(type: string , val: any, file_id: any, criteria: DataTableCriteria ): Promise<boolean> {
+  update(type: string , val: any, file_id: any, criteria: DataTableCriteria, processId?: number ): Promise<boolean> {
     return this.http.post(this.endPoint + '/update',
-      { params: val , type: type, file_id : file_id, searchCriteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
+      { params: val , type: type, file_id : file_id, processId: processId,
+        searchCriteria: this.setDataTableParams(criteria)
+      }, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+  updateProcess(type: any, file_id: any, criteria: DataTableCriteria ): Promise<boolean> {
+    return this.http.post(this.endPoint + '/updateProcess',
+      { type: type , file_id : file_id,
+        searchCriteria: this.setDataTableParams(criteria)
+      }, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+
+  updateDate(type: string , val: any, file_id: any, criteria: DataTableCriteria, process_id: number,
+         files: any ): Promise<boolean> {
+    return this.http.post(this.endPoint + '/update',
+      { params: val , type: type, file_id : file_id,
+        searchCriteria: this.setDataTableParams(criteria), files: files, processId: process_id
+      }, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
+  checkIsDate( processId: number ): Promise<boolean> {
+    return this.http.post(this.endPoint + '/checkIsDate',
+      {processId: processId
+      }, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
@@ -112,13 +151,22 @@ export class ProcessService extends BaseHttpService {
 
    transfer(processID: any, name: string, criteria?: DataTableCriteria): Promise<any> {
 
-    const data = criteria ? { [name]: processID, searchCriteria: this.setDataTableParams(criteria)} : {[name]: processID};
+    const data = criteria ? { [name]: processID, searchCriteria: this.setDataTableParams(criteria)
+
+    } : {[name]: processID, };
 
 
      return this.http.post(this.endPoint + '/transmit', data, this.getTokenHeader())
        .toPromise()
        .then(response => response)
        .catch(response => response);
+  }
+
+  transfer_new(processId: number): Promise<any> {
+    return this.http.post(this.endPoint + '/transmit', {processId: processId}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
   }
 
   getUploadFile(processId: number): Observable<any> {
@@ -143,9 +191,11 @@ export class ProcessService extends BaseHttpService {
       .then(response => response)
       .catch(response => response);
   }
-  sendEmail(processId: number, recipient: any[]): Promise<string> {
+
+  sendEmail(processId: number, recipient: any[], filesList?: any,  criteria?: DataTableCriteria): Promise<string> {
     return this.http.post(this.endPoint + '/sendPaymentsInstruction',
-      {processId: processId, recipient: recipient},
+      {processId: processId, recipient: recipient, criteria: this.setDataTableParams(criteria), filesList: filesList
+      },
       this.getTokenHeader())
       .toPromise()
       .then(response => response)
@@ -174,6 +224,21 @@ export class ProcessService extends BaseHttpService {
     }
   }
 
+  uploadsRef(files: File[], processId: number): Promise<Object> {
+      const formData = new FormData();
+      if (files) {
+        for (let i = 0; i <= files.length - 1 ; i++) {
+          formData.append('file', files[i]);
+        }
+      }
+
+      return this.http.post(this.endPoint + '/' + processId +  '/uploadsRef', formData, this.getTokenHeader())
+        .toPromise()
+        .then(response => response as Object)
+        .catch(() => []);
+
+  }
+
   downloadFile(rowID: number): Promise<string> {
     return this.http.get(this.endPoint + '/' + rowID + '/downloadFile', this.getTokenHeader())
       .toPromise()
@@ -181,10 +246,11 @@ export class ProcessService extends BaseHttpService {
       .catch(() => null);
   }
 
-  unlockProcessFiles(process: any,  criteria: DataTableCriteria, comment: string): Promise<Object> {
+  unlockProcessFiles(process: any,  criteria: DataTableCriteria, comment: string, processId: number): Promise<Object> {
 
     return this.http.post(this.endPoint + '/unlockProcessFiles',
-      {filesList: process, searchCriteria: this.setDataTableParams(criteria), comment: comment}, this.getTokenHeader())
+      {filesList: process, searchCriteria: this.setDataTableParams(criteria),
+        comment: comment, processId: processId }, this.getTokenHeader())
         .toPromise()
         .then(response => response as Object)
         .catch(() => []);
@@ -251,5 +317,48 @@ export class ProcessService extends BaseHttpService {
       .then(response => response)
       .catch(response => response);
   }
+
+
+  deleteRefDocument(processId: number, filename: string): Promise<any> {
+    return this.http.post(this.endPoint + '/' + processId + '/deleteRefDocument', { filename: filename}
+      , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  downloadRefDocument(processId: number, filename: string): Promise<any> {
+    return this.http.post(this.endPoint + '/' + processId + '/downloadRefDocument', { filename: filename}
+      , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  getRefDocument(processId: number): Promise<any> {
+    return this.http.get(this.endPoint + '/' + processId + '/getRefDocument', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  setRecords(id: number, filesList?: any, criteria?: DataTableCriteria): Promise<any> {
+
+    return this.http.post(this.endPoint + '/setRecords', {'processId': id,
+        filesList: filesList,
+        criteria: this.setDataTableParams(criteria)},
+      this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  getGroupThingInProcess(id: number): Promise<any> {
+    return this.http.post(this.endPoint + '/getGroupThingInProcess', {'processId': id} , this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
 }
 

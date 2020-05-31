@@ -1,0 +1,30 @@
+
+<div class="dialog-header float-left mb-1 d-flex">
+  <button mat-dialog-close class="float-left">
+    <i class="fa fa-close"></i>
+  </button>
+</div>
+<h4 class="bold">צירוף אסמכתא</h4>
+  <div class="mt-6 text-center mb-2">
+    <span class="f-12">צירוף אסמכתא<span class="bold"> לכלל הקופות</span></span>
+    <div class="text-left btn-remove">
+        <button class="btn grey-btn btn-sm" (click)="deleteFile()">מחק</button>
+      </div>
+      <file-drop ng2FileDrop (onFileDrop)="getFileFromDrop($event)">
+        <label class="text-center pointer mt-5" *ngIf="files == null || files.length == 0? true : false" (change)="setFile($event.target.files)">
+          <img src="/assets/img/icons/cloud.svg" class="mb-1 icon-lg">
+          <p class="font-small black-color bold">העלאת קובץ</p>
+          <p class="f-12 black-color"> גרור קבצים לכאן או בחר קובץ להעלאה</p>
+          <input type="file" #fileInput multiple="true" >
+        </label>
+        <div class="text-center mt-5" *ngIf="files == null || files.length == 0 ? false : true">
+          <i class="fa fa-check-circle-o mb-3"></i>
+          <p class="text-dark">העלו <span> {{ files.length }} </span>קבצים </p>
+          <p class="text-dark">{{ files[0].name }}</p>
+        </div>
+      </file-drop>
+    </div>
+<p class="alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">{{message}}</p>
+<div class="text-center">
+  <button class="btn blue-btn" (click)="submit()">צרף</button>
+</div>

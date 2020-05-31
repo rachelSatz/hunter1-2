@@ -63,9 +63,9 @@
     <div>
       <p class="bold h6">בחר מודולים</p>
       <div *ngFor="let module of user.modules; let i = index" class="d-flex mb-2">
-        <mat-checkbox class="check-module" [(ngModel)]="module.isEnabled" [name]="'module_' + i">{{ moduleTypes[module.name] }}</mat-checkbox>
-        <mat-radio-group  [disabled]="hasDisabled(i)"  [(ngModel)]="module.permission_type" [name]="'permission_type_' + i"
-                          [@fade]="module.isEnabled ? 'active' : 'inactive'">
+        <mat-checkbox class="check-module" [(ngModel)]="module.isEnabled" [name]="'module_' + i" (click)="setPermission(i)">{{ moduleTypes[module.name] }}</mat-checkbox>
+        <mat-radio-group *ngIf="moduleTypes[module.name] !== 'הקמת מעסיק'" [disabled]="hasDisabled(i)"  [(ngModel)]="module.permission_type" [name]="'permission_type_' + i"
+                          [@fade]="module.isEnabled ? 'active' : 'inactive'" >
           <mat-radio-button class="ml-4" value="read">צפייה בלבד</mat-radio-button>
           <mat-radio-button class="ml-4" value="write">צפייה ועריכה</mat-radio-button>
           <mat-radio-button value="all">כל ההרשאות</mat-radio-button>
@@ -74,10 +74,8 @@
     </div>
 
     <div class="w-50">
-      <app-data-table tableName="" [columns]="columns" [hasExtendedSearch]="false"
-                      [hasActionsSearch]="false"
-                      [hasCheckColumn]="true"
-                      (fetchItems)="fetchItems()"
+      <app-data-table tableName="" [columns]="columns" [hasExtendedSearch]="false" [hasActionsSearch]="true"
+                      [hasCheckColumn]="true" (fetchItems)="fetchItems()"
                       [@fade]="user.role !== 'admin' && user.id !== undefined ? 'active' : 'inactive'   ">
         <div class="table-header">
           <p class="bold h6">בחר ישויות</p>

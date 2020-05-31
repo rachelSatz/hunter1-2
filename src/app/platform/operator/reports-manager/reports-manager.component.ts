@@ -31,7 +31,7 @@ export class ReportsManagerComponent implements OnInit {
   employerId ;
 
   constructor(
-    private datePipe: DatePipe,
+    public datePipe: DatePipe,
     private router: Router,
     protected route: ActivatedRoute,
     private organizationService: OrganizationService,

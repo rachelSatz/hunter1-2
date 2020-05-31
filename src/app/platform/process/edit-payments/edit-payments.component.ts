@@ -14,6 +14,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import {ProcessService} from '../../../shared/_services/http/process.service';
 import { TransferClause } from 'app/shared/_models/transfer_clause.model';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-edit-payments',
@@ -57,6 +58,7 @@ export class EditPaymentsComponent implements OnInit {
               private mtbService: MonthlyTransferBlockService,
               private processService: ProcessService,
               private ref: ChangeDetectorRef,
+              private helpers: HelpersService,
               private notificationService: NotificationService,
               private _location: Location) { }
 
@@ -118,7 +120,7 @@ export class EditPaymentsComponent implements OnInit {
         this.fb.group({
           'id': [null],
           'clause_type':  [clause ? clause.clause_type : null , Validators.required],
-          'transfer_sum':  [clause ? clause.transfer_sum : null , Validators.required],
+          'transfer_sum': [clause ? clause.transfer_sum : null, [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
           'transfer_percent':  [clause ? clause.expected_percent.toString() : null,  Validators.required],
           'exempt_sum': [0 , Validators.required],
         })
@@ -146,9 +148,9 @@ export class EditPaymentsComponent implements OnInit {
     const transferControl = {
       'id': [transfer  ? +transfer['id'] : null],
       'clause_type': [transfer  ? transfer['clause_type'] : '',  Validators.required],
-      'transfer_sum': [transfer  ? +transfer['transfer_sum'] : 0,  Validators.required],
-      'transfer_percent': [transfer ? +transfer['transfer_percent'] : 0 ,  Validators.required],
-      'exempt_sum': [transfer ? +transfer['exempt_sum'] : 0,  Validators.required]
+      'transfer_sum': [transfer  ? +transfer['transfer_sum'] : null, [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
+      'transfer_percent': [transfer ? +transfer['transfer_percent'] : null, Validators.required ],
+      'exempt_sum': [transfer ? +transfer['exempt_sum'] : null,  Validators.required]
     };
     const transferGroup =  (<FormArray>m.get('transfer_clause'));
     transferGroup.push(this.fb.group(transferControl));
@@ -160,8 +162,11 @@ export class EditPaymentsComponent implements OnInit {
     this.calcSumSplit();
   }
 
-  selectedProducts(item): void {
+  selectedProducts(item, product: FormGroup): void {
     this.products = this.companies.find(c => c.id === item).product;
+    if (this.products.filter(n => n.id === product.value.product_id).length === 0) {
+      product.patchValue({'product_id': null});
+    }
   }
 
   submit(form: NgForm): void {
@@ -170,8 +175,10 @@ export class EditPaymentsComponent implements OnInit {
     } else {
       if (form.valid) {
         if (this.type !== 'regular') {
+          this.helpers.setPageSpinner(true);
           this.mtbService.setEditPayments(this.mtb.id, form.value).then(r => {
-            if (r['result'] === 'no') {
+            this.helpers.setPageSpinner(false);
+            if (!r.ok && r['result'] !== 'ok' ) {
               this.notificationService.error('הפיצול נכשל', '');
             } else {
               this.previous();

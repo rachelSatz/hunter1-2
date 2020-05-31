@@ -12,6 +12,10 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { Process, ProcessStatus, ProcessType } from 'app/shared/_models/process.model';
 import { PlatformComponent } from '../../platform.component';
+import { CommentsFormComponent } from 'app/shared/_dialogs/comments-form/comments-form.component';
+import { HelpersService } from 'app/shared/_services/helpers.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-process-table',
@@ -51,7 +55,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     { name: 'date', label: 'תאריך טעינה' , searchOptions: { isDate: true }},
     { name: 'name', label: 'שם תהליך' , searchable: false},
     { name: 'id', label:  'מס תהליך' , searchable: false},
-    { name: 'type', label: 'סוג תהליך' , searchable: false},
+    // { name: 'type', label: 'סוג תהליך' , searchable: false},
     { name: this.organizationName , sortName: 'department__employer__organization__name',
       label: 'שם ארגון'  ,  searchable: false},
     // , onSelect: 'loadEmployers($event)'
@@ -64,22 +68,24 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     { name: 'total', label: 'סכום' , searchable: false},
     { name: 'status', label: 'סטטוס' , selected: this.statuses_selected, multiple: true, searchOptions: { labels: this.statuses}},
     { name: 'status_process', label: 'סטטוס תהליך' , isSort: false , searchable: false},
-    // { name: 'download', label: 'הורדה', isSort: false },
+    { name: 'comments', label: 'הערות', isSort: false },
     {name: 'actions', label: 'פעולות' , isSort: false, isDisplay: this.isDisplay, searchable: false},
   ];
 
   constructor(public route: ActivatedRoute,
               private router: Router,
+              private helpers: HelpersService,
               private processService: ProcessService,
               private selectUnit: SelectUnitService,
               private userSession: UserSessionService,
+              private generalService: GeneralHttpService,
+              private dialog: MatDialog,
               private platformComponent: PlatformComponent,
               protected notificationService: NotificationService,
               public processDataService: ProcessDataService) {
   }
 
   ngOnInit() {
-
     if (this.router.url.includes( 'operator')) {
       this.selectUnit.setEntitySessionStorage(
         this.platformComponent.organizationId,
@@ -113,7 +119,6 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   }
 
   fetchItems() {
-
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
     const departmentId = this.selectUnit.currentDepartmentID;
@@ -145,6 +150,15 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     }
   }
 
+  getType(type): number {
+    if (type === 'employer_payment') {
+      return 1;
+    } else if (type === 'employer_withdrawal' || type === 'regular_fix' || type === 'employer_payment') {
+      return -1;
+    }
+    return 0;
+  }
+
   ngOnDestroy() {
     if (this.router.url.includes( 'operator')) {
       if (this.selectUnit.getEntitySessionStorage()) {
@@ -160,7 +174,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   }
 
   redirectProcessNew(): void {
-    this.router.navigate(['platform', 'process' , 'new', '0']);
+    this.router.navigate(['platform', 'process' , 'new', 'create']);
   }
 
   downloadFileProcess(processId: number): void {
@@ -200,40 +214,85 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     if (process.status === 'waiting_for_approval' && this.userSession.getRole() !== 'admin') {
       return this.messageError('ממתין לאישור מנהל') ; }
     const status = this.processStatus[process.status];
+
    if (status === this.processStatus.loading || status ===  this.processStatus.can_be_processed
     || status === this.processStatus.transmitted
      || status === this.processStatus.loaded_with_errors  || status === this.processStatus.partially_transmitted
    || status === this.processStatus.waiting_for_approval) {
      const date = new Date(process.date);
-     const pageNumber = status !== this.processStatus.loading ? 3 : 1;
-
-     const data = {
-       'pageNumber': pageNumber,
-       'processName': process.name,
-       'year': date.getFullYear(),
-       'month': date.getMonth() + 1,
-       'monthName':  this.months[date.getMonth()],
-       'processId': process.id,
-       'type': process.type === 'employer_withdrawal' ? 'negative' : 'positive',
-       'status': process.status,
-       'departmentId': process.dep_id,
-       'employerId': process.employer_id
-     };
-
-     this.processDataService.setProcess(data);
-     if (status === this.processStatus.transmitted) {
-       this.router.navigate(['platform', 'process', 'new', '1', 'broadcast']);
-     } else {
-       if (this.planId) {
-         this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id],
-           {queryParams: {planId: this.planId}});
-       } else {
-         this.router.navigate(['platform', 'process' , 'new', '0', 'payment', process.id]);
+     this.processService.getGroupThingInProcess(process.id).then(response => {
+       process.rows = response['group_things_ids'];
+       if (process.rows.length === 0) {
+         process.rows = undefined;
        }
+       process.sum = response['block_sum'];
+       process.num_file = response['num_file'];
 
-     }
+       const data = {
+         'name': process.name,
+         'year': date.getFullYear(),
+         'month': date.getMonth() + 1,
+         'monthName':  this.months[date.getMonth()],
+         'processID': process.id,
+         'type': process.type === 'employer_withdrawal' ? 'negative' : 'positive',
+         'status': process.status,
+         'departmentId': process.dep_id,
+         'employer_id': process.employer_id,
+         'is_references': process.is_references,
+         'payment_instructions': process.payment_instructions,
+         'status_process': process.status_process === 1 &&
+         status !== this.processStatus.can_be_processed ? process.status_process : process.status_process + 1,
+         'employer_name': process.employer_name,
+         'incorrect': status === this.processStatus.loaded_with_errors,
+         'returnDetails':  status === this.processStatus.loaded_with_errors,
+         'rows': process.rows,
+         'sum': process.sum,
+         'num_file': process.num_file,
+         'rows_status': response['sent']
+       };
 
+       this.processDataService.setProcess(data);
+       this.selectUnit.setProcessData(data);
+
+
+       if (status === this.processStatus.loaded_with_errors || status === this.processStatus.loading) {
+         this.router.navigate(['platform', 'process' , 'new', 'update']);
+       } else
+       if (process.status_process === 1) {
+         this.router.navigate(['platform', 'process' , 'new', 'update' , 'payment-instructions']);
+       } else if (process.status_process === 2) {
+         this.router.navigate(['platform', 'process' , 'new', 'update' , 'reference']);
+       } else if (process.status_process === 3) {
+         this.router.navigate(['platform', 'process' , 'new', 'update' , 'broadcast']);
+       } else if (process.status_process === 4) {
+         if (status !== this.processStatus.partially_transmitted) {
+           this.router.navigate(['platform', 'process', 'new', 'update', 'feedback'],
+             {queryParams: {processId: process.id}});
+         } else {
+           this.router.navigate(['platform', 'process' , 'new', 'update' , 'payment-instructions']);
+         }
+       } else if (process.status_process === 5 || process.status_process === 6) {
+         this.router.navigate(['platform', 'process' , 'new', 'update' , 'send-feed-employer'],
+           {queryParams: {processId: process.id}});
+       }
+     });
    }
+  }
+
+  getTitle(status, status_feedback): string {
+    switch (status) {
+      case 1: return 'טעינת קובץ';
+      case 2: return 'הנחיות לתשלום';
+      case 3: return 'צירוף אסמכתא';
+      case 4: return 'שידור';
+      case 5
+      : if (status_feedback === 'feedback_a' || status_feedback === 'part_feedback_a') {
+        return 'היזון ראשוני';
+      }
+      return 'היזון אחרון';
+      case 6: return 'שליחת היזון למעסיק';
+
+    }
   }
 
   messageError(error: string): void {
@@ -275,4 +334,73 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     this.router.navigate(['/platform', 'feedback', 'files'],
         {queryParams: {processId: item.id, year: year.getFullYear(), month: year.getMonth() + 1}});
   }
+
+  openWarningMessageComponentDialog(type): void {
+    const body = !type ? 'האם ברצונך להפוך שורת אלו ללא רלוונטיות?' : 'האם ברצונך להפוך שורת אלו לרלוונטיות?';
+
+    if (this.checkedRowItems()) {
+    const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+    const items = this.dataTable.criteria.checkedItems;
+
+    this.notificationService.warning(body, '', buttons).then(confirmation => {
+    if (confirmation.value) {
+    this.processService.updateProcess( type, items.map(item => item['id']), this.dataTable.criteria )
+      .then(response => {
+        if (response) {
+          this.endAction();
+        } else {
+          this.notificationService.error('', 'הפעולה נכשלה');
+        }});
+    }});
+    }
+  }
+
+  checkedRowItems(): boolean {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.dataTable.setNoneCheckedWarning();
+      return false;
+    }
+    return true;
+  }
+
+  endAction(): void {
+    this.dataTable.criteria.checkedItems = [];
+    this.dataTable.criteria.isCheckAll = false;
+    this.fetchItems();
+  }
+
+  openCommentsDialog(item?: any): void {
+    let ids = [];
+    if (!item) {
+      if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+        this.dataTable.setNoneCheckedWarning();
+        return;
+     }
+      ids = this.dataTable.criteria.checkedItems.map(i => i['id']);
+      this.openCommentsForm([], ids);
+    } else {
+      ids = [item.id];
+      let comments = null;
+      this.generalService.getComments(ids, 'process').then(response => {
+        comments = response;
+        this.openCommentsForm(comments, ids);
+      });
+    }
+  }
+
+  openCommentsForm(comments, ids): void {
+    const dialog =  this.dialog.open(CommentsFormComponent, {
+      data: {'ids': ids, 'contentType': 'process', 'comments'  : comments,
+        'criteria': this.dataTable.criteria},
+      width: '550px',
+      panelClass: 'dialog-file'
+    });
+
+    this.sub.add(dialog.afterClosed().subscribe(res => {
+      this.dataTable.criteria.checkedItems = [];
+      this.dataTable.criteria.isCheckAll = false;
+      this.fetchItems();
+    }));
+  }
+
 }

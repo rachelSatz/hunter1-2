@@ -1,0 +1,50 @@
+<div class="text-left">
+  <button class="mat-dialog-close"  (click)="close()">
+    <i class="fa fa-close"></i>
+  </button>
+</div>
+  <h4 class="bold blue-color font-rubik"> טעינת קובץ</h4>
+  <h6 class="bold font-rubik">{{ process.employer_name }} - {{months[process.month-1] + ' ' + process.year  }}</h6>
+<div class="mt-5 text-center" >
+    <div  *ngIf="!this.process.id">
+      <div class="text-left btn-remove">
+        <button class="btn grey-btn btn-sm" (click)="loadNew()">מחק</button>
+      </div>
+      <file-drop ng2FileDrop (onFileDrop)="getFileFromDrop($event)">
+        <label class="text-center pointer mt-5" *ngIf="process.file == null || process.file.length == 0? true : false" (change)="setFile($event.target.files)">
+          <img src="/assets/img/icons/cloud.svg" class="mb-1 icon-lg">
+          <p class="font-small black-color bold">העלאת קובץ</p>
+          <p class="f-12 black-color"> גרור קבצים לכאן או בחר קובץ להעלאה</p>
+          <input type="file" #fileInput multiple="true" >
+        </label>
+        <div class="text-center mt-5" *ngIf="process.file == null || process.file.length == 0? false : true">
+          <i class="fa fa-check-circle-o mb-3"></i>
+          <p class="text-dark">העלו <span> {{ process.file.length }} </span>קבצים </p>
+          <p class="text-dark">{{ process.file[0].name }}</p>
+        </div>
+      </file-drop>
+      <div class="d-flex">
+        <p class=" text-danger" *ngIf="fileTypeError">  יש להעלות קבצי  XLSX/DAT בלבד. </p>
+      </div>
+    </div>
+    <div *ngIf="this.process.id">
+      <h5 class="bold mt-5">הקובץ בטעינה</h5>
+      <p class="f-12 mb-0" >לנוחיותך ניתן כעת לצאת מהמערכת </p>
+      <p class="f-12 mb-3">
+        <span>ליציאה וקבלת הנחיות תשלום במייל,</span>
+        <span class="bold blue-color pointer" (click)="openDialog()">לחץ כאן</span>
+      </p>
+      <p class="f-12">ניתן להמתין לסיום הטעינה ולהורדת הנחיית תשלום</p>
+      <mat-progress-bar class="mt-5" mode="determinate" [value]="process_percent"></mat-progress-bar>
+    </div>
+    <div class="mt-1 danger-color" [hidden]="!isError">
+      <i class="fa fa-exclamation-circle"></i>
+      <span class="f-12">   שגיאה בטעינת הקובץ
+      <span class="border-bottom-danger   pointer mr-2" (click)="showError = !showError" >לפירוט השגיאה</span></span>
+    </div>
+    <div [@fade]="showError ? 'active' : 'inactive'" class="border-danger mt-1">
+      {{error}}
+    </div>
+
+  <button class="btn blue-btn mt-2p2" *ngIf="!this.process.id &&  !isError" (click)="paymentPopup()" >טען</button>
+</div>

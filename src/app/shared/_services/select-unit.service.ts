@@ -11,7 +11,11 @@ export class SelectUnitService {
   currentEmployerID: number;
   currentDepartmentID: number;
 
+  countIncorrectRows: number;
+
   unitSubject: Subject<number> = new Subject();
+
+  unitIncorrectRows: Subject<number> = new Subject();
 
   setOrganization(organizations: any): void {
     sessionStorage.setItem('organizations', JSON.stringify(organizations));
@@ -42,6 +46,18 @@ export class SelectUnitService {
 
   getProcessData(): any {
     return this.getSessionStorage('processData');
+  }
+
+  setTaskCampaign(campaignData: any): void {
+    sessionStorage.setItem('taskCampaign', JSON.stringify(campaignData));
+  }
+
+  getTaskCampaign(): any {
+    return this.getSessionStorage('taskCampaign');
+  }
+
+  clearTaskCampaign(): void {
+    sessionStorage.removeItem('taskCampaign');
   }
 
   setTaskTimer(task: any): void {
@@ -165,7 +181,10 @@ export class SelectUnitService {
 
   }
 
-
+  setCountIncorrectRows(count: number): void {
+    this.countIncorrectRows = count;
+    this.unitIncorrectRows.next(count);
+  }
 
 }
 

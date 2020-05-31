@@ -17,28 +17,65 @@ export class CampaignsService extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/campaigns';
 
+  createCampaign(campaign: any, groups: any): Promise<any> {
+    return this.http.post(this.endPoint, {campaign: campaign , groups}
+      , this.getTokenHeader())
+      .toPromise()
+      .then(response => response as any);
+  }
+
+  updateCampaign(campaign: any, groups: any): Promise<any> {
+    return this.http.post(this.endPoint + '/updateCampaign', {campaign: campaign, groups}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as any);
+  }
+
   getCampaign(id: number): Promise<any> {
     return this.http.get(this.endPoint + '/' + id, this.getTokenHeader())
       .toPromise()
       .then(response => response);
   }
 
-  getCampaigns(criteria: DataTableCriteria): Promise<DataTableResponse> {
+  getCampaigns(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
 
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
     }
 
-    return this.http.get(this.endPoint , request)
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+
+    return this.http.get(this.endPoint + '/getAllCampaigns', request)
       .toPromise()
       .then(response => response as DataTableResponse)
       .catch(() => null);
   }
 
-  getTypes(): Promise<any> {
-    return this.http.get(this.endPoint + '/getTypes' , this.getTokenHeader())
+  checkCampaignName(campaignName: string): Promise<boolean> {
+    return this.http.post(this.endPoint + '/checkCampaignName', {campaignName: campaignName}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as boolean);
+  }
+
+  changeStatus(id: number, status: string): Promise<boolean> {
+    return this.http.post(this.endPoint + '/changeStatus', {id: id, status: status}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as boolean);
+  }
+
+  getTypes(isTask?: Boolean): Promise<any> {
+    return this.http.post(this.endPoint + '/getTypes' , { isTask: isTask}, this.getTokenHeader())
       .toPromise()
       .then(response => response);
   }
+
+  getAllEmployersCampaign(campaignId): Promise<any>  {
+    return this.http.get(this.endPoint + '/getAllEmployersCampaign/'  + campaignId , this.getTokenHeader())
+    .toPromise()
+    .then(response => response)
+    .catch(response => response);
+  }
+
 }

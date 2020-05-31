@@ -1,0 +1,19 @@
+.table thead tr td {
+  padding: 5px !important;
+  vertical-align: middle;
+  text-align: center !important;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-color: #000000;
+  font-weight: bold;
+  cursor: pointer;
+}
+.table { border: none }
+
+.divColor {
+  height: 28px;
+  background-color: #f5f5f5;
+  width: 630.6px;
+  margin-right: -24px;
+}

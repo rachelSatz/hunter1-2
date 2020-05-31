@@ -1,30 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule, Routes} from '@angular/router';
-import {DataTableModule} from '../../shared/data-table/data-table.module';
-import {BdSelectModule} from '../../../assets/js/bd-select/bd-select.module';
-import {NotificationService} from '../../shared/_services/notification.service';
-import {CampaignsComponent} from './campaigns.component';
-import {GroupService} from '../../shared/_services/http/group.service';
-import { CampaignsFormComponent } from './campaigns-form/campaigns-form.component';
-import {CampaignsFormModule} from './campaigns-form/campaigns-form.module';
-
+import { RouterModule, Routes } from '@angular/router';
+import { DataTableModule } from '../../shared/data-table/data-table.module';
+import { BdSelectModule } from '../../../assets/js/bd-select/bd-select.module';
+import { NotificationService } from '../../shared/_services/notification.service';
+import { CampaignsComponent } from './campaigns.component';
+import { GroupService } from '../../shared/_services/http/group.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', component: CampaignsComponent },
-  { path: 'campaigns-form', component: CampaignsFormComponent}
+  { path: 'campaigns-form', loadChildren: 'app/platform/campaigns/campaigns-form/campaigns-form.module#CampaignsFormModule'}
 ];
 
 @NgModule({
-  declarations: [CampaignsComponent, CampaignsFormComponent],
+  declarations: [CampaignsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     DataTableModule,
     BdSelectModule,
-    CampaignsFormModule
+    ReactiveFormsModule,
   ],
   providers: [NotificationService, GroupService],
-  entryComponents: [CampaignsFormComponent]
 })
 export class CampaignsModule { }

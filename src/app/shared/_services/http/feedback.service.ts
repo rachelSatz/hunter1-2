@@ -68,9 +68,9 @@ export class FeedbackService extends BaseHttpService {
   }
 
 
-  sendFeedback(mtbs: any, recipient: any, comment: string, criteria?: DataTableCriteria): Promise<any> {
+  sendFeedback(mtbs: any, recipient: any, comment: string, criteria?: DataTableCriteria, isFailed?: boolean): Promise<any> {
     return this.http.post(this.endPoint + '/feedback',
-      {mtbs: mtbs, recipient: recipient, comment: comment, criteria: this.setDataTableParams(criteria)},
+      {mtbs: mtbs, recipient: recipient, comment: comment, criteria: this.setDataTableParams(criteria), isFailed: isFailed},
       this.getTokenHeader())
       .toPromise()
       .then(response => response)
@@ -84,6 +84,14 @@ export class FeedbackService extends BaseHttpService {
       .toPromise()
       .then(() => true)
       .catch(() => false);
+  }
+
+  getDetailsFeedBack(id): Promise<any> {
+    return this.http.get(this.endPoint + '/' + id + '/getDetailsFeedBack' , this.getTokenHeader())
+      .toPromise()
+      .then(response => response )
+      .catch(() => null);
+
   }
 
 }

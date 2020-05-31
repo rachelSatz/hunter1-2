@@ -1,0 +1,42 @@
+<div class="dialog-header float-left mb-1 d-flex">
+  <button mat-dialog-close class="float-left">
+    <i class="fa fa-close"></i>
+  </button>
+</div>
+<form #form="ngForm" >
+  <h6 class="bold">העברת קבוצה</h6>
+  <div class="row mt-lg-3">
+    <mat-form-field class="col-4">
+      <input type="text" matInput placeholder="שם קבוצה" name="group_name" ngModel required>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <bd-select [items]="companies" name="company"
+                 (onSelect)="selectedProducts()"
+                 #companySelect="ngModel"
+                 [(ngModel)]="this.employerProductBankAccount.company_id"
+                 placeholder="חברה מנהלת"
+                 required [error]="companySelect.errors && form.submitted"></bd-select>
+    </div>
+    <div class="col-4">
+      <bd-select [items]="products" name="product" #productSelect="ngModel"
+                 [(ngModel)]="this.employerProductBankAccount.product_id"
+                 (onSelect)="selectedBankAccounts()"
+                 label="full_name"
+                 placeholder="קופה"
+                 required [error]="productSelect.errors && form.submitted"></bd-select>
+    </div>
+    <div class="col-4">
+      <bd-select [items]="bankAccounts" name="bank_account"
+                 #bankAccountSelect="ngModel"
+                 [(ngModel)]="this.employerProductBankAccount.bank_account_id"
+                 placeholder="בנקים" required
+                 [error]="bankAccountSelect.errors && form.submitted"></bd-select>
+    </div>
+  </div>
+  <div class="mt-4 text-center">
+    <button type="submit" (click)="submit(form)" class="btn blue-btn">הוספה</button>
+  </div>
+</form>

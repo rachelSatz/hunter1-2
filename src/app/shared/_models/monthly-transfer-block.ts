@@ -60,7 +60,7 @@ export enum EmployeeStatus {
   lacks_payment = 'היעדר שכר',
   seasonal  = 'עונתי',
   contract_ended = 'עזיבת עבודה',
-  unpaid_lOA = 'חופשה ללא תשלום',
+  unpaid_loa = 'חופשה ללא תשלום',
   death = 'פטירה',
   provident_fund_changed = ' עובד החל להפקיד בקופה אחרת',
   department_changed = 'מעבר ממשרד למשרד',

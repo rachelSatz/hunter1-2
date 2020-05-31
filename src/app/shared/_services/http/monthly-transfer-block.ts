@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
-import {UserSessionService} from '../user-session.service';
-import {HttpClient} from '@angular/common/http';
+import { UserSessionService } from '../user-session.service';
+import { HttpClient } from '@angular/common/http';
 
-import {Employee} from '../../_models/employee.model';
-import {DataTableResponse} from '../../data-table/classes/data-table-response';
-import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
-import {MonthlyTransferBlock} from '../../_models/monthly-transfer-block';
+import { Employee } from '../../_models/employee.model';
+import { DataTableResponse } from '../../data-table/classes/data-table-response';
+import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
+import { MonthlyTransferBlock } from '../../_models/monthly-transfer-block';
 
 @Injectable()
 export class MonthlyTransferBlockService  extends BaseHttpService {

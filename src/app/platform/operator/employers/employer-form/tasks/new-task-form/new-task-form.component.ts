@@ -7,6 +7,10 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { TaskService } from 'app/shared/_services/http/task.service';
 import { TaskModel, Comment } from 'app/shared/_models/task.model';
+import {CampaignsService} from '../../../../../../shared/_services/http/campains.service';
+import {FormBuilder, Validators} from '@angular/forms';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {CampaignsFieldStatus} from '../../../../../../shared/_models/campaigns';
 
 @Component({
   selector: 'app-new-task-form',
@@ -14,7 +18,17 @@ import { TaskModel, Comment } from 'app/shared/_models/task.model';
   styleUrls: ['./new-task-form.component.css']
 })
 export class NewTaskFormComponent implements OnInit {
-
+  task = this.fb.group({
+      'name':        [null, Validators.required],
+      'moduleType':  [null, Validators.required],
+      'moduleName':  [null, Validators.required],
+      'dateModule':  [null],
+      'status':      [null],
+      'employer':    [null, Validators.required],
+      'performDate': [null],
+      'performHour': [null],
+      'description': [null],
+  });
   status = 'in_progress';
   curDate;
   employee;
@@ -22,16 +36,35 @@ export class NewTaskFormComponent implements OnInit {
   operators = [];
   employees = [];
   title = '';
+  campaignsType = [];
+  campaignsSubtype = [];
+  dateModel = false;
+  employers = [];
 
+  statuses = Object.keys(CampaignsFieldStatus).map(function(e) {
+    return { id: e, name: CampaignsFieldStatus[e] };
+  });
   constructor( public dialogRef: MatDialogRef<NewTaskFormComponent>,
                @Inject(MAT_DIALOG_DATA) public data: TaskModel,
+               public fb: FormBuilder,
                private employerService: EmployerService,
+               public campaignsService: CampaignsService,
                private taskService: TaskService,
                private selectUnit: SelectUnitService,
                public convertDate: DatePipe,
                private notificationService: NotificationService) { }
 
   ngOnInit() {
+    this.employerService.getEmployerBasic().then(response => {
+      this.employers = response;
+      if (this.employers.length > 1) {
+        if (!this.employers.some(e => e.id === 0)) {
+          this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
+        }
+      }
+      this.employers.sort((a, b) => a.id - b.id);
+    });
+    this.campaignsService.getTypes().then(response => this.campaignsType = response);
     if (this.data.subject !== null && this.data.subject !== '') {
       this.title = 'עריכת משימה';
     } else {
@@ -45,7 +78,6 @@ export class NewTaskFormComponent implements OnInit {
       if (this.data.comments.length === 0) {
         this.data.comments.push(new Comment());
       }
-
     }
     // this.data.employer['id'], 'employerId'
     this.employerService.getOperator().then(response => {
@@ -53,12 +85,21 @@ export class NewTaskFormComponent implements OnInit {
     });
   }
 
+  getSubtype(model) {
+    if (model === 4) {
+      this.task.get('moduleName').patchValue(10);
+    } else {
+      this.campaignsSubtype = [];
+      this.campaignsSubtype = this.campaignsType.find(a => a.id === model).subtype;
+      if (model === 1 || model === 2) {
+        this.dateModel = true;
+      }
+    }
+  }
+
   createNewTask(form) {
-    if (form.valid) {
-      form.value['status'] = this.status;
-      form.value['employerId'] = this.selectUnit.currentEmployerID;
-      form.value['dueDate'] = this.convertDate.transform( form.value['date']  , 'yyyy-MM-dd');
-      form.value['dueDate'] = form.value['dueDate'] + ' ' + form.value['hour'];
+    if (this.task.valid) {
+      this.task.get('status').patchValue(this.status)
       this.taskService.createTask(form.value).then(response => {
         if (response.includes('Could not update')) {
           this.notificationService.error('', 'אירעה שגיאה');

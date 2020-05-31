@@ -1,5 +1,5 @@
 <div class="col-12 f-12 mb-lg-5">
-  <div class="float-left">
+  <div class="float-left" *ngIf="!isProcess">
     <mat-form-field>
       <mat-select placeholder="חודש שכר" [(ngModel)]="this.selectMonth" name="month" class="ml-3"
                   (selectionChange)="dataTable.search()">
@@ -20,21 +20,21 @@
 <app-data-table tableName="מעקב ברמת קובץ" [columns]="columns" (fetchItems)="fetchItems()"
                 [hasCheckColumn]="true" [hasActionsHeader] = "userSession.getPermissionsType('operations')">
   <div class="table-header">
-    <div  class="lineHeight boxShadow" *ngIf="route.snapshot.queryParams['processId']">
-      <div class="d-flex">
-        <span class="bold">מספר תהליך: </span>
-        <p class="mr-1">{{ processId }}</p>
-      </div>
-      <div class="d-flex">
-        <span class="bold">שם תהליך: </span>
-        <p class="mr-1">{{ processName }}</p>
-      </div>
-      <div class="d-flex">
-        <span class="bold">תאריך שליחת היזון חוזר:  </span>
-        <p class="mr-1">{{ feedbackDate | date: 'dd/MM/yy' }}</p>
-      </div>
+    <!--<div  class="lineHeight boxShadow" *ngIf="route.snapshot.queryParams['processId']">-->
+      <!--<div class="d-flex">-->
+        <!--<span class="bold">מספר תהליך: </span>-->
+        <!--<p class="mr-1">{{ processId }}</p>-->
+      <!--</div>-->
+      <!--<div class="d-flex">-->
+        <!--<span class="bold">שם תהליך: </span>-->
+        <!--<p class="mr-1">{{ processName }}</p>-->
+      <!--</div>-->
+      <!--<div class="d-flex">-->
+        <!--<span class="bold">תאריך שליחת היזון חוזר:  </span>-->
+        <!--<p class="mr-1">{{ feedbackDate | date: 'dd/MM/yy' }}</p>-->
+      <!--</div>-->
 
-    </div>
+    <!--</div>-->
 
     <div class="row mr-1">
       <div class="ml-3 d-flex mr-auto">

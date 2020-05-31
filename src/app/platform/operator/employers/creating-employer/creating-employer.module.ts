@@ -51,6 +51,7 @@ const routes: Routes = [
     ContactService,
     DocumentService,
     ProcessService,
+    GeneralHttpService,
     UserService
   ],
 })

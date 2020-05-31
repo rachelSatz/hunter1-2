@@ -38,11 +38,19 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
+<<<<<<< HEAD
 import {GroupService} from '../shared/_services/http/group.service';
 import {CampaignsFormComponent} from './campaigns/campaigns-form/campaigns-form.component';
 import { MessagesComponent } from './operator/messages/messages.component';
 
 
+=======
+import {CampaignsService} from '../shared/_services/http/campains.service';
+import {GroupMembersDialogComponent} from './campaigns/group-members-dialog/group-members-dialog.component';
+import {EditGroupEmployerComponent} from './campaigns/edit-group-employer/edit-group-employer.component';
+import { GroupService } from '../shared/_services/http/group.service';
+// import { GroupTransferComponent } from 'app/shared/shared/group-transfer/group-transfer.component';
+>>>>>>> e4417cfdb3ba6336c2dd934636e10e2078ab3a8b
 
 const routes: Routes = [
   {
@@ -64,7 +72,8 @@ const routes: Routes = [
       { path: 'settings/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
       { path: 'settings/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
       { path: 'compensation/dashboard', loadChildren: 'app/platform/compensation/dashboard/dashboard.module#DashboardModule' },
-      { path: 'process/new/:status', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
+      // { path: 'process/new/:status', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
+      { path: 'process/new/:status', loadChildren: 'app/platform/process/process-loading/process-loading.module#ProcessLoadingModule' },
       { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
       { path: 'process/edit-payments', loadChildren: 'app/platform/process/edit-payments/edit-payments.module#EditPaymentsModule' },
       { path: 'feedback/employees', loadChildren: 'app/platform/feedback/employees/employees.module#EmployeesModule' },
@@ -111,24 +120,29 @@ const routes: Routes = [
   ],
   declarations: [
     PlatformComponent,
+    GroupMembersDialogComponent,
+    EditGroupEmployerComponent,
     InquiryFormComponent,
     CommentsFormComponent,
     InquiriesComponent ,
     DetailsComponent,
     ErrorMessageComponent,
     FileDepositionComponent,
-    ChangeStatusComponent
-  ],
+    // GroupTransferComponent,
+    ChangeStatusComponent],
   entryComponents: [
+    GroupMembersDialogComponent,
+    EditGroupEmployerComponent,
     InquiryFormComponent,
     CommentsFormComponent,
     InquiriesComponent,
     DetailsComponent,
     ErrorMessageComponent,
     FileDepositionComponent,
+    // GroupTransferComponent,
     ChangeStatusComponent
   ],
-  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, GroupService,
+  providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, GroupService, CampaignsService,
     DatePipe, TimerService, OperatorTasksService, ProductService, AppHttpService]
 })
 export class PlatformModule {}

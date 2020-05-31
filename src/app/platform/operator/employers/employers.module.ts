@@ -12,6 +12,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import {EmployerMovesManagerComponent} from './creating-employer/employer-moves-manager/employer-moves-manager.component';
 import { GroupDetailsComponent } from './group-details/group-details.component';
 import {GroupService} from '../../../shared/_services/http/group.service';
+import {GeneralHttpService} from '../../../shared/_services/http/general-http.service';
 // import {CreatingEmployerComponent} from './creating-employer/creating-employer.component';
 
 
@@ -34,7 +35,7 @@ const routes: Routes = [
   declarations: [
     EmployersComponent, EmployerMovesManagerComponent, GroupDetailsComponent
   ],
-  providers: [EmployerService, NotificationService, GroupService],
+  providers: [EmployerService, NotificationService, GroupService, GeneralHttpService],
   entryComponents: [EmployerMovesManagerComponent, GroupDetailsComponent]
 
 })

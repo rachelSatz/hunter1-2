@@ -41,7 +41,13 @@ export class Process {
   incorrect: boolean;
   highlightFileId: number;
   highlightRecordId: number;
-
+  payment_instructions: boolean;
+  is_references: boolean;
+  status_process = 1;
+  rows: any;
+  sum;
+  num_file;
+  rows_status: boolean;
 
 
   constructor() {

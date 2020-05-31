@@ -1,5 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {DataTableComponent} from '../../shared/data-table/data-table.component';
+import { Component, OnInit, ViewChild} from '@angular/core';
+import { DataTableComponent} from '../../shared/data-table/data-table.component';
+import { UserSessionService} from '../../shared/_services/user-session.service';
+import { SelectUnitService} from '../../shared/_services/select-unit.service';
+import { ActivatedRoute, Router} from '@angular/router';
+import { Subscription} from 'rxjs';
+import { CampaignsService} from '../../shared/_services/http/campains.service';
+import {CampaignsStatus} from '../../shared/_models/campaigns';
+import {GroupMembersDialogComponent} from './group-members-dialog/group-members-dialog.component';
+import {HelpersService} from '../../shared/_services/helpers.service';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-campaigns',
@@ -8,17 +17,70 @@ import {DataTableComponent} from '../../shared/data-table/data-table.component';
 })
 export class CampaignsComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+  sub = new Subscription;
+  campaignStatus = CampaignsStatus;
 
   readonly columns =  [
-    { name: 'organization_name', label: 'שם הקמפיין', searchable: false },
-    { name: 'employer_name', label: 'תאריך שליחה' , searchable: false},
-    { name: 'entity_number', label: 'שעת יצירה' , searchable: false},
-    { name: 'email', label: 'כמות נשלח' , searchable: false},
+    { name: 'name', label: 'שם הקמפיין', searchable: false },
+    { name: 'type', label: 'סוג המודל', searchable: false },
+    { name: 'subtype', label: 'שם המודל', searchable: false },
+    { name: 'status', label: 'סטטוס' , searchable: false},
+    { name: 'last_send', label: 'מועד שליחה אחרון' , searchable: false},
+    { name: 'next_send', label: 'מועד שליחה הבא' , searchable: false},
+    { name: 'amount', label: 'כמות נשלח' , searchable: false},
   ];
-  constructor() { }
+  constructor(
+    private router: Router,
+    public  userSession: UserSessionService,
+    protected route: ActivatedRoute,
+    private dialog: MatDialog,
+    public helpers: HelpersService,
+    public campaignsService: CampaignsService,
+    private selectUnit: SelectUnitService
+  ) { }
 
   ngOnInit() {
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+        this.router.navigate([], {
+          queryParams: {page: 1},
+          relativeTo: this.route
+        });
+        this.fetchItems();
+      }
+    ));
   }
 
-  fetchItems() {}
+  openGroupMembersDialog(campaign: any): void {
+    this.helpers.setPageSpinner(true);
+    this.campaignsService.getAllEmployersCampaign(campaign.id).then(response => {
+      this.helpers.setPageSpinner(false);
+      this.dialog.open(GroupMembersDialogComponent, {
+        data: { items: response.items,
+          groupSize: response.items.length,
+          groupName: campaign.name},
+        width: '450px',
+        height: '500px',
+        panelClass: 'campaigns',
+      });
+    });
+  }
+
+  deleteExistCampaign() {
+    this.selectUnit.clearTaskCampaign();
+  }
+
+  fetchItems() {
+    this.campaignsService.getCampaigns(this.dataTable.criteria).then(
+      response => this.setResponse(response));
+  }
+
+  editCampaign(campaign_id) {
+    this.selectUnit.clearTaskCampaign();
+    this.router.navigate(['/platform', 'operator', 'campaigns',  'campaigns-form'], { queryParams: { campaignId: campaign_id }});
+  }
+
+  setResponse(response: any): void {
+    this.dataTable.setItems(response);
+  }
+
 }

@@ -32,15 +32,24 @@ export class OperatorTasksService extends BaseHttpService {
   //     .then(response => response);
   // }
 
-  newTaskTimer(task_type: string, planTaskId?: number): Promise<any> {
-    return this.http.post(this.endPoint + '/createTaskTimer', { 'task_type': task_type }, this.getTokenHeader())
+  newTaskTimer(task_type?: string, typeId?: number): Promise<any> {
+    return this.http.post(this.endPoint + '/createTaskTimer', { 'task_type': task_type , 'taskId': typeId}, this.getTokenHeader())
       .toPromise()
       .then(response => response as any)
       .catch(() => 0);
   }
 
-  updateTaskTimer(id: number, duration: string): Promise<any> {
-    return this.http.post(this.endPoint  + '/' + id + '/updateTaskTimer', { 'duration': duration }, this.getTokenHeader())
+  updateTaskTimer(id: number, duration: string, type: string, typeId?: number): Promise<any> {
+    return this.http.post(this.endPoint  + '/' + id + '/updateTaskTimer', { 'duration': duration , 'typeId': typeId, 'type': type},
+      this.getTokenHeader())
+      .toPromise()
+      .then(response => response as any)
+      .catch(() => 0);
+  }
+
+  taskCompleted(typeId: string): Promise<any> {
+    return this.http.post(this.endPoint  + '/taskCompleted', { 'typeId': typeId},
+      this.getTokenHeader())
       .toPromise()
       .then(response => response as any)
       .catch(() => 0);

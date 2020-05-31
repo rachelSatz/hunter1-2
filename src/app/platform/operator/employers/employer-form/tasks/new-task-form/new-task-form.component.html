@@ -1,67 +1,77 @@
-<div class="d-flex">
-  <span class="grey-color f-12 w-100">{{ curDate | date: 'dd/MM/yy HH:mm '}}</span>
-  <i class="fa fa-close pointer" (click)="close(false)"></i>
-</div>
-<p class="h5 bold mt-5">{{ title }}</p>
-<form #form="ngForm" (ngSubmit)="createNewTask(form)" class="mt-3">
-  <mat-form-field>
-    <input matInput placeholder="נושא המשימה" [(ngModel)]="data.subject" name="subject" required>
-    <mat-error>שדה חובה</mat-error>
-  </mat-form-field>
-  <p class="grey-color f-14">בחר סטטוס</p>
-  <div class="d-flex status status-bar">
-    <div class="pointer" (click)="status = 'not_started';" [ngClass]="{'active': status == 'not_started'}">טרם בוצע</div>
-    <div class="pointer" (click)="status = 'in_progress';" [ngClass]="{'active': status == 'in_progress'}">בטיפול</div>
-    <div class="pointer" (click)="status = 'done';" [ngClass]="{'active': status == 'done'}">טופל</div>
+<div class="h-25 white-background-color">
+  <div class="d-flex">
+    <span class="grey-color f-12 w-100">{{ curDate | date: 'dd/MM/yy HH:mm '}}</span>
+    <i class="fa fa-close pointer" (click)="close(false)"></i>
   </div>
-  <div  class=" mt-5">
-    <mat-form-field>
-      <mat-select matInput placeholder="עובד משוייך" [(ngModel)]="data.assignee['id']" name="assigneeId" required>
-        <mat-option *ngFor="let employee of operators" [value]="employee.id">
-          {{employee.name}}
-        </mat-option>
-      </mat-select>
+  <p class="h5 bold mt-1 blue-color">{{ title }}</p>
+</div>
+<div class="gray-new-color ">
+  <form #form="ngForm" (ngSubmit)="createNewTask(form)" [formGroup]="task">
+    <mat-form-field class="mr-2">
+      <input matInput placeholder="נושא המשימה" formControlName="name" name="subject" required>
       <mat-error>שדה חובה</mat-error>
     </mat-form-field>
-  </div>
-  <div>
-    <p class="grey-color f-14">לביצוע עד</p>
-    <div class="d-flex">
+    <div class="d-flex mr-2 py-3">
       <div>
-        <mat-form-field class="date-picker">
-          <input matInput [(ngModel)]="data.due_date" [matDatepicker]="date" name="date" placeholder="תאריך" required>
-          <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
-          <mat-datepicker #date></mat-datepicker>
-          <mat-error>שדה חובה</mat-error>
-
-        </mat-form-field>
+        <bd-select [items]="campaignsType" formControlName="moduleType"  required class="d-inline-block bd-de bd-min-width"
+                   placeholder="סוג המודל" (onSelect)="getSubtype($event)"
+                   [error]="!task.get('moduleType').value && form.submitted"></bd-select>
       </div>
-      <div class="mr-5">
-        <mat-form-field>
-          <input matInput [(ngModel)]="data.due_time" placeholder="בשעה" name="hour" type="time" required>
-          <mat-error>שדה חובה</mat-error>
-
-        </mat-form-field>
+      <div class="mr-5" *ngIf="task.get('moduleType').value !== 4">
+        <bd-select [items]="campaignsSubtype" required formControlName="moduleName" placeholder="שם המודל"
+                   [error]="!task.get('moduleName').value && form.submitted"></bd-select>
       </div>
     </div>
-    <!--<div class="d-flex">-->
-      <!--<div>-->
-          <!--<mat-form-field>-->
-          <!--<input matInput [owlDateTimeTrigger]="dt" [owlDateTime]="dt" [(ngModel)]="data.due_date" name="date" placeholder="תאריך">-->
-          <!--</mat-form-field>-->
-          <!--<owl-date-time #dt></owl-date-time>-->
-      <!--</div>-->
-    <!--</div>-->
-  </div>
-  <p class="grey-color f-14">תיאור המשימה</p>
-  <textarea class="form-control"  placeholder="הוספת תיאור" [(ngModel)]="data.description" name="description"></textarea>
-  <mat-form-field class="w-100 mt-5">
-    <input matInput  placeholder="הוספת הערה" [(ngModel)]="data.comments[0]['content']" name="comment">
-  </mat-form-field>
-  <input type="hidden" [(ngModel)]="data.comments[0]['id']" name="comment_id">
-  <input type="hidden" [(ngModel)]="data.id" name="id">
+    <div class="d-flex mr-2 py-3">
+      <div *ngIf="task.get('moduleType').value === 3">
+        <bd-select [items]="statuses" class="d-inline-block bd-de bd-min-width"
+                   placeholder="בחירת סטטוס" formControlName="status"></bd-select>
+      </div>
+      <div >
+        <bd-select [items]="employers" class="d-inline-block bd-de bd-min-width" [multiple]="true"
+                   placeholder="מעסיק" formControlName="employer"></bd-select>
+      </div>
+      <div *ngIf="task.get('moduleType').value !== 3 && task.get('moduleType').value !== 4">
+        <mat-form-field class="w-100 mt-md-n3 mr-5">
+          <input matInput [matDatepicker]="datePickerTo" [placeholder]="task.get('moduleType').value === 2 ?
+             'תאריך נכונות (שכר)' : 'חודש שכר'" formControlName="dateModule"
+                 [required]="dateModel" >
+          <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
+          <mat-datepicker #datePickerTo></mat-datepicker>
+        </mat-form-field>
+      </div>
 
-  <div class="mt-4 text-center">
-    <button type="submit" class="btn blue-btn">יצירה</button>
-  </div>
-</form>
+    </div>
+    <div *ngIf="task.get('moduleType').value === 4 ">
+      <p class="grey-color f-14" >בחר סטטוס</p>
+      <div class="d-flex status status-bar" formControlName="status">
+        <div class="pointer" (click)="status = 'not_yet_done';" [ngClass]="{'active': status == 'not_yet_done'}">טרם בוצע</div>
+        <div class="pointer" (click)="status = 'in_progress';" [ngClass]="{'active': status == 'in_progress'}">בטיפול</div>
+        <div class="pointer" (click)="status = 'done';" [ngClass]="{'active': status == 'done'}">טופל</div>
+      </div>
+    </div>
+    <div class="mr-2">
+      <p class="grey-color f-14">לביצוע עד</p>
+      <div class="d-flex">
+        <div>
+          <mat-form-field class="date-picker">
+            <input matInput formControlName="performDate" [matDatepicker]="date" name="date" placeholder="תאריך" >
+            <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+            <mat-datepicker #date></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="mr-5">
+          <mat-form-field>
+            <input matInput formControlName="performHour" placeholder="בשעה" name="hour" type="time">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <p class="grey-color f-14 mr-2">תיאור המשימה</p>
+    <textarea class="form-control"  placeholder="הוספת תיאור" formControlName="description" name="description"></textarea>
+    <div class="mt-4 text-center">
+      <button type="submit" class="btn blue-btn">צור</button>
+    </div>
+  </form>
+</div>
+

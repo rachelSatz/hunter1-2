@@ -7,7 +7,7 @@ import { FileType } from 'app/shared/_models/group-thing';
 import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_models/compensation.model';
 import { TimerService } from 'app/shared/_services/http/timer';
 import { PlanService } from 'app/shared/_services/http/plan.service';
-import { TaskTimer, TaskTimerLabels } from 'app/shared/_models/timer.model';
+import { TaskTimerLabels } from 'app/shared/_models/timer.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { NotificationService } from 'app/shared/_services/notification.service';
@@ -16,8 +16,8 @@ import { PlatformComponent } from '../../../platform.component';
 import { EmployeeStatus } from 'app/shared/_models/monthly-transfer-block';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { UserSessionService} from '../../../../shared/_services/user-session.service';
-import { CategoryTypeCompensation, CategoryTypeEmployerError,
-         CategoryTypeErrors, CategoryTypeFeedback, CategoryTypeEmployerDefrayal} from '../../../../shared/_models/plan';
+import { CategoryTypeCompensation, CategoryTypeEmployerError, CategoryTypeFeedback,
+  CategoryTypeEmployerDefrayal} from '../../../../shared/_models/plan';
 import {Subscription} from 'rxjs';
 
 
@@ -31,7 +31,6 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   plan: PlanTask;
   path: string;
   task_timer_id: any;
-  taskObj = new TaskTimer;
   seconds: string;
   minutes: string;
   hours: string;
@@ -41,16 +40,16 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   employeeStatus = EmployeeStatus;
   sub = new Subscription;
   errorsDetails = {
-    compensationEmployer: {error: false, title : 'ייתרות לפיצויים ברמת ח.פ', function: 'compensationEmployerToExecute'},
-    compensationEmployee: {error: false, title : 'ייתרות לפיצויים ברמת עובד', function: 'compensationEmployeeToExecute'},
-    employerNotDefrayal: {error: false, title : 'מעסיק שלא נסלק', function: 'employerNotDefrayalToExecute'},
-    fileLoading: {error: false, title : 'שגיאה בהעלאת קובץ', function: 'errorLoadingFileToExecute'},
-    fileTransmit: {error: false, title : 'שגיאה בשידור קובץ', function: 'errorLoadingFileToExecute', comment: 'שגיאת שידור'},
-    fileError: {error: false, title : 'שגיאת קובץ לפני שידור', function: 'errorLoadingFileToExecute'},
-    paymentInstructions: {error: false, title : 'שליחת הנחיות לתשלום', function: 'paymentInstructionsErrorToExecute'},
-    file: {error: false, title : 'שגיאה בהיזון חוזר', function: 'fileToExecute'},
-    record: {error: false, title : 'שגיאה בהיזון חוזר', function: 'recordToExecute'},
-    employerError: { error: false, title : 'הקמת מעסיק', function: 'employerErrorToExecute'}
+    compensationEmployer: {ids: [24, 26], error: false, title : 'ייתרות לפיצויים ברמת ח.פ', function: 'compensationEmployer'},
+    compensationEmployee: {ids: [25, 23], error: false, title : 'ייתרות לפיצויים ברמת עובד', function: 'compensationEmployee'},
+    employerNotDefrayal: {ids: [40, 42], error: false, title : 'מעסיק שלא נסלק', function: 'employerNotDefrayal'},
+    fileLoading: {ids: [24, 26], error: false, title : 'שגיאה בהעלאת קובץ', function: 'errorLoadingFile'},
+    fileTransmit: {ids: [24, 26], error: false, title : 'שגיאה בשידור קובץ', function: 'errorLoadingFile', comment: 'שגיאת שידור'},
+    fileError: {ids: [41, 4, 3, 1], error: false, title : 'שגיאת קובץ לפני שידור', function: 'errorLoadingFile'},
+    paymentInstructions: {ids: [2], error: false, title : 'שליחת הנחיות לתשלום', function: 'paymentInstructionsError'},
+    file: {ids: [5, 6, 7, 22, 8], error: false, title : 'שגיאה בהיזון חוזר', function: 'fileToExecute'},
+    record: {ids: [18, 20], error: false, title : 'שגיאה בהיזון חוזר', function: 'recordToExecute'},
+    employerError: { ids: [34, 33, 32, 31, 28, 27], error: false, title : 'הקמת מעסיק', function: 'employerError'}
 
   };
 
@@ -69,44 +68,23 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.text = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';
-    this.timerService.reset();
-    // this.newTaskTimer('ongoing_operation');
     this.fetchItems();
   }
 
   fetchItems(): void {
     this.helpers.setPageSpinner(true);
     this.planService.getSinglePlan().then(response => {
-      if (response['message'] === 'No plan-task-timer found' ) {
+      if (response['message'] === 'No plan found' ) {
         this.noMorePlans = true;
       } else if ( response['message'] === 'No task found') {
         this.noMoreTask = true;
       } else if (response['message'] === 'Success!') {
         this.plan = response['data'];
-        this.newPlanTaskTimer('ongoing_operation', this.plan.id, this.plan.type.name, this.plan.employer.name, this.plan.organization.name);
         if (this.plan !== null && this.plan.task !== null) {
-          if (Object.values(CategoryTypeEmployerError).indexOf(this.plan.type.id)  !== -1) {
-            this.errorsDetails['employerError'].error = true;
-          } else {
-            switch (this.plan.type.id) {
-              case CategoryTypeErrors.fileUploadError:
-              case CategoryTypeErrors.fileCanBeProcess:
-              case CategoryTypeErrors.fileWithErrors:
-              case CategoryTypeErrors.fileTransmittedError: this.errorsDetails['fileError'].error = true; break;
-              case CategoryTypeFeedback.recordInProgress:
-              case CategoryTypeFeedback.recordPaidFailed: this.errorsDetails['record'].error = true; break;
-              case CategoryTypeEmployerDefrayal.employerNotUseMonth: this.errorsDetails['employerNotDefrayal'].error = true; break;
-              case CategoryTypeFeedback.fileNegPaidFailed:
-              case CategoryTypeFeedback.fileNegPartiallyPaid:
-              case CategoryTypeFeedback.fileOngPaidFailed:
-              case CategoryTypeFeedback.fileOngPartiallyPaid:
-              case CategoryTypeFeedback.fileInProgress: this.errorsDetails['file'].error = true; break;
-              case CategoryTypeErrors.paymentInstructions: this.errorsDetails['paymentInstructions'].error = true; break;
-              case CategoryTypeCompensation.compensationEmployeeType:
-              case CategoryTypeCompensation.compensationEmployeeSendType: this.errorsDetails['compensationEmployee'].error = true; break;
-              case CategoryTypeCompensation.compensationEmployerType:
-              case CategoryTypeCompensation.compensationEmployerSendType: this.errorsDetails['compensationEmployer'].error = true; break;
-            }
+          for (const error in this.errorsDetails) {
+             if (this.errorsDetails[error].ids.includes(this.plan.type.id)) {
+               this.errorsDetails[error].error = true;
+             }
           }
         }
       }
@@ -117,7 +95,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   initializationPlatform(): void {
     this.platformComponent.isWorkQueue = true;
     this.platformComponent.organizationId = this.plan.organization.id;
-    if (this.getCurrentError() !== 'employerError') {
+    if (this.getCurrentError() !== 'employerError' && this.plan.type.id !== CategoryTypeEmployerDefrayal.employerEstablishmentXml) {
       if (this.getCurrentError() !== 'compensationEmployer') {
         this.platformComponent.employerId = this.plan.employer.id;
         this.platformComponent.departmentId = this.plan.department.id;
@@ -174,21 +152,21 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
     }
   }
 
-  errorLoadingFileToExecute(): void {
+  errorLoadingFile(): void {
     this.router.navigate(['/platform', 'process', 'table' ],
       { queryParams: { processId: this.plan.task.process.id, planId: this.plan.id}});
   }
 
-  employerNotDefrayalToExecute(): void {
-    this.router.navigate(['/platform', 'process', 'new', 0]);
+  employerNotDefrayal(): void {
+    this.router.navigate(['/platform', 'process', 'new',  'create']);
   }
 
-  paymentInstructionsErrorToExecute(): void {
+  paymentInstructionsError(): void {
     this.router.navigate(['/platform', 'process', 'new', 0, 'payment', this.plan.task.process.id],
       {queryParams: { page: 3, planId: this.plan.id}});
   }
 
-  employerErrorToExecute(): void {
+  employerError(): void {
     let pageNum = 1;
     let navigate;
     if (this.plan.task.employer.status === 'on_process' || this.plan.task.employer.status === 'moved_association') {
@@ -219,12 +197,21 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   }
 
   taskCompletedDialog(): void {
-    this.initializationPlatform();
-    const error = this.getCurrentError();
-    this[this.errorsDetails[error].function]();
+    this.operatorTasks.newTaskTimer('ongoing_operation').then(
+      response => {
+        if (response > 0 ) {
+          const data = {id: response, type: this.plan.type.name, employer: this.plan.employer.name,
+            organization: this.plan.organization.name, planTaskId: this.plan.id
+          };
+          this.selectUnit.setTaskTimer(data);
+          this.initializationPlatform();
+          const error = this.getCurrentError();
+          this[this.errorsDetails[error].function]();
+        }
+      });
   }
 
-  compensationEmployeeToExecute(): void {
+  compensationEmployee(): void {
     if (this.plan.type.id === CategoryTypeCompensation.compensationEmployeeType ||
       this.plan.type.id === CategoryTypeCompensation.compensationEmployeeSendType) {
       this.router.navigate(['/platform', 'compensation', 'process' ],
@@ -232,7 +219,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
     }
   }
 
-  compensationEmployerToExecute(): void {
+  compensationEmployer(): void {
     if (this.plan.type.id === CategoryTypeCompensation.compensationEmployerType ||
       this.plan.type.id === CategoryTypeCompensation.compensationEmployerSendType) {
       this.router.navigate(['/platform', 'compensation', 'process-level-hp' ],
@@ -249,12 +236,11 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   // }
 
   newPlanTaskTimer(taskType, planTaskId, type, employer, organization): void {
-    this.operatorTasks.newTaskTimer(taskType, planTaskId).then(
+    this.operatorTasks.newTaskTimer(taskType).then(
       response => {
         if (response > 0 ) {
           const data = {
             id: response,
-            // planTaskId: planTaskId,
             type: type,
             employer: employer,
             organization: organization
@@ -263,21 +249,21 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-  newTaskTimer(taskType: string, planTaskId?: number): void {
-    this.operatorTasks.newTaskTimer(taskType, planTaskId).then(
-      response => {
-        if (response > 0 ) {
-          this.task_timer_id = response;
-          this.taskObj.id = response;
-          this.selectUnit.setTaskTimer(this.taskObj);
-        }
-      });
-  }
+  //
+  // newTaskTimer(taskType: string, planTaskId?: number): void {
+  //   this.operatorTasks.newTaskTimer(taskType, planTaskId).then(
+  //     response => {
+  //       if (response > 0 ) {
+  //         this.task_timer_id = response;
+  //         this.taskObj.id = response;
+  //         this.selectUnit.setTaskTimer(this.taskObj);
+  //       }
+  //     });
+  // }
 
   updateTaskTimer(duration: string): void {
     if (this.task_timer_id > 0) {
-      this.operatorTasks.updateTaskTimer(this.task_timer_id, duration).then(
+      this.operatorTasks.updateTaskTimer(this.task_timer_id, duration, 'task').then(
         response => response);
     }
   }

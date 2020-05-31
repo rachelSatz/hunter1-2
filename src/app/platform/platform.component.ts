@@ -1,17 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, ActivatedRoute } from '@angular/router';
 
-import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
+import { OrganizationService } from 'app/shared/_services/http/organization.service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { EmployerService } from '../shared/_services/http/employer.service';
 import { ProductService } from '../shared/_services/http/product.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
 import { fade, slideInOut } from 'app/shared/_animations/animation';
 import { TaskTimerLabels } from '../shared/_models/timer.model';
 import { TimerService } from '../shared/_services/http/timer';
-import {EmployeeService} from '../shared/_services/http/employee.service';
-import {EmployerService} from '../shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-platform',
@@ -29,6 +28,7 @@ export class PlatformComponent implements OnInit {
   employers = [];
   departments = [];
   employersNumber: number;
+  @Input() isTask = false;
   @Input() isWorkQueue = false;
   @Input() organizationId: any;
   @Input() employerId: any;
@@ -39,8 +39,10 @@ export class PlatformComponent implements OnInit {
   isAgent = false;
   seconds: string;
   minutes: string;
+  task = '/platform/operator/tasks';
   hours: string;
   showTimer = true;
+  showTimerTask = true;
   timerText = '';
   browserRefresh = false;
   details = true;
@@ -52,6 +54,7 @@ export class PlatformComponent implements OnInit {
     { id: 2, icon: 'question-circle', label: 'תור עבודה', link: 'work-queue', role: 'operator'},
     { id: 3, icon: 'list-ul', label: 'משימות', link: 'tasks', role: 'operator'},
     { id: 4, icon: 'user', label: 'מעסיקים', link: 'employers', role: 'operator'},
+<<<<<<< HEAD
     { id: 5, icon: 'tasks', label: 'קמפיינים', link: 'campaigns', role: 'operator'},
     { id: 6, icon: 'envelope', label: 'הודעות', link: 'messages', role: 'operator'},
     { id: 7, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
@@ -61,6 +64,16 @@ export class PlatformComponent implements OnInit {
     { id: 11, icon: 'tasks', label: 'הגדרות מנהל', link: 'plans', role: 'admin'},
     { id: 12, icon: 'file', label: 'דוחות מנהל', link: 'reports', role: 'admin'},
     { id: 13, icon: 'th', label: 'תהליכים', link: 'table', role: 'operator'}
+=======
+    { id: 5, icon: 'tasks', label: 'הגדרות דיוור ומשימות', link: 'campaigns', role: 'operator'},
+    { id: 6, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
+    { id: 7, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
+    { id: 8, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
+    { id: 9, icon: 'th', label: 'קופות', link: 'products', role: 'admin'},
+    { id: 10, icon: 'tasks', label: 'הגדרות מנהל', link: 'plans', role: 'admin'},
+    { id: 11, icon: 'file', label: 'דוחות מנהל', link: 'reports', role: 'admin'},
+    { id: 12, icon: 'th', label: 'תהליכים', link: 'table', role: 'operator'}
+>>>>>>> e4417cfdb3ba6336c2dd934636e10e2078ab3a8b
 
 ];
 
@@ -76,7 +89,7 @@ export class PlatformComponent implements OnInit {
         ]
     },
     { url: 'process', subUrl: 'operations', label: 'תהליכים', subMenuLinks: [
-      { url: 'new/0', label: 'צור תהליך חדש' },
+      { url: 'new/create', label: 'צור תהליך חדש' },
       { url: 'table', label: 'תהליכים' },
       ]
     },
@@ -97,7 +110,7 @@ export class PlatformComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router,
+  constructor(public router: Router,
               private route: ActivatedRoute,
               public userSession: UserSessionService,
               private organizationService: OrganizationService,
@@ -114,7 +127,7 @@ export class PlatformComponent implements OnInit {
     }
     router.events.subscribe((val) => {
       if (val instanceof NavigationStart) {
-        if (Object.values(TaskTimerLabels).some(a => a === val.url)) {
+        if (Object.values(TaskTimerLabels).some(a => a === val.url) || val.url.includes(this.task)) {
           this.timerService.reset();
           this.displayTimer(val.url, '');
         } else if (this.selectUnit.getTaskTimer() !== 0) {
@@ -145,7 +158,6 @@ export class PlatformComponent implements OnInit {
       this.employerId = this.selectUnit.currentEmployerID;
       this.departmentId = this.selectUnit.currentDepartmentID;
     }
-
     this.setActiveUrl(this.router.url);
 
     this.employerService.getNewEmployer().then( response => {
@@ -178,6 +190,8 @@ export class PlatformComponent implements OnInit {
         this.showTimer = false;
       }  else if (url === '/platform/operator/work-queue' && urlAfterRedirects === '/platform/operator/work-queue') {
         this.showTimer = false;
+      } else if (url === '/platform/operator/tasks' && urlAfterRedirects === '/platform/operator/tasks') {
+        this.showTimer = false;
       } else if (this.browserRefresh) {
         this.showTimer = false;
       } else {
@@ -187,6 +201,10 @@ export class PlatformComponent implements OnInit {
       this.showTimer = false;
     }
 
+  }
+
+  deleteExistCampaign() {
+    this.selectUnit.clearTaskCampaign();
   }
 
   intervals(): void {
@@ -214,6 +232,7 @@ export class PlatformComponent implements OnInit {
   }
 
   restNav(): void {
+    this.menuCampaigns = false;
     this.agentBarActive = !this.agentBarActive;
     if (this.agentBarActive &&  !this.router.url.includes( 'operator/table')) {
         this.selectUnit.changeOrganizationEmployerDepartment
@@ -337,8 +356,8 @@ export class PlatformComponent implements OnInit {
       this.activeUrl = 'settings';
       return;
     } else {
-      if (subLink === 'new/0') {
-        this.router.navigate(['/platform', link, 'new', 0]);
+      if (subLink === 'new/create') {
+        this.router.navigate(['/platform', link, 'new', 'create']);
       } else {
       this.router.navigate(['/platform', link, subLink]);
       }
@@ -355,7 +374,7 @@ export class PlatformComponent implements OnInit {
 
   navigateMenu(el) {
     if (el.id === 5) {
-      this.menuCampaigns = true;
+      this.menuCampaigns = !this.menuCampaigns;
     } else {
       this.menuCampaigns = false;
       this.router.navigate(['/platform', 'operator', el.link]);
@@ -363,19 +382,41 @@ export class PlatformComponent implements OnInit {
   }
 
   stopTimer(): void {
+    this.showTimer = false;
     const time = this.hours + ':' + this.minutes + ':' + this.seconds;
-    this.updateTaskTimer(time);
+    const type = this.isWorkQueue ? 'task' : 'taskCampaign';
+    this.updateTaskTimer(time, type);
     this.timerService.reset();
-    this.selectUnit.clearTaskTimer();
-     // this.showTimer = false;
-    // לעדכן שהמשימה על מצב דילוג
-    this.router.navigate(['platform', 'operator', 'work-queue']);
+    if (this.selectUnit.getTaskTimer() && this.selectUnit.getTaskTimer().isSelfTask === true) {
+      this.router.navigate(['platform', 'operator', 'tasks'], {queryParams: {isSelfTask: true}});
+    } else {
+      const nev = this.isWorkQueue ? 'work-queue' : 'tasks';
+      this.router.navigate(['platform', 'operator', nev]);
+      this.selectUnit.clearTaskTimer();
+    }
   }
 
-  updateTaskTimer(duration: string): void {
+  stopTimerTask(): void {
+    this.showTimerTask = false;
+    const time = this.hours + ':' + this.minutes + ':' + this.seconds;
+    const type = this.isWorkQueue ? 'task' : 'taskCampaign';
+    this.updateTaskTimer(time, type);
+    this.timerService.reset();
+    if (this.selectUnit.getTaskTimer() && this.selectUnit.getTaskTimer().isSelfTask === true) {
+      this.router.navigate(['platform', 'operator', 'tasks'], {queryParams: {isSelfTask: true}});
+    } else {
+      const nev = this.isWorkQueue ? 'work-queue' : 'tasks';
+      this.router.navigate(['platform', 'operator', nev]);
+      this.selectUnit.clearTaskTimer();
+    }
+  }
+
+  updateTaskTimer(duration: string, type: string): void {
     if (this.selectUnit.getTaskTimer()['id'] > 0) {
-      this.operatorTasks.updateTaskTimer(this.selectUnit.getTaskTimer()['id'], duration).then(
-        response => response);
+      const t = this.selectUnit.getTaskTimer();
+      const typeId = type === 'taskCampaign' ? t['taskCampaignId'] : t['planTaskId'];
+      this.operatorTasks.updateTaskTimer(this.selectUnit.getTaskTimer()['id'], duration, type, typeId)
+        .then(response => response);
     }
   }
 

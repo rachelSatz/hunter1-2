@@ -43,3 +43,9 @@ export class Comment {
     this.comment = '';
   }
 }
+
+export enum TaskStatus {
+  in_progress = 'בטיפול',
+  not_yet_done = 'לא בוצעה' ,
+  done = 'בוצעה',
+}

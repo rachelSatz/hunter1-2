@@ -8,15 +8,14 @@ export class ProcessDataService {
 
   setProcess(data: Object): void {
     this.activeProcess = new Process();
-    this.activeProcess.pageNumber = data['pageNumber'];
     this.activeProcess.year = data['year'];
     this.activeProcess.month = data['month'];
-    this.activeProcess.monthName = data['monthName']
-    this.activeProcess.name = data['processName'];
+    this.activeProcess.monthName = data['monthName'];
+    this.activeProcess.name = data['name'];
     this.activeProcess.type = data['type'];
-    this.activeProcess.processID = data['processId'];
+    this.activeProcess.processID = data['processID'];
     this.activeProcess.departmentId = data['departmentId'];
-    this.activeProcess.employer_id = data['employerId'];
+    this.activeProcess.employer_id = data['employer_id'];
     this.activeProcess.isDirect = data['isDirect'];
     this.activeProcess.file = data['file'];
     this.activeProcess.pageIndex = 2;
@@ -24,6 +23,16 @@ export class ProcessDataService {
     this.activeProcess.status = data['status'];
     this.activeProcess.highlightFileId = data['highlightFileId'];
     this.activeProcess.highlightRecordId = data['highlightRecordId'];
+    this.activeProcess.is_references  = data['is_references'];
+    this.activeProcess.payment_instructions = data['payment_instructions'];
+    this.activeProcess.status_process = data['status_process'];
+    this.activeProcess.rows = data['rows'];
+    this.activeProcess.sum = data['sum'];
+    this.activeProcess.num_file = data['num_file'];
+    this.activeProcess.employer_name =  data['employer_name'];
+    this.activeProcess.rows_status =  data['rows_status'];
+
+
   }
 }
 

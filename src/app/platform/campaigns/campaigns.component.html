@@ -1,28 +1,24 @@
-<!--<div class="px-4">-->
-<!--    <a>-->
-<!--      <p class="f-14 blue-color">-->
-<!--        <i class="fa fa-angle-right ml-1 ml-lg-2"></i>-->
-<!--        <span>חזור</span>-->
-<!--      </p>-->
-<!--    </a>-->
-<!--  <app-data-table tableName="קמפיינים" (fetchItems)="fetchItems()" [columns]="columns"-->
-<!--                   [hasCheckColumn]="true" [hasActionsSearch]="true">-->
-<!--    <div class="table-header">-->
-<!--      <div class="row mt-4 mr-1">-->
-<!--        <div class="ml-3 d-flex mr-auto">-->
-<!--          <button class="btn blue-btn">קמפיין חדש</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }" >-->
-<!--      <td class="check-column">-->
-<!--        <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>-->
-<!--      </td>-->
-<!--&lt;!&ndash;      <td>{{ item.organization_name }}</td>&ndash;&gt;-->
-<!--      &lt;!&ndash;      <td>{{ item.name }}</td>&ndash;&gt;-->
-<!--      &lt;!&ndash;      <td>{{ item.identifier }}</td>&ndash;&gt;-->
-<!--      &lt;!&ndash;      <td>{{ item.operator_id }}</td>&ndash;&gt;-->
-<!--      &lt;!&ndash;      <td>{{ item.email }}</td>&ndash;&gt;-->
-<!--    </tr>-->
-<!--  </app-data-table>-->
-<!--</div>-->
+<div class="mr-5 px-4">
+  <app-data-table tableName="קמפיינים" (fetchItems)="fetchItems()" [columns]="columns" [hasActionsHeader]="true"
+                   [hasCheckColumn]="false" [hasActionsSearch]="true" [hasExtendedSearch]="false">
+    <div class="table-header">
+      <div class="row mt-4 mr-1">
+        <div class="ml-3 d-flex mr-auto">
+          <button class="btn blue-btn" [routerLink]="['./', 'campaigns-form']" (click)="deleteExistCampaign()">קמפיין חדש</button>
+        </div>
+      </div>
+    </div>
+    <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }" >
+      <td (click)="openGroupMembersDialog(item)">{{ item.name }}</td>
+      <td (click)="openGroupMembersDialog(item)">{{ item.type }}</td>
+      <td (click)="openGroupMembersDialog(item)">{{ item.subtype }}</td>
+      <td (click)="openGroupMembersDialog(item)">{{ campaignStatus[item.status] }}</td>
+      <td (click)="openGroupMembersDialog(item)">{{ item.last_send ? (item.last_send | date: 'dd/MM/yy') : '---'}}</td>
+      <td (click)="openGroupMembersDialog(item)">{{ item.next_send ? (item.next_send | date: 'dd/MM/yy') : '---'}}</td>
+      <td (click)="openGroupMembersDialog(item)">{{ item.amount }}</td>
+      <td>
+        <img (click)="editCampaign(item.id)" src="/assets/img/icons/edit_grey.png"  class="row-image">
+      </td>
+    </tr>
+  </app-data-table>
+</div>

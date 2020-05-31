@@ -24,7 +24,6 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { DocumentService } from 'app/shared/_services/http/document.service';
-import { ChangeStatusComponent } from 'app/shared/_dialogs/change-status/change-status.component';
 
 
 const routes: Routes = [

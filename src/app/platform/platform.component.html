@@ -19,17 +19,18 @@
       </div>
     </div>
   </div>
-  <div *ngIf="menuCampaigns" class="pointer subMenu mr-7" >
+  <div *ngIf="menuCampaigns" class="pointer subMenu mr-7 z-index-150" >
     <p class="w-100 py-2" (click)="menuCampaigns = false"
-       [routerLink]="['/platform', 'operator', 'campaigns', 'campaigns-form']">קמפיין חדש</p>
-    <p class="w-100 py-2" (click)="menuCampaigns = false" [routerLink]="['/platform', 'operator', 'campaigns']">סטטוס שליחת קמפיין</p>
+       [routerLink]="['/platform', 'operator', 'campaigns', 'campaigns-form']" (click)="deleteExistCampaign()">קמפיין חדש</p>
+    <p class="w-100 py-2" (click)="menuCampaigns = false"
+       [routerLink]="['/platform', 'operator','campaigns']">סטטוס שליחת קמפיין</p>
     <p class="w-100 py-2 pb-2" (click)="menuCampaigns = false"
        [routerLink]="['/platform', 'operator', 'campaigns', 'groups']">רשימת קבוצות</p>
   </div>
   <div *ngIf="showTimer" class="navbartest">
     <div class="d-flex timer">
-      <p class="mr-6 bold mt-sm-n2 white-color">{{hours}}:{{minutes}}:{{seconds}}</p>
-      <div class="mr-6 pointer mt-3">
+      <p class="mr-5 bold mt-sm-n2 white-color">{{hours}}:{{minutes}}:{{seconds}}</p>
+      <div class="mr-7 mt-sm-2 pointer mt-3">
         <img src="../../assets/img/down-arrow-small.png" class="pointer" *ngIf="details" (click)="details = false" height="32" width="32"/>
         <img src="../../assets/img/up-arrow.png" class="pointer" *ngIf="!details" (click)="details = true" height="16" width="16"/>
       </div>
@@ -48,11 +49,10 @@
         <p class="">{{employer}}</p>
       </div>
     </div>
-    <div class="skip">
-      <a class="pointer mr-6 mt-2 p-absolute" (click)="stopTimer()">דלג ועבור להבא</a>
-    </div>
+    <div class="skip" (click)="stopTimer()">
+    <a class="pointer mr-6 mt-2 p-absolute" >{{isWorkQueue ? 'דלג ועבור למשימה הבאה' : 'עצור ועבור למשימות' }}</a>
   </div>
-
+  </div>
   <div class="container-fluid">
     <header>
       <div id="mainMenu">

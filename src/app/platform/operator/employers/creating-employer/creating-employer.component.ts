@@ -33,7 +33,7 @@ import { UserUnitPermission } from '../../../../shared/_models/user-unit-permiss
   selector: 'app-creating-employer',
   templateUrl: './creating-employer.component.html',
   styleUrls: ['./creating-employer.component.css'],
-  animations: [ fade]
+  animations: [fade]
 })
 export class CreatingEmployerComponent implements OnInit {
   employer = new Employer();
@@ -70,6 +70,7 @@ export class CreatingEmployerComponent implements OnInit {
   month: number;
   processId: number;
   role = this.userSession.getRole();
+  moduleCreate = false;
   selectYear: number;
   process_file: number;
   yearN = new Date().getFullYear();
@@ -110,7 +111,7 @@ export class CreatingEmployerComponent implements OnInit {
     private  platformComponent: PlatformComponent,
     private notificationService: NotificationService,
     public processDataService: ProcessDataService,
-    private _location: Location) {
+    public _location: Location) {
     this.organizationId = 0;
     this.process_file = 0;
   }
@@ -119,6 +120,11 @@ export class CreatingEmployerComponent implements OnInit {
     if (this.route.snapshot.params.id) {
       this.helpers.setPageSpinner(true);
     }
+    this.userSession.getUserModules().forEach(module => {
+      if (module.name === 'creating_employer') {
+        this.moduleCreate = true;
+      }
+    });
     this.initForm();
     this.employerService.getCity().then(response => {
       this.cities = response;
@@ -289,6 +295,17 @@ export class CreatingEmployerComponent implements OnInit {
       this.creatingEmployerForm.get('detailsBank.receivingBank').patchValue({
         accountNumber: data.items.bank[1].number,
       });
+    }
+    if (this.employer.operator) {
+      this.generalHttpService.getComments([this.employer.id], 'employer').then(
+        response => {
+          this.notificationService.info('הערות', response[0]['content']);
+        }
+      );
+    } else {
+      if (data.items.details.comment) {
+        this.notificationService.info('הערות', data.items.details.comment);
+      }
     }
     this.helpers.setPageSpinner(false);
   }
@@ -542,11 +559,7 @@ export class CreatingEmployerComponent implements OnInit {
 
   continueProcess(): void {
     if (this.pageNumber === 1 && this.validation() && this.checkValidData()) {
-      const employerIdentifiers = this.validIdEmployer();
-      const bool = this.warningIdentifiers(employerIdentifiers);
-      if (bool) {
         this.pageNumber += 1;
-      }
     } else if (this.pageNumber === 2 || this.pageNumber === 3) {
       if (this.checkValidFiles() || (!this.uploadedFilePoa && !this.uploadedFileCustomer && !this.uploadedFileContract &&
         !this.uploadedFileProtocol)) {
@@ -778,6 +791,7 @@ export class CreatingEmployerComponent implements OnInit {
   warningDialogOperator(): void {
     const dialog = this.dialog.open(EmployerMovesManagerComponent, {
       data: {
+        'employerId': this.employer.id,
         'operatorId': this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['operator'],
       },
       width: '650px',
@@ -817,8 +831,7 @@ export class CreatingEmployerComponent implements OnInit {
       if (this.creatingEmployerForm.get('creatingEmployer').valid && this.uploadedFileContract &&
         this.validationFile(this.uploadedFileContract) && this.uploadedFilePoa && this.uploadedFileProtocol &&
         this.uploadedFileCustomer && this.validationFile(this.uploadedFilePoa) && this.validationFile(this.uploadedFileProtocol) &&
-        this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid &&
-        (( this.uploadedFileXml && !this.fileTypeError) || this.employeeFileName)) {
+        this.validationFile(this.uploadedFileCustomer) && this.creatingEmployerForm.get('detailsBank').valid) {
         this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'] = 'active';
         this.userSession.newEmployers = this.userSession.newEmployers - 1;
         this.processService.updatePaymentType(this.employerId,

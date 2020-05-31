@@ -48,7 +48,16 @@ export class FilesComponent implements OnInit, OnDestroy  {
   feedbackDate: string;
   processName: string;
   manualStatus = ManualStatus;
+  isProcess: boolean;
 
+  statuses_selected = [ 'not_sent',
+    'sent',
+    'sent_failed',
+    'feedback_a',
+    'feedback_a_failed',
+    'partially_paid',
+    'fully_paid',
+    'paid_failed' ]
   list_status = Object.keys(Status).map(function(e) {
     return { id: e, name: Status[e] };
   });
@@ -62,7 +71,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
     {name: 'employer_name', label: 'שם מעסיק', searchable: false},
     {name: 'amount', label: 'סכום', searchable: false},
     {name: 'code', label: 'קוד אוצר', searchable: false},
-    {name: 'status', label: 'סטטוס', searchOptions: { labels: this.list_status } },
+    {name: 'status', label: 'סטטוס', selected: this.statuses_selected, multiple: true, searchOptions: { labels: this.list_status } },
     {name: 'manual_status', label: 'סטטוס פניה', searchable: false},
     {name: 'more', label: 'מידע נוסף', searchable: false},
     {name: 'comments', label: 'הערות', searchable: false},
@@ -105,6 +114,10 @@ export class FilesComponent implements OnInit, OnDestroy  {
             this.fetchItems();
         }
       ));
+
+    if (this.router.url.indexOf('process') !== -1) {
+      this.isProcess = true;
+    }
   }
 
 
@@ -163,9 +176,10 @@ export class FilesComponent implements OnInit, OnDestroy  {
 
     this.sub.add(dialog.afterClosed().subscribe(created => {
       if (created) {
-        this.generalService.getInquiries(item.id, 'groupthing').then(response =>
-          item.inquiries = response
-        );
+        this.generalService.getInquiries(item.id, 'groupthing').then(response => {
+          item.inquiries = response;
+          item.manual_status = item.manual_status ? item.manual_status : 'in_treatment';
+        });
       }
     }));
   }
@@ -240,8 +254,13 @@ export class FilesComponent implements OnInit, OnDestroy  {
 
   detailsRecords(fileId: number, status: string): void {
     if (status !== 'feedback_a') {
-      this.router.navigate(['/platform', 'feedback', 'employees'],
-        {queryParams: {fileId: fileId, year: this.dataTable.criteria.filters['year']}});
+      if (this.isProcess) {
+        this.router.navigate(['/platform', 'process', 'new', 'update', 'feedback', 'employees' ],
+          {queryParams: {fileId: fileId, year: this.dataTable.criteria.filters['year']}});
+      } else {
+        this.router.navigate(['/platform', 'feedback', 'employees'],
+          {queryParams: {fileId: fileId, year: this.dataTable.criteria.filters['year']}});
+      }
     }
   }
 
@@ -262,8 +281,8 @@ export class FilesComponent implements OnInit, OnDestroy  {
 
   openAddFile(): void {
     const dialog = this.dialog.open(FileDepositionComponent, {
-      width: '550px',
-      panelClass: 'send-email-dialog'
+      width: '400px',
+      panelClass: 'deposition-dialog'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(res => {
