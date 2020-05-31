@@ -20,7 +20,7 @@ export class ProcessLoadingComponent implements OnInit , OnDestroy {
   constructor(public router: Router,
               protected route: ActivatedRoute,
               private dialog: MatDialog,
-              public processDataService: ProcessDataService,
+              private processDataService: ProcessDataService,
               public selectUnit: SelectUnitService,
               private processService: ProcessService) { }
 
@@ -109,7 +109,9 @@ export class ProcessLoadingComponent implements OnInit , OnDestroy {
   }
 
   ngOnDestroy() {
-    this.processDataService.setProcess(new Process());
+    if ( this.processDataService.activeProcess !== undefined && this.router.url.indexOf('process/edit-payments') === -1) {
+      this.processDataService.setProcess(new Process());
+    }
     this.process_details = null;
   }
 }

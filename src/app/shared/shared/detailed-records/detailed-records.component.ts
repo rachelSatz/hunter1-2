@@ -12,10 +12,10 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ProductType } from 'app/shared/_models/product.model';
 
 import { Subscription } from 'rxjs';
-import { ProcessService } from '../../../../../shared/_services/http/process.service';
 
 @Component({
   selector: 'app-detailed-records',
@@ -60,11 +60,11 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
               private router: Router,
               private dialog: MatDialog,
               public processDataService: ProcessDataService,
-              public processService: ProcessService,
+              private processService: ProcessService,
               public userSession: UserSessionService,
-              private  monthlyTransferBlockService: MonthlyTransferBlockService ,
-              protected  notificationService: NotificationService,
-              private selectUnitService: SelectUnitService) { }
+              private monthlyTransferBlockService: MonthlyTransferBlockService ,
+              protected notificationService: NotificationService,
+              protected selectUnitService: SelectUnitService) { }
   sub = new Subscription;
   subscription = new Subscription;
   // planId: number;
@@ -79,10 +79,11 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   incorrectPage = false;
 
   ngOnInit() {
-    this.organizationId = this.selectUnitService.currentOrganizationID;
+    this.selectUnitService.getEntityStorage();
+    this.organizationId =  this.selectUnitService.currentOrganizationID;
     // this.planId = this.route.snapshot.queryParams['planId'] ? this.route.snapshot.queryParams['planId'] : null;
-    if (this.processDataService.activeProcess.processID === undefined) {
-      this.processDataService = this.selectUnitService.getProcessData();
+    if (this.processDataService.activeProcess === undefined || this.processDataService.activeProcess.processID === undefined) {
+      this.processDataService.activeProcess = this.selectUnitService.getProcessData();
 
     }
     this.records_id = this.route.snapshot.params['id'];

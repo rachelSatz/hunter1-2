@@ -220,45 +220,62 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
      || status === this.processStatus.loaded_with_errors  || status === this.processStatus.partially_transmitted
    || status === this.processStatus.waiting_for_approval) {
      const date = new Date(process.date);
+     this.processService.getGroupThingInProcess(process.id).then(response => {
+       process.rows = response['group_things_ids'];
+       if (process.rows.length === 0) {
+         process.rows = undefined;
+       }
+       process.sum = response['block_sum'];
+       process.num_file = response['num_file'];
 
-     const data = {
-       'name': process.name,
-       'year': date.getFullYear(),
-       'month': date.getMonth() + 1,
-       'monthName':  this.months[date.getMonth()],
-       'processID': process.id,
-       'type': process.type === 'employer_withdrawal' ? 'negative' : 'positive',
-       'status': process.status,
-       'departmentId': process.dep_id,
-       'employer_id': process.employer_id,
-       'is_references': process.is_references,
-       'payment_instructions': process.payment_instructions,
-       'status_process': process.status_process,
-       'employer_name': process.employer_name,
-       'incorrect': status === this.processStatus.loaded_with_errors,
-       'returnDetails':  status === this.processStatus.loaded_with_errors
-     };
+       const data = {
+         'name': process.name,
+         'year': date.getFullYear(),
+         'month': date.getMonth() + 1,
+         'monthName':  this.months[date.getMonth()],
+         'processID': process.id,
+         'type': process.type === 'employer_withdrawal' ? 'negative' : 'positive',
+         'status': process.status,
+         'departmentId': process.dep_id,
+         'employer_id': process.employer_id,
+         'is_references': process.is_references,
+         'payment_instructions': process.payment_instructions,
+         'status_process': process.status_process === 1 &&
+         status !== this.processStatus.can_be_processed ? process.status_process : process.status_process + 1,
+         'employer_name': process.employer_name,
+         'incorrect': status === this.processStatus.loaded_with_errors,
+         'returnDetails':  status === this.processStatus.loaded_with_errors,
+         'rows': process.rows,
+         'sum': process.sum,
+         'num_file': process.num_file,
+         'rows_status': response['sent']
+       };
 
-     this.processDataService.setProcess(data);
-     this.selectUnit.setProcessData(data);
+       this.processDataService.setProcess(data);
+       this.selectUnit.setProcessData(data);
 
 
-     if (status === this.processStatus.loaded_with_errors || status === this.processStatus.loading) {
-       this.router.navigate(['platform', 'process' , 'new', 'update']);
-     } else
-     if (process.status_process === 1) {
-       this.router.navigate(['platform', 'process' , 'new', 'update' , 'payment-instructions']);
-     } else if (process.status_process === 2) {
-       this.router.navigate(['platform', 'process' , 'new', 'update' , 'reference']);
-     } else if (process.status_process === 3) {
-       this.router.navigate(['platform', 'process' , 'new', 'update' , 'broadcast']);
-     } else if (process.status_process === 4) {
-       this.router.navigate(['platform', 'process' , 'new', 'update' , 'feedback'],
-         {queryParams: {processId: process.id}});
-     } else if (process.status_process === 5 || process.status_process === 6) {
-       this.router.navigate(['platform', 'process' , 'new', 'update' , 'send-feed-employer'],
-         {queryParams: {processId: process.id}});
-     }
+       if (status === this.processStatus.loaded_with_errors || status === this.processStatus.loading) {
+         this.router.navigate(['platform', 'process' , 'new', 'update']);
+       } else
+       if (process.status_process === 1) {
+         this.router.navigate(['platform', 'process' , 'new', 'update' , 'payment-instructions']);
+       } else if (process.status_process === 2) {
+         this.router.navigate(['platform', 'process' , 'new', 'update' , 'reference']);
+       } else if (process.status_process === 3) {
+         this.router.navigate(['platform', 'process' , 'new', 'update' , 'broadcast']);
+       } else if (process.status_process === 4) {
+         if (status !== this.processStatus.partially_transmitted) {
+           this.router.navigate(['platform', 'process', 'new', 'update', 'feedback'],
+             {queryParams: {processId: process.id}});
+         } else {
+           this.router.navigate(['platform', 'process' , 'new', 'update' , 'payment-instructions']);
+         }
+       } else if (process.status_process === 5 || process.status_process === 6) {
+         this.router.navigate(['platform', 'process' , 'new', 'update' , 'send-feed-employer'],
+           {queryParams: {processId: process.id}});
+       }
+     });
    }
   }
 

@@ -13,7 +13,7 @@
   </div>
 
   <div class="float-left mt-5">
-    <button class="btn blue-btn" (click)="transfer()">
+    <button class="btn blue-btn" (click)="transfer()" [disabled]= "processDataService.activeProcess.rows_status">
       שידור לקופות
     </button>
   </div>

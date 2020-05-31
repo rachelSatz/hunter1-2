@@ -115,7 +115,8 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
     if (((this.rows.isCheckAll && this.rows.checkedItems.length > 0))
       ||  (!this.rows.isCheckAll && this.rows.checkedItems.length < this.processLoading.process_details.groups_count)) {
       const buttons = {confirmButtonText: 'המשך', cancelButtonText: 'ביטול'};
-      this.notificationService.warning('שים לב', 'לא כל הקופות מסומנות האם ברצונך לשדר חלקית?', buttons).then(confirmation => {
+      this.notificationService.warning('שים לב',
+        'לא כל הקופות מסומנות האם ברצונך לשדר חלקית?', buttons).then(confirmation => {
         if (confirmation.value) {
           this.navigatePage();
         }
@@ -126,12 +127,21 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
   }
 
   navigatePage(): void {
-    if ((this.rows.isCheckAll && this.rows.checkedItems.length > 0) ||
-      (!this.rows.isCheckAll && this.rows.checkedItems.length  < this.processLoading.process_details.groups_count)) {
-      this.processDataService.activeProcess.rows = this.rows.checkedItems.map(item => item['file_id']);
-      this.processDataService.activeProcess.isCheckAll = this.rows.isCheckAll;
-      this.processDataService.setProcess(this.processDataService.activeProcess);
-    }
-    this.processLoading.setPage(3, true);
+    const filesList = this.rows.checkedItems.map(item => item['file_id']);
+    this.processService.setRecords(this.processId, filesList, this.rows).then(response => {
+      this.processDataService.activeProcess.rows = response['group_things_ids'];
+      if (response['sent'] && this.processDataService.activeProcess.rows.length === 0) {
+        this.notificationService.warning('שים לב', 'אין אפשרות לעבור למסך הבא בחר רשומות שלא שודרו');
+      } else {
+        if (response['sent']) {
+          this.notificationService.warning('שים לב', ' בחרת רשומות ששודר אם לא יעברו למסך הבא');
+        }
+        this.processDataService.activeProcess.is_references = false;
+        this.processDataService.activeProcess.rows_status = false;
+        this.processDataService.setProcess(this.processDataService.activeProcess);
+        this.processLoading.setPage(3, true);
+      }
+    });
+
   }
 }

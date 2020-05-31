@@ -333,7 +333,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   unLockedBroadcast(comment?: string): void {
     const items = this.dataTable.criteria.checkedItems;
     this.processService.unlockProcessFiles(items.map(item => item['file_id']),
-      this.dataTable.criteria, comment).then(r => {
+      this.dataTable.criteria, comment, this.processDataService.activeProcess.processID).then(r => {
         if (r['authorized'] === false && r['success'] === 'Message_Sent') {
           this.notificationService.success('', 'ממתין לאישור מנהל');
         } else if (r['authorized'] === true && r['success'] === true) {

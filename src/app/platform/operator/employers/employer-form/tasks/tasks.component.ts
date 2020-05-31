@@ -115,8 +115,7 @@ export class TasksComponent implements OnInit , OnDestroy {
 
   isStopTask(item): boolean {
     const t = this.selectUnit.getTaskTimer();
-    // return t && t.isSelfTask && item.id === t.taskCampaignId;
-    return t && item.id === t.taskCampaignId;
+    return t && t.isSelfTask && item.id === t.taskCampaignId;
   }
 
   initializationPlatform(item): void {

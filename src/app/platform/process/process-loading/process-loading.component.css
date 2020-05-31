@@ -42,6 +42,14 @@
   color: #848484;
 }
 
+.col-12-me {
+  /*height: 7px;*/
+  flex: 0 0 100%;
+  max-width: 100%;
+  font-weight: 100;
+  font-size: smaller;
+}
+
 
 .active  {
   padding: 13px;

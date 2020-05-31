@@ -1,0 +1,21 @@
+<div class="dialog-header float-left mb-1 d-flex">
+  <button mat-dialog-close class="float-left">
+    <i class="fa fa-close"></i>
+  </button>
+</div>
+<form #form="ngForm">
+  <div class="mt-1">
+    <h6 class="bold">עדכון תאריך תשלום</h6>
+    <p class="f-12" *ngIf="displayDate"> תאריך תשלום: <span> {{ data.date }}</span></p>
+    <mat-form-field>
+      <input matInput class="pointer" (click)="datePickerRequest.open()" [(ngModel)]="date"  [matDatepicker]="datePickerRequest"
+             placeholder="בחר תאריך" name="dateRequest" readonly>
+      <mat-datepicker-toggle matSuffix [for]="datePickerRequest"></mat-datepicker-toggle>
+      <mat-datepicker #datePickerRequest></mat-datepicker>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+    <div class="text-center">
+      <button class="btn blue-btn" (click)="submit(form)">עדכון</button>
+    </div>
+  </div>
+</form>

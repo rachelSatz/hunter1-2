@@ -46,7 +46,7 @@ export class TaskCampaignService {
     this.activeCampaigns.timings.sendNow = data['sending'].length > 0 ? false : true;
     this.activeCampaigns.timings.skipHolidays = data['reminders'].length > 0 ? data['reminders']['skip_holiday'] : null;
     this.activeCampaigns.timings.sendAt = data['sending'];
-    this.activeCampaigns.timings.schedules = data['reminders'].length > 0 ? this.getSchedules(data['reminders']): null;
+    this.activeCampaigns.timings.schedules = data['reminders'].length > 0 ? this.getSchedules(data['reminders']) : null;
     this.activeCampaigns.timings.end.type = data['reminders'].length > 0 ? data['reminders'][0]['type'] : null;
     this.activeCampaigns.timings.end.counter = data['reminders'].length > 0 ? data['reminders'][0]['stop_counter'] : null;
     this.activeCampaigns.timings.end.date = data['reminders'].length > 0 ? data['reminders'][0]['stop_date'] : null;

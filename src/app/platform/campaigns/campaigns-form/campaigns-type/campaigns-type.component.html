@@ -1,8 +1,9 @@
 <div>
   <form #form="ngForm" (ngSubmit)="submit()" [formGroup]="taskCampaign">
     <div formGroupName="details">
-      <div class="w-30" *ngIf="!route.snapshot.queryParams['campaignId']">
+      <div class="w-30" >
         <bd-select name="users" [items]="options" placeholder="סוג יצירה" formControlName="typeTask" (onSelect)="getType($event)"
+                   [ngClass]="{'disabledInput' : route.snapshot.queryParams['campaignId']}"
                    [error]="!taskCampaign.get('details').value['typeTask'] && form.submitted"></bd-select>
       </div>
       <div class="d-flex py-5" >

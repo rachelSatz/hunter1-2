@@ -45,10 +45,9 @@ export class Process {
   is_references: boolean;
   status_process = 1;
   rows: any;
-  isCheckAll: boolean;
   sum;
   num_file;
-
+  rows_status: boolean;
 
 
   constructor() {
