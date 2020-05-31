@@ -14,6 +14,7 @@ import { GeneralHttpService } from 'app/shared/_services/http/general-http.servi
 import { NgForm } from '@angular/forms';
 import { Department } from 'app/shared/_models/department.model';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reference',
@@ -54,6 +55,7 @@ export class ReferenceComponent implements OnInit {
   processId: number;
   isDate: boolean;
   sum: string;
+  sub = new Subscription;
 
   headers = [
     {label: 'מעקב ברמת קובץ',    url: 'files'  },
@@ -76,9 +78,7 @@ export class ReferenceComponent implements OnInit {
         this.setActiveUrl(event.url);
       }
     });
-    this.processService.checkIsDate(this.processDataService.activeProcess.processID,
-      this.processDataService.activeProcess.rows,
-      this.processDataService.activeProcess.isCheckAll).then(response => {
+    this.processService.checkIsDate(this.processId).then(response => {
       this.isDate = response['is_date'];
       this.sum = response['block_sum'];
       this.processDataService.activeProcess.sum = this.sum;
@@ -113,22 +113,16 @@ export class ReferenceComponent implements OnInit {
 
       this.processService.updateDate('date', dateFormat, filesList,
         this.rows, this.processDataService.activeProcess.processID,
-        this.processDataService.activeProcess.rows,
-        this.processDataService.activeProcess.isCheckAll).then(response => {
+        this.processDataService.activeProcess.rows).then(response => {
           this.isDate = response;
-          console.log(this.location.path());
-          let p = this.location.path();
+        // is save
+        let p = this.location.path();
           if (!this.location.path().includes('file')) {
              p = p + '/file';
           } else {
             p = p.replace('/file', '');
           }
           this.router.navigate([p]);
-        // this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        //     this.router.navigate([this.location.path()]);
-        //     console.log(this.location.path());
-        //   }
-        // );
       });
     }
   }

@@ -16,10 +16,6 @@ export class UserSessionService {
   loginStatus: Subject<boolean> = new Subject;
   role: Subject<string> = new Subject;
 
-  isLoggedIn() {
-    return !!sessionStorage.getItem('user');
-  }
-
   setRole(role: string): void {
     sessionStorage.setItem('role', JSON.stringify(role));
     this.role.next( role);

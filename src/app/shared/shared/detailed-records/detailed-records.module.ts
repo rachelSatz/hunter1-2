@@ -26,8 +26,8 @@ import { SendEmailIncorrectComponent } from './send-email-incorrect/send-email-i
 import { FileDropModule } from 'ngx-file-drop';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
-import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { ProcessService } from 'app/shared/_services/http/process.service';
+import { ProcessDataService } from 'app/shared/_services/process-data-service';
 
 
 const route: Routes = [
@@ -58,7 +58,12 @@ const route: Routes = [
     MatProgressSpinnerModule,
     DatePickerModule
   ],
-  providers: [ NotificationService, ContactService, MonthlyTransferBlockService, ProcessDataService, ProcessService],
+  providers: [
+    NotificationService,
+    ContactService,
+    MonthlyTransferBlockService,
+    ProcessService,
+    ProcessDataService],
   declarations: [DetailedRecordsComponent, SendEmailIncorrectComponent],
   entryComponents: [SendEmailIncorrectComponent]
 })

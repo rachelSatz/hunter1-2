@@ -58,7 +58,8 @@
     </div>
   </div>
   <div class="d-flex  my-5 border-bottom pb-4 mr-5 ml-5 divTitle">
-    <div class="mr-1 end pointer row" (click)="setPage(1)">
+    <div class="mr-1 end pointer row" (click)="setPage(1)" >
+      <!--<i class="fa fa-check col-12-me" *ngIf="this.processDataService.activeProcess.status_process >= 1"></i>-->
       <div [ngClass]="{ 'div-btn' : setHeaderColor() ==  1}">
         <span class="flex-grow-1 rounded-circle">1</span>
         <span class="flex-grow-1 mr-2">טעינת קובץ</span>
@@ -67,7 +68,8 @@
         <span class="flex-grow-1 span-v">..........</span>
       </div>
     </div>
-    <div class="mr-5 pointer row" [ngClass]="{ 'end': setHeaderColor() >=  2}" (click)="setPage(2)">
+    <div class="mr-5 pointer row" [ngClass]="{ 'end': this.processDataService.activeProcess.status_process >=  2 || setHeaderColor()  >= 2}" (click)="setPage(2)">
+      <!--<i class="fa fa-check col-12-me"  *ngIf="this.processDataService.activeProcess.status_process >=  2"></i>-->
       <div [ngClass]="{ 'div-btn' : setHeaderColor() ==  2}" >
         <span class="flex-grow-1 rounded-circle">2</span>
         <span class="flex-grow-1 mr-2">שליחת הנחיות לתשלום</span>
@@ -76,7 +78,8 @@
         <span class="span-v">..........</span>
       </div>
     </div>
-    <div class="mr-5 pointer row" [ngClass]="{ 'end': setHeaderColor() >=  3}" (click)="setPage(3)">
+    <div class="mr-5 pointer row" [ngClass]="{ 'end': this.processDataService.activeProcess.status_process >=  3 || setHeaderColor()  >= 3}" (click)="setPage(3)">
+      <!--<i class="fa fa-check col-12-me"  *ngIf="this.processDataService.activeProcess.status_process >= 3"></i>-->
       <div  [ngClass]="{ 'div-btn' : setHeaderColor() ==  3}">
         <span class="flex-grow-1 rounded-circle">3</span>
         <span class="flex-grow-1 mr-2">תשלום ואסמכתאות</span>
@@ -85,7 +88,8 @@
         <span class="span-v">..........</span>
       </div>
     </div>
-    <div class="mr-5 pointer row" [ngClass]="{ 'end': setHeaderColor() >=  4}" (click)="setPage(4)">
+    <div class="mr-5 pointer row" [ngClass]="{ 'end': this.processDataService.activeProcess.status_process >=  4 || setHeaderColor()  >= 4}" (click)="setPage(4)">
+      <!--<i class="fa fa-check col-12-me"  *ngIf="this.processDataService.activeProcess.status_process >= 4"></i>-->
       <div  [ngClass]="{ 'div-btn' : setHeaderColor() ==  4}">
         <span class="flex-grow-1 rounded-circle">4</span>
         <span class="flex-grow-1 mr-2">שידור לקופות</span>
@@ -94,7 +98,8 @@
         <span class="span-v">..........</span>
       </div>
     </div>
-    <div class="mr-5 pointer row" [ngClass]="{ 'end': setHeaderColor() >= 5}" (click)="setPage(5)">
+    <div class="mr-5 pointer row" [ngClass]="{ 'end': this.processDataService.activeProcess.status_process >= 5 || setHeaderColor()  >= 5}" (click)="setPage(5)">
+      <!--<i class="fa fa-check col-12-me"  *ngIf="this.processDataService.activeProcess.status_process >= 5"></i>-->
       <div  [ngClass]="{ 'div-btn' : setHeaderColor() ==  5}">
         <span class="flex-grow-1 rounded-circle">5</span>
         <span class="flex-grow-1 mr-2">היזונים</span>
@@ -103,7 +108,8 @@
         <span class="span-v">..........</span>
       </div>
     </div>
-    <div class="mr-5 pointer row" [ngClass]="{ 'end': setHeaderColor() === 6}" (click)="setPage(6)">
+    <div class="mr-5 pointer row" [ngClass]="{ 'end': this.processDataService.activeProcess.status_process === 6 || setHeaderColor()  >= 6}" (click)="setPage(6)">
+      <!--<i class="fa fa-check col-12-me"  *ngIf="this.processDataService.activeProcess.status_process >= 6"></i>-->
       <div  [ngClass]="{ 'div-btn' : setHeaderColor() ==  6}">
         <span class="flex-grow-1 rounded-circle">6</span>
         <span class="flex-grow-1 mr-2">שליחת היזון למעסיק</span>

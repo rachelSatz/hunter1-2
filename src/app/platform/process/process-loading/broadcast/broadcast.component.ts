@@ -30,20 +30,24 @@ export class BroadcastComponent implements OnInit {
       if (comment === null) {comment = ''; }
       this.notificationService.warning('אשר שידור', comment , buttons).then(confirmation => {
         if (confirmation.value) {
-          // this.processService.transfer(this.processLoading.process_details.id, 'processId')
-          //   .then(response => {
-          //     if (response.ok === false) {
-          //       this.notificationService.error('', 'לא הצליח לשדר קובץ');
-          //     } else {
-          //       const button = {confirmButtonText: 'המשך'};
-          //       this.notificationService.warning('הקובץ שודר לקופות בהצלחה' , '' , button).then(conf => {
-          //         if (conf.value) {
+          this.processService.transfer_new(this.processLoading.process_details.id)
+            .then(response => {
+              if (response.ok === false) {
+                if (response.status === 400) {
+                  this.notificationService.error('', 'לא ניתן לשדר קובץ פעמים');
+                } else {
+                  this.notificationService.error('', 'לא הצליח לשדר קובץ');
+                }
+              } else {
+                const button = {confirmButtonText: 'המשך'};
+                this.notificationService.warning('הקובץ שודר לקופות בהצלחה' , '' , button).then(conf => {
+                  if (conf.value) {
                     this.processLoading.setPage(5, true);
-        //           }
-        //         });
-        //
-        //         }
-        //     });
+                  }
+                });
+
+                }
+            });
         }
       });
     });

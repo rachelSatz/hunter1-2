@@ -3,11 +3,11 @@ import { DatePipe } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { ProcessService } from 'app/shared/_services/http/process.service';
-import { NotificationService } from '../../../../../../shared/_services/notification.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
 
 @Component({
   selector: 'app-update-payment-date',
-  templateUrl: './update-payment-date.component.html'
+  templateUrl: './update-payment-date.component.html',
 })
 export class UpdatePaymentDateComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class UpdatePaymentDateComponent implements OnInit {
               private  processService: ProcessService,
               private dialogRef: MatDialogRef<UpdatePaymentDateComponent>,
               public datePipe: DatePipe,
-              private notificationService: NotificationService) { }
+              protected  notificationService: NotificationService) { }
 
   ngOnInit() {
     this.displayDate = this.data.date !== undefined && (this.data.date).toString() !== '';

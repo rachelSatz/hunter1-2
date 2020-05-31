@@ -27,10 +27,11 @@ export class ProcessDataService {
     this.activeProcess.payment_instructions = data['payment_instructions'];
     this.activeProcess.status_process = data['status_process'];
     this.activeProcess.rows = data['rows'];
-    this.activeProcess.isCheckAll = data['isCheckAll'];
     this.activeProcess.sum = data['sum'];
     this.activeProcess.num_file = data['num_file'];
     this.activeProcess.employer_name =  data['employer_name'];
+    this.activeProcess.rows_status =  data['rows_status'];
+
 
   }
 }

@@ -26,7 +26,6 @@ const routes: Routes = [
       { path: 'broadcast', loadChildren: './broadcast/broadcast.module#BroadcastModule' },
       { path: 'feedback', loadChildren: './feedback/feedback.module#FeedbackModule' },
       { path: 'send-feed-employer', loadChildren: './send-feed-employer/send-feed-employer.module#SendFeedEmployerModule' },
-      { path: 'records', loadChildren: './shared/detailed-records/detailed-records.module#DetailedRecordsModule' },
     ]}
 ];
 

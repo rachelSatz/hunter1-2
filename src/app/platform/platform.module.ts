@@ -38,7 +38,7 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
-import {GroupService} from '../shared/_services/http/group.service';
+import { GroupService } from '../shared/_services/http/group.service';
 import { GroupTransferComponent } from 'app/platform/process/process-loading/shared/group-transfer/group-transfer.component';
 
 

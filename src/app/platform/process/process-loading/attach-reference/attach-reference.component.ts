@@ -48,7 +48,7 @@ export class AttachReferenceComponent implements OnInit {
         this.data.processId ).then(response => {
         if (response['message'] === 'success') {
           this.hasServerError = true;
-          this.dialogRef.close();
+          this.dialogRef.close('success');
         } else {
             this.message = 'ארעה שגיאה';
         }
