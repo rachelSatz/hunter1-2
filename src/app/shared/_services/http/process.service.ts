@@ -191,8 +191,8 @@ export class ProcessService extends BaseHttpService {
       .then(response => response)
       .catch(response => response);
   }
-  sendEmail(processId: number, recipient: any[], filesList?: any,  criteria?: DataTableCriteria): Promise<string> {
 
+  sendEmail(processId: number, recipient: any[], filesList?: any,  criteria?: DataTableCriteria): Promise<string> {
     return this.http.post(this.endPoint + '/sendPaymentsInstruction',
       {processId: processId, recipient: recipient, criteria: this.setDataTableParams(criteria), filesList: filesList
       },

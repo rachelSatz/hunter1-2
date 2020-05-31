@@ -18,6 +18,7 @@ export class AddEmailComponent implements OnInit {
   email_dep: EmailDepartment[];
   departments: Department[];
   email: string;
+  department: number;
 
   constructor( @Inject(MAT_DIALOG_DATA) public data: any,
                private dialogRef: MatDialogRef<AddEmailComponent>,

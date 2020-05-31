@@ -170,6 +170,14 @@ bd-select {
   color: white;
 }
 
+.z-index-150{
+  z-index: 150;
+}
+/*.navbartest a {*/
+/*  background-color: #aaa8ab;*/
+/*  color: white;*/
+/*}*/
+
 
 ::ng-deep .cdk-overlay-pane .mat-dialog-container {
   overflow: visible;

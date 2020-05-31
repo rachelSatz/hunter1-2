@@ -8,7 +8,8 @@
     </a>
   </div>
   <app-data-table tableName="מעסיקים" (fetchItems)="fetchItems()" [columns]="columns"
-                  [hasExtendedSearch]="this.location !== 'report' ? true : false" [hasCheckColumn]="true" [hasActionsSearch]="true">
+                  [hasExtendedSearch]="this.location !== 'report' ? true : false" [hasCheckColumn]="true"
+                  [disableCheckAll]="true" [hasActionsSearch]="true">
     <div class="table-header">
       <div class="row mt-4 mr-1">
         <div class="ml-3 d-flex mr-auto">

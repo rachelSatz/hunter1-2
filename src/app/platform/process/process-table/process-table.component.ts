@@ -86,7 +86,6 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     if (this.router.url.includes( 'operator')) {
       this.selectUnit.setEntitySessionStorage(
         this.platformComponent.organizationId,
@@ -120,7 +119,6 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   }
 
   fetchItems() {
-
     const organizationId = this.selectUnit.currentOrganizationID;
     const employerId = this.selectUnit.currentEmployerID;
     const departmentId = this.selectUnit.currentDepartmentID;

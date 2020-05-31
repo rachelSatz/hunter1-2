@@ -7,6 +7,7 @@ import { UserSessionService } from '../user-session.service';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
 import {TaskModel} from '../../_models/task.model';
 import {Department} from '../../_models/department.model';
+import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 
 @Injectable()
 export class TaskService extends BaseHttpService {
@@ -17,11 +18,19 @@ export class TaskService extends BaseHttpService {
     super(userSession);
   }
 
-  getTasks(employerID: number): Promise<DataTableResponse> {
+  getTasks(employerID: number, criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
-    if (employerID !== 0) {
-      request['params'] = {employerID: employerID};
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
     }
+
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+
+    // if (employerID !== 0) {
+    //   request['params'] = {employerID: employerID};
+    // }
     return this.http.get(this.endPoint, request)
       .toPromise()
       .then(response => response as DataTableResponse)

@@ -119,6 +119,7 @@ export enum CategoryTypeErrors {
 
 export enum CategoryTypeEmployerDefrayal {
   employerNotUseMonth = 40,
+  employerEstablishmentXml = 42,
 }
 
 export enum CategoryTypeEmployerError {

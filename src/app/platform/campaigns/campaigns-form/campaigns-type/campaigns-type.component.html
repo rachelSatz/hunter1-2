@@ -1,71 +1,150 @@
-<!--<div>-->
-<!--  <div class="d-flex">-->
-<!--    <mat-form-field class="w-30 mt-sm-n2">-->
-<!--      <input matInput placeholder="שם קמפיין" required maxlength="30">-->
-<!--      <mat-error>יש להקיש שם קמפיין</mat-error>-->
-<!--    </mat-form-field >-->
-<!--    <div class="mr-5 w-30">-->
-<!--      <bd-select [items]="campaignsType"  required class="d-inline-block bd-de bd-min-width"-->
-<!--                 [(ngModel)]="type.type.id" placeholder="סוג המודל"-->
-<!--                 (onSelect)="getSubtype()"  [error]=""></bd-select>-->
-<!--    </div>-->
-<!--    <div class="mr-5 w-30">-->
-<!--      <bd-select [items]="campaignsSubtype"  required-->
-<!--                 [(ngModel)]="subtype" placeholder="שם המודל"-->
-<!--                 [error]=""></bd-select>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <div class="d-flex py-2">-->
-<!--    <div class="w-30">-->
-<!--      <bd-select [items]="statuses"  required class="d-inline-block bd-de bd-min-width"-->
-<!--                 [(ngModel)]="status" placeholder="בחירת סטטוס"-->
-<!--                 [error]=""></bd-select>-->
-<!--    </div>-->
-<!--    <div class="mr-5 w-30">-->
-<!--      <bd-select [items]="statusesSent"  required-->
-<!--                 [(ngModel)]="statusSent" placeholder="סוג שליחה"-->
-<!--                 [error]=""></bd-select>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <div class="my-3 mt-4">-->
-<!--    <p class="h6 bold">זמן שליחה</p>-->
-<!--    <p class="f-12 grey-text">הקמפיין ישלח באופן מיידי.</p>-->
-<!--    <div class="d-flex align-content-between align-items-center">-->
-<!--      <mat-radio-group >-->
-<!--        <div class="d-flex ml-3 pl-5">-->
-<!--          <mat-radio-button value="0" checked="true" class="mat-radio-button ml-4">עכשיו</mat-radio-button>-->
-<!--        </div>-->
-<!--      </mat-radio-group>-->
-<!--    </div>-->
-<!--    &lt;!&ndash;-->
-<!--    <p class="h6 bold">זמן שליחה</p>-->
-<!--    <p class="f-12 grey-text">הקמפיין ישלח לפי זמן שיוגדר</p>-->
-<!--    <div class="d-flex align-content-between align-items-center">-->
-<!--      <mat-radio-group formControlName="sendAt">-->
-<!--      <div class="d-flex ml-3 pl-5">-->
-<!--        <mat-radio-button value="0" class="mat-radio-button ml-4" >עכשיו</mat-radio-button>-->
-<!--        <mat-radio-button [value]="sendAt.value" class="mat-radio-button">בעוד</mat-radio-button>-->
-<!--        <div class="d-flex justify-content-center align-items-center mx-2">-->
-<!--          <i class="fa fa-caret-right pointer" (click)="increment(sendAt, -1)" [ngStyle]="{ 'opacity': sendAt.value > 0 ? '1' : '0' }"></i>-->
-<!--          <input type="number" disabled #sendAt class="increment-input bg-white">-->
-<!--          <i class="fa fa-caret-left pointer" (click)="increment(sendAt, 1)"></i>-->
-<!--        </div>-->
-<!--        <span>ימים</span>-->
-<!--      </div>-->
-<!--      </mat-radio-group>-->
-<!--    </div>-->
-<!--    <p class="h6 bold mt-5">תזכורת חוזרת</p>-->
-<!--    <p class="f-12 grey-text">תזכורות ישלחו לפי מספר ימים שיוגדר</p>-->
-<!--    <div class="w-25 d-flex align-items-center mt-3">-->
-<!--      <mat-checkbox name="sendInDays" class="d-flex align-items-center interval-checkbox no-margin" (change)="setRequired($event.checked, 'typeSubForm.repeatEvery')">וכל</mat-checkbox>-->
-<!--      <div class="d-flex justify-content-center align-items-center mx-2">-->
-<!--        <i class="fa fa-caret-right pointer" (click)="increment(repeatEvery, -1)" [ngStyle]="{ 'opacity': repeatEvery.value > 0 ? '1' : '0' }"></i>-->
-<!--          <input type="number" formControlName="repeatEvery" #repeatEvery class="increment-input bg-white">-->
-<!--        <i class="fa fa-caret-left pointer" (click)="increment(repeatEvery, 1)"></i>-->
-<!--      </div>-->
-<!--      <span>ימים</span>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--    &ndash;&gt;-->
-<!--  </div>-->
-<!--</div>-->
+<div>
+  <form #form="ngForm" (ngSubmit)="submit()" [formGroup]="taskCampaign">
+    <div formGroupName="details">
+      <div class="w-30" >
+        <bd-select name="users" [items]="options" placeholder="סוג יצירה" formControlName="typeTask" (onSelect)="getType($event)"
+                   [ngClass]="{'disabledInput' : route.snapshot.queryParams['campaignId']}"
+                   [error]="!taskCampaign.get('details').value['typeTask'] && form.submitted"></bd-select>
+      </div>
+      <div class="d-flex py-5" >
+        <mat-form-field class="w-30 mt-sm-n2" >
+          <input matInput formControlName="name" placeholder="שם קמפיין" required maxlength="30">
+          <mat-error>יש להקיש שם קמפיין</mat-error>
+        </mat-form-field >
+        <div class="mr-5 w-30">
+          <bd-select [items]="campaignsType" formControlName="moduleType"  required class="d-inline-block bd-de bd-min-width"
+                     placeholder="סוג המודל" (onSelect)="getSubtype($event)"
+                     [error]="!taskCampaign.get('details').value['moduleType'] && form.submitted"></bd-select>
+        </div>
+        <div class="mr-5 w-30">
+          <bd-select [items]="campaignsSubtype" required formControlName="moduleName"
+                     placeholder="שם המודל" (onSelect)="setSendType($event)"
+                     [error]="!taskCampaign.get('details').value['moduleName'] && form.submitted"></bd-select>
+        </div>
+      </div>
+      <div class="d-flex py-2">
+        <div class="w-30" *ngIf="taskCampaign.get('details').value['moduleName'] !== 5">
+          <bd-select [items]="statusesSent"  required  formControlName="statusSend" placeholder="סוג שליחה"
+                     [error]="!taskCampaign.get('details').value['statusSend'] && form.submitted"></bd-select>
+        </div>
+        <div class="mr-5 w-30" *ngIf="taskCampaign.get('details').value['moduleType'] === 3">
+          <bd-select [items]="statuses" class="d-inline-block bd-de bd-min-width"
+                     placeholder="בחירת סטטוס" formControlName="status"></bd-select>
+        </div>
+        <div *ngIf="taskCampaign.get('details').value['moduleType'] !== 3"
+             [ngClass]="taskCampaign.get('details').value['moduleName'] !== 5 ? 'mr-5 w-30' : 'w-30'">
+          <mat-form-field class="w-100 mt-md-n3">
+            <input matInput [matDatepicker]="datePickerTo" [placeholder]="taskCampaign.get('details').value['moduleType'] === 2 ?
+             'תאריך נכונות (שכר)' : 'חודש שכר'" formControlName="dateModule"
+                   [required]="dateModel" >
+            <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
+            <mat-datepicker #datePickerTo></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="my-3" formGroupName="timings" *ngIf="taskCampaign.get('details.typeTask').value !== 1">
+      <p class="h6 bold">זמן שליחה</p>
+      <p class="f-12 grey-text">הקמפיין ישלח לפי זמן שיוגדר.</p>
+      <div class="my-3">
+        <mat-checkbox formControlName="sendNow" [checked]="getSendAtControls().length === 0" >עכשיו</mat-checkbox>
+      </div>
+      <br>
+      <div>
+        <hr>
+        <div class="pointer w-25" (click)="addSendAtControl()">
+          <i class="fa fa-plus"></i>
+          <span class="pr-1">הוסף מועד לשליחה עתידית</span>
+        </div>
+        <div formArrayName="sendAt" class="mt-2" *ngIf="!taskCampaign.get('timings.sendNow').value">
+          <ng-container *ngFor="let sendAt of getSendAtControls(); let i = index">
+            <div [formGroupName]="i" class="d-flex py-3">
+              <p class="pl-3 h5">{{ i + 1  }}.</p>
+              <mat-form-field class="pl-3 w-25">
+                <input matInput type="time" formControlName="hour" placeholder="שעת שליחה" (change)="checkSend(i, false)">
+                <mat-error *ngIf="sendAt.get('hour').errors && sendAt.get('hour').errors.required">שדה חובה.</mat-error>
+              </mat-form-field>
+              <mat-form-field class="mr-1 w-25">
+                  <input matInput [matDatepicker]="datePickerTo" placeholder="תאריך לשליחה" formControlName="date"
+                         [required]="dateModel" >
+                  <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
+                  <mat-datepicker #datePickerTo></mat-datepicker>
+              </mat-form-field>
+<!--              <mat-form-field class="mr-1 w-25">-->
+<!--                <input matInput type="text" formControlName="date" placeholder="תאריך לשליחה" (change)="checkSend(i, false)"  [matDatepicker]="dp" required>-->
+<!--                <mat-datepicker #dp></mat-datepicker>-->
+<!--                <mat-hint>הקלד בפורמט הבא: dd/mm/yyyy</mat-hint>-->
+<!--                <mat-error *ngIf="sendAt.get('date').errors && sendAt.get('date').errors.required">שדה חובה.</mat-error>-->
+<!--                <mat-error *ngIf="sendAt.get('date').errors && sendAt.get('date').errors['matDatepickerParse']">יש לרשום תאריך בפורמט dd/mm/yyyy</mat-error>-->
+<!--              </mat-form-field>-->
+              <i class="fa fa-trash pointer green-text pr-4 mt-4" aria-hidden="true" (click)="removeSendAtControl(i)"></i>
+            </div>
+          </ng-container>
+          <p *ngIf="hasErrorSend" class="red-color h6">אין אפשרות לשלוח על זמן שחלף</p>
+        </div>
+      </div>
+      <br>
+      <div>
+        <hr>
+        <mat-slide-toggle formControlName="isSchedule" class="mt-3"  labelPosition="before">תזכורת חוזרת</mat-slide-toggle>
+        <p class="f-12">תזכורות ישלחו לפי מספר ימים שיוגדרו</p>
+        <div @slideInOut *ngIf="taskCampaign.get('timings.isSchedule')?.value">
+          <mat-checkbox formControlName="skipHolidays" class="d-block mt-2">פרט לחגים</mat-checkbox>
+          <div class="pointer my-3 w-25" (click)="addScheduleControl()">
+            <i class="fa fa-plus green-text"></i>
+            <span class="pr-1">הוסף תזכורות</span>
+          </div>
+          <ng-container formArrayName="schedules">
+            <div class="d-flex py-3" [formGroupName]="i" *ngFor="let schedule of getScheduleControl(); let i = index">
+              <p class="pl-3 h5">{{ i + 1  }}.</p>
+                <mat-form-field class="pl-3 w-25">
+                  <input matInput type="time" max="21:00" min="6:00" (change)="checkHour(i, false)" formControlName="hour" placeholder="שעת שליחה">
+                  <mat-error *ngIf="schedule.get('hour').errors && schedule.get('hour').errors.required">שדה חובה.</mat-error>
+                </mat-form-field>
+              <div class=" mr-2">
+                <div>ביום / בימים</div>
+                <mat-button-toggle-group formControlName="days" class="daySelect" [multiple]=true>
+                  <mat-button-toggle *ngFor="let day of days" [value]="day.id">
+                    <p class="mt-n2">{{ day.shortHebrew }}</p>
+                  </mat-button-toggle>
+                </mat-button-toggle-group>
+              </div>
+              <i class="fa fa-trash pointer pr-4 mt-4" aria-hidden="true" (click)="removeScheduleControl(i)"></i>
+            </div>
+            <p *ngIf="hasErrorHour" class="red-color h6">אין אפשרות לשלוח תיזכורת לפני השעה 6:00 בבוקר ואחרי השעה 21:00 בלילה</p>
+          </ng-container>
+        </div>
+      </div>
+      <br>
+      <hr>
+      <div formGroupName="end" @slideInOut *ngIf="taskCampaign.get('timings.isSchedule')?.value && getScheduleControl().length > 0 ">
+        <p class="h6 bold mt-2">סיום התראה</p>
+        <mat-radio-group formControlName="type" class="py-3" (change)="setEndConditionValidation($event.value)">
+          <mat-radio-button class="mb-3" [value]="null" >אף פעם</mat-radio-button><br>
+          <mat-radio-button value="counter">
+            <span>אחרי</span>
+            <span class="mx-3">
+						<mat-form-field>
+							<input matInput type="number" formControlName="counter" placeholder="הזן מספר">
+						</mat-form-field>
+					</span>
+            <span>פעמים</span>
+          </mat-radio-button><br>
+          <mat-radio-button value="date">
+            <span class="ml-3">ב - </span>
+            <span>
+						<mat-form-field>
+							<input matInput type="text" formControlName="date" placeholder="תאריך לשליחה" [matDatepicker]="dp">
+							<mat-datepicker #dp></mat-datepicker>
+							<mat-hint>הקלד בפורמט הבא: dd/mm/yyyy</mat-hint>
+						</mat-form-field>
+					</span>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="py-4 w-100 float-left left">
+      <button mat-button type="submit" class="blue-btn float-left"> המשך</button>
+    </div>
+  </form>
+</div>

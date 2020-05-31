@@ -28,8 +28,12 @@ export class GeneralHttpService extends BaseHttpService {
   }
 
   newComment(objects: number[], content: string, contentType: string, criteria?: DataTableCriteria ): Promise<boolean> {
+    let criteriaNew = null;
+    if (criteria) {
+      criteriaNew = this.setDataTableParams(criteria);
+    }
     return this.http.post(this.endPoint  + '/comment', { 'content': content ,
-      'content_type': contentType, 'ids': objects, 'criteria': this.setDataTableParams(criteria)}, this.getTokenHeader())
+      'content_type': contentType, 'ids': objects, 'criteria': criteriaNew}, this.getTokenHeader())
       .toPromise()
       .then(() => true)
       .catch(() => false);
