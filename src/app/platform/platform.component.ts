@@ -76,7 +76,7 @@ export class PlatformComponent implements OnInit {
         ]
     },
     { url: 'process', subUrl: 'operations', label: 'תהליכים', subMenuLinks: [
-      { url: 'new/0', label: 'צור תהליך חדש' },
+      { url: 'new/create', label: 'צור תהליך חדש' },
       { url: 'table', label: 'תהליכים' },
       ]
     },
@@ -343,8 +343,8 @@ export class PlatformComponent implements OnInit {
       this.activeUrl = 'settings';
       return;
     } else {
-      if (subLink === 'new/0') {
-        this.router.navigate(['/platform', link, 'new', 0]);
+      if (subLink === 'new/create') {
+        this.router.navigate(['/platform', link, 'new', 'create']);
       } else {
       this.router.navigate(['/platform', link, subLink]);
       }
@@ -368,22 +368,27 @@ export class PlatformComponent implements OnInit {
     }
   }
 
-
   stopTimer(): void {
+    this.showTimer = false;
     const time = this.hours + ':' + this.minutes + ':' + this.seconds;
     const type = this.isWorkQueue ? 'task' : 'taskCampaign';
     this.updateTaskTimer(time, type);
     this.timerService.reset();
-    this.selectUnit.clearTaskTimer();
-    this.showTimer = false;
-    const nev = this.isWorkQueue ? 'work-queue' : 'tasks';
-    this.router.navigate(['platform', 'operator', nev]);
+    if (this.selectUnit.getTaskTimer() && this.selectUnit.getTaskTimer().isSelfTask === true) {
+      this.router.navigate(['platform', 'operator', 'tasks'], {queryParams: {isSelfTask: true}});
+    } else {
+      const nev = this.isWorkQueue ? 'work-queue' : 'tasks';
+      this.router.navigate(['platform', 'operator', nev]);
+      this.selectUnit.clearTaskTimer();
+    }
   }
 
   updateTaskTimer(duration: string, type: string): void {
     if (this.selectUnit.getTaskTimer()['id'] > 0) {
-      this.operatorTasks.updateTaskTimer(this.selectUnit.getTaskTimer()['id'], duration, type,
-        this.selectUnit.getTaskTimer()['planTaskId']).then(response => response);
+      const t = this.selectUnit.getTaskTimer();
+      const typeId = type === 'taskCampaign' ? t['taskCampaignId'] : t['planTaskId'];
+      this.operatorTasks.updateTaskTimer(this.selectUnit.getTaskTimer()['id'], duration, type, typeId)
+        .then(response => response);
     }
   }
 

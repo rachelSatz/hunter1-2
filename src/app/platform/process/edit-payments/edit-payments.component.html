@@ -134,7 +134,7 @@
       <div class="row col-9">
       <div class="col-3" [ngClass]="{'disabledInput' :  type == 'regular'}" >
         <bd-select class="w-100" [items]="companies" formControlName="company_id"
-                   (onSelect)="selectedProducts($event)"
+                   (onSelect)="selectedProducts($event, m)"
                    placeholder="חברה מנהלת"
                    required [error]="editPaymentForm.value.company === null && form.submitted"></bd-select>
       </div>
@@ -142,7 +142,7 @@
       <div class="col-3">
         <bd-select class="w-100" [items]="products" formControlName="product_id"
                    placeholder="שם הקופה" label="full_name"
-                   required [error]="editPaymentForm.value.product === null && form.submitted"></bd-select>
+                   required [error]="this.editPaymentForm.value['mtb'][index].product_id === null && form.submitted"></bd-select>
       </div>
 
       <div class="col-3">
@@ -166,7 +166,8 @@
           </div>
           <mat-form-field class="col-2">
             <input type="number" matInput placeholder="סכום רשומה" (change)="sumPercent(m, transfer, index, i)"
-                   formControlName="transfer_sum">
+                   formControlName="transfer_sum" required >
+            <mat-error>יש להכניס עד שתי ספרות אחרי הנקודה.</mat-error>
           </mat-form-field>
           <mat-form-field class="col-2">
             <input type="number" matInput placeholder="אחוז רשומה" formControlName="transfer_percent">

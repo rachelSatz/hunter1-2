@@ -54,9 +54,16 @@ input[type=file] {
   margin-right: 15rem !important;
 }
 
+.mr-11{
+  margin-right: 11.6rem !important;
+}
+
+
 .w-70 {
   width: 70% !important;
 }
+
+
 
 .mr-n7,
 .mx-n7 {
@@ -88,6 +95,15 @@ a:hover {
 .font-rubik{
   font-family: 'Rubik', sans-serif !important;
 }
+
+.font-arial{
+  font-family: 'Arial', sans-serif !important;
+}
+
+font-Heebo{
+  font-family: Heebo !important;
+}
+
 
 .relative {
   position: relative;
@@ -201,6 +217,10 @@ a:hover {
 }
 
 .black-color {
+  color: black;
+}
+
+.white-color-background-black {
   color: #fff;
   background-color: black;
 
@@ -237,6 +257,11 @@ a:hover {
 
 .blue-btn {
   background-color: #00adee;
+  color: #fff;
+}
+
+.grey-btn {
+  background-color: #adadaf;
   color: #fff;
 }
 

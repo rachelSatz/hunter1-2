@@ -278,7 +278,7 @@ export class DetailedFilesComponent implements OnInit, OnDestroy {
   openWarningMessageComponentDialog(type: boolean): void {
       // const title = type ? 'לא רלונטי' : 'רלונטי';
     // 'מחיקת שורות'
-      const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלוונטיות?' : 'האם ברצונך להפוך שורת אלו לרלוונטיות?';
+    const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלוונטיות?' : 'האם ברצונך להפוך שורת אלו לרלוונטיות?';
       // const typeData = type ? 'notRelevant' : 'delete';
     const val = type ? false : true;
 

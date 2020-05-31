@@ -54,6 +54,9 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   productTypes = ProductType;
   displayBack = false;
   manualStatus = ManualStatus;
+  isSent: boolean;
+  isProcess: boolean;
+  processId: number;
 
   readonly columns =  [
     { name: 'name', label: 'עובד', searchable: false},
@@ -87,9 +90,20 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit() {
+    if (this.router.url.indexOf('process') !== -1) {
+      this.isSent = false;
+      this.isProcess  = true;
+      if (this.router.url.indexOf('send-feed-employer') !== -1) {
+        this.isSent = true;
+      }
+    }else {
+      this.dataTable.tableName = 'מעקב ברמת עובד';
+    }
+
     this.fileId = this.route.snapshot.queryParams['fileId'];
     this.displayBack = this.fileId !== undefined && this.fileId !== '0' ? true : false;
     this.recordId = this.route.snapshot.queryParams['recordId'];
+    this.processId = this.route.snapshot.queryParams['processId'];
     this.selectYear = this.fileId ? Number(this.route.snapshot.queryParams['year']) : this.year;
     this.sub.add(this.selectUnitService.unitSubject.subscribe(() => {
       this.router.navigate([], {
@@ -120,6 +134,9 @@ export class EmployeesComponent implements OnInit , OnDestroy {
         this.dataTable.criteria.filters['fileId'] = this.fileId; }
       if (this.recordId) {
         this.dataTable.criteria.filters['recordId'] = this.recordId; }
+      if (this.processId) {
+        this.dataTable.criteria.filters['processId'] = this.processId; }
+
 
       this.feedbackService.searchEmployeeData(this.dataTable.criteria).then(response => {
         this.dataTable.setItems(response);
@@ -154,9 +171,10 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
     this.sub.add(dialog.afterClosed().subscribe(created => {
       if (created) {
-        this.generalService.getInquiries(item.id, 'monthlytransferblock').then(response =>
-          item.inquiries = response
-        );
+        this.generalService.getInquiries(item.id, 'monthlytransferblock').then(response => {
+          item.inquiries = response;
+          item.manual_status = item.manual_status ? item.manual_status : 'in_treatment';
+        });
       }
     }));
 
@@ -282,18 +300,26 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
     });
   }
-  sendFeedback(): void {
+
+  sendOnlyFailedFeedback(): void {
     if ((this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) ||
       this.dataTable.criteria.checkedItems.some(item => item['status'] !== 'not_defrayed')) {
       this.notificationService.warning('יש לבחור רשומות שלא נפרעו');
       return;
     }
     const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
-    const dialog = this.dialog.open(SendFeedbackComponent, {
-      data: {ids: ids, criteria: this.dataTable.criteria } ,
+    this.sendFeedback(ids, true);
+  }
+
+  sendFeedback(ids, isFailed?: boolean): void {
+    this.dialog.open(SendFeedbackComponent, {
+      data: {ids: ids, criteria: this.dataTable.criteria, isFailed: isFailed } ,
       width: '550px',
     });
   }
+
+
+
 
   changeFileToNegative(): void {
     if (this.dataTable.criteria.checkedItems.length === 0) {
@@ -314,7 +340,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   openAddFile(): void {
     const dialog = this.dialog.open(FileDepositionComponent, {
       width: '550px',
-      panelClass: 'send-email-dialog'
+      panelClass: 'deposition-dialog'
     });
 
     this.sub.add(dialog.afterClosed().subscribe(res => {
@@ -335,10 +361,32 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     });
   }
 
+  sendCheckedFeedback(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.notificationService.warning('יש לבחור רשומות לשליחה');
+      return;
+    }
+    const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
+    this.sendFeedback(ids);
+  }
+
+  sendAllFeedback(): void {
+    if (!this.dataTable.criteria.isCheckAll) {
+      this.dataTable.criteria.checkedItems = [];
+      this.dataTable.criteria.isCheckAll = true;
+    }
+    this.sendFeedback([]);
+  }
+
+  sendFailedFeedback(): void {
+    this.sendFeedback([], true);
+  }
+
 
   previous(): void {
     this._location.back();
   }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
   }

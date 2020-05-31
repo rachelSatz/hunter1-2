@@ -1,7 +1,6 @@
 import { Component, Input, Output, OnDestroy, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { NotificationService } from '../_services/notification.service';
 import { HelpersService } from '../_services/helpers.service';

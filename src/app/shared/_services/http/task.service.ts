@@ -28,9 +28,9 @@ export class TaskService extends BaseHttpService {
       request['params'] = {no_limit : noLimit};
     }
 
-    if (employerID !== 0) {
-      request['params'] = {employerID: employerID};
-    }
+    // if (employerID !== 0) {
+    //   request['params'] = {employerID: employerID};
+    // }
     return this.http.get(this.endPoint, request)
       .toPromise()
       .then(response => response as DataTableResponse)

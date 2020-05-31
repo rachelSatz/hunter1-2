@@ -158,7 +158,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   }
 
   employerNotDefrayal(): void {
-    this.router.navigate(['/platform', 'process', 'new', 0]);
+    this.router.navigate(['/platform', 'process', 'new',  'create']);
   }
 
   paymentInstructionsError(): void {

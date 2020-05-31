@@ -15,6 +15,7 @@ import {
 import { DepartmentFormComponent } from './department-form.component';
 import { DepartmentsResolve } from 'app/shared/_resolves/department.resolve';
 import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
+import { DepartmentService } from 'app/shared/_services/http/department.service';
 
 
 const routes: Routes = [
@@ -33,6 +34,6 @@ const routes: Routes = [
     BdSelectModule
   ],
   declarations: [DepartmentFormComponent],
-  providers: [DepartmentsResolve]
+  providers: [DepartmentsResolve, DepartmentService]
 })
 export class DepartmentFormModule { }

@@ -31,10 +31,10 @@ export class TasksComponent implements OnInit , OnDestroy {
 
   readonly filter =  [
     {id: 9 , label: 'טעינת קובץ' , selected: true},
-    {id: 1 , label: 'הנחיות לתשלום' , selected: false},
-    {id: 5 , label: 'ייתרות לפייצוים', selected: false},
-    {id: 2 , label: 'היזונים חוזרים' , selected: false},
     {id: 0 , label: 'המשימות שלי' , selected: false},
+    // {id: 1 , label: 'הנחיות לתשלום' , selected: false},
+    // {id: 5 , label: 'ייתרות לפייצוים', selected: false},
+    // {id: 2 , label: 'היזונים חוזרים' , selected: false},
   ];
 
   readonly columns =  [
@@ -62,6 +62,11 @@ export class TasksComponent implements OnInit , OnDestroy {
     if (this.router.url.includes('employers')) {
       this.pathEmployers = true;
     }
+    if (this.route.snapshot.queryParams['isSelfTask']) {
+      this.dataTable.criteria.filters['typeTask'] = 0;
+      this.filter[0].selected = false;
+      this.filter[1].selected = true;
+    }
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
         this.router.navigate([], {
           queryParams: {page: 1},
@@ -85,16 +90,33 @@ export class TasksComponent implements OnInit , OnDestroy {
     this.operatorTasks.newTaskTimer(null, item.id).then(
       response => {
         if (response > 0 ) {
+          const isSelfTask = this.filter[1].selected === true ? true : false;
           const data = {id: response, type: item.subtypeTask, employer: item.employer.name,
-            organization: this.organization.name, taskCampaignId: item.id};
+            organization: this.organization.name, taskCampaignId: item.id, isSelfTask: isSelfTask};
           this.selectUnit.setTaskTimer(data);
           this.initializationPlatform(item);
-          if (item.subtypeTask === 'טעינת קובץ') {
-            this.router.navigate(['/platform', 'process', 'new', 0],
-              { queryParams: { taskId: item.id}});
+          if (!this.filter[1].selected === true) {
+            if (item.subtypeTask === 'טעינת קובץ') {
+              this.router.navigate(['/platform', 'process', 'new', 'create'],
+                { queryParams: { taskId: item.id}});
+            }
           }
+          this.router.navigate(['/platform', 'process', 'table'],
+            { queryParams: { taskId: item.id}});
         }
       });
+  }
+
+  stopTask(item): void {
+    this.operatorTasks.taskCompleted(item.id).then(
+      response => response
+    );
+  }
+
+  isStopTask(item): boolean {
+    const t = this.selectUnit.getTaskTimer();
+    // return t && t.isSelfTask && item.id === t.taskCampaignId;
+    return t && item.id === t.taskCampaignId;
   }
 
   initializationPlatform(item): void {
@@ -102,7 +124,7 @@ export class TasksComponent implements OnInit , OnDestroy {
     this.platformComponent.organizationId = this.organization.id;
     this.platformComponent.employerId = item.employer.id;
     this.platformComponent.departmentId = 0;
-    this.selectUnit.changeOrganizationEmployerDepartment(this.organization, item.employer.id, 0);
+    this.selectUnit.changeOrganizationEmployerDepartment(this.organization.id, item.employer.id, 0);
     this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
     this.selectUnit.setAgentBarActive(this.platformComponent.agentBarActive);
   }
@@ -118,7 +140,7 @@ export class TasksComponent implements OnInit , OnDestroy {
 
   filterResult(id) {
     this.filter.forEach( f => {
-      if (f['id'] === id) {f.selected = true; }
+      if (f['id'] === id) {f.selected = true; } else {f.selected = false; }
     } );
     this.helpers.setPageSpinner(true);
     this.dataTable.criteria.filters['typeTask'] = id;

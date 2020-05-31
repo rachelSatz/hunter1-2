@@ -72,6 +72,11 @@
       </mat-form-field>
     </div>
   </div>
+  <div class="row mb-3" *ngIf="isNoPaymentTime">
+    <mat-form-field class="col-lg-6">
+      <input matInput type="text" name="no_payment_comment" [(ngModel)]="financialDetails.no_payment_comment" placeholder="הערה">
+    </mat-form-field>
+  </div>
   <div class="row">
     <mat-checkbox name="direct_debit_commission" [(ngModel)]="financialDetails.direct_debit_commission" >עמלת הוראת קבע</mat-checkbox>
   </div>

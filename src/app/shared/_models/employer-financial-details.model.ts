@@ -24,6 +24,7 @@ export class EmployerFinancialDetails {
   creditCardLastDigits: string;
   min_payment: string;
   is_masav: number;
+  no_payment_comment: string;
 
   constructor() {
       this.id = 0;

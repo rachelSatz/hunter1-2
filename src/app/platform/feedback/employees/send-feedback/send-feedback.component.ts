@@ -38,11 +38,14 @@ export class SendFeedbackComponent implements OnInit {
 
   submit(): void {
     if (this.emails !== null && this.emails.length > 0) {
+      this.helpers.setPageSpinner(true);
       this.feedbackService.sendFeedback(
         this.data.ids,
         this.emails,
         this.comments,
-        this.data.criteria).then(response => {
+        this.data.criteria,
+        this.data.isFailed).then(response => {
+        this.helpers.setPageSpinner(false);
         if (response['result'] !== 'yes') {
         const result = response.error['result'] === 'The mtb are not with the same process' ? 'התהליך אינו זהה' :
           response.error['result'] === 'email was not sent' ?  'המייל שגוי' :

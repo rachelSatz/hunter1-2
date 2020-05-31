@@ -1,6 +1,3 @@
-::ng-deep .cdk-overlay-pane .mat-dialog-container {
-  overflow: visible;
-}
 
 .new-table {
   width: 80%!important;

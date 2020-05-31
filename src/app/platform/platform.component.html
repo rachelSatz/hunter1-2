@@ -49,8 +49,8 @@
         <p class="">{{employer}}</p>
       </div>
     </div>
-    <div class="skip">
-      <a class="pointer mr-6 mt-2 p-absolute" (click)="stopTimer()">{{isWorkQueue ? 'דלג ועבור למשימה הבאה' : 'עצור ועבור למשימות' }}</a>
+    <div class="skip" (click)="stopTimer()">
+      <a class="pointer mr-6 mt-2 p-absolute" >{{isWorkQueue ? 'דלג ועבור למשימה הבאה' : 'עצור ועבור למשימות' }}</a>
     </div>
   </div>
 

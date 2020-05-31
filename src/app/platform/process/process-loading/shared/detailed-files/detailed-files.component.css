@@ -1,0 +1,15 @@
+/*.extend {*/
+  /*width: 140%;*/
+  /*margin-right: -20%;*/
+/*}*/
+.disabled {
+  pointer-events: none;
+}
+
+.redColor {
+  color: red;
+}
+
+/*.highlight{*/
+  /*background: #c3c7cc; !* medium-grey *!*/
+/*}*/

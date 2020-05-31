@@ -25,8 +25,12 @@
             <td>{{ item.operator }}</td>
             <td>{{ item.employer.name}}</td>
             <td>{{ taskStatus[item.status] }}</td>
-            <td><img src="../../../../../../assets/img/left.png" height="14" width="14"/>
-              <!--          <img src="/assets/img/icons/edit_grey.png" (click)="createOrEditTask(item)" class="row-image">-->
+            <td>
+              <img src="../../../../../../assets/img/left.png" *ngIf="!filter[1].selected === true" height="14" width="14"/>
+              <div *ngIf="filter[1].selected === true">
+                <p class="blue-color pointer" *ngIf="!isStopTask(item)">התחל משימה</p>
+                <p class="red-color pointer"  *ngIf="isStopTask(item)" (click)="stopTask(item)">סיים משימה</p>
+              </div>
             </td>
           </tr>
         </app-data-table>

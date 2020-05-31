@@ -42,7 +42,7 @@ import {GroupService} from '../shared/_services/http/group.service';
 import {CampaignsService} from '../shared/_services/http/campains.service';
 import {GroupMembersDialogComponent} from './campaigns/group-members-dialog/group-members-dialog.component';
 import {EditGroupEmployerComponent} from './campaigns/edit-group-employer/edit-group-employer.component';
-
+import { GroupTransferComponent } from 'app/platform/process/process-loading/shared/group-transfer/group-transfer.component';
 
 
 const routes: Routes = [
@@ -65,7 +65,8 @@ const routes: Routes = [
       { path: 'settings/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
       { path: 'settings/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
       { path: 'compensation/dashboard', loadChildren: 'app/platform/compensation/dashboard/dashboard.module#DashboardModule' },
-      { path: 'process/new/:status', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
+      // { path: 'process/new/:status', loadChildren: 'app/platform/process/process-upload/process-upload.module#ProcessUploadModule' },
+      { path: 'process/new/:status', loadChildren: 'app/platform/process/process-loading/process-loading.module#ProcessLoadingModule' },
       { path: 'process/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
       { path: 'process/edit-payments', loadChildren: 'app/platform/process/edit-payments/edit-payments.module#EditPaymentsModule' },
       { path: 'feedback/employees', loadChildren: 'app/platform/feedback/employees/employees.module#EmployeesModule' },
@@ -119,8 +120,8 @@ const routes: Routes = [
     DetailsComponent,
     ErrorMessageComponent,
     FileDepositionComponent,
-    ChangeStatusComponent
-  ],
+    GroupTransferComponent,
+    ChangeStatusComponent],
   entryComponents: [
     GroupMembersDialogComponent,
     EditGroupEmployerComponent,
@@ -130,6 +131,7 @@ const routes: Routes = [
     DetailsComponent,
     ErrorMessageComponent,
     FileDepositionComponent,
+    GroupTransferComponent,
     ChangeStatusComponent
   ],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, GroupService, CampaignsService,

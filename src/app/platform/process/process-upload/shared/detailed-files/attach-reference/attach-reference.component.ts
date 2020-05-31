@@ -1,6 +1,5 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Component, Inject, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 
 import { fade } from 'app/shared/_animations/animation';
 import { ProcessService } from 'app/shared/_services/http/process.service';

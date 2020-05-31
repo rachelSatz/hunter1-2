@@ -1,0 +1,19 @@
+.btn_payment {
+  width: 312px;
+  border-radius: 7px;
+  box-shadow: 0 2px 0 0 #dee2e6;
+  border: solid 1px #dee2e6;
+  background-color: #ffffff;
+  padding: 0.2rem 0.75rem !important;
+}
+
+.text-btn {
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: bold;
+
+}
+
+
+
+

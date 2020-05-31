@@ -8,6 +8,7 @@ import { ProcessTableComponent } from './process-table.component';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 
 const routes: Routes = [
   { path: '', component: ProcessTableComponent }
@@ -21,6 +22,6 @@ const routes: Routes = [
     DataTableModule
   ],
   declarations: [ProcessTableComponent],
-  providers: [ProcessService, NotificationService],
+  providers: [ProcessService, NotificationService, GeneralHttpService],
 })
 export class ProcessTableModule { }

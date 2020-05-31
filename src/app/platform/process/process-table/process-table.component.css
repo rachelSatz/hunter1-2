@@ -5,3 +5,13 @@
 }
 
 .operator-container {margin-right: 60px}
+
+.blue{
+  color: #00adee;
+  font-weight: bolder;
+}
+
+.red {
+  color: red;
+  font-weight: bolder;
+}
