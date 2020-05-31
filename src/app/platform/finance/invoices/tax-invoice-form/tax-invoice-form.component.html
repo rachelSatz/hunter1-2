@@ -9,7 +9,7 @@
     <div class="row date">
       <div>
         <mat-form-field style="margin-top: -10px;">
-          <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="בגין חודש" name="for_month" ngModel readonly required>
+          <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="תאריך תקבול" name="for_month" ngModel readonly required>
           <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
           <mat-datepicker #datePicker></mat-datepicker>
           <mat-error>שדה חובה.</mat-error>

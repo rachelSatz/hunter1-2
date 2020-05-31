@@ -76,7 +76,7 @@ export class CompensationService extends BaseHttpService {
       formData.append('employerId' , employerId.toString());
       formData.append('val' , val);
 
-    return this.http.post(this.endPoint + '/upload_excel', formData, this.getTokenHeader())
+    return this.http.post(this.endPoint + '/', formData, this.getTokenHeader())
       .toPromise()
       .then(response => response as Object)
       .catch(() => []);

@@ -21,10 +21,11 @@ export class TasksComponent implements OnInit , OnDestroy {
   permissionsType = this.userSession.getPermissionsType('operations');
 
   readonly columns =  [
+    { name: 'month', label: 'חודש' , searchable: false},
+    { name: 'task', label: 'המשימה' , searchable: false},
+    { name: 'taskAssignment', label: 'שיוך משימה' , searchable: false},
     { name: 'employer', label: 'מעסיק' , searchable: false},
-    { name: 'subject', label: 'נושא המשימה' , searchable: false},
-    { name: 'createdBy', label: 'יוצר המשימה' , searchable: false},
-    { name: 'createdAt', label: 'תאריך יצירה' , searchable: false},
+    { name: 'status', label: 'סטטוס' , searchable: false},
     { name: 'executive', label: 'מבצע המשימה' , searchable: false},
     { name: 'executionDate', label: 'לביצוע עד' , searchable: false}
     ];

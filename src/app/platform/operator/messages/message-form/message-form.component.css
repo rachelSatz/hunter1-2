@@ -1,0 +1,53 @@
+
+.black-btn {
+  background-color: #000000;
+  color: #fff;
+  min-width: 90px;
+}
+.preview {
+  color: #00adee;
+}
+
+
+button.link { background:none;border:none; }
+
+.email-content {
+  width: 380px;
+  border: 3px solid #80808099;
+}
+
+.btn-align {
+  margin-top: 45px;
+}
+.box-shadow {
+  width: 380px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+}
+
+.preview-content {
+  width: 380px;
+  height: 335px;
+  border: 1px solid #80808099;
+  background-color: #f0f8ff;
+}
+
+.blue-font-color {
+   color: #00adee;
+ }
+.black-font-color {
+  color: #00adee;
+}
+/*!* Border *!*/
+/*.mat-form-field-appearance-outline .mat-form-field-outline {*/
+  /*color: black;*/
+/*}*/
+/*!* Font color *!*/
+/*input.mat-input-element {*/
+  /*color: black;*/
+/*}*/
+
+/*style="background-color: #dedede"*/
+.input-border {
+  background-color: white;
+}

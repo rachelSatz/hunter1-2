@@ -40,6 +40,7 @@ import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/fil
 import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
 import {GroupService} from '../shared/_services/http/group.service';
 import {CampaignsFormComponent} from './campaigns/campaigns-form/campaigns-form.component';
+import { MessagesComponent } from './operator/messages/messages.component';
 
 
 
@@ -81,7 +82,8 @@ const routes: Routes = [
       { path: 'operator/products', loadChildren: 'app/platform/operator/products/products.module#ProductsModule' },
       { path: 'operator/plans', loadChildren: 'app/platform/operator/plans/plans.module#PlansModule' },
       { path: 'operator/reports', loadChildren: 'app/platform/operator/reports-manager/reports-manager.module#ReportsManagerModule' },
-      { path: 'operator/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' }
+      { path: 'operator/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
+      { path: 'operator/messages', loadChildren: 'app/platform/operator/messages/messages.module#MessagesModule'}
     ]
   }
 ];
