@@ -26,10 +26,9 @@ export class ProcessLoadingComponent implements OnInit , OnDestroy {
 
   ngOnInit() {
     // console.log(this.route.snapshot.params.status);
-    // if (this.route.snapshot.params.status === 'create') {
-    //   this.process_details = undefined;
-    //   this.processDataService.activeProcess = undefined;
-    // }
+    if (this.route.snapshot.params.status === 'create' && this.processDataService.activeProcess === undefined) {
+      this.processDataService.setProcess(new Process());
+    }
 
     if (this.processDataService.activeProcess === undefined) {
       this.processDataService = this.selectUnit.getProcessData();
