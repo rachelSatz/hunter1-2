@@ -174,6 +174,10 @@ export class SelectUnitService {
     this.unitIncorrectRows.next(count);
   }
 
+  getCountIncorrectRows(): number {
+    return this.countIncorrectRows;
+  }
+
 }
 
 
