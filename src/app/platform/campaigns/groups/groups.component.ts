@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {Subscription} from 'rxjs';
 import {DataTableComponent} from '../../../shared/data-table/data-table.component';
 import {SelectUnitService} from '../../../shared/_services/select-unit.service';
@@ -6,7 +6,6 @@ import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GroupService} from '../../../shared/_services/http/group.service';
 import {HelpersService} from '../../../shared/_services/helpers.service';
-import {GroupMembersDialogComponent} from '../group-members-dialog/group-members-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {NotificationService} from '../../../shared/_services/notification.service';
 import {AddToGroupDialogComponent} from './add-to-group-dialog/add-to-group-dialog.component';
