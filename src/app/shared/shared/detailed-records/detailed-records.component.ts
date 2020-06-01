@@ -98,6 +98,12 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
         column = this.dataTable.searchColumn(this.employerProductId);
         column['searchOptions'].labels = response['employer_products'];
       });
+
+    if (this.processDataService.activeProcess.incorrect) {
+      this.dataTable.tableName = 'רשומות שגויות';
+    } else {
+      this.dataTable.tableName = '';
+    }
     this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
   }
 
@@ -121,7 +127,6 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
         .then(response => {
           if (this.incorrectPage) {
             this.selectUnitService.setCountIncorrectRows(response.items.length);
-
           }
 
           if (response.items.length > 0 || !this.incorrectPage) {
