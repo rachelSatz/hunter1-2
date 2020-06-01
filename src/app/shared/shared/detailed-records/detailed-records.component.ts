@@ -119,6 +119,11 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
       }
       this.monthlyTransferBlockService.getMonthlyList(this.dataTable.criteria)
         .then(response => {
+          if (this.incorrectPage) {
+            this.selectUnitService.setCountIncorrectRows(response.items.length);
+
+          }
+
           if (response.items.length > 0 || !this.incorrectPage) {
             this.dataTable.setItems(response);
           } else {

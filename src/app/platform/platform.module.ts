@@ -46,7 +46,6 @@ import {CampaignsService} from '../shared/_services/http/campains.service';
 import {GroupMembersDialogComponent} from './campaigns/group-members-dialog/group-members-dialog.component';
 import {EditGroupEmployerComponent} from './campaigns/edit-group-employer/edit-group-employer.component';
 import { GroupService } from '../shared/_services/http/group.service';
-// import { GroupTransferComponent } from 'app/shared/shared/group-transfer/group-transfer.component';
 
 const routes: Routes = [
   {
@@ -124,7 +123,6 @@ const routes: Routes = [
     DetailsComponent,
     ErrorMessageComponent,
     FileDepositionComponent,
-    // GroupTransferComponent,
     ChangeStatusComponent],
   entryComponents: [
     GroupMembersDialogComponent,
@@ -135,7 +133,6 @@ const routes: Routes = [
     DetailsComponent,
     ErrorMessageComponent,
     FileDepositionComponent,
-    // GroupTransferComponent,
     ChangeStatusComponent
   ],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, GroupService, CampaignsService,
