@@ -77,7 +77,7 @@
                     *ngIf="link.subMenuLinks">
                   <span>{{ link.label }}</span>
                   <mat-menu #subMenu yPosition="above" [overlapTrigger]="false">
-                    <button mat-menu-item class="dropdown-item" *ngFor="let subLink of link.subMenuLinks"
+                    <button mat-menu-item class="dropdown-item btn" *ngFor="let subLink of link.subMenuLinks"
                             (click)="navigate(link.url, subLink.url)">{{ subLink.label }}</button>
                   </mat-menu>
                 </li>

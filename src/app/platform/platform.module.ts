@@ -38,11 +38,14 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
+import {CampaignsFormComponent} from './campaigns/campaigns-form/campaigns-form.component';
+import { MessagesComponent } from './operator/messages/messages.component';
+
+
 import {CampaignsService} from '../shared/_services/http/campains.service';
 import {GroupMembersDialogComponent} from './campaigns/group-members-dialog/group-members-dialog.component';
 import {EditGroupEmployerComponent} from './campaigns/edit-group-employer/edit-group-employer.component';
 import { GroupService } from '../shared/_services/http/group.service';
-// import { GroupTransferComponent } from 'app/shared/shared/group-transfer/group-transfer.component';
 
 const routes: Routes = [
   {
@@ -83,7 +86,8 @@ const routes: Routes = [
       { path: 'operator/products', loadChildren: 'app/platform/operator/products/products.module#ProductsModule' },
       { path: 'operator/plans', loadChildren: 'app/platform/operator/plans/plans.module#PlansModule' },
       { path: 'operator/reports', loadChildren: 'app/platform/operator/reports-manager/reports-manager.module#ReportsManagerModule' },
-      { path: 'operator/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' }
+      { path: 'operator/table', loadChildren: 'app/platform/process/process-table/process-table.module#ProcessTableModule' },
+      { path: 'operator/messages', loadChildren: 'app/platform/operator/messages/messages.module#MessagesModule'}
     ]
   }
 ];
@@ -119,7 +123,6 @@ const routes: Routes = [
     DetailsComponent,
     ErrorMessageComponent,
     FileDepositionComponent,
-    // GroupTransferComponent,
     ChangeStatusComponent],
   entryComponents: [
     GroupMembersDialogComponent,
@@ -130,7 +133,6 @@ const routes: Routes = [
     DetailsComponent,
     ErrorMessageComponent,
     FileDepositionComponent,
-    // GroupTransferComponent,
     ChangeStatusComponent
   ],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, GroupService, CampaignsService,

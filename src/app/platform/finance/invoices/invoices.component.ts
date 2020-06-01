@@ -224,28 +224,28 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       this.notificationService.info(res['message']));
   }
 
-  // deleteInvoices(): void {
-  //   if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
-  //     this.dataTable.setNoneCheckedWarning();
-  //     return;
-  //   }
-  //   const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
-  //
-  //   this.invoiceService.deleteInvoices(items.map(
-  //     item => item['id'])).then(response => {
-  //     this.helpers.setPageSpinner(false);
-  //     if (response) {
-  //       if (response['message'] === 'success') {
-  //         this.notificationService.success('הרשומות נמחקו בהצלחה.');
-  //         this.dataTable.criteria.checkedItems = [];
-  //         this.dataTable.criteria.isCheckAll = false;
-  //         this.fetchItems();
-  //       } else {
-  //         this.notificationService.error('ארעה שגיאה.');
-  //       }
-  //     }
-  //   });
-  // }
+  deleteInvoices(updateEmployee: boolean): void {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+
+    this.invoiceService.deleteInvoices(items.map(
+      item => item['id']), updateEmployee).then(response => {
+      this.helpers.setPageSpinner(false);
+      if (response) {
+        if (response['message'] === 'success') {
+          this.notificationService.success('הרשומות נמחקו בהצלחה.');
+          this.dataTable.criteria.checkedItems = [];
+          this.dataTable.criteria.isCheckAll = false;
+          this.fetchItems();
+        } else {
+          this.notificationService.error('ארעה שגיאה.');
+        }
+      }
+    });
+  }
 
 
   setItemTitle(item: Invoice): string {

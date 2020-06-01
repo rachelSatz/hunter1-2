@@ -558,12 +558,12 @@ button[mat-dialog-close] {
   }
 }
 
-/*.extend {*/
-  /*position: absolute;*/
-  /*width: 80% !important;*/
-  /*right: 11%;*/
-/*}*/
-
 .mr-6{
   margin-right: 4rem !important;
+}
+
+
+button:focus, button.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
 }

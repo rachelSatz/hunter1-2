@@ -71,7 +71,9 @@ export class DashboardComponent implements OnInit {
           } else {
             this.fileName = 'דו"ח כולל אפסים';
           }
-           const fileName = 'סטטוס מעסיקים-' + this.fileName + '.xlsx';
+           // const fileName = 'סטטוס מעסיקים-' + this.fileName + '.xlsx';
+          const fileName = response['org_name'] + ' - ' + response['date'] + '.xlsx';
+
           FileSaver.saveAs(blob, fileName);
           this.spin = false;
           this.notificationService.success('הקובץ הופק בהצלחה');
@@ -100,6 +102,12 @@ export class DashboardComponent implements OnInit {
           this.notZeroCount = response['not_zero_count'];
           this.totalIds = response['not_zero_count'] + response['zero_count'];
           this.doughnut.doughnutChartData = [response['not_zero_count'], response['zero_count']];
+        } else if (response['message'] === 'success_mtb') {
+          this.zeroCount = response['zero_count'];
+          this.notZeroCount = response['not_zero_count'];
+          this.totalIds = response['not_zero_count'] + response['zero_count'];
+          this.doughnut.doughnutChartData = [response['not_zero_count'], response['zero_count']];
+          this.notificationService.info('המידע מוצג מ- mtb');
         } else if (response['message'] === 'no_data') {
           this.zeroCount = 0;
           this.notZeroCount = 0;

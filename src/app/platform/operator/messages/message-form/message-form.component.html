@@ -1,0 +1,156 @@
+<div id="nessageForm1" *ngIf="showForm1" xmlns="http://www.w3.org/1999/html">
+  <!--style="background:  linear-gradient(grey 10%, white 90%) no-repeat;-->
+  <div class="dialog-header">
+    <span class="pointer" (click)="close()">
+      <i class="fa fa-close"></i>
+    </span>
+  </div>
+  <div class="row justify-content-center align-items-center">
+    <div>
+      <span class="blue-font-color">צור הודעה</span>
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center">
+    <div class="row">
+      <span class="black-font-color">שלב 1/2</span>
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="col col-sm-6 col-md-6 col-lg-10">
+      <form>
+        <div class="form-group">
+          <label for="FormControlMsgName">שם הודעה</label>
+          <input class="form-control" id="FormControlMsgName"  name="messageName" [(ngModel)]="message.name">
+        </div>
+        <div class="form-group">
+          <label for="FormControlMsgTitle">כותרת ההודעה</label>
+          <input class="form-control" id="FormControlMsgTitle" name="title" [(ngModel)]="message.title">
+        </div>
+        <div class="form-group">
+          <label for="FormControlTextArea">תוכן ההודעה</label>
+          <textarea class="form-control" id="FormControlTextArea" name="content" rows="3" [(ngModel)]="message.content"></textarea>
+        </div>
+        <div class="row mt-4">
+          <div class="col-5 p-0">
+            <button class="btn blue-btn mr-3 btn-align" (click)="close()">ביטול</button>
+          </div>
+          <div class="offset-1 col-5">
+            <button class="btn blue-btn mr-3 btn-align" (click)="continue()">המשך</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div id="nessageForm2" *ngIf="showForm2">
+  <div class="dialog-header">
+  <span class="pointer" (click)="close()">
+    <i class="fa fa-close"></i>
+  </span>
+  </div>
+  <div class="row justify-content-center align-items-center">
+    <div>
+      <span class="blue-font-color">צור הודעה</span>
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center">
+    <div class="row">
+      <span class="black-font-color">שלב 2/2</span>
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="col col-sm-6 col-md-6 col-lg-10">
+      <form>
+        <div class="form-group">
+          <label>הוסף קובץ</label>
+        </div>
+        <!--<div class="mt-2">-->
+        <div >
+          <label class="file-label w-25 black-btn">
+            <span>הוסף עוד</span>
+            <i class="fa fa-paperclip mr-3 mt-1"></i>
+
+            <!--<span class="file-label-text">{{ uploadedFile ? (uploadedFile.name | truncate: 25) : 'העלאת קובץ חדש' }}</span>-->
+          <input type="file" (change)="setFile($event.target.files)" multiple >
+          </label>
+          <div class="d-flex">
+          <div *ngFor="let item of processFile; let index = index">
+            <label class="d-flex file-label w-25 btn mr-2 mt-2">
+              <i class="fa fa-times ml-2 pointer" (click)="processFile.splice(index);"
+               *ngIf="processFile.length  > 0"></i>{{item.name | truncate: 18}}</label>
+
+          </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-checkbox [checked]="isChecked" (change)="addEmail(isChecked = !isChecked)">הוסף חתימת מייל</mat-checkbox>
+        </div>
+        <label>חתימת אימייל</label>
+        <!--<div [style.visibility]="visibility" class="email-content">-->
+        <div class="email-content">
+        <label class="bold mr-xl-5">אימייל</label>
+        <label class="mr-5">office@smarti.co.il </label>
+          <p></p>
+          <label class="bold mr-xl-5">טלפון</label>
+        <label class="mr-5">03-5430558</label>
+          <p></p>
+          <label class="bold mr-xl-4">WhatsApp</label>
+        <label class="mr-4">058-6895603</label>
+        </div>
+        <div (click)="continue2()" class="form-group row mr-5 preview mt-3">
+          <!--<button class="link">Clicky</button>-->
+            <div style="cursor: pointer;margin-right: 68px">תצוגה מקדימה</div>
+            <i class="fa fa-eye mr-3 mt-1"></i>
+        </div>
+        <div class="row mt-4">
+          <div class="col-5 p-0">
+            <button class="btn blue-btn mr-3" (click)="back()">חזור</button>
+          </div>
+          <div class="offset-1 col-5">
+            <button class="btn blue-btn mr-3" (click)="submit()">שמור</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div id="nessageForm3" *ngIf="showForm3">
+  <!--style="background:  linear-gradient(grey 10%, white 90%) no-repeat;-->
+  <div class="dialog-header">
+    <span class="pointer" (click)="close()">
+      <i class="fa fa-close"></i>
+    </span>
+  </div>
+  <div class="row justify-content-center align-items-center">
+    <div>
+      <span class="font-color">תצוגה מקדימה</span>
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="preview-content"></div>
+    <!--<div class="col col-sm-6 col-md-6 col-lg-10">-->
+      <!--<form>-->
+        <!--<div class="form-group">-->
+          <!--<label for="FormControlMsgName">שם הודעה</label>-->
+          <!--<input class="form-control" id="FormControlMsgName" placeholder="הודעה למעסיק 1">-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label for="FormControlMsgTitle">כותרת ההודעה</label>-->
+          <!--<input class="form-control" id="FormControlMsgTitle">-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label for="FormControlTextArea">תוכן ההודעה</label>-->
+          <!--<textarea class="form-control" id="FormControlTextArea" rows="3"></textarea>-->
+        <!--</div>-->
+        <!--<div class="row mt-4">-->
+        <div class="col-5 p-0 mt-2">
+          <button class="btn blue-btn mr-3" (click)="back2()">חזור</button>
+        </div>
+        <div class="offset-1 col-5 mt-2">
+          <button class="btn blue-btn mr-3" (click)="submit()">שמור</button>
+        </div>
+        <!--</div>-->
+      <!--</form>-->
+    <!--</div>-->
+  </div>
+</div>

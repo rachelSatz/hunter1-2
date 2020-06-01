@@ -136,13 +136,17 @@ export class ProcessUploadComponent implements OnInit, OnDestroy {
 
   openIncorrectRows(process_details): void {
     this.processLoading.process_details = process_details;
-    this.dialog.open(IncorrectRowsComponent, {
+    const dialog = this.dialog.open(IncorrectRowsComponent, {
       data:  process_details,
       width: '550px',
       disableClose: true,
       panelClass: 'email-dialog'
 
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(res => {
+      this.processLoading.setPage(2, true);
+    }));
   }
 
   openAddFile(): void {

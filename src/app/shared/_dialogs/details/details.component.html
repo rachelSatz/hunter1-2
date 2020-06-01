@@ -41,7 +41,7 @@
       <i class="fa fa-times ml-2 pointer" *ngIf="uploadedFile" (click)="uploadedFile = undefined"></i>
       <label class="text-center pointer grey-color f-12"   *ngIf="!uploadedFile">
         <img src="/assets/img/icons/circle_arrow_up.png">
-        <span >בחר קובץ/גרור להעלאה</span>
+        <span>בחר קובץ/גרור להעלאה</span>
         <input type="file" #fileInput (change)="setFile($event.target.files[0])">
       </label>
 

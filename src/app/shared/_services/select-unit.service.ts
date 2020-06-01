@@ -182,10 +182,18 @@ export class SelectUnitService {
   }
 
   setCountIncorrectRows(count: number): void {
+    localStorage.setItem('count', JSON.stringify(count));
     this.countIncorrectRows = count;
     this.unitIncorrectRows.next(count);
   }
 
+  getCountIncorrectRows(): number {
+    if (sessionStorage.getItem('count')) {
+      return JSON.parse(localStorage.getItem('count'));
+    } else {
+      return 0;
+    }
+  }
 }
 
 

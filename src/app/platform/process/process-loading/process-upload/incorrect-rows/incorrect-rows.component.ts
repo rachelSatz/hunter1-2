@@ -1,7 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-incorrect-rows',
@@ -11,16 +12,25 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 export class IncorrectRowsComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public process_details: ProcessDetails,
+              private dialogRef: MatDialogRef<IncorrectRowsComponent>,
               private selectUnit: SelectUnitService) { }
+  sub = new Subscription;
 
   ngOnInit() {
-
     this.selectUnit.setCountIncorrectRows(this.process_details.count);
   }
 
   setPage(): void {
     const location = 'http://localhost:4200/records';
      window.open(location, '_blank', 'location=yes,scrollbars=yes,status=yes');
-   }
+  }
 
+  @HostListener('window:storage', ['$event'])
+  changeSessionStorage(event) {
+    this.process_details.count = this.selectUnit.getCountIncorrectRows();
+    if (this.process_details.count === 0) {
+      this.dialogRef.close();
+    }
+    return false;
+  }
 }
