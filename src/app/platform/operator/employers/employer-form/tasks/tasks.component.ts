@@ -97,12 +97,11 @@ export class TasksComponent implements OnInit , OnDestroy {
           this.initializationPlatform(item);
           if (!this.filter[1].selected === true) {
             if (item.subtypeTask === 'טעינת קובץ') {
-              this.router.navigate(['/platform', 'process', 'new', 'create'],
-                { queryParams: { taskId: item.id}});
+              this.router.navigate(['/platform', 'process', 'new', 'create']);
             }
+          } else {
+            this.router.navigate(['/platform', 'process', 'table']);
           }
-          this.router.navigate(['/platform', 'process', 'table'],
-            { queryParams: { taskId: item.id}});
         }
       });
   }

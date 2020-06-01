@@ -49,9 +49,12 @@
         <p class="">{{employer}}</p>
       </div>
     </div>
-    <div class="skip" (click)="stopTimer()">
-    <a class="pointer mr-6 mt-2 p-absolute" >{{isWorkQueue ? 'דלג ועבור למשימה הבאה' : 'עצור ועבור למשימות' }}</a>
-  </div>
+    <div class="skip" (click)="stopTimer()" *ngIf="selectUnit.getTaskTimer() && !selectUnit.getTaskTimer().isSelfTask" >
+     <a class="pointer mr-6 mt-2 p-absolute" >{{isWorkQueue ? 'דלג ועבור למשימה הבאה' : 'עצור ועבור למשימות' }}</a>
+    </div>
+    <div class="skip" (click)="stopTimerTask()" *ngIf="selectUnit.getTaskTimer() && selectUnit.getTaskTimer().isSelfTask">
+      <a class="pointer mr-6 mt-2 p-absolute" >סיים משימה</a>
+    </div>
   </div>
   <div class="container-fluid">
     <header>

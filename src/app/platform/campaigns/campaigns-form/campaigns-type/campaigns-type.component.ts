@@ -280,6 +280,10 @@ export class CampaignsTypeComponent implements OnInit {
       if (index === -1) {
         this.campaignsType.splice(index, 1);
       }
+      if (!this.campaignsType.some(e => e.id === 0)) {
+        this.campaignsType.push({'id': '0', 'name': 'הודעות מותאמות'});
+      }
+      this.campaignsType.sort((a, b) => a.id - b.id);
     });
   }
 

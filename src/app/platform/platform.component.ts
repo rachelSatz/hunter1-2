@@ -24,7 +24,6 @@ export class PlatformComponent implements OnInit {
   typeTask: string;
   organization: string;
   activeUrl: string;
-  // organizations = [];
   employers = [];
   departments = [];
   employersNumber: number;
@@ -42,7 +41,7 @@ export class PlatformComponent implements OnInit {
   task = '/platform/operator/tasks';
   hours: string;
   showTimer = true;
-  showTimerTask = true;
+  showTimerTask = false;
   timerText = '';
   browserRefresh = false;
   details = true;
@@ -113,6 +112,7 @@ export class PlatformComponent implements OnInit {
     if ( company.length <= 0) {
       this.productService.getFullCompanies().subscribe(response => this.selectUnit.setCompanies(response));
     }
+
     router.events.subscribe((val) => {
       if (val instanceof NavigationStart) {
         if (Object.values(TaskTimerLabels).some(a => a === val.url) || val.url.includes(this.task)) {
@@ -126,6 +126,20 @@ export class PlatformComponent implements OnInit {
         this.displayTimer(val.url, val.urlAfterRedirects);
       }
     });
+
+    // router.events.subscribe((val) => {
+    //   if (val instanceof NavigationStart) {
+    //     if (val.url.includes(this.task)) {
+    //       this.timerService.reset();
+    //       this.displayTimer(val.url, '');
+    //     } else if (this.selectUnit.getTaskTimer() !== 0) {
+    //       this.timerEvents();
+    //     }
+    //   }
+    //   if (val instanceof NavigationEnd) {
+    //     this.displayTimer(val.url, val.urlAfterRedirects);
+    //   }
+    // });
   }
 
   ngOnInit() {
@@ -178,7 +192,7 @@ export class PlatformComponent implements OnInit {
         this.showTimer = false;
       }  else if (url === '/platform/operator/work-queue' && urlAfterRedirects === '/platform/operator/work-queue') {
         this.showTimer = false;
-      } else if (url === '/platform/operator/tasks' && urlAfterRedirects === '/platform/operator/tasks') {
+      } else if (url.slice(0, 25) === '/platform/operator/tasks' && urlAfterRedirects === '/platform/operator/tasks') {
         this.showTimer = false;
       } else if (this.browserRefresh) {
         this.showTimer = false;
@@ -385,35 +399,28 @@ export class PlatformComponent implements OnInit {
   }
 
   stopTimerTask(): void {
-    this.showTimerTask = false;
+    this.showTimer = false;
     const time = this.hours + ':' + this.minutes + ':' + this.seconds;
-    const type = this.isWorkQueue ? 'task' : 'taskCampaign';
+    const type = 'taskCampaign';
     this.updateTaskTimer(time, type);
+    const t = this.selectUnit.getTaskTimer();
+    this.operatorTasks.taskCompleted(t['taskCampaignId']).then(
+      response => {
+        this.selectUnit.clearTaskTimer();
+      });
     this.timerService.reset();
-    if (this.selectUnit.getTaskTimer() && this.selectUnit.getTaskTimer().isSelfTask === true) {
-      this.router.navigate(['platform', 'operator', 'tasks'], {queryParams: {isSelfTask: true}});
-    } else {
-      const nev = this.isWorkQueue ? 'work-queue' : 'tasks';
-      this.router.navigate(['platform', 'operator', nev]);
-      this.selectUnit.clearTaskTimer();
-    }
+    this.router.navigate(['platform', 'operator', 'tasks'], {queryParams: {isSelfTask: true}});
+    this.selectUnit.clearTaskTimer();
   }
 
   updateTaskTimer(duration: string, type: string): void {
-    if (this.selectUnit.getTaskTimer()['id'] > 0) {
-      const t = this.selectUnit.getTaskTimer();
+    const t = this.selectUnit.getTaskTimer();
+    if (t['id'] > 0) {
       const typeId = type === 'taskCampaign' ? t['taskCampaignId'] : t['planTaskId'];
-      this.operatorTasks.updateTaskTimer(this.selectUnit.getTaskTimer()['id'], duration, type, typeId)
+      this.operatorTasks.updateTaskTimer(t['id'], duration, type, typeId)
         .then(response => response);
     }
   }
-
-  // aaa(): string {
-  //   if (this.organizationId === 0) {
-  //     return '';
-  //   }
-  // }
-
 
 
   // @HostListener('window:beforeunload', ['$event'])

@@ -187,7 +187,7 @@ export class CreatingEmployerComponent implements OnInit {
             'role': [null],
             'phone': [null, Validators.pattern('^[0-9]*$')],
             'mobile': [null, Validators.pattern('^[0-9]*$')],
-            'email': [null , [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
+            'email': [null , [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'), Validators.required]],
             'comment':  ['']
           })]),
         'employerPayment': this.fb.group({
