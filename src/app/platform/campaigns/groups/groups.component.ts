@@ -10,7 +10,7 @@ import {GroupMembersDialogComponent} from '../group-members-dialog/group-members
 import {MatDialog} from '@angular/material/dialog';
 import {NotificationService} from '../../../shared/_services/notification.service';
 import {AddToGroupDialogComponent} from './add-to-group-dialog/add-to-group-dialog.component';
-import {EditGroupEmployerComponent} from './edit-group-employer/edit-group-employer.component';
+// import {EditGroupEmployerComponent} from './edit-group-employer/edit-group-employer.component';
 
 @Component({
   selector: 'app-groups',

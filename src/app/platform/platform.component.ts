@@ -54,7 +54,6 @@ export class PlatformComponent implements OnInit {
     { id: 2, icon: 'question-circle', label: 'תור עבודה', link: 'work-queue', role: 'operator'},
     { id: 3, icon: 'list-ul', label: 'משימות', link: 'tasks', role: 'operator'},
     { id: 4, icon: 'user', label: 'מעסיקים', link: 'employers', role: 'operator'},
-<<<<<<< HEAD
     { id: 5, icon: 'tasks', label: 'קמפיינים', link: 'campaigns', role: 'operator'},
     { id: 6, icon: 'envelope', label: 'הודעות', link: 'messages', role: 'operator'},
     { id: 7, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
@@ -64,16 +63,6 @@ export class PlatformComponent implements OnInit {
     { id: 11, icon: 'tasks', label: 'הגדרות מנהל', link: 'plans', role: 'admin'},
     { id: 12, icon: 'file', label: 'דוחות מנהל', link: 'reports', role: 'admin'},
     { id: 13, icon: 'th', label: 'תהליכים', link: 'table', role: 'operator'}
-=======
-    { id: 5, icon: 'tasks', label: 'הגדרות דיוור ומשימות', link: 'campaigns', role: 'operator'},
-    { id: 6, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
-    { id: 7, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
-    { id: 8, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
-    { id: 9, icon: 'th', label: 'קופות', link: 'products', role: 'admin'},
-    { id: 10, icon: 'tasks', label: 'הגדרות מנהל', link: 'plans', role: 'admin'},
-    { id: 11, icon: 'file', label: 'דוחות מנהל', link: 'reports', role: 'admin'},
-    { id: 12, icon: 'th', label: 'תהליכים', link: 'table', role: 'operator'}
->>>>>>> e4417cfdb3ba6336c2dd934636e10e2078ab3a8b
 
 ];
 

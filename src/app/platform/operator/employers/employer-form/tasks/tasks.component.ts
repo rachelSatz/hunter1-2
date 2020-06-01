@@ -39,21 +39,18 @@ export class TasksComponent implements OnInit , OnDestroy {
 
   readonly columns =  [
     { name: 'month', label: 'חודש' , searchable: false},
-<<<<<<< HEAD
     { name: 'task', label: 'המשימה' , searchable: false},
     { name: 'taskAssignment', label: 'שיוך משימה' , searchable: false},
     { name: 'employer', label: 'מעסיק' , searchable: false},
     { name: 'status', label: 'סטטוס' , searchable: false},
     { name: 'executive', label: 'מבצע המשימה' , searchable: false},
-    { name: 'executionDate', label: 'לביצוע עד' , searchable: false}
-=======
+    { name: 'executionDate', label: 'לביצוע עד' , searchable: false},
     { name: 'typeTask', label: 'המשימה' , searchable: false},
     { name: 'subtypeTask', label: 'תת משימה' , searchable: false},
     { name: 'creator', label: 'יוצר המשימה' , searchable: false},
     { name: 'operator', label: 'מבצע המשימה' , searchable: false},
     { name: 'employer', label: 'מעסיק' , searchable: false},
     { name: 'status', label: 'סטטוס' , searchable: false},
->>>>>>> e4417cfdb3ba6336c2dd934636e10e2078ab3a8b
     ];
 
   constructor(protected route: ActivatedRoute,
