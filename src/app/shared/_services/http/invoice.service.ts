@@ -100,8 +100,9 @@ export class InvoiceService  extends BaseHttpService {
       .catch(() => null);
   }
 
-  deleteInvoices(invoicesIds: number[]): Promise<string> {
-    return this.http.post(this.endPoint + '/deleteInvoices', {'invoicesIds': invoicesIds}, this.getTokenHeader())
+  deleteInvoices(invoicesIds: number[], updateEmployees: boolean): Promise<string> {
+    return this.http.post(this.endPoint + '/deleteInvoices',
+      {'invoicesIds': invoicesIds, updateEmployees: updateEmployees}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);

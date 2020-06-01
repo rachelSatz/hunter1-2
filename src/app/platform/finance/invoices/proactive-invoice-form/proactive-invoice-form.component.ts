@@ -60,7 +60,7 @@ export class ProactiveInvoiceFormComponent implements OnInit {
             }
           } else if (response['message'] === 'success') {
             this.notificationService.success('נשמר בהצלחה.');
-            this.dialogRef.close();
+            // this.dialogRef.close();
           } else {
             this.message = response['error']['message'];
             this.notificationService.error( this.message);

@@ -12,12 +12,14 @@
       <div *ngIf="permissionsType" class="ml-3 d-flex mr-auto">
         <button [matMenuTriggerFor]="menu" class="btn blue-btn">פעולות</button>
         <mat-menu #menu="matMenu">
-          <!--<button mat-menu-item (click)="deleteInvoices()">מחיקת חשבוניות</button>-->
+          <button mat-menu-item (click)="deleteInvoices(false)">מחיקת חשבונית</button>
           <button mat-menu-item (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>
           <button mat-menu-item (click)="openManualInvoice()">חשבון ידני</button>
           <button mat-menu-item (click)="openTaxInvoice()">חשבונית מס/קבלה</button>
           <button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>
           <button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>
+          <button mat-menu-item (click)="deleteInvoices(true)">מחיקת חשבונית ואיפוס עובדים</button>
+
         </mat-menu>
       </div>
     </div>
@@ -28,7 +30,7 @@
     </td>
     <!--<td [title]="item.error !== null ? error_status[item.error] : ''"></td>-->
 
-    <td [title]="item.error !== null ? error_status[item.error] : ''">{{ item.employer_financial_details.employer.name}}</td>
+    <td [title]="item.error !== null ? error_status[item.error] : ''">{{item.employer_financial_details === null ? 'no_name' : item.employer_financial_details.employer.name}}</td>
     <!--matTooltip={{item.errorDescription}}-->
     <td>{{ item.project_name }}</td>
     <td >{{ item.green_invoice_document !== null ? item.green_invoice_document.number : ''}}</td>
