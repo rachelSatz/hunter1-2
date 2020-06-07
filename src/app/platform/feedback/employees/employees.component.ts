@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -57,6 +57,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   isSent: boolean;
   isProcess: boolean;
   processId: number;
+  employeeId: number;
 
   readonly columns =  [
     { name: 'name', label: 'עובד', searchable: false},
@@ -90,6 +91,11 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit() {
+    if (this.route.snapshot.params.id || this.router.url.indexOf('employee-history') !== -1) {
+      const id = +this.router.url.split('/')[4].split(';')[0];
+      this.employeeId = id;
+      this.isProcess  = true;
+    }
     if (this.router.url.indexOf('process') !== -1) {
       this.isSent = false;
       this.isProcess  = true;
@@ -136,8 +142,10 @@ export class EmployeesComponent implements OnInit , OnDestroy {
         this.dataTable.criteria.filters['recordId'] = this.recordId; }
       if (this.processId) {
         this.dataTable.criteria.filters['processId'] = this.processId; }
-
-
+       if (this.employeeId) {
+         this.dataTable.criteria.filters['employeeId'] = this.employeeId;
+         delete this.dataTable.criteria.filters['year'];
+       }
       this.feedbackService.searchEmployeeData(this.dataTable.criteria).then(response => {
         this.dataTable.setItems(response);
       });
@@ -389,6 +397,13 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  openHistoryEmployee(item: any): void {
+    // const data = { 'personal_id' : item.personal_id, 'name':  item.name };
+    this.router.navigate(['platform', 'feedback' , 'employee-history', item['employee_id' ],
+      { personal_id : item.personal_id, name:  item.name }] );
+
   }
 
 }

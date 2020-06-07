@@ -734,6 +734,7 @@ export class CreatingEmployerComponent implements OnInit {
         data['file'] =  this.uploadedFileXml ;
         this.platformComponent.getOrganizations(true, true);
         this.processDataService.setProcess(data);
+        this.selectUnit.setProcessData(this.processDataService);
         this.routerViewEmployer();
       } else {
         this.notificationService.error('העלאת הקובץ נכשלה');

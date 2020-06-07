@@ -125,5 +125,12 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
       .catch(response => response);
   }
 
+  getAllCommentsByIdEmployee(employeeId: number): Promise<boolean> {
+    return this.http.get(this.endPoint + '/' + employeeId + '/getAllCommentsByIdEmployee', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(response => response);
+  }
+
 
 }

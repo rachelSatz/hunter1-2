@@ -196,6 +196,8 @@ export class ProcessDataComponent implements OnInit, OnDestroy {
           data['monthName'] = this.months[form.value.month - 1].name;
 
           this.processDataService.setProcess(data);
+          this.selectUnitService.setProcessData(this.processDataService);
+
 
           this.router.navigate(['./payment', response['processId']], {relativeTo: this.route});
           if (response['processId'] > 0) {

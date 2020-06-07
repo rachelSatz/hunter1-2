@@ -183,6 +183,7 @@ export class UploadComponent implements OnInit, OnDestroy {
         data['monthName'] = this.months[this.process.month - 1];
 
         this.processDataService.setProcess(data);
+        this.selectUnit.setProcessData(this.processDataService);
         // this.selectUnit.setProcessData(data);
         this.process.id = response['processId'];
       }else {
@@ -207,6 +208,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     this.process.file = [];
     this.processDataService.activeProcess.processID = null;
     this.processDataService.setProcess(this.processDataService.activeProcess);
+    this.selectUnit.setProcessData(this.processDataService);
   }
 
   close(): void {
@@ -214,6 +216,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     if (this.processDataService.activeProcess) {
       this.processDataService.activeProcess.processID = null;
       this.processDataService.setProcess(this.processDataService.activeProcess);
+      this.selectUnit.setProcessData(this.processDataService);
     }
     this.sub.unsubscribe();
     this.dialogRef.close({type: 'processID'});

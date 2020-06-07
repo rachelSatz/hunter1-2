@@ -18,7 +18,6 @@ import { EditPaymentsComponent } from './edit-payments.component';
 import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
 import { EditPaymentResolve } from 'app/shared/_resolves/edit-payment.resolve';
 import { NotificationService } from 'app/shared/_services/notification.service';
-// import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 

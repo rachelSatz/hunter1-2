@@ -33,8 +33,7 @@ export class ProcessUploadComponent implements OnInit, OnDestroy {
               private notificationService: NotificationService,
               public processDataService: ProcessDataService,
               public processLoading: ProcessLoadingComponent,
-              private helpers: HelpersService,
-              private selectUnit: SelectUnitService) { }
+              private helpers: HelpersService, private selectUnit: SelectUnitService) { }
 
   process = new Process;
   sub = new Subscription;
@@ -52,7 +51,7 @@ export class ProcessUploadComponent implements OnInit, OnDestroy {
     this.process = this.processDataService.activeProcess ?  this.processDataService.activeProcess : new Process();
     if (this.route.snapshot.params.status === 'create') {
       this.processDataService.setProcess(new Process());
-      this.processLoading.process_details = null;
+      this.processLoading.process_details = undefined;
     } else {
         this.process.id = this.processDataService.activeProcess.processID;
       // pass
@@ -145,6 +144,9 @@ export class ProcessUploadComponent implements OnInit, OnDestroy {
     });
 
     this.sub.add(dialog.afterClosed().subscribe(res => {
+      this.processDataService.activeProcess.incorrect = false;
+      this.processDataService.setProcess(this.processDataService.activeProcess);
+      this.selectUnit.setProcessData(this.processDataService);
       this.processLoading.setPage(2, true);
     }));
   }

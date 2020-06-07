@@ -56,7 +56,7 @@
     <td class="check-column">
       <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
     </td>
-    <td>{{ item.name }}</td>
+    <td [ngClass]="{ 'blue-color': !this.employeeId }" (click)="!this.employeeId ? openHistoryEmployee(item): false">{{ item.name }}</td>
     <td>{{ item.personal_id }}</td>
     <td>{{ item.salary_month | date:'MM/yy' }}</td>
     <td>{{ item.company_name }}</td>

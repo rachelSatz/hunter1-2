@@ -1,6 +1,7 @@
 <div class="mr-5 px-4">
-  <app-data-table tableName="קופות" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false" >
-    <div class="table-header">
+  <app-data-table tableName="קופות" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false"
+                  [hasActionsHeader]="false">
+    <div class="table-header" *ngIf="isDisplay">
       <div class="row mt-4 mr-1">
         <div class="ml-3 d-flex mr-auto">
           <button class="btn blue-btn" [routerLink]="['./', 'form']">הוספת קופה</button>
@@ -13,7 +14,7 @@
       <td>{{ typesLabels[item.type]}}</td>
       <td>{{ item.code}}</td>
       <td>{{ item.company_code }}</td>
-      <td>
+      <td *ngIf="isDisplay">
         <img src="/assets/img/icons/edit_grey.png" [routerLink]="['./', 'form', item.id]" class="row-image">
       </td>
     </tr>

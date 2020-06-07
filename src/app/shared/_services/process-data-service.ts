@@ -31,7 +31,7 @@ export class ProcessDataService {
     this.activeProcess.num_file = data['num_file'];
     this.activeProcess.employer_name =  data['employer_name'];
     this.activeProcess.rows_status =  data['rows_status'];
-
+    this.activeProcess.incorrect =  data['incorrect'];
 
   }
 }

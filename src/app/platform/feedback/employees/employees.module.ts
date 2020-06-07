@@ -30,9 +30,8 @@ import { SendFeedbackComponent } from './send-feedback/send-feedback.component';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DocumentService } from 'app/shared/_services/http/document.service';
 
-const routes: Routes = [{
-  path: '', component: EmployeesComponent
-}];
+const routes: Routes = [
+  { path: '', component: EmployeesComponent}];
 
 @NgModule({
   imports: [
@@ -66,7 +65,7 @@ const routes: Routes = [{
     GeneralHttpService,
     ProcessService,
     MonthlyTransferBlockService,
-    DocumentService
+    DocumentService,
   ],
   entryComponents: [
     SendApplicationComponent,
