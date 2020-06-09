@@ -38,9 +38,6 @@ import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.module';
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
-import {CampaignsFormComponent} from './campaigns/campaigns-form/campaigns-form.component';
-import { MessagesComponent } from './operator/messages/messages.component';
-
 
 import { CampaignsService} from '../shared/_services/http/campains.service';
 import { GroupMembersDialogComponent} from './campaigns/group-members-dialog/group-members-dialog.component';
@@ -73,6 +70,8 @@ const routes: Routes = [
       { path: 'process/edit-payments', loadChildren: 'app/platform/process/edit-payments/edit-payments.module#EditPaymentsModule' },
       { path: 'feedback/employees', loadChildren: 'app/platform/feedback/employees/employees.module#EmployeesModule' },
       { path: 'feedback/files', loadChildren: 'app/platform/feedback/files/files.module#FilesModule' },
+      { path: 'feedback/employee-history/:id', loadChildren: 'app/platform/feedback/' +
+          'employee-history/employee-history.module#EmployeeHistoryModule' },
       { path: 'operator/organizations', loadChildren: 'app/platform/settings/organizations/organizations.module#OrganizationsModule' },
       { path: 'operator/users', loadChildren: 'app/platform/settings/users/users.module#UsersModule' },
       { path: 'operator/employers', loadChildren: 'app/platform/operator/employers/employers.module#EmployersModule' },

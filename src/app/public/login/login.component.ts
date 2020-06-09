@@ -36,8 +36,12 @@ export class LoginComponent {
         if (response.token) {
            this.userSession.login({username: form.value.username, token: response['token']});
            this.userSession.setRole(response['role']);
-          this.userSession.setUserModules(response['module']);
-          this.router.navigate(['/platform']);
+           this.userSession.setUserModules(response['module']);
+           if (response['role'] !== 'employer') {
+             this.router.navigate(['/platform']);
+           } else {
+             this.router.navigate(['/employer']);
+           }
         } else {
            this.hasServerError = true;
         }

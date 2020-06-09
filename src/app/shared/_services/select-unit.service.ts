@@ -128,8 +128,7 @@ export class SelectUnitService {
     sessionStorage.removeItem('Organizations');
     sessionStorage.removeItem('task');
     sessionStorage.removeItem('agentBarActive');
-
-
+    localStorage.removeItem('count');
   }
 
 
@@ -188,7 +187,7 @@ export class SelectUnitService {
   }
 
   getCountIncorrectRows(): number {
-    if (sessionStorage.getItem('count')) {
+    if (localStorage.getItem('count')) {
       return JSON.parse(localStorage.getItem('count'));
     } else {
       return 0;

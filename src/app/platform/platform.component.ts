@@ -58,7 +58,7 @@ export class PlatformComponent implements OnInit {
     { id: 7, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
     { id: 8, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},
     { id: 9, icon: 'user', label: 'אנשי קשר', link: 'contacts', role: 'operator'},
-    { id: 10, icon: 'th', label: 'קופות', link: 'products', role: 'admin'},
+    { id: 10, icon: 'th', label: 'קופות', link: 'products', role: 'operator'},
     { id: 11, icon: 'tasks', label: 'הגדרות מנהל', link: 'plans', role: 'admin'},
     { id: 12, icon: 'file', label: 'דוחות מנהל', link: 'reports', role: 'admin'},
     { id: 13, icon: 'th', label: 'תהליכים', link: 'table', role: 'operator'}

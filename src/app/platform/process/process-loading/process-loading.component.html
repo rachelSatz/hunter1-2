@@ -1,5 +1,5 @@
 <div class="container mt-lg-8 w-100">
-  <div *ngIf="process_details" class="divDetails  my-5 pb-4 mr-5 ml-5 ">
+  <div *ngIf="process_details && process_details.status !== 'loading'" class="divDetails  my-5 pb-4 mr-5 ml-5 ">
     <div class="d-flex f-12 mt-2">
       <div class="mr-3 w-30 f-14" >
         <span>פרטי התהליך</span>

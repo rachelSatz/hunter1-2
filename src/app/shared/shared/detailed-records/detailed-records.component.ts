@@ -64,7 +64,7 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
               public userSession: UserSessionService,
               private monthlyTransferBlockService: MonthlyTransferBlockService ,
               protected notificationService: NotificationService,
-              protected selectUnitService: SelectUnitService) { }
+              private selectUnit: SelectUnitService) { }
   sub = new Subscription;
   subscription = new Subscription;
   // planId: number;
@@ -79,12 +79,23 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   incorrectPage = false;
 
   ngOnInit() {
-    this.selectUnitService.getEntityStorage();
-    this.organizationId =  this.selectUnitService.currentOrganizationID;
-    // this.planId = this.route.snapshot.queryParams['planId'] ? this.route.snapshot.queryParams['planId'] : null;
-    if (this.processDataService.activeProcess === undefined || this.processDataService.activeProcess.processID === undefined) {
-      this.processDataService.activeProcess = this.selectUnitService.getProcessData();
+    this.selectUnit.getEntityStorage();
+    this.organizationId =  this.selectUnit.currentOrganizationID;
+    const processData = this.selectUnit.getProcessData();
 
+    // this.planId = this.route.snapshot.queryParams['planId'] ? this.route.snapshot.queryParams['planId'] : null;
+    if ((this.processDataService.activeProcess === undefined ||
+      this.processDataService.activeProcess.processID === undefined) ||
+      (processData.activeProcess === undefined &&
+        this.processDataService.activeProcess.processID !== processData.processID) ||
+      (processData.activeProcess !== undefined &&
+        this.processDataService.activeProcess.processID !== processData.activeProcess.processID)) {
+      if (processData.activeProcess === undefined ) {
+        console.log('gjghj');
+        this.processDataService.activeProcess = processData;
+      } else {
+        this.processDataService = processData;
+      }
     }
     this.records_id = this.route.snapshot.params['id'];
     this.records_id =  this.records_id === undefined ? 0 :  this.records_id;
@@ -104,11 +115,11 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
     } else {
       this.dataTable.tableName = '';
     }
-    this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
+    this.subscription.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
   }
 
   fetchItems() {
-    if (+this.organizationId !== +this.selectUnitService.currentOrganizationID) {
+    if (+this.organizationId !== +this.selectUnit.currentOrganizationID) {
       this.router.navigate(['/platform', 'process', 'table']);
     }
     if (this.items.length <= 0) {
@@ -126,12 +137,12 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
       this.monthlyTransferBlockService.getMonthlyList(this.dataTable.criteria)
         .then(response => {
           if (this.incorrectPage) {
-            this.selectUnitService.setCountIncorrectRows(response.items.length);
+            this.selectUnit.setCountIncorrectRows(response.total);
           }
 
           if (response.items.length > 0 || !this.incorrectPage) {
             this.dataTable.setItems(response);
-          } else {
+          } else if (this.incorrectPage && this.router.url.indexOf('process') === -1) {
             window.close();
           }
         });

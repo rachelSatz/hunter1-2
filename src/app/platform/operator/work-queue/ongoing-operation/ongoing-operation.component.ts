@@ -136,6 +136,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
       this.processDataService.activeProcess = new Process();
       const data = {'processId': this.plan.task.process.id, 'highlightRecordId': this.plan.task.record.id};
       this.processDataService.setProcess(data);
+      this.selectUnit.setProcessData(this.processDataService);
       this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'records']);
     }
   }
@@ -148,6 +149,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
       this.processDataService.activeProcess = new Process();
       const data = {'processId': this.plan.task.process.id, 'highlightFileId': this.plan.task.file.id};
       this.processDataService.setProcess(data);
+      this.selectUnit.setProcessData(this.processDataService);
       this.router.navigate(['/platform', 'process', 'new', 1, 'details', 'files']);
     }
   }
