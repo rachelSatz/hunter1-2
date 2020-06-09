@@ -9,7 +9,7 @@ import {HelpersService} from '../../../shared/_services/helpers.service';
 import {MatDialog} from '@angular/material/dialog';
 import {NotificationService} from '../../../shared/_services/notification.service';
 import {AddToGroupDialogComponent} from './add-to-group-dialog/add-to-group-dialog.component';
-// import {EditGroupEmployerComponent} from './edit-group-employer/edit-group-employer.component';
+import {EditGroupEmployerComponent} from '../edit-group-employer/edit-group-employer.component';
 
 @Component({
   selector: 'app-groups',

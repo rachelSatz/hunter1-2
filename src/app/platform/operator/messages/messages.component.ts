@@ -46,7 +46,9 @@ export class MessagesComponent implements OnInit {
   }
 
   openMessageDialog(item?: any): void {
-    this.selectedFiles = this.files.filter(a => a.id === +item.id);
+    if (item !== undefined) {
+      this.selectedFiles = this.files.filter(a => a.id === +item.id);
+    }
 
     const dialog = this.dialog.open(MessageFormComponent, {
       data: {data: item, files: this.selectedFiles},

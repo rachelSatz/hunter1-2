@@ -26,7 +26,7 @@ button.link { background:none;border:none; }
 }
 
 .preview-content {
-  width: 380px;
+  width: 497px;
   height: 335px;
   border: 1px solid #80808099;
   background-color: #f0f8ff;
@@ -50,4 +50,35 @@ button.link { background:none;border:none; }
 /*style="background-color: #dedede"*/
 .input-border {
   background-color: white;
+}
+
+.logo {
+  text-align:center;
+  margin: 7px 80px 40px 0px;
+}
+
+.newMsg {
+  border-radius: 25px;
+  border: 2px solid #c9dae0;
+  padding: 20px;
+  width: 173px;
+  background-color: #c9dae0;
+  text-align: center;
+  /* text-align: justify; */
+  display: inline-block;
+  color: #040404;
+  height: 1px;
+  /* vertical-align: -webkit-baseline-middle; */
+  line-height: 4px;
+}
+
+#parent {
+  text-align:center;
+}
+
+.block {
+  text-align:center;
+}
+.center {
+  margin:auto;
 }
