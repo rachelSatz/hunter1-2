@@ -128,7 +128,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
     if (this.selectMonth !== undefined) {
       this.dataTable.criteria.filters['month'] = this.selectMonth;
     }
-    if (!this.planId) {
+    if (!this.planId && this.processId === undefined) {
       this.dataTable.criteria.filters['year'] = this.selectYear;
     }
 
@@ -164,6 +164,15 @@ export class FilesComponent implements OnInit, OnDestroy  {
       height: '500px',
       data:  item,
     });
+  }
+
+  getType(type): number {
+    if (type === 'ongoing_payment') {
+      return 1;
+    } else if (type === 'fix' || type === 'overpay_withdrawal' || type === 'withdraw_to_pending') {
+      return -1;
+    }
+    return 0;
   }
 
   openInquiresDialog(item: any): void {

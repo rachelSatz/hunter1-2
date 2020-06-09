@@ -9,7 +9,24 @@ export class NotificationService {
       title: title,
       text: text ? text : '',
       confirmButtonText: 'אישור',
-      timer: 2500
+    };
+
+    if (extraOptions) {
+      options = Object.assign(options, extraOptions);
+    }
+
+    swal(options);
+  }
+
+  public successWithoutButton(title: string, text?: string, extraOptions?: Object): void {
+
+    let options = {
+      position: 'center',
+      type: 'success',
+      title: title,
+      text: text ? text : '',
+      showConfirmButton: false,
+      disableClose: true
     };
 
     if (extraOptions) {

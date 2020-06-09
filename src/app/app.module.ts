@@ -12,6 +12,7 @@ import { IsAuthenticatedGuard } from 'app/shared/_guards/is-authenticated.guard'
 const routes = [
   { path: '' , loadChildren: 'app/public/public.module#PublicModule' },
   { path: 'platform', loadChildren: 'app/platform/platform.module#PlatformModule' },
+  { path: 'employer', loadChildren: 'app/employer/employer.module#EmployerModule' },
   { path: 'records', loadChildren: 'app/shared/shared/detailed-records/detailed-records.module#DetailedRecordsModule' },
   { path: '**', redirectTo: '' }
 ];
@@ -24,7 +25,7 @@ const routes = [
     RouterModule.forRoot(routes),
     FormsModule
   ],
-  providers: [UserSessionService, HelpersService, IsAuthenticatedGuard],
+  providers: [UserSessionService, HelpersService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
