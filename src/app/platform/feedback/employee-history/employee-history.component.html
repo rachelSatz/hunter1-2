@@ -1,0 +1,29 @@
+<div class="mr-4">
+  <div class="row pfont pt-1">
+    <i class="ml-2 fa fa-angle-right fa-circle-me mr-3" (click)="returnToFeed()"></i>
+    <p class="ml-2 fontName">{{ name}} </p>
+    <p class="ml-2 fontId">ת"ז</p>
+    <p class="fontIdn">{{ id }}</p>
+  </div>
+  <div class="container-fluid pr-0 pt-3">
+    <header class="mb-2">
+      <div id="mainMenu">
+        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+              <ng-container *ngFor="let link of headers">
+                <li class="nav-item"  [ngClass]="{ 'active-i': link.url === activeUrl }">
+                  <a class="menu-link" [routerLink]="[link.url]">
+                    <!--[queryParams]="{'processId':processDataService.activeProcess.processID}"-->
+                    <p>{{ link.label }}</p>
+                  </a>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <router-outlet></router-outlet>
+  </div>
+</div>

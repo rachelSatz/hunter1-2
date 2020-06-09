@@ -76,12 +76,11 @@ export class DetailedFilesComponent implements OnInit , OnDestroy {
   constructor(protected route: ActivatedRoute,
               private dialog: MatDialog,
               private router: Router,
-              private  processService: ProcessService,
+              private processService: ProcessService,
               public processDataService: ProcessDataService,
-              protected  notificationService: NotificationService,
+              protected notificationService: NotificationService,
               private payment: PaymentInstructionsComponent,
               private reference: ReferenceComponent,
-              private selectUnitService: SelectUnitService,
               private selectUnit: SelectUnitService,
               private generalService: GeneralHttpService,
               public userSession: UserSessionService,
@@ -94,24 +93,22 @@ export class DetailedFilesComponent implements OnInit , OnDestroy {
       this.isReference = true;
     }
 
-    if (this.processDataService.activeProcess === undefined) {
+    if (this.processDataService.activeProcess === undefined || this.processDataService.activeProcess.processID === undefined) {
       this.processDataService = this.selectUnit.getProcessData();
     }
     if (this.processDataService.activeProcess !== undefined) {
       this.dataTable.criteria.isCheckAll = true;
       this.planId = this.route.snapshot.queryParams['planId'];
-      this.organizationId = this.selectUnitService.currentOrganizationID;
+      this.organizationId = this.selectUnit.currentOrganizationID;
       this.productService.getCompanies().then(response => {
         const column = this.dataTable.searchColumn(this.nameCompany);
         this.newCompanies = response;
         column['searchOptions'].labels = this.newCompanies;
       });
-      this.subscription.add(this.selectUnitService.unitSubject.subscribe(() => this.fetchItems()));
+      this.subscription.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
       this.payment.rows = this.dataTable.criteria;
       this.reference.rows = this.dataTable.criteria;
     }
-
-
   }
 
   fetchItems () {
@@ -121,11 +118,11 @@ export class DetailedFilesComponent implements OnInit , OnDestroy {
     }
     this.payment.rows =  this.dataTable.criteria;
     this.reference.rows =  this.dataTable.criteria;
-    if (+this.organizationId !== +this.selectUnitService.currentOrganizationID) {
+    if (+this.organizationId !== +this.selectUnit.currentOrganizationID) {
       this.router.navigate(['/platform', 'process', 'table']);
     }
     if (this.processDataService.activeProcess === undefined) {
-      this.processDataService = this.selectUnitService.getProcessData();
+      this.processDataService = this.selectUnit.getProcessData();
     }
     this.dataTable.criteria.filters['processId'] = this.processDataService.activeProcess.processID;
     if (this.processDataService.activeProcess.highlightFileId !== undefined) {
@@ -134,7 +131,15 @@ export class DetailedFilesComponent implements OnInit , OnDestroy {
 
     this.processService.getFilesList(this.dataTable.criteria, this.isReference)
       .then(response => {
+        // if (response.items.filter(n => n.in_process === true).length === response.items.length ) {
+        //   this.dataTable.criteria.isCheckAll = true;
+        // } else {
+        //   this.dataTable.criteria.checkedItems = response.items.filter(n => n.in_process === true);
+        // }
         this.dataTable.setItems(response, 'file_id');
+        // this.dataTable.criteria.checkedItems.map((item) => {
+        //   item.checked =  item.in_process;
+        // });
         this.getTitle();
      });
   }
@@ -267,10 +272,7 @@ export class DetailedFilesComponent implements OnInit , OnDestroy {
   }
 
   openWarningMessageComponentDialog(type: boolean): void {
-      // const title = type ? 'לא רלונטי' : 'רלונטי';
-    // 'מחיקת שורות'
-      const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלוונטיות?' : 'האם ברצונך להפוך שורת אלו לרלוונטיות?';
-      // const typeData = type ? 'notRelevant' : 'delete';
+    const body = type ? 'האם ברצונך להפוך שורת אלו ללא רלוונטיות?' : 'האם ברצונך להפוך שורת אלו לרלוונטיות?';
     const val = type ? false : true;
 
     if (this.checkedRowItems()) {

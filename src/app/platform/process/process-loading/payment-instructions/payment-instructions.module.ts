@@ -3,11 +3,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PaymentInstructionsComponent } from './payment-instructions.component';
-import { MatChipsModule, MatDialogModule, MatFormFieldModule, MatIconModule } from '@angular/material';
+import { MatCheckboxModule, MatChipsModule, MatDialogModule, MatFormFieldModule, MatIconModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { ContactService } from 'app/shared/_services/http/contact.service';
 import { ProcessLoadingComponent } from 'app/platform/process/process-loading/process-loading.component';
+import { GroupHistoryComponent } from './group-history/group-history.component';
+import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 
 const routes: Routes = [
   { path: '', component: PaymentInstructionsComponent , children: [
@@ -19,7 +22,7 @@ const routes: Routes = [
     ]}];
 
 @NgModule({
-  declarations: [PaymentInstructionsComponent, SendFileEmailComponent],
+  declarations: [PaymentInstructionsComponent, SendFileEmailComponent, GroupHistoryComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -27,9 +30,11 @@ const routes: Routes = [
     FormsModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatDialogModule
+    MatDialogModule,
+    DataTableModule,
+    MatCheckboxModule
   ],
-  entryComponents: [SendFileEmailComponent],
-  providers: [ContactService , ProcessLoadingComponent]
+  entryComponents: [SendFileEmailComponent, GroupHistoryComponent],
+  providers: [ContactService , ProcessLoadingComponent, MonthlyTransferBlockService]
 })
 export class PaymentInstructionsModule { }

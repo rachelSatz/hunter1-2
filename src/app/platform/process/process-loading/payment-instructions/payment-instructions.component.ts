@@ -11,6 +11,8 @@ import { ProcessLoadingComponent } from 'app/platform/process/process-loading/pr
 import { Subscription } from 'rxjs';
 import { DataTableCriteria } from 'app/shared/data-table/classes/data-table-criteria';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { GroupHistoryComponent } from 'app/platform/process/process-upload/payment/group-history/group-history.component';
+import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 
 @Component({
   selector: 'app-payment-instructions',
@@ -36,6 +38,7 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
               private selectUnit: SelectUnitService,
               private dialog: MatDialog,
               protected notificationService: NotificationService,
+              private monthlyService: MonthlyTransferBlockService,
               public processLoading: ProcessLoadingComponent,
               public processDataService: ProcessDataService,
               private processService: ProcessService) {
@@ -55,10 +58,24 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
         this.setActiveUrl(event.url);
       }
     });
+    this.openDialogGroupHistory();
   }
 
   private setActiveUrl(url: string): void {
     this.activeUrl = url.indexOf('records') === -1 ? 'files' : 'records';
+  }
+
+  openDialogGroupHistory():  void {
+    this.monthlyService.groupHistory(this.processId).then(
+      res =>  {
+        if (res && res.length > 0) {
+          this.dialog.open(GroupHistoryComponent, {
+            data: {'processId' : this.processId , items: res},
+            width: '1000px',
+          });
+        }
+      });
+
   }
 
 
@@ -68,6 +85,7 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
       this.processService.downloadPaymentsInstruction(this.processId, filesList, this.rows).then(response => {
         this.processDataService.activeProcess.payment_instructions = true;
         this.processDataService.setProcess(this.processDataService.activeProcess);
+        this.selectUnit.setProcessData(this.processDataService);
         response.forEach(function (value) {
           const byteCharacters = atob(value['data']);
           const byteNumbers = new Array(byteCharacters.length);
@@ -94,6 +112,8 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
         if (res === 'Message_Sent') {
           this.processDataService.activeProcess.payment_instructions = true;
           this.processDataService.setProcess(this.processDataService.activeProcess);
+          this.selectUnit.setProcessData(this.processDataService);
+
         }
       }));
     }
@@ -145,6 +165,7 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
         this.processDataService.activeProcess.rows_status = false;
         this.processDataService.setProcess(this.processDataService.activeProcess);
         this.processLoading.setPage(3, true);
+        this.selectUnit.setProcessData(this.processDataService);
       }
     });
 

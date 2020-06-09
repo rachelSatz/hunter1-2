@@ -25,7 +25,6 @@ export class ProcessLoadingComponent implements OnInit , OnDestroy {
               private processService: ProcessService) { }
 
   ngOnInit() {
-    // console.log(this.route.snapshot.params.status);
     if (this.route.snapshot.params.status === 'create' && this.processDataService.activeProcess === undefined) {
       this.processDataService.setProcess(new Process());
     }
@@ -33,10 +32,9 @@ export class ProcessLoadingComponent implements OnInit , OnDestroy {
     if (this.processDataService.activeProcess === undefined) {
       this.processDataService = this.selectUnit.getProcessData();
     }
-    // this.processDataService.activeProcess.status_process = 1;
-    const processDataService = this.processDataService.activeProcess;
-    if (processDataService !== undefined  && processDataService.processID) {
-      this.processService.getUploadFileDone(processDataService.processID).then(response =>
+    const processData = this.processDataService.activeProcess;
+    if (processData !== undefined  && processData.processID) {
+      this.processService.getUploadFileDone(processData.processID).then(response =>
         this.process_details = response
       );
     }
@@ -65,6 +63,7 @@ export class ProcessLoadingComponent implements OnInit , OnDestroy {
       if (status_process === undefined || status_process < num ) {
         this.processDataService.activeProcess.status_process = num;
         this.processDataService.setProcess(this.processDataService.activeProcess);
+        this.selectUnit.setProcessData(this.processDataService);
       }
       switch (num) {
         case 1:

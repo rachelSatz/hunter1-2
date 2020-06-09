@@ -25,7 +25,6 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 export class EditPaymentsComponent implements OnInit {
 
   arryMtb: MonthlyTransferBlock[] = [];
-  // idsTransfer = [];
   mtb: MonthlyTransferBlock;
   employeeStatus = EmployeeStatus;
   depositType = DepositType;
@@ -73,7 +72,6 @@ export class EditPaymentsComponent implements OnInit {
 
   }
 
-  // withdraw_to_pending
   initForm(): void {
     this.editPaymentForm = this.fb.group({
       'mtb': this.fb.array([
@@ -120,7 +118,8 @@ export class EditPaymentsComponent implements OnInit {
         this.fb.group({
           'id': [null],
           'clause_type':  [clause ? clause.clause_type : null , Validators.required],
-          'transfer_sum': [clause ? clause.transfer_sum : null, [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
+          'transfer_sum': [clause ? clause.transfer_sum : null,
+            [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
           'transfer_percent':  [clause ? clause.expected_percent.toString() : null,  Validators.required],
           'exempt_sum': [0 , Validators.required],
         })

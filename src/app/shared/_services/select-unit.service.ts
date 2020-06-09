@@ -128,8 +128,7 @@ export class SelectUnitService {
     sessionStorage.removeItem('Organizations');
     sessionStorage.removeItem('task');
     sessionStorage.removeItem('agentBarActive');
-
-
+    localStorage.removeItem('count');
   }
 
 
@@ -182,14 +181,18 @@ export class SelectUnitService {
   }
 
   setCountIncorrectRows(count: number): void {
+    localStorage.setItem('count', JSON.stringify(count));
     this.countIncorrectRows = count;
     this.unitIncorrectRows.next(count);
   }
 
   getCountIncorrectRows(): number {
-    return this.countIncorrectRows;
+    if (localStorage.getItem('count')) {
+      return JSON.parse(localStorage.getItem('count'));
+    } else {
+      return 0;
+    }
   }
-
 }
 
 

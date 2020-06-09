@@ -1,0 +1,56 @@
+.fontName {
+  font-family: Rubik;
+  font-size: 21px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: right;
+  color: #000000;
+}
+
+.fontId {
+  font-family: Rubik;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: normal;
+  text-align: right;
+  color: #000000;
+}
+
+.fontId {
+  font-family: Rubik;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: normal;
+  text-align: right;
+  color: #000000;
+}
+
+.pfont {
+  display: flex;
+  align-items: baseline;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+
+
+.fontIdn {
+font-family: Rubik;
+font-size: 15px;
+font-weight: normal;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.47;
+letter-spacing: normal;
+text-align: center;
+color: #000000;
+}
