@@ -50,7 +50,8 @@
     <td class="check-column">
       <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
     </td>
-    <td  (click)="detailsRecords(item.id, item.status)">{{ item.process_name}}</td>
+    <td  (click)="detailsRecords(item.id, item.status)"
+         [ngClass]="{'blue':  getType(item.file_type) == 1, 'red': getType(item.file_type) == -1}">{{ item.process_name}}</td>
     <td  (click)="detailsRecords(item.id, item.status)">{{ item.date | date: 'MM/yy'}}</td>
     <td  (click)="detailsRecords(item.id, item.status)">{{ item.company_name}}</td>
     <td  (click)="detailsRecords(item.id, item.status)">{{ item.employer_name}}</td>

@@ -39,8 +39,12 @@ export class RegisterComponent implements OnInit {
           if (response.token) {
             this.userSession.login({username: '', token: response['token']});
             this.userSession.setRole(response['role']);
-            this.router.navigate(['/platform']);
             this.userSession.setUserModules(response['module']);
+            if (response['role'] !== 'employer') {
+              this.router.navigate(['/platform']);
+            }else {
+              this.router.navigate(['/employer']);
+            }
 
           } else if (response.status === 403) {
             this.router.navigate(['/', 'login']);

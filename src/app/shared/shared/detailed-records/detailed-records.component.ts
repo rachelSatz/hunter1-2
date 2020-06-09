@@ -16,7 +16,6 @@ import { ProductType } from 'app/shared/_models/product.model';
 
 import { Subscription } from 'rxjs';
 import { GroupTransferComponent } from 'app/shared/shared/detailed-records/group-transfer/group-transfer.component';
-import { Process } from 'app/shared/_models/process.model';
 
 @Component({
   selector: 'app-detailed-records',
@@ -82,11 +81,15 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
   ngOnInit() {
     this.selectUnit.getEntityStorage();
     this.organizationId =  this.selectUnit.currentOrganizationID;
+    const processData = this.selectUnit.getProcessData();
+
     // this.planId = this.route.snapshot.queryParams['planId'] ? this.route.snapshot.queryParams['planId'] : null;
-    // (this.processDataService.activeProcess.processID !== processData.processID &&
-    //   this.processDataService.activeProcess.processID !== processData.activeProcess.processID)
-    if (this.processDataService.activeProcess === undefined || this.processDataService.activeProcess.processID === undefined ) {
-      const processData = this.selectUnit.getProcessData();
+    if ((this.processDataService.activeProcess === undefined ||
+      this.processDataService.activeProcess.processID === undefined) ||
+      (processData.activeProcess === undefined &&
+        this.processDataService.activeProcess.processID !== processData.processID) ||
+      (processData.activeProcess !== undefined &&
+        this.processDataService.activeProcess.processID !== processData.activeProcess.processID)) {
       if (processData.activeProcess === undefined ) {
         console.log('gjghj');
         this.processDataService.activeProcess = processData;

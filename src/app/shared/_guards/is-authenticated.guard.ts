@@ -11,7 +11,7 @@ export class IsAuthenticatedGuard implements CanActivate {
     if (this.userSession.getUser()) {
       return true;
     }
-
+    alert('hjh');
     this.router.navigate(['/']);
     return false;
   }

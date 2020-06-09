@@ -129,7 +129,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
     if (this.selectMonth !== undefined) {
       this.dataTable.criteria.filters['month'] = this.selectMonth;
     }
-    if (!this.recordId) {
+    if (!this.recordId && !this.processId && !this.fileId && !this.employeeId) {
       this.dataTable.criteria.filters['year'] = this.selectYear;
     }
     if (departmentId !== 0) {
@@ -144,7 +144,7 @@ export class EmployeesComponent implements OnInit , OnDestroy {
         this.dataTable.criteria.filters['processId'] = this.processId; }
        if (this.employeeId) {
          this.dataTable.criteria.filters['employeeId'] = this.employeeId;
-         delete this.dataTable.criteria.filters['year'];
+         // delete this.dataTable.criteria.filters['year'];
        }
       this.feedbackService.searchEmployeeData(this.dataTable.criteria).then(response => {
         this.dataTable.setItems(response);
