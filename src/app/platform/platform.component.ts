@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 import { OperatorTasksService } from '../shared/_services/http/operator-tasks';
@@ -19,12 +19,11 @@ import { TimerService } from '../shared/_services/http/timer';
   animations: [ fade , slideInOut ]
 })
 export class PlatformComponent implements OnInit {
-
+  @ViewChild('basicTimer') t;
   employer: string;
   typeTask: string;
   organization: string;
   activeUrl: string;
-  // organizations = [];
   employers = [];
   departments = [];
   employersNumber: number;
@@ -42,7 +41,7 @@ export class PlatformComponent implements OnInit {
   task = '/platform/operator/tasks';
   hours: string;
   showTimer = true;
-  showTimerTask = true;
+  basicTask = false;
   timerText = '';
   browserRefresh = false;
   details = true;
@@ -65,6 +64,13 @@ export class PlatformComponent implements OnInit {
     { id: 13, icon: 'th', label: 'תהליכים', link: 'table', role: 'operator'}
 
 ];
+  readonly basicTasks  = [
+    'זמן טיפול בשיחת טלפון',
+    'זמן טיפול במיילים',
+    'תפעול שוטף',
+    'זמן הדרכה',
+    'זמן הפסקה',
+  ];
 
   readonly menuLinks = [
     // { url: 'dashboard', subUrl: 'no_permissions', label: 'דף הבית' },
@@ -114,11 +120,11 @@ export class PlatformComponent implements OnInit {
     if ( company.length <= 0) {
       this.productService.getFullCompanies().subscribe(response => this.selectUnit.setCompanies(response));
     }
+
     router.events.subscribe((val) => {
       if (val instanceof NavigationStart) {
-        if (Object.values(TaskTimerLabels).some(a => a === val.url) || val.url.includes(this.task)) {
+        if (Object.values(TaskTimerLabels).some(a => a === val.url)) {
           this.timerService.reset();
-          this.displayTimer(val.url, '');
         } else if (this.selectUnit.getTaskTimer() !== 0) {
           this.timerEvents();
         }
@@ -135,7 +141,6 @@ export class PlatformComponent implements OnInit {
     } else {
       this.showTimer = false;
     }
-
     this.isAgent =  this.userSession.getRole() !== 'employer';
     this.organizations = this.selectUnit.getOrganization();
     this.selectUnit.getEntityStorage();
@@ -165,10 +170,10 @@ export class PlatformComponent implements OnInit {
     this.typeTask = this.selectUnit.getTaskTimer().type;
     this.organization = this.selectUnit.getTaskTimer().organization;
     this.timerText =  this.selectUnit.getTaskTimer()['text'];
-     // open PlanTaskComponent
     if (this.timerText === undefined) {
       this.timerText = '';
     }
+    this.basicTask = this.basicTasks.includes(this.selectUnit.getTaskTimer()['text']) ? true : false;
     this.intervals();
     this.displayTimer(this.router.routerState.snapshot.url, '');
   }
@@ -179,7 +184,7 @@ export class PlatformComponent implements OnInit {
         this.showTimer = false;
       }  else if (url === '/platform/operator/work-queue' && urlAfterRedirects === '/platform/operator/work-queue') {
         this.showTimer = false;
-      } else if (url === '/platform/operator/tasks' && urlAfterRedirects === '/platform/operator/tasks') {
+      } else if (url.includes(this.task) && urlAfterRedirects === '/platform/operator/tasks') {
         this.showTimer = false;
       } else if (this.browserRefresh) {
         this.showTimer = false;
@@ -373,48 +378,40 @@ export class PlatformComponent implements OnInit {
   stopTimer(): void {
     this.showTimer = false;
     const time = this.hours + ':' + this.minutes + ':' + this.seconds;
-    const type = this.isWorkQueue ? 'task' : 'taskCampaign';
+    const type = this.isWorkQueue || this.basicTask  ? 'task' : 'taskCampaign';
     this.updateTaskTimer(time, type);
     this.timerService.reset();
+    this.selectUnit.clearTaskTimer();
     if (this.selectUnit.getTaskTimer() && this.selectUnit.getTaskTimer().isSelfTask === true) {
       this.router.navigate(['platform', 'operator', 'tasks'], {queryParams: {isSelfTask: true}});
     } else {
-      const nev = this.isWorkQueue ? 'work-queue' : 'tasks';
+      const nev = this.isWorkQueue || this.basicTask ? 'work-queue' : 'tasks';
       this.router.navigate(['platform', 'operator', nev]);
-      this.selectUnit.clearTaskTimer();
     }
   }
 
   stopTimerTask(): void {
-    this.showTimerTask = false;
+    this.showTimer = false;
     const time = this.hours + ':' + this.minutes + ':' + this.seconds;
-    const type = this.isWorkQueue ? 'task' : 'taskCampaign';
+    const type = 'taskCampaign';
     this.updateTaskTimer(time, type);
+    const t = this.selectUnit.getTaskTimer();
+    this.operatorTasks.taskCompleted(t['taskCampaignId']).then(
+      response => {
+        this.selectUnit.clearTaskTimer();
+      });
     this.timerService.reset();
-    if (this.selectUnit.getTaskTimer() && this.selectUnit.getTaskTimer().isSelfTask === true) {
-      this.router.navigate(['platform', 'operator', 'tasks'], {queryParams: {isSelfTask: true}});
-    } else {
-      const nev = this.isWorkQueue ? 'work-queue' : 'tasks';
-      this.router.navigate(['platform', 'operator', nev]);
-      this.selectUnit.clearTaskTimer();
-    }
+    this.selectUnit.clearTaskTimer();
   }
 
   updateTaskTimer(duration: string, type: string): void {
-    if (this.selectUnit.getTaskTimer()['id'] > 0) {
-      const t = this.selectUnit.getTaskTimer();
+    const t = this.selectUnit.getTaskTimer();
+    if (t['id'] > 0) {
       const typeId = type === 'taskCampaign' ? t['taskCampaignId'] : t['planTaskId'];
-      this.operatorTasks.updateTaskTimer(this.selectUnit.getTaskTimer()['id'], duration, type, typeId)
+      this.operatorTasks.updateTaskTimer(t['id'], duration, type, typeId)
         .then(response => response);
     }
   }
-
-  // aaa(): string {
-  //   if (this.organizationId === 0) {
-  //     return '';
-  //   }
-  // }
-
 
 
   // @HostListener('window:beforeunload', ['$event'])

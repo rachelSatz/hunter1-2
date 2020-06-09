@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { DataTableModule } from '../../../../shared/data-table/data-table.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {TaskCampaignService} from '../../../../shared/_services/campaign-data-service';
+import {MessageService} from '../../../../shared/_services/http/message.service';
 
 
 const routes: Routes = [
@@ -34,6 +35,6 @@ const routes: Routes = [
         DataTableModule,
         MatButtonToggleModule
     ],
-  providers: [TaskCampaignService]
+  providers: [TaskCampaignService, MessageService]
 })
 export class CampaignsTypeModule { }

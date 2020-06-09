@@ -6,11 +6,9 @@ import {SelectUnitService} from '../select-unit.service';
 
 @Injectable()
 export class TimerService {
-  // second: Subject<number> = new Subject();
   second = new BehaviorSubject<number>(0);
   minute = new BehaviorSubject<number>(0);
   hour = new BehaviorSubject<number>(0);
-
 
   constructor() {
       this.setIntervals();
@@ -26,6 +24,11 @@ export class TimerService {
     return this.hour.asObservable();
   }
 
+  reset() {
+    this.second.next(0);
+    this.minute.next(0);
+    this.hour.next(0);
+  }
 
   public setIntervals() {
      setInterval(() => {
@@ -42,13 +45,7 @@ export class TimerService {
       this.minute.next(0);
       const hourVal = this.minute.getValue() + 1;
       this.hour.next(hourVal);
-    }, 600000);
-  }
-
-  reset() {
-    this.second.next(0);
-    this.minute.next(0);
-    this.hour.next(0);
+    }, 3600000);
   }
 
   // setPath(id: number): void {

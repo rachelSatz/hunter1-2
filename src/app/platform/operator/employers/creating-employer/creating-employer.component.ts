@@ -187,7 +187,7 @@ export class CreatingEmployerComponent implements OnInit {
             'role': [null],
             'phone': [null, Validators.pattern('^[0-9]*$')],
             'mobile': [null, Validators.pattern('^[0-9]*$')],
-            'email': [null , [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
+            'email': [null , [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'), Validators.required]],
             'comment':  ['']
           })]),
         'employerPayment': this.fb.group({
@@ -542,19 +542,6 @@ export class CreatingEmployerComponent implements OnInit {
   private checkValidData(): boolean {
     const employer = this.creatingEmployerForm.get('creatingEmployer.employerDetails');
     return (employer.value['phone'] !== null && employer.get('phone').valid) || employer.value['phone'] === null;
-  }
-
-  warningIdentifiers(employerIdentifiers) {
-    if (employerIdentifiers.length > 0) {
-      this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
-        {confirmButtonText: 'אישור'}).then(
-        confirmation => {
-          return true;
-        }
-      );
-    } else {
-      return true;
-    }
   }
 
   continueProcess(): void {

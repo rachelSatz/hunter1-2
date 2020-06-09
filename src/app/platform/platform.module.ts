@@ -39,10 +39,9 @@ import { DatePickerModule } from 'app/shared/app-date-picker/app-date-picker.mod
 import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/file-deposition.component';
 import { ChangeStatusComponent } from '../shared/_dialogs/change-status/change-status.component';
 
-
-import { CampaignsService } from '../shared/_services/http/campains.service';
-import { GroupMembersDialogComponent } from './campaigns/group-members-dialog/group-members-dialog.component';
-import { EditGroupEmployerComponent } from './campaigns/edit-group-employer/edit-group-employer.component';
+import { CampaignsService} from '../shared/_services/http/campains.service';
+import { GroupMembersDialogComponent} from './campaigns/group-members-dialog/group-members-dialog.component';
+import { EditGroupEmployerComponent} from './campaigns/edit-group-employer/edit-group-employer.component';
 import { GroupService } from '../shared/_services/http/group.service';
 
 const routes: Routes = [

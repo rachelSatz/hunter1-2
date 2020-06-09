@@ -17,18 +17,18 @@
         </div>
         <app-data-table class="w-100" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false"
                         [hasExtendedSearch]="false" [hasActionsSearch]="false" [hasLoadingItem]="false">
-          <tr *ngFor="let item of dataTable.items" class="pointer" (click)="ExecutionTask(item)">
-            <td>{{ item.typeTask !== 'הקמת לקוח' ? (item.month | date: 'MM' ) : '-'  }}</td>
-            <td>{{ item.typeTask }}</td>
-            <td>{{ item.subtypeTask }}</td>
-            <td>{{ item.creator }}</td>
-            <td>{{ item.operator }}</td>
-            <td>{{ item.employer.name}}</td>
-            <td>{{ taskStatus[item.status] }}</td>
+          <tr *ngFor="let item of dataTable.items" class="pointer" >
+            <td (click)="ExecutionTask(item)">{{ item.typeTask !== 'הקמת לקוח' ? (item.month | date: 'MM' ) : '-'  }}</td>
+            <td (click)="ExecutionTask(item)">{{ item.typeTask }}</td>
+            <td (click)="ExecutionTask(item)">{{ item.subtypeTask }}</td>
+            <td (click)="ExecutionTask(item)">{{ item.creator }}</td>
+            <td (click)="ExecutionTask(item)">{{ item.operator }}</td>
+            <td (click)="ExecutionTask(item)">{{ item.employer.name}}</td>
+            <td (click)="ExecutionTask(item)">{{ taskStatus[item.status] }}</td>
             <td>
-              <img src="../../../../../../assets/img/left.png" *ngIf="!filter[1].selected === true" height="14" width="14"/>
+              <img (click)="ExecutionTask(item)" src="../../../../../../assets/img/left.png" *ngIf="!filter[1].selected === true" height="14" width="14"/>
               <div *ngIf="filter[1].selected === true">
-                <p class="blue-color pointer" *ngIf="!isStopTask(item)">התחל משימה</p>
+                <p class="blue-color pointer" (click)="ExecutionTask(item)" *ngIf="!isStopTask(item)">התחל משימה</p>
                 <p class="red-color pointer"  *ngIf="isStopTask(item)" (click)="stopTask(item)">סיים משימה</p>
               </div>
             </td>

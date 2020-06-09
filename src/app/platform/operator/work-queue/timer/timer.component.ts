@@ -1,12 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { TimerService } from 'app/shared/_services/http/timer';
-import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
-import {OperatorTasksService} from 'app/shared/_services/http/operator-tasks';
-import {Time} from '@angular/common';
-import {Timestamp} from 'rxjs';
-import {SelectUnitService} from 'app/shared/_services/select-unit.service';
-import {TaskTimer, TaskTimerLabels} from 'app/shared/_models/timer.model';
+import { ActivatedRoute, NavigationStart, Router} from '@angular/router';
+import { OperatorTasksService} from 'app/shared/_services/http/operator-tasks';
+import { SelectUnitService} from 'app/shared/_services/select-unit.service';
+import { TaskTimer, TaskTimerLabels} from 'app/shared/_models/timer.model';
 
 @Component({
   selector: 'app-emails',
@@ -19,6 +17,7 @@ export class TimerComponent implements OnInit, OnDestroy  {
   hours: string;
   path: string;
   text: string;
+  type;
   task_timer_id: any;
   id: number;
   taskObj = new TaskTimer;
@@ -33,6 +32,7 @@ export class TimerComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit() {
+    this.text = '';
     this.path = (this.route.snapshot.routeConfig.path) ? this.route.snapshot.routeConfig.path : '';
     if (this.path !== '') {
       switch (this.path) {
@@ -101,6 +101,7 @@ export class TimerComponent implements OnInit, OnDestroy  {
       }
     });
   }
+
   newTaskTimer(taskType: string): void {
     this.operatorTasks.newTaskTimer(taskType).then(
       response => {
@@ -111,9 +112,10 @@ export class TimerComponent implements OnInit, OnDestroy  {
         }
       });
   }
+
   updateTaskTimer(duration: string): void {
     if (this.task_timer_id > 0) {
-      this.operatorTasks.updateTaskTimer(this.task_timer_id, duration, 'task',).then(
+      this.operatorTasks.updateTaskTimer(this.task_timer_id, duration, 'task').then(
         response => response);
     }
   }

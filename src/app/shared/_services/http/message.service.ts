@@ -70,6 +70,10 @@ export class MessageService extends BaseHttpService {
       .catch(() => false);
   }
 
+  getMessageName(): Promise<any> {
+    return this.http.get(this.endPoint + '/getMessageName',  this.getTokenHeader())
+      .toPromise().then(response => response as any);
+  }
 
   send(message: Message): Promise<any> {
     return this.http.post(this.endPoint + '/' + message.id +  '/sendMessage', {}, this.getTokenHeader())

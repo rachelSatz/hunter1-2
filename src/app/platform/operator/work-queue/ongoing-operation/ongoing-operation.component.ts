@@ -164,7 +164,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   }
 
   paymentInstructionsError(): void {
-    this.router.navigate(['/platform', 'process', 'new', 0, 'payment', this.plan.task.process.id],
+    this.router.navigate(['/platform', 'process', 'new', 'update', 'payment-instructions'],
       {queryParams: { page: 3, planId: this.plan.id}});
   }
 
@@ -205,8 +205,10 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
           const data = {id: response, type: this.plan.type.name, employer: this.plan.employer.name,
             organization: this.plan.organization.name, planTaskId: this.plan.id
           };
-          this.selectUnit.setTaskTimer(data);
           this.initializationPlatform();
+          this.selectUnit.clearTaskTimer();
+          this.timerService.reset();
+          this.selectUnit.setTaskTimer(data);
           const error = this.getCurrentError();
           this[this.errorsDetails[error].function]();
         }
@@ -228,40 +230,6 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
         { queryParams: { id: this.plan.task.compensation.id , planId: this.plan.id}});
     }
   }
-
-  // skipTaskDialog(): void {
-  //   this.fetchItems();
-  //   // this.dialog.open(SkipTaskComponent, {
-  //   //   width: '660px',
-  //   //   height: '240px'
-  //   // });
-  // }
-
-  newPlanTaskTimer(taskType, planTaskId, type, employer, organization): void {
-    this.operatorTasks.newTaskTimer(taskType).then(
-      response => {
-        if (response > 0 ) {
-          const data = {
-            id: response,
-            type: type,
-            employer: employer,
-            organization: organization
-          };
-          this.selectUnit.setTaskTimer(data);
-        }
-      });
-  }
-  //
-  // newTaskTimer(taskType: string, planTaskId?: number): void {
-  //   this.operatorTasks.newTaskTimer(taskType, planTaskId).then(
-  //     response => {
-  //       if (response > 0 ) {
-  //         this.task_timer_id = response;
-  //         this.taskObj.id = response;
-  //         this.selectUnit.setTaskTimer(this.taskObj);
-  //       }
-  //     });
-  // }
 
   updateTaskTimer(duration: string): void {
     if (this.task_timer_id > 0) {

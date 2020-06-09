@@ -10,7 +10,7 @@
     </div>
     <tr *ngFor="let item of dataTable.items" class="pointer" [ngClass]="{ 'checked': item.checked }" >
       <td (click)="openGroupMembersDialog(item)">{{ item.name }}</td>
-      <td (click)="openGroupMembersDialog(item)">{{ item.type }}</td>
+      <td (click)="openGroupMembersDialog(item)">{{ item.type !== '0' ? item.type : 'הודעות מותאמות' }}</td>
       <td (click)="openGroupMembersDialog(item)">{{ item.subtype }}</td>
       <td (click)="openGroupMembersDialog(item)">{{ campaignStatus[item.status] }}</td>
       <td (click)="openGroupMembersDialog(item)">{{ item.last_send ? (item.last_send | date: 'dd/MM/yy') : '---'}}</td>

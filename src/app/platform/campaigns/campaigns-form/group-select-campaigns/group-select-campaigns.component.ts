@@ -90,18 +90,24 @@ export class GroupSelectCampaignsComponent implements OnInit {
     }
     this.taskCampaignForm = this.taskCampaignService.activeCampaigns;
     this.dateSend = this.taskCampaignForm.timings.sendNow ? 'מיידי' : 'עתידית';
-    if (this.taskCampaignForm.groups.groups[0] !== 0) {
-      this.groups.get('groupCampaign').patchValue(this.taskCampaignForm.groups);
-      const item = this.dataTable.items.find( a => this.taskCampaignForm.groups.groups.includes(a.id));
-      this.dataTable.checkItem(item, true);
-    }
     this.campaignsService.getTypes().then(response => {
-        const campaignsType = response;
-        const moduleType = this.taskCampaignForm.details.moduleType;
+      const campaignsType = response;
+      const moduleType = this.taskCampaignForm.details.moduleType;
+      if (moduleType === '0') {
+        this.model = 'הודעות מותאמות';
+      } else {
         this.model = campaignsType.find(a => a.id === moduleType).name;
         this.modelName = campaignsType.find(a => a.id === moduleType).subtype.find(
           b => b.id === this.taskCampaignForm.details.moduleName).name;
+      }
     });
+    if (this.taskCampaignForm.groups.groups[0] !== 0) {
+      this.groups.get('groupCampaign').patchValue(this.taskCampaignForm.groups);
+      const item = this.dataTable.items.filter( a => {if (this.taskCampaignForm.groups.groups.includes(a.id)) {a.checked = true; }});
+      if (item) {
+        this.dataTable.checkItem(item, true);
+      }
+    }
   }
 
   validateGroups(item: Object, isChecked: boolean) {
@@ -140,12 +146,13 @@ export class GroupSelectCampaignsComponent implements OnInit {
       this.isSubmitted = true;
       if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll ||
         this.groups.get('groupCampaign.groups').value.length > 0) {
+        this.page = 2;
         this.taskCampaignService.activeCampaigns.groups.groups = this.groups.get('groupCampaign.groups').value;
         this.taskCampaignService.activeCampaigns.groups.isCheckAll = this.groups.get('groupCampaign.isCheckAll').value;
-        this.page = 2;
         this.groups.get('groupCampaign.groups').patchValue(this.dataTable.criteria.checkedItems.map(value => value['id']));
         this.groups.updateValueAndValidity();
         this.groups.get('groupCampaign.isCheckAll').patchValue(this.dataTable.criteria.isCheckAll);
+        this.taskCampaignService.setGroups(this.groups.get('groupCampaign').value);
         this.selectUnitService.setTaskCampaign(this.taskCampaignService);
         this.router.navigate([], {relativeTo: this.route, queryParams: {send: ''},
           queryParamsHandling: 'merge',

@@ -13,6 +13,7 @@ import { TaskService } from 'app/shared/_services/http/task.service';
 // import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import {ReactiveFormsModule} from '@angular/forms';
+import {TimerService} from '../../../../../shared/_services/http/timer';
 
 const routes: Routes = [
     { path: '', component: TasksComponent }];
@@ -30,7 +31,7 @@ const routes: Routes = [
         MatNativeDateModule,
         MatTooltipModule, MatFormFieldModule, MatDialogModule, ReactiveFormsModule
     ],
-  providers: [TaskService, NotificationService],
+  providers: [TaskService, NotificationService, TimerService],
   declarations: [TasksComponent, NewTaskFormComponent],
   entryComponents: [NewTaskFormComponent]
 })
