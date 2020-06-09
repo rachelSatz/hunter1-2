@@ -12,13 +12,13 @@
       <div *ngIf="permissionsType" class="ml-3 d-flex mr-auto">
         <button [matMenuTriggerFor]="menu" class="btn blue-btn">פעולות</button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="deleteInvoices(false)">מחיקת חשבונית</button>
+          <!--<button mat-menu-item (click)="deleteInvoices(false)">מחיקת חשבונית</button>-->
           <button mat-menu-item (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>
           <button mat-menu-item (click)="openManualInvoice()">חשבון ידני</button>
           <button mat-menu-item (click)="openTaxInvoice()">חשבונית מס/קבלה</button>
           <button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>
-          <button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>
-          <button mat-menu-item (click)="deleteInvoices(true)">מחיקת חשבונית ואיפוס עובדים</button>
+          <button mat-menu-item (click)="groups.component.downloadInvoicesToExcel()">הורדה לאקסל</button>
+          <!--<button mat-menu-item (click)="deleteInvoices(true)">מחיקת חשבונית ואיפוס עובדים</button>-->
 
         </mat-menu>
       </div>

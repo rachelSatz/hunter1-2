@@ -18,6 +18,7 @@ import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice
 import { PAYMENT_METHOD } from 'app/shared/_models/employer-financial-details.model';
 import {TaxInvoiceFormComponent} from './tax-invoice-form/tax-invoice-form.component';
 import {UserSessionService} from 'app/shared/_services/user-session.service';
+import { TransactionInvoiceFormComponent } from 'app/platform/finance/invoices/transaction-invoice-form/transaction-invoice-form.component';
 
 @Component({
   selector: 'app-invoices',
@@ -142,7 +143,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     const dialog = this.dialog.open(TaxInvoiceFormComponent, {
       data: { 'ids': items,
 
-      'criteria' : this.dataTable.criteria},
+      'dataTable' : this.dataTable},
       width: '450px'
     });
 
@@ -152,24 +153,34 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       this.dataTable.criteria.isCheckAll = false;
     }));
   }
+  //
+  // openTransactionInvoice(): void {
+  //   if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+  //     this.dataTable.setNoneCheckedWarning();
+  //     return;
+  //   }
+  //   const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
+  //
+  //   const dialog = this.dialog.open(TaxInvoiceFormComponent, {
+  //     data: { 'ids': items,
+  //
+  //       'criteria' : this.dataTable},
+  //     width: '450px'
+  //   });
+  // }
 
   sendTransactionInvoice():  void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const ids = this.dataTable.criteria.checkedItems.map(item => item['id']);
-    this.helpers.setPageSpinner(true);
-    this.invoiceService.createTransactionInvoices(ids, this.dataTable.criteria).then(response => {
-      this.helpers.setPageSpinner(false);
-      this.dataTable.criteria.checkedItems = [];
-      this.dataTable.criteria.isCheckAll = false;
-      if (response['message'] !== 'success') {
-        this.notificationService.error(response['message']);
-      } else {
-        this.notificationService.success('נשמר בהצלחה.');
-      }
-      this.fetchItems();
+    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
+
+    const dialog = this.dialog.open(TransactionInvoiceFormComponent, {
+      data: { 'ids': items,
+
+        'dataTable' : this.dataTable},
+      width: '450px'
     });
   }
 
@@ -230,22 +241,29 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       return;
     }
     const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
-
-    this.invoiceService.deleteInvoices(items.map(
-      item => item['id']), updateEmployee).then(response => {
-      this.helpers.setPageSpinner(false);
-      if (response) {
-        if (response['message'] === 'success') {
-          this.notificationService.success('הרשומות נמחקו בהצלחה.');
-          this.dataTable.criteria.checkedItems = [];
-          this.dataTable.criteria.isCheckAll = false;
-          this.fetchItems();
-        } else {
-          this.notificationService.error('ארעה שגיאה.');
-        }
+    const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+    const text = '  האם ברצונך לבצע מחיקה? נבחרו - ' + this.dataTable.criteria.checkedItems.length + ' רשומות';
+    this.notificationService.warning(text, '', buttons).then(confirmation => {
+      if (confirmation.value) {
+        this.invoiceService.deleteInvoices(items.map(
+          item => item['id']), updateEmployee).then(response => {
+          this.helpers.setPageSpinner(false);
+          if (response) {
+            if (response['message'] === 'success') {
+              this.notificationService.success('הרשומות נמחקו בהצלחה.');
+              this.dataTable.criteria.checkedItems = [];
+              this.dataTable.criteria.isCheckAll = false;
+              this.fetchItems();
+            } else {
+              this.notificationService.error('ארעה שגיאה.');
+            }
+          }
+        });
       }
     });
   }
+
+
 
 
   setItemTitle(item: Invoice): string {

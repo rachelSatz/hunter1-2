@@ -1,4 +1,4 @@
-<div id="nessageForm1" *ngIf="showForm1" xmlns="http://www.w3.org/1999/html">
+<div id="messageForm1" *ngIf="showForm1" xmlns="http://www.w3.org/1999/html">
   <!--style="background:  linear-gradient(grey 10%, white 90%) no-repeat;-->
   <div class="dialog-header">
     <span class="pointer" (click)="close()">
@@ -30,7 +30,7 @@
           <label for="FormControlTextArea">תוכן ההודעה</label>
           <textarea class="form-control" id="FormControlTextArea" name="content" rows="3" [(ngModel)]="message.content"></textarea>
         </div>
-        <div class="row mt-4">
+        <div class="row mt-4" style="width: 133%">
           <div class="col-5 p-0">
             <button class="btn blue-btn mr-3 btn-align" (click)="close()">ביטול</button>
           </div>
@@ -42,7 +42,7 @@
     </div>
   </div>
 </div>
-<div id="nessageForm2" *ngIf="showForm2">
+<div id="messageForm2" *ngIf="showForm2">
   <div class="dialog-header">
   <span class="pointer" (click)="close()">
     <i class="fa fa-close"></i>
@@ -78,7 +78,6 @@
             <label class="d-flex file-label w-25 btn mr-2 mt-2">
               <i class="fa fa-times ml-2 pointer" (click)="processFile.splice(index);"
                *ngIf="processFile.length  > 0"></i>{{item.name | truncate: 18}}</label>
-
           </div>
           </div>
         </div>
@@ -99,10 +98,10 @@
         </div>
         <div (click)="continue2()" class="form-group row mr-5 preview mt-3">
           <!--<button class="link">Clicky</button>-->
-            <div style="cursor: pointer;margin-right: 68px">תצוגה מקדימה</div>
+            <div style="cursor: pointer;margin-right: 130px">תצוגה מקדימה</div>
             <i class="fa fa-eye mr-3 mt-1"></i>
         </div>
-        <div class="row mt-4">
+        <div class="row mt-4" style="width: 133%">
           <div class="col-5 p-0">
             <button class="btn blue-btn mr-3" (click)="back()">חזור</button>
           </div>
@@ -114,7 +113,7 @@
     </div>
   </div>
 </div>
-<div id="nessageForm3" *ngIf="showForm3">
+<div id="messageForm3" *ngIf="showForm3">
   <!--style="background:  linear-gradient(grey 10%, white 90%) no-repeat;-->
   <div class="dialog-header">
     <span class="pointer" (click)="close()">
@@ -127,30 +126,40 @@
     </div>
   </div>
   <div class="row justify-content-center align-items-center h-100">
-    <div class="preview-content"></div>
-    <!--<div class="col col-sm-6 col-md-6 col-lg-10">-->
-      <!--<form>-->
-        <!--<div class="form-group">-->
-          <!--<label for="FormControlMsgName">שם הודעה</label>-->
-          <!--<input class="form-control" id="FormControlMsgName" placeholder="הודעה למעסיק 1">-->
-        <!--</div>-->
-        <!--<div class="form-group">-->
-          <!--<label for="FormControlMsgTitle">כותרת ההודעה</label>-->
-          <!--<input class="form-control" id="FormControlMsgTitle">-->
-        <!--</div>-->
-        <!--<div class="form-group">-->
-          <!--<label for="FormControlTextArea">תוכן ההודעה</label>-->
-          <!--<textarea class="form-control" id="FormControlTextArea" rows="3"></textarea>-->
-        <!--</div>-->
-        <!--<div class="row mt-4">-->
-        <div class="col-5 p-0 mt-2">
+    <div class="col col-sm-6 col-md-6 col-lg-10">
+
+    <div class="preview-content">
+      <p id="logo" class="logo">
+        <img src="/assets/img/logo.svg" class="logo" alt="לוגו של סמארטי">
+      </p>
+        <div class="block center">
+          <p class="mr-2">שלום מעסיק יקר, התקבלה במערכת</p>
+          <p class="newMsg">הודעה חדשה</p>
+          <p>{{message.content !== undefined && message.content !== '' ? message.content : '*תוכן ההודעה ריק*'}}</p>
+          <!--<div class="row">-->
+          <!--<div>-->
+            <!--<span style="margin-left: 142px;">WhatsApp</span>-->
+            <!--<span style="margin-left: 151px;">טלפון</span>-->
+            <!--<span style="margin-left: 49px;">מייל</span>-->
+          <!--</div>-->
+          <!--<div>-->
+            <!--<span style="margin-right: 24px;">058-6895603</span>-->
+            <!--<span style="margin-right: 100px;">03-5430558</span>-->
+            <!--<span style="margin-right: 73px;">office@smarti.co.il</span>-->
+          <!--</div>-->
+          <!--</div>-->
+        </div>
+    </div>
+      <div class="row mt-4" style="width: 133%">
+        <div class="col-5 p-0">
           <button class="btn blue-btn mr-3" (click)="back2()">חזור</button>
         </div>
-        <div class="offset-1 col-5 mt-2">
+        <div class="offset-1 col-5">
           <button class="btn blue-btn mr-3" (click)="submit()">שמור</button>
         </div>
-        <!--</div>-->
+      </div>
       <!--</form>-->
     <!--</div>-->
+    </div>
   </div>
 </div>

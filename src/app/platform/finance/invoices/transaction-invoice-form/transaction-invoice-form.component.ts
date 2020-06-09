@@ -1,22 +1,22 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {fade} from '../../../../shared/_animations/animation';
-import {ActivatedRoute, Router} from '@angular/router';
-import {InvoiceService} from '../../../../shared/_services/http/invoice.service';
-import {NotificationService} from '../../../../shared/_services/notification.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {DataTableComponent} from '../../../../shared/data-table/data-table.component';
-import {NgForm} from '@angular/forms';
-import {DatePipe, Time} from '@angular/common';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { fade } from 'app/shared/_animations/animation';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { InvoiceService } from 'app/shared/_services/http/invoice.service';
+import { NotificationService } from 'app/shared/_services/notification.service';
+import { DatePipe } from '@angular/common';
+import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-tax-invoice-form',
-  templateUrl: './tax-invoice-form.component.html',
-  styleUrls: ['./tax-invoice-form.component.css'],
+  selector: 'app-transaction-invoice-form',
+  templateUrl: './transaction-invoice-form.component.html',
+  styleUrls: ['./transaction-invoice-form.component.css'],
   styles: ['#styleFormat { height: 200px; padding-top: 20px }'],
   animations: [ fade ]
 })
-export class TaxInvoiceFormComponent implements OnInit {
+export class TransactionInvoiceFormComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   hasServerError = false;
@@ -28,12 +28,11 @@ export class TaxInvoiceFormComponent implements OnInit {
               private router: Router,
               private invoiceService: InvoiceService,
               private notificationService: NotificationService,
-              private dialogRef: MatDialogRef<TaxInvoiceFormComponent>,
+              private dialogRef: MatDialogRef<TransactionInvoiceFormComponent>,
               public datePipe: DatePipe) { }
 
   ngOnInit() {
   }
-
 
   submit(form: NgForm): void {
     if (form.valid) {
@@ -41,18 +40,16 @@ export class TaxInvoiceFormComponent implements OnInit {
       const totalCheckedIds = this.data.dataTable.criteria.isCheckAll ? this.data.ids.length > 0 ?
         this.data.dataTable.paginationData.totalItems - this.data.ids.length : this.data.dataTable.paginationData.totalItems :
         this.data.ids.length;
-      const text = '  האם ברצונך לשלוח חשבוניות מס/קבלה? נבחרו - ' + totalCheckedIds + ' רשומות';
+      const text = '  האם ברצונך לשלוח חשבוניות עסקה? נבחרו - ' + totalCheckedIds + ' רשומות';
 
       this.hasServerError = false;
-      form.value['for_month'] = this.datePipe.transform(form.value['for_month'], 'yyyy-MM-dd');
       form.value['document_date'] = this.datePipe.transform(form.value['document_date'], 'yyyy-MM-dd');
-
 
       this.notificationService.warning(text, '', buttons).then(confirmation => {
         if (confirmation.value) {
           this.helpers.setPageSpinner(true);
-          this.invoiceService.createTaxInvoices(
-            this.data.ids,  this.data.dataTable.criteria, form.value).then(response => {
+          this.invoiceService.createTransactionInvoices(
+            this.data.ids, this.data.dataTable.criteria, form.value).then(response => {
             this.helpers.setPageSpinner(false);
             if (response['message'] === 'success') {
               this.hasServerError = false;
@@ -65,7 +62,6 @@ export class TaxInvoiceFormComponent implements OnInit {
             } else {
               this.hasServerError = true;
               this.message = response['message'];
-
             }
           });
         }
