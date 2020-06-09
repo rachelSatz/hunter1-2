@@ -6,6 +6,8 @@ import {DatePipe} from '@angular/common';
 import {HelpersService} from '../../../shared/_services/helpers.service';
 import {ReportFilters, ReportsData} from '../../../shared/_models/report_manage';
 import {ActivatedRoute, Router} from '@angular/router';
+import { MONTHS } from 'app/shared/_const/months';
+
 
 @Component({
   selector: 'app-reports-manager',
@@ -22,13 +24,19 @@ export class ReportsManagerComponent implements OnInit {
   employers = [];
   departments = [];
   toDay = new Date();
+  salaryMonth = false;
   startDate;
+  startYear;
   endDate;
+  endYear;
   departmentId;
   operatorId;
   projectsId;
   organizationId;
   employerId ;
+  year = new Date().getFullYear();
+  years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
+  months = MONTHS;
 
   constructor(
     public datePipe: DatePipe,
@@ -84,8 +92,10 @@ export class ReportsManagerComponent implements OnInit {
 
   submit(): void {
     this.helpers.setPageSpinner(true);
-    this.startDate = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
-    this.endDate = this.datePipe.transform(this.endDate, 'yyyy-MM-dd');
+    const sDate = this.salaryMonth ? new Date(this.startYear, this.startDate, 1) : this.startDate;
+    const eDate = this.salaryMonth ? new Date(this.endYear, this.endDate, 29) : this.endDate;
+    this.startDate = this.datePipe.transform(sDate, 'yyyy-MM-dd');
+    this.endDate = this.datePipe.transform(eDate, 'yyyy-MM-dd');
     this.insertReportsFilters();
      this.organizationService.getReport(this.reportsFilters).then(response => {
        this.reportsData = response['reportsData'];
@@ -100,10 +110,10 @@ export class ReportsManagerComponent implements OnInit {
     this.reportsFilters.organizationId = this.organizationId;
     this.reportsFilters.employerId = this.employerId;
     this.reportsFilters.departmentId = this.departmentId;
+    // this.reportsFilters.salaryMonth = this.salaryMonth;
     this.reportsFilters.startDate = this.startDate;
     this.reportsFilters.endDate = this.endDate;
     this.selectUnit.setReportFilters(this.reportsFilters);
-
   }
   navigateEmployer(): void {
     if (this.departmentsIds) {

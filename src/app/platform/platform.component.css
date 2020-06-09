@@ -140,11 +140,22 @@ bd-select {
   color: black;
 }
 
+.stop:hover {
+  background: #00adee;
+  color: white;
+}
+
 .p-absolute {
   position: absolute;
 }
 
 .skip{
+  background-color: #2a2e39;
+  height: 40px;
+  color: white;
+}
+
+.stop{
   background-color: #2a2e39;
   height: 40px;
   color: white;

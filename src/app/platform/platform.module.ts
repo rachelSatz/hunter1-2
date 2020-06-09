@@ -42,9 +42,9 @@ import {CampaignsFormComponent} from './campaigns/campaigns-form/campaigns-form.
 import { MessagesComponent } from './operator/messages/messages.component';
 
 
-import {CampaignsService} from '../shared/_services/http/campains.service';
-import {GroupMembersDialogComponent} from './campaigns/group-members-dialog/group-members-dialog.component';
-import {EditGroupEmployerComponent} from './campaigns/edit-group-employer/edit-group-employer.component';
+import { CampaignsService} from '../shared/_services/http/campains.service';
+import { GroupMembersDialogComponent} from './campaigns/group-members-dialog/group-members-dialog.component';
+import { EditGroupEmployerComponent} from './campaigns/edit-group-employer/edit-group-employer.component';
 import { GroupService } from '../shared/_services/http/group.service';
 
 const routes: Routes = [

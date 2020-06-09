@@ -544,19 +544,6 @@ export class CreatingEmployerComponent implements OnInit {
     return (employer.value['phone'] !== null && employer.get('phone').valid) || employer.value['phone'] === null;
   }
 
-  warningIdentifiers(employerIdentifiers) {
-    if (employerIdentifiers.length > 0) {
-      this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
-        {confirmButtonText: 'אישור'}).then(
-        confirmation => {
-          return true;
-        }
-      );
-    } else {
-      return true;
-    }
-  }
-
   continueProcess(): void {
     if (this.pageNumber === 1 && this.validation() && this.checkValidData()) {
         this.pageNumber += 1;

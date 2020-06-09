@@ -31,7 +31,7 @@
           <bd-select [items]="statuses" class="d-inline-block bd-de bd-min-width"
                      placeholder="בחירת סטטוס" formControlName="status"></bd-select>
         </div>
-        <div *ngIf="taskCampaign.get('details').value['moduleType'] !== 3"
+        <div *ngIf="dateModel"
              [ngClass]="taskCampaign.get('details').value['moduleName'] !== 5 ? 'mr-5 w-30' : 'w-30'">
           <mat-form-field class="w-100 mt-md-n3">
             <input matInput [matDatepicker]="datePickerTo" [placeholder]="taskCampaign.get('details').value['moduleType'] === 2 ?

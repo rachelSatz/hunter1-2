@@ -40,16 +40,8 @@ export class OrganizationService extends BaseHttpService {
 
 
   getReport(reportsFilters: ReportFilters): Promise<any> {
-    const formData = new FormData();
-    formData.append('organizationId', reportsFilters.organizationId.toString());
-    formData.append('projectId' , reportsFilters.projectsId.toString());
-    formData.append('employerId' , reportsFilters.employerId.toString());
-    formData.append('operatorId' , reportsFilters.operatorId.toString());
-    formData.append('startDate' , reportsFilters.startDate.toString());
-    formData.append('endDate' , reportsFilters.endDate.toString());
 
-
-    return this.http.post(this.apiUrl + '/reports/' + 'statusEmployerReport', formData, this.getTokenHeader())
+    return this.http.post(this.apiUrl + '/reports/' + 'statusEmployerReport', reportsFilters, this.getTokenHeader())
       .toPromise()
       .then(response => response as any);
 

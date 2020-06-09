@@ -30,10 +30,7 @@ export class EmployerMovesManagerComponent implements OnInit {
 
   send(): void {
     if (this.comment) {
-      this.generalService.newComment([this.data.employerId], this.comment, 'employer', null).then(response => {
-        if (response) {
-        }
-      });
+      this.generalService.newComment([this.data.employerId], this.comment, 'employer', null).then(response => response);
     }
     const data = {
       operatorId: this.operatorId,

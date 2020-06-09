@@ -38,22 +38,28 @@
     <div class="details" *ngIf="details">
       <div class="d-flex mr-3">
         <p class="bold">משימה-</p>
-        <p class="">{{typeTask}}</p>
+        <p class="">{{typeTask ? typeTask : timerText}}</p>
       </div>
-      <div class="d-flex mr-3">
+      <div class="d-flex mr-3" *ngIf="!basicTask">
         <p class="bold">אירגון-</p>
         <p class="">{{organization}}</p>
       </div>
-      <div class="d-flex mr-3">
+      <div class="d-flex mr-3" *ngIf="!basicTask">
         <p class="bold">מעסיק-</p>
         <p class="">{{employer}}</p>
       </div>
     </div>
     <div class="skip" (click)="stopTimer()" *ngIf="selectUnit.getTaskTimer() && !selectUnit.getTaskTimer().isSelfTask" >
-     <a class="pointer mr-6 mt-2 p-absolute" >{{isWorkQueue ? 'דלג ועבור למשימה הבאה' : 'עצור ועבור למשימות' }}</a>
+      <a class="pointer mr-11 mt-2 p-absolute" *ngIf="basicTask">סיום</a>
+      <a class="pointer mr-6 mt-2 p-absolute" *ngIf="!basicTask">{{isWorkQueue ? 'דלג ועבור למשימה הבאה' : 'עצור ועבור למשימות' }}</a>
     </div>
-    <div class="skip" (click)="stopTimerTask()" *ngIf="selectUnit.getTaskTimer() && selectUnit.getTaskTimer().isSelfTask">
-      <a class="pointer mr-6 mt-2 p-absolute" >סיים משימה</a>
+    <div class="skip "*ngIf="selectUnit.getTaskTimer() && selectUnit.getTaskTimer().isSelfTask">
+      <div class="mr-3 w-50" (click)="stopTimer()" >
+        <a class="pointer mt-2 p-absolute" >עצור ועבור למשימות</a>
+      </div>
+      <div class="stop w-40 float-left" (click)="stopTimerTask()">
+        <a class="pointer mr-4 mt-2 p-absolute" >סיים משימה</a>
+      </div>
     </div>
   </div>
   <div class="container-fluid">

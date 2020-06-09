@@ -9,6 +9,7 @@ import { NotificationService } from '../../../../shared/_services/notification.s
 import { TaskCampaignService} from '../../../../shared/_services/campaign-data-service';
 import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
 import {slideInOut} from '../../../../shared/_animations/animation';
+import {MessageService} from '../../../../shared/_services/http/message.service';
 
 export const DaysOfTheWeek = [
   { id: 1, shortEnglish: 'Sun', fullHebrew: 'ראשון', 	shortHebrew: 'א' },
@@ -76,6 +77,7 @@ export class CampaignsTypeComponent implements OnInit {
               public fb: FormBuilder,
               public route: ActivatedRoute,
               public helpers: HelpersService,
+              public messageService: MessageService,
               public router: Router,
               public notificationService: NotificationService,
               public taskCampaignService: TaskCampaignService,
@@ -280,7 +282,7 @@ export class CampaignsTypeComponent implements OnInit {
       if (index === -1) {
         this.campaignsType.splice(index, 1);
       }
-      if (!this.campaignsType.some(e => e.id === 0)) {
+      if (!this.campaignsType.some(e => e.id === 0) && model !== 1) {
         this.campaignsType.push({'id': '0', 'name': 'הודעות מותאמות'});
       }
       this.campaignsType.sort((a, b) => a.id - b.id);
@@ -288,10 +290,22 @@ export class CampaignsTypeComponent implements OnInit {
   }
 
   getSubtype(model) {
-    this.campaignsSubtype = [];
-    this.campaignsSubtype = this.campaignsType.find(a => a.id === model).subtype;
-    if (model === 1 || model === 2) {
-      this.dateModel = true;
+    this.dateModel = false;
+    if (!this.route.snapshot.queryParams['campaignId']) {
+      this.taskCampaign.get('details.moduleName').patchValue(null);
+      this.campaignsSubtype = [];
+    }
+    if (model === '0') {
+       this.messageService.getMessageName().then( response => {
+           this.campaignsSubtype = response;
+           this.taskCampaign.get('details.dateModule').patchValue(null);
+         }
+       );
+    } else {
+      this.campaignsSubtype = this.campaignsType.find(a => a.id === model).subtype;
+      if (model === 1 || model === 2) {
+        this.dateModel = true;
+      }
     }
   }
 

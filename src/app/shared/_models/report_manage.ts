@@ -6,6 +6,7 @@ export class ReportFilters {
   departmentId: number;
   startDate: string;
   endDate: string;
+  // salaryMonth: boolean;
 }
 
 export class ReportsData {

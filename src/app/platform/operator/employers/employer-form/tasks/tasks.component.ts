@@ -13,6 +13,7 @@ import {HelpersService} from '../../../../../shared/_services/helpers.service';
 import {CategoryTypeEmployerDefrayal, CategoryTypeFeedback} from '../../../../../shared/_models/plan';
 import {OperatorTasksService} from '../../../../../shared/_services/http/operator-tasks';
 import {PlatformComponent} from '../../../../platform.component';
+import {TimerService} from '../../../../../shared/_services/http/timer';
 
 
 @Component({
@@ -20,31 +21,21 @@ import {PlatformComponent} from '../../../../platform.component';
   templateUrl: './tasks.component.html',
   styles: ['.operator-container {margin-right: 60px}']
 })
-export class TasksComponent implements OnInit , OnDestroy {
+export class TasksComponent implements OnInit  {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
   taskStatus = TaskStatus;
   sub = new Subscription;
   organization;
-  // selected = ''
   pathEmployers = false;
   permissionsType = this.userSession.getPermissionsType('operations');
 
   readonly filter =  [
     {id: 9 , label: 'טעינת קובץ' , selected: true},
     {id: 0 , label: 'המשימות שלי' , selected: false},
-    // {id: 1 , label: 'הנחיות לתשלום' , selected: false},
-    // {id: 5 , label: 'ייתרות לפייצוים', selected: false},
-    // {id: 2 , label: 'היזונים חוזרים' , selected: false},
   ];
 
   readonly columns =  [
     { name: 'month', label: 'חודש' , searchable: false},
-    { name: 'task', label: 'המשימה' , searchable: false},
-    { name: 'taskAssignment', label: 'שיוך משימה' , searchable: false},
-    { name: 'employer', label: 'מעסיק' , searchable: false},
-    { name: 'status', label: 'סטטוס' , searchable: false},
-    { name: 'executive', label: 'מבצע המשימה' , searchable: false},
-    { name: 'executionDate', label: 'לביצוע עד' , searchable: false},
     { name: 'typeTask', label: 'המשימה' , searchable: false},
     { name: 'subtypeTask', label: 'תת משימה' , searchable: false},
     { name: 'creator', label: 'יוצר המשימה' , searchable: false},
@@ -57,6 +48,7 @@ export class TasksComponent implements OnInit , OnDestroy {
               public dialog: MatDialog,
               public helpers: HelpersService,
               private router: Router,
+              public timerService: TimerService,
               private operatorTasks: OperatorTasksService,
               private userSession: UserSessionService,
               private taskService: TaskService,
@@ -73,14 +65,6 @@ export class TasksComponent implements OnInit , OnDestroy {
       this.filter[0].selected = false;
       this.filter[1].selected = true;
     }
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        this.router.navigate([], {
-          queryParams: {page: 1},
-          relativeTo: this.route
-        });
-        this.fetchItems();
-      }
-    ));
   }
 
   fetchItems() {
@@ -96,11 +80,18 @@ export class TasksComponent implements OnInit , OnDestroy {
     this.operatorTasks.newTaskTimer(null, item.id).then(
       response => {
         if (response > 0 ) {
+          if (this.selectUnit.getTaskTimer()) {
+            const time = this.timerService.hour.value + ':' + this.timerService.minute.value + ':' + this.timerService.second.value;
+            this.operatorTasks.updateTaskTimer(this.selectUnit.getTaskTimer()['id'], time, 'task').then(
+              responseA => responseA);
+            this.selectUnit.clearTaskTimer();
+          }
           const isSelfTask = this.filter[1].selected === true ? true : false;
           const data = {id: response, type: item.subtypeTask, employer: item.employer.name,
             organization: this.organization.name, taskCampaignId: item.id, isSelfTask: isSelfTask};
-          this.selectUnit.setTaskTimer(data);
           this.initializationPlatform(item);
+          this.timerService.reset();
+          this.selectUnit.setTaskTimer(data);
           if (!this.filter[1].selected === true) {
             if (item.subtypeTask === 'טעינת קובץ') {
               this.router.navigate(['/platform', 'process', 'new', 'create']);
@@ -114,7 +105,12 @@ export class TasksComponent implements OnInit , OnDestroy {
 
   stopTask(item): void {
     this.operatorTasks.taskCompleted(item.id).then(
-      response => response
+      response => {
+        if (response) {
+          this.fetchItems();
+          this.selectUnit.clearTaskTimer();
+        }
+      }
     );
   }
 
@@ -128,7 +124,7 @@ export class TasksComponent implements OnInit , OnDestroy {
     this.platformComponent.organizationId = this.organization.id;
     this.platformComponent.employerId = item.employer.id;
     this.platformComponent.departmentId = 0;
-    this.selectUnit.changeOrganizationEmployerDepartment(this.organization.id, item.employer.id, 0);
+    this.selectUnit.changeOrganizationEmployerDepartment(Number(this.organization.id), item.employer.id, 0);
     this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
     this.selectUnit.setAgentBarActive(this.platformComponent.agentBarActive);
   }
@@ -169,6 +165,4 @@ export class TasksComponent implements OnInit , OnDestroy {
       });
   }
 
-  ngOnDestroy() {
-  }
 }
