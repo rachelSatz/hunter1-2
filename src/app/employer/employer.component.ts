@@ -12,7 +12,7 @@ export class EmployerComponent implements OnInit {
 
   constructor(public router: Router,
               private route: ActivatedRoute,
-              private processDataService: ProcessDataService) { }
+              public processDataService: ProcessDataService) { }
   // activeUrl: string;
 
   // readonly menuLinks = [

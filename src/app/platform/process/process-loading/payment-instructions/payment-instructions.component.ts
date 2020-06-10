@@ -11,8 +11,9 @@ import { ProcessLoadingComponent } from 'app/platform/process/process-loading/pr
 import { Subscription } from 'rxjs';
 import { DataTableCriteria } from 'app/shared/data-table/classes/data-table-criteria';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { GroupHistoryComponent } from 'app/platform/process/process-upload/payment/group-history/group-history.component';
+// import { GroupHistoryComponent } from 'app/platform/process/process-upload/payment/group-history/group-history.component';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
+import { GroupHistoryComponent } from 'app/platform/process/process-loading/payment-instructions/group-history/group-history.component';
 
 @Component({
   selector: 'app-payment-instructions',
@@ -69,10 +70,10 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
     this.monthlyService.groupHistory(this.processId).then(
       res =>  {
         if (res && res.length > 0) {
-          this.dialog.open(GroupHistoryComponent, {
-            data: {'processId' : this.processId , items: res},
-            width: '1000px',
-          });
+            this.dialog.open(GroupHistoryComponent, {
+              data: {'processId' : this.processId , items: res},
+              width: '1000px',
+            });
         }
       });
 
@@ -132,22 +133,26 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
   }
 
   setPage(): void {
-    if (this.rows === undefined) {
+    if (this.processDataService.activeProcess.payment_instructions) {
+      if (this.rows === undefined) {
         this.notificationService.warning('שים לב', 'עליך לבחור רשומות');
         return;
-    }
+      }
 
-    if (((this.rows.isCheckAll && this.rows.checkedItems.length > 0))
-      ||  (!this.rows.isCheckAll && this.rows.checkedItems.length < this.processLoading.process_details.groups_count)) {
-      const buttons = {confirmButtonText: 'המשך', cancelButtonText: 'ביטול'};
-      this.notificationService.warning('שים לב',
-        'לא כל הקופות מסומנות האם ברצונך לשדר חלקית?', buttons).then(confirmation => {
-        if (confirmation.value) {
-          this.navigatePage();
-        }
-      });
+      if (((this.rows.isCheckAll && this.rows.checkedItems.length > 0))
+        || (!this.rows.isCheckAll && this.rows.checkedItems.length < this.processLoading.process_details.groups_count)) {
+        const buttons = {confirmButtonText: 'המשך', cancelButtonText: 'ביטול'};
+        this.notificationService.warning('שים לב',
+          'לא כל הקופות מסומנות האם ברצונך לשדר חלקית?', buttons).then(confirmation => {
+          if (confirmation.value) {
+            this.navigatePage();
+          }
+        });
+      } else {
+        this.navigatePage();
+      }
     } else {
-      this.navigatePage();
+      this.notificationService.warning('שים לב', 'עליך להוריד/לשלוח הנחיות');
     }
   }
 

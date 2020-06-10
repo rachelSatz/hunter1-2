@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { Subscription } from 'rxjs';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-incorrect-rows',
@@ -21,7 +22,12 @@ export class IncorrectRowsComponent implements OnInit {
   }
 
   setPage(): void {
-    const location = 'http://localhost:4200/records';
+    let location = '';
+    if (environment.apiUrl.includes('8000/api')) {
+      location = 'http://localhost:4200/records';
+    } else {
+      location = 'http://212.29.236.40/records';
+    }
      window.open(location, '_blank', 'location=yes,scrollbars=yes,status=yes');
   }
 

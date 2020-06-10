@@ -22,10 +22,10 @@ import { UpdatePaymentTypeComponent } from './update-payment-type/update-payment
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
 import { HelpersService } from 'app/shared/_services/helpers.service';
-import { OpenSentComponent } from 'app/platform/process/process-upload/shared/detailed-files/open-sent/open-sent.component';
 import { PaymentInstructionsComponent } from 'app/platform/process/process-loading/payment-instructions/payment-instructions.component';
 import { ReferenceComponent } from 'app/platform/process/process-loading/reference/reference.component';
 import { GroupTransferComponent } from 'app/shared/shared/detailed-files/group-transfer/group-transfer.component';
+import { OpenSentComponent } from 'app/shared/shared/detailed-files/open-sent/open-sent.component';
 
 
 @Component({

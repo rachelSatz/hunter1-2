@@ -13,7 +13,7 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatSelectModule,
-  MatDialogModule, MatProgressSpinnerModule
+  MatDialogModule, MatProgressSpinnerModule, MatDatepickerModule
 } from '@angular/material';
 
 import { NotificationService } from 'app/shared/_services/notification.service';
@@ -27,6 +27,7 @@ import { PaymentInstructionsComponent } from 'app/platform/process/process-loadi
 import { ReferenceComponent } from 'app/platform/process/process-loading/reference/reference.component';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { GroupTransferComponent } from 'app/shared/shared/detailed-files/group-transfer/group-transfer.component';
+import { UpdatePaymentDateComponent } from 'app/shared/shared/detailed-files/update-payment-date/update-payment-date.component';
 
 
 const route: Routes = [
@@ -50,7 +51,8 @@ const route: Routes = [
     MatMenuModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    DataTableModule
+    DataTableModule,
+    MatDatepickerModule
   ],
   providers: [ NotificationService,
     MonthlyTransferBlockService,
@@ -61,8 +63,9 @@ const route: Routes = [
     GroupTransferComponent,
     UpdateAccountNumberComponent,
     UpdatePaymentTypeComponent,
+    UpdatePaymentDateComponent,
     OpenSentComponent ],
-  entryComponents: [UpdateAccountNumberComponent, UpdatePaymentTypeComponent, OpenSentComponent, GroupTransferComponent],
+  entryComponents: [UpdateAccountNumberComponent, UpdatePaymentTypeComponent, UpdatePaymentDateComponent, OpenSentComponent, GroupTransferComponent],
 
 })
 export class DetailedFilesModule {
