@@ -11,8 +11,8 @@ import { ProcessLoadingComponent } from 'app/platform/process/process-loading/pr
 import { Subscription } from 'rxjs';
 import { DataTableCriteria } from 'app/shared/data-table/classes/data-table-criteria';
 import { NotificationService } from 'app/shared/_services/notification.service';
-import { GroupHistoryComponent } from 'app/platform/process/process-upload/payment/group-history/group-history.component';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
+import { GroupHistoryComponent } from 'app/platform/process/process-loading/payment-instructions/group-history/group-history.component';
 
 @Component({
   selector: 'app-payment-instructions',
