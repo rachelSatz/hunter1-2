@@ -20,7 +20,7 @@ export class ProcessLoadingComponent implements OnInit , OnDestroy {
   constructor(public router: Router,
               protected route: ActivatedRoute,
               private dialog: MatDialog,
-              private processDataService: ProcessDataService,
+              public processDataService: ProcessDataService,
               public selectUnit: SelectUnitService,
               private processService: ProcessService) { }
 
