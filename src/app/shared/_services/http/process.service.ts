@@ -212,19 +212,19 @@ export class ProcessService extends BaseHttpService {
       .catch(response => response as any);
   }
 
-  uploadRef(uploadedFile: File, filesList: any, criteria: DataTableCriteria, processId: number): Promise<Object> {
-    if (uploadedFile) {
-      const formData = new FormData();
-      formData.append('file', uploadedFile);
-      formData.append('searchCriteria', JSON.stringify(this.setDataTableParams(criteria)));
-      formData.append('filesList', JSON.stringify(filesList));
-
-      return this.http.post(this.endPoint + '/' + processId +  '/uploadRef', formData, this.getTokenHeader())
-        .toPromise()
-        .then(response => response as Object)
-        .catch(() => []);
-    }
-  }
+  // uploadRef(uploadedFile: File, filesList: any, criteria: DataTableCriteria, processId: number): Promise<Object> {
+  //   if (uploadedFile) {
+  //     const formData = new FormData();
+  //     formData.append('file', uploadedFile);
+  //     formData.append('searchCriteria', JSON.stringify(this.setDataTableParams(criteria)));
+  //     formData.append('filesList', JSON.stringify(filesList));
+  //
+  //     return this.http.post(this.endPoint + '/' + processId +  '/uploadRef', formData, this.getTokenHeader())
+  //       .toPromise()
+  //       .then(response => response as Object)
+  //       .catch(() => []);
+  //   }
+  // }
 
   uploadsRef(files: File[], processId: number): Promise<Object> {
       const formData = new FormData();
