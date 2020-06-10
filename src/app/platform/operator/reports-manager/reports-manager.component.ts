@@ -63,6 +63,7 @@ export class ReportsManagerComponent implements OnInit {
     this.endDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.employerService.getProjects().then(response => this.projects = response);
     this.employerService.getOperator().then(response => this.operators = response);
+    // this.employerService.get().then(response => this.employers = response);
     this.organizationService.getOrganizationsNameAndId().then(response => this.organizations = response);
     this.helpers.setPageSpinner(false);
   }
@@ -83,7 +84,7 @@ export class ReportsManagerComponent implements OnInit {
   }
 
   getEmployers(): void {
-    this.employers = (this.selectUnit.getOrganization()).find(o => o.id === this.organizationId).employer;
+    this.employers = (this.selectUnit.getOrganization()).find(o => Number(o.id) === this.organizationId).employer;
   }
 
   clear(): void {
