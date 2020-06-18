@@ -182,6 +182,14 @@ export class InvoicesComponent implements OnInit, OnDestroy {
         'dataTable' : this.dataTable},
       width: '450px'
     });
+
+    this.sub.add(dialog.afterClosed().subscribe(res => {
+      if (res) {
+        this.dataTable.criteria.checkedItems = [];
+        this.dataTable.criteria.isCheckAll = false;
+        this.fetchItems();
+      }
+    }));
   }
 
 
@@ -251,6 +259,11 @@ export class InvoicesComponent implements OnInit, OnDestroy {
           if (response) {
             if (response['message'] === 'success') {
               this.notificationService.success('הרשומות נמחקו בהצלחה.');
+              this.dataTable.criteria.checkedItems = [];
+              this.dataTable.criteria.isCheckAll = false;
+              this.fetchItems();
+            } else if (response['message'] === 'no_rows_selected') {
+              this.notificationService.info('לא נמצאו רשומות מתאימות לשליחה');
               this.dataTable.criteria.checkedItems = [];
               this.dataTable.criteria.isCheckAll = false;
               this.fetchItems();
