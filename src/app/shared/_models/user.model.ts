@@ -55,6 +55,7 @@ export enum EntityRoles {
   admin =  'מנהל',
   operator = 'מתפעל',
   employer =  'מעסיק',
+  service_manager = 'מנהל שרות',
 }
 
 export enum TeamLeader {

@@ -1,12 +1,14 @@
 export class ReportFilters {
-  projectsId: number;
+  projectId: number;
   operatorId: number;
   organizationId: number;
+  teamLeader: string;
   employerId: number;
   departmentId: number;
   startDate: string;
   endDate: string;
-  // salaryMonth: boolean;
+  salaryMonth: boolean;
+  status: string;
 }
 
 export class ReportsData {
@@ -43,6 +45,7 @@ export class ReportsData {
   feedback_unanswered: number;
 
   constructor() {
+    this.organization_count = 0;
     this.employers_count = 0;
     this.employees_no_zero_count = 0;
     this.employees_zero_count = 0;

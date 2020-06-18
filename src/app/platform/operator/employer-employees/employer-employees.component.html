@@ -1,4 +1,4 @@
-<div class="mr-4 px-4">
+<div class="mr-5 px-4">
   <a (click)="previous()">
     <p class="f-14 blue-color">
       <i class="fa fa-angle-right ml-1 ml-lg-2"></i>
@@ -6,16 +6,27 @@
     </p>
   </a>
   <div class="px-4">
-    <app-data-table tableName="מעסיקים ומספר תעודות זהות" (fetchItems)="fetchItems()" [columns]="columns"
-                    [hasExtendedSearch]="false" [hasCheckColumn]="false" [hasActionsSearch]="false" [hasActionsHeader]="false">
-      <tr *ngFor="let item of dataTable.items" class="pointer">
-        <td>{{ item.organization_name }}</td>
-        <td>{{ item.employer_name }}</td>
-        <td>{{ item.employer_identifier }}</td>
-        <td>{{ item.operator_name }}</td>
-        <td>{{ item.employee_product }}</td>
-        <td>{{ item.employee_no_product }}</td>
-      </tr>
-    </app-data-table>
+    <p class="f-36">מעסיקים ומספר תעודות זהות</p>
+    <div class="w-100 row mt-5">
+      <div class="w-50 float-right">
+        <button class="btn ellipse-s blue-btn  float-left font-rubik mt-sm-2 mr-3" type="submit" (click)="changeTab(1)">ברמת מעסיק</button>
+      </div>
+      <div class="w-50 float-left">
+        <button class="btn mr-3 ellipse-s blue-btn font-rubik mt-sm-2 mr-3" type="submit" (click)="changeTab(2)">ברמת אירגון</button>
+      </div>
+    </div>
+    <div class="mt-6" >
+      <app-data-table (fetchItems)="fetchItems()" [columns]="tab === 1 ? columns : columnsOrganizations"
+                      [hasExtendedSearch]="false" [hasCheckColumn]="false" [hasActionsSearch]="false" [hasActionsHeader]="false">
+        <tr *ngFor="let itemE of dataTable.items " class="pointer">
+          <td>{{ itemE.organization_name }}</td>
+          <td *ngIf="tab === 1">{{ itemE.employer_name }}</td>
+          <td *ngIf="tab === 1">{{ itemE.employer_identifier }}</td>
+          <td>{{ itemE.operator_name }}</td>
+          <td>{{ itemE.employee_product }}</td>
+          <td>{{ itemE.employee_no_product }}</td>
+        </tr>
+      </app-data-table>
+    </div>
   </div>
 </div>

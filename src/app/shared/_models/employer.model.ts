@@ -24,6 +24,7 @@ export class Employer {
   status: string;
   department: Department[];
   operator;
+  salesperson_id: number;
   sender_identifier: string;
   sender_identifier_type: string;
   deduction_number: number;

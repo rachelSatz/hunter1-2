@@ -23,6 +23,7 @@ import { FileDepositionComponent } from 'app/shared/_dialogs/file-deposition/fil
 import { UserSessionService } from 'app/shared/_services/user-session.service';
 import { ManualStatus } from 'app/shared/_models/employee-feedback.model';
 import { ChangeStatusComponent } from 'app/shared/_dialogs/change-status/change-status.component';
+import {PlatformComponent} from '../../platform.component';
 
 
 @Component({
@@ -57,7 +58,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
     'feedback_a_failed',
     'partially_paid',
     'fully_paid',
-    'paid_failed' ]
+    'paid_failed' ];
   list_status = Object.keys(Status).map(function(e) {
     return { id: e, name: Status[e] };
   });
@@ -89,6 +90,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
               private processService: ProcessService,
               public userSession: UserSessionService,
               private feedbackService: FeedbackService,
+              private platformComponent: PlatformComponent,
               private selectUnit: SelectUnitService,
               private documentService: DocumentService,
               private generalService: GeneralHttpService) {
@@ -103,6 +105,18 @@ export class FilesComponent implements OnInit, OnDestroy  {
     this.selectYear = this.route.snapshot.queryParams['year'];
     this.selectYear = this.selectYear ?  Number(this.selectYear) : this.year;
     const month = this.route.snapshot.queryParams['month'];
+    // if (this.route.snapshot.queryParams['departmentId']) {
+    //   this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
+    //   const departmentId =  Number(this.route.snapshot.queryParams.departmentId);
+    //   const employerId = this.selectUnit.getReportFilters().employerId;
+    //   const organization = this.selectUnit.getReportFilters().organizationId;
+    //   this.selectUnit.changeOrganizationEmployerDepartment(organization.id, employerId, departmentId);
+    //   this.platformComponent.departmentId = departmentId;
+    //   this.platformComponent.organizationId = organization.id;
+    //   this.platformComponent.employerId = employerId;
+    //   if (this.selectUnit.getReportFilters()) {
+    //   }
+    // }
     if (this.fileId && !this.processId) {}
     this.selectMonth = month ? Number(month) : this.selectMonth;
     this.sub.add(

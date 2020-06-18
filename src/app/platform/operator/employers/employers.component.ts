@@ -11,6 +11,7 @@ import { ReportFilters } from '../../../shared/_models/report_manage';
 import { NotificationService } from '../../../shared/_services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupDetailsComponent } from './group-details/group-details.component';
+import {PlatformComponent} from '../../platform.component';
 
 
 @Component({
@@ -55,6 +56,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
               private dialog: MatDialog,
               private notificationService: NotificationService,
               private employerService: EmployerService,
+              private platformComponent: PlatformComponent,
               public  userSession: UserSessionService,
               private selectUnit: SelectUnitService) {
   }
@@ -62,6 +64,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
   ngOnInit() {
     if (this.route.snapshot.queryParams['report']) {
       this.location = 'report';
+      this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
     } else if (this.router.url.includes( 'operator')) {
       this.location = 'operator';
     } else {
@@ -112,7 +115,7 @@ export class EmployersComponent  implements OnInit , OnDestroy {
       this.dataTable.criteria.filters['employerId'] = this.reportsFilters.employerId;
       this.dataTable.criteria.filters['operatorId'] = this.reportsFilters.operatorId;
       this.dataTable.criteria.filters['organizationId'] = this.reportsFilters.organizationId;
-      this.dataTable.criteria.filters['projectId'] = this.reportsFilters.projectsId;
+      this.dataTable.criteria.filters['projectId'] = this.reportsFilters.projectId;
       this.dataTable.criteria.filters['status'] = 'active';
     }
     this.employerService.getAllEmployers(this.dataTable.criteria).then(

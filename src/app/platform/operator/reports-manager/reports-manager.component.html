@@ -3,29 +3,64 @@
   <hr class="mr-5">
   <div class="border-shadow-main p-3 mt-2 mr-5">
     <div class="d-flex">
-      <mat-form-field class="bd-width190 font-rubik">
+      <mat-form-field class="bd-width190 font-rubik" *ngIf="!salaryMonth">
         <input matInput [matDatepicker]="datePickerFrom" [max]="endDate" placeholder=" מתאריך" [value]="startDate" [(ngModel)]="startDate" >
         <mat-datepicker-toggle matSuffix [for]="datePickerFrom"></mat-datepicker-toggle>
         <mat-datepicker #datePickerFrom ></mat-datepicker>
       </mat-form-field>
-      <mat-form-field class="bd-width190 mr-5 font-rubik">
+      <mat-form-field class="bd-width190 mr-5 font-rubik" *ngIf="!salaryMonth">
         <input matInput [matDatepicker]="datePickerTo" [min]="startDate" [max]="toDay" [(ngModel)]="endDate" [value]="endDate"  placeholder=" עד תאריך">
         <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
         <mat-datepicker #datePickerTo></mat-datepicker>
       </mat-form-field>
+      <mat-form-field  *ngIf="salaryMonth">
+        <mat-select placeholder="מחודש שכר" [(ngModel)]="startDate" name="month" class="ml-3">
+          <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1">
+            {{month}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="mr-3" *ngIf="salaryMonth">
+        <mat-select placeholder="שנה" [(ngModel)]="startYear" name="year" >
+          <mat-option *ngFor="let year of years" [value]="year">
+            {{year}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="mr-5" *ngIf="salaryMonth">
+        <mat-select placeholder="עד חודש שכר" [(ngModel)]="endDate" name="month" class="ml-3">
+          <mat-option *ngFor="let month of months; let index = index;" [value]="index + 1">
+            {{month}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="mr-3" *ngIf="salaryMonth">
+        <mat-select placeholder="שנה" [(ngModel)]="endYear" name="year" >
+          <mat-option *ngFor="let year of years" [value]="year">
+            {{year}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="mr-5 my-sm-4">
+        <mat-checkbox class="col-5" name="salaryMonth" (select)="format = 'dd-MM-yyyy'" [(ngModel)]="salaryMonth">חודש שכר</mat-checkbox>
+      </div>
     </div>
     <div class="d-flex">
       <div class="bd-width190 font-rubik">
         <bd-select [items]="projects"  placeholder="פרויקט" [(ngModel)]="projectsId"
-                   class="bd-min-width" (onSelect)="getOperatorByProject()"></bd-select>
+                   class="bd-min-width" (onSelect)="getAllFilter()"></bd-select>
+      </div>
+      <div class="bd-width190 mr-5 font-rubik">
+        <bd-select [items]="teamLeaders" placeholder="מנהל צוות" [(ngModel)]="teamLeader"
+                   class="bd-min-width" (onSelect)="setOperator()"></bd-select>
       </div>
       <div class="bd-width190 mr-5 font-rubik">
         <bd-select [items]="operators" placeholder="מנהל תיק" [(ngModel)]="operatorId"
-                   class="bd-min-width" (onSelect)="getOrganizations()" ></bd-select>
+                   class="bd-min-width" (onSelect)="getAllFilter()" ></bd-select>
       </div>
       <div class="bd-width190 mr-5 font-rubik">
         <bd-select [items]="organizations"  placeholder="ארגון" [(ngModel)]="organizationId"
-                   label="value" class="bd-min-width" (onSelect)="getEmployers()"></bd-select>
+                   label="value" class="bd-min-width" (onSelect)="getAllFilter()"></bd-select>
       </div>
       <div class="bd-width190 mr-5 font-rubik">
         <bd-select [items]="employers" placeholder="מעסיק" [(ngModel)]="employerId" (onSelect)="getDepartment()"
@@ -39,12 +74,12 @@
         <div class="ml-1">נקה</div>
         <img src="../../../../assets/img/bin.png" class="mr-03" height="16" width="16"/>
       </div>
-      <button class="btn btn-primary ellipse-s blue-btn font-rubik mt-sm-2 mr-3" type="submit" (click)="submit()"><img
+      <button class="btn ellipse-s blue-btn font-rubik mt-sm-2 mr-3" type="submit" (click)="submit()"><img
         src="../../../../assets/img/filter.png" class="ml-1" height="16" width="16"/>סנן</button>
     </div>
   </div>
   <br>
-  <p class="mr-5 h5 bold font-rubik"> תוצאות של {{datePipe.transform(startDate, 'MM-yyyy')}} עד {{datePipe.transform(endDate, 'MM-yyyy')}}</p>
+  <p class="mr-5 h5 bold font-rubik"> תוצאות של {{datePipe.transform(startDate, format)}} עד {{datePipe.transform(endDate, format)}}</p>
   <hr class="mr-5">
   <div class="d-flex">
     <div class="h-350 w-25 mr-6">
@@ -58,9 +93,22 @@
     </div>
     <div class="border-shadow w-25 h-350 mr-5">
       <br><br>
-      <img src="../../../../assets/img/status (1).png" class="rounded mx-auto d-block" height="64" width="64"/>
-      <p class="h6 bold text-center py-2 font-rubik">מס' מעסיקים</p>
-      <p class="blue-color font-weight-bold f-60 text-center font-rubik py-3">{{ reportsData.employers_count}}</p>
+      <div class="d-flex">
+        <img src="../../../../assets/img/status (1).png" class="rounded mx-auto d-block" height="64" width="64"/>
+        <img src="../../../../assets/img/building.png" class="rounded mx-auto d-block" height="64" width="64"/>
+      </div>
+      <div class="d-flex">
+        <p class="h6 bold text-center mr-6 py-2 font-rubik">מס' מעסיקים</p>
+        <p class="h6 bold text-center mr-7 py-2 font-rubik">מס' אירגונים</p>
+      </div>
+      <div class="d-flex">
+        <div class="w-50">
+          <p class="blue-color font-weight-bold f-55 text-center font-rubik py-2">{{ reportsData.employers_count}}</p>
+        </div>
+        <div class="w-50">
+          <p class="yellow1-color font-weight-bold f-55 text-center font-rubik py-2">{{ reportsData.organization_count}}</p>
+        </div>
+      </div>
       <hr class="mr-3 ml-3">
       <div class="d-flex justify-content-center">
         <a class="text-center font-rubik" [ngClass]="{'disabledInput' : this.departmentsIds === null}" (click)="navigateEmployer()" > לרשימה המלאה
@@ -129,7 +177,7 @@
       </div>
       <hr class="mr-3 ml-3">
       <div class="d-flex justify-content-center">
-        <p class="text-center font-rubik"> לרשימה המלאה</p>
+        <a class="text-center font-rubik" (click)="navigateProcess()"> לרשימה המלאה</a>
         <div class="mr-3">
           <img src="../../../../assets/img/left.png" height="16"  width="16"/>
         </div>
@@ -158,7 +206,7 @@
         <div class="w-250p mr-35">
           <p class="h6 bold font-rubik yellow1-color">{{reportsData.feedback_a_unanswered}}</p>
         </div>
-        <img src="../../../../assets/img/left.png" height="16"  width="16"/>
+        <img src="../../../../assets/img/left.png" height="16"  width="16" />
       </ul>
       <hr class="mt-sm-2">
       <ul class="d-flex mr-5 mt-1">
@@ -168,7 +216,7 @@
         <div class="w-250p mr-35">
           <p class="h6 bold font-rubik">{{reportsData.feedback_a_failed}}</p>
         </div>
-        <img src="../../../../assets/img/left.png" height="16"  width="16"/>
+        <img src="../../../../assets/img/left.png" height="16"  width="16" />
       </ul>
     </div>
     <div class="d-flex py-3">
@@ -186,25 +234,25 @@
         <hr class="mr-3 ml-3">
         <div class="d-flex mt-5">
           <div class="">
-            <div class="border circle-size rounded-circle mr-6 py-4">
+            <div class="border circle-size rounded-circle mr-6 py-4" (click)="navigateFeedback('')">
               <p class="h6 font-rubik text-center mr-0">{{reportsData.file_not_defrayed}}</p>
             </div>
             <p class="h6 font-rubik text-center mr-6 mt-2">לא נפרע</p>
           </div>
           <div class="mr-5">
-            <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
+            <div class="border mr-6 circle-size rounded-circle mr-6 py-4" (click)="navigateFeedback('')">
               <p class="h6 font-rubik green1-color text-center mr-0">{{reportsData.file_fully_defrayed}}</p>
             </div>
             <p class="mr-6 h6 mt-2 text-center font-rubik">נפרע במלואו</p>
           </div>
           <div class="mr-5">
-            <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
+            <div class="border mr-6 circle-size rounded-circle mr-6 py-4" (click)="navigateFeedback('')">
               <p class="h6 font-rubik yellow1-color text-center mr-0">{{reportsData.file_partially_paid}}</p>
             </div>
             <p class="mr-6 h6 mt-2 text-center font-rubik">נפרע חלקית</p>
           </div>
           <div class="mr-5">
-            <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
+            <div class="border mr-6 circle-size rounded-circle mr-6 py-4" (click)="navigateFeedback('')">
               <p class="h6 font-rubik orange-color text-center mr-0">{{reportsData.file_feedback_a_failed}}</p>
             </div>
             <p class="mr-6 h6 mt-2 text-center font-rubik">נכשל</p>
@@ -216,13 +264,13 @@
         <hr class="mr-3 ml-3">
         <div class="d-flex mt-5 mr-5">
           <div class="">
-            <div class="border circle-size rounded-circle mr-6 py-4">
+            <div class="border circle-size rounded-circle mr-6 py-4" (click)="navigateFeedback('')">
               <p class="h6 font-rubik text-center mr-0">{{reportsData.mtb_not_defrayed}}</p>
             </div>
             <p class="h6 font-rubik text-center mr-6 mt-2">לא נפרע</p>
           </div>
           <div class="mr-5">
-            <div class="border mr-6 circle-size rounded-circle mr-6 py-4">
+            <div class="border mr-6 circle-size rounded-circle mr-6 py-4" (click)="navigateFeedback('')">
               <p class="h6 font-rubik green1-color text-center mr-0">{{reportsData.mtb_defrayed}}</p>
             </div>
             <p class="mr-6 h6 mt-2 text-center font-rubik">נפרע במלואו</p>
@@ -234,20 +282,20 @@
       <div class="border-shadow w-40">
         <p class="h6 bold font-rubik  mr-4 mt-3">היזון מסכם</p>
         <hr class="mr-3 ml-3">
-        <p class="h5 font-rubik bold text-center mt-5 mb-0">תקינים</p>
+        <p class="h5 font-rubik bold text-center mt-5 mb-0 " >תקינים</p>
         <p class="green1-color font-weight-bold f-60 text-center font-rubik">{{reportsData.feedback}}</p>
       </div>
       <div class="border-shadow w-40 mr-3">
         <p class="h6 bold font-rubik  mr-4 mt-3">היזון מסכם</p>
         <hr class="mr-3 ml-3">
-        <p class=" h5 font-rubik bold text-center mt-5 mb-0">ללא מענה</p>
+        <p class=" h5 font-rubik bold text-center mt-5 mb-0 " >ללא מענה</p>
         <p class="grey-color font-weight-bold f-60 text-center font-rubik ">{{reportsData.feedback_unanswered}}</p>
       </div>
       <div class="border-shadow w-40  mr-3">
         <p class="h6 bold font-rubik  mr-4 mt-3">היזון מסכם</p>
         <hr class="mr-3 ml-3">
-        <p class="h5 font-rubik bold text-center mt-5 mb-0">תקולים</p>
-        <p class="orange-color font-weight-bold f-60 text-center font-rubik ">{{reportsData.feedback_failed}}</p>
+        <p class="h5 font-rubik bold text-center mt-5 mb-0 " >תקולים</p>
+        <p class="orange-color font-weight-bold f-60 text-center font-rubik">{{reportsData.feedback_failed}}</p>
       </div>
     </div>
   </div>

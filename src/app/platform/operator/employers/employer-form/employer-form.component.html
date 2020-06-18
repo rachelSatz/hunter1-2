@@ -56,7 +56,7 @@
             </mat-form-field>
           </div>
       </div>
-      <div class="mt-4">
+      <div class="mt-3">
         <mat-form-field>
           <input matInput  placeholder="טלפון" [(ngModel)]="employer.phone"
                  (change)="saveChanges = true" formControlName="phone" maxlength="11" minlength="7">
@@ -109,7 +109,13 @@
                  formControlName="institutionCode8" maxlength="8" (change)="saveChanges = true">
           <mat-error>שדה חובה</mat-error>
         </mat-form-field>
-        <button [disabled]="!saveChanges" class="btn blue-btn mr-5" type="submit">שמור שינויים</button>
+        <div class=" mr-3 d-inline-block bd-de">
+          <bd-select [items]="serviceManager" formControlName="salesperson" [(ngModel)]="employer.salesperson_id"
+                     placeholder="מנהל שרות" class="bd-min-width" ></bd-select>
+        </div>
+      </div>
+      <div class="mt-4 ">
+        <button [disabled]="!saveChanges" class="btn blue-btn" type="submit">שמור שינויים</button>
       </div>
     </form>
   </div>

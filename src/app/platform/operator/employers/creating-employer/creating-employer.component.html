@@ -84,9 +84,10 @@
               <bd-select [items]="operators" formControlName="operator" [ngClass]="{'disabledInput' :creatingEmployerForm.get('creatingEmployer.employerDetails').value.status === 'on_process'}"
                          placeholder="מנהל תיק *" class="bd-min-width" ></bd-select>
             </div>
-            <mat-form-field class="mr-5">
-              <input matInput placeholder="איש מכירות" formControlName="salesperson">
-            </mat-form-field>
+            <div class="bd-width181 mr-5">
+              <bd-select [items]="serviceManager" formControlName="salesperson"
+                         placeholder="מנהל שרות" class="bd-min-width" ></bd-select>
+            </div>
           </div>
           <div class="d-flex">
             <mat-form-field>
@@ -106,11 +107,7 @@
           <div class="d-flex">
             <mat-form-field>
               <input matInput placeholder="מספר מזהה שולח *" formControlName="receivedIdentifier" maxlength="9"  minlength="9" >
-              <!--             <mat-error>ח.פ אינו תקין</mat-error>-->
             </mat-form-field>
-            <!--          <mat-form-field class="mr-5">-->
-            <!--            <input matInput placeholder="תאריך עדכון אחרון" formControlName="" readonly>-->
-            <!--          </mat-form-field>-->
           </div>
           <mat-form-field class="w-640p">
             <input matInput placeholder="הוספת הערות" formControlName="comment">

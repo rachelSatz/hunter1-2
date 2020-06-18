@@ -7,6 +7,9 @@ import {HelpersService} from '../../../shared/_services/helpers.service';
 import {ReportFilters, ReportsData} from '../../../shared/_models/report_manage';
 import {ActivatedRoute, Router} from '@angular/router';
 import { MONTHS } from 'app/shared/_const/months';
+import {TeamLeaderTask} from '../../../shared/_models/user.model';
+import {UserService} from '../../../shared/_services/http/user.service';
+import {NotificationService} from '../../../shared/_services/notification.service';
 
 
 @Component({
@@ -32,21 +35,31 @@ export class ReportsManagerComponent implements OnInit {
   departmentId;
   operatorId;
   projectsId;
+  teamLeader;
   organizationId;
   employerId ;
+  format = 'MM-yyyy';
   year = new Date().getFullYear();
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
   months = MONTHS;
+
+  teamLeaders = Object.keys(TeamLeaderTask).map(function (e) {
+    return {id: e, name: TeamLeaderTask[e]};
+  });
+
 
   constructor(
     public datePipe: DatePipe,
     private router: Router,
     protected route: ActivatedRoute,
     private organizationService: OrganizationService,
+    protected notificationService: NotificationService,
     private employerService: EmployerService,
     private selectUnit: SelectUnitService,
+    private userService: UserService,
     private helpers: HelpersService
-  ) { }
+  ) {   this.teamLeaders.push({'id': '0', 'name': 'כלל מנהלי התיק'});
+  }
 
   ngOnInit() {
     this.helpers.setPageSpinner(true);
@@ -59,32 +72,42 @@ export class ReportsManagerComponent implements OnInit {
     this.projectsId = 0;
     this.organizationId = 0;
     this.employerId = 0;
+    this.teamLeader = 0;
     this.startDate = this.datePipe.transform(new Date(2018, 0o1, 0o1), 'yyyy-MM-dd');
     this.endDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.employerService.getProjects().then(response => this.projects = response);
     this.employerService.getOperator().then(response => this.operators = response);
-    // this.employerService.get().then(response => this.employers = response);
+    this.employerService.getEmployersName().then(response => this.employers = response);
     this.organizationService.getOrganizationsNameAndId().then(response => this.organizations = response);
     this.helpers.setPageSpinner(false);
   }
 
-  getOrganizations(): void {
-     this.organizationService.getOrganizationByOperator(this.operatorId, this.projectsId).then(
-       response => this.organizations = response);
+  setOperator(): void {
+    if (this.teamLeader !== '0') {
+      this.employerService.getOperatorByTeamLeader(this.teamLeader).then(
+        response => {
+          if (response) {
+            this.operators = response;
+          }
+        });
+    } else {
+      this.employerService.getOperator().then(response => this.operators = response);
+    }
   }
 
-  getOperatorByProject(): void {
-    this.employerService.getOperator(true, this.projectsId).then(
-      response => this.operators = response
-    );
+  getAllFilter(): void {
+    this.employerService.filterReport(this.projectsId, this.operatorId, this.organizationId, this.employerId).then(response => {
+      if (response) {
+        this.projects = response['projects'];
+        this.operators = response['operators'];
+        this.organizations = response['organizations'];
+        this.employers = response['employers'];
+      }
+    });
   }
 
   getDepartment(): void {
-    this.departments = this.employers[0].department;
-  }
-
-  getEmployers(): void {
-    this.employers = (this.selectUnit.getOrganization()).find(o => Number(o.id) === this.organizationId).employer;
+    this.departments = this.employers.find(e => e.id === this.employerId).department;
   }
 
   clear(): void {
@@ -93,8 +116,8 @@ export class ReportsManagerComponent implements OnInit {
 
   submit(): void {
     this.helpers.setPageSpinner(true);
-    const sDate = this.salaryMonth ? new Date(this.startYear, this.startDate, 1) : this.startDate;
-    const eDate = this.salaryMonth ? new Date(this.endYear, this.endDate, 29) : this.endDate;
+    const sDate = this.salaryMonth ? new Date(this.startYear, this.startDate - 1, 1) : this.startDate;
+    const eDate = this.salaryMonth ? new Date(this.endYear, this.endDate - 1, 29) : this.endDate;
     this.startDate = this.datePipe.transform(sDate, 'yyyy-MM-dd');
     this.endDate = this.datePipe.transform(eDate, 'yyyy-MM-dd');
     this.insertReportsFilters();
@@ -106,16 +129,38 @@ export class ReportsManagerComponent implements OnInit {
   }
 
   insertReportsFilters(): void {
-    this.reportsFilters.projectsId = this.projectsId;
+    this.reportsFilters.projectId = this.projectsId;
     this.reportsFilters.operatorId = this.operatorId;
     this.reportsFilters.organizationId = this.organizationId;
     this.reportsFilters.employerId = this.employerId;
+    this.reportsFilters.teamLeader = this.teamLeader;
     this.reportsFilters.departmentId = this.departmentId;
-    // this.reportsFilters.salaryMonth = this.salaryMonth;
+    this.reportsFilters.salaryMonth = this.salaryMonth;
     this.reportsFilters.startDate = this.startDate;
     this.reportsFilters.endDate = this.endDate;
     this.selectUnit.setReportFilters(this.reportsFilters);
   }
+
+  navigateProcess(): void {
+    if (this.reportsFilters.employerId) {
+      this.router.navigate(['/platform', 'process', 'table'],
+        {queryParams:  {employerId: this.employerId}});
+    } else {
+      this.notificationService.error('יש לסנן עם מעסיק', '');
+    }
+  }
+
+  navigateFeedback(status): void {
+    if (this.reportsFilters.departmentId) {
+      // this.reportsFilters.status = status;
+      // this.selectUnit.setReportFilters(this.reportsFilters);
+      // this.router.navigate(['/platform', 'feedback', 'files'],
+      //   {queryParams:  {departmentId: this.departmentId}});
+    } else {
+      this.notificationService.error('יש לסנן עם מחלקה', '');
+    }
+  }
+
   navigateEmployer(): void {
     if (this.departmentsIds) {
       this.insertReportsFilters();

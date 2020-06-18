@@ -279,7 +279,7 @@ export class CampaignsTypeComponent implements OnInit {
     this.campaignsService.getTypes(isTask).then(response => {
       this.campaignsType = response;
       const index = this.campaignsType.indexOf(this.campaignsType.find(a => a.id === 10));
-      if (index === -1) {
+      if (index !== -1) {
         this.campaignsType.splice(index, 1);
       }
       if (!this.campaignsType.some(e => e.id === 0) && model !== 1) {

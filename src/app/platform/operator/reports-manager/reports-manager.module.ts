@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ReportsManagerComponent } from './reports-manager.component';
+import {UserService} from '../../../shared/_services/http/user.service';
 
 
 const routes: Routes = [
@@ -34,7 +35,7 @@ const routes: Routes = [
   ],
   declarations: [ReportsManagerComponent],
 
-  providers: [NotificationService, DatePipe]
+  providers: [NotificationService, DatePipe, UserService]
 })
 
 export class ReportsManagerModule { }

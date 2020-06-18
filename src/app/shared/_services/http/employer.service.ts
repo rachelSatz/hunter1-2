@@ -39,11 +39,29 @@ export class EmployerService extends BaseHttpService {
      .catch(() => null);
   }
 
+  filterReport(project: number, operator: number, org: number, employer: number): Promise<any> {
+    const request = this.getTokenHeader();
+    request['params'] = {project: project, operator: operator, organization: org, employer: employer};
+
+    return this.http.get(this.endPoint + '/filterReport', request)
+      .toPromise()
+      .then(response => response as EmployerFinancialDetails)
+      .catch(() => null);
+  }
+
   getEmployerByOrganization(id: number): Promise<Employer[]> {
     return this.http.get(this.endPoint + '/' + id + '/employerByOrganization' , this.getTokenHeader())
       .toPromise()
       .then(response => response as Employer)
       .catch(() => null);
+  }
+
+  getEmployerByProject(id: number, projectId: number): Promise<Employer[]> {
+    const request = this.getTokenHeader();
+    request['params'] = {operatorId: id, projectId: projectId};
+    return this.http.get(this.endPoint + '/getEmployerByProject', request)
+      .toPromise()
+      .then(response => response as any);
   }
 
   getAllEmployers(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
@@ -125,6 +143,24 @@ export class EmployerService extends BaseHttpService {
       .then(response => response as any);
   }
 
+  getServiceManager(): Promise<any> {
+    const request = this.getTokenHeader();
+    return this.http.get(this.endPoint + '/getServiceManager', request)
+      .toPromise()
+      .then(response => response as any);
+  }
+
+  getOperatorByTeamLeader(teamLeader: string): Promise<any> {
+    const request = this.getTokenHeader();
+    return this.http.post(this.endPoint + '/getOperatorByTeamLeader', {teamLeader: teamLeader}, request)
+      .toPromise()
+      .then(response => response as any);
+  }
+
+  getEmployersName(): Promise<any> {
+    return this.http.get(this.endPoint + '/getEmployersName', this.getTokenHeader()).toPromise()
+      .then( response => response );
+  }
 
   getProjects(): Promise<any> {
     return this.http.get(this.endPoint + '/projects', this.getTokenHeader()).toPromise()

@@ -12,6 +12,7 @@ import { UserService} from 'app/shared/_services/http/user.service';
 import { TeamLeaderTask, User} from 'app/shared/_models/user.model';
 import { Subscription } from 'rxjs';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {EmployerService} from '../../../../shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-plan-form',
@@ -45,6 +46,7 @@ export class PlanFormComponent implements OnInit  {
               private planService: PlanService,
               private userService: UserService,
               public datePipe: DatePipe,
+              private employerService: EmployerService,
               protected notificationService: NotificationService,
               private _location: Location) { }
 
@@ -60,7 +62,7 @@ export class PlanFormComponent implements OnInit  {
         }
       }
     }
-    this.userService.usersList().then(response => this.operators = response['items']);
+    this.employerService.getOperator().then(response => this.operators = response);
     this.planService.getTypes().then(response => this.types = response);
   }
 

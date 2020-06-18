@@ -15,8 +15,10 @@
 }
 
 .bd-width190 {
-  width: 250px;
   margin-top: 10px;
+}
+.mr-5r{
+  margin-right: 5.5rem;
 }
 
 .ellipse-s{

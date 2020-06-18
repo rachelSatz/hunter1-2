@@ -45,7 +45,6 @@ export class CreatingEmployerComponent implements OnInit {
   branchesD;
   branchesW;
   operators = [];
-  saleMans = [];
   pageNumber = 1;
   maxPageNumber = 1;
   selectedBankD: number;
@@ -92,6 +91,7 @@ export class CreatingEmployerComponent implements OnInit {
     {title : 'פרטי בנק של הארגון - שלב 3', progress : 'progress-bar process4'},
     {title : 'קליטת עובדים - שלב 4', progress : 'progress-bar process5'},
   ];
+  serviceManager = [];
 
   constructor(
     private fb: FormBuilder,
@@ -133,7 +133,7 @@ export class CreatingEmployerComponent implements OnInit {
     this.pageNumber = this.route.snapshot.queryParams['page'] ? parseInt(this.route.snapshot.queryParams['page']) : 1;
     this.employerService.getProjects().then(response => this.projects = response);
     this.getOperator();
-    this.getSaleMans();
+    this.employerService.getServiceManager().then(response => this.serviceManager = response);
     this.generalHttpService.getBanks(true).then(banks => {
       this.banks = banks;
       this.organizationService.getOrganizationsNameAndId().then(response => {
@@ -241,7 +241,7 @@ export class CreatingEmployerComponent implements OnInit {
       institutionCode5: this.employer.institution_code_5 ? this.employer.institution_code_5 : null,
       institutionCode8: this.employer.institution_code_8 ? this.employer.institution_code_8 : null,
       comment: data.items.details.comment ? data.items.details.comment : null,
-      salesperson: data.items.details.salesperson ? data.items.details.salesperson : null,
+      salesperson: data.items.details.salesperson_id ? data.items.details.salesperson_id : null,
     });
     this.creatingEmployerForm.get('creatingEmployer.employerPayment').patchValue({
       paymentForConstruction: data.items.details.payment_for_treatment ? data.items.details.payment_for_treatment : null,
@@ -368,7 +368,6 @@ export class CreatingEmployerComponent implements OnInit {
         FileSaver.saveAs(blob, file.name);
       }
     }
-
   }
 
   copyBankRow(): void {
@@ -404,9 +403,6 @@ export class CreatingEmployerComponent implements OnInit {
   removeControl(index: number): void {
       const contactsGroup = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact'));
       contactsGroup.removeAt(index);
-      // if (this.route.snapshot) {
-      //   this.contactService.deleteEmployerContact(5).then(response => response);
-      // }
   }
 
   showFileXml(): void {
@@ -466,12 +462,6 @@ export class CreatingEmployerComponent implements OnInit {
   getOperator(): void {
     this.employerService.getOperator().then(response => {
       this.operators = response;
-    });
-  }
-
-  getSaleMans(): void {
-    this.employerService.getOperator().then(response => {
-      this.saleMans = response;
     });
   }
 

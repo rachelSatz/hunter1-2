@@ -34,7 +34,9 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   activeUrl: string;
   sub = new Subscription;
   permissionsType = this.userSession.getRole() !== 'employer';
- planId: number;
+  planId: number;
+  serviceManager = [];
+
 
   headers = [
     {label: 'הערות',    url: 'comments' , subUrl: 'no_permissions'  },
@@ -92,6 +94,8 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     this.employerService.getProjects().then(response => {
       this.projects = response;
     });
+    this.employerService.getServiceManager().then(response =>
+      this.serviceManager = response);
     this.employerService.getOperator().then(response => {
       this.operators = response;
       this.setOperator();
@@ -140,7 +144,8 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
       'senderIdentifier':     [null, [Validators.pattern('^\\d{9}$'), Validators.required]],
       'paymentType': [null, Validators.required],
       'institutionCode5':  [null, [Validators.pattern('^\\d{5}$')]],
-      'institutionCode8':  [null, [Validators.pattern('^\\d{8}$')]]
+      'institutionCode8':  [null, [Validators.pattern('^\\d{8}$')]],
+      'salesperson': [null]
     });
   }
 

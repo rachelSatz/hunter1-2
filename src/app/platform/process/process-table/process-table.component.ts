@@ -92,7 +92,6 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
         this.platformComponent.employerId,
         this.platformComponent.departmentId,
       );
-
       this.dataTable.criteria.filters['status'] =  this.statuses_selected;
       this.platformComponent.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
       this.platformComponent.organizations.sort((a, b) => a.id - b.id);
@@ -105,10 +104,18 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
     } else {
       this.location = 'process';
     }
-
+    if (this.route.snapshot.queryParams['employerId']) {
+      this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
+      const employerId = this.route.snapshot.queryParams.employerId;
+      const organization = (this.selectUnit.getOrganization()).find(o => o.employer.find(e => e.id === Number(employerId)));
+      this.selectUnit.changeOrganizationEmployerDepartment(organization.id, employerId, 0);
+      this.platformComponent.organizationId = organization.id;
+      this.platformComponent.employerId = employerId;
+    } else {
+      this.dataTable.criteria.filters['year'] = this.year;
+    }
     this.processId = this.route.snapshot.queryParams['processId'];
     this.planId = this.route.snapshot.queryParams['planId'];
-    this.dataTable.criteria.filters['year'] = this.year;
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
         this.dataTable.paginationData.currentPage = 1;
         this.dataTable.criteria.page = 1;
@@ -129,10 +136,18 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
       if (this.processId) {
         this.dataTable.criteria.filters['processId'] = this.processId;
       }
-
-    this.dataTable.criteria.filters['year'] = this.year;
-    this.dataTable.criteria.filters['month'] = this.month;
-
+    if (this.selectUnit.getReportFilters() && this.route.snapshot.queryParams['employerId']) {
+      if (!this.selectUnit.getReportFilters().salaryMonth) {
+        this.dataTable.criteria.filters['date[from]'] = this.selectUnit.getReportFilters().startDate;
+        this.dataTable.criteria.filters['date[to]'] = this.selectUnit.getReportFilters().endDate;
+      } else {
+        this.dataTable.criteria.filters['startDate'] = this.selectUnit.getReportFilters().startDate;
+        this.dataTable.criteria.filters['endDate'] = this.selectUnit.getReportFilters().endDate;
+      }
+    } else {
+      this.dataTable.criteria.filters['year'] = this.year;
+      this.dataTable.criteria.filters['month'] = this.month;
+    }
 
     if (this.location === 'operator') {
       this.dataTable.criteria.filters['location'] = true;
@@ -146,6 +161,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
         const column = this.dataTable.searchColumn(this.operatorName);
         column['searchOptions'].labels = users;
         this.dataTable.setItems(response);
+        this.selectUnit.clearReportFilters();
       });
     }
   }

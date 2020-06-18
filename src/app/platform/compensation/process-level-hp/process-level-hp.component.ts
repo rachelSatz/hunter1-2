@@ -87,7 +87,6 @@ export class ProcessLevelHpComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.compensation = this.route.snapshot.queryParams['id'];
     this.planId = this.route.snapshot.queryParams['planId'];
-
     this.productService.getCompanies().then(response => {
       const column = this.dataTable.searchColumn(this.nameCompany);
       this.companies = response;
