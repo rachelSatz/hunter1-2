@@ -62,7 +62,7 @@ export class UserSessionService {
     if (role !== this.superUser && module !== 'no_permissions') {
        const mod = this.getUserModules();
        this.modules = mod.filter(m => m.name ===  module);
-       if (this.modules.length > 0 ||  (module === 'tasks' && role !== 'employer')) {
+       if (this.modules.length > 0 ||  (module === 'tasks' && role !== 'employer') ) {
          return false;
        }
        return true;

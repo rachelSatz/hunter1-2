@@ -96,10 +96,10 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
       this.dataTable.criteria.filters['status'] =  this.statuses_selected;
       this.platformComponent.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
       this.platformComponent.organizations.sort((a, b) => a.id - b.id);
-      this.selectUnit.changeOrganization( 0);
+      // this.selectUnit.changeOrganization( 0);
       this.platformComponent.organizationId = '0';
-      this.platformComponent.employerId = '0';
-      this.platformComponent.departmentId = 0;
+      // this.platformComponent.employerId = '0';
+      // this.platformComponent.departmentId = 0;
 
       this.location = 'operator';
     } else {
@@ -202,11 +202,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
       if ( +this.platformComponent.organizations[0].id === 0) {
         this.platformComponent.organizations.splice(0, 1);
       }
-      this.platformComponent.organizationId = process.organization_id;
-      this.platformComponent.employerId = process.employer_id;
-      this.platformComponent.departmentId = process.dep_id;
-      this.selectUnit.changeOrganizationEmployerDepartment(
-        process.organization_id, process.employer_id, process.dep_id);
+
       this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
       this.selectUnit.setAgentBarActive(this.platformComponent.agentBarActive);
     }
@@ -253,26 +249,27 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
 
        this.processDataService.setProcess(data);
        this.selectUnit.setProcessData(data);
-
-
+       this.sub.unsubscribe();
+       this.platformComponent.employerId = process.employer_id;
+       this.platformComponent.departmentId = process.dep_id;
        if (status === this.processStatus.loaded_with_errors || status === this.processStatus.loading) {
-         this.router.navigate(['platform', 'process' , 'new', 'update']);
-       } else
-       if (process.status_process === 1) {
-         this.router.navigate(['platform', 'process' , 'new', 'update' , 'payment-instructions']);
+         this.router.navigate(['platform', 'process', 'new', 'update']);
+       } else if (process.status_process === 1 || (process.status_process === 2 && (process.rows === undefined
+         || process.rows.length === 0))) {
+         this.router.navigate(['platform', 'process', 'new', 'update', 'payment-instructions']);
        } else if (process.status_process === 2) {
-         this.router.navigate(['platform', 'process' , 'new', 'update' , 'reference']);
+         this.router.navigate(['platform', 'process', 'new', 'update', 'reference']);
        } else if (process.status_process === 3) {
-         this.router.navigate(['platform', 'process' , 'new', 'update' , 'broadcast']);
+         this.router.navigate(['platform', 'process', 'new', 'update', 'broadcast']);
        } else if (process.status_process === 4) {
          if (status !== this.processStatus.partially_transmitted) {
            this.router.navigate(['platform', 'process', 'new', 'update', 'feedback'],
              {queryParams: {processId: process.id}});
          } else {
-           this.router.navigate(['platform', 'process' , 'new', 'update' , 'payment-instructions']);
+           this.router.navigate(['platform', 'process', 'new', 'update', 'payment-instructions']);
          }
        } else if (process.status_process === 5 || process.status_process === 6) {
-         this.router.navigate(['platform', 'process' , 'new', 'update' , 'send-feed-employer'],
+         this.router.navigate(['platform', 'process', 'new', 'update', 'send-feed-employer'],
            {queryParams: {processId: process.id}});
        }
      });

@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
-import { SendFileEmailComponent } from './send-file-email/send-file-email.component';
 import { fade } from 'app/shared/_animations/animation';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { ProcessLoadingComponent } from 'app/platform/process/process-loading/process-loading.component';
@@ -14,6 +13,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 // import { GroupHistoryComponent } from 'app/platform/process/process-upload/payment/group-history/group-history.component';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { GroupHistoryComponent } from 'app/platform/process/process-loading/payment-instructions/group-history/group-history.component';
+import { SendFileEmailComponent } from 'app/shared/_dialogs/send-file-email/send-file-email.component';
 
 @Component({
   selector: 'app-payment-instructions',
@@ -133,7 +133,7 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
   }
 
   setPage(): void {
-    if (this.processDataService.activeProcess.payment_instructions) {
+    if (this.processDataService.activeProcess.payment_instructions || this.processDataService.activeProcess.type !== 'positive') {
       if (this.rows === undefined) {
         this.notificationService.warning('שים לב', 'עליך לבחור רשומות');
         return;
@@ -174,5 +174,16 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
       }
     });
 
+  }
+
+  setApprovalFile(): void {
+    this.processService.setApprovalFile(this.processId).then(response => {
+      if (response) {
+        this.notificationService.success('', 'קובץ אושר בהצלחה');
+      } else {
+        this.notificationService.error('', 'קובץ לא אושר');
+
+      }
+    });
   }
 }

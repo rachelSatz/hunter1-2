@@ -16,7 +16,7 @@ import {
 } from '@angular/material';
 
 import { FileDropModule } from 'ngx-file-drop';
-import { ProcessUploadEmployerComponent } from 'app/employer/process-upload-employer/process-upload-employer.component';
+import { ProcessUploadEmployerComponent } from './process-upload-employer.component';
 import { EmailComponent } from '../process-upload-employer/email/email.component';
 
 const routes: Routes = [

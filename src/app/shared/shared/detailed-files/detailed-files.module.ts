@@ -65,7 +65,10 @@ const route: Routes = [
     UpdatePaymentTypeComponent,
     UpdatePaymentDateComponent,
     OpenSentComponent ],
-  entryComponents: [UpdateAccountNumberComponent, UpdatePaymentTypeComponent, UpdatePaymentDateComponent, OpenSentComponent, GroupTransferComponent],
+  entryComponents: [UpdateAccountNumberComponent,
+    UpdatePaymentTypeComponent,
+    UpdatePaymentDateComponent,
+    OpenSentComponent, GroupTransferComponent],
 
 })
 export class DetailedFilesModule {

@@ -147,7 +147,8 @@ export class EditPaymentsComponent implements OnInit {
     const transferControl = {
       'id': [transfer  ? +transfer['id'] : null],
       'clause_type': [transfer  ? transfer['clause_type'] : '',  Validators.required],
-      'transfer_sum': [transfer  ? +transfer['transfer_sum'] : null, [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
+      'transfer_sum': [transfer  ? +transfer['transfer_sum'] : null,
+        [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
       'transfer_percent': [transfer ? +transfer['transfer_percent'] : null, Validators.required ],
       'exempt_sum': [transfer ? +transfer['exempt_sum'] : null,  Validators.required]
     };
@@ -200,14 +201,16 @@ export class EditPaymentsComponent implements OnInit {
   sumPercent(m: any, transfer: FormGroup, index, i): void {
     const salary = m.value.salary;
     this.calcSumSplit();
-    transfer.patchValue({'transfer_percent':  (transfer.value.transfer_sum / salary * 100).toFixed(2)});
+    const expected_percent = salary === 0 ? +0 :
+      +(transfer.value.transfer_sum / salary * 100).toFixed(2);
+    transfer.patchValue({'transfer_percent':  expected_percent });
     const clause = new TransferClause;
     const subSum =  this.mtb.amount - this.sum;
     if (subSum > 0) {
       clause.transfer_sum = +subSum.toFixed(2);
       clause.expected_sum = 0;
       clause.clause_type = transfer.value.clause_type;
-      clause.expected_percent = +(subSum / salary * 100).toFixed(2);
+      clause.expected_percent = expected_percent;
       this.addMtb(this.mtb, clause);
       this.sum += +subSum;
     }

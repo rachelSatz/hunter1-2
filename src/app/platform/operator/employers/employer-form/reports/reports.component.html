@@ -8,15 +8,16 @@
   <div class="mt-4">
     <mat-checkbox [(ngModel)]="this.employer['send_payment_instructions_auto']" name="sendPaymentInstructionsAuto">האם ליצר המלצת תשלום</mat-checkbox>
   </div>
-  <div class="mt-4" *ngIf="this.employer['send_payment_instructions_auto']">
+  <div class="mt-4">
+    <mat-checkbox [(ngModel)]="this.employer['references_auto']" name="referencesAuto">האם לאשר אסמכתאות</mat-checkbox>
+  </div>
+  <div class="mt-4">
     <mat-checkbox [(ngModel)]="this.employer['transmission_product_auto']" name="transmissionProductAuto">האם לשדר לקופות</mat-checkbox>
   </div>
   <div class="mt-4">
-    <mat-checkbox [(ngModel)]="this.employer['file_feedback']" name="sendFileFeedback">היזונים חוזרים ברמת קובץ</mat-checkbox>
+    <mat-checkbox [(ngModel)]="this.employer['feedback_auto']" name="feedbackAuto">האם לאשר צפיה בהיזונים</mat-checkbox>
   </div>
-  <div class="mt-4">
-    <mat-checkbox [(ngModel)]="this.employer['record_feedback']" name="sendRecordFeedback">היזונים חוזרים ברמת עובד</mat-checkbox>
-  </div>
+
   <div class="mt-3 field-width">
     <mat-form-field>
       <mat-select placeholder="יום שידור קבצים לקופות" [(ngModel)]="this.employer['transmission_day']" name="transmissionDay">

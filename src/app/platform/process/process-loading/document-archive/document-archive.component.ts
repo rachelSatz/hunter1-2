@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { ProcessService } from 'app/shared/_services/http/process.service';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { File } from 'app/shared/_models/compensation.model';
+import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 
 @Component({
   selector: 'app-document-archive',
@@ -12,6 +13,7 @@ import { File } from 'app/shared/_models/compensation.model';
 export class DocumentArchiveComponent implements OnInit {
 
   files: File[];
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   constructor(private processService: ProcessService,
               @Inject(MAT_DIALOG_DATA) public data: any) { }

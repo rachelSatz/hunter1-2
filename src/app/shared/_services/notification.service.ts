@@ -8,25 +8,7 @@ export class NotificationService {
       type: 'success',
       title: title,
       text: text ? text : '',
-      confirmButtonText: 'אישור',
-    };
-
-    if (extraOptions) {
-      options = Object.assign(options, extraOptions);
-    }
-
-    swal(options);
-  }
-
-  public successWithoutButton(title: string, text?: string, extraOptions?: Object): void {
-
-    let options = {
-      position: 'center',
-      type: 'success',
-      title: title,
-      text: text ? text : '',
-      showConfirmButton: false,
-      disableClose: true
+      confirmButtonText: 'אישור'
     };
 
     if (extraOptions) {
@@ -48,7 +30,7 @@ export class NotificationService {
       options = Object.assign(options, extraOptions);
     }
 
-    swal(options);
+    return swal(options);
   }
 
   public warning(title: string, text?: string, extraOptions?: Object): Promise<any> {

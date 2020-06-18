@@ -5,6 +5,10 @@
     </button>
   </div>
   <h5 class="bold">סיכום הנחיות לתשלום</h5>
+  <button class="btn btn_approval text-btn green-color mt-2" (click)="setApprovalFile()"
+          *ngIf="this.processDataService.activeProcess.status == 'waiting_for_approval'">
+    אשר קובץ שלילי
+  </button>
   <div class="col-4 row mr-0 pr-0 mt-3"  *ngIf="processLoading.process_details">
     <div class="d-flex col-6 pr-0">
       <div class="d-flex bold f-14">
@@ -16,6 +20,12 @@
       <div class="d-flex">
          מספר קופות לתשלום:
         {{processLoading.process_details.groups_count}}
+      </div>
+    </div>
+    <div class="d-flex col-6 pr-0 mt-2" *ngIf="processDataService.activeProcess.type == 'negative'">
+      <div class="d-flex bold f-14">
+        האם קיימת הצהרה:
+        {{processLoading.process_details.is_deposition ? 'כן': 'לא'}}
       </div>
     </div>
   </div>

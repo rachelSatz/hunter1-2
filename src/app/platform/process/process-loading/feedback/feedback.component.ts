@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.css', './../../process-loading/process-loading.component.css'],
 })
-export class FeedbackComponent implements OnInit {
+export class FeedbackComponent implements OnInit, OnDestroy {
 
   activeUrl = 'files';
+  sub = new Subscription;
 
 
   headers = [
@@ -34,8 +36,13 @@ export class FeedbackComponent implements OnInit {
     });
   }
 
+
   private setActiveUrl(url: string): void {
     this.activeUrl = url.indexOf('employees') === -1 ? 'files' : 'employees';
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }

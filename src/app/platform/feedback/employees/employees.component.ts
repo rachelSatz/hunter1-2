@@ -61,19 +61,19 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   readonly columns =  [
     { name: 'name', label: 'עובד', searchable: false},
-    { name: 'personal_id', label: 'ת"ז', sortName: 'employee_chr__employee__identifier' , searchable: false},
+    { name: 'personal_id', label: 'ת"ז' , searchable: false},
     { name: 'payment_month', label: 'חודש שכר' , searchable: false},
-    { name: 'company_name', label: 'חברה מנהלת', sortName: 'group_thing__group__product__company__name' , searchable: false},
-    { name: 'product_type', label: 'סוג מוצר', sortName: 'group_thing__group__product__type',
-      searchOptions: {labels: this.selectProductType}},
+    { name: 'company_name', label: 'חברה מנהלת' , searchable: false},
+    { name: 'product_type', label: 'סוג מוצר',
+      searchOptions: {labels: this.selectProductType} , isSort: false},
     { name: 'product_code', label: 'קוד אוצר' , searchable: false},
     { name: 'amount', label: 'סכום', sortName: 'sum', searchable: false },
-    { name: 'created_at', label: 'תאריך יצירה' , searchOptions: { isDate: true } },
-    { name: 'updated_at', label: 'תאריך עדכון אחרון' , searchOptions: { isDate: true }},
+    { name: 'created_at', label: 'תאריך יצירה' , sortName: 'monthly_transfer_block.created_at', searchOptions: { isDate: true } },
+    { name: 'updated_at', label: 'תאריך עדכון אחרון' , sortName: 'monthly_transfer_block.updated_at', searchOptions: { isDate: true }},
     { name: 'status', label: 'סטטוס' , searchOptions: { labels: this.statusLabel } },
     { name: 'manual_status', label: 'סטטוס פניה', searchable: false},
-    { name: 'more', label: 'מידע נוסף' , searchable: false},
-    { name: 'comments', label: 'הערות', searchable: false}
+    { name: 'more', label: 'מידע נוסף' , searchable: false, isSort: false},
+    { name: 'comments', label: 'הערות', searchable: false , isSort: false}
   ];
   constructor(public dialog: MatDialog,
               private router: Router,

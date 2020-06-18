@@ -44,6 +44,7 @@ import { GroupMembersDialogComponent} from './campaigns/group-members-dialog/gro
 import { EditGroupEmployerComponent} from './campaigns/edit-group-employer/edit-group-employer.component';
 import { GroupService } from '../shared/_services/http/group.service';
 
+
 const routes: Routes = [
   {
     path: '', component: PlatformComponent, canActivate: [IsAuthenticatedGuard], children: [

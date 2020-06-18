@@ -7,7 +7,9 @@ import { AppComponent } from './app.component';
 import { UserSessionService } from './shared/_services/user-session.service';
 import { HelpersService } from './shared/_services/helpers.service';
 import { FormsModule } from '@angular/forms';
-import { IsAuthenticatedGuard } from 'app/shared/_guards/is-authenticated.guard';
+import { SendFileEmailComponent } from 'app/shared/_dialogs/send-file-email/send-file-email.component';
+import { MatChipsModule, MatFormFieldModule, MatIconModule } from '@angular/material';
+import { ContactService } from 'app/shared/_services/http/contact.service';
 
 const routes = [
   { path: '' , loadChildren: 'app/public/public.module#PublicModule' },
@@ -18,14 +20,18 @@ const routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SendFileEmailComponent],
   imports: [
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
-    FormsModule
+    FormsModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatIconModule
   ],
-  providers: [UserSessionService, HelpersService],
+  providers: [UserSessionService, HelpersService, ContactService],
   bootstrap: [AppComponent],
+  entryComponents: [SendFileEmailComponent]
 })
 export class AppModule {}
