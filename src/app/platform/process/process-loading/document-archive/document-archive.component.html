@@ -12,7 +12,8 @@
     <span class="f-18">קבצים</span>
   </div>
 
-  <table class="mt-2 table table-bordered table-hover">
+  <app-data-table tableName=""  (fetchItems)="fetchItems()" [hasCheckColumn]="false"
+                  [hasActionsHeader]="false"   [hasExtendedSearch]="false" [hasActionsSearch]="false" >
     <thead>
     <tr>
       <td>שם מסמך</td>
@@ -28,5 +29,5 @@
         <i class="fa fa-trash fa-lg" (click)="deleteFile(item.file_name)" title="מחיקה"></i>
       </td>
     </tr>
-  </table>
+  </app-data-table>
 </form>

@@ -17,6 +17,7 @@ import {
 } from '@angular/material';
 import { FileDropModule } from 'ngx-file-drop';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
+import { DataTableModule } from 'app/shared/data-table/data-table.module';
 
 const routes: Routes = [
   { path: '', component: ProcessLoadingComponent,  children: [
@@ -40,6 +41,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FileDropModule,
     MatFormFieldModule,
+    DataTableModule,
     MatDialogModule,
     FormsModule,
   ],

@@ -22,19 +22,20 @@ export class GroupHistoryComponent implements OnInit {
 
   readonly columns  = [
     { name: 'employee_name', label: 'שם עובד' , searchable: false },
+    { name: 'identifier', label: 'ת.ז' , searchable: false },
     { name: 'product', label: 'מ"ה מקורי', searchable: false},
     { name: 'employee_product', label: 'קופה בשכר מקורי' , searchable: false },
     { name: 'product', label: 'מ"ה עכשווי', searchable: false},
     { name: 'employee_name', label: 'קופה בשכר עכשווי' , searchable: false }];
 
   ngOnInit() {
+    this.fetchItems();
+  }
+
+  fetchItems() {
     const data = new DataTableResponse(this.data.items,  this.data.items.length, 1);
     this.dataTable.setItems(data);
   }
-
-  // fetchItems() {
-  //
-  // }
 
   submit(): void {
     this.helpers.setPageSpinner(true);

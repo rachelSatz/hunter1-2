@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Process } from 'app/shared/_models/process.model';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
+import { ProcessDetails } from 'app/shared/_models/process-details.model';
 
 @Component({
   selector: 'app-employer',
@@ -14,6 +15,7 @@ export class EmployerComponent implements OnInit {
               private route: ActivatedRoute,
               public processDataService: ProcessDataService) { }
   // activeUrl: string;
+  @Output() process_details: ProcessDetails;
 
   // readonly menuLinks = [
   //   { url: 'process-upload', label: 'טעינת קובץ'},
@@ -64,22 +66,22 @@ export class EmployerComponent implements OnInit {
       // }
       switch (num) {
         case 1:
-          this.router.navigate(['/employer', 'process', 'new', 'update'], {relativeTo: this.route});
+          this.router.navigate(['./process-upload-employer.component'], {relativeTo: this.route});
           break;
         case 2:
-          this.router.navigate(['./payment-instructions'], {relativeTo: this.route});
+          this.router.navigate(['./payment-instructions-employer'], {relativeTo: this.route});
           break;
         case 3:
-          this.router.navigate(['./reference'], {relativeTo: this.route});
+          this.router.navigate(['./reference-employer'], {relativeTo: this.route});
           break;
         case 4:
-          this.router.navigate(['./broadcast'], {relativeTo: this.route});
+          this.router.navigate(['./broadcast-employer'], {relativeTo: this.route});
           break;
         case 5:
-          this.router.navigate(['./feedback'], {queryParams: {processId: 2300} , relativeTo: this.route});
+          this.router.navigate(['./feedback-employer'], {queryParams: {processId: 2300} , relativeTo: this.route});
           break;
         case 6:
-          this.router.navigate(['./send-feed-employer'],
+          this.router.navigate(['./send-employer-feed'],
             {queryParams: {processId: 2300} , relativeTo: this.route});
           break;
       }

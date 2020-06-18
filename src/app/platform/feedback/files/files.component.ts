@@ -67,19 +67,21 @@ export class FilesComponent implements OnInit, OnDestroy  {
   });
   readonly columns = [
     {name: 'process_name', label: 'שם תהליך', sortName: 'process__name', searchable: false},
-    {name: 'month', label: 'חודש', searchable: false},
+    {name: 'month', label: 'חודש', sortName: 'process__date', searchable: false},
     {name: 'company_name', sortName: 'company.name', label:  'חברה מנהלת', searchable: false},
-    {name: 'employer_name', label: 'שם מעסיק', searchable: false},
-    {name: 'amount', label: 'סכום', searchable: false},
-    {name: 'code', label: 'קוד אוצר', searchable: false},
-    {name: 'status', label: 'סטטוס', selected: this.statuses_selected, multiple: true, searchOptions: { labels: this.list_status } },
-    {name: 'manual_status', label: 'סטטוס פניה', searchable: false},
-    {name: 'more', label: 'מידע נוסף', searchable: false},
-    {name: 'comments', label: 'הערות', searchable: false},
+    {name: 'employer_name', label: 'שם מעסיק',
+      sortName: 'process__department__employer__name',  searchable: false},
+    {name: 'amount', label: 'סכום', sortName: 'block_sum', searchable: false},
+    {name: 'code', label: 'קוד אוצר', sortName: 'group__product__code' , searchable: false},
+    {name: 'status', label: 'סטטוס', selected: this.statuses_selected
+      , isSort: false, multiple: true, searchOptions: { labels: this.list_status } },
+    {name: 'manual_status', label: 'סטטוס פניה', searchable: false, isSort: false},
+    {name: 'more', label: 'מידע נוסף', searchable: false, isSort: false},
+    {name: 'comments', label: 'הערות', searchable: false, isSort: false},
     {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'updated_at', label: 'תאריך עדכון אחרון',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'broadcast_date', label: 'תאריך שידור', searchOptions: { isDate: true }, isDisplay: false},
-    {name: 'product_type', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }, isDisplay: false}
+    {name: 'product_type', label: 'סוג מוצ  transfer.patchValue({\'transfer_percent\':  (transfer.value.transfer_sum / salary * 100).toFixed(2)})ר', searchOptions: { labels: this.selectProductType }, isDisplay: false}
     ];
 
 

@@ -28,16 +28,17 @@ import { GroupTransferComponent } from 'app/shared/shared/detailed-files/group-t
 import { OpenSentComponent } from 'app/shared/shared/detailed-files/open-sent/open-sent.component';
 
 
+
 @Component({
   selector: 'app-detailed-files',
   templateUrl: './detailed-files.component.html',
-  styleUrls: [ './detailed-files.component.css']
+  styleUrls: [ './detailed-files.component.css'],
+
 })
 
 export class DetailedFilesComponent implements OnInit , OnDestroy {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
-
 
   newCompanies = [];
   nameCompany = 'company';
@@ -89,6 +90,7 @@ export class DetailedFilesComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit() {
+
     if (this.router.url.indexOf('reference') !== -1) {
       this.isReference = true;
     }

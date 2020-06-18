@@ -4,6 +4,8 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-broadcast',
@@ -12,10 +14,14 @@ import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 })
 export class BroadcastComponent implements OnInit {
 
+  sub = new Subscription;
+
+
   constructor(public processLoading: ProcessLoadingComponent,
               private processService: ProcessService,
               public processDataService: ProcessDataService,
               private selectUnit: SelectUnitService,
+              private router: Router,
               private notificationService: NotificationService) { }
 
   ngOnInit() {

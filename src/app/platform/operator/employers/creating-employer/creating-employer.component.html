@@ -27,7 +27,7 @@
     creatingEmployerForm.get('creatingEmployer.employerDetails.identifier').value}}</p>
   </div>
   <p class="f-16 bold mt-5" *ngIf="pageNumber === 1">סוג הארגון</p>
-  <mat-radio-group *ngIf="!route.snapshot.params.id && moduleCreate && pageNumber === 1"  [(ngModel)]="isEdit">
+  <mat-radio-group  *ngIf="!route.snapshot.params.id && moduleCreate && pageNumber === 1" [(ngModel)]="isEdit">
     <mat-radio-button class="ml-4" value="exist" >אירגון קיים</mat-radio-button>
     <mat-radio-button  class="mr-5" value="new" >אירגון חדש</mat-radio-button>
   </mat-radio-group>

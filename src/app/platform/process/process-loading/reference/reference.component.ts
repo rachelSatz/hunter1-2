@@ -135,8 +135,15 @@ export class ReferenceComponent implements OnInit {
     return true;
   }
 
+  copyBankRow(): void {
+    this.department.bank_account_withdrawal.bank_id = this.department.bank_account_deposit.bank_id;
+    this.department.bank_account_withdrawal.branch_id = this.department.bank_account_deposit.branch_id;
+    this.department.bank_account_withdrawal.number = this.department.bank_account_deposit.number;
+  }
+
   setPage(): void {
-    if ((this.isDate && this.valid) || this.processDataService.activeProcess.is_references) {
+    if ((this.isDate && this.valid) || this.processDataService.activeProcess.is_references ||
+      this.processDataService.activeProcess.type !== 'positive') {
       if (this.processDataService.activeProcess.is_references) {
         this.processLoading.setPage(4, true);
       } else {

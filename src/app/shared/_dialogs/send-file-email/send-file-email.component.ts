@@ -60,8 +60,13 @@ export class SendFileEmailComponent implements OnInit {
 
   sendMail(): void {
     if (this.emails !== null && this.emails.length > 0) {
-      const filesList =  this.data.criteria.checkedItems.map(item => item['file_id']);
-      this.processService.sendEmail( this.data.processId, this.emails, filesList,  this.data.criteria).then(response => {
+      let filesList;
+      let criteria;
+      if (this.data.criteria) {
+         filesList =  this.data.criteria.checkedItems.map(item => item['file_id']);
+        criteria = this.data.criteria;
+      }
+      this.processService.sendEmail( this.data.processId, this.emails, filesList,  criteria).then(response => {
         if (response['message'] === 'Message_Sent') {
             this.notificationService.success('נשלח בהצלחה.');
             this.dialogRef.close();

@@ -11,11 +11,19 @@ import { DepartmentService } from 'app/shared/_services/http/department.service'
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { IsAuthenticatedGuard } from 'app/shared/_guards/is-authenticated.guard';
 
+
 const routes: Routes = [
   {
     path: '', component: EmployerComponent, canActivate: [IsAuthenticatedGuard], children: [
       { path: '', loadChildren: './process-upload-employer/process-upload-employer.module' +
-          '#ProcessUploadEmployerModule' }
+          '#ProcessUploadEmployerModule' },
+      { path: 'payment-instructions-employer',
+        loadChildren: './payment-instructions-employer/payment-instructions-employer.module' +
+          '#PaymentInstructionsEmployerModule' },
+      { path: 'files', loadChildren: 'app/shared/shared/detailed-files/detailed-files.module#DetailedFilesModule' },
+      { path: 'reference-employer', loadChildren: './reference-employer/reference-employer.module#ReferenceEmployerModule' },
+      { path: 'broadcast-employer', loadChildren: './broadcast-employer/broadcast-employer.module#BroadcastEmployerModule' },
+      { path: 'feedback-employer', loadChildren: './feedback-employer/feedback-employer.module#FeedbackEmployerModule' },
     ]
    }];
 

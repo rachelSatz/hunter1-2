@@ -17,8 +17,8 @@
   </div>
 
   <div [@fade]="hasShowBank ? 'active' : 'inactive'">
-    <p class="border-bottom border-margin f-14 bold ">חשבון בנק משלם</p>
-    <div id="accounts" class="border-bottom mb-lg-3 border-margin" >
+    <p class="border-bottom border-margin f-14 bold "  *ngIf="department.bank_account_deposit">חשבון בנק משלם</p>
+    <div id="accounts" class="border-bottom mb-lg-3 border-margin" *ngIf="department.bank_account_deposit">
       <div class="d-flex align-items-center">
         <div class="d-flex align-items-center" [ngClass]="{'disabledInput' : !isEdit}">
           <div class="bd-select-container">
@@ -41,8 +41,8 @@
       </div>
     </div>
 
-    <p class="border-bottom border-margin f-14 bold">חשבון בנק להחזר כספים</p>
-    <div id="accountsWithdrawal" class="border-bottom border-margin">
+    <p class="border-bottom border-margin f-14 bold" *ngIf="department.bank_account_withdrawal">חשבון בנק להחזר כספים</p>
+    <div id="accountsWithdrawal" class="border-bottom border-margin" *ngIf="department.bank_account_withdrawal">
       <div class="d-flex align-items-center">
         <div class="d-flex align-items-center" [ngClass]="{'disabledInput' : !isEditWithdrawal}">
           <div class="bd-select-container">

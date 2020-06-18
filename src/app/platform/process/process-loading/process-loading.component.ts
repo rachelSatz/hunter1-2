@@ -7,6 +7,7 @@ import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { DocumentArchiveComponent } from './document-archive/document-archive.component';
 import { MatDialog } from '@angular/material';
 import { Process } from 'app/shared/_models/process.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-process-loading',
@@ -16,6 +17,8 @@ import { Process } from 'app/shared/_models/process.model';
 export class ProcessLoadingComponent implements OnInit , OnDestroy {
 
   @Output() process_details: ProcessDetails;
+  sub = new Subscription;
+
 
   constructor(public router: Router,
               protected route: ActivatedRoute,
@@ -38,6 +41,13 @@ export class ProcessLoadingComponent implements OnInit , OnDestroy {
         this.process_details = response
       );
     }
+
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+      if (this.selectUnit.currentDepartmentID !== this.processDataService.activeProcess.departmentId
+        || this.selectUnit.currentEmployerID !== this.processDataService.activeProcess.employer_id) {
+        this.router.navigate(['/platform']);
+      }
+    }));
   }
 
   setHeaderColor(): number {
@@ -111,5 +121,6 @@ export class ProcessLoadingComponent implements OnInit , OnDestroy {
       this.processDataService.setProcess(new Process());
     }
     this.process_details = null;
+    this.sub.unsubscribe();
   }
 }

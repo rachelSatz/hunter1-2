@@ -6,8 +6,8 @@
 </div>
 <form #form="ngForm" class="text-center">
   <div class="height500 overflow-auto mb-1">
-    <app-data-table tableName="" [columns]="columns" [hasActionsHeader]="false"
-                    [hasCheckColumn]="false" [hasExtendedSearch]="false"  [hasActionsSearch]="false" >
+    <app-data-table tableName="" [columns]="columns" [hasActionsHeader]="false" (fetchItems)="fetchItems()"
+                    [hasCheckColumn]="false" [hasExtendedSearch]="false" [hasActionsSearch]="false" >
       <tr *ngFor="let item of dataTable.items" class="pointer">
         <td>{{ item.employee_name }}</td>
         <td>{{ item.identifier }}</td>

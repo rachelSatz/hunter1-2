@@ -1,4 +1,3 @@
-import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -14,6 +13,8 @@ import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { MONTHS } from 'app/shared/_const/months';
 import { startWith, switchMap } from 'rxjs/operators';
 import { EmailComponent } from 'app/employer/process-upload-employer/email/email.component';
+import { EmployerComponent } from 'app/employer/employer.component';
+
 
 
 @Component({
@@ -32,6 +33,7 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
               private notificationService: NotificationService,
               public processDataService: ProcessDataService,
               private helpers: HelpersService,
+              private employerComponent: EmployerComponent,
               private selectUnit: SelectUnitService) { }
 
   sub = new Subscription;
@@ -78,13 +80,17 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
         case 'error_loading':
         case 'loaded_with_errors': {
           this.sub.unsubscribe();
-          this.notificationService.successWithoutButton('', 'הקובץ מועבר לטיפול');
+          this.notificationService.success('', 'הקובץ מועבר לטיפול',
+            {showConfirmButton: false, allowOutsideClick: false
+            });
           break;
         }
         case 'can_be_processed': {
           this.process_percent = 100;
           setTimeout(() => {
             this.sub.unsubscribe();
+            this.employerComponent.process_details = this.process_details;
+            this.employerComponent.setPage(2);
           } , 1000);
 
           break;
@@ -124,12 +130,11 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
       'year': this.process.year,
       'processName':  this.process.name,
       'departmentId': 2,
-      // 'type': this.process.type,
       'isDirect': isDirect,
       'processId': '',
     };
 
-    this.processService.newProcess(data, this.process.file , null , true).then(response => {
+    this.processService.newProcess(data, this.process.file , null).then(response => {
       if (response['processId']) {
         data['processID'] = response['processId'];
         data['file'] = this.process.file;
@@ -140,7 +145,10 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
         if (response['allowed']) {
           this.process.id = response['processId'];
         } else {
-          this.notificationService.successWithoutButton( 'הקובץ נטען בהצלחה', 'נמשיך לעדכנך בפרטים בהמשך התהליך!');
+          this.notificationService.success(
+            'הקובץ נטען בהצלחה', 'נמשיך לעדכנך בפרטים בהמשך התהליך!',
+            {allowOutsideClick: false,
+            showConfirmButton: false});
         }
       }else {
         this.notificationService.error('העלאת הקובץ נכשלה');
@@ -172,15 +180,4 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  close(): void {
-    if (this.processDataService.activeProcess) {
-      this.processDataService.activeProcess.processID = null;
-      this.processDataService.setProcess(this.processDataService.activeProcess);
-      this.selectUnit.setProcessData(this.processDataService);
-    }
-    this.sub.unsubscribe();
-  }
-
-
 }

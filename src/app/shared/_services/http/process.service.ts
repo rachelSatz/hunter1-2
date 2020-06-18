@@ -59,10 +59,11 @@ export class ProcessService extends BaseHttpService {
   }
 
   downloadPaymentsInstruction(id: number, filesList?: any, criteria?: DataTableCriteria): Promise<any> {
+    const data = criteria ? {'processId': id,
+      filesList: filesList,
+      criteria: this.setDataTableParams(criteria)} : {'processId': id };
 
-    return this.http.post(this.endPoint + '/downloadPaymentsInstruction', {'processId': id,
-        filesList: filesList,
-        criteria: this.setDataTableParams(criteria)},
+    return this.http.post(this.endPoint + '/downloadPaymentsInstruction',data ,
       this.getTokenHeader())
       .toPromise()
       .then(response => response)
@@ -195,9 +196,10 @@ export class ProcessService extends BaseHttpService {
   }
 
   sendEmail(processId: number, recipient: any[], filesList?: any,  criteria?: DataTableCriteria): Promise<string> {
-    return this.http.post(this.endPoint + '/sendPaymentsInstruction',
-      {processId: processId, recipient: recipient, criteria: this.setDataTableParams(criteria), filesList: filesList
-      },
+    const data = criteria ? {processId: processId, recipient: recipient, criteria: this.setDataTableParams(criteria), filesList: filesList
+    } : {processId: processId, recipient: recipient};
+
+    return this.http.post(this.endPoint + '/sendPaymentsInstruction', data,
       this.getTokenHeader())
       .toPromise()
       .then(response => response)
@@ -210,20 +212,6 @@ export class ProcessService extends BaseHttpService {
       .toPromise()
       .then(response => response as any)
       .catch(response => response as any);
-  }
-
-  uploadRef(uploadedFile: File, filesList: any, criteria: DataTableCriteria, processId: number): Promise<Object> {
-    if (uploadedFile) {
-      const formData = new FormData();
-      formData.append('file', uploadedFile);
-      formData.append('searchCriteria', JSON.stringify(this.setDataTableParams(criteria)));
-      formData.append('filesList', JSON.stringify(filesList));
-
-      return this.http.post(this.endPoint + '/' + processId +  '/uploadRef', formData, this.getTokenHeader())
-        .toPromise()
-        .then(response => response as Object)
-        .catch(() => []);
-    }
   }
 
   uploadsRef(files: File[], processId: number): Promise<Object> {
