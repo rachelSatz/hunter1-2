@@ -19,6 +19,7 @@ import { PAYMENT_METHOD } from 'app/shared/_models/employer-financial-details.mo
 import {TaxInvoiceFormComponent} from './tax-invoice-form/tax-invoice-form.component';
 import {UserSessionService} from 'app/shared/_services/user-session.service';
 import { TransactionInvoiceFormComponent } from 'app/platform/finance/invoices/transaction-invoice-form/transaction-invoice-form.component';
+import { TaxOnlyInvoiceFormComponent } from 'app/platform/finance/invoices/tax-only-invoice-form/tax-only-invoice-form.component';
 
 @Component({
   selector: 'app-invoices',
@@ -153,6 +154,28 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       this.dataTable.criteria.isCheckAll = false;
     }));
   }
+
+  openOnlyTaxInvoice(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+    // const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+    const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
+
+    const dialog = this.dialog.open(TaxOnlyInvoiceFormComponent, {
+      data: { 'ids': items,
+
+        'dataTable' : this.dataTable},
+      width: '450px'
+    });
+
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+      this.fetchItems();
+      this.dataTable.criteria.checkedItems = [];
+      this.dataTable.criteria.isCheckAll = false;
+    }));
+  }
   //
   // openTransactionInvoice(): void {
   //   if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
@@ -239,8 +262,17 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   }
 
   setInvoiceStatus(invoiceId: number, status: string): void {
-    this.invoiceService.setInvoiceStatus(invoiceId, status).then(res =>
-      this.notificationService.info(res['message']));
+    this.invoiceService.setInvoiceStatus(invoiceId, status).then(response => {
+      this.helpers.setPageSpinner(false);
+      if (response['message'] === 'success') {
+        this.notificationService.success('נשמר בהצלחה.');
+      } else if ('no_changes') {
+        this.notificationService.info('לא ניתן לשנות רשומה שנשלחה לחשבונית ירוקה');
+      } else {
+        this.notificationService.error(response['message']);
+
+      }
+    });
   }
 
   deleteInvoices(updateEmployee: boolean): void {

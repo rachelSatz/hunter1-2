@@ -26,6 +26,7 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
 import { TaxInvoiceFormComponent } from './tax-invoice-form/tax-invoice-form.component';
 import { TransactionInvoiceFormComponent } from './transaction-invoice-form/transaction-invoice-form.component';
+import { TaxOnlyInvoiceFormComponent } from './tax-only-invoice-form/tax-only-invoice-form.component';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
@@ -55,10 +56,11 @@ const routes: Routes = [
     EmployersFinanceExcelComponent,
     ManualInvoiceFormComponent,
     TaxInvoiceFormComponent,
-    TransactionInvoiceFormComponent
+    TransactionInvoiceFormComponent,
+    TaxOnlyInvoiceFormComponent
   ],
   providers: [InvoiceService, EmployerService, FilterItemsPipe, NotificationService],
   entryComponents: [ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent,
-    ManualInvoiceFormComponent, TaxInvoiceFormComponent, TransactionInvoiceFormComponent]
+    ManualInvoiceFormComponent, TaxInvoiceFormComponent, TransactionInvoiceFormComponent, TaxOnlyInvoiceFormComponent]
 })
 export class InvoicesModule { }

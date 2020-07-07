@@ -72,7 +72,8 @@ export enum STATUS {
   green_invoice_error = 'לא נשלח לחשבונית ירוקה',
   direct_debit = 'הוראת קבע',
   credit_card = 'כרטיס אשראי',
-  tax_green_invoice = 'חשבונית מס - חשבונית ירוקה'
+  tax_green_invoice = 'חשבונית מס - חשבונית ירוקה',
+  only_tax_green_invoice = 'מס בלבד - חשבונית ירוקה'
 }
 
 export enum ERROR_STATUS {

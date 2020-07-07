@@ -19,6 +19,7 @@ export class ProcessDetails {
   dep_id: number;
   is_deposition: boolean;
   error: string;
+  is_allowed_references_auto: boolean;
 
   constructor() {
     this.employer_name = '';
