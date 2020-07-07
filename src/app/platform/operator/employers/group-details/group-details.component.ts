@@ -38,7 +38,7 @@ export class GroupDetailsComponent implements OnInit {
 
   submit() {
     if (this.create) {
-      this.groupService.createGroup(this.groupName, this.employers).then( response => {
+      this.groupService.createGroup(this.groupName, this.employers, this.data.isCheckAll).then( response => {
           if (response['result'] === 'success') {
             this.dialogRef.close('success');
           } else if (response['result'] === 'error') {

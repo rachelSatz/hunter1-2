@@ -38,14 +38,19 @@ export class CampaignsFormComponent implements OnInit {
   changeStatusCampaign() {
     this.id = this.selectUnitService.getTaskCampaign() ? this.selectUnitService.getTaskCampaign().activeCampaigns.details.id : 0;
     this.status = this.selectUnitService.getTaskCampaign() ? this.selectUnitService.getTaskCampaign().activeCampaigns.details.status : null;
-    const stat = this.status === 'no_active' ? 'in_process' : 'no_active';
-    this.campaignsService.changeStatus(this.id, stat).then(response => {
-      if (response) {
-        this.router.navigate(['/platform', 'operator', 'campaigns']);
-      } else {
-        this.notification.error('העידכון נכשל');
-      }
-    } );
+    if (this.status !== 'done') {
+      const stat = this.status === 'no_active' ? 'in_process' : 'no_active';
+      this.campaignsService.changeStatus(this.id, stat).then(response => {
+        if (response) {
+          this.router.navigate(['/platform', 'operator', 'campaigns']);
+        } else {
+          this.notification.error('העידכון נכשל');
+        }
+      } );
+    } else {
+      this.notification.error('הקמפיין כבר הסתיים');
+
+    }
   }
 
   ngOnInit() {

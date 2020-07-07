@@ -54,6 +54,7 @@ export class CampaignsType {
 export enum CampaignsStatus {
   done = 'הסתיים',
   in_process = 'בתהליך',
+  no_active = 'לא פעיל',
 }
 
 export enum CampaignsFieldStatus {

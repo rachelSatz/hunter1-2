@@ -46,8 +46,18 @@ export class GroupService extends BaseHttpService {
   }
 
 
-  getAllEmployersGroup(groupId: number): Promise<any> {
-    return this.http.get(this.endPoint + '/getAllEmployersGroup/'  + groupId, this.getTokenHeader())
+  getAllEmployersGroup(groupId: number, criteria?: DataTableCriteria, noLimit?: boolean): Promise<any> {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+
+    return this.http.get(this.endPoint + '/getAllEmployersGroup/'  + groupId, request)
       .toPromise()
       .then(response => response)
       .catch(response => response);
@@ -91,8 +101,9 @@ export class GroupService extends BaseHttpService {
       .catch(response => response);
   }
 
-  createGroup(groupName: string, employers: number[]): Promise<any> {
-    return this.http.post(this.endPoint + '/createGroup' , {'groupName' : groupName, 'employers': employers}, this.getTokenHeader())
+  createGroup(groupName: string, employers: number[], isCheckAll: boolean): Promise<any> {
+    return this.http.post(this.endPoint + '/createGroup' , {'isCheckAll': isCheckAll ,
+      'groupName' : groupName, 'employers': employers}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);

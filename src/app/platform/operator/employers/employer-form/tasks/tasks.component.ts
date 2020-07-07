@@ -120,6 +120,7 @@ export class TasksComponent implements OnInit  {
   }
 
   initializationPlatform(item): void {
+    this.platformComponent.isWorkQueue = false;
     this.platformComponent.isTask = true;
     this.platformComponent.organizationId = this.organization.id;
     this.platformComponent.employerId = item.employer.id;

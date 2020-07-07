@@ -9,7 +9,7 @@
   </div>
   <h6>סה"כ {{group.group_size}} מעסיקים </h6>
   <br>
-  <div class="row">
+  <div class="row h-450px">
     <app-data-table class="w-95" tableName="מעסיקים" (fetchItems)="fetchItems()" [columns]="columns" [hasCheckColumn]="true" [hasExtendedSearch]="false"
                     [disableCheckAll]="true" [hasActionsSearch]="false" [hasActionsHeader]="false">
       <div class="table-header">
