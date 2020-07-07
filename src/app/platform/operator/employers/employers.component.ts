@@ -135,15 +135,17 @@ export class EmployersComponent  implements OnInit , OnDestroy {
 
   createOrSelectGroup(mode: string) {
     const title = mode === 'create' ? 'הקבוצה נוצרה בהצלחה' : 'המעסיקים נוסף בהצלחה' ;
-    if (this.dataTable.criteria.checkedItems.length === 0 ||
-      this.dataTable.criteria.checkedItems.some(item =>
-        item['status'] !== 'active' )) {
-      this.notificationService.warning('יש לבחור מעסיקים פעילים');
-      return;
-    }
+    // if (this.dataTable.criteria.checkedItems.length === 0 ||
+    //    (!this.dataTable.criteria.isCheckAll && this.dataTable.criteria.checkedItems.some(item =>
+    //     item['status'] !== 'active' )) || (this.dataTable.criteria.isCheckAll && this.dataTable.items.some(item =>
+    //     item['status'] !== 'active' ))) {
+    //   this.notificationService.warning('יש לבחור מעסיקים פעילים');
+    //   return;
+    // }
     const dialog = this.dialog.open(GroupDetailsComponent, {
       data: {
-        'employers': this.dataTable.criteria.checkedItems,
+        'isCheckAll': this.dataTable.criteria.isCheckAll,
+        'employers': this.dataTable.criteria.checkedItems ,
         'mode': mode,
       },
       width: '400px',

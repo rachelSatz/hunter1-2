@@ -57,7 +57,7 @@ export class EditGroupEmployerComponent implements OnInit {
   }
 
   fetchItems() {
-    this.groupService.getAllEmployersGroup(this.group.id).then(response => {
+    this.groupService.getAllEmployersGroup(this.group.id, this.dataTable.criteria, true).then(response => {
       this.dataTable.setItems(response);
     });
   }

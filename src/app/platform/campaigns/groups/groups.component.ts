@@ -81,8 +81,8 @@ export class GroupsComponent implements OnInit {
   openGroupMembersDialog(group: any): void {
     this.dialog.open(EditGroupEmployerComponent, {
       data: { groupCurrent: group},
-      width: '450px',
-      height: '600px',
+      width: '550px',
+      height: '650px',
       panelClass: 'groups',
     });
 

@@ -23,6 +23,7 @@ export class ProcessDetails {
   is_allowed_references_auto: boolean;
   error_details: string;
 
+
   constructor() {
     this.employer_name = '';
   }

@@ -49,11 +49,11 @@
         <p class="">{{employer}}</p>
       </div>
     </div>
-    <div class="skip" (click)="stopTimer()" *ngIf="selectUnit.getTaskTimer() && !selectUnit.getTaskTimer().isSelfTask" >
+    <div class="skip" (click)="stopTimer()" *ngIf="selectUnit.getTaskTimer() && !selectUnit.getTaskTimer().isSelfTask " >
       <a class="pointer mr-11 mt-2 p-absolute" *ngIf="basicTask">סיום</a>
-      <a class="pointer mr-6 mt-2 p-absolute" *ngIf="!basicTask">{{isWorkQueue ? 'דלג ועבור למשימה הבאה' : 'עצור ועבור למשימות' }}</a>
+      <a class="pointer mr-6 mt-2 p-absolute" *ngIf="!basicTask">{{isTask ? 'עצור ועבור למשימות' : 'דלג ועבור למשימה הבאה' }}</a>
     </div>
-    <div class="skip "*ngIf="selectUnit.getTaskTimer() && selectUnit.getTaskTimer().isSelfTask">
+    <div class="skip "*ngIf="selectUnit.getTaskTimer() && selectUnit.getTaskTimer().isSelfTask ">
       <div class="mr-3 w-50" (click)="stopTimer()" >
         <a class="pointer mt-2 p-absolute" >עצור ועבור למשימות</a>
       </div>

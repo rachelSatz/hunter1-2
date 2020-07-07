@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import {
   MatMenuModule,
@@ -42,6 +42,7 @@ import { CampaignsService} from '../shared/_services/http/campains.service';
 import { GroupMembersDialogComponent} from './campaigns/group-members-dialog/group-members-dialog.component';
 import { EditGroupEmployerComponent} from './campaigns/edit-group-employer/edit-group-employer.component';
 import { GroupService } from '../shared/_services/http/group.service';
+import {ProcessService} from '../shared/_services/http/process.service';
 
 
 const routes: Routes = [
@@ -134,6 +135,7 @@ const routes: Routes = [
     ChangeStatusComponent
   ],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, GroupService, CampaignsService,
-     TimerService, OperatorTasksService, ProductService, AppHttpService]
+     TimerService, OperatorTasksService, ProductService, AppHttpService,
+    DatePipe, ProcessService]
 })
 export class PlatformModule {}
