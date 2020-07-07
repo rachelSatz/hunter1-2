@@ -51,14 +51,14 @@ export class FilesComponent implements OnInit, OnDestroy  {
   manualStatus = ManualStatus;
   isProcess: boolean;
 
-  statuses_selected = [ 'not_sent',
-    'sent',
-    'sent_failed',
-    'feedback_a',
-    'feedback_a_failed',
-    'partially_paid',
-    'fully_paid',
-    'paid_failed' ];
+  // statuses_selected = [ 'not_sent',
+  //   'sent',
+  //   'sent_failed',
+  //   'feedback_a',
+  //   'feedback_a_failed',
+  //   'partially_paid',
+  //   'fully_paid',
+  //   'paid_failed' ];
   list_status = Object.keys(Status).map(function(e) {
     return { id: e, name: Status[e] };
   });
@@ -73,7 +73,8 @@ export class FilesComponent implements OnInit, OnDestroy  {
       sortName: 'process__department__employer__name',  searchable: false},
     {name: 'amount', label: 'סכום', sortName: 'block_sum', searchable: false},
     {name: 'code', label: 'קוד אוצר', sortName: 'group__product__code' , searchable: false},
-    {name: 'status', label: 'סטטוס', selected: this.statuses_selected
+    {name: 'status', label: 'סטטוס'
+        // , selected: this.statuses_selected
       , isSort: false, multiple: true, searchOptions: { labels: this.list_status } },
     {name: 'manual_status', label: 'סטטוס פניה', searchable: false, isSort: false},
     {name: 'more', label: 'מידע נוסף', searchable: false, isSort: false},
@@ -81,7 +82,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
     {name: 'created_at', label: 'תאריך יצירה',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'updated_at', label: 'תאריך עדכון אחרון',  searchOptions: { isDate: true }, isDisplay: false},
     {name: 'broadcast_date', label: 'תאריך שידור', searchOptions: { isDate: true }, isDisplay: false},
-    {name: 'product_type', label: 'סוג מוצ  transfer.patchValue({\'transfer_percent\':  (transfer.value.transfer_sum / salary * 100).toFixed(2)})ר', searchOptions: { labels: this.selectProductType }, isDisplay: false}
+    {name: 'product_type', label: 'סוג מוצר', searchOptions: { labels: this.selectProductType }, isDisplay: false}
     ];
 
 

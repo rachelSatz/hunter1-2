@@ -51,6 +51,7 @@ export class UserFormComponent implements OnInit {
   update = false;
   add = false;
   role = this.userSeService.getRole();
+  units: any;
 
   roles = Object.keys(EntityRoles).map(function (e) {
     return {id: e, name: EntityRoles[e]};
@@ -85,15 +86,28 @@ export class UserFormComponent implements OnInit {
     if (this.route.snapshot.data.user) {
       this.update = true;
       this.user = new User(this.route.snapshot.data.user);
+      this.units = this.user.units;
     }
   }
 
 
   fetchItems() {
-    if (this.user.units === undefined) {
+    let un = this.units;
+    if (this.units === undefined) {
       this.user.units = [];
+      un = [];
+    } else {
+      const keyword = this.dataTable.criteria.keyword;
+      if ( keyword !== '' && keyword !== undefined) {
+        un = this.units.filter( u =>
+          u['employer_name'].indexOf(keyword) !== -1 ||
+          u['department_name'].indexOf(keyword) !== -1 ||
+          u['organization_name'].indexOf(keyword) !== -1 );
+      } else {
+        un = this.units;
+      }
     }
-    this.addToUnitUser(this.user.units);
+    this.addToUnitUser(un);
   }
 
   selectedEmployer(): Employer[] {

@@ -52,6 +52,11 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit() {
+
+    if (this.processDataService.activeProcess === undefined) {
+      this.processDataService = this.selectUnit.getProcessData();
+    }
+
     this.process.file = [];
     this.process.employer_name = 'אא';
 

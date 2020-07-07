@@ -63,7 +63,7 @@ export class ProcessService extends BaseHttpService {
       filesList: filesList,
       criteria: this.setDataTableParams(criteria)} : {'processId': id };
 
-    return this.http.post(this.endPoint + '/downloadPaymentsInstruction',data ,
+    return this.http.post(this.endPoint + '/downloadPaymentsInstruction', data ,
       this.getTokenHeader())
       .toPromise()
       .then(response => response)
@@ -126,10 +126,13 @@ export class ProcessService extends BaseHttpService {
 
   updateDate(type: string , val: any, file_id: any, criteria: DataTableCriteria, process_id: number,
          files: any ): Promise<boolean> {
+    const data = criteria && file_id && files ? { params: val , type: type, file_id : file_id,
+      searchCriteria: this.setDataTableParams(criteria), files: files, processId: process_id
+    } :  {params: val, type: type, processId: process_id} ;
+
+
     return this.http.post(this.endPoint + '/update',
-      { params: val , type: type, file_id : file_id,
-        searchCriteria: this.setDataTableParams(criteria), files: files, processId: process_id
-      }, this.getTokenHeader())
+      data , this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);
@@ -349,6 +352,16 @@ export class ProcessService extends BaseHttpService {
       .then(response => response)
       .catch(() => null);
   }
+
+  change_type_group_thing(id: number): Promise<any> {
+
+    return this.http.post(this.endPoint  + '/' + id  + '/changeTypeGroupThing', {},
+      this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
 
 }
 

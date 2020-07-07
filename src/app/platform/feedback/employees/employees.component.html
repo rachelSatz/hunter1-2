@@ -71,7 +71,7 @@
     <td>
       <img src="/assets/img/icons/details_grey.png" (click)="openApplicationDialog(item)">
     </td>
-    <td (click)="openCommentsDialog(item)">
+    <td (click)="openCommentsDialog(item, true)">
       <i *ngIf="item.comments.length === 0" class="fa fa-comment-o"></i>
       <i *ngIf="item.comments.length > 0" class="fa fa-comment"></i>
     </td>

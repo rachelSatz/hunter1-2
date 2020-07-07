@@ -52,9 +52,11 @@
     </div>
   </div>
 
-  <button class="btn blue-btn" (click)="submit()"
-          *ngIf="employerComponent.process_details.is_allowed_references_auto && is_valid"
-  >המשך</button>
+  <div class="text-center mt-4">
+
+    <button class="btn blue-btn" (click)="submit()"
+            *ngIf="employerComponent.process_details.is_allowed_references_auto && is_valid">המשך</button>
+  </div>
 
 
 </div>

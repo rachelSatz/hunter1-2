@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AppComponent } from './app.component';
 import { UserSessionService } from './shared/_services/user-session.service';
 import { HelpersService } from './shared/_services/helpers.service';
-import { FormsModule } from '@angular/forms';
 import { SendFileEmailComponent } from 'app/shared/_dialogs/send-file-email/send-file-email.component';
 import { MatChipsModule, MatFormFieldModule, MatIconModule } from '@angular/material';
 import { ContactService } from 'app/shared/_services/http/contact.service';
@@ -30,7 +31,7 @@ const routes = [
     MatFormFieldModule,
     MatIconModule
   ],
-  providers: [UserSessionService, HelpersService, ContactService],
+  providers: [UserSessionService, HelpersService, ContactService, DatePipe],
   bootstrap: [AppComponent],
   entryComponents: [SendFileEmailComponent]
 })

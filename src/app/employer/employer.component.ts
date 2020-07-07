@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Process } from 'app/shared/_models/process.model';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
+import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-employer',
@@ -13,6 +14,7 @@ export class EmployerComponent implements OnInit {
 
   constructor(public router: Router,
               private route: ActivatedRoute,
+              private selectUnit: SelectUnitService,
               public processDataService: ProcessDataService) { }
   // activeUrl: string;
   @Output() process_details: ProcessDetails;
@@ -24,6 +26,8 @@ export class EmployerComponent implements OnInit {
   // ];
 
   ngOnInit() {
+    this.selectUnit.changeOrganizationEmployerDepartment(1 , 2, 2);
+
     if ( this.processDataService.activeProcess === undefined) {
       this.processDataService.setProcess(new Process());
     }
@@ -55,14 +59,13 @@ export class EmployerComponent implements OnInit {
 
 
   setPage(num: number, type = false): void {
-    // const status_process = this.processDataService.activeProcess.status_process;
-    // if (status_process === undefined
-    //   || status_process >= num || type
-    //   || (status_process === 5 && num === 6)) {
-    //   if (status_process === undefined || status_process < num ) {
-        // this.processDataService.activeProcess.status_process = num;
-        // this.processDataService.setProcess(this.processDataService.activeProcess);
-        // this.selectUnit.setProcessData(this.processDataService);
+    const status_process = this.processDataService.activeProcess.status_process;
+    if (status_process === undefined || status_process >= num ) {
+      //   || (status_process === 5 && num === 6)) {
+      //   if (status_process === undefined || status_process < num ) {
+      // this.processDataService.activeProcess.status_process = num;
+      // this.processDataService.setProcess(this.processDataService.activeProcess);
+      // this.selectUnit.setProcessData(this.processDataService);
       // }
       switch (num) {
         case 1:
@@ -78,13 +81,17 @@ export class EmployerComponent implements OnInit {
           this.router.navigate(['./broadcast-employer'], {relativeTo: this.route});
           break;
         case 5:
-          this.router.navigate(['./feedback-employer'], {queryParams: {processId: 2300} , relativeTo: this.route});
+          this.router.navigate(['./feedback-employer'],
+            {
+              queryParams: {processId: this.processDataService.activeProcess.processID}
+              , relativeTo: this.route
+            });
           break;
         case 6:
           this.router.navigate(['./send-employer-feed'],
-            {queryParams: {processId: 2300} , relativeTo: this.route});
+            {queryParams: {processId: 2300}, relativeTo: this.route});
           break;
       }
+    }
   }
-
 }

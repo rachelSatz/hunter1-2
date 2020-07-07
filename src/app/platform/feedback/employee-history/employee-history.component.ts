@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-employee-history',
@@ -20,7 +21,8 @@ export class EmployeeHistoryComponent implements OnInit {
 
 
   constructor(private router: Router,
-              public route: ActivatedRoute) {
+              public route: ActivatedRoute,
+              private _location: Location) {
   }
 
   ngOnInit() {
@@ -38,7 +40,7 @@ export class EmployeeHistoryComponent implements OnInit {
   }
 
   returnToFeed(): void {
-    this.router.navigate(['platform', 'feedback' , 'employees']);
+    this._location.back();
   }
 
 

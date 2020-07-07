@@ -27,6 +27,13 @@
   line-height: 4.125;
 }
 
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
 
 
 .btn_payment {

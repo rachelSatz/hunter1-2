@@ -55,7 +55,7 @@ export class Process {
     this.codeFile = 0;
     this.type = 'positive';
     this.year = new Date().getFullYear();
-    this.month = new Date().getMonth();
+    this.month = new Date().getMonth() - 1;
   }
 }
 

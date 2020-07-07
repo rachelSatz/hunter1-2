@@ -76,11 +76,16 @@ export class EditPaymentsComponent implements OnInit {
     this.editPaymentForm = this.fb.group({
       'mtb': this.fb.array([
         this.fb.group({
-          'salary': [null , this.mtb.file_type !== 'withdraw_to_pending' ?  Validators.required : null],
+          'salary': [null , this.mtb.file_type !== 'withdraw_to_pending'
+          && this.mtb.file_type !== 'overpay_withdrawal'
+            ?  Validators.required : null],
           'working_days_in_month': [null ],
-          'work_month_percentage': [null , Validators.required],
-          'employee_status': [null, this.mtb.file_type !== 'withdraw_to_pending' ?  Validators.required : null],
-          'employee_status_start_date': [null, this.mtb.file_type !== 'withdraw_to_pending' ?  Validators.required : null],
+          'work_month_percentage': [null , this.mtb.file_type !== 'withdraw_to_pending'
+          && this.mtb.file_type !== 'overpay_withdrawal' ?  Validators.required : null],
+          'employee_status': [null, this.mtb.file_type !== 'withdraw_to_pending'
+          && this.mtb.file_type !== 'overpay_withdrawal' ?  Validators.required : null],
+          'employee_status_start_date': [null, this.mtb.file_type !== 'withdraw_to_pending'
+          && this.mtb.file_type !== 'overpay_withdrawal' ?  Validators.required : null],
           'salary_month': [null,  Validators.required],
           'company_id': [null,  Validators.required],
           'product_id': [null,  Validators.required],
@@ -102,31 +107,62 @@ export class EditPaymentsComponent implements OnInit {
   }
 
   addMtb(mtb?: any, clause?: TransferClause): void {
-    const mtbControl = {
-      'id': [mtb  ? +mtb['id'] : null],
-      'salary': [mtb  ? +mtb['salary'] : null,  Validators.required],
-      'working_days_in_month': [mtb  ? +mtb['working_days_in_month'] : null],
-      'work_month_percentage': [mtb ? +mtb['work_month_percentage'] : null ,  Validators.required],
-      'employee_status': [mtb ? mtb['employee_status'] : null,  Validators.required],
-      'employee_status_start_date':  [mtb ? mtb['employee_status_start_date'] : null],
-      'salary_month':  [mtb ? mtb['salary_month'] : null,  Validators.required],
-      'company_id': [mtb ? +mtb['employer_company_id'] : null,  Validators.required],
-      'product_id': [mtb ? +mtb['product_id'] : null,  Validators.required],
-      'deposit_type': [mtb ? mtb['deposit_type'] : null,  Validators.required],
-      'deposit_status': [mtb ? mtb['deposit_status'] : null,  Validators.required],
-      'transfer_clause':  this.fb.array([
-        this.fb.group({
-          'id': [null],
-          'clause_type':  [clause ? clause.clause_type : null , Validators.required],
-          'transfer_sum': [clause ? clause.transfer_sum : null,
-            [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
-          'transfer_percent':  [clause ? clause.expected_percent.toString() : null,  Validators.required],
-          'exempt_sum': [0 , Validators.required],
-        })
-      ])
-    };
     const mtbGroup = (<FormArray>this.editPaymentForm.get('mtb'));
-    mtbGroup.push(this.fb.group(mtbControl));
+    let index = 0;
+    mtbGroup.controls.forEach((obj, i) => {
+      if (i !== 0) {
+        const t_clause = obj.value.transfer_clause.find(  tr => clause.clause_type === tr.clause_type);
+        if (t_clause === undefined) {
+          return  index = i;
+          // break;
+        }
+      }
+    });
+    let mtbControl;
+    if (mtbGroup.controls.length === 1 || index === 0) {
+       mtbControl = {
+        'id': [mtb ? +mtb['id'] : null],
+        'salary': [mtb ? +mtb['salary'] : null,  this.mtb.file_type !== 'withdraw_to_pending'
+        && this.mtb.file_type !== 'overpay_withdrawal'
+          ?  Validators.required : null],
+        'working_days_in_month': [mtb ? +mtb['working_days_in_month'] : null],
+        'work_month_percentage': [mtb ? +mtb['work_month_percentage'] : null,
+          this.mtb.file_type !== 'withdraw_to_pending' &&
+          this.mtb.file_type !== 'overpay_withdrawal' ?  Validators.required : null],
+        'employee_status': [mtb ? mtb['employee_status'] : null,
+          this.mtb.file_type !== 'withdraw_to_pending' &&
+          this.mtb.file_type !== 'overpay_withdrawal' ?  Validators.required : null],
+        'employee_status_start_date': [mtb ? mtb['employee_status_start_date'] :
+          null,  this.mtb.file_type !== 'withdraw_to_pending'
+        && this.mtb.file_type !== 'overpay_withdrawal' ?  Validators.required : null],
+        'salary_month': [mtb ? mtb['salary_month'] : null, Validators.required],
+        'company_id': [mtb ? +mtb['employer_company_id'] : null, Validators.required],
+        'product_id': [mtb ? +mtb['product_id'] : null, Validators.required],
+        'deposit_type': [mtb ? mtb['deposit_type'] : null, Validators.required],
+        'deposit_status': [mtb ? mtb['deposit_status'] : null, Validators.required],
+        'transfer_clause': this.fb.array([
+          this.fb.group({
+            'id': [null],
+            'clause_type': [clause ? clause.clause_type : null, Validators.required],
+            'transfer_sum': [clause ? clause.transfer_sum : null,
+              [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
+            'transfer_percent': [clause ? clause.expected_percent.toString() : null, Validators.required],
+            'exempt_sum': [0, Validators.required],
+          })
+        ])
+      };
+      mtbGroup.push(this.fb.group(mtbControl));
+    } else {
+      const group = this.fb.group({
+        'id': [null],
+        'clause_type': [clause ? clause.clause_type : null, Validators.required],
+        'transfer_sum': [clause ? clause.transfer_sum : null,
+          [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
+        'transfer_percent': [clause ? clause.expected_percent.toString() : null, Validators.required],
+        'exempt_sum': [0, Validators.required],
+      });
+      mtbGroup.controls[index]['controls'].transfer_clause.push(group);
+    }
   }
 
   removeMtb(index: number): void {
@@ -201,9 +237,12 @@ export class EditPaymentsComponent implements OnInit {
   sumPercent(m: any, transfer: FormGroup, index, i): void {
     const salary = m.value.salary;
     this.calcSumSplit();
+    const transfer_sum = transfer.value.transfer_sum.toFixed(2);
     const expected_percent = salary === 0 ? +0 :
-      +(transfer.value.transfer_sum / salary * 100).toFixed(2);
+      +(transfer_sum / salary * 100).toFixed(2);
     transfer.patchValue({'transfer_percent':  expected_percent });
+    transfer.patchValue({'transfer_sum':  transfer_sum });
+
     const clause = new TransferClause;
     const subSum =  this.mtb.amount - this.sum;
     if (subSum > 0) {

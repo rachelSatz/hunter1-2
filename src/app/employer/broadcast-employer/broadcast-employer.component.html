@@ -1,3 +1,48 @@
-<p>
-  broadcast-employer works!
-</p>
+<div  class="container mt-lg-8 w-30">
+  <h3 class="bold blue-color font-rubik">שידור לקופות</h3>
+  <h3 class="bold font-rubik">{{ employerComponent.process_details.employer_name }}
+    - {{months[processDataService.activeProcess.month-1] + ' ' +processDataService.activeProcess.year  }}</h3>
+
+  <div class="mt-5 mb-2">
+    <div>.שלום מעסיק יקר! כעת, בשלב זה תוכל לצפות ולשדר את הקבציםישרות לקופות</div>
+  </div>
+
+  <div class="row mt-4">
+      <div class="text-center mb-2 col-9">
+        <div class="row mr-0 pr-0 mt-3 mb-5">
+          <div class="d-flex col-6 pr-0">
+            <div class="d-flex bold f-14" title="הסכום הכולל לקופות">
+              סכום לתשלום:
+              {{employerComponent.process_details.total}}
+            </div>
+          </div>
+          <div class="d-flex col-6">
+            <div class="d-flex">
+              מספר קופות לתשלום:
+              {{employerComponent.process_details.groups_count}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3 pr-0">
+        <button class="btn mb-2 btn_payment col-12 min-width-0" (click)="openRow()">
+          <div class="row">
+            <div class="col-7 f-14 pr-5">
+              <span class="row">לצפייה</span>
+              <span class="row">ואישורי</span>
+              <span class="row"> העברות</span>
+            </div>
+            <div class="col-3 center">
+              <i class="fa fa-angle-left fa-circle-me font-weight-bolder"></i>
+            </div>
+          </div>
+        </button>
+      </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <button class="btn blue-btn" (click)="submit()">שדר</button>
+  </div>
+
+
+</div>

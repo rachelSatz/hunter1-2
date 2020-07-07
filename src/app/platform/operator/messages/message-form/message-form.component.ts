@@ -37,7 +37,7 @@ export class MessageFormComponent implements OnInit {
 
 
   ngOnInit() {
-    if (this.data !== undefined && this.data.id !== undefined) {
+    if (this.data !== undefined && this.data['data'].id !== undefined) {
       this.message.title = this.data['data'].title;
       this.message.content = this.data['data'].content;
       this.message.created_at = this.data['data'].created_at;
@@ -61,7 +61,7 @@ export class MessageFormComponent implements OnInit {
   }
 
   private handleResponse(response: string): void {
-    if (response['message'] === 'success') {
+    if (response) {
       this.notificationService.success('נשמר בהצלחה');
     } else {
       this.notificationService.error(response);
