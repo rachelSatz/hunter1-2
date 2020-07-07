@@ -1,7 +1,7 @@
 import { MatDialog } from '@angular/material';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { Process, ProcessType } from 'app/shared/_models/process.model';
+import {Process, ProcessStatus, ProcessType} from 'app/shared/_models/process.model';
 import { PlanTask } from 'app/shared/_models/plan-task';
 import { FileType } from 'app/shared/_models/group-thing';
 import { CompensationStatus, CompensationSendingMethods } from 'app/shared/_models/compensation.model';
@@ -19,6 +19,8 @@ import { UserSessionService} from '../../../../shared/_services/user-session.ser
 import { CategoryTypeCompensation, CategoryTypeEmployerError, CategoryTypeFeedback,
   CategoryTypeEmployerDefrayal} from '../../../../shared/_models/plan';
 import {Subscription} from 'rxjs';
+import {ProcessService} from '../../../../shared/_services/http/process.service';
+import {MONTHS} from '../../../../shared/_const/months';
 
 
 @Component({
@@ -27,6 +29,8 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./ongoing-operation.component.css']
 })
 export class OngoingOperationComponent implements OnInit, OnDestroy {
+  processStatus = ProcessStatus;
+  months = MONTHS;
   text: string;
   plan: PlanTask;
   path: string;
@@ -39,6 +43,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   fileType = FileType;
   employeeStatus = EmployeeStatus;
   sub = new Subscription;
+  process;
   errorsDetails = {
     compensationEmployer: {ids: [24, 26], error: false, title : 'ייתרות לפיצויים ברמת ח.פ', function: 'compensationEmployer'},
     compensationEmployee: {ids: [25, 23], error: false, title : 'ייתרות לפיצויים ברמת עובד', function: 'compensationEmployee'},
@@ -62,6 +67,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
               private planService: PlanService,
               private selectUnit: SelectUnitService,
               private timerService: TimerService,
+              private processService: ProcessService,
               private operatorTasks: OperatorTasksService,
               private helpers: HelpersService,
               private platformComponent: PlatformComponent) { }
@@ -94,6 +100,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
 
   initializationPlatform(): void {
     this.platformComponent.isWorkQueue = true;
+    this.platformComponent.isTask = false;
     this.platformComponent.organizationId = this.plan.organization.id;
     if (this.getCurrentError() !== 'employerError' && this.plan.type.id !== CategoryTypeEmployerDefrayal.employerEstablishmentXml) {
       if (this.getCurrentError() !== 'compensationEmployer') {
@@ -164,8 +171,47 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   }
 
   paymentInstructionsError(): void {
-    this.router.navigate(['/platform', 'process', 'new', 'update', 'payment-instructions'],
-      {queryParams: { page: 3, planId: this.plan.id}});
+    this.processService.getUploadFileDone(this.plan.task.id).then(response => {
+      this.process = response;
+      const date = new Date(this.process.date);
+      this.processService.getGroupThingInProcess(this.process.id).then(responseGT => {
+        this.process.rows = responseGT['group_things_ids'];
+        if (this.process.rows.length === 0) {
+          this.process.rows = undefined;
+        }
+        this.process.sum = responseGT['block_sum'];
+        this.process.num_file = responseGT['num_file'];
+
+        const data = {
+          'name': this.process.name,
+          'year': date.getFullYear(),
+          'month': date.getMonth() + 1,
+          'monthName':  this.months[date.getMonth()],
+          'processID': this.process.id,
+          'type': this.process.type === 'employer_withdrawal' ? 'negative' : 'positive',
+          'status': this.process.status,
+          'departmentId': this.process.dep_id,
+          'employer_id': this.process.employer_id,
+          'is_references': this.process.is_references,
+          'payment_instructions': this.process.payment_instructions,
+          'status_process': this.process.status_process === 1 &&
+          status !== this.processStatus.can_be_processed ? this.process.status_process : this.process.status_process + 1,
+          'employer_name': this.process.employer_name,
+          'incorrect': status === this.processStatus.loaded_with_errors,
+          'returnDetails':  status === this.processStatus.loaded_with_errors,
+          'rows': this.process.rows,
+          'sum': this.process.sum,
+          'num_file': this.process.num_file,
+          'rows_status': responseGT['sent']
+        };
+        this.processDataService.setProcess(data);
+        this.selectUnit.setProcessData(data);
+        this.sub.unsubscribe();
+        this.platformComponent.employerId = this.process.employer_id;
+        this.platformComponent.departmentId = this.process.dep_id;
+        this.router.navigate(['/platform', 'process', 'new', 'update', 'payment-instructions']);
+      });
+    });
   }
 
   employerError(): void {

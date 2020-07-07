@@ -63,7 +63,7 @@ export class ProcessService extends BaseHttpService {
       filesList: filesList,
       criteria: this.setDataTableParams(criteria)} : {'processId': id };
 
-    return this.http.post(this.endPoint + '/downloadPaymentsInstruction',data ,
+    return this.http.post(this.endPoint + '/downloadPaymentsInstruction', data ,
       this.getTokenHeader())
       .toPromise()
       .then(response => response)

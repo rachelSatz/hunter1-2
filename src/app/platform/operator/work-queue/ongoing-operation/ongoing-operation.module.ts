@@ -5,10 +5,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SkipTaskComponent } from './skip-task/skip-task.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PlatformComponent } from '../../../platform.component';
+import {ProcessService} from '../../../../shared/_services/http/process.service';
 
 const routes: Routes = [{path: '', component: OngoingOperationComponent}];
 
-    @NgModule({
+@NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

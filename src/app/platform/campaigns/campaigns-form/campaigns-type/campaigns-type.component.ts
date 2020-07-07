@@ -62,6 +62,7 @@ export class CampaignsTypeComponent implements OnInit {
   campaignsType = [];
   campaignsSubtype = [];
   dateModel = false;
+  requiredDateModel = false;
   hasErrorHour = false;
   hasErrorSend = false;
   groupsSelected;
@@ -108,10 +109,11 @@ export class CampaignsTypeComponent implements OnInit {
       if (paramsTaskCampaign.groups) {
         this.groupsSelected = paramsTaskCampaign.groups;
       }
-      this.taskCampaign.patchValue(paramsTaskCampaign);
       if (paramsTaskCampaign.timings.sendAt.length > 0) {
         this.setSendAt(paramsTaskCampaign);
+        this.taskCampaign.get('timings.sendNow').patchValue(false);
       }
+      this.taskCampaign.patchValue(paramsTaskCampaign);
       if (paramsTaskCampaign.timings.schedules.length > 0) {
         this.setSchedules(paramsTaskCampaign);
       }
@@ -183,6 +185,9 @@ export class CampaignsTypeComponent implements OnInit {
   setSendType(model) {
     if (model === 5) {
       this.taskCampaign.get('details.statusSend').patchValue('without_sending');
+    }
+    if (model === 9) {
+      this.requiredDateModel = false;
     }
   }
 
@@ -279,7 +284,7 @@ export class CampaignsTypeComponent implements OnInit {
     this.campaignsService.getTypes(isTask).then(response => {
       this.campaignsType = response;
       const index = this.campaignsType.indexOf(this.campaignsType.find(a => a.id === 10));
-      if (index !== -1) {
+      if (index === -1) {
         this.campaignsType.splice(index, 1);
       }
       if (!this.campaignsType.some(e => e.id === 0) && model !== 1) {
@@ -291,6 +296,7 @@ export class CampaignsTypeComponent implements OnInit {
 
   getSubtype(model) {
     this.dateModel = false;
+    this.requiredDateModel = false;
     if (!this.route.snapshot.queryParams['campaignId']) {
       this.taskCampaign.get('details.moduleName').patchValue(null);
       this.campaignsSubtype = [];
@@ -305,6 +311,7 @@ export class CampaignsTypeComponent implements OnInit {
       this.campaignsSubtype = this.campaignsType.find(a => a.id === model).subtype;
       if (model === 1 || model === 2) {
         this.dateModel = true;
+        this.requiredDateModel = true;
       }
     }
   }

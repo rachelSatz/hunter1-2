@@ -67,7 +67,6 @@ export class PlatformComponent implements OnInit {
   readonly basicTasks  = [
     'זמן טיפול בשיחת טלפון',
     'זמן טיפול במיילים',
-    'תפעול שוטף',
     'זמן הדרכה',
     'זמן הפסקה',
   ];
@@ -378,7 +377,7 @@ export class PlatformComponent implements OnInit {
   stopTimer(): void {
     this.showTimer = false;
     const time = this.hours + ':' + this.minutes + ':' + this.seconds;
-    const type = this.isWorkQueue || this.basicTask  ? 'task' : 'taskCampaign';
+    const type = this.isTask || this.basicTask  ? 'taskCampaign' : 'task';
     this.updateTaskTimer(time, type);
     this.timerService.reset();
     this.selectUnit.clearTaskTimer();
