@@ -127,6 +127,14 @@ export class InvoiceService  extends BaseHttpService {
       .catch(() => null);
   }
 
+  createTaxOnlyInvoices(invoiceIds: number[], criteria: DataTableCriteria, date: any): Promise<string> {
+    return this.http.post(this.endPoint + '/createTaxOnlyInvoices',
+      { invoiceIds: invoiceIds, data: date,  criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
   createTransactionInvoices(invoiceIds: number[], criteria: DataTableCriteria, date: any): Promise<string> {
     return this.http.post(this.endPoint + '/createTransactionInvoices',
       { invoiceIds: invoiceIds, data: date,  criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
