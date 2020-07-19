@@ -60,7 +60,7 @@ export class TasksComponent implements OnInit  {
     if (this.router.url.includes('employers')) {
       this.pathEmployers = true;
     }
-    if (this.route.snapshot.queryParams['isSelfTask']) {
+    if (this.route.snapshot.queryParams['isSelfTask'] === true) {
       this.dataTable.criteria.filters['typeTask'] = 0;
       this.filter[0].selected = false;
       this.filter[1].selected = true;
@@ -86,7 +86,7 @@ export class TasksComponent implements OnInit  {
               responseA => responseA);
             this.selectUnit.clearTaskTimer();
           }
-          const isSelfTask = this.filter[1].selected === true ? true : false;
+          const isSelfTask = this.filter[1].selected;
           const data = {id: response, type: item.subtypeTask, employer: item.employer.name,
             organization: this.organization.name, taskCampaignId: item.id, isSelfTask: isSelfTask};
           this.initializationPlatform(item);
@@ -121,12 +121,13 @@ export class TasksComponent implements OnInit  {
 
   initializationPlatform(item): void {
     this.platformComponent.isWorkQueue = false;
+    this.platformComponent.ongoingOperation = false;
     this.platformComponent.isTask = true;
     this.platformComponent.organizationId = this.organization.id;
     this.platformComponent.employerId = item.employer.id;
     this.platformComponent.departmentId = 0;
     this.selectUnit.changeOrganizationEmployerDepartment(Number(this.organization.id), item.employer.id, 0);
-    this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
+    this.platformComponent.agentBarActive = true;
     this.selectUnit.setAgentBarActive(this.platformComponent.agentBarActive);
   }
 

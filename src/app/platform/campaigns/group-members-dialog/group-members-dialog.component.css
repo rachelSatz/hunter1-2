@@ -1,3 +1,6 @@
 .scroll{
-  overflow: auto;
+  overflow: auto !important;;
+}
+.h-550px{
+  height: 480px;
 }

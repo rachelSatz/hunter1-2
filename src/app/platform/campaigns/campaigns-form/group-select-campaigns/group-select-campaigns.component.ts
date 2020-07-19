@@ -133,7 +133,7 @@ export class GroupSelectCampaignsComponent implements OnInit {
       if (response['massage'] === 'success') {
         this.notificationService.success('הקמפיין נשלח בהצלחה');
         this.selectUnitService.clearTaskCampaign();
-        // this.router.navigate(['/platform', 'operator', 'campaigns']);
+        this.router.navigate(['/platform', 'operator', 'campaigns']);
       }
       if (response['massage'] === 'bad request') {
         this.notificationService.error('שליחת ויצירת הקמפיין נכשל');
@@ -190,9 +190,10 @@ export class GroupSelectCampaignsComponent implements OnInit {
       this.dialog.open(GroupMembersDialogComponent, {
         data: { items: response.items,
           groupSize: group.group_size,
-          groupName: group.name},
-        width: '400px',
-        height: '450px',
+          groupName: group.name,
+          mode: 'create'},
+        width: '500px',
+        height: '550px',
         panelClass: 'group-select-campaigns',
       });
     });

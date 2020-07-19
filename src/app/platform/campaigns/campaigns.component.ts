@@ -57,9 +57,10 @@ export class CampaignsComponent implements OnInit {
       this.dialog.open(GroupMembersDialogComponent, {
         data: { items: response.items,
           groupSize: response.items.length,
-          groupName: campaign.name},
-        width: '450px',
-        height: '500px',
+          groupName: campaign.name,
+          mode: 'submit'},
+        width: '500px',
+        height: '550px',
         panelClass: 'campaigns',
       });
     });

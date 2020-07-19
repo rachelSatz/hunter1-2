@@ -39,38 +39,38 @@ export class TimerComponent implements OnInit, OnDestroy  {
         case 'system-tasks': {
           this.text = 'זמן טיפול במשימות מערכת';
           this.timerService.reset();
-          this.newTaskTimer('system_tasks');
+          this.newTaskTimer('system_tasks', true);
           break;
         }
         case 'phone-call': {
           this.text = 'זמן טיפול בשיחת טלפון';
           this.timerService.reset();
-          this.newTaskTimer('phone_call');
+          this.newTaskTimer('phone_call', true);
           break;
         }
         case 'emails': {
           this.text = 'זמן טיפול במיילים';
           this.timerService.reset();
-          this.newTaskTimer('emails');
+          this.newTaskTimer('emails', true);
           break;
         }
         case 'ongoing-operation': {
           this.text = 'תפעול שוטף';
           this.timerService.reset();
-          this.newTaskTimer('ongoing_operation');
+          this.newTaskTimer('ongoing_operation', false);
           break;
         }
         case 'guidance': {
           this.text = 'זמן הדרכה';
           this.timerService.reset();
-          this.newTaskTimer('guidance');
+          this.newTaskTimer('guidance', true);
 
           break;
         }
         case 'break': {
           this.text = 'זמן הפסקה';
           this.timerService.reset();
-          this.newTaskTimer('break');
+          this.newTaskTimer('break', true);
           break;
         }
       }
@@ -102,12 +102,13 @@ export class TimerComponent implements OnInit, OnDestroy  {
     });
   }
 
-  newTaskTimer(taskType: string): void {
+  newTaskTimer(taskType: string, isMinTask: boolean): void {
     this.operatorTasks.newTaskTimer(taskType).then(
       response => {
         if (response > 0 ) {
           this.task_timer_id = response;
           this.taskObj.id = response;
+          this.taskObj.isMinTask = isMinTask;
           this.selectUnit.setTaskTimer(this.taskObj);
         }
       });

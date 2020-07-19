@@ -100,6 +100,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
 
   initializationPlatform(): void {
     this.platformComponent.isWorkQueue = true;
+    this.platformComponent.ongoingOperation = true;
     this.platformComponent.isTask = false;
     this.platformComponent.organizationId = this.plan.organization.id;
     if (this.getCurrentError() !== 'employerError' && this.plan.type.id !== CategoryTypeEmployerDefrayal.employerEstablishmentXml) {
@@ -110,7 +111,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
       } else {
         this.selectUnit.changeOrganization(this.plan.organization.id);
       }
-      this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
+      this.platformComponent.agentBarActive = true;
       this.selectUnit.setAgentBarActive(this.platformComponent.agentBarActive);
     }
   }
