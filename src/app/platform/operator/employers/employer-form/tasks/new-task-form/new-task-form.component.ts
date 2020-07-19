@@ -7,10 +7,9 @@ import { EmployerService } from 'app/shared/_services/http/employer.service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { TaskService } from 'app/shared/_services/http/task.service';
 import { TaskModel, Comment } from 'app/shared/_models/task.model';
-import {CampaignsService} from '../../../../../../shared/_services/http/campains.service';
-import {FormBuilder, Validators} from '@angular/forms';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-import {CampaignsFieldStatus} from '../../../../../../shared/_models/campaigns';
+import { CampaignsService } from 'app/shared/_services/http/campains.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { CampaignsFieldStatus } from 'app/shared/_models/campaigns';
 
 @Component({
   selector: 'app-new-task-form',

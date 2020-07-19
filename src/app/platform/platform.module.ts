@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import {
   MatMenuModule,
@@ -96,7 +95,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     RouterModule.forChild(routes),
     MatFormFieldModule,
     MatInputModule,
@@ -137,6 +135,7 @@ const routes: Routes = [
     ChangeStatusComponent
   ],
   providers: [IsAuthenticatedGuard, OrganizationService, EmployerService, ProcessDataService, GroupService, CampaignsService,
-    DatePipe, TimerService, OperatorTasksService, ProductService, AppHttpService, ProcessService]
+     TimerService, OperatorTasksService, ProductService, AppHttpService,
+    DatePipe, ProcessService]
 })
 export class PlatformModule {}

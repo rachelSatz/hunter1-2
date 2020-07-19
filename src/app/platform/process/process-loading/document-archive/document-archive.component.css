@@ -17,3 +17,9 @@
   width: 630.6px;
   margin-right: -24px;
 }
+
+.divTable {
+  height: 250px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

@@ -170,6 +170,7 @@ export class UploadComponent implements OnInit, OnDestroy {
       'year': this.process.year,
       'processName':  this.process.name,
       'departmentId': this.selectUnit.currentDepartmentID,
+      'employer_id':  this.selectUnit.currentEmployerID,
       'type': this.process.type,
       'isDirect': isDirect,
       'processId': '',

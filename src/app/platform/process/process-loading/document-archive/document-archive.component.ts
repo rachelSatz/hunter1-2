@@ -4,6 +4,7 @@ import { ProcessService } from 'app/shared/_services/http/process.service';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { File } from 'app/shared/_models/compensation.model';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
+import { DataTableResponse } from 'app/shared/data-table/classes/data-table-response';
 
 @Component({
   selector: 'app-document-archive',
@@ -12,7 +13,6 @@ import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 })
 export class DocumentArchiveComponent implements OnInit {
 
-  files: File[];
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   constructor(private processService: ProcessService,
@@ -25,7 +25,9 @@ export class DocumentArchiveComponent implements OnInit {
 
   fetchItems() {
     this.processService.getRefDocument(this.data.processId).then(response => {
-      this.files = response;
+      const d = new DataTableResponse(response, response.length, 1);
+      this.dataTable.criteria.limit = response.length;
+      this.dataTable.setItems(d);
     });
   }
 

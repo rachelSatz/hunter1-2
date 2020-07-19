@@ -311,7 +311,8 @@ export class EmployeesComponent implements OnInit , OnDestroy {
 
   sendOnlyFailedFeedback(): void {
     if ((this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) ||
-      this.dataTable.criteria.checkedItems.some(item => item['status'] !== 'not_defrayed')) {
+      this.dataTable.criteria.checkedItems.some(item => item['status'] !== 'not_defrayed') || (this.dataTable.criteria.isCheckAll
+        && this.dataTable.items.some(item => item['status'] !== 'not_defrayed'))) {
       this.notificationService.warning('יש לבחור רשומות שלא נפרעו');
       return;
     }
@@ -387,6 +388,10 @@ export class EmployeesComponent implements OnInit , OnDestroy {
   }
 
   sendFailedFeedback(): void {
+    if (!this.dataTable.criteria.isCheckAll) {
+      this.dataTable.criteria.checkedItems = [];
+      this.dataTable.criteria.isCheckAll = true;
+    }
     this.sendFeedback([], true);
   }
 

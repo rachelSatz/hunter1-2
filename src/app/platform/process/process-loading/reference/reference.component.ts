@@ -84,6 +84,18 @@ export class ReferenceComponent implements OnInit {
       this.processDataService.activeProcess.sum = this.sum;
       this.processDataService.activeProcess.num_file = response['num_file'];
     });
+
+    if (this.processLoading.process_details !== undefined && this.processLoading.process_details.error_details.includes(
+      'סוג הפעולה בקובץ 6')) {
+      const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+      this.notificationService.info('שים לב!', this.processLoading.process_details.error_details, buttons).then(confirmation => {
+        if (confirmation.value) {
+          this.processService.change_type_group_thing(this.processId).then( re => {
+            this.processLoading.process_details.error_details = '';
+          });
+        }
+      });
+    }
   }
 
   loadBanks(): void {

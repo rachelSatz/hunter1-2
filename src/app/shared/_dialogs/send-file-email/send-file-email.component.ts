@@ -69,7 +69,7 @@ export class SendFileEmailComponent implements OnInit {
       this.processService.sendEmail( this.data.processId, this.emails, filesList,  criteria).then(response => {
         if (response['message'] === 'Message_Sent') {
             this.notificationService.success('נשלח בהצלחה.');
-            this.dialogRef.close();
+            this.dialogRef.close(response['message']);
           } else {
             this.notificationService.error('שליחה נכשלה');
           }

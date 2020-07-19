@@ -31,7 +31,7 @@ export class AddToGroupDialogComponent implements OnInit {
   name: string;
 
   criteria: DataTableCriteria;
-  constructor(private dialogRef: MatDialogRef<DepartmentFormComponent>,
+  constructor(public dialogRef: MatDialogRef<DepartmentFormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private notificationService: NotificationService,
               private helpers: HelpersService,

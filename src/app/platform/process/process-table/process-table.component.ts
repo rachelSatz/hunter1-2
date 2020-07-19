@@ -214,17 +214,29 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
   }
 
   moveProcess(process: Process): void {
+
+    if (process.status === 'error_loading' ) { return this.messageError(process.error_details) ; }
+
+    if (process.status === 'waiting_for_approval' && this.userSession.getRole() !== 'admin') {
+      return this.messageError('ממתין לאישור מנהל') ; }
+
     if (this.location === 'operator') {
       if ( +this.platformComponent.organizations[0].id === 0) {
         this.platformComponent.organizations.splice(0, 1);
       }
-
+      this.platformComponent.organizationId = process.organization_id;
+      setTimeout( () => {
+        this.platformComponent.employerId = process.employer_id;
+        setTimeout( () => {
+          this.platformComponent.departmentId = process.dep_id;
+          this.selectUnit.changeOrganizationEmployerDepartment(
+            process.organization_id, process.employer_id, process.dep_id);
+        }, 500);
+      }, 500 );
       this.platformComponent.agentBarActive = !this.platformComponent.agentBarActive;
       this.selectUnit.setAgentBarActive(this.platformComponent.agentBarActive);
     }
-    if (process.status === 'error_loading' ) { return this.messageError(process.error_details) ; }
-    if (process.status === 'waiting_for_approval' && this.userSession.getRole() !== 'admin') {
-      return this.messageError('ממתין לאישור מנהל') ; }
+
     const status = this.processStatus[process.status];
 
    if (status === this.processStatus.loading || status ===  this.processStatus.can_be_processed
@@ -265,9 +277,11 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
 
        this.processDataService.setProcess(data);
        this.selectUnit.setProcessData(data);
-       this.sub.unsubscribe();
-       this.platformComponent.employerId = process.employer_id;
-       this.platformComponent.departmentId = process.dep_id;
+       if (this.location !== 'operator') {
+         this.sub.unsubscribe();
+         this.platformComponent.employerId = process.employer_id;
+         this.platformComponent.departmentId = process.dep_id;
+       }
        if (status === this.processStatus.loaded_with_errors || status === this.processStatus.loading) {
          this.router.navigate(['platform', 'process', 'new', 'update']);
        } else if (process.status_process === 1 || (process.status_process === 2 && (process.rows === undefined
@@ -291,6 +305,8 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
      });
    }
   }
+
+
 
   getTitle(status, status_feedback): string {
     switch (status) {

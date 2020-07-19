@@ -50,7 +50,7 @@ export class MessagesComponent implements OnInit {
       this.selectedFiles = this.files.filter(a => a.id === +item.id);
     }
 
-    const dialog = this.dialog.open(MessageFormComponent, {
+    this.dialog.open(MessageFormComponent, {
       data: {data: item, files: this.selectedFiles},
       width: '650px',
       height: '500px'
@@ -62,6 +62,7 @@ export class MessagesComponent implements OnInit {
     this.messageService.delete(id).then(response => {
       if (response) {
         this.notificationService.success('המחיקה התבצעה בהצלחה.');
+        this.fetchItems();
       } else {
         this.notificationService.success('אירעה שגיאה.');
       }

@@ -32,8 +32,14 @@ export class ProcessLoadingComponent implements OnInit , OnDestroy {
       this.processDataService.setProcess(new Process());
     }
 
-    if (this.processDataService.activeProcess === undefined) {
-      this.processDataService = this.selectUnit.getProcessData();
+    if (this.processDataService.activeProcess === undefined || this.processDataService.activeProcess.processID === undefined) {
+      const p = this.selectUnit.getProcessData();
+      if (p.activeProcess) {
+        this.processDataService.activeProcess = p.activeProcess;
+      } else {
+        this.processDataService.activeProcess = p;
+      }
+
     }
     const processData = this.processDataService.activeProcess;
     if (processData !== undefined  && processData.processID) {
@@ -119,6 +125,7 @@ export class ProcessLoadingComponent implements OnInit , OnDestroy {
   ngOnDestroy() {
     if ( this.processDataService.activeProcess !== undefined && this.router.url.indexOf('process/edit-payments') === -1) {
       this.processDataService.setProcess(new Process());
+      this.selectUnit.setProcessData(new Process());
     }
     this.process_details = null;
     this.sub.unsubscribe();

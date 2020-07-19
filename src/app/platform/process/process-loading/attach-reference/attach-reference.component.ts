@@ -37,7 +37,7 @@ export class AttachReferenceComponent implements OnInit {
   setFile(files: File[]) {
     this.hasServerError = false;
     for (let i = 0; i < files.length; i++) {
-      this.files.push(files[0]);
+      this.files.push(files[i]);
     }
   }
 

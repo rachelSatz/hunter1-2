@@ -24,6 +24,9 @@ export class ContactsComponent implements OnInit , OnDestroy {
   entity_types = EntityTypes;
   location: string;
   role = this.userSession.getRole() !== 'employer';
+  entityTypes = Object.keys(EntityTypes).map(function(e) {
+    return { id: e, name: EntityTypes[e] };
+  });
 
   constructor(public route: ActivatedRoute,
               private router: Router,
@@ -36,7 +39,7 @@ export class ContactsComponent implements OnInit , OnDestroy {
   readonly columns =  [
     { name: 'organization_name', label: 'ארגון', searchable: false},
     { name: 'employer_name', label: 'מעסיק', searchable: false},
-    { name: 'type', label: 'סוג גורם' , searchable: false},
+    { name: 'entity_type', label: 'סוג גורם' , searchOptions: { labels: this.entityTypes }},
     { name: 'name_type', label: 'שם גורם' , searchable: false},
     { name: 'name', label: 'שם מלא' },
     { name: 'phone', label: 'טלפון' , searchable: false},

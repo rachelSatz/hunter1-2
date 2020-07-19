@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BroadcastEmployerComponent } from './broadcast-employer.component';
 import { RouterModule, Routes } from '@angular/router';
 
+import { BroadcastEmployerComponent } from './broadcast-employer.component';
+
 const routes: Routes = [
-  { path: '', component: BroadcastEmployerComponent },
-];
+  { path: '', component: BroadcastEmployerComponent}];
 
 
 @NgModule({

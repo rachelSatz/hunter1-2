@@ -67,16 +67,17 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
   }
 
   openDialogGroupHistory():  void {
-    this.monthlyService.groupHistory(this.processId).then(
-      res =>  {
-        if (res && res.length > 0) {
+    if (this.processDataService.activeProcess.status === 'can_be_processed' ) {
+      this.monthlyService.groupHistory(this.processId).then(
+        res => {
+          if (res && res.length > 0) {
             this.dialog.open(GroupHistoryComponent, {
-              data: {'processId' : this.processId , items: res},
+              data: {'processId': this.processId, items: res},
               width: '1000px',
             });
-        }
-      });
-
+          }
+        });
+    }
   }
 
 
