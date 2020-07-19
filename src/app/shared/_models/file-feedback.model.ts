@@ -51,3 +51,22 @@ export enum Status {
   fully_paid = 'נפרע במלאו',
   paid_failed = 'לא נפרע'
 }
+
+
+export enum CodeError {
+  '100 invalid_id_technical_level' = 'מספר ת.ז לא תקין ברמה הטכנית',
+  '102 no_document_attached' = 'לא צורף מסמך/טופס',
+  '105 other' = 'אחר',
+  '110 no_initial_feedbackA' =  'לא התקבל היזון חוזר ראשוני (שלב א)',
+  '111 no_manufacturer_response' = 'לא התקבלה תשובת יצרן (שלב ב)',
+  '117 information_ 9201_not_received' = 'מידע מגוף מוסדי מסויים בגין פעולה 9201 לא התקבל החודש מיצרן',
+  '118 Request_9201_close' = 'בקשה 9201 נסגרה באופן יזום על ידי המסלקה',
+  '119 no_final_feedback_received' = 'לא התקבל היזון חוזר מסכם',
+  '120 monthly_feedback_not_accepted' = 'לא התקבל היזון חוזר מסכם חודשי',
+  '121 no_annual_summaries' = ' לא התקבל היזון חוזר מסכם שנתי',
+  '122 request_for_deposit_intentionally_closed_by_clearing_house' = 'בקשת פקודוקציה נסגרה באופן יזום על ידי מסלקה',
+  '123 no_retirement_report_received' =  'לא התקבל דוח גריעה',
+  '124 product_request_information_not_received_from_supplier_month' = 'מידע בגין בקשת פרודוקציה לא התקבל החודש מיצרן',
+  '125 different_conflicting_responses_received_same_manufacturer_request' = 'התקבלו תשובות סותרות ממוקדים שונים של אותו יצרן לבקשה',
+  '126 no_weekly_feedback_received' = 'לא התקבל היזון חוזר מסכם שבועי'
+}
