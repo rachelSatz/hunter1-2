@@ -187,7 +187,7 @@ export class CreatingEmployerComponent implements OnInit {
             'role': [null],
             'phone': [null, Validators.pattern('^[0-9]*$')],
             'mobile': [null, Validators.pattern('^[0-9]*$')],
-            'email': [null , [Validators.pattern('/^(?!.*\\.\\.)[\\w.\\-#!$%&\'*+\\/=?^_`{}|~]{1,35}@[\\w.\\-]+\\.[a-zA-Z]{2,15}$/\n')
+            'email': [null , [Validators.pattern('^[^@]+@[^@]+\\.[^@]+$')
               , Validators.required]],
             'comment':  ['']
           })]),
@@ -258,7 +258,7 @@ export class CreatingEmployerComponent implements OnInit {
           'phone': [contact ? contact.phone : null, Validators.pattern('^[0-9]*$')],
           'mobile': [contact ? contact.mobile : null, Validators.pattern('^[0-9]*$')],
           'email': [contact ? contact.email : null,
-            [Validators.pattern('/^(?!.*\\.\\.)[\\w.\\-#!$%&\'*+\\/=?^_`{}|~]{1,35}@[\\w.\\-]+\\.[a-zA-Z]{2,15}$/\n'),
+            [Validators.pattern('^[^@]+@[^@]+\\.[^@]+$'),
               Validators.required]],
           'comment':  contact.comment
         };
@@ -485,7 +485,7 @@ export class CreatingEmployerComponent implements OnInit {
         'phone': [null , [Validators.pattern('^[0-9]*$')]],
         'mobile': [null,  [Validators.pattern('^[0-9]*$')]],
         'email': [null,
-          [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
+          [Validators.pattern('^[^@]+@[^@]+\\.[^@]+$'), Validators.required]],
         'comment':  ['']
       };
       const contactGroup = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact'));
