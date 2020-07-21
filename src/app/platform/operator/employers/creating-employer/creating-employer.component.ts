@@ -187,7 +187,8 @@ export class CreatingEmployerComponent implements OnInit {
             'role': [null],
             'phone': [null, Validators.pattern('^[0-9]*$')],
             'mobile': [null, Validators.pattern('^[0-9]*$')],
-            'email': [null , [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'), Validators.required]],
+            'email': [null , [Validators.pattern('/^(?!.*\\.\\.)[\\w.\\-#!$%&\'*+\\/=?^_`{}|~]{1,35}@[\\w.\\-]+\\.[a-zA-Z]{2,15}$/\n')
+              , Validators.required]],
             'comment':  ['']
           })]),
         'employerPayment': this.fb.group({
@@ -257,7 +258,8 @@ export class CreatingEmployerComponent implements OnInit {
           'phone': [contact ? contact.phone : null, Validators.pattern('^[0-9]*$')],
           'mobile': [contact ? contact.mobile : null, Validators.pattern('^[0-9]*$')],
           'email': [contact ? contact.email : null,
-            [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
+            [Validators.pattern('/^(?!.*\\.\\.)[\\w.\\-#!$%&\'*+\\/=?^_`{}|~]{1,35}@[\\w.\\-]+\\.[a-zA-Z]{2,15}$/\n'),
+              Validators.required]],
           'comment':  contact.comment
         };
         const contactGroup = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact'));
@@ -792,7 +794,7 @@ export class CreatingEmployerComponent implements OnInit {
     const status = this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'];
     const employerIdentifiers = this.validIdEmployer();
     if (employerIdentifiers.length > 0) {
-      this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
+      this.notificationService.warning('ח.פ. זה שייך לארגונים: ' + Array.from(employerIdentifiers).join(', '), '',
         {confirmButtonText: 'אישור'}).then(
         confirmation => {
           if (confirmation.value) {

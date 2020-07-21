@@ -116,11 +116,11 @@ export class ReportsManagerComponent implements OnInit {
 
   submit(): void {
     this.helpers.setPageSpinner(true);
-    const sDate = this.salaryMonth ? new Date(this.startYear, this.startDate - 1, 1) : this.startDate;
-    const eDate = this.salaryMonth ? new Date(this.endYear, this.endDate - 1, 29) : this.endDate;
-    this.startDate = this.datePipe.transform(sDate, 'yyyy-MM-dd');
-    this.endDate = this.datePipe.transform(eDate, 'yyyy-MM-dd');
-    this.insertReportsFilters();
+    let sDate = this.salaryMonth ? new Date(this.startYear, this.startDate - 1, 1) : this.startDate;
+    let eDate = this.salaryMonth ? new Date(this.endYear, this.endDate - 1, 29) : this.endDate;
+    sDate = this.datePipe.transform(sDate, 'yyyy-MM-dd');
+    eDate = this.datePipe.transform(eDate, 'yyyy-MM-dd');
+    this.insertReportsFilters(sDate, eDate);
      this.organizationService.getReport(this.reportsFilters).then(response => {
        this.reportsData = response['reportsData'];
        this.departmentsIds = response['departmentsIds'];
@@ -128,7 +128,7 @@ export class ReportsManagerComponent implements OnInit {
      });
   }
 
-  insertReportsFilters(): void {
+  insertReportsFilters(sDate?: any, eDate?: any): void {
     this.reportsFilters.projectId = this.projectsId;
     this.reportsFilters.operatorId = this.operatorId;
     this.reportsFilters.organizationId = this.organizationId;
@@ -136,8 +136,8 @@ export class ReportsManagerComponent implements OnInit {
     this.reportsFilters.teamLeader = this.teamLeader;
     this.reportsFilters.departmentId = this.departmentId;
     this.reportsFilters.salaryMonth = this.salaryMonth;
-    this.reportsFilters.startDate = this.startDate;
-    this.reportsFilters.endDate = this.endDate;
+    this.reportsFilters.startDate = sDate ? sDate : this.startDate;
+    this.reportsFilters.endDate = eDate ? eDate : this.endDate;
     this.selectUnit.setReportFilters(this.reportsFilters);
   }
 
@@ -171,7 +171,11 @@ export class ReportsManagerComponent implements OnInit {
 
   openEmployeeIdsCount(): void {
     if (this.departmentsIds) {
-      this.insertReportsFilters();
+      let sDate = this.salaryMonth ? new Date(this.startYear, this.startDate - 1, 1) : this.startDate;
+      let eDate = this.salaryMonth ? new Date(this.endYear, this.endDate - 1, 29) : this.endDate;
+      sDate = this.datePipe.transform(sDate, 'yyyy-MM-dd');
+      eDate = this.datePipe.transform(eDate, 'yyyy-MM-dd');
+      this.insertReportsFilters(sDate, eDate);
       this.router.navigate(['/platform', 'operator', 'employer-employees']);
     }
   }

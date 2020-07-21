@@ -66,6 +66,7 @@ export class CampaignsTypeComponent implements OnInit {
   hasErrorHour = false;
   hasErrorSend = false;
   groupsSelected;
+  remainder = true;
 
   statuses = Object.keys(CampaignsFieldStatus).map(function(e) {
     return { id: e, name: CampaignsFieldStatus[e] };
@@ -186,8 +187,13 @@ export class CampaignsTypeComponent implements OnInit {
     if (model === 5) {
       this.taskCampaign.get('details.statusSend').patchValue('without_sending');
     }
-    if (model === 9) {
+    if (model === 9 || model === 11) {
       this.requiredDateModel = false;
+    }
+    if (model === 11) {
+      this.remainder = false;
+    } else {
+      this.remainder = true;
     }
   }
 
@@ -283,15 +289,22 @@ export class CampaignsTypeComponent implements OnInit {
     const isTask = model !== 1 ? false : true;
     this.campaignsService.getTypes(isTask).then(response => {
       this.campaignsType = response;
-      const index = this.campaignsType.indexOf(this.campaignsType.find(a => a.id === 10));
-      if (index === -1) {
-        this.campaignsType.splice(index, 1);
+      if (!isTask) {
+        const index = this.campaignsType.indexOf(this.campaignsType.find(a => a.id === 10));
+        if (index === -1) {
+          this.campaignsType.splice(index, 1);
+        }
       }
       if (!this.campaignsType.some(e => e.id === 0) && model !== 1) {
         this.campaignsType.push({'id': '0', 'name': 'הודעות מותאמות'});
       }
       this.campaignsType.sort((a, b) => a.id - b.id);
     });
+    if (model === 1) {
+      this.remainder = false;
+    } else {
+      this.remainder = true;
+    }
   }
 
   getSubtype(model) {

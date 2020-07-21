@@ -48,7 +48,7 @@ export class GroupDetailsComponent implements OnInit {
           }
         });
     } else {
-      this.groupService.addToGroup(this.group, this.employers).then( response => {
+      this.groupService.addToGroup(this.group, this.employers, this.data.isCheckAll).then( response => {
           if (response['result'] === 'success') {
             this.dialogRef.close('success');
           } else {

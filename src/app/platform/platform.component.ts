@@ -28,6 +28,7 @@ export class PlatformComponent implements OnInit {
   departments = [];
   employersNumber: number;
   @Input() isTask = false;
+  @Input() ongoingOperation = false;
   @Input() isWorkQueue = false;
   @Input() organizationId: any;
   @Input() employerId: any;
@@ -380,13 +381,15 @@ export class PlatformComponent implements OnInit {
     const type = this.isTask || this.basicTask  ? 'taskCampaign' : 'task';
     this.updateTaskTimer(time, type);
     this.timerService.reset();
-    this.selectUnit.clearTaskTimer();
-    if (this.selectUnit.getTaskTimer() && this.selectUnit.getTaskTimer().isSelfTask === true) {
-      this.router.navigate(['platform', 'operator', 'tasks'], {queryParams: {isSelfTask: true}});
-    } else {
-      const nev = this.isWorkQueue || this.basicTask ? 'work-queue' : 'tasks';
-      this.router.navigate(['platform', 'operator', nev]);
+    if (this.ongoingOperation) {
+      this.router.navigate(['platform', 'operator', 'work-queue', 'ongoing-operation']);
+      this.selectUnit.clearTaskTimer();
+    } else if (this.isTask) {
+      const isTaskSelf = this.selectUnit.getTaskTimer() && this.selectUnit.getTaskTimer().isSelfTask ? true : false;
+      this.router.navigate(['platform', 'operator', 'tasks'], {queryParams: {isSelfTask: isTaskSelf}});
+      this.selectUnit.clearTaskTimer();
     }
+    this.selectUnit.clearTaskTimer();
   }
 
   stopTimerTask(): void {
