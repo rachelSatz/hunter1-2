@@ -35,7 +35,7 @@ export class MonthlyTransferBlockService  extends BaseHttpService {
 
   createMtbGroup(ids: number[], productId: number, bankAccountId: number, groupName: string, confirmation: number,
                  type: string, criteria: DataTableCriteria): Promise<any> {
-    return this.http.post(this.endPoint + '/createOrUpdateMtbGroup',
+    return this.http.post(this.endPoint + '/PAYMENT_LINK = \'paymentLinkAws.html\'\n',
       {ids: ids,
             bank_account_id: bankAccountId,
             product_id: productId,
