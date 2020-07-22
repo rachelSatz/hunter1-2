@@ -113,15 +113,17 @@ export class EditPaymentsComponent implements OnInit {
   addMtb(mtb?: any, clause?: TransferClause): void {
     const mtbGroup = (<FormArray>this.editPaymentForm.get('mtb'));
     let index = 0;
-    mtbGroup.controls.forEach((obj, i) => {
-      if (i !== 0) {
-        const t_clause = obj.value.transfer_clause.find(  tr => clause.clause_type === tr.clause_type);
-        if (t_clause === undefined) {
-          return  index = i;
-          // break;
+    if (clause) {
+      mtbGroup.controls.forEach((obj, i) => {
+        if (i !== 0) {
+          const t_clause = obj.value.transfer_clause.find(tr => clause.clause_type === tr.clause_type);
+          if (t_clause === undefined) {
+            return index = i;
+            // break;
+          }
         }
-      }
-    });
+      });
+    }
     let mtbControl;
     if (mtbGroup.controls.length === 1 || index === 0) {
       console.log(this.mtb.file_type);
