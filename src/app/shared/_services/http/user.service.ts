@@ -8,6 +8,7 @@ import { User } from '../../_models/user.model';
 import { Employer } from '../../_models/employer.model';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import {Company} from '../../_models/company.model';
 
 @Injectable()
 export class UserService extends BaseHttpService {
@@ -52,6 +53,12 @@ export class UserService extends BaseHttpService {
       .catch(response => response);
   }
 
+  getTeamLeader(): Promise<any> {
+    return this.http.get(this.endPoint + '/getTeamLeader', this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => []);
+  }
 
   updateUser(user: User, id: number): Promise<boolean> {
     return this.http.put(this.endPoint  + '/' + id, user, this.getTokenHeader())

@@ -4,7 +4,7 @@ import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
 
 import { FeedbackService } from 'app/shared/_services/http/feedback.service';
-import { Status } from 'app/shared/_models/file-feedback.model';
+import { CodeError, Status } from 'app/shared/_models/file-feedback.model';
 import { ProductType } from 'app/shared/_models/product.model';
 
 @Component({
@@ -19,7 +19,7 @@ export class FormComponent implements OnInit {
   productType = ProductType;
   statuses = Status;
   error: string;
-
+  codeError = CodeError;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<FormComponent>,
               private feedbackService: FeedbackService) { }
@@ -31,7 +31,8 @@ export class FormComponent implements OnInit {
     this.error =  feedback  ? feedback.handling_status
       + ' ' + this.data.error_details
       + (status_handling === null || feedback.handling_status.includes(status_handling)
-        ? '' : ' ' + feedback.status_handling_funds ) :  this.data.error_details;
+        ? '' : ' ' + feedback.status_handling_funds ) :  this.data.error_details === '' &&  this.data.code_error !== ''
+      ? this.codeError[this.data.code_error] : this.data.error_details;
   }
 
   downloadFile(id: number) {

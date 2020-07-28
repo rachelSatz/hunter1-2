@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input , OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { fade } from 'app/shared/_animations/animation';

@@ -95,7 +95,8 @@
       <p class="border-bottom f-14 bold">פרטי שכר</p>
       <div class="row col-9">
          <mat-form-field class="col-3">
-            <input type="number" matInput placeholder="שכר" formControlName="salary">
+            <input type="number" matInput placeholder="שכר" formControlName="salary" pattern="^\d*(\.\d{0,2})?$">
+           <mat-error>יש להכניס עד שתי ספרות אחרי הנקודה.</mat-error>
          </mat-form-field>
 
        <mat-form-field class="col-3">
@@ -153,8 +154,7 @@
 
       <div class="col-3">
         <bd-select  [items]="lstDepositStatus" placeholder="מעמד הפקדה בקופה"
-                    formControlName="deposit_status"  required
-                    [error]="editPaymentForm.value.depositStatus === null && form.submitted"></bd-select>
+                    formControlName="deposit_status" ></bd-select>
       </div>
     </div>
 

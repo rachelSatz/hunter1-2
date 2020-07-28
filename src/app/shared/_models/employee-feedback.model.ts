@@ -40,5 +40,3 @@ export enum ApplicationStatusLabel {
   irrelevant = 'קובץ לא רלוונטי',
 }
 
-
-

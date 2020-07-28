@@ -1,4 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, Input, OnInit } from '@angular/core';
+
 import * as FileSaver from 'file-saver';
 import { MatDialog } from '@angular/material';
 import { ProcessService } from 'app/shared/_services/http/process.service';
@@ -10,7 +11,6 @@ import { ProcessLoadingComponent } from 'app/platform/process/process-loading/pr
 import { Subscription } from 'rxjs';
 import { DataTableCriteria } from 'app/shared/data-table/classes/data-table-criteria';
 import { NotificationService } from 'app/shared/_services/notification.service';
-// import { GroupHistoryComponent } from 'app/platform/process/process-upload/payment/group-history/group-history.component';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { GroupHistoryComponent } from 'app/platform/process/process-loading/payment-instructions/group-history/group-history.component';
 import { SendFileEmailComponent } from 'app/shared/_dialogs/send-file-email/send-file-email.component';
@@ -67,16 +67,18 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
   }
 
   openDialogGroupHistory():  void {
-    this.monthlyService.groupHistory(this.processId).then(
-      res =>  {
-        if (res && res.length > 0) {
+    if (this.processDataService.activeProcess.status === 'can_be_processed' &&
+      this.processDataService.activeProcess.type === 'positive') {
+      this.monthlyService.groupHistory(this.processId).then(
+        res => {
+          if (res && res.length > 0) {
             this.dialog.open(GroupHistoryComponent, {
-              data: {'processId' : this.processId , items: res},
+              data: {'processId': this.processId, items: res},
               width: '1000px',
             });
-        }
-      });
-
+          }
+        });
+    }
   }
 
 

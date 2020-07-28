@@ -73,6 +73,9 @@ export class EditPaymentsComponent implements OnInit {
   }
 
   initForm(): void {
+    console.log(this.mtb.file_type);
+    console.log('yy22');
+
     this.editPaymentForm = this.fb.group({
       'mtb': this.fb.array([
         this.fb.group({
@@ -90,7 +93,8 @@ export class EditPaymentsComponent implements OnInit {
           'company_id': [null,  Validators.required],
           'product_id': [null,  Validators.required],
           'deposit_type':    [null, Validators.required],
-          'deposit_status': [null,  Validators.required],
+          'deposit_status': [null, this.mtb.file_type !== 'withdraw_to_pending'
+          && this.mtb.file_type !== 'overpay_withdrawal' ?  Validators.required : null],
           'transfer_clause': this.fb.array([])
         })
       ]),
@@ -109,18 +113,23 @@ export class EditPaymentsComponent implements OnInit {
   addMtb(mtb?: any, clause?: TransferClause): void {
     const mtbGroup = (<FormArray>this.editPaymentForm.get('mtb'));
     let index = 0;
-    mtbGroup.controls.forEach((obj, i) => {
-      if (i !== 0) {
-        const t_clause = obj.value.transfer_clause.find(  tr => clause.clause_type === tr.clause_type);
-        if (t_clause === undefined) {
-          return  index = i;
-          // break;
+    if (clause) {
+      mtbGroup.controls.forEach((obj, i) => {
+        if (i !== 0) {
+          const t_clause = obj.value.transfer_clause.find(tr => clause.clause_type === tr.clause_type);
+          if (t_clause === undefined) {
+            return index = i;
+            // break;
+          }
         }
-      }
-    });
+      });
+    }
     let mtbControl;
     if (mtbGroup.controls.length === 1 || index === 0) {
-       mtbControl = {
+      console.log(this.mtb.file_type);
+      console.log(mtb['deposit_status']);
+      console.log('yy');
+      mtbControl = {
         'id': [mtb ? +mtb['id'] : null],
         'salary': [mtb ? +mtb['salary'] : null,  this.mtb.file_type !== 'withdraw_to_pending'
         && this.mtb.file_type !== 'overpay_withdrawal'
@@ -139,7 +148,8 @@ export class EditPaymentsComponent implements OnInit {
         'company_id': [mtb ? +mtb['employer_company_id'] : null, Validators.required],
         'product_id': [mtb ? +mtb['product_id'] : null, Validators.required],
         'deposit_type': [mtb ? mtb['deposit_type'] : null, Validators.required],
-        'deposit_status': [mtb ? mtb['deposit_status'] : null, Validators.required],
+        'deposit_status': [mtb ? mtb['deposit_status'] : null, this.mtb.file_type !== 'withdraw_to_pending' &&
+        this.mtb.file_type !== 'overpay_withdrawal' ?  Validators.required : null],
         'transfer_clause': this.fb.array([
           this.fb.group({
             'id': [null],
@@ -237,11 +247,11 @@ export class EditPaymentsComponent implements OnInit {
   sumPercent(m: any, transfer: FormGroup, index, i): void {
     const salary = m.value.salary;
     this.calcSumSplit();
-    const transfer_sum = transfer.value.transfer_sum.toFixed(2);
+    const transfer_sum = +transfer.value.transfer_sum.toFixed(2);
     const expected_percent = salary === 0 ? +0 :
       +(transfer_sum / salary * 100).toFixed(2);
     transfer.patchValue({'transfer_percent':  expected_percent });
-    transfer.patchValue({'transfer_sum':  transfer_sum });
+    transfer.patchValue({'transfer_sum':  +transfer_sum });
 
     const clause = new TransferClause;
     const subSum =  this.mtb.amount - this.sum;

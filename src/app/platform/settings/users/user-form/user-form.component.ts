@@ -46,6 +46,7 @@ export class UserFormComponent implements OnInit {
   departments = [];
   employers = [];
   employees = [];
+  teamLeaders = [];
   message: string;
   moduleTypes = ModuleTypes;
   update = false;
@@ -57,9 +58,6 @@ export class UserFormComponent implements OnInit {
     return {id: e, name: EntityRoles[e]};
   });
 
-  groups = Object.keys(TeamLeader).map(function (e) {
-    return {id: e, name: TeamLeader[e]};
-  });
 
 
   readonly columns =  [
@@ -83,6 +81,9 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit() {
     this.organizations = this.selectUnit.getOrganizations();
+    this.userService.getTeamLeader().then(response => {
+      this.teamLeaders = response ;
+    });
     if (this.route.snapshot.data.user) {
       this.update = true;
       this.user = new User(this.route.snapshot.data.user);

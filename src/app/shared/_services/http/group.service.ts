@@ -109,8 +109,9 @@ export class GroupService extends BaseHttpService {
       .catch(response => response);
   }
 
-  addToGroup(groupId: number, employers: number[]): Promise<any> {
-    return this.http.post(this.endPoint + '/addToGroup' , {'groupId' : groupId, 'employers': employers}, this.getTokenHeader())
+  addToGroup(groupId: number, employers: number[], isCheckAll: boolean): Promise<any> {
+    return this.http.post(this.endPoint + '/addToGroup' , { 'isCheckAll': isCheckAll ,
+      'groupId' : groupId, 'employers': employers}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(response => response);

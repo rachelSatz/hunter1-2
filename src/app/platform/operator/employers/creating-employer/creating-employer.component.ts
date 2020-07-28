@@ -92,6 +92,7 @@ export class CreatingEmployerComponent implements OnInit {
     {title : 'קליטת עובדים - שלב 4', progress : 'progress-bar process5'},
   ];
   serviceManager = [];
+  saveContacts = true;
 
   constructor(
     private fb: FormBuilder,
@@ -187,7 +188,8 @@ export class CreatingEmployerComponent implements OnInit {
             'role': [null],
             'phone': [null, Validators.pattern('^[0-9]*$')],
             'mobile': [null, Validators.pattern('^[0-9]*$')],
-            'email': [null , [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'), Validators.required]],
+            'email': [null , [Validators.pattern('^[^@]+@[^@]+\\.[^@]+$')
+              , Validators.required]],
             'comment':  ['']
           })]),
         'employerPayment': this.fb.group({
@@ -257,7 +259,8 @@ export class CreatingEmployerComponent implements OnInit {
           'phone': [contact ? contact.phone : null, Validators.pattern('^[0-9]*$')],
           'mobile': [contact ? contact.mobile : null, Validators.pattern('^[0-9]*$')],
           'email': [contact ? contact.email : null,
-            [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
+            [Validators.pattern('^[^@]+@[^@]+\\.[^@]+$'),
+              Validators.required]],
           'comment':  contact.comment
         };
         const contactGroup = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact'));
@@ -480,10 +483,10 @@ export class CreatingEmployerComponent implements OnInit {
         'last_name': [ null,  Validators.required],
         'role': [ null ],
         'entity_type': ['employer'],
-        'phone': [null , [Validators.pattern('^[0-9]*$')]],
-        'mobile': [null,  [Validators.pattern('^[0-9]*$')]],
+        'phone': [null, Validators.pattern('^[0-9]*$')],
+        'mobile': [null, Validators.pattern('^[0-9]*$')],
         'email': [null,
-          [Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'), Validators.required]],
+          [Validators.pattern('^[^@]+@[^@]+\\.[^@]+$'), Validators.required]],
         'comment':  ['']
       };
       const contactGroup = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact'));
@@ -720,24 +723,20 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   validation(): boolean {
+    this.saveContacts = true;
     const employer = this.creatingEmployerForm.get('creatingEmployer.employerDetails');
-    const contacts1 = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact')).controls;
-    contacts1.forEach(
+    const contactsE = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact')).controls;
+    contactsE.forEach(
        contact => {
-        if (contact.get('mobile').value === null || contact.get('mobile').value === '') {
-          contact.get('phone').setValidators(Validators.required);
-          contact.get('mobile').clearValidators();
-          contact.get('mobile').updateValueAndValidity();
-        } else if (contact.get('phone').value === null || contact.get('phone').value === '' ) {
-          contact.get('mobile').setValidators(Validators.required);
-          contact.get('phone').clearValidators();
-          contact.get('phone').updateValueAndValidity();
-        }
+         if ((contact.get('mobile').value && (contact.get('mobile').value.length <= 7 || contact.get('mobile').value.length > 10)) &&
+           (contact.get('phone').value && (contact.get('phone').value.length <= 7 || contact.get('phone').value.length > 10))) {
+           this.saveContacts = false;
+         }
       });
     const contacts = this.creatingEmployerForm.get('creatingEmployer.contact');
     return ((employer.value['newOrganization'] !== null || employer.value['organization'] !== null) &&
       employer.value['name'].value !== null && employer.value['identifier'] !== null)
-      && (this.isDetailsContact() && contacts.valid || this.isDetailsContact() === false);
+      && (this.isDetailsContact() && contacts.valid && this.saveContacts || this.isDetailsContact() === false);
   }
 
   validIdEmployer() {
@@ -792,7 +791,7 @@ export class CreatingEmployerComponent implements OnInit {
     const status = this.creatingEmployerForm.get('creatingEmployer.employerDetails').value['status'];
     const employerIdentifiers = this.validIdEmployer();
     if (employerIdentifiers.length > 0) {
-      this.notificationService.warning('ח.פ. זה שייך לאירגונים: ' + Array.from(employerIdentifiers).join(', '), '',
+      this.notificationService.warning('ח.פ. זה שייך לארגונים: ' + Array.from(employerIdentifiers).join(', '), '',
         {confirmButtonText: 'אישור'}).then(
         confirmation => {
           if (confirmation.value) {

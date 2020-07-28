@@ -1,6 +1,7 @@
 export class TaskTimer {
   id: number;
   text: string;
+  isMinTask: boolean;
 }
 
 const TasksTypes = [

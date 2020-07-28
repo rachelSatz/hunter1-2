@@ -94,7 +94,8 @@ export enum Types {
   The_record_cannot_have_transfer_clauses_with_the_given_employee_monthly_status = 'סטטוס עובד בחודש משכורת לא תקין',
   The_percentage_does_not_match_to_the_clause_type = 'האחוז אינו תואם לסוג הסעיף',
   The_percentage_is_greater_than_100_or_lesser_than_0 = 'האחוז צריך להיות גדול מ100 וקטן מ0',
-  Study_fund_accepts_only_employee_or_employer_benefits = 'קרן השתלמות מקבלת רק הטבות עובד או מעביד',
+  Study_fund_accepts_only_employee_and_employer_benefits = 'קרן השתלמות מקבלת רק הטבות עובד ומעביד',
+  Study_fund_accept_only_employee_or_employer_benefits = 'בקרן השתלמות יש רק הטבת עובד או מעביד',
   Provident_and_pension_funds_accept_only_employee_employer_or_self_employeed_benefits =
     'קופות גמל וקרנות פנסיה מקבלות רק הטבות לעובדים, למעביד או לעצמאים',
   self_employeed_clause_for_a_wage_worker = 'פטור עצמי לעובד שכיר',
