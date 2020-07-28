@@ -6,6 +6,7 @@
       <div class="float-left">
         <!--<button class="btn blue-btn" (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>-->
         <button class="btn blue-btn mr-2" (click)="openProactiveInvoice()">חשבון יזום</button>
+        <!--<button class="btn blue-btn mr-2" (click)="openReports()">דו"חות</button>-->
         <!--<button class="btn blue-btn mr-2" (click)="openManualInvoice()">חשבון ידני</button>-->
         <!--<button class="btn blue-btn mr-2" (click)="openTaxInvoice()">חשבונית מס/קבלה</button>-->
       </div>
@@ -19,7 +20,9 @@
           <button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>
           <button mat-menu-item (click)="openOnlyTaxInvoice()">חשבונית מס</button>
           <button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>
-          <!--<button mat-menu-item (click)="deleteInvoices(true)">מחיקת חשבונית ואיפוס עובדים</button>-->
+          <button mat-menu-item (click)="deleteInvoices(true)">מחיקת חשבונית ואיפוס עובדים</button>
+          <button mat-menu-item (click)="openReports()">דו"חות</button>
+
         </mat-menu>
       </div>
     </div>

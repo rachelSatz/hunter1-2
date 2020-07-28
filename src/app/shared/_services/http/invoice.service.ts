@@ -100,9 +100,9 @@ export class InvoiceService  extends BaseHttpService {
       .catch(() => null);
   }
 
-  deleteInvoices(invoicesIds: number[], updateEmployees: boolean): Promise<string> {
+  deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<string> {
     return this.http.post(this.endPoint + '/deleteInvoices',
-      {'invoicesIds': invoicesIds, updateEmployees: updateEmployees}, this.getTokenHeader())
+      {'invoicesIds': invoicesIds, criteria: this.setDataTableParams(criteria), updateEmployees: updateEmployees}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);
@@ -138,6 +138,14 @@ export class InvoiceService  extends BaseHttpService {
   createTransactionInvoices(invoiceIds: number[], criteria: DataTableCriteria, date: any): Promise<string> {
     return this.http.post(this.endPoint + '/createTransactionInvoices',
       { invoiceIds: invoiceIds, data: date,  criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
+  }
+
+  getInvoiceReport(date: any, selectedReport: string): Promise<string> {
+    return this.http.post(this.endPoint + '/invoiceReports',
+      {data: date}, this.getTokenHeader())
       .toPromise()
       .then(response => response)
       .catch(() => null);

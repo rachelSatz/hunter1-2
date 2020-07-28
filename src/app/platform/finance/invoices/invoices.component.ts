@@ -20,6 +20,7 @@ import {TaxInvoiceFormComponent} from './tax-invoice-form/tax-invoice-form.compo
 import {UserSessionService} from 'app/shared/_services/user-session.service';
 import { TransactionInvoiceFormComponent } from 'app/platform/finance/invoices/transaction-invoice-form/transaction-invoice-form.component';
 import { TaxOnlyInvoiceFormComponent } from 'app/platform/finance/invoices/tax-only-invoice-form/tax-only-invoice-form.component';
+import { ReportsFormComponent } from 'app/platform/finance/invoices/reports-form/reports-form.component';
 
 @Component({
   selector: 'app-invoices',
@@ -109,6 +110,15 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   }
   openProactiveInvoice(): void {
     const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
+      width: '450px'
+    });
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+      this.fetchItems();
+    }));
+  }
+
+  openReports(): void {
+    const dialog = this.dialog.open(ReportsFormComponent, {
       width: '450px'
     });
     this.sub.add(dialog.afterClosed().subscribe(() => {
@@ -280,13 +290,18 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
+    // const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
     const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
-    const text = '  האם ברצונך לבצע מחיקה? נבחרו - ' + this.dataTable.criteria.checkedItems.length + ' רשומות';
+    const totalCheckedIds = this.dataTable.criteria.isCheckAll ? this.dataTable.criteria.checkedItems.length > 0 ?
+      this.dataTable.paginationData.totalItems - this.dataTable.criteria.checkedItems.length : this.dataTable.paginationData.totalItems :
+      this.dataTable.criteria.checkedItems.length;
+
+    const text = '  האם ברצונך לבצע מחיקה? נבחרו - ' + totalCheckedIds + ' רשומות';
+
     this.notificationService.warning(text, '', buttons).then(confirmation => {
       if (confirmation.value) {
-        this.invoiceService.deleteInvoices(items.map(
-          item => item['id']), updateEmployee).then(response => {
+        this.invoiceService.deleteInvoices(this.dataTable.criteria.checkedItems.map(
+          item => item['id']), this.dataTable.criteria, updateEmployee).then(response => {
           this.helpers.setPageSpinner(false);
           if (response) {
             if (response['message'] === 'success') {
