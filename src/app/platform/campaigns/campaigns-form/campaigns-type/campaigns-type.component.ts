@@ -187,10 +187,10 @@ export class CampaignsTypeComponent implements OnInit {
     if (model === 5) {
       this.taskCampaign.get('details.statusSend').patchValue('without_sending');
     }
-    if (model === 9 || model === 11) {
+    if (model === 11 || (model === 9 && this.taskCampaign.get('details.typeTask').value !== 1)) {
       this.requiredDateModel = false;
     }
-    if (model === 11) {
+    if (model === 11 || this.taskCampaign.get('details.typeTask').value) {
       this.remainder = false;
     } else {
       this.remainder = true;

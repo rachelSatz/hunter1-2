@@ -9,8 +9,10 @@
       </mat-form-field>
       <div class="d-flex align-items-center mb-lg-3">
         <div class="fa-w-2">
-        <bd-select [items]="groups" placeholder="קבוצה" [multiple]="true" #groupSelect="ngModel" name="group"
-                   [(ngModel)]="plan.team_leader" (onSelect)="setGroup()"></bd-select>
+          <div class="bd-width190 font-rubik">
+            <bd-select [items]="teamLeaders" placeholder="מנהל צוות" [(ngModel)]="plan.team_leader" #groupSelect="ngModel" name="group"
+                       class="bd-min-width" (onSelect)="setGroup()"></bd-select>
+          </div>
       </div>
         <div class="w-50 mr-3">
           <bd-select name="users" [items]="operators" placeholder="מתפעלים" (onSelect)="removeTeamLeader()"

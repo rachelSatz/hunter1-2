@@ -35,11 +35,10 @@ export class PlanFormComponent implements OnInit  {
   employerEstablishmentError = Object.values(CategoryTypeEmployerError);
   date = '09/07/2019';
   inProgress = false;
+  teamLeaders = [];
   classAmount = 'w-20 mb-3 mr-3';
   userOfTeamLeader: string[];
-  groups = Object.keys(TeamLeaderTask).map(function (e) {
-    return {id: e, name: TeamLeaderTask[e]};
-  });
+
   constructor(private router: Router,
               private route: ActivatedRoute,
               private taskService: TaskService,
@@ -55,13 +54,10 @@ export class PlanFormComponent implements OnInit  {
     if (this.route.snapshot.data.plan) {
       this.update = true;
       this.plan = this.route.snapshot.data.plan;
-      if (this.plan.team_leader) {
-        this.plan.team_leader = [this.route.snapshot.data.plan['team_leader']];
-        if (this.plan.team_leader.indexOf('small_and_big_managers') !== -1 ) {
-          this.plan.team_leader = ['small_employer_manager', 'big_employer_manager'];
-        }
-      }
     }
+    this.userService.getTeamLeader().then(response => {
+      this.teamLeaders = response ;
+    });
     this.employerService.getOperator().then(response => this.operators = response);
     this.planService.getTypes().then(response => this.types = response);
   }
@@ -111,15 +107,13 @@ export class PlanFormComponent implements OnInit  {
 
   setGroup() {
     this.plan.users = null;
-    if (this.plan.team_leader) {
-      this.userService.getOperatorOfTeamLeader(this.plan.team_leader).then(
-        response => {
-          if (response) {
-            this.plan.users = response;
-            this.userOfTeamLeader = response;
-          }
-        });
-    }
+    this.userService.getOperatorOfTeamLeader(this.plan.team_leader).then(
+      response => {
+        if (response) {
+          this.plan.users = response;
+          this.userOfTeamLeader = response;
+        }
+      });
   }
 
   addPlanRow(): void {
@@ -164,10 +158,6 @@ export class PlanFormComponent implements OnInit  {
           item.salary_date_start = this.datePipe.transform(item.salary_date_start, 'yyyy-MM-dd');
           item.salary_date_end = this.datePipe.transform(item.salary_date_end, 'yyyy-MM-dd');
         });
-        if (this.plan.team_leader && this.plan.team_leader.indexOf('small_employer_manager') !== -1 &&
-            this.plan.team_leader.indexOf('big_employer_manager') !== -1) {
-          this.plan.team_leader = ['small_and_big_managers'];
-        }
         if (this.plan.id) {
           this.planService.update(this.plan)
             .then(response => this.handleResponse(response));

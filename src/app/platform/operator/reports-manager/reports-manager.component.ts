@@ -43,9 +43,7 @@ export class ReportsManagerComponent implements OnInit {
   years = [ this.year, (this.year - 1) , (this.year - 2), (this.year - 3)];
   months = MONTHS;
 
-  teamLeaders = Object.keys(TeamLeaderTask).map(function (e) {
-    return {id: e, name: TeamLeaderTask[e]};
-  });
+  teamLeaders = [];
 
 
   constructor(
@@ -58,11 +56,13 @@ export class ReportsManagerComponent implements OnInit {
     private selectUnit: SelectUnitService,
     private userService: UserService,
     private helpers: HelpersService
-  ) {   this.teamLeaders.push({'id': '0', 'name': 'כלל מנהלי התיק'});
-  }
+  ) {}
 
   ngOnInit() {
     this.helpers.setPageSpinner(true);
+    this.userService.getTeamLeader().then(response => {
+      this.teamLeaders = response ;
+    });
     this.insetData();
   }
 
@@ -83,20 +83,12 @@ export class ReportsManagerComponent implements OnInit {
   }
 
   setOperator(): void {
-    if (this.teamLeader !== '0') {
-      this.employerService.getOperatorByTeamLeader(this.teamLeader).then(
-        response => {
-          if (response) {
-            this.operators = response;
-          }
-        });
-    } else {
-      this.employerService.getOperator().then(response => this.operators = response);
-    }
+    this.employerService.getOperator().then(response => this.operators = response);
   }
 
   getAllFilter(): void {
-    this.employerService.filterReport(this.projectsId, this.operatorId, this.organizationId, this.employerId).then(response => {
+    this.employerService.filterReport(this.projectsId, this.operatorId, this.organizationId, this.employerId, this.teamLeader)
+      .then(response => {
       if (response) {
         this.projects = response['projects'];
         this.operators = response['operators'];

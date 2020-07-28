@@ -39,9 +39,9 @@ export class EmployerService extends BaseHttpService {
      .catch(() => null);
   }
 
-  filterReport(project: number, operator: number, org: number, employer: number): Promise<any> {
+  filterReport(project: number, operator: number, org: number, employer: number, teamLeader: number): Promise<any> {
     const request = this.getTokenHeader();
-    request['params'] = {project: project, operator: operator, organization: org, employer: employer};
+    request['params'] = {project: project, operator: operator, organization: org, employer: employer, teamLeader: teamLeader};
 
     return this.http.get(this.endPoint + '/filterReport', request)
       .toPromise()

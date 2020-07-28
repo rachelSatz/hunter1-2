@@ -52,7 +52,7 @@
       </div>
       <div class="bd-width190 mr-5 font-rubik">
         <bd-select [items]="teamLeaders" placeholder="מנהל צוות" [(ngModel)]="teamLeader"
-                   class="bd-min-width" (onSelect)="setOperator()"></bd-select>
+                   class="bd-min-width" (onSelect)="getAllFilter()"></bd-select>
       </div>
       <div class="bd-width190 mr-5 font-rubik">
         <bd-select [items]="operators" placeholder="מנהל תיק" [(ngModel)]="operatorId"

@@ -92,6 +92,7 @@ export class CreatingEmployerComponent implements OnInit {
     {title : 'קליטת עובדים - שלב 4', progress : 'progress-bar process5'},
   ];
   serviceManager = [];
+  saveContacts = true;
 
   constructor(
     private fb: FormBuilder,
@@ -482,8 +483,8 @@ export class CreatingEmployerComponent implements OnInit {
         'last_name': [ null,  Validators.required],
         'role': [ null ],
         'entity_type': ['employer'],
-        'phone': [null , [Validators.pattern('^[0-9]*$')]],
-        'mobile': [null,  [Validators.pattern('^[0-9]*$')]],
+        'phone': [null, Validators.pattern('^[0-9]*$')],
+        'mobile': [null, Validators.pattern('^[0-9]*$')],
         'email': [null,
           [Validators.pattern('^[^@]+@[^@]+\\.[^@]+$'), Validators.required]],
         'comment':  ['']
@@ -722,24 +723,20 @@ export class CreatingEmployerComponent implements OnInit {
   }
 
   validation(): boolean {
+    this.saveContacts = true;
     const employer = this.creatingEmployerForm.get('creatingEmployer.employerDetails');
-    const contacts1 = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact')).controls;
-    contacts1.forEach(
+    const contactsE = (<FormArray>this.creatingEmployerForm.get('creatingEmployer.contact')).controls;
+    contactsE.forEach(
        contact => {
-        if (contact.get('mobile').value === null || contact.get('mobile').value === '') {
-          contact.get('phone').setValidators(Validators.required);
-          contact.get('mobile').clearValidators();
-          contact.get('mobile').updateValueAndValidity();
-        } else if (contact.get('phone').value === null || contact.get('phone').value === '' ) {
-          contact.get('mobile').setValidators(Validators.required);
-          contact.get('phone').clearValidators();
-          contact.get('phone').updateValueAndValidity();
-        }
+         if ((contact.get('mobile').value && (contact.get('mobile').value.length <= 7 || contact.get('mobile').value.length > 10)) &&
+           (contact.get('phone').value && (contact.get('phone').value.length <= 7 || contact.get('phone').value.length > 10))) {
+           this.saveContacts = false;
+         }
       });
     const contacts = this.creatingEmployerForm.get('creatingEmployer.contact');
     return ((employer.value['newOrganization'] !== null || employer.value['organization'] !== null) &&
       employer.value['name'].value !== null && employer.value['identifier'] !== null)
-      && (this.isDetailsContact() && contacts.valid || this.isDetailsContact() === false);
+      && (this.isDetailsContact() && contacts.valid && this.saveContacts || this.isDetailsContact() === false);
   }
 
   validIdEmployer() {
