@@ -22,3 +22,8 @@
   min-width: 50px !important;
 }
 
+.col-5 {
+  flex: 0 0 36.666667%;
+  max-width: 36.666667%;
+}
+

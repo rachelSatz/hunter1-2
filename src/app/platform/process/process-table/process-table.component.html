@@ -62,7 +62,7 @@
     </td>
     <td  (click)="moveProcess(item)" [title]="getTitle(item.status_process, item.status_feedback)">{{item.status_process == 5 && item.status_feedback == 'part_feedback_a' ?
       '5/6 חלקי' :
-      item.status_process == 6 && item.status_feedback == 'part_feedback_l'? '6/6 חלקי' : item.status_process
+      item.status_process == 6 && item.status_feedback == 'part_feedback_l'? '5/6 חלקי' : item.status_process
       + '/6' }} </td>
     <td (click)="openCommentsDialog(item)">
       <i *ngIf="item.count_comments === 0" class="fa fa-comment-o"></i>

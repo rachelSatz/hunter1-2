@@ -54,7 +54,7 @@ export class PlatformComponent implements OnInit {
     { id: 2, icon: 'question-circle', label: 'תור עבודה', link: 'work-queue', role: 'operator'},
     { id: 3, icon: 'list-ul', label: 'משימות', link: 'tasks', role: 'operator'},
     { id: 4, icon: 'user', label: 'מעסיקים', link: 'employers', role: 'operator'},
-    { id: 5, icon: 'tasks', label: 'קמפיינים', link: 'campaigns', role: 'adminng build --prod --build-optimizer‏\n'},
+    { id: 5, icon: 'tasks', label: 'קמפיינים', link: 'campaigns', role: 'admin'},
     { id: 6, icon: 'envelope', label: 'הודעות', link: 'messages', role: 'operator'},
     { id: 7, icon: 'users', label: 'משתמשים', link: 'users', role: this.role_admin ? 'admin' : 'operator'},
     { id: 8, icon: 'file', label: 'מסמכים', link: 'documents' , role: 'operator'},

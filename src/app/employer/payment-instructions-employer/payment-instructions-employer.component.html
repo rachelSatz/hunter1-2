@@ -1,4 +1,4 @@
-<div  class="container mt-lg-8 w-30">
+<div  class="container mt-lg-8 w-30 mt-6" [@fade]="showFiles  ? 'active' : 'inactive'">
   <h3 class="bold blue-color font-rubik">הורדת הנחיות לתשלום</h3>
   <h3 class="bold font-rubik">{{ employerComponent.process_details.employer_name }} -
     {{months[processDataService.activeProcess.month-1] + ' ' + processDataService.activeProcess.year  }}</h3>
@@ -53,10 +53,16 @@
   </div>
 
   <div class="text-center mt-4">
-
     <button class="btn blue-btn" (click)="submit()"
             *ngIf="employerComponent.process_details.is_allowed_references_auto && is_valid">המשך</button>
   </div>
-
-
+</div>
+<div class="my-5 pb-4 mr-5 ml-5 mt-6">
+  <a (click)="previous()" [@fade]="showFiles  ? 'active' : 'inactive'">
+    <p class="f-14 blue-color">
+      <i class="fa fa-angle-right ml-1 ml-lg-2"></i>
+      <span>חזור</span>
+    </p>
+  </a>
+  <router-outlet></router-outlet>
 </div>

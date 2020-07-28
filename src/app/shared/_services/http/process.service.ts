@@ -70,7 +70,8 @@ export class ProcessService extends BaseHttpService {
       .catch(() => null);
   }
 
-  newProcess(values: any, file?: File[], fileDeposition?: File, isCreate = false, isEmployer = false): Promise<boolean> {
+  newProcess(values: any, file?: File[], fileDeposition?: File, isCreate = false, isEmployer = false,
+             isDepartmentLink = true): Promise<boolean> {
     const formData = new FormData();
     formData.append('departmentId', values.departmentId);
     if (values.isDirect != null) {
@@ -81,6 +82,8 @@ export class ProcessService extends BaseHttpService {
     formData.append('year', values.year);
 
     formData.append('isEmployer',  isEmployer.toString());
+    formData.append('isDepartmentLink',  isDepartmentLink.toString());
+
 
     if (file) {
       for (let i = 0; i <= file.length - 1 ; i++) {

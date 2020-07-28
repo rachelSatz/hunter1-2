@@ -6,6 +6,7 @@ import { AppHttpService } from 'app/shared/_services/http/app-http.service';
 import { UserService } from 'app/shared/_services/http/user.service';
 import { EntityRoles } from 'app/shared/_models/user.model';
 import { NotificationService } from 'app/shared/_services/notification.service';
+import { UserSessionService } from 'app/shared/_services/user-session.service';
 
 @Component({
   selector: 'app-users',
@@ -18,6 +19,7 @@ export class UsersComponent  implements OnInit {
   role =  Object.keys(EntityRoles).map(function(e) {
     return { id: e, name: EntityRoles[e] };
   });
+  isDisplay = this.userSession.getPermissionsType('user_management', true);
 
   readonly columns =  [
     { name: 'user_name', label: 'שם משתמש', searchable: false},
@@ -29,6 +31,7 @@ export class UsersComponent  implements OnInit {
   constructor(route: ActivatedRoute,
               private userService: UserService,
               private appHttp: AppHttpService,
+              private userSession: UserSessionService,
               protected notificationService: NotificationService) {
   }
 
