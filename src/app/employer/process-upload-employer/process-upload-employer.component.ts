@@ -14,13 +14,16 @@ import { MONTHS } from 'app/shared/_const/months';
 import { startWith, switchMap } from 'rxjs/operators';
 import { EmailComponent } from 'app/employer/process-upload-employer/email/email.component';
 import { EmployerComponent } from 'app/employer/employer.component';
+import { OrganizationService } from 'app/shared/_services/http/organization.service';
+import { fade } from 'app/shared/_animations/animation';
 
 
 
 @Component({
   selector: 'app-process-upload-employer',
   templateUrl: './process-upload-employer.component.html',
-  styleUrls: ['./process-upload-employer.component.css']
+  styleUrls: ['./process-upload-employer.component.css'],
+  animations: [ fade ]
 })
 
 export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
@@ -33,18 +36,23 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
               private notificationService: NotificationService,
               public processDataService: ProcessDataService,
               private helpers: HelpersService,
-              private employerComponent: EmployerComponent,
+              private organizationService: OrganizationService,
+              public employerComponent: EmployerComponent,
               private selectUnit: SelectUnitService) { }
 
   sub = new Subscription;
   process_percent = 0;
   public files: any[] = [];
+  employerId: any;
+  employers: any;
+  public organizations: any;
+  departmentId: any;
   process = new Process;
+  departments: any;
   process_details: ProcessDetails;
   fileTypeError = false;
   months = MONTHS;
   inter = <any>interval(5000);
-
 
   readonly types = [
     {'id': 'positive', 'name': 'חיובי'},
@@ -57,9 +65,20 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
       this.processDataService = this.selectUnit.getProcessData();
     }
 
-    this.process.file = [];
-    this.process.employer_name = 'אא';
+    this.helpers.setPageSpinner(true);
+    this.organizationService.getOrganizations().then(response => {
+      this.selectUnit.setOrganization(response);
+      this.organizations = response;
+      this.process.organization_id = this.organizations[0].id;
+      this.employers = this.organizations[0].employer;
+      const employer = this.organizations[0].employer[0];
+      this.process.employer_id = employer.id;
+      this.process.employer_name = employer.name;
+      this.helpers.setPageSpinner(false);
+    });
 
+
+    this.process.file = [];
     this.sub = this.inter.pipe(
       startWith(0),
       switchMap(() =>
@@ -103,6 +122,15 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  loadDepartments(employerId: number): void {
+    this.departments = this.organizations[0].employer.find(e => e.id === employerId).department;
+    if (this.departments.length === 1) {
+      this.process.dep_id = this.departments[0].id;
+    }
+  }
+
+
   setFile(files: File[]) {
     for (let i = 0; i < files.length; i++) {
       const ext = files[i].name.substr(files[i].name.lastIndexOf('.') + 1).toLowerCase();
@@ -112,13 +140,11 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
       }
       this.fileTypeError = false;
       const type = files[i].name.indexOf('NEG') === -1 ? 'positive' : 'negative';
-      if (type !== this.process.type && ['xml', 'dat'].indexOf(ext) !== -1) {
-        // this.isError = true;
-        // this.error  = 'הקובץ שהועלה אינו תואם את סוג הקובץ שבחרת ';
-        this.process.file = [];
-      } else {
-        this.process.file.push(files[i]);
-      }
+      // if (type !== this.process.type && ['xml', 'dat'].indexOf(ext) !== -1) {
+      //   this.process.file = [];
+      // } else {
+      this.process.file.push(files[i]);
+      // }
     }
   }
 
@@ -139,11 +165,21 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
       'processId': '',
     };
 
-    this.processService.newProcess(data, this.process.file , null).then(response => {
+    this.processService.newProcess(data, this.process.file , null, false, true, this.employerComponent.isDepartmentLink).then(response => {
       if (response['processId']) {
         data['processID'] = response['processId'];
         data['file'] = this.process.file;
         data['monthName'] = this.months[this.process.month - 1];
+
+        if (!this.employerComponent.isDepartmentLink) {
+          const date = new Date(response['date']);
+          data['monthName'] = this.months[date.getMonth() - 1];
+          data['month'] = date.getMonth();
+          data['year'] = date.getFullYear();
+          this.process.month = date.getMonth();
+          this.process.year = date.getFullYear();
+        }
+
 
         this.processDataService.setProcess(data);
         this.selectUnit.setProcessData(this.processDataService);

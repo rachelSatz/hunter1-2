@@ -128,6 +128,10 @@ export class FilesComponent implements OnInit, OnDestroy  {
               queryParams: {page: 1},
               relativeTo: this.route
             });
+        if (this.selectUnit.currentDepartmentID !== this.dataTable.criteria.filters['departmentId']
+          || this.selectUnit.currentEmployerID !== this.dataTable.criteria.filters['employer_id']) {
+          this.router.navigate(['/platform']);
+        }
             this.fetchItems();
         }
       ));

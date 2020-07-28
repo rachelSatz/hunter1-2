@@ -1,6 +1,13 @@
-<div  class="container mt-lg-8 w-30">
-<h3 class="bold blue-color font-rubik"> טעינת קובץ</h3>
-<h3 class="bold font-rubik">{{ process.employer_name }} - {{months[process.month-1] + ' ' + process.year  }}</h3>
+<div class="d-flex justify-content-end" [@fade]="employerComponent.isDepartmentLink  ? 'inactive' : 'active'">
+  <bd-select [items]="employers" class="ml-3 col-2" [(ngModel)]="process.employer_id" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
+  <bd-select [items]="departments" class="ml-3 col-2" [(ngModel)]="process.dep_id" placeholder="מחלקה"></bd-select>
+</div>
+<div  class="container mt-lg-8 w-30 mt-6">
+  <h3 class="bold blue-color font-rubik"> טעינת קובץ</h3>
+  <div class="row">
+    <h3 class="bold font-rubik col-5">{{ process.employer_name }}</h3>
+    <h3 class="bold font-rubik col-7 pr-0" *ngIf="employerComponent.isDepartmentLink "> - {{months[process.month-1] + ' ' + process.year  }}</h3>
+  </div>
 
   <div class="mt-5">
     <div>שלום מעסיק יקר! כעת אתה בשלב הראשון לסליקה,</div>

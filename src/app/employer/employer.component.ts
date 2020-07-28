@@ -4,22 +4,28 @@ import { Process } from 'app/shared/_models/process.model';
 import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { ProcessDetails } from 'app/shared/_models/process-details.model';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
+import { OrganizationService } from 'app/shared/_services/http/organization.service';
 
 @Component({
   selector: 'app-employer',
   templateUrl: './employer.component.html',
-  styleUrls: ['./employer.component.css']
+  styleUrls: ['./employer.component.css'],
 })
 export class EmployerComponent implements OnInit {
 
   constructor(public router: Router,
               private route: ActivatedRoute,
+              public helpers: HelpersService,
+              private organizationService: OrganizationService,
               private selectUnit: SelectUnitService,
               public processDataService: ProcessDataService) { }
   // activeUrl: string;
   @Output() process_details: ProcessDetails;
+  // @Output() organizations: any;
+  @Output() isDepartmentLink = false;
 
-  // readonly menuLinks = [
+    // readonly menuLinks = [
   //   { url: 'process-upload', label: 'טעינת קובץ'},
   //   { url: 'r', label: 'הורדת הנחיות לתשלום'},
   //
@@ -31,16 +37,18 @@ export class EmployerComponent implements OnInit {
     if ( this.processDataService.activeProcess === undefined) {
       this.processDataService.setProcess(new Process());
     }
-    // this.router.events.forEach((event) => {
-    //   if (event instanceof NavigationStart) {
-    //     this.setActiveUrl(event.url);
-    //   }
-    // });
   }
-  //
-  // private setActiveUrl(url: string): void {
-  //   this.activeUrl = url.split('/')[2];
+
+
+  // getOrganizations(): void {
+  //   this.helpers.setPageSpinner(true);
+  //   this.organizationService.getOrganizations().then(response => {
+  //     this.selectUnit.setOrganization(response);
+  //     this.organizations = response;
+  //     this.helpers.setPageSpinner(false);
+  //   });
   // }
+
 
   setHeaderColor(): number {
     if (this.router.url.indexOf('payment-instructions') !== -1) {
@@ -93,5 +101,9 @@ export class EmployerComponent implements OnInit {
           break;
       }
     }
+  }
+
+  openRow(): void {
+    this.router.navigate([ './files'], {relativeTo: this.route});
   }
 }

@@ -10,6 +10,8 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
 import { IsAuthenticatedGuard } from 'app/shared/_guards/is-authenticated.guard';
+import { OrganizationService } from 'app/shared/_services/http/organization.service';
+import { ProductService } from 'app/shared/_services/http/product.service';
 
 
 const routes: Routes = [
@@ -21,6 +23,7 @@ const routes: Routes = [
         loadChildren: './payment-instructions-employer/payment-instructions-employer.module' +
           '#PaymentInstructionsEmployerModule' },
       { path: 'files', loadChildren: 'app/shared/shared/detailed-files/detailed-files.module#DetailedFilesModule' },
+      { path: 'records/:id' , loadChildren:  'app/shared/shared/detailed-records/detailed-records.module#DetailedRecordsModule'},
       { path: 'reference-employer', loadChildren: './reference-employer/reference-employer.module#ReferenceEmployerModule' },
       { path: 'broadcast-employer', loadChildren: './broadcast-employer/broadcast-employer.module#BroadcastEmployerModule' },
       { path: 'feedback-employer', loadChildren: './feedback-employer/feedback-employer.module#FeedbackEmployerModule' },
@@ -32,7 +35,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    FormsModule
+    FormsModule,
   ],
   providers: [
     ProcessDataService,
@@ -40,7 +43,9 @@ const routes: Routes = [
     DocumentService,
     NotificationService,
     DepartmentService,
+    OrganizationService,
     IsAuthenticatedGuard,
+    ProductService,
     GeneralHttpService]
 })
 export class EmployerModule { }

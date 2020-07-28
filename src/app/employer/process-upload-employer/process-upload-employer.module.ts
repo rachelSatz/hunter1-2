@@ -41,6 +41,6 @@ const routes: Routes = [
     FileDropModule,
     MatButtonModule
   ],
-  entryComponents: [EmailComponent],
+  entryComponents: [EmailComponent]
 })
 export class ProcessUploadEmployerModule { }

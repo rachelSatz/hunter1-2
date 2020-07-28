@@ -10,11 +10,13 @@ import { ProcessDataService } from 'app/shared/_services/process-data-service';
 import { SelectUnitService } from 'app/shared/_services/select-unit.service';
 import { SendFileEmailComponent } from 'app/shared/_dialogs/send-file-email/send-file-email.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { fade } from 'app/shared/_animations/animation';
 
 @Component({
   selector: 'app-payment-instructions-employer',
   templateUrl: './payment-instructions-employer.component.html',
-  styleUrls: ['./payment-instructions-employer.component.css']
+  styleUrls: ['./payment-instructions-employer.component.css'],
+  animations: [ fade ]
 })
 export class PaymentInstructionsEmployerComponent implements OnInit {
 
@@ -28,6 +30,7 @@ export class PaymentInstructionsEmployerComponent implements OnInit {
   months = MONTHS;
   sub = new Subscription;
   is_valid = false;
+  showFiles = true;
 
   ngOnInit() {
     if (this.processDataService.activeProcess === undefined) {
@@ -68,13 +71,18 @@ export class PaymentInstructionsEmployerComponent implements OnInit {
 
   }
 
-  openRow(): void {
-    // this.router.navigate(['/employer', 'files'], {relativeTo: this.route});
-
-  }
-
   submit(): void {
     this.employerComponent.setPage(3);
+  }
+
+  openRow(): void {
+    this.showFiles = false;
+    this.router.navigate(['./files'], {relativeTo: this.route});
+  }
+
+  previous(): void {
+    this.showFiles = true;
+    this.router.navigate(['.'], {relativeTo: this.route});
   }
 
 

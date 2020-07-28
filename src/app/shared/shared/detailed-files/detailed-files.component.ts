@@ -110,6 +110,7 @@ export class DetailedFilesComponent implements OnInit , OnDestroy {
       this.subscription.add(this.selectUnit.unitSubject.subscribe(() => this.fetchItems()));
       this.payment.rows = this.dataTable.criteria;
       this.reference.rows = this.dataTable.criteria;
+      // sessionStorage.setItem('rows', JSON.stringify(this.dataTable.criteria));
     }
   }
 
@@ -120,6 +121,7 @@ export class DetailedFilesComponent implements OnInit , OnDestroy {
     }
     this.payment.rows =  this.dataTable.criteria;
     this.reference.rows =  this.dataTable.criteria;
+
     if (+this.organizationId !== +this.selectUnit.currentOrganizationID) {
       this.router.navigate(['/platform', 'process', 'table']);
     }
@@ -130,6 +132,7 @@ export class DetailedFilesComponent implements OnInit , OnDestroy {
     if (this.processDataService.activeProcess.highlightFileId !== undefined) {
       this.dataTable.criteria.filters['fileId'] = this.processDataService.activeProcess.highlightFileId;
     }
+    // sessionStorage.setItem('rows', JSON.stringify(this.dataTable.criteria));
 
     this.processService.getFilesList(this.dataTable.criteria, this.isReference)
       .then(response => {
