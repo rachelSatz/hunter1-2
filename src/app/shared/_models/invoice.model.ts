@@ -48,6 +48,22 @@ export class ManualInvoiceDetails {
   }
 }
 
+
+export class InvoiceDetails {
+  ids_count: number;
+  payment_type: string;
+  payment_amount: number;
+  total_amount: number;
+  details: string;
+  is_exceptional: boolean;
+  for_month_process: string;
+
+
+
+  tax: string;
+  description: string;
+}
+
 export enum INVOICE_TYPES {
     proactive= 'יזום',
     manual= 'ידני',

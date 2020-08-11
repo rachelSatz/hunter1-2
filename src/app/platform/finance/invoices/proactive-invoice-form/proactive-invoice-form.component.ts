@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { EmployerService } from 'app/shared/_services/http/employer.service';
@@ -8,9 +8,10 @@ import { InvoiceService } from 'app/shared/_services/http/invoice.service';
 import { fade } from 'app/shared/_animations/animation';
 import { DataTableComponent } from 'app/shared/data-table/data-table.component';
 import { NotificationService} from '../../../../shared/_services/notification.service';
-import { MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as FileSaver from 'file-saver';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import { PAYMENT_METHOD } from 'app/shared/_models/employer-financial-details.model';
 
 @Component({
   selector: 'app-proactive-invoice-form',
@@ -26,22 +27,33 @@ export class ProactiveInvoiceFormComponent implements OnInit {
   invoice: string;
   hasServerError = false;
   spin: boolean;
+  projects = [];
+  paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function(e) {
+    return { id: e, name: PAYMENT_METHOD[e] };
+  });
 
-  constructor( private helpers: HelpersService,
+  constructor( @Inject(MAT_DIALOG_DATA) public data: any,
+               private helpers: HelpersService,
                private route: ActivatedRoute,
                private router: Router,
                private invoiceService: InvoiceService,
-              private employerService: EmployerService,  private selectUnit: SelectUnitService,
-              private notificationService: NotificationService,
-              private dialogRef: MatDialogRef<ProactiveInvoiceFormComponent>) { }
+               private employerService: EmployerService,  private selectUnit: SelectUnitService,
+               private notificationService: NotificationService,
+               private dialogRef: MatDialogRef<ProactiveInvoiceFormComponent>) { }
 
   ngOnInit() {
-    this.employerService.getAllPayEmployers().then(
-      response =>  {
-        this.employers = response;
-        this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
-        this.employers.sort((a, b) => a.id - b.id);
-      });
+    if (this.data.employers !== 'undefined' && this.data.employers !== null) {
+      this.employers = this.data.employers;
+    } else {
+      this.employerService.getAllPayEmployers().then(
+        response =>  {
+          this.employers = response;
+          this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
+          this.employers.sort((a, b) => a.id - b.id);
+        });
+    }
+    this.employerService.getProjects().then(response => this.projects = response);
+
   }
 
   submit(form: NgForm): void {

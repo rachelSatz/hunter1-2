@@ -21,6 +21,7 @@ import {UserSessionService} from 'app/shared/_services/user-session.service';
 import { TransactionInvoiceFormComponent } from 'app/platform/finance/invoices/transaction-invoice-form/transaction-invoice-form.component';
 import { TaxOnlyInvoiceFormComponent } from 'app/platform/finance/invoices/tax-only-invoice-form/tax-only-invoice-form.component';
 import { ReportsFormComponent } from 'app/platform/finance/invoices/reports-form/reports-form.component';
+import { InvoiceDetailsFormComponent } from 'app/platform/finance/invoices/invoice-details-form/invoice-details-form.component';
 
 @Component({
   selector: 'app-invoices',
@@ -30,7 +31,7 @@ import { ReportsFormComponent } from 'app/platform/finance/invoices/reports-form
 export class InvoicesComponent implements OnInit, OnDestroy {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
-  employers = [];
+  employers: any;
   // allEmployers = Object.keys(this.employers).map(function(e) {
   //   return { id: e, name: this.employers[e] };
   // });
@@ -58,6 +59,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   permissionsType = this.userSession.getPermissionsType('finance');
   nameProjectName = 'project_id';
   projects = [];
+  fileName = '';
 
   readonly columns  = [
     { name: 'employer_name', label: 'שם מעסיק', searchable: false},
@@ -72,6 +74,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } },
     { name: 'remark', label: 'הערות' , searchable: false},
     { name: 'options', label: 'אפשרויות' , searchable: false},
+    { name: 'details', label: 'פירוט' , searchable: false},
     { name: 'payment_method', label: 'אופן תשלום', searchOptions: { labels: this.paymentMethodItems }, isDisplay: false},
   ];
 
@@ -86,8 +89,12 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.employerService.getAllEmployers(null, true).then(
-      response => this.employers = response['items']);
+    this.employerService.getAllPayEmployers().then(
+      response => {
+        this.employers = response;
+        this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
+        this.employers.sort((a, b) => a.id - b.id);
+      });
     this.employerService.getProjects().then(response => {
       const column = this.dataTable.searchColumn(this.nameProjectName);
       this.projects = response;
@@ -108,9 +115,18 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       width: '750px'
     });
   }
+
+  showInvoiceDetails(item: Object): void {
+    this.dialog.open(InvoiceDetailsFormComponent, {
+      data: item,
+      width: '750px'
+    });
+  }
+
   openProactiveInvoice(): void {
     const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
-      width: '450px'
+      data: {'employers': this.employers},
+      width: '500px'
     });
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
@@ -227,7 +243,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
 
 
 
-  downloadEmployeesExcel(invoiceId): void {
+  downloadEmployeesExcel(invoiceId, item): void {
     this.invoiceService.downloadExcel(invoiceId).then(response => {
       if (response['message'] === 'no_employees') {
         this.notificationService.info('לא חויבו עובדים בחשבונית');
@@ -243,8 +259,13 @@ export class InvoicesComponent implements OnInit, OnDestroy {
         }
         const byteArray = new Uint8Array(byteNumbers);
         const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-        const fileName = 'פירוט עובדים בחשבונית מספר - '  + invoiceId + '.xlsx';
-        FileSaver.saveAs(blob, fileName);
+        if (item.green_invoice_document !== null && item.green_invoice_document.number !== null
+          && item.green_invoice_document.number !== '') {
+          this.fileName = 'פירוט עובדים בחשבונית מספר - '  + item.green_invoice_document.number + '.xlsx';
+        } else {
+          this.fileName =  'פירוט עובדים בחשבונית'  + '.xlsx';
+        }
+        FileSaver.saveAs(blob, this.fileName);
         this.spin = false;
         this.notificationService.success('הקובץ הופק בהצלחה');
       }

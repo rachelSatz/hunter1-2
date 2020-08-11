@@ -66,6 +66,14 @@ export class InvoiceService  extends BaseHttpService {
       .catch(() => []);
   }
 
+  getInvoiceDetails(invoice_id: number): Promise<Object> {
+    return this.http.get(this.endPoint + '/' + invoice_id + '/getInvoiceDetails', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Object)
+      .catch(() => []);
+  }
+
+
   uploadFinanceExcel(uploadedFile?: File): Promise<Object> {
     if (uploadedFile) {
       const formData = new FormData();

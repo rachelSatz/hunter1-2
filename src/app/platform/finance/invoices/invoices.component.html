@@ -20,9 +20,8 @@
           <button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>
           <button mat-menu-item (click)="openOnlyTaxInvoice()">חשבונית מס</button>
           <button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>
-          <!--<button mat-menu-item (click)="deleteInvoices(true)">מחיקת חשבונית ואיפוס עובדים</button>-->
+          <button mat-menu-item (click)="deleteInvoices(true)">מחיקת חשבונית ואיפוס עובדים</button>
           <button mat-menu-item (click)="openReports()">דו"חות</button>
-
         </mat-menu>
       </div>
     </div>
@@ -55,11 +54,13 @@
                  <!--required></bd-select>-->
     </td>
     <td>
-      <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" title="הערות" *ngIf="item.status !== 'closed'"></i>
-      <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" title="הערות" *ngIf="item.status === 'closed'"></i>
+      <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" title="הערות" ></i>
     </td>
     <td *ngIf="item.description != ''">
-      <i class="fa fa-download fa-lg ml-2" title="פירוט עובדים בחשבונית" (click)="downloadEmployeesExcel(item.id)" ></i>
+      <i class="fa fa-download fa-lg ml-2" title="פירוט עובדים בחשבונית" (click)="downloadEmployeesExcel(item.id, item)" ></i>
+    </td>
+    <td>
+      <i class="fa fa-exclamation-circle" (click)="showInvoiceDetails(item)" title="פירוט רשומות" ></i>
     </td>
   </tr>
 </app-data-table>

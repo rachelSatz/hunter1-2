@@ -29,6 +29,7 @@ import { TaxInvoiceFormComponent } from './tax-invoice-form/tax-invoice-form.com
 import { TransactionInvoiceFormComponent } from './transaction-invoice-form/transaction-invoice-form.component';
 import { TaxOnlyInvoiceFormComponent } from './tax-only-invoice-form/tax-only-invoice-form.component';
 import { ReportsFormComponent } from './reports-form/reports-form.component';
+import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-details-form.component';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
@@ -61,10 +62,12 @@ const routes: Routes = [
     TaxInvoiceFormComponent,
     TransactionInvoiceFormComponent,
     TaxOnlyInvoiceFormComponent,
-    ReportsFormComponent
+    ReportsFormComponent,
+    InvoiceDetailsFormComponent
   ],
   providers: [InvoiceService, EmployerService, FilterItemsPipe, NotificationService],
   entryComponents: [ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent,
-    ManualInvoiceFormComponent, TaxInvoiceFormComponent, TransactionInvoiceFormComponent, TaxOnlyInvoiceFormComponent, ReportsFormComponent]
+    ManualInvoiceFormComponent, TaxInvoiceFormComponent, TransactionInvoiceFormComponent, TaxOnlyInvoiceFormComponent,
+    ReportsFormComponent, InvoiceDetailsFormComponent]
 })
 export class InvoicesModule { }
