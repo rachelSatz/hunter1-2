@@ -13,6 +13,7 @@ export class ProcessDataService {
     this.activeProcess.monthName = data['monthName'];
     this.activeProcess.name = data['name'];
     this.activeProcess.type = data['type'];
+    this.activeProcess.typeProcess = data['typeProcess'];
     this.activeProcess.processID = data['processID'];
     this.activeProcess.departmentId = data['departmentId'];
     this.activeProcess.employer_id = data['employer_id'];

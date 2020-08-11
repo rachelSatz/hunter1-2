@@ -259,6 +259,7 @@ export class ProcessTableComponent implements OnInit, OnDestroy {
          'monthName':  this.months[date.getMonth()],
          'processID': process.id,
          'type': process.type === 'employer_withdrawal' ? 'negative' : 'positive',
+         'typeProcess': process.type,
          'status': process.status,
          'departmentId': process.dep_id,
          'employer_id': process.employer_id,

@@ -283,7 +283,7 @@ export class FilesComponent implements OnInit, OnDestroy  {
   }
 
   detailsRecords(fileId: number, status: string): void {
-    if (status !== 'feedback_a') {
+    if (status !== 'feedback_a' && status !== 'sent_failed') {
       if (this.isProcess) {
         this.router.navigate(['/platform', 'process', 'new', 'update', 'feedback', 'employees' ],
           {queryParams: {fileId: fileId, year: this.dataTable.criteria.filters['year']}});

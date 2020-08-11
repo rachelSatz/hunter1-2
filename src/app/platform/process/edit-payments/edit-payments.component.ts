@@ -30,6 +30,7 @@ export class EditPaymentsComponent implements OnInit {
   depositType = DepositType;
   depositStatus = DepositStatus;
   products = [];
+  mtb_ids = [];
   companies: Company[] = [];
   editPaymentForm: FormGroup;
   sum= 0;
@@ -155,7 +156,7 @@ export class EditPaymentsComponent implements OnInit {
             'id': [null],
             'clause_type': [clause ? clause.clause_type : null, Validators.required],
             'transfer_sum': [clause ? clause.transfer_sum : null,
-              [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
+              [Validators.pattern('^\\-*0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}\\-*$'), Validators.required]],
             'transfer_percent': [clause ? clause.expected_percent.toString() : null, Validators.required],
             'exempt_sum': [0, Validators.required],
           })
@@ -167,7 +168,7 @@ export class EditPaymentsComponent implements OnInit {
         'id': [null],
         'clause_type': [clause ? clause.clause_type : null, Validators.required],
         'transfer_sum': [clause ? clause.transfer_sum : null,
-          [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
+          [Validators.pattern('^\\-*0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}\\-*$'), Validators.required]],
         'transfer_percent': [clause ? clause.expected_percent.toString() : null, Validators.required],
         'exempt_sum': [0, Validators.required],
       });
@@ -194,7 +195,7 @@ export class EditPaymentsComponent implements OnInit {
       'id': [transfer  ? +transfer['id'] : null],
       'clause_type': [transfer  ? transfer['clause_type'] : '',  Validators.required],
       'transfer_sum': [transfer  ? +transfer['transfer_sum'] : null,
-        [Validators.pattern('^0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}$'), Validators.required]],
+        [Validators.pattern('^\\-*0*[1-9][0-9]*(\\.\\d{1,2})?|0+\\.\\d{1,2}\\-*$'), Validators.required]],
       'transfer_percent': [transfer ? +transfer['transfer_percent'] : null, Validators.required ],
       'exempt_sum': [transfer ? +transfer['exempt_sum'] : null,  Validators.required]
     };
@@ -255,13 +256,31 @@ export class EditPaymentsComponent implements OnInit {
 
     const clause = new TransferClause;
     const subSum =  this.mtb.amount - this.sum;
-    if (subSum > 0) {
+    if (subSum !== 0) {
       clause.transfer_sum = +subSum.toFixed(2);
       clause.expected_sum = 0;
       clause.clause_type = transfer.value.clause_type;
       clause.expected_percent = expected_percent;
       this.addMtb(this.mtb, clause);
       this.sum += +subSum;
+    }
+  }
+
+  changeStatus(e, mtb_id): void {
+    const status_employee = ['lacks_payment' ,
+      'seasonal' ,
+      'contract_ended',
+      'unpaid_loa',
+      'death',
+      'provident_fund_changed',
+      'department_changed',
+      'retired',
+      'other'];
+    if (status_employee.includes(e)) {
+      this.notificationService.error(  ' אם סטאטוס העובד בחודש הדיווח מלמד על הפסקת הפקדות אין לדווח על שורה של סוג רשומה','שים לב');
+      this.mtb_ids.push(mtb_id);
+    } else {
+      this.mtb_ids = this.mtb_ids.filter(mt => mt !== mtb_id);
     }
   }
 

@@ -32,7 +32,19 @@ export class EmployerComponent implements OnInit {
   // ];
 
   ngOnInit() {
-    this.selectUnit.changeOrganizationEmployerDepartment(1 , 2, 2);
+
+    const part = this.route.snapshot.queryParams['part'];
+    const processId = this.route.snapshot.queryParams['processId'];
+    const deprtmentId = this.route.snapshot.queryParams['deprtmentId'];
+    const salaryMonth = this.route.snapshot.queryParams['salaryMonth'];
+    if (deprtmentId) {
+      this.isDepartmentLink = true;
+    } else  if (part) {
+      this.setPage(part);
+    }
+
+
+    // this.selectUnit.changeOrganizationEmployerDepartment(1 , 2, 2);
 
     if ( this.processDataService.activeProcess === undefined) {
       this.processDataService.setProcess(new Process());

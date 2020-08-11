@@ -14,6 +14,8 @@ import { NotificationService } from 'app/shared/_services/notification.service';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { GroupHistoryComponent } from 'app/platform/process/process-loading/payment-instructions/group-history/group-history.component';
 import { SendFileEmailComponent } from 'app/shared/_dialogs/send-file-email/send-file-email.component';
+// import { IncorrectRowsComponent } from 'app/platform/process/process-loading/process-upload/incorrect-rows/incorrect-rows.component';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-payment-instructions',
@@ -38,6 +40,7 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private selectUnit: SelectUnitService,
               private dialog: MatDialog,
+              private helpers: HelpersService,
               protected notificationService: NotificationService,
               private monthlyService: MonthlyTransferBlockService,
               public processLoading: ProcessLoadingComponent,
@@ -62,13 +65,21 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
     this.openDialogGroupHistory();
   }
 
+  openIncorrectRows(): void {
+    this.processDataService.activeProcess.incorrect = true;
+    this.processDataService.setProcess(this.processDataService.activeProcess);
+    this.selectUnit.setProcessData(this.processDataService);
+    this.router.navigate(['platform', 'process', 'new', 'update']);
+  }
+
   private setActiveUrl(url: string): void {
     this.activeUrl = url.indexOf('records') === -1 ? 'files' : 'records';
   }
 
   openDialogGroupHistory():  void {
     if (this.processDataService.activeProcess.status === 'can_be_processed' &&
-      this.processDataService.activeProcess.type === 'positive') {
+      this.processDataService.activeProcess.type === 'positive' &&
+      this.processDataService.activeProcess.typeProcess !== 'positive_negative_fix') {
       this.monthlyService.groupHistory(this.processId).then(
         res => {
           if (res && res.length > 0) {
@@ -141,17 +152,19 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
         return;
       }
 
-      if (((this.rows.isCheckAll && this.rows.checkedItems.length > 0))
-        || (!this.rows.isCheckAll && this.rows.checkedItems.length < this.processLoading.process_details.groups_count)) {
-        const buttons = {confirmButtonText: 'המשך', cancelButtonText: 'ביטול'};
-        this.notificationService.warning('שים לב',
-          'לא כל הקופות מסומנות האם ברצונך לשדר חלקית?', buttons).then(confirmation => {
-          if (confirmation.value) {
-            this.navigatePage();
-          }
-        });
-      } else {
-        this.navigatePage();
+      if (this.checkedRowItems()) {
+        if (((this.rows.isCheckAll && this.rows.checkedItems.length > 0))
+          || (!this.rows.isCheckAll && this.rows.checkedItems.length < this.processLoading.process_details.groups_count)) {
+          const buttons = {confirmButtonText: 'המשך', cancelButtonText: 'ביטול'};
+          this.notificationService.warning('שים לב',
+            'לא כל הקופות מסומנות האם ברצונך לשדר חלקית?', buttons).then(confirmation => {
+            if (confirmation.value) {
+              this.navigatePage();
+            }
+          });
+        } else {
+          this.navigatePage();
+        }
       }
     } else {
       this.notificationService.warning('שים לב', 'עליך להוריד/לשלוח הנחיות');
@@ -161,18 +174,23 @@ export class PaymentInstructionsComponent implements OnInit, OnDestroy {
   navigatePage(): void {
     const filesList = this.rows.checkedItems.map(item => item['file_id']);
     this.processService.setRecords(this.processId, filesList, this.rows).then(response => {
-      this.processDataService.activeProcess.rows = response['group_things_ids'];
-      if (response['sent'] && this.processDataService.activeProcess.rows.length === 0) {
-        this.notificationService.warning('שים לב', 'אין אפשרות לעבור למסך הבא בחר רשומות שלא שודרו');
+      if (response['status'] === 'loaded_with_errors') {
+        this.openIncorrectRows();
+
       } else {
-        if (response['sent']) {
-          this.notificationService.warning('שים לב', ' בחרת רשומות ששודר אם לא יעברו למסך הבא');
+        this.processDataService.activeProcess.rows = response['group_things_ids'];
+        if (response['sent'] && this.processDataService.activeProcess.rows.length === 0) {
+          this.notificationService.warning('שים לב', 'אין אפשרות לעבור למסך הבא בחר רשומות שלא שודרו');
+        } else {
+          if (response['sent']) {
+            this.notificationService.warning('שים לב', ' בחרת רשומות ששודר אם לא יעברו למסך הבא');
+          }
+          this.processDataService.activeProcess.is_references = false;
+          this.processDataService.activeProcess.rows_status = false;
+          this.processDataService.setProcess(this.processDataService.activeProcess);
+          this.processLoading.setPage(3, true);
+          this.selectUnit.setProcessData(this.processDataService);
         }
-        this.processDataService.activeProcess.is_references = false;
-        this.processDataService.activeProcess.rows_status = false;
-        this.processDataService.setProcess(this.processDataService.activeProcess);
-        this.processLoading.setPage(3, true);
-        this.selectUnit.setProcessData(this.processDataService);
       }
     });
 

@@ -109,7 +109,7 @@
 
        <div class="col-3 mt11">
          <bd-select  [items]="lstEmployeeStatus" placeholder="סטטוס עובד בחודש"
-                     formControlName="employee_status"
+                     formControlName="employee_status" (onSelect)="changeStatus($event, m.id)"
                      ></bd-select>
        </div>
     </div>
@@ -176,7 +176,7 @@
             <input type="number" matInput placeholder="סכום פטור" formControlName="exempt_sum">
           </mat-form-field>
           <div class="col-3">
-            <mat-icon (click)="remove(m, i)" *ngIf="i != 0 || !l" class="pointer remove-account-icon">highlight_off</mat-icon>
+            <mat-icon (click)="remove(m, i)" *ngIf="i != 0 || !l || mtb_ids.includes(m.id)" class="pointer remove-account-icon">highlight_off</mat-icon>
             <mat-icon (click)="addTransfer(m)" *ngIf="l && i < 7" class="pointer">add_circle</mat-icon>
 
           </div>
