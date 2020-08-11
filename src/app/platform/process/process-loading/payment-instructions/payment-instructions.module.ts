@@ -10,6 +10,7 @@ import { ProcessLoadingComponent } from 'app/platform/process/process-loading/pr
 import { GroupHistoryComponent } from './group-history/group-history.component';
 import { MonthlyTransferBlockService } from 'app/shared/_services/http/monthly-transfer-block';
 import { DataTableModule } from 'app/shared/data-table/data-table.module';
+import { IncorrectRowsComponent } from 'app/platform/process/process-loading/process-upload/incorrect-rows/incorrect-rows.component';
 
 
 const routes: Routes = [

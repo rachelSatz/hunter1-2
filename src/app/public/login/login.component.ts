@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -21,6 +21,7 @@ export class LoginComponent {
   isSubmitting: boolean;
 
   constructor(private router: Router,
+              private route: ActivatedRoute,
               private appHttp: AppHttpService,
               private userSession: UserSessionService,
               private helpers: HelpersService,
@@ -40,7 +41,16 @@ export class LoginComponent {
            if (response['role'] !== 'employer') {
              this.router.navigate(['/platform']);
            } else {
-             this.router.navigate(['/employer']);
+             let value1 = null;
+             this.route.queryParams.subscribe(params => {
+               value1 = params;
+             });
+             // this.route.queryParams.forEach((item) => {
+             //   value1 = item;
+             // });
+
+             this.router.navigate(['/employer'],
+               { queryParams:  value1 });
            }
         } else {
            this.hasServerError = true;

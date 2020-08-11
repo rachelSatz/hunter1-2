@@ -91,7 +91,6 @@ export class DetailedRecordsComponent implements OnInit , OnDestroy {
       (processData.activeProcess !== undefined &&
         this.processDataService.activeProcess.processID !== processData.activeProcess.processID)) {
       if (processData.activeProcess === undefined ) {
-        console.log('gjghj');
         this.processDataService.activeProcess = processData;
       } else {
         this.processDataService = processData;

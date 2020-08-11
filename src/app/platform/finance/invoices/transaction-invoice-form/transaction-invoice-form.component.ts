@@ -21,6 +21,7 @@ export class TransactionInvoiceFormComponent implements OnInit {
 
   hasServerError = false;
   message: string;
+  include_email = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private helpers: HelpersService,

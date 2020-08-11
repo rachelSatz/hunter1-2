@@ -30,6 +30,7 @@ export class Process {
   NegativeProcess: boolean;
   status: string;
   type: string;
+  typeProcess: string;
   isDirect: boolean;
   pageIndex;
   file;

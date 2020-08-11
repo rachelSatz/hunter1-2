@@ -66,16 +66,18 @@ export class ProcessUploadEmployerComponent implements OnInit, OnDestroy {
     }
 
     this.helpers.setPageSpinner(true);
-    this.organizationService.getOrganizations().then(response => {
-      this.selectUnit.setOrganization(response);
-      this.organizations = response;
-      this.process.organization_id = this.organizations[0].id;
-      this.employers = this.organizations[0].employer;
-      const employer = this.organizations[0].employer[0];
-      this.process.employer_id = employer.id;
-      this.process.employer_name = employer.name;
-      this.helpers.setPageSpinner(false);
-    });
+    if (!this.employerComponent.isDepartmentLink) {
+      this.organizationService.getOrganizations().then(response => {
+        this.selectUnit.setOrganization(response);
+        this.organizations = response;
+        this.process.organization_id = this.organizations[0].id;
+        this.employers = this.organizations[0].employer;
+        const employer = this.organizations[0].employer[0];
+        this.process.employer_id = employer.id;
+        this.process.employer_name = employer.name;
+        this.helpers.setPageSpinner(false);
+      });
+    }
 
 
     this.process.file = [];

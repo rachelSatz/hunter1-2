@@ -12,8 +12,9 @@ import {
   MatCheckboxModule,
   MatSelectModule,
   MatIconModule,
-  MatAutocompleteModule ,
-  MatDatepickerModule} from '@angular/material';
+  MatAutocompleteModule,
+  MatDatepickerModule, MatRadioModule
+} from '@angular/material';
 
 import { PipesModule } from 'app/shared/_pipes/pipes.module';
 import { InvoiceService } from 'app/shared/_services/http/invoice.service';
@@ -27,6 +28,8 @@ import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice
 import { TaxInvoiceFormComponent } from './tax-invoice-form/tax-invoice-form.component';
 import { TransactionInvoiceFormComponent } from './transaction-invoice-form/transaction-invoice-form.component';
 import { TaxOnlyInvoiceFormComponent } from './tax-only-invoice-form/tax-only-invoice-form.component';
+import { ReportsFormComponent } from './reports-form/reports-form.component';
+import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-details-form.component';
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
@@ -47,7 +50,8 @@ const routes: Routes = [
     MatDatepickerModule,
     DataTableModule,
     BdSelectModule,
-    PipesModule
+    PipesModule,
+    MatRadioModule
   ],
   declarations: [
     InvoicesComponent,
@@ -57,10 +61,13 @@ const routes: Routes = [
     ManualInvoiceFormComponent,
     TaxInvoiceFormComponent,
     TransactionInvoiceFormComponent,
-    TaxOnlyInvoiceFormComponent
+    TaxOnlyInvoiceFormComponent,
+    ReportsFormComponent,
+    InvoiceDetailsFormComponent
   ],
   providers: [InvoiceService, EmployerService, FilterItemsPipe, NotificationService],
   entryComponents: [ProactiveInvoiceFormComponent, RemarksFormComponent, EmployersFinanceExcelComponent,
-    ManualInvoiceFormComponent, TaxInvoiceFormComponent, TransactionInvoiceFormComponent, TaxOnlyInvoiceFormComponent]
+    ManualInvoiceFormComponent, TaxInvoiceFormComponent, TransactionInvoiceFormComponent, TaxOnlyInvoiceFormComponent,
+    ReportsFormComponent, InvoiceDetailsFormComponent]
 })
 export class InvoicesModule { }
