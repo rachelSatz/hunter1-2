@@ -35,7 +35,6 @@ export class DepartmentService extends BaseHttpService {
       .catch(() => null);
   }
 
-
   getEmployees(departmentID: number, val: string, index: number): Promise<Employee[]> {
     const request = this.getTokenHeader();
     if (val) {
@@ -92,8 +91,9 @@ export class DepartmentService extends BaseHttpService {
       .catch(response => response);
   }
 
-  addEmailDepartment(emailDepartment: EmailDepartment): Promise<any> {
-    return this.http.post(this.endPoint + '/addEmailDepartment' , emailDepartment, this.getTokenHeader())
+  addEmailDepartment(emailDepartment: EmailDepartment, process_type: string): Promise<any> {
+    return this.http.post(this.endPoint + '/addEmailDepartment' , {emailDepartment: emailDepartment,
+      process_type: process_type}, this.getTokenHeader())
       .toPromise()
       .then(response => response);
   }
@@ -105,8 +105,10 @@ export class DepartmentService extends BaseHttpService {
       .catch(() => false);
   }
 
-  getEmailDepartment(id: number): Promise<any> {
-    return this.http.get(this.endPoint + '/getEmailDepartment/' + id, this.getTokenHeader())
+  getEmailDepartment(id: number, process: string): Promise<any> {
+    const request = this.getTokenHeader();
+    request['params'] = { process: process };
+    return this.http.get(this.endPoint + '/getEmailDepartment/' + id, request)
       .toPromise()
       .then(response => response);
   }

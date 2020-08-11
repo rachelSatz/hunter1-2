@@ -49,7 +49,6 @@ export class CampaignsFormComponent implements OnInit {
       } );
     } else {
       this.notification.error('הקמפיין כבר הסתיים');
-
     }
   }
 

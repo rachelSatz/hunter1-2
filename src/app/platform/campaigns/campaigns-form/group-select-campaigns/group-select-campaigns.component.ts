@@ -166,14 +166,15 @@ export class GroupSelectCampaignsComponent implements OnInit {
 
   sendCampaign() {
     if (this.groups.valid) {
-      this.helpers.setPageSpinner(true);
       if (this.selectUnitService.getTaskCampaign().activeCampaigns.details.id) {
-        this.campaignsService.updateCampaign(this.taskCampaignForm, this.groups.value.groupCampaign)
-          .then(response => {
-            this.helpers.setPageSpinner(false);
-            this.handleResponse(response);
-          });
+        this.notificationService.error('אין אפשרות לערוך קמפיין זה');
+        // this.campaignsService.updateCampaign(this.taskCampaignForm, this.groups.value.groupCampaign)
+        //   .then(response => {
+        //     this.helpers.setPageSpinner(false);
+        //     this.handleResponse(response);
+        //   });
       } else {
+        this.helpers.setPageSpinner(true);
         this.campaignsService.createCampaign(this.taskCampaignForm, this.groups.value.groupCampaign)
           .then(response => {
             this.helpers.setPageSpinner(false);

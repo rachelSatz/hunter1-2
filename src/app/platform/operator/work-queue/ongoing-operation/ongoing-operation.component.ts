@@ -80,25 +80,31 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
   fetchItems(): void {
     this.helpers.setPageSpinner(true);
     this.planService.getSinglePlan().then(response => {
-      if (response['message'] === 'No plan found' ) {
-        this.noMorePlans = true;
-      } else if ( response['message'] === 'No task found') {
-        this.noMoreTask = true;
-      } else if (response['message'] === 'Success!') {
-        this.plan = response['data'];
-        if (this.plan !== null && this.plan.task !== null) {
-          for (const error in this.errorsDetails) {
-             if (this.errorsDetails[error].ids.includes(this.plan.type.id)) {
-               this.errorsDetails[error].error = true;
-             }
+      if (response) {
+        if (response['message'] === 'No plan found' ) {
+          this.noMorePlans = true;
+        } else if ( response['message'] === 'No task found') {
+          this.noMoreTask = true;
+        } else if (response['message'] === 'Success!') {
+          this.plan = response['data'];
+          if (this.plan !== null && this.plan.task !== null) {
+            for (const error in this.errorsDetails) {
+              if (this.errorsDetails[error].ids.includes(this.plan.type.id)) {
+                this.errorsDetails[error].error = true;
+              }
+            }
           }
-        }
+      }
+      } else {
+        this.helpers.setPageSpinner(false);
+        this.notificationService.error('קיימת בעיה במציאת המשימה');
       }
       this.helpers.setPageSpinner(false);
     });
   }
 
   initializationPlatform(): void {
+    this.platformComponent.timerService.reset();
     this.platformComponent.isWorkQueue = true;
     this.platformComponent.ongoingOperation = true;
     this.platformComponent.isTask = false;
@@ -249,7 +255,7 @@ export class OngoingOperationComponent implements OnInit, OnDestroy {
     this.operatorTasks.newTaskTimer('ongoing_operation').then(
       response => {
         if (response > 0 ) {
-          const data = {id: response, type: this.plan.type.name, employer: this.plan.employer.name,
+          const data = {id: response, type: this.plan.type.name, employer: this.plan.employer ? this.plan.employer.name : '',
             organization: this.plan.organization.name, planTaskId: this.plan.id
           };
           this.initializationPlatform();

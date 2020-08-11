@@ -9,6 +9,7 @@ import {CampaignsStatus} from '../../shared/_models/campaigns';
 import {GroupMembersDialogComponent} from './group-members-dialog/group-members-dialog.component';
 import {HelpersService} from '../../shared/_services/helpers.service';
 import {MatDialog} from '@angular/material/dialog';
+import {NotificationService} from '../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-campaigns',
@@ -34,6 +35,7 @@ export class CampaignsComponent implements OnInit {
     public  userSession: UserSessionService,
     protected route: ActivatedRoute,
     private dialog: MatDialog,
+    private notificationService: NotificationService,
     public helpers: HelpersService,
     public campaignsService: CampaignsService,
     private selectUnit: SelectUnitService

@@ -167,8 +167,8 @@ export class EmployerService extends BaseHttpService {
       .then( response => response );
   }
 
-  updateMonthlyReports(report: any, employerId: number): Promise<any> {
-    return this.http.put(this.endPoint + '/' + employerId +  '/monthlyReports', report , this.getTokenHeader())
+  updateMonthlyReports(report: any, employerId: number, employerD?: any): Promise<any> {
+    return this.http.put(this.endPoint + '/' + employerId +  '/monthlyReports', {report, employerD} , this.getTokenHeader())
       .toPromise()
       .then( response => response );
   }

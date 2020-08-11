@@ -322,6 +322,13 @@ export class CampaignsTypeComponent implements OnInit {
        );
     } else {
       this.campaignsSubtype = this.campaignsType.find(a => a.id === model).subtype;
+      if (model === 1) {
+        this.campaignsSubtype.forEach((item, index) => {
+          if ([11, 12, 13, 14, 15].includes(item.id)) {
+            this.campaignsSubtype.splice(index, 1);
+          }
+        });
+      }
       if (model === 1 || model === 2) {
         this.dateModel = true;
         this.requiredDateModel = true;

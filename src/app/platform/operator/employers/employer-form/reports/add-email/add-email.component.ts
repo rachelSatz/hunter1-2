@@ -25,7 +25,7 @@ export class AddEmailComponent implements OnInit {
                private departmentService: DepartmentService) { }
 
   ngOnInit() {
-    this.departmentService.getEmailDepartment(this.data.employerId).then(response =>
+    this.departmentService.getEmailDepartment(this.data.employerId, this.data.process_type).then(response =>
       this.email_dep = response
     );
     this.departmentService.getDepartments(this.data.employerId)
@@ -40,15 +40,13 @@ export class AddEmailComponent implements OnInit {
       } else {
         this.hasServerError = true;
       }
-
     });
   }
-
 
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      this.departmentService.addEmailDepartment(form.value).then(response => {
+      this.departmentService.addEmailDepartment(form.value, this.data.process_type).then(response => {
         if (response) {
           this.dialogRef.close();
         } else {

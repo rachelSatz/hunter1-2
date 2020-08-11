@@ -7,22 +7,24 @@ import { FormsModule } from '@angular/forms';
 import { AddEmailComponent } from 'app/platform/operator/employers/employer-form/reports/add-email/add-email.component';
 import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
 import { DepartmentService } from 'app/shared/_services/http/department.service';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 const routes: Routes = [{ path: '', component: ReportsComponent }];
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-    MatFormFieldModule,
-    MatCheckboxModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDialogModule,
-    BdSelectModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FormsModule,
+        MatFormFieldModule,
+        MatCheckboxModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDialogModule,
+        BdSelectModule,
+        MatSlideToggleModule
+    ],
   declarations: [ReportsComponent, AddEmailComponent],
   entryComponents: [AddEmailComponent],
   providers: [DepartmentService]
