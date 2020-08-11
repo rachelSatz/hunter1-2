@@ -48,6 +48,22 @@ export class ManualInvoiceDetails {
   }
 }
 
+
+export class InvoiceDetails {
+  ids_count: number;
+  payment_type: string;
+  payment_amount: number;
+  total_amount: number;
+  details: string;
+  is_exceptional: boolean;
+  for_month_process: string;
+
+
+
+  tax: string;
+  description: string;
+}
+
 export enum INVOICE_TYPES {
     proactive= 'יזום',
     manual= 'ידני',
@@ -73,7 +89,8 @@ export enum STATUS {
   direct_debit = 'הוראת קבע',
   credit_card = 'כרטיס אשראי',
   tax_green_invoice = 'מס/קבלה - חשבונית ירוקה',
-  only_tax_green_invoice = 'חשבונית מס - חשבונית ירוקה'
+  only_tax_green_invoice = 'חשבונית מס - חשבונית ירוקה',
+  manual = 'ידני'
 }
 
 export enum ERROR_STATUS {

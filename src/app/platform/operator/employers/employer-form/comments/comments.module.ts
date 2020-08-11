@@ -3,8 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { CommentsComponent } from './comments.component';
 import { GeneralHttpService } from 'app/shared/_services/http/general-http.service';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { BdSelectModule } from 'app/../assets/js/bd-select/bd-select.module';
+import { UserService } from 'app/shared/_services/http/user.service';
+import { UserFormComponent } from './user-form/user-form.component';
+import { ShortNamePipe } from 'app/shared/_pipes/short-name.pipe';
 
 const routes: Routes = [
   { path: '', component: CommentsComponent }
@@ -15,10 +19,13 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatAutocompleteModule,
+    BdSelectModule
   ],
-  providers: [GeneralHttpService],
-  declarations: [CommentsComponent]
+  providers: [GeneralHttpService, UserService],
+  declarations: [CommentsComponent, UserFormComponent, ShortNamePipe]
 })
 export class CommentsModule { }
