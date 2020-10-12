@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { NotificationService } from '../_services/notification.service';
-import { HelpersService } from '../_services/helpers.service';
+import { HelpersService } from '../../shared/_services/helpers.service';
 
 import { PaginationData } from './classes/pagination-data';
 import { DataTableCriteria } from './classes/data-table-criteria';
@@ -31,14 +31,14 @@ export class DataTableComponent implements OnInit, OnDestroy {
   @Input() hasExtendedSearch = true;
   @Input() hasLoadingItem = true;
   @Input() placeHolderSearch = 'חפש';
-
+  @Input() innerHTML = '';
 	@Input() limit = 15;
 
 	@Output() fetchItems = new EventEmitter<boolean>();
 
 	items = [];
 	sub = new Subscription;
-	criteria = new DataTableCriteria( this.limit);
+	criteria = new DataTableCriteria(this.limit);
 	paginationData = new PaginationData();
 	isLoading: boolean;
 	isActive = true;

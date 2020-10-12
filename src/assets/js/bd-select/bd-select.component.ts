@@ -10,8 +10,8 @@ import {
   OnChanges
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { isArray } from 'rxjs/util/isArray';
-import { placeholder, slideToggle } from 'app/shared/_animations/animation';
+import { placeholder, slideToggle } from '../../../app/shared/_animations/animation';
+import { isArray } from 'util';
 
 @Component({
   selector: 'bd-select' ,
@@ -107,7 +107,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
       }
     } else {
       // event.target.parentElement.parentElement.id
-       this.serverFilter.emit( this.filterValue);
+      this.serverFilter.emit( this.filterValue);
     }
   }
 
@@ -206,7 +206,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
 
     if (isSelectAll) {
       if (item[this.value] !== 0) {
-          return true;
+        return true;
       }
     } return false;
   }
@@ -224,17 +224,18 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
     }
 
     let labels = '';
-    for (const i in this.label) {
-      labels += item[this.label[i]] + ' - ';
-    }
+    // for (const i in this.label) {
+    //   labels += (item[this.label[i]] + ' - ');
+    // }
 
     return labels.slice(0, -3);
+    return ''
   }
 
   private setSelectedItem(value: any): boolean {
     if (this.multiple) {
-       this.setSelectedItemMultiple(value);
-       return true;
+      this.setSelectedItemMultiple(value);
+      return true;
     } else {
       return this.items.some(item => {
         if (value.toString() === item[this.value].toString()) {
@@ -251,17 +252,17 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
     this.items.forEach(item => {
       const iteratedItem = item[this.value].toString();
       if (values.indexOf(iteratedItem) !== -1) {
-         items.push(iteratedItem);
-         if (this.selectedItem) {
-           this.selectedItem = this.selectedItem.filter(outputItem => {
-             if (outputItem[this.value]) {
-               return outputItem[this.value];
-             }
-           });
-         }else {
-           this.selectedItem = [];
-         }
-         this.selectedItem.push(item);
+        items.push(iteratedItem);
+        if (this.selectedItem) {
+          this.selectedItem = this.selectedItem.filter(outputItem => {
+            if (outputItem[this.value]) {
+              return outputItem[this.value];
+            }
+          });
+        }else {
+          this.selectedItem = [];
+        }
+        this.selectedItem.push(item);
       }
     });
     if ( this.items.length === 0) {
@@ -272,13 +273,13 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   }
 
   writeValue(value: any): void {
-  // && typeof value !== 'object'
+    // && typeof value !== 'object'
     if (value ) {
       if (!this.setSelectedItem(value)) {
-         this.selectedItem = value;
+        this.selectedItem = value;
       }
     } else {
-        this.selectedItem = value;
+      this.selectedItem = value;
     }
   }
 

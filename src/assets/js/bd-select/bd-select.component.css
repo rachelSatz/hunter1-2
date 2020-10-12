@@ -21,17 +21,20 @@
 #selectedItem > span, #selectedItem > div {
   position: absolute;
   right: 0;
+  color: black;
 }
 
 #selectedItem > i {
   position: absolute;
   left: 0;
   font-size: 12px;
+  color: black;
 }
 
 #multipleSelectedItems {
   height: 30px;
   overflow: hidden;
+  background-color: #ebc372;
 }
 
 #multipleSelectedItems > span {
@@ -43,9 +46,14 @@
 
 #selectedItem, #filterInput {
   display: flex;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
   align-items: center;
   cursor: pointer;
+  background: #F6F6F6 0% 0% no-repeat padding-box;
+  border-radius: 11px;
+  opacity: 1;
+  border-bottom: none;
+  height: 45px;
 }
 
 #dropdown {
@@ -87,8 +95,10 @@
 }
 
 .option.selectable:hover, .option.selectable.selected {
-  background-color: #5897fb;
+  /*background-color: #5897fb;*/
   color: #fff;
+  background-color: #E82D5C;
+
 }
 
 .option.selectable.unSelected:hover, .option.selectable.unSelected {

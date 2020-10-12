@@ -12,12 +12,11 @@ export class User {
   role: string;
   email: string;
   email_password: string;
-  team_leader: string;
   signature_html: string;
   units: UserUnitPermission[] = [];
   modules: UserModule[] = [];
   is_registered: boolean;
-
+  project_group_id: number;
   constructor(user: User) {
     this.units.push(new UserUnitPermission());
     this.signature_html = '';
@@ -29,7 +28,6 @@ export class User {
       this.last_name = user.last_name;
       this.token = user.token;
       this.role = user.role;
-      this.team_leader = user.team_leader;
       this.signature_html = user.signature_html;
       this.email = user.email;
       this.email_password = user.email_password;

@@ -1,0 +1,15 @@
+.filter-row bd-select, .filter-row .mat-form-field {
+  width: 300px !important;
+}
+
+.big-btn {
+  width: 200px
+}
+
+.select-status {
+  width: 15%!important;
+}
+
+.highlight{
+  background: #c3c7cc; /* medium-grey */
+}

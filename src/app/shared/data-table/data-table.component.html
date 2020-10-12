@@ -3,10 +3,10 @@
 <ng-content select=".new-item-btn"></ng-content>
 <button mat-button class="green-btn" [routerLink]="formUrl" *ngIf="formUrl">פריט חדש</button>
 <div class="d-flex justify-content-between align-items-center">
-	<mat-form-field *ngIf="hasActionsSearch">
-		<input matInput [placeholder]="placeHolderSearch" [(ngModel)]="criteria.keyword" (keyup)="search()">
-		<i matSuffix class="fa fa-search"></i>
-	</mat-form-field>
+	<div *ngIf="hasActionsSearch" id="input_container">
+		<input class="form-control fa" placeholder="חפש" id="input" [(ngModel)]="criteria.keyword" (keyup)="search()">
+		<i matSuffix class="fa fa-search" id="input_img"></i>
+  </div>
 	<span *ngIf="hasCheckColumn">
 		נבחרו {{ criteria.isCheckAll ? paginationData.totalItems - criteria.checkedItems.length: criteria.checkedItems.length}}  רשומות
 	</span>
@@ -18,9 +18,10 @@
 <p class="alert alert-success mb-3" *ngIf="savedItem">{{ savedItem }} נשמר בהצלחה.</p>
 <table class="table table-bordered table-hover">
 	<thead>
-	<tr>
+	<tr class="title_table">
 		<th *ngIf="hasCheckColumn" class="pointer table-header">
 			<mat-checkbox (change)="checkAll($event.checked)" [ngModel]="criteria.isCheckAll" *ngIf="items.length > 0 && !disableCheckAll"></mat-checkbox>
+
 		</th>
 		<th *ngFor="let column of columns" (click)="sort(column)" class="pointer table-header"
         [ngClass]="{ 'displayNone': column.isDisplay === false }">

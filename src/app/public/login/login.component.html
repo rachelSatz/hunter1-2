@@ -1,21 +1,35 @@
-<p class="mb-0 f-14 bold">כניסה למערכת</p>
-<form #form="ngForm" (ngSubmit)="login(form)" novalidate>
-  <mat-form-field class="w-100">
-    <i matPrefix class="fa fa-user"></i>
-    <input matInput type="text" name="username" #username="ngModel" ngModel placeholder="שם משתמש" required>
+<div class="background">
+  <h1>מערכת פיננסית <span class="orange">EMX</span></h1>
+  <div class="center">
+<p class="header">כניסה למערכת</p>
+<form #form="ngForm" class="align-content-center" (ngSubmit)="login(form)" novalidate>
+  <div class="w-100">
+
+    <p>הזן אמייל/ שם משתמש</p>
+    <input class="form-control" type="text" name="username" #username="ngModel" ngModel required>
     <mat-error *ngIf="username.errors">יש להזין שם משתמש.</mat-error>
-  </mat-form-field>
-  <mat-form-field class="w-100">
-    <i matPrefix class="fa fa-lock"></i>
-    <input matInput type="password" name="password" #password="ngModel" ngModel placeholder="סיסמה" required>
-    <mat-error *ngIf="password.errors">יש להזין סיסמה.</mat-error>
-  </mat-form-field>
-  <a class="underline blue-color f-12 float-left" (click)="forgotPassword(form)">שכחתי סיסמה</a>
+  </div>
+  <div class="w-100">
+    <p>הזן סיסמא </p>
+    <!--<i matPrefix class="fa fa-lock"></i>-->
+    <div id="input_container">
+    <input class="form-control" type="password" id="input" name="password" #password="ngModel" ngModel required>
+    <i class="fa fa-eye" id="input_img" ></i>
+      <mat-error *ngIf="password.errors">יש להזין סיסמה.</mat-error>
+
+    </div>
+    <a class="underline f-12 float-left" style="color: #E82D5C;" (click)="forgotPassword(form)">שכחתי סיסמה</a><br>
+  </div>
+
   <p class="alert alert-danger my-3" [@fade]="hasServerError ? 'active' : 'inactive'">
     <i class="fa fa-exclamation-circle ml-2"></i>
     <span>שם משתמש או סיסמה לא נכונים.</span>
   </p>
   <div class="text-center mt-4">
-    <button type="submit" class="btn blue-btn btn-lg f-18 bold" [disabled]="isSubmitting">התחברות</button>
+
+    <button type="submit" class="btn blue-btn btn-lg f-18 bold" style="border-radius: 28px;
+opacity: 1;" [disabled]="isSubmitting">התחברות</button>
   </div>
 </form>
+  </div>
+</div>

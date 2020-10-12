@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
-import { environment } from 'app/../environments/environment';
+import { environment } from '../../../../app/../environments/environment';
 
-import { UserSessionService } from '../user-session.service';
+import { UserSessionService } from './user-session.service';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 
 @Injectable()
@@ -15,6 +15,14 @@ export class BaseHttpService {
   getTokenHeader(): { headers: HttpHeaders } {
     return { headers: this.getTokenHeaders() };
   }
+
+  getHeader(): { headers: HttpHeaders } {
+    return { headers: this.getTokenTest() };
+  }
+  getTokenTest(): HttpHeaders {
+    return new HttpHeaders({ 'token': '' });
+  }
+
 
   getTokenHeaders(): HttpHeaders {
     return new HttpHeaders({ 'token': this.userSession.getToken() });

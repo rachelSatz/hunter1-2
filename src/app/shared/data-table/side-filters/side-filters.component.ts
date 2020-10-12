@@ -6,6 +6,7 @@ import { formatDate } from '@angular/common';
 @Component({
 	selector: 'app-side-filters',
 	templateUrl: './side-filters.component.html',
+  styles: ['.ml-1, .mx-1 {color: #E82D5C; }'],
 	animations: [
     slideToggle, rotate
 	]

@@ -2,7 +2,7 @@
   <div id="selectedItem" class="required" (click)="openDropdown()">
     <span id="placeholder" [@placeholder]="selectedItem ? 'active' : 'inactive'">{{ placeholder }}</span>
     <div id="multipleSelectedItems" *ngIf="selectedItem && multiple">
-      <span   *ngFor="let item of selectedItem; let last = last">{{ last ? getLabel(item) : getLabel(item) + ',' }}</span>
+      <span *ngFor="let item of selectedItem; let last = last">{{ last ? getLabel(item) : getLabel(item) + ',' }}</span>
     </div>
     <span *ngIf="selectedItem && getLabel(selectedItem) && !multiple">{{ getLabel(selectedItem) }}</span>
     <i class="fa fa-chevron-down"></i>

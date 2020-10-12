@@ -1,47 +1,52 @@
 import {Employer} from './employer.model';
+import {EmployerRelation} from './employrRelation';
 
 export class EmployerFinancialDetails {
-  id: number;
-  employer: Employer;
-  pay_employer: Employer;
-  financial_product: EmployerFinancialProduct[] = [];
-  invoice_employer_name: string;
-  currency: string;
-  language: string;
-  payment_terms: string;
-  payment_method: string;
-  payment_time: string;
-  payment_time_validity: string;
-  payment_due_date: string;
-  tax: string;
-  green_invoice_id: string;
-  green_invoice_email: string;
-  direct_debit_commission: string;
-  est_payment_type: string;
-  est_payment_amount: number;
-  est_ids_count: number;
-  est_invoice_id: string;
-  creditCardLastDigits: string;
-  min_payment: string;
-  is_masav: number;
-  no_payment_comment: string;
+   id: number;
+   employer_relation: Employer;
+   pay_employer_relation: EmployerRelation;
+   financial_product: EmployerFinancialProduct[] = [];
+   invoice_employer_name: string;
+   currency: string;
+   language: string;
+   payment_terms: string;
+   payment_method: string;
+   payment_time: string;
+   payment_time_validity: string;
+   payment_due_date: string;
+   tax: string;
+   green_invoice_id: string;
+   green_invoice_email: string;
+   direct_debit_commission: string;
+   est_payment_type: string;
+   est_payment_amount: number;
+   est_ids_count: number;
+   //est_invoice_id: string;
+   credit_card_last_digits: string;
+   min_payment: string;
+   is_masav: number;
+   no_payment_comment: string;
 
   constructor() {
       this.id = 0;
-      this.employer = new Employer();
-      this.pay_employer = new Employer();
+      this.employer_relation = new Employer();
+      this.pay_employer_relation = new EmployerRelation();
       this.financial_product.push(new EmployerFinancialProduct());
   }
 }
 
 export class EmployerFinancialProduct {
   id: number;
-  product_type: string;
   is_zero: boolean;
   show_details: boolean;
   additional_payment_amount: number;
   additional_payment_desc: string;
+  created_at: Date;
+  financial_details: number;
+  product_relation: number;
+  updated_at: Date;
   financial_payments: EmployerFinancialPayments[] = [];
+  product_type: string;
 
   constructor() {
     this.financial_payments.push(new EmployerFinancialPayments());

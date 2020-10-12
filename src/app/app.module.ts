@@ -1,27 +1,39 @@
-import { NgModule } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { NgModule} from '@angular/core';
+import { FormsModule  } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { UserSessionService } from './shared/_services/user-session.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule, Routes} from '@angular/router';
+import {
+  MatFormFieldModule,
+  MatChipsModule,
+  MatIconModule,
+  MatButtonModule,
+  MatInputModule,
+  MatRippleModule,
+  MatDatepickerModule,
+  MatCheckboxModule,
+  MatDividerModule,
+  MatDialogModule
+} from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
 import { HelpersService } from './shared/_services/helpers.service';
-import { SendFileEmailComponent } from 'app/shared/_dialogs/send-file-email/send-file-email.component';
-import { MatChipsModule, MatFormFieldModule, MatIconModule } from '@angular/material';
-import { ContactService } from 'app/shared/_services/http/contact.service';
+import {UserSessionService} from './shared/_services/http/user-session.service';
+import {BdSelectModule} from '../assets/js/bd-select/bd-select.module';
+import {DatePickerModule} from './shared/app-date-picker/app-date-picker.module';
+import {DatePipe} from '@angular/common';
 
-const routes = [
-  { path: '' , loadChildren: 'app/public/public.module#PublicModule' },
-  { path: 'platform', loadChildren: 'app/platform/platform.module#PlatformModule' },
-  { path: 'employer', loadChildren: 'app/employer/employer.module#EmployerModule' },
-  { path: 'records', loadChildren: 'app/shared/shared/detailed-records/detailed-records.module#DetailedRecordsModule' },
+const routes: Routes = [
+  { path: '' , loadChildren: './public/public.module#PublicModule' },
+  { path: 'platform', loadChildren: './platform/platform.module#PlatformModule' },
   { path: '**', redirectTo: '' }
-];
+  ];
+
 
 @NgModule({
-  declarations: [AppComponent, SendFileEmailComponent],
+
+  declarations: [
+    AppComponent
+  ],
   imports: [
     BrowserAnimationsModule,
     HttpClientModule,
@@ -29,10 +41,19 @@ const routes = [
     FormsModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    BdSelectModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRippleModule,
+    MatDatepickerModule,
+    DatePickerModule,
+    MatCheckboxModule,
+    MatDividerModule
   ],
-  providers: [UserSessionService, HelpersService, ContactService, DatePipe],
-  bootstrap: [AppComponent],
-  entryComponents: [SendFileEmailComponent]
+  // providers: [HttpClientModule,HelpersService,NotificationService,UserSessionService,AppHttpService,EmployerService],
+  providers: [HelpersService,UserSessionService,DatePipe],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,4 +1,3 @@
-export class SelectItem {
-	id?: number;
-	name?: string;
+export class SelectItem {id?: number;
+name?: string;
 }

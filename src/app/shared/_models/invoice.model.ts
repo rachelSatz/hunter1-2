@@ -1,11 +1,10 @@
 import {EmployerFinancialDetails, EmployerFinancialProduct} from './employer-financial-details.model';
 import {GreenInvoiceDocument} from './GreenInvoiceDocument';
-import {Employer} from './employer.model';
+
 
 export class Invoice {
   id: number;
   employer_financial_details: EmployerFinancialDetails;
-  green_invoice_document: GreenInvoiceDocument;
   total_amount: string;
   ids_count: string;
   for_month: string;
@@ -14,7 +13,17 @@ export class Invoice {
   type: string;
   status: string;
   remark: string;
+  is_valid: string;
+  green_invoice_document: GreenInvoiceDocument;
+  project_name: string;
+  updated_at: string;
+  payment_amount: number;
+  tax_amount: number;
+  department: string;
+  comment: string;
   error: string;
+  project: number;
+  product_type: number;
 }
 
 export class ManualInvoice {
@@ -57,9 +66,6 @@ export class InvoiceDetails {
   details: string;
   is_exceptional: boolean;
   for_month_process: string;
-
-
-
   tax: string;
   description: string;
 }

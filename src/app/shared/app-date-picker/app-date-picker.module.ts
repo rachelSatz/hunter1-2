@@ -18,9 +18,7 @@ import { AppDateAdapter } from '../_generic/app-date-adapter';
 //     return ('00' + n).slice(-2);
 //   }
 // }
-@NgModule({
-	imports: [MatDatepickerModule, MatNativeDateModule],
-	exports: [MatDatepickerModule, MatNativeDateModule],
+@NgModule({imports: [MatDatepickerModule, MatNativeDateModule], exports: [MatDatepickerModule, MatNativeDateModule],
   providers: [
     { provide: DateAdapter, useClass: AppDateAdapter },
     { provide: MAT_DATE_LOCALE, useValue: 'he-IL' }

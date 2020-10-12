@@ -5,6 +5,7 @@ span {
 
 .pagination {
 	padding: 0;
+  margin: auto;
 }
 
 .page-link {
@@ -13,13 +14,15 @@ span {
 }
 
 .blue-theme .page-link {
-	color: #00adee;
-	border-color: #00adee;
+	color: #E82D5C;
+	border-color: #E82D5C;
+  border-radius: 50px !important;
+  margin-left: 5px;
 }
 
 .green-theme .page-link {
-	color: #00adee;
-	border-color: #00adee;
+	color: #E82D5C;
+	border-color: #E82D5C;
 }
 
 .page-item.active .page-link {
@@ -27,9 +30,21 @@ span {
 }
 
 .blue-theme .page-item.active .page-link {
-	background-color: #00adee;
+	background-color: #E82D5C;
 }
 
 .green-theme .page-item.active .page-link {
-	background-color: #00adee;
+	background-color: #E82D5C;
+}
+/*.mb-3{*/
+  /*margin: auto !important;*/
+/*}*/
+.sss {
+  margin: auto;
+  text-align: center;
+  padding-right:790px;
+  padding-bottom: 10px;
+}
+.bold{
+  color: #E82D5C;
 }

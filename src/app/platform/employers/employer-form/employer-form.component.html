@@ -1,0 +1,104 @@
+<div class="mr-5 px-4" *ngIf="employer">
+  <div class="formEmployer">
+  <div class="row">
+    <p class="h5 bold py-3">לקוח<span class="h6 py-3">- {{employer.id }} </span></p>
+    <button class="archives fa fa-folder"><span class="rubik">ארכיון</span></button>
+    <!--<i class="fas fa-folder"></i>-->
+    <div class="d-flex mr-auto">
+      <button class="edit">עריכה</button>
+
+      <a (click)="previous()">
+        <p class="f-14 blue-color">
+          <i class="fa fa-angle-right ml-1 ml-lg-2"></i>
+          <span>חזור</span>
+        </p>
+      </a>
+    </div>
+
+  </div>
+    </div>
+<hr>
+  <div class="d-flex mt-5">
+    <form #form="ngForm" (ngSubmit)="submit(form)"  >
+      <!--[formGroup]="employerForm"-->
+      <div class="d-flex">
+        <div cla ss="mb-3">
+          <!--<mat-form-field>-->
+            <!--<input matInput type="text" readonly [(ngModel)]="employer.name" placeholder="שם מעסיק"-->
+                   <!--(change)="saveChanges = true" formControlName="name">-->
+          <!--</mat-form-field>-->
+          <p> <span class="gray">שם מעסיק</span> {{employer.name}}</p>
+          <p> <span class="gray">מספר ח.פ.</span> {{employer.identifier}}</p>
+
+          <!--<mat-form-field class="mr-3">-->
+            <!--<input matInput type="text" readonly [(ngModel)]="employer.identifier"  placeholder="מספר ח.פ"  maxlength="9"-->
+                   <!--(change)="saveChanges = true" formControlName="identifier">-->
+            <!--<mat-error>יש להקיש 9 ספרות.</mat-error>-->
+          <!--</mat-form-field>-->
+      </div>
+      <div class="mt-4 ">
+        <!--<button [disabled]="!saveChanges" class="btn blue-btn" type="submit">שמור שינויים</button>-->
+      </div>
+      </div>
+    </form>
+  </div>
+  <hr>
+  <div class="d-flex mt-5"  *ngIf="formDetails">
+    <!--[@rotate]="showDetails"-->
+<div class="container">
+    <div class="row" >
+      <div class="col-3">
+      <p> <span class="gray">ח.פ. משלם </span>  {{financialDetails.employer_relation.name}} </p>
+      </div>
+      <div class="col-3">
+      <p> <span class="gray">ספרות אחרונות בכרטיס </span>  {{financialDetails.credit_card_last_digits}} </p>
+      </div>
+      <div class="col-2">
+      <p> <span class="gray">שפה</span>  {{ getLanguage(financialDetails.language) }} </p>
+      </div>
+      <div class="col-4">
+      <p> <span class="gray"> מייל בחשבונית ירוקה</span>  {{financialDetails.green_invoice_email}} </p>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-3">
+        <p > <span class="gray" >מטבע </span> {{getCurrency(financialDetails.currency)}}</p>
+      </div>
+      <div class="col-3">
+        <p> <span class="gray">סכום מינימום לתשלום</span>   </p>
+      </div>
+      <div class="col-2">
+        <p> <span class="gray">זמן חיוב</span>  {{getPaymentTime(financialDetails.payment_time)}} </p>
+      </div>
+      <div class="col-4">
+        <p> <span class="gray">מספר בחשבונית ירוקה</span><span class="green_invoice_id">{{financialDetails.green_invoice_id}} </span>  </p>
+      </div>
+    </div>
+
+</div>
+  </div>
+</div>
+<button class="details"  (click)="showEmployerFinanceDetails()"> <span *ngIf="formDetails">הסתר</span>   <span *ngIf="!formDetails">הצג</span> פרטים נוספים<i class="fa fa-angle-down"></i> </button>
+
+  <div class="container-fluid">
+    <header>
+        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+              <ng-container *ngFor="let link of headers">
+                <li class="nav-item"  [ngClass]="{ 'active': link.url === activeUrl }">
+                  <a class="menu-link" [routerLink]="[link.url]"  (click)="setActiveUrl(link.url)">
+                    <p>{{ link.label }}</p>
+                  </a>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </nav>
+    </header>
+  </div>
+    <div class="container2" id="content">
+      <router-outlet></router-outlet>
+    </div>

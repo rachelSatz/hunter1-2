@@ -1,12 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+
+
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 /*@import "~@angular/material/prebuilt-themes/indigo-pink.css";*/
 
 @font-face {
-  src: url('assets/fonts/OpenSansHebrew.ttf');
-  font-family: OpenSans;
+  /*src: url('assets/fonts/OpenSansHebrew.ttf');*/
+  /*font-family: Rubik;*/
+  font: normal normal normal 18px/22px Rubik;
 }
-
-
 html, body {
   height: 100%;
 }
@@ -17,7 +21,8 @@ body {
 }
 
 * {
-  font-family: OpenSans;
+  font-family: Rubik;
+  font: normal normal normal 18px/22px Rubik;
 }
 
 a:focus {
@@ -159,7 +164,7 @@ font-Heebo{
 
 .title {
   font-size: 34px;
-  color: #00adee;
+  color: #E82D5C;
   text-align: center;
 }
 
@@ -205,11 +210,11 @@ font-Heebo{
 }
 
 .blue-background-color {
-  background-color: #00adee;
+  background-color: #E82D5C;
 }
 
 .blue-color {
-  color: #00adee;
+  color: #E82D5C;
 }
 
 .white-color {
@@ -252,11 +257,11 @@ font-Heebo{
 }
 
 .blue-background {
-  background-color: #00adee;
+  background-color: #E82D5C;
 }
 
 .blue-btn {
-  background-color: #00adee;
+  background-color: #E82D5C;
   color: #fff;
 }
 
@@ -365,7 +370,9 @@ font-Heebo{
   height: auto;
   width: 150px;
 }
-
+.white{
+  background-color: white !important;
+}
 .icon-lg {
   height: auto;
   width: 75px;
@@ -437,7 +444,7 @@ font-Heebo{
   justify-content: center;
   width: 15px;
   height: 15px;
-  background-color: #00adee;
+  background-color: #E82D5C;
   border-radius: 50%;
   color: #fff;
   font-size: 10px;
@@ -480,6 +487,7 @@ button[mat-dialog-close] {
   outline: 0;
   cursor: pointer;
   text-align: right;
+  border-radius: 27px !important;
 }
 
 .mat-dialog-actions {
@@ -504,15 +512,18 @@ button[mat-dialog-close] {
 }
 
 .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-  background: #00adee !important;
+  background: #E82D5C !important;
+
 }
 
 .mat-radio-button.mat-accent .mat-radio-inner-circle {
-  background-color: #00adee !important;
+  background-color: #E82D5C !important;
+
 }
 
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-  border-color: #00adee !important;
+  border-color: #E82D5C !important;
+
 }
 
 @media (min-width: 992px) {

@@ -1,4 +1,5 @@
-<div class="d-flex align-content-center justify-content-between justify-content-lg-end">
+<!--<div class="d-flex align-content-center justify-content-between justify-content-lg-end">-->
+  <div class="sss">
   <div class="mb-3 mb-lg-0 text-center text-lg-right">
     <span>
       <span>מציג</span>
@@ -8,6 +9,8 @@
       <span>רשומות</span>
     </span>
   </div>
+  </div>
+  <!--<div class="aaa">-->
   <ul [class]="'justify-content-center pagination '  + theme + '-theme'">
     <li class="page-item" *ngIf="data.paginationData.currentPage > 1">
       <a class="page-link" routerLink="./" [queryParams]="{ page: 1 }">
@@ -45,5 +48,6 @@
       </a>
     </li>
   </ul>
-</div>
+  <!--</div>-->
+<!--</div>-->
 

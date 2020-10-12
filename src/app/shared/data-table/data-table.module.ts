@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatMenuModule, MatSelectModule,
 			MatSlideToggleModule, MatTooltipModule } from '@angular/material';
 import { PipesModule } from '../_pipes/pipes.module';
-import { BdSelectModule } from 'assets/js/bd-select/bd-select.module';
+import { BdSelectModule } from '../../../assets/js/bd-select/bd-select.module';
 
 import { DataTableComponent } from './data-table.component';
 import { PaginationComponent } from './pagination/pagination.component';

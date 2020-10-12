@@ -13,7 +13,6 @@ export class UserModule {
 export enum ModuleTypes {
   user_management = 'משתמשים',
   finance = 'פיננסי',
-  operations = 'סליקה',
-  compensation = 'יתרות לפיצויים',
-  creating_employer = 'הקמת מעסיק',
+  settings = 'הגדרות',
+  clients = 'לקוחות'
 }

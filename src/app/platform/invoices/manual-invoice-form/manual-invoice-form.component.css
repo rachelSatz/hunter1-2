@@ -1,0 +1,50 @@
+.tax {
+  width: 11%;
+}
+.description {
+  width: 75% ;
+}
+.idsCount {
+  width: 9%;
+}
+.paymentAmount {
+  width: 9%;
+}
+.totalAmount {
+  width: 9%;
+}
+.save {
+  width: 3%;
+}
+.tax-td {
+  width: 7%;
+  text-align: right!important;
+}
+.description-td {
+  width: 30% ;
+  text-align: right!important;
+}
+.idsCount-td {
+  width: 6%;
+  text-align: right!important;
+}
+.paymentAmount-td {
+  width: 6%;
+  text-align: right!important;
+}
+.totalAmount-td {
+  width: 6%;
+  text-align: right!important;
+}
+.save-td {
+  width: 3%;
+  text-align: right!important;
+}
+
+/*::ng-deep .mat-form-field-wrapper, textarea.form-control {*/
+  /*text-align: right;*/
+/*}*/
+/*::ng-deep .dialog-header .d-flex mr-3 row mt-5 mb-3 {*/
+  /*direction: rtl !important;*/
+/*}*/
+

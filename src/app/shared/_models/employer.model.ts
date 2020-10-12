@@ -1,48 +1,21 @@
-import { BankBranch } from './bank-branch.model';
-import { EmployerBankAccount } from './employer-bank-account.model';
-import { Department } from './department.model';
-
 export class Employer {
   id: number;
   name: string;
-  payment_type: string;
   identifier: string;
-  institution_code_5: string; // instituteCode5: string; // קוד מוסד - 5
-  institution_code_8: string; // instituteCode8: string; // קוד מוסד - 8
-  email: string; // דוא"ל אישי
-  phone: string;
-  mobile: string;
-  address: string;
-  employeeCount: number;
-  bankBranch: BankBranch;
-  typeSent: number; // סוג מזהה לשליחה
-  employerCodeSent: string; // מספר מזהה לשליחה
-  comments: string;
-  bank_accounts: EmployerBankAccount[] = [];
-  organization_id: number;
-  organization_name: string;
+  is_active: boolean;
   status: string;
-  department: Department[];
-  operator;
-  salesperson_id: number;
-  sender_identifier: string;
-  sender_identifier_type: string;
-  deduction_number: number;
-  project_id: number;
-  project_name: string;
-  received_identifier: string;
-  city_id: number;
-  process_upload_auto: boolean;
-  send_payment_instructions_auto: boolean;
-  transmission_product_auto: boolean;
-
 
   constructor() {
-    this.bank_accounts.push(new EmployerBankAccount());
-    this.bankBranch = new BankBranch;
-  }
-}
 
+  }
+
+}
+export enum EmployerStatus {
+  active = 'מעסיק פעיל',
+  inactive = 'מעסיק לא פעיל',
+  on_process = 'בהקמה',
+  moved_association = 'הועבר לשיוך מנהל תיק',
+}
 export class Operator {
   id: number;
   first_name: string;
@@ -54,14 +27,6 @@ export class Operator {
     this.id = 0;
   }
 }
-
-export enum EmployerStatus {
-  active = 'מעסיק פעיל',
-  inactive = 'מעסיק לא פעיל',
-  on_process = 'בהקמה',
-  moved_association = 'הועבר לשיוך מנהל תיק',
-}
-
 export enum IdentifierTypes {
   private_company = 'ח.פ',
   public_company = 'ח"צ',
@@ -79,10 +44,11 @@ export enum IdentifierTypes {
 
 
 export class DepartmentSerialNumber {
-    id: number;
-    number: string;
-    company_id: number;
-    department_id: number;
-    employees: any;
+  id: number;
+  number: string;
+  company_id: number;
+  department_id: number;
+  employees: any;
 }
+
 

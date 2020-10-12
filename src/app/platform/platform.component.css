@@ -1,14 +1,27 @@
 .container-fluid {
-  width: 95%;
+  width: 93%;
   margin: 0 auto;
 }
 
 header {
-  margin-bottom: 20px;
-  border-bottom: 2px solid #cecece;
   border-radius: 8px 8px 0 0;
+  margin-bottom: 40px;
+  height: 90px;
+
+}
+.platform{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 15px #00000029;
+  opacity: 1;
+  margin-top: 0;
+  /*padding-top: 20px;*/
+  padding-bottom: 10px;
+
 }
 
+.mb-half[_ngcontent-c1]{
+  margin-top: 22px;
+}
 
 .navbar {
   /*padding: 15px 0 0 0;*/
@@ -24,11 +37,12 @@ header {
   width: 120px;
   margin-bottom: -2px;
   text-align: center;
-  border-bottom: 2px solid transparent;
+  border-top: 3px solid transparent;
+  border-radius: 4px;
 }
 
 .active.nav-item {
-  border-color: #00adee;
+  border-color: #E82D5C;
 }
 
 .menu-link {
@@ -36,7 +50,7 @@ header {
 }
 
 .active .menu-link {
-  color: #00adee;
+  color: #E82D5C;
 }
 
 .navbar-nav figure {
@@ -57,7 +71,6 @@ bd-select {
 }
 
 .agentBar {
-  /*z-index: 9999;*/
   height: 100%;
   position: fixed;
   background-color: #3D4252;
@@ -104,7 +117,7 @@ bd-select {
 }
 
 .home-page-color {
-  background-color: #00ADEE;
+  background-color: #E82D5C;
 }
 
 .details {
@@ -114,7 +127,7 @@ bd-select {
 }
 
 .timer {
-  background-color: #00adee;
+  background-color: #E82D5C;
   height: 50px;
 }
 
@@ -141,7 +154,7 @@ bd-select {
 }
 
 .stop:hover {
-  background: #00adee;
+  background: #E82D5C;
   color: white;
 }
 
@@ -173,4 +186,6 @@ bd-select {
   background-image: linear-gradient(360deg, #f5f5f5 75%, white 25%);
 }
 
-
+::ng-deep button{
+  border-radius: 27px !important;
+}

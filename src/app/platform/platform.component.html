@@ -1,114 +1,35 @@
-<div class="d-flex">
-  <div *ngIf="isAgent" class="text-center" [className]="agentBarActive? 'closedAgentBar': 'agentBar'">
-    <!--[routerLink]="!agentBarActive ? ['/platform', 'operator', 'work-queue']: ['/platform', 'dashboard']"-->
-    <div *ngIf="!agentBarActive">
-      <div class="d-flex pointer home-page-color mb-5">
-        <span class="w-100 py-3" (click)="restNav()">חזרה לסליקה</span>
-      </div>
-      <div *ngFor="let el of agentBarEl" class="d-flex pointer">
-        <span class="w-100 py-3" *ngIf="checkRole(el.role)" (click)="navigateMenu(el)"
-              routerLinkActive="selected">{{el.label}}</span>
-        <span *ngIf="el.id == 4 && employersNumber > 0" class="blue-circle mt-3 mr-1" >{{ employersNumber}}</span>
-      </div>
-    </div>
-    <div *ngIf="agentBarActive" (click)="restNav()" [routerLink]="['/platform', 'operator', 'work-queue']">
-      <p class="py-5 mt-2"></p>
-      <div *ngFor="let el of agentBarEl"  class="d-flex pointer">
-        <span class="w-100 py-3" *ngIf="checkRole(el.role)"><i class="w-100 fa fa-{{el.icon}}"></i></span>
-        <span *ngIf="el.id == 4 && this.userSession.newEmployers > 0" class="blue-circle mt-3 mr-1" >{{ this.userSession.newEmployers}}</span>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="menuCampaigns" class="pointer subMenu mr-7 z-index-150" >
-    <p class="w-100 py-2" (click)="menuCampaigns = false"
-       [routerLink]="['/platform', 'operator', 'campaigns', 'campaigns-form']" (click)="deleteExistCampaign()">קמפיין חדש</p>
-    <p class="w-100 py-2" (click)="menuCampaigns = false"
-       [routerLink]="['/platform', 'operator','campaigns']">סטטוס שליחת קמפיין</p>
-    <p class="w-100 py-2 pb-2" (click)="menuCampaigns = false"
-       [routerLink]="['/platform', 'operator', 'campaigns', 'groups']">רשימת קבוצות</p>
-  </div>
-  <div *ngIf="showTimer" class="navbartest">
-    <div class="d-flex timer">
-      <p class="mr-5 bold mt-sm-n2 white-color">{{hours}}:{{minutes}}:{{seconds}}</p>
-      <div class="mr-7 mt-sm-2 pointer mt-3">
-        <img src="../../assets/img/down-arrow-small.png" class="pointer" *ngIf="details" (click)="details = false" height="32" width="32"/>
-        <img src="../../assets/img/up-arrow.png" class="pointer" *ngIf="!details" (click)="details = true" height="16" width="16"/>
-      </div>
-    </div>
-    <div class="details" *ngIf="details">
-      <div class="d-flex mr-3">
-        <p class="bold">משימה-</p>
-        <p class="">{{typeTask ? typeTask : timerText}}</p>
-      </div>
-      <div class="d-flex mr-3" *ngIf="!basicTask">
-        <p class="bold">ארגון-</p>
-        <p class="">{{organization}}</p>
-      </div>
-      <div class="d-flex mr-3" *ngIf="!basicTask">
-        <p class="bold">מעסיק-</p>
-        <p class="">{{employer}}</p>
-      </div>
-    </div>
-    <div class="skip" (click)="stopTimer()" *ngIf="selectUnit.getTaskTimer() && !selectUnit.getTaskTimer().isSelfTask">
-      <a class="pointer mr-6 mt-2 p-absolute" *ngIf="ongoingOperation" > דלג/עבור למשימה הבאה</a>
-      <a class="pointer mr-6 mt-2 p-absolute" *ngIf="isTask">עצור ועבור למשימות</a>
-      <a class="pointer mr-6 mt-2 p-absolute" *ngIf="selectUnit.getTaskTimer() && selectUnit.getTaskTimer().isMinTask">סיום</a>
-    </div>
-    <div class="skip" *ngIf="selectUnit.getTaskTimer() && selectUnit.getTaskTimer().isSelfTask">
-      <div class="mr-3 w-50" (click)="stopTimer()" >
-        <a class="pointer mt-2 p-absolute" >עצור ועבור למשימות</a>
-      </div>
-      <div class="stop w-40 float-left" (click)="stopTimerTask()">
-        <a class="pointer mr-4 mt-2 p-absolute" >סיים משימה</a>
-      </div>
-    </div>
-  </div>
+<header class="platform">
   <div class="container-fluid">
-    <header>
-      <div id="mainMenu">
-        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+  <div id="mainMenu">
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
 
-          <div class="collapse navbar-collapse align-items-end"  [@fade]="agentBarActive ? 'active' : 'inactive'">
-            <ul class="navbar-nav">
-              <ng-container *ngFor="let link of menuLinks">
-                <li class="nav-item" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="!link.subMenuLinks"
-                    [hidden]="userSession.isPermissions(link.subUrl ? link.subUrl : link.url)">
-                  <a class="menu-link" [routerLink]="['/platform', link.url]">
-                    <p class="mb-half">{{ link.label }}</p>
-                  </a>
-                </li>
-
-                <li [matMenuTriggerFor]="subMenu" class="nav-item pointer"
-                    [hidden]="userSession.isPermissions(link.subUrl ? link.subUrl : link.url)"
-                    [ngClass]="{ 'active': link.url === activeUrl }"
-                    *ngIf="link.subMenuLinks">
-                  <span>{{ link.label }}</span>
-                  <mat-menu #subMenu yPosition="above" [overlapTrigger]="false">
-                    <button mat-menu-item class="dropdown-item btn" *ngFor="let subLink of link.subMenuLinks"
-                            (click)="navigate(link.url, subLink.url)">{{ subLink.label }}</button>
-                  </mat-menu>
-                </li>
-              </ng-container>
-            </ul>
-          </div>
-          <div class="d-flex align-items-center" [@fade]="!agentBarActive && !this.router.url.includes('operator/table') ? 'inactive' : 'active'">
-            <bd-select [items]="organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון" (onSelect)="loadEmployers($event)" ></bd-select>
-            <bd-select [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק" (onSelect)="loadDepartments($event)"></bd-select>
-            <bd-select [items]="departments" class="ml-3" [(ngModel)]="departmentId" placeholder="מחלקה" (onSelect)="selectDepartment($event)"
-                       [ngClass]="{'disable': employerId === undefined || employerId === '0'}"></bd-select>
-          </div>
-          <a class="navbar-brand">
-            <img src="/assets/img/logo.svg" class="logo" alt="לוגו של סמארטי">
-            <p class="mt-3 text-left f-14 grey-color"  (click)="logout()">
-              <span>התנתקות</span>
-              <img src="/assets/img/icons/logout.png" class="mr-2">
-            </p>
-          </a>
-        </nav>
+      <div class="collapse navbar-collapse align-items-end"  >
+        <ul class="navbar-nav">
+          <ng-container *ngFor="let link of menuLinks">
+            <li class="nav-item mb-5" [ngClass]="{ 'active': link.url === activeUrl }">
+              <a class="menu-link" [routerLink]="['/platform', link.url]"  routerLinkActive="active" (click)="setActiveUrl(link.url)">
+                <p class="mb-half" >{{ link.label }}</p>
+              </a>
+            </li>
+          </ng-container>
+        </ul>
       </div>
-    </header>
-    <div id="content">
-      <router-outlet></router-outlet>
-    </div>
+      <div class="d-flex align-items-center">
+        <bd-select [items]="organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון על"
+                   (onSelect)="loadEmployers($event)" ></bd-select>
+
+        <bd-select  [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק"
+                    (onSelect)="selectEmployer($event)"></bd-select>
+      </div>
+    </nav>
+
+  </div>
+  </div>
+</header>
+<div class="container-fluid">
+
+  <div id="content">
+    <router-outlet></router-outlet>
   </div>
 </div>
+
