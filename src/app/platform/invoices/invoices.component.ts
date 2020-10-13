@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { ActivatedRoute } from '@angular/router';
-import {Invoice, STATUS, TYPES} from '../../shared/_models/invoice.model';
+import {ERROR_STATUS, Invoice, STATUS, TYPES} from '../../shared/_models/invoice.model';
 import { PAYMENT_METHOD } from '../../shared/_models/employer-financial-details.model';
 import { UserSessionService } from '../../shared/_services/http/user-session.service';
 import { DataTableResponse } from '../../shared/data-table/classes/data-table-response';
@@ -44,6 +44,9 @@ export class InvoicesComponent implements OnInit {
   });
   fileName = '';
   spin: boolean;
+  error_status = Object.keys(ERROR_STATUS).map(function(e) {
+    return { id: e, name: ERROR_STATUS[e] };
+  });
   readonly columns  = [
     { name: 'employer_name', label: 'שם מעסיק', searchable: false},
     { name: this.nameProjectName, label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
@@ -112,6 +115,7 @@ export class InvoicesComponent implements OnInit {
   {
     this.invoiceService.getInvoices(this.dataTable.criteria)
       .then(response => {
+        console.log('hell');
         console.log(response);
         this.dataTable.setItems(response);
       })

@@ -50,7 +50,7 @@ export class PlatformComponent implements OnInit {
     this.GeneralService.getProjects(organizationId)
       .then(response=>
       {this.GeneralService.projects = response[(<string>this.organizationId)];
-        console.log(this.GeneralService.projects );});
+        console.log('ddd',this.GeneralService.projects );});
     if(organizationId == 1)
     {
       this.EmployerService.getEmployers().then(res => {

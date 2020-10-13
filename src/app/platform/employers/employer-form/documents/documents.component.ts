@@ -43,8 +43,9 @@ export class DocumentsComponent implements OnInit {
   paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function(e) {
     return { id: e, name: PAYMENT_METHOD[e] };
   });
-
-  error_status = ERROR_STATUS;
+  error_status = Object.keys(ERROR_STATUS).map(function(e) {
+    return { id: e, name: ERROR_STATUS[e] };
+  });
   fileName = '';
   spin: boolean;
   readonly columns  = [
@@ -55,7 +56,7 @@ export class DocumentsComponent implements OnInit {
     { name: 'amount_ids', label: 'כמות ת"ז' , searchable: false},
     { name: 'for_month', label: 'בגין חודש' , searchOptions: { isDate: true }},
     { name: 'created_at', label: 'ת.יצירה' , searchOptions: { isDate: true }},
-    { name: 'last_payment_date', label: 'לתשלום עד' , searchable: false},
+    { name: 'last_payment_date', label: 'לתשלום עד  // error_status = ERROR_STATUS;\n' , searchable: false},
     { name: 'kind', label: 'סוג חשבונית' , searchable: false},
     { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } },
     { name: 'remark', label: 'הערות' , searchable: false},

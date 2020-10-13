@@ -4,14 +4,15 @@
 
   <div class="table-header" >
     <div class="row mt-4 mr-1">
-      <div class="float-left">
+      <!--<div class="float-left">
         <button class="btn blue-btn mr-2" (click)="openProactiveInvoice()">חשבון יזום</button>
-      </div>
+      </div>-->
       <div class="ml-3 d-flex mr-auto">
         <button [matMenuTriggerFor]="menu" class="btn blue-btn">פעולות</button>
         <mat-menu #menu="matMenu">
           <!--<button mat-menu-item (click)="deleteInvoices(false)">מחיקת חשבונית</button>-->
           <!--<button mat-menu-item (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>-->
+          <button mat-menu-item (click)="openProactiveInvoice()">חשבון יזום</button>
           <button mat-menu-item (click)="openManualInvoice()">חשבון ידני</button>
           <button mat-menu-item (click)="openTaxInvoice()">חשבונית מס/קבלה</button>
           <button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>

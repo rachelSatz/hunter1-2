@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Form, NgForm } from '@angular/forms';
 import { fade } from '../../../../shared/_animations/animation';
-import { el } from '@angular/platform-browser/testing/src/browser_util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployerService } from '../../../../shared/_services/http/employer.service';
 import { NotificationService } from '../../../../shared/_services/notification.service';
@@ -16,7 +15,6 @@ import {
 import { Employer } from '../../../../shared/_models/employer.model';
 import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
 import { Subscription } from 'rxjs';
-import { emptyScheduled } from 'rxjs/internal/observable/empty';
 
 
 
@@ -166,8 +164,18 @@ export class FinanceComponent implements OnInit{
     }
   }
   showNoPaymentTime(): void {
+    if (this.financialDetails.payment_time !== undefined && this.financialDetails.payment_time === 'no_payment') {
+      this.isNoPaymentTime = true;
+    } else {
+      this.isNoPaymentTime = false;
+    }
   }
   selectDueDate(): void {
+    if (this.financialDetails.payment_time_validity !== undefined && this.financialDetails.payment_time_validity === 'month') {
+      this.openDatePicker = true;
+    } else {
+      this.openDatePicker = false;
+    }
   }
   addEstablishing(isChecked: boolean): void {
     if (isChecked) {

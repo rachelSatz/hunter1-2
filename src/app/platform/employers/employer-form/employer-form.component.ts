@@ -32,6 +32,7 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
   status: object;
   saveChanges = false;
   activeUrl: string;
+  editClose = true;
   sub = new Subscription;
   planId: number;
   types = TYPES;
@@ -118,6 +119,13 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
   }
   getPaymentTime(paymentTime: any){
     return this.paymentTimeItems.find(x=> x.id === paymentTime).name;
+  }
+  openOrCloseEditEmployerDetails(): void{
+    if(this.editClose){
+      this.editClose = false;
+    } else {
+      this.editClose = true;
+    }
   }
   ngOnDestroy(): void {
 

@@ -16,12 +16,12 @@ header {
   margin-top: 0;
   /*padding-top: 20px;*/
   padding-bottom: 10px;
-
+  height: 100px;
 }
 
-.mb-half[_ngcontent-c1]{
-  margin-top: 22px;
-}
+/*.mb-half[_ngcontent-c1]{*/
+  /*margin-top: 22px;*/
+/*}*/
 
 .navbar {
   /*padding: 15px 0 0 0;*/
@@ -39,12 +39,16 @@ header {
   text-align: center;
   border-top: 3px solid transparent;
   border-radius: 4px;
+  border-spacing: revert;
 }
 
 .active.nav-item {
   border-color: #E82D5C;
 }
 
+.mb-half{
+  margin-top: 30px;
+}
 .menu-link {
   color: #000;
 }
@@ -188,4 +192,16 @@ bd-select {
 
 ::ng-deep button{
   border-radius: 27px !important;
+}
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+::ng-deep .mat-form-field-infix{
+  border-top: none;
+  background: #F6F6F6 0% 0% no-repeat padding-box;
+  border-radius: 11px;
+  width: 250px !important;
+}
+::ng-deep.mat-form-field-label {
+  font-size: 1.1em!important;
 }

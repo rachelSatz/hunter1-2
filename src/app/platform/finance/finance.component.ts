@@ -169,8 +169,18 @@ export class FinanceComponent implements OnInit{
     }
   }
   showNoPaymentTime(): void {
+    if (this.financialDetails.payment_time !== undefined && this.financialDetails.payment_time === 'no_payment') {
+      this.isNoPaymentTime = true;
+    } else {
+      this.isNoPaymentTime = false;
+    }
   }
   selectDueDate(): void {
+    if (this.financialDetails.payment_time_validity !== undefined && this.financialDetails.payment_time_validity === 'month') {
+      this.openDatePicker = true;
+    } else {
+      this.openDatePicker = false;
+    }
   }
   addEstablishing(isChecked: boolean): void {
     if (isChecked) {

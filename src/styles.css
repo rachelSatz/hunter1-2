@@ -586,3 +586,15 @@ button:focus, button.focus {
   outline: 0;
   box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
 }
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+::ng-deep .mat-form-field-infix{
+  border-top: none;
+  background: #F6F6F6 0% 0% no-repeat padding-box;
+  border-radius: 11px;
+  width: 250px !important;
+}
+::ng-deep.mat-form-field-label {
+  font-size: 1.1em!important;
+}

@@ -123,10 +123,10 @@
        <bd-select [items]="paymentTypesItems" placeholder="שיטת חיוב"  #paymentTypesSelect="ngModel" [name]="'payment_type' + index1 + index" [(ngModel)]="payments.payment_type"  required></bd-select>
    <p class="alert alert-danger" [@fade]="form.submitted && paymentTypesSelect.errors ? 'active' : 'inactive'">יש לבחור שיטת חיוב.</p>
   </div>
-  <mat-form-field class="mr-3">
+  <mat-form-field class="mr-3 mt-4">
   <input matInput type="text" [name]="'payment_amount' + index1 + index" [(ngModel)]="payments.payment_amount" placeholder="סכום לתשלום">
  </mat-form-field>
-   <mat-form-field class="mr-3">
+   <mat-form-field class="mr-3 mt-4">
      <input matInput type="text" [name]="'ids_count' + index1 + index" [(ngModel)]="payments.ids_count" placeholder="כמות ת.ז.">
   </mat-form-field>
    <i class="fa fa-plus-circle fa-2x pointer blue-color" title="הוספה" (click)="addPaymentRow(index1)" *ngIf="last && index < 4"></i>
