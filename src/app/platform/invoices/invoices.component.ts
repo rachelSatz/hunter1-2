@@ -70,7 +70,10 @@ export class InvoicesComponent implements OnInit {
               private helpers:HelpersService,
               private invoiceService: InvoiceService,
               private GeneralService: GeneralService,
-              private SelectUnitService: SelectUnitService) { }
+              private SelectUnitService: SelectUnitService) {
+
+
+  }
 
   ngOnInit() {
     // this.employerService.getAllPayEmployers().then(
@@ -85,7 +88,9 @@ export class InvoicesComponent implements OnInit {
     //   column['searchOptions'].labels = response;
     // });
     this.fetchItems();
-
+    this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
+      .then(response=> { this.GeneralService.projects = response[('1')];
+        this.columns[1]['searchOptions'].labels = response[('1')];});
   }
   setItemTitle(item: Invoice): string {
     if (item.green_invoice_document !== null ) {

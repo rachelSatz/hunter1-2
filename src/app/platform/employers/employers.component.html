@@ -1,5 +1,5 @@
 
-<app-data-table tableName="לקוחות " [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
+<app-data-table tableName="לקוחות " [hasActionsSearch]="false" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
                 [hasActionsHeader]="false">
 
   <div class="table-header">
@@ -31,7 +31,6 @@
 
     <!--<td [title]="item.error !== null ? error_status[item.error] : ''">{{item.employer_financial_details === null ? 'no_name' : item.employer_financial_details.employer.name}}</td>-->
     <!--matTooltip={{item.errorDescription}}-->
-    <td [ngClass]="{'white': i%2 === 0}">{{ item.id }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.identifier}}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.name }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.isActive? 'מעסיק לא פעיל': 'מעסיק  פעיל' }}</td>

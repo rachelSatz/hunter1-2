@@ -8,7 +8,7 @@
 </div>
 <form #form="ngForm" id="filtersWrapper" (ngSubmit)="search()" [@slideToggle]="showFilters">
 	<p class="mb-4 text-center bold">סינון מורחב</p>
-	<div *ngFor="let column of columns" class="fa-w-10 d-inline-block mr-3" [ngClass]="{ 'input': !column.searchOptions, 'bdSelectable': column.searchOptions && !column.searchOptions.isDate }">
+	<div *ngFor="let column of columns" class="fa-w-10 d-inline-block mr-2" [ngClass]="{ 'input': !column.searchOptions, 'bdSelectable': column.searchOptions && !column.searchOptions.isDate }">
 		<div *ngIf="!column.searchOptions">
 			<mat-form-field class="">
 				<input matInput type="text" [placeholder]="column.subLabel ? column.subLabel : column.label" [name]="column.name" ngModel>
@@ -17,7 +17,7 @@
 		<div *ngIf="column.searchOptions && column.searchOptions.isDate">
 			<label class="bold f-12">{{ column.subLabel ? column.subLabel : column.label }}</label>
 			<div>
-        <mat-form-field class="w-100">
+        <mat-form-field class="dateCls" >
           <input matInput [name]="column.name + '[from]'" [id]="column.name + '[from]'"
                  [max]="searchCriteria[column.name + '[to]']" class="pointer"
                  (click)="datePickerFrom.open()" [matDatepicker]="datePickerFrom" (dateChange)="valueDateChange($event)"
@@ -26,7 +26,7 @@
           <mat-datepicker #datePickerFrom></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field class="w-100">
+        <mat-form-field class="dateCls">
           <input matInput [name]="column.name + '[to]'" [id]="column.name + '[to]'"
                  [min]="searchCriteria[column.name + '[from]']" class="pointer"
                  (click)="datePickerTo.open()" [matDatepicker]="datePickerTo" (dateChange)="valueDateChange($event)"
@@ -36,7 +36,7 @@
         </mat-form-field>
 			</div>
 		</div>
-		<div *ngIf="column.searchOptions && column.searchOptions.labels">
+		<div *ngIf="column.searchOptions && column.searchOptions.labels" >
 			<bd-select  [placeholder]="column.subLabel ? column.subLabel : column.label"
                   [items]="column.searchOptions.labels" [multiple]="column.multiple"
                   outputField="id" [name]="column.name" [(ngModel)]="column.selected"></bd-select>

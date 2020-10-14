@@ -6,7 +6,7 @@ import { formatDate } from '@angular/common';
 @Component({
 	selector: 'app-side-filters',
 	templateUrl: './side-filters.component.html',
-  styles: ['.ml-1, .mx-1 {color: #E82D5C; }'],
+  styles: ['.ml-1, .mx-1 {color: #E82D5C; } .dateCls{width: 210px;}'],
 	animations: [
     slideToggle, rotate
 	]
@@ -37,7 +37,6 @@ export class SideFiltersComponent implements OnInit {
 				values[i] = this.form.value[i];
 			}
 		}
-
 		this.searchSubmitted.emit(values);
 	}
 

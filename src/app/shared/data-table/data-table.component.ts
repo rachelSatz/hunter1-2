@@ -100,7 +100,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
 	extendedSearch(values: Object): void {
 		this.criteria.filters = values;
-
     if (this.criteria.page  > 1) {
       this.criteria.page = 1;
       this.paginationData.currentPage = this.criteria.page;

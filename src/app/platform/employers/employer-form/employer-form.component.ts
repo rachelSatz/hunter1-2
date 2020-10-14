@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {fade, rotate} from '../../../shared/_animations/animation';
+import {fade, rotate, slideToggle} from '../../../shared/_animations/animation';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Employer, EmployerStatus } from '../../../shared/_models/employer.model';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ import { TYPES } from '../../../shared/_models/invoice.model';
   selector: 'app-employer-form',
   templateUrl: './employer-form.component.html',
   styleUrls: ['./employer-form.component.css'],
-  animations: [fade, rotate],
+  animations: [fade, rotate, slideToggle]
 })
 export class EmployerFormComponent implements OnInit ,OnDestroy{
 

@@ -17,7 +17,6 @@ export class EmployersComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   readonly columns  = [
-    { name: 'id', label: 'קוד מעסיק', searchable: false},
     { name: 'identifier', label: 'ח.פ. מעסיק'},
     { name: 'name', label: 'שם מעסיק'},
     { name: 'is_active', label: ' סטטוס'},

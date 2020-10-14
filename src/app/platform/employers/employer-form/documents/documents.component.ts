@@ -56,7 +56,7 @@ export class DocumentsComponent implements OnInit {
     { name: 'amount_ids', label: 'כמות ת"ז' , searchable: false},
     { name: 'for_month', label: 'בגין חודש' , searchOptions: { isDate: true }},
     { name: 'created_at', label: 'ת.יצירה' , searchOptions: { isDate: true }},
-    { name: 'last_payment_date', label: 'לתשלום עד  // error_status = ERROR_STATUS;\n' , searchable: false},
+    { name: 'last_payment_date', label: 'לתשלום עד ' , searchable: false},
     { name: 'kind', label: 'סוג חשבונית' , searchable: false},
     { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } },
     { name: 'remark', label: 'הערות' , searchable: false},
@@ -77,14 +77,17 @@ export class DocumentsComponent implements OnInit {
 
   ngOnInit() {
     this.fetchItems();
+    this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
+      .then(response=>
+      {this.GeneralService.projects = response[('1')];
+        this.columns['1'].searchOptions['labels'] = response[('1')];});
   }
   fetchItems()
   {
-    this.invoiceService.getEmployerInvoices(this.SelectUnitService.currentEmployerID)
+    this.invoiceService.getEmployerInvoices(this.dataTable.criteria,this.SelectUnitService.currentEmployerID)
       .then(response => {
         console.log(response);
-        this.dtr = new DataTableResponse(response,15,1);
-        this.dataTable.setItems(this.dtr);
+        this.dataTable.setItems(response);
       })
   }
   showInvoiceDetails(item: Object): void {

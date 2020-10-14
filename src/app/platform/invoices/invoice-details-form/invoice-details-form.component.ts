@@ -25,7 +25,6 @@ export class InvoiceDetailsFormComponent implements OnInit {
 
   ngOnInit() {
     this.invoiceService.getInvoiceDetails(this.invoice.id).then(response => {
-      console.log(response);
         this.invoiceDetails = response as InvoiceDetails;
     });
   }

@@ -63,7 +63,6 @@ export class UserFormComponent implements OnInit {
       this.user = new User(this.route.snapshot.data.user);
       this.units = this.user.units;
     }
-    console.log(this.modules);
     // console.log(this.items.length)
     // for(var i=0;i<this.modules.length;i++)
     // {

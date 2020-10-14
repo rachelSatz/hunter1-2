@@ -46,7 +46,7 @@
 
   </div>
   <hr>
-  <div class="d-flex mt-5"  *ngIf="formDetails">
+  <div class="d-flex mt-5"  *ngIf="formDetails" [@slideToggle]="showFilters">
     <!--[@rotate]="showDetails"-->
 <div class="container">
     <div class="row" >
@@ -83,7 +83,7 @@
 </div>
   </div>
 </div>
-<button class="details"  (click)="showEmployerFinanceDetails()"> <span *ngIf="formDetails">הסתר</span>   <span *ngIf="!formDetails">הצג</span> פרטים נוספים<i class="fa fa-angle-down"></i> </button>
+<button class="details"  [@rotate]="showFilters" (click)="showEmployerFinanceDetails()"> <span *ngIf="formDetails">הסתר</span>   <span *ngIf="!formDetails">הצג</span> פרטים נוספים<i class="fa fa-angle-down"></i> </button>
 
   <div class="container-fluid">
     <header>

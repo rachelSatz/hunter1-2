@@ -22,6 +22,7 @@ import {TaxInvoiceFormComponent} from './tax-invoice-form/tax-invoice-form.compo
 import {TransactionInvoiceFormComponent} from './transaction-invoice-form/transaction-invoice-form.component';
 import {TaxOnlyInvoiceFormComponent} from './tax-only-invoice-form/tax-only-invoice-form.component';
 import {ReportsFormComponent} from './reports-form/reports-form.component';
+import {DataTableComponent} from '../../../../shared/data-table/data-table.component';
 
 
 
@@ -62,5 +63,6 @@ const routes: Routes = [
      TransactionInvoiceFormComponent,
      TaxOnlyInvoiceFormComponent,
      ReportsFormComponent],
+    providers: [DataTableComponent]
 })
 export class DocumentsModule { }

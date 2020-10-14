@@ -47,15 +47,14 @@ export class PlatformComponent implements OnInit {
 
   loadEmployers(organizationId: number): void {
     this.selectUnit.setOrganization(organizationId);
-    this.GeneralService.getProjects(organizationId)
-      .then(response=>
-      {this.GeneralService.projects = response[(<string>this.organizationId)];
-        console.log('ddd',this.GeneralService.projects );});
+    // this.GeneralService.getProjects(organizationId)
+    //   .then(response=>
+    //   {this.GeneralService.projects = response[(<string>this.organizationId)];
+    //     console.log('ddd',this.GeneralService.projects );});
     if(organizationId == 1)
     {
       this.EmployerService.getEmployers().then(res => {
         this.employers = res['1'];
-        console.log(this.employers);
       });
     }
     else {
