@@ -26,9 +26,14 @@
 .nav-item {
   font-weight: bold;
   font-size: 20px;
-  width: 180px;
+  width: 150px;
   margin-bottom: -19px;
   text-align: center;
+  background: #F6F6F6 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  margin-left: 20px;
+  padding-top: 20px;
+  padding-left: 18px;
  /* border-bottom: 2px solid transparent;*/
 }
 
@@ -46,10 +51,13 @@
   width: 200px;
 }
 
-.active .menu-link {
-  color: #E82D5C;
-}
 
+.active{
+  color: #E82D5C;
+  border-bottom: 4px #E82D5C solid;
+
+
+}
 .disabledDiv {
   pointer-events: none; opacity: 0.4;
 }
@@ -69,8 +77,7 @@ p{
   padding-right: 40px !important;
 }
 .active.nav-item[_ngcontent-c3] {
-  border-bottom: 2px #E82D5C solid;
-  border-bottom-left-radius: 25px;
+  /*border-bottom: 4px #E82D5C solid;*/
 }
 .gray{
   color: #cecece;

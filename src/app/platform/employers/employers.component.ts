@@ -1,12 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataTableComponent} from '../../shared/data-table/data-table.component';
 import {EmployerService} from '../../shared/_services/http/employer.service';
-import {DataTableCriteria} from '../../shared/data-table/classes/data-table-criteria';
-import {DataTableResponse} from '../../shared/data-table/classes/data-table-response';
 import {Employer} from '../../shared/_models/employer.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SelectUnitService} from '../../shared/_services/select-unit.service';
 import {PlatformComponent} from '../platform.component';
+import {HelpersService} from '../../shared/_services/helpers.service';
 
 @Component({
   selector: 'app-employers',
@@ -25,7 +24,8 @@ export class EmployersComponent implements OnInit {
               private router: Router,
               public route: ActivatedRoute,
               private SelectUnitService: SelectUnitService,
-              private PlatformComponent: PlatformComponent) { }
+              private PlatformComponent: PlatformComponent,
+              private helpers: HelpersService) { }
 
   items: any[] = [{id: 1, identifier: '111', name: 'עמותת עטלף'},{id: 2, identifier:'222', name: 'מכבי ביתי'}];
   ngOnInit() {
@@ -42,6 +42,7 @@ export class EmployersComponent implements OnInit {
       })
   }
   openEmployerFinanceDetails(employer: Employer){
+    this.helpers.setPageSpinner(true);
     this.SelectUnitService.setEmployerID(employer.id);
     this.PlatformComponent.employerId = employer.id;
     this.router.navigate(['./','form' , employer.id],  {relativeTo: this.route});

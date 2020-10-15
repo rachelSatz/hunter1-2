@@ -13,8 +13,6 @@ import {HelpersService} from './shared/_services/helpers.service';
 
 export class AppComponent implements OnInit {
 
-  y: any;
-  x: any;
   showPageSpinner = false;
 
   constructor(private helpers:HelpersService,
@@ -22,7 +20,19 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  };
+    this.helpers.pageSpinnerSubject.subscribe(message => this.showPageSpinner = message);
+
+    this.router.events.forEach(event => {
+      if (event instanceof NavigationStart) {
+        this.showPageSpinner = true;
+      }
+
+      if (event instanceof NavigationEnd) {
+        this.showPageSpinner = false;
+        this.helpers.lastUrlSubject.next(event.url);
+      }
+    });
+  }
 
 
 }

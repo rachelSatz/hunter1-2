@@ -25,7 +25,7 @@
 		</th>
 		<th *ngFor="let column of columns" (click)="sort(column)" class="pointer table-header"
         [ngClass]="{ 'displayNone': column.isDisplay === false }">
-			<span [matTooltip]="'מיין לפי ' + column.label">{{ column.label }}</span>
+			<span [matTooltip]="'מיין לפי ' + column.label" class="bold">{{ column.label }}</span>
 			<i  [@rotate]="rotateSortingIcon()" class="fa fa-chevron-down"
          [@fade]="(criteria.sort.column_show === column.name) && column.isSort != false ? 'active' : 'inactive'"></i>
 		</th>

@@ -15,6 +15,7 @@ export class PlatformComponent implements OnInit {
 
   activeUrl: string;
   readonly menuLinks = [
+    { url: 'dashboard' , label: 'נתונים פיננסים'},
     { url: 'employers' , label: 'לקוחות'},
     { url: 'finance',  label: 'הגדרות'},
     { url: 'invoices' , label: 'פיננסים'},
@@ -35,7 +36,7 @@ export class PlatformComponent implements OnInit {
   ngOnInit() {
     this.organizationId = this.selectUnit.getOrganization();
     this.employerId = this.selectUnit.getEmployerID();
-    this.activeUrl = 'employers';
+    this.activeUrl = 'dashboard';
   }
 
   setActiveUrl(url: string): void {

@@ -119,11 +119,13 @@ export class InvoicesComponent implements OnInit {
   }
   fetchItems()
   {
+    this.helpers.setPageSpinner(true);
     this.invoiceService.getInvoices(this.dataTable.criteria)
       .then(response => {
         console.log('hell');
         console.log(response);
         this.dataTable.setItems(response);
+        this.helpers.setPageSpinner(false);
       })
   }
   openFinanceExcelDialog(): void {

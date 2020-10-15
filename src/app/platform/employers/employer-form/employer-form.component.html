@@ -93,7 +93,7 @@
               <ng-container *ngFor="let link of headers">
                 <li class="nav-item"  [ngClass]="{ 'active': link.url === activeUrl }">
                   <a class="menu-link" [routerLink]="[link.url]"  (click)="setActiveUrl(link.url)">
-                    <p>{{ link.label }}</p>
+                    <p class="bold">{{ link.label }}</p>
                   </a>
                 </li>
               </ng-container>

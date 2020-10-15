@@ -49,11 +49,11 @@ export class DocumentsComponent implements OnInit {
   fileName = '';
   spin: boolean;
   readonly columns  = [
-    { name: 'employer_name', label: 'שם מעסיק', searchable: false},
-    { name: this.nameProjectName, label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects } },
-    { name: 'green_invoice_number', label: 'מספר חשבונית בירוקה'},
-    { name: 'amount', label: 'סכום'},
-    { name: 'amount_ids', label: 'כמות ת"ז' , searchable: false},
+    { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name', label: 'שם מעסיק', searchable: false},
+    { name: 'project_name' , sortName:'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects } },
+    { name: 'green_invoice_number', sortName:'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
+    { name: 'total_amount', label: 'סכום'},
+    { name: 'ids_count', label: 'כמות ת"ז' , searchable: false},
     { name: 'for_month', label: 'בגין חודש' , searchOptions: { isDate: true }},
     { name: 'created_at', label: 'ת.יצירה' , searchOptions: { isDate: true }},
     { name: 'last_payment_date', label: 'לתשלום עד ' , searchable: false},
