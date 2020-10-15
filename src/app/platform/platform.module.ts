@@ -17,16 +17,19 @@ import {
 import {HelpersService} from '../shared/_services/helpers.service';
 import {UserSessionService} from '../shared/_services/http/user-session.service';
 import {NotificationService} from '../shared/_services/notification.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import {DashboardModule} from '../../app/platform/dashboard/dashboard.module';
 
 const routes: Routes = [
   {
     path: '', component: PlatformComponent, children: [
-      {path: '', redirectTo: 'employers', pathMatch: 'full'},
+      {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+      {path: 'dashboard', loadChildren:'../../app/platform/dashboard/dashboard.module#DashboardModule'},
       {path: 'employers', loadChildren:'../../app/platform/employers/employers.module#EmployersModule'},
       //{path: '', loadChildren: '../../app/platform/finance/finance.module#FinanceModule'},
       {path: 'finance', loadChildren: '../../app/platform/finance/finance.module#FinanceModule'},
       {path: 'invoices', loadChildren: '../../app/platform/invoices/invoices.module#InvoicesModule'},
-      {path: 'users', loadChildren: '../../app/platform/users/users.module#UsersModule'},
+      {path: 'users', loadChildren: '../../app/platform/users/users.module#UsersModule'}
     ]
   }
 ];
