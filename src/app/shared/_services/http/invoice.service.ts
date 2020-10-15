@@ -114,5 +114,16 @@ export class InvoiceService extends BaseHttpService{
       .then(response => response)
       .catch(() => null);
   }
-
+  newComment(invoice_id: number, content: string): Promise<boolean> {
+    return this.http.post(this.endPoint + '/' + invoice_id + '/comment', { 'content': content }, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
+  getInvoiceRemarks(invoice_id: number): Promise<Object> {
+    return this.http.get(this.endPoint + '/' + invoice_id + '/getRemarks', this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Object)
+      .catch(() => []);
+  }
 }

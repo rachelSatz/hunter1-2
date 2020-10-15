@@ -21,6 +21,7 @@ import {SelectUnitService} from '../../shared/_services/select-unit.service';
 import {Project} from '../../shared/_models/project.model';
 import {InvoiceDetailsFormComponent} from './invoice-details-form/invoice-details-form.component';
 import * as FileSaver from 'file-saver';
+import {RemarksFormComponent} from './remarks-form/remarks-form.component';
 
 @Component({
   selector: 'app-invoices',
@@ -48,15 +49,15 @@ export class InvoicesComponent implements OnInit {
     return { id: e, name: ERROR_STATUS[e] };
   });
   readonly columns  = [
-    { name: 'employer_name', label: 'שם מעסיק', searchable: false},
-    { name: this.nameProjectName, label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
-    { name: 'green_invoice_number', label: 'מספר חשבונית בירוקה'},
-    { name: 'amount', label: 'סכום'},
-    { name: 'amount_ids', label: 'כמות ת"ז' , searchable: false},
+    { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name', label: 'שם מעסיק', searchable: false},
+    { name: 'project_name', sortName:'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
+    { name: 'green_invoice_number', sortName:'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
+    { name: 'total_amount', label: 'סכום'},
+    { name: 'ids_count', label: 'כמות ת"ז' , searchable: false},
     { name: 'for_month', label: 'בגין חודש' , searchOptions: { isDate: true }},
     { name: 'created_at', label: 'ת.יצירה' , searchOptions: { isDate: true }},
     { name: 'last_payment_date', label: 'לתשלום עד' , searchable: false},
-    { name: 'kind', label: 'סוג חשבונית' , searchable: false},
+    { name: 'type', label: 'סוג חשבונית' , searchable: false},
     { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } },
     { name: 'remark', label: 'הערות' , searchable: false},
     { name: 'options', label: 'אפשרויות' , searchable: false},
@@ -299,6 +300,12 @@ export class InvoicesComponent implements OnInit {
         this.spin = false;
         this.notificationService.success('הקובץ הופק בהצלחה');
       }
+    });
+  }
+  ShowRemarks(item: Object): void {
+    this.dialog.open(RemarksFormComponent, {
+      data: item,
+      width: '750px'
     });
   }
 }

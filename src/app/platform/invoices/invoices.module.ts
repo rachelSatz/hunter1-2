@@ -22,6 +22,7 @@ import { TaxOnlyInvoiceFormComponent } from './tax-only-invoice-form/tax-only-in
 import { ReportsFormComponent } from './reports-form/reports-form.component';
 import {InvoiceService} from '../../shared/_services/http/invoice.service';
 import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-details-form.component';
+import {RemarksFormComponent} from './remarks-form/remarks-form.component';
 
 
 const routes: Routes = [
@@ -38,7 +39,8 @@ const routes: Routes = [
     TransactionInvoiceFormComponent,
     TaxOnlyInvoiceFormComponent,
     ReportsFormComponent,
-    InvoiceDetailsFormComponent
+    InvoiceDetailsFormComponent,
+    RemarksFormComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +66,8 @@ const routes: Routes = [
      TransactionInvoiceFormComponent,
      TaxOnlyInvoiceFormComponent,
      ReportsFormComponent,
-     InvoiceDetailsFormComponent
+     InvoiceDetailsFormComponent,
+      RemarksFormComponent
   ],
   providers: [
     InvoiceService
