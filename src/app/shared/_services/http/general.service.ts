@@ -23,5 +23,16 @@ export class GeneralService  extends BaseHttpService {
       .then(response=> response as Project[])
       .catch(() => null);
   };
+  get_financial_data(project_id,ifByMonth,month, fromDate,toDate): Promise<any>{
+    const request = this.getTokenHeader();
+    if(ifByMonth)
+      request['params'] = { project_id: project_id ,if_by_month: ifByMonth, month: month };
+    else
+      request['params'] = { project_id: project_id ,if_by_month: ifByMonth, from_date: fromDate , to_date: toDate};
 
+    return this.http.get(this.endPoint+'/dashboard', request)
+      .toPromise()
+      .then(response=> response as any)
+      .catch(() => null);
+  }
 }
