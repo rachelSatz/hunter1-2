@@ -20,9 +20,9 @@ import { TaxInvoiceFormComponent } from './tax-invoice-form/tax-invoice-form.com
 import { TransactionInvoiceFormComponent } from './transaction-invoice-form/transaction-invoice-form.component';
 import { TaxOnlyInvoiceFormComponent } from './tax-only-invoice-form/tax-only-invoice-form.component';
 import { ReportsFormComponent } from './reports-form/reports-form.component';
-import {InvoiceService} from '../../shared/_services/http/invoice.service';
+import { InvoiceService } from '../../shared/_services/http/invoice.service';
 import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-details-form.component';
-import {RemarksFormComponent} from './remarks-form/remarks-form.component';
+import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 
 
 const routes: Routes = [

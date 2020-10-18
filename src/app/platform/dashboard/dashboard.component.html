@@ -1,3 +1,39 @@
+<h2>נתונים פיננסים</h2>
 <p>
-  dashboard works!
-</p>
+במסך זה ניתן לצפות בנתונים הפיננסים הכוללים המוזנים במערכת, מה תרצה לעשות? </p>
+<div class="row d-flex align-items-center mt-4">
+  <div class="ml-3 col-6 col-lg-2" >
+  <bd-select [items]="projects"[(ngModel)]="projectId" placeholder="פרויקט"></bd-select>
+  </div>
+  <div class="ml-3 col-6 col-lg-2" >
+  <bd-select [items]="timeRange"  [(ngModel)]="timeRangeId" placeholder="טווח זמן"></bd-select>
+  </div>
+  <div  class="ml-3 col-6 col-lg-2" *ngIf="timeRangeId === 1">
+    <mat-form-field >
+      <input matInput class="pointer" (click)="datePicker.open()" [(ngModel)]="month" [matDatepicker]="datePicker" placeholder="בחירת חודש" name="payment_due_date"   required>
+      <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+      <mat-datepicker #datePicker></mat-datepicker>
+      <mat-error>שדה חובה.</mat-error>
+    </mat-form-field>
+  </div>
+  <div  class="col-6 col-lg-5" *ngIf="timeRangeId === 2">
+      <mat-form-field class="ml-5">
+        <input matInput [name]="from" [id]="from" class="pointer"
+               [max]="toDate"
+               (click)="datePickerFrom.open()" [matDatepicker]="datePickerFrom"
+               placeholder=" מתאריך" ngModel [(ngModel)]="fromDate">
+        <mat-datepicker-toggle matSuffix [for]="datePickerFrom"></mat-datepicker-toggle>
+        <mat-datepicker #datePickerFrom></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [name]="to" [id]="to"
+               [min]="fromDate" class="pointer"
+               (click)="datePickerTo.open()" [matDatepicker]="datePickerTo"
+               placeholder="עד תאריך" ngModel [(ngModel)]="toDate" readonly>
+        <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
+        <mat-datepicker #datePickerTo></mat-datepicker>
+      </mat-form-field>
+</div>
+  <button class="btn blue-btn mr-2" (click)="filterData()">סנן</button>
+</div>

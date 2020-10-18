@@ -1,0 +1,18 @@
+/*.row{*/
+  /*background-color: #ebc372;*/
+/*}*/
+::ng-deep.mat-form-field-flex{
+  background: #F6F6F6 0% 0% no-repeat padding-box;
+  border-radius: 11px;
+  margin-top: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 400px;
+  height: 45px;
+  box-sizing: border-box;
+}
+button{
+  background: #E82D5C 0% 0% no-repeat padding-box;
+  border-radius: 21px;
+  color: #FFFFFF ;
+}
