@@ -4,9 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { BdSelectModule } from '../../../assets/js/bd-select/bd-select.module';
 import { GeneralService } from '../../shared/_services/http/general.service';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDatepickerModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 import {DatePickerModule} from '../../shared/app-date-picker/app-date-picker.module';
+import {PipesModule} from '../../shared/_pipes/pipes.module';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent }
@@ -22,7 +23,10 @@ const routes: Routes = [
     MatFormFieldModule,
     MatDatepickerModule,
     DatePickerModule,
-    MatInputModule
+    MatInputModule,
+    PipesModule,
+    ReactiveFormsModule,
+
   ],
   providers: [GeneralService]
 })
