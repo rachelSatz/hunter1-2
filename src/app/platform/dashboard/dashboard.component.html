@@ -1,12 +1,13 @@
 <h2>נתונים פיננסים</h2>
 <p>
 במסך זה ניתן לצפות בנתונים הפיננסים הכוללים המוזנים במערכת, מה תרצה לעשות? </p>
+<form #form="ngForm">
 <div class="row d-flex align-items-center mt-4">
   <div class="ml-3 col-6 col-lg-2" >
-  <bd-select [items]="projects"[(ngModel)]="projectId" placeholder="פרויקט"></bd-select>
+  <bd-select [items]="projects"[(ngModel)]="projectId" placeholder="פרויקט" name="project"></bd-select>
   </div>
   <div class="ml-3 col-6 col-lg-2" >
-  <bd-select [items]="timeRange"  [(ngModel)]="timeRangeId" placeholder="טווח זמן"></bd-select>
+  <bd-select [items]="timeRange" (onSelect)="changeTimeRange()" name="timeRange" [(ngModel)]="timeRangeId" placeholder="טווח זמן"></bd-select>
   </div>
   <div  class="ml-3 col-6 col-lg-2" *ngIf="timeRangeId === 1">
     <mat-form-field >
@@ -19,34 +20,40 @@
   <div  class="col-6 col-lg-5" *ngIf="timeRangeId === 2">
       <mat-form-field class="ml-5">
         <input matInput [name]="from" [id]="from" class="pointer"
-               [max]="toDate"
+               [max]="toDate" required [formControl]="fromDateFormControl"
                (click)="datePickerFrom.open()" [matDatepicker]="datePickerFrom"
                placeholder=" מתאריך" ngModel [(ngModel)]="fromDate">
         <mat-datepicker-toggle matSuffix [for]="datePickerFrom"></mat-datepicker-toggle>
         <mat-datepicker #datePickerFrom></mat-datepicker>
+        <mat-error *ngIf="fromDateFormControl.hasError('required')">שדה חובה</mat-error>
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput [name]="to" [id]="to"
-               [min]="fromDate" class="pointer"
+        <input matInput [name]="to_date" [id]="to_date"
+               [min]="fromDate" class="pointer" [formControl]="toDateFormControl"
                (click)="datePickerTo.open()" [matDatepicker]="datePickerTo"
-               placeholder="עד תאריך" ngModel [(ngModel)]="toDate" readonly>
+               placeholder="עד תאריך" ngModel  [(ngModel)]="toDate"  required>
         <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
         <mat-datepicker #datePickerTo></mat-datepicker>
+        <mat-error *ngIf="toDateFormControl.hasError('required')">שדה חובה</mat-error>
+
       </mat-form-field>
 </div>
-  <button class="btn blue-btn mr-2" (click)="filterData()">סנן</button>
+  <button class="btn blue-btn mr-2"  (click)="filterData()">סנן</button>
 </div>
+  </form>
+
+  <div *ngIf="data">
 <div class="w-50 h-auto pr-4" style="float: right">
 
 </div>
 <div class="w-50 h-auto pr-4" style="float: left">
   <div class="h-auto mb-4 mt-2 mr-2">
 <h4> מערכת חשבוניות</h4>
-    <!--<p class="sumCount">  סה"כ הכנסות- {{'sum_invoices_system | number:'1.2-2 }}  </p>-->
+    <p class="sumCount"> סה"כ הכנסות-   <span style="color: #00ADEE;"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
     <div class="dataCls">
       <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/Group%209289.png" style="float: right">
+      <img src="../../../assets/img/icons/page.png" style="float: right">
       <div class="mt-2 mr-2">
          <p style="float: right; width: 30%;">סה"כ חשבוניות ששודרו</p>
         <div style="width: 25%; float: right; padding-right: 30px">
@@ -63,7 +70,7 @@
     </div>
     <div class="dataCls">
       <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/Group%209289.png" style="float: right">
+      <img src="../../../assets/img/icons/page.png" style="float: right">
       <div class="mt-2 mr-2">
         <p style="float: right; width: 30%;">חשבוניות עסקה</p>
         <div style="width: 25%; float: right; padding-right: 30px">
@@ -80,7 +87,7 @@
     </div>
     <div class="dataCls">
       <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/Group%209289.png" style="float: right">
+      <img src="../../../assets/img/icons/page.png" style="float: right">
       <div class="mt-2 mr-2">
         <p style="float: right; width: 30%;">חשבוניות מס</p>
         <div style="width: 25%; float: right; padding-right: 30px">
@@ -97,7 +104,7 @@
     </div>
     <div class="dataCls">
       <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/Group%209289.png" style="float: right">
+      <img src="../../../assets/img/icons/page.png" style="float: right">
       <div class="mt-2 mr-2">
         <p style="float: right; width: 30%;">חשבוניות מס קבלה </p>
         <div style="width: 25%; float: right; padding-right: 30px">
@@ -114,7 +121,7 @@
     </div>
     <div class="dataCls">
       <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/Group%209289.png" style="float: right">
+      <img src="../../../assets/img/icons/page.png" style="float: right">
       <div class="mt-2 mr-2">
         <p style="float: right; width: 30%;">חריגים תקולים</p>
         <div style="width: 25%; float: right; padding-right: 30px">
@@ -130,4 +137,46 @@
       </div>
     </div>
   </div>
+
+  <div class="h-auto mb-4 mt-2 mr-2">
+    <h4> שונות </h4>
+    <p class="sumCount"> סה"כ הכנסות-   <span style="color: #00ADEE;"> {{sum_incomes  | number:'1.2-2' }}</span></p>
+    <div class="dataCls">
+      <div class="dataRightCls"></div>
+      <img src="../../../assets/img/icons/circles.png" style="float: right">
+      <div class="mt-2 mr-2">
+        <p style="float: right; width: 35%;">הכנסות ממעסיקים חדשים</p>
+        <div style="width: 22%; float: right; padding-right: 10px">
+          <p class="sumCount">כמות</p>
+          <p>{{data['incomes']['incomes_from_new_employers']['count']}}</p>
+        </div>
+        <div style="width: 23%; float: right">
+          <p class="sumCount">סכום</p>
+          <p style="font-size: 15px">{{data['incomes']['incomes_from_new_employers']['sum'] | number:'1.2-2'}}</p>
+        </div>
+        <a>צפייה</a>
+        <i  class="fa fa-angle-left"></i>
+      </div>
+    </div>
+    <div class="dataCls">
+      <div class="dataRightCls"></div>
+      <img src="../../../assets/img/icons/circles.png" style="float: right">
+      <div class="mt-2 mr-2">
+        <p style="float: right; width: 35%;">הכנסות מתשלום הקמה </p>
+        <div style="width: 22%; float: right; padding-right: 10px">
+          <p class="sumCount">כמות</p>
+          <p>{{data['incomes']['incomes_est_payment_amount']['count']}}</p>
+        </div>
+        <div style="width: 23%; float: right">
+          <p class="sumCount">סכום</p>
+          <p style="font-size: 15px">{{data['incomes']['incomes_est_payment_amount']['sum'] | number:'1.2-2' }}</p>
+        </div>
+        <a>צפייה</a>
+        <i  class="fa fa-angle-left"></i>
+      </div>
+    </div>
+
+  </div>
+
+</div>
 </div>
