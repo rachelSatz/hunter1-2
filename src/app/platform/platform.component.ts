@@ -36,6 +36,10 @@ export class PlatformComponent implements OnInit {
   ngOnInit() {
     this.organizationId = this.selectUnit.getOrganization();
     this.employerId = this.selectUnit.getEmployerID();
+    if(!this.organizationId){
+      this.selectUnit.setOrganization(1);
+      this.loadEmployers(1);
+    }
     this.activeUrl = 'dashboard';
   }
 

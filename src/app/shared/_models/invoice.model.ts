@@ -70,6 +70,11 @@ export class InvoiceDetails {
   description: string;
 }
 
+export class InvoiceStatus {
+  id: number;
+  name: any;
+}
+
 export enum INVOICE_TYPES {
     proactive= 'יזום',
     manual= 'ידני',

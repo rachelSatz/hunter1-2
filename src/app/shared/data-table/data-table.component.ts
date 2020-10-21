@@ -99,6 +99,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	}
 
 	extendedSearch(values: Object): void {
+	  console.log('hello');
 		this.criteria.filters = values;
     if (this.criteria.page  > 1) {
       this.criteria.page = 1;

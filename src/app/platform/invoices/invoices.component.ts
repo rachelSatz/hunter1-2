@@ -22,6 +22,8 @@ import {Project} from '../../shared/_models/project.model';
 import {InvoiceDetailsFormComponent} from './invoice-details-form/invoice-details-form.component';
 import * as FileSaver from 'file-saver';
 import {RemarksFormComponent} from './remarks-form/remarks-form.component';
+import {SideFiltersComponent} from '../../shared/data-table/side-filters/side-filters.component';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-invoices',
@@ -48,6 +50,7 @@ export class InvoicesComponent implements OnInit {
   error_status = Object.keys(ERROR_STATUS).map(function(e) {
     return { id: e, name: ERROR_STATUS[e] };
   });
+  filters = {}
   readonly columns  = [
     { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name', label: 'שם מעסיק', searchable: false},
     { name: 'project_name', sortName:'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
@@ -58,7 +61,7 @@ export class InvoicesComponent implements OnInit {
     { name: 'created_at', label: 'ת.יצירה' , searchOptions: { isDate: true }},
     { name: 'last_payment_date', label: 'לתשלום עד' , searchable: false},
     { name: 'type', label: 'סוג חשבונית' , searchable: false},
-    { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } },
+    { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } , multiple: true},
     { name: 'remark', label: 'הערות' , searchable: false},
     { name: 'options', label: 'אפשרויות' , searchable: false},
     { name: 'details', label: 'פירוט' , searchable: false},
@@ -71,12 +74,40 @@ export class InvoicesComponent implements OnInit {
               private helpers:HelpersService,
               private invoiceService: InvoiceService,
               private GeneralService: GeneralService,
-              private SelectUnitService: SelectUnitService) {
+              private SelectUnitService: SelectUnitService,
+              private SideFiltersComponent: SideFiltersComponent) {
 
 
   }
 
   ngOnInit() {
+    this.sub = this.route.params.subscribe(v => { console.log(v);
+    if(v['project_id']){
+      this.filters['project_id'] = +v['project_id'];
+      this.filters['status'] = v['status'];
+      this.filters['created_at[from]'] = v['from_date'];
+      this.filters['created_at[to]'] = v['to_date'];
+    }
+
+      // this.SideFiltersComponent.searchCriteria['project_id'] = +v['project_id'];
+      // this.SideFiltersComponent.searchCriteria['status'] = 1;
+      // this.SideFiltersComponent.searchCriteria['created_at[from]'] = new Date(2020,4,1);
+      // this.SideFiltersComponent.searchCriteria['created_at[to]'] = new Date(2020,8,29);
+      // this.SideFiltersComponent.form = new NgForm([],[]);
+      // console.log(this.SideFiltersComponent.form);
+      // this.SideFiltersComponent.form.value['project_id'] = +v['project_id'];
+      // this.SideFiltersComponent.form.value['status'] = 1;
+      // this.SideFiltersComponent.form.value['created_at[from]'] = new Date(2020,4,1);
+      // this.SideFiltersComponent.form.value['created_at[to]'] = new Date(2020,4,1);
+      // console.log(this.SideFiltersComponent.searchCriteria);
+      // this.SideFiltersComponent.search();
+    })
+    // this.fetchItems();
+
+    this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
+      .then(response=> { this.GeneralService.projects = response[('1')];
+        this.columns[1]['searchOptions'].labels = response[('1')];});
+
     // this.employerService.getAllPayEmployers().then(
     //   response => {
     //     this.employers = response;
@@ -88,10 +119,7 @@ export class InvoicesComponent implements OnInit {
     //   this.projects = response;
     //   column['searchOptions'].labels = response;
     // });
-    this.fetchItems();
-    this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
-      .then(response=> { this.GeneralService.projects = response[('1')];
-        this.columns[1]['searchOptions'].labels = response[('1')];});
+
   }
   setItemTitle(item: Invoice): string {
     if (item.green_invoice_document !== null ) {
@@ -120,10 +148,11 @@ export class InvoicesComponent implements OnInit {
   fetchItems()
   {
     this.helpers.setPageSpinner(true);
+    if(this.filters['project_id']){
+      this.dataTable.criteria.filters = this.filters;
+    }
     this.invoiceService.getInvoices(this.dataTable.criteria)
       .then(response => {
-        console.log('hell');
-        console.log(response);
         this.dataTable.setItems(response);
         this.helpers.setPageSpinner(false);
       })

@@ -29,6 +29,7 @@ const routes: Routes = [
       //{path: '', loadChildren: '../../app/platform/finance/finance.module#FinanceModule'},
       {path: 'finance', loadChildren: '../../app/platform/finance/finance.module#FinanceModule'},
       {path: 'invoices', loadChildren: '../../app/platform/invoices/invoices.module#InvoicesModule'},
+      {path: 'invoices', loadChildren: '../../app/platform/invoices/invoices.module#InvoicesModule'},
       {path: 'users', loadChildren: '../../app/platform/users/users.module#UsersModule'}
     ]
   }

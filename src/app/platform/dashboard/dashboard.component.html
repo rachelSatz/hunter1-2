@@ -64,7 +64,7 @@
           <p class="sumCount">סכום</p>
           <p style="font-size: 15px">{{data['invoice_system']['green_invoices']['sum'] | number:'1.2-2'}}</p>
         </div>
-        <a>צפייה</a>
+        <a style="color: #000000;" (click)="openInvoices('tax_green_invoice,transaction_green_invoice,only_tax_green_invoice')" >צפייה</a>
         <i  class="fa fa-angle-left"></i>
       </div>
     </div>
@@ -81,7 +81,7 @@
           <p class="sumCount">סכום</p>
           <p style="font-size: 15px">{{data['invoice_system']['transaction_invoices']['sum'] | number:'1.2-2' }}</p>
         </div>
-        <a>צפייה</a>
+        <a style="color: #000000;" (click)="openInvoices('transaction_green_invoice')">צפייה</a>
         <i  class="fa fa-angle-left"></i>
       </div>
     </div>
@@ -98,7 +98,7 @@
           <p class="sumCount">סכום</p>
           <p style="font-size: 15px">{{data['invoice_system']['only_tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
         </div>
-        <a>צפייה</a>
+        <a style="color: #000000;" (click)="openInvoices('only_tax_green_invoice')">צפייה</a>
         <i  class="fa fa-angle-left"></i>
       </div>
     </div>
@@ -113,9 +113,9 @@
         </div>
         <div style="width: 25%; float: right">
           <p class="sumCount">סכום</p>
-          <p style="font-size: 15px">{{data['invoice_system']['only_tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
+          <p style="font-size: 15px">{{data['invoice_system']['tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
         </div>
-        <a>צפייה</a>
+        <a style="color: #000000;" (click)="openInvoices('tax_green_invoice')">צפייה</a>
         <i  class="fa fa-angle-left"></i>
       </div>
     </div>
@@ -132,7 +132,7 @@
           <p class="sumCount">סכום</p>
           <p  style="font-size: 15px">{{data['invoice_system']['green_invoices_error']['sum'] | number:'1.2-2' }}</p>
         </div>
-        <a>צפייה</a>
+        <a style="color: #000000;" (click)="openInvoices('green_invoice_error')">צפייה</a>
         <i  class="fa fa-angle-left"></i>
       </div>
     </div>
@@ -180,3 +180,4 @@
 
 </div>
 </div>
+<router-outlet></router-outlet>

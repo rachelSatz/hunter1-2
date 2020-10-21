@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {BaseHttpService} from './base-http.service';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
-import {Invoice, ManualInvoice} from '../../_models/invoice.model';
+import {Invoice, InvoiceStatus, ManualInvoice} from '../../_models/invoice.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,7 @@ import {Invoice, ManualInvoice} from '../../_models/invoice.model';
 export class InvoiceService extends BaseHttpService{
 
   readonly endPoint = this.apiUrl + '/invoices';
+  InvoiceStatusArr: Array<InvoiceStatus> = new Array<InvoiceStatus>();
 
   constructor(userSession:UserSessionService, private http: HttpClient) {
     super(userSession);
@@ -19,6 +20,10 @@ export class InvoiceService extends BaseHttpService{
   getInvoices(criteria?: DataTableCriteria, noLimit?: boolean) : Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
+      if(criteria.filters['status']){
+        console.log(criteria.filters['status']);
+        criteria.filters['status'] = criteria.filters['status'].toString();
+      }
       request['params'] = this.setDataTableParams(criteria);
     }
 
@@ -30,6 +35,16 @@ export class InvoiceService extends BaseHttpService{
       .then(response=> response as DataTableResponse)
       .catch(() => null);
   };
+
+  // setEmployersOperator(planId: number, plan: PlanEmployers[]): Promise<any> {
+  //   return this.http.post(this.endPoint + '/' + planId + '/setEmployersOperator', { planEmployers: plan },
+  //     this.getTokenHeader()).toPromise()
+  //     .then(response => response)
+  //     .catch(() => []);
+  // }‏
+
+
+
   getEmployerInvoices(criteria?: DataTableCriteria,idEmployer?:number, noLimit?: boolean) : Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
@@ -127,3 +142,5 @@ export class InvoiceService extends BaseHttpService{
       .catch(() => []);
   }
 }
+
+

@@ -11,7 +11,7 @@ import {PipesModule} from '../../shared/_pipes/pipes.module';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent }
-];
+  ];
 
 @NgModule({
   declarations: [DashboardComponent],

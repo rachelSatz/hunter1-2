@@ -23,10 +23,13 @@ import { ReportsFormComponent } from './reports-form/reports-form.component';
 import { InvoiceService } from '../../shared/_services/http/invoice.service';
 import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-details-form.component';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
+import {SideFiltersComponent} from '../../shared/data-table/side-filters/side-filters.component';
 
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
+  // { path: '', component: InvoicesComponent ,data:{some_data: 'sss'} }
+
 ];
 
 
@@ -70,7 +73,7 @@ const routes: Routes = [
       RemarksFormComponent
   ],
   providers: [
-    InvoiceService
+    InvoiceService, SideFiltersComponent
   ]
 })
 export class InvoicesModule { }

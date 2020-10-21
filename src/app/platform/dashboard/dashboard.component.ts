@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common'
 import {split} from 'ts-node/dist';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material';
+import {Router} from '@angular/router';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -31,8 +32,11 @@ export class DashboardComponent implements OnInit {
   timeRange = [{id: 1, name: 'לפי חודש'}, {id: 2, name: 'לפי תקופה'}];
   timeRangeId: number;
   month: Date;
+  currentMonth: Date;
   fromDate: Date;
+  currentFromDate: Date;
   toDate: Date;
+  currentToDate: Date;
   ifByMonth: boolean = true;
   monthStr: string;
   fromDateStr: string;
@@ -42,8 +46,10 @@ export class DashboardComponent implements OnInit {
   sum_incomes: any
   sum_invoices_system: any;
   data: any;
+  d: any;
   constructor(private GeneralService: GeneralService,
-              public datepipe: DatePipe) {
+              public datepipe: DatePipe,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -75,6 +81,9 @@ export class DashboardComponent implements OnInit {
   filterData(): void {
     // this.toDateFormControl.markAsTouched();
     // this.fromDateFormControl.markAsTouched();
+    this.currentFromDate = this.fromDate;
+    this.currentToDate = this.toDate;
+    this.currentMonth = this.month;
     debugger;
     if((this.timeRangeId==2 && this.fromDate && this.toDate)||(this.timeRangeId==1 && this.month)){
       this.monthStr = this.datepipe.transform(this.month, 'yyyy-MM-dd');
@@ -85,11 +94,21 @@ export class DashboardComponent implements OnInit {
       this.GeneralService.get_financial_data(this.projectId, this.ifByMonth, this.monthStr, this.fromDateStr, this.toDateStr)
         .then(response =>{ this.data = response['data'];
           console.log(this.data);
-          this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum']+this.data['invoice_system']['green_invoices_error']['sum'];
-          this.sum_incomes =this.data['incomes']['incomes_from_new_employers']['sum']+this.data['incomes']['incomes_est_payment_amount']['sum'];
-
+          this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum'] + this.data['invoice_system']['green_invoices_error']['sum'];
+          this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] + this.data['incomes']['incomes_est_payment_amount']['sum'];
         } )
     }
-
+  }
+  openInvoices(status: string): void {
+    if(this.currentFromDate && this.currentToDate){
+      this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
+      this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
+      this.router.navigate(['../../platform/invoices', {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}])
+    } else {
+      this.toDate= new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth()+1,0);
+      this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(),this.currentMonth.getMonth(),1), 'yyyy-MM-dd');
+      this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
+      this.router.navigate(['../../platform/invoices', {status: status, from_date:this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}])
+    }
   }
 }
