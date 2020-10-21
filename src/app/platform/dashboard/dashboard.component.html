@@ -44,140 +44,452 @@
   </form>
 
   <div *ngIf="data">
-<div class="w-50 h-auto pr-4" style="float: right">
+<div class="row">
+  <div class="col-6 h-auto pr-4" style="float: right">
+    <div class="h-auto mb-5 mt-2">
+      <h4>סטטוס מעסיקים</h4>
+      <p class="sumCount"> סה"כ מעסיקים-<span style="color: #00ADEE;"></span></p>
+      <div class="dataCls">
+        <div class="dataRightCls"></div>
+        <img src="../../../assets/img/icons/user.png" style="float: right">
+        <div class="mt-2 mr-2 inner-div">
+          <p style="float: right; width: 30%;">מעסיקים שחויבו</p>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">כמות</p>
+            <p>{{data['employers_status']['charged_employers']['count']}}</p>
+          </div>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">סה"כ ת.ז</p>
+            <p></p>
+          </div>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">סכום</p>
+            <p style="font-size: 15px">{{data['employers_status']['charged_employers']['sum'] | number:'1.2-2'}}</p>
+          </div>
+          <a>צפייה</a>
+          <i  class="fa fa-angle-left"></i>
+        </div>
+      </div>
+      <div class="dataCls">
+        <div class="dataRightCls"></div>
+        <img src="../../../assets/img/icons/user.png" style="float: right">
+        <div class="mt-2 mr-2 inner-div">
+          <p style="float: right; width: 30%;">מעסיקים שצריך לחייב</p>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">כמות</p>
+            <!--<p>{{data['employers_status']['charged_employers_manually']['count']}}</p>-->
+          </div>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">סה"כ ת.ז</p>
+            <p></p>
+          </div>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">סכום</p>
+            <!--<p style="font-size: 15px">{{data['employers_status']['charged_employers_manually']['sum'] | number:'1.2-2' }}</p>-->
+          </div>
+          <a style="color: #000000;" (click)="openInvoices('tax_green_invoice,transaction_green_invoice,only_tax_green_invoice')" >צפייה</a>
+          <i  class="fa fa-angle-left"></i>
+        </div>
 
-</div>
-<div class="w-50 h-auto pr-4" style="float: left">
-  <div class="h-auto mb-4 mt-2 mr-2">
-<h4> מערכת חשבוניות</h4>
-    <p class="sumCount"> סה"כ הכנסות-   <span style="color: #00ADEE;"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
-    <div class="dataCls">
-      <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/page.png" style="float: right">
-      <div class="mt-2 mr-2">
-         <p style="float: right; width: 30%;">סה"כ חשבוניות ששודרו</p>
-        <div style="width: 25%; float: right; padding-right: 30px">
-          <p class="sumCount">כמות</p>
-          <p>{{data['invoice_system']['green_invoices']['count']}}</p>
-        </div>
-        <div style="width: 25%; float: right">
-          <p class="sumCount">סכום</p>
-          <p style="font-size: 15px">{{data['invoice_system']['green_invoices']['sum'] | number:'1.2-2'}}</p>
-        </div>
-        <a style="color: #000000;" (click)="openInvoices('tax_green_invoice,transaction_green_invoice,only_tax_green_invoice')" >צפייה</a>
-        <i  class="fa fa-angle-left"></i>
       </div>
-    </div>
-    <div class="dataCls">
-      <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/page.png" style="float: right">
-      <div class="mt-2 mr-2">
-        <p style="float: right; width: 30%;">חשבוניות עסקה</p>
-        <div style="width: 25%; float: right; padding-right: 30px">
-          <p class="sumCount">כמות</p>
-          <p>{{data['invoice_system']['transaction_invoices']['count']}}</p>
+      <div class="dataCls">
+        <div class="dataRightCls"></div>
+        <img src="../../../assets/img/icons/user.png" style="float: right">
+        <div class="mt-2 mr-2 inner-div">
+          <p style="float: right; width: 30%;"> מעסיקים שחויבו ידני</p>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">כמות</p>
+            <p>{{data['employers_status']['charged_employers_manually']['count']}}</p>
+          </div>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">סה"כ ת.ז</p>
+            <p></p>
+          </div>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">סכום</p>
+            <p style="font-size: 15px">{{data['employers_status']['charged_employers_manually']['sum'] | number:'1.2-2' }}</p>
+          </div>
+          <a>צפייה</a>
+          <i  class="fa fa-angle-left"></i>
         </div>
-        <div style="width: 25%; float: right">
-          <p class="sumCount">סכום</p>
-          <p style="font-size: 15px">{{data['invoice_system']['transaction_invoices']['sum'] | number:'1.2-2' }}</p>
-        </div>
-        <a style="color: #000000;" (click)="openInvoices('transaction_green_invoice')">צפייה</a>
-        <i  class="fa fa-angle-left"></i>
       </div>
-    </div>
-    <div class="dataCls">
-      <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/page.png" style="float: right">
-      <div class="mt-2 mr-2">
-        <p style="float: right; width: 30%;">חשבוניות מס</p>
-        <div style="width: 25%; float: right; padding-right: 30px">
-          <p class="sumCount">כמות</p>
-          <p>{{data['invoice_system']['only_tax_green_invoices']['count']}}</p>
+      <div class="dataCls">
+        <div class="dataRightCls"></div>
+        <img src="../../../assets/img/icons/user.png" style="float: right">
+        <div class="mt-2 mr-2 inner-div">
+          <p style="float: right; width: 30%;">מעסיקים ללא פרטי חיוב</p>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">כמות</p>
+            <p>{{data['employers_status']['no_payment_detail_employers']['count']}}</p>
+          </div>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">סה"כ ת.ז</p>
+            <p></p>
+          </div>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">סכום</p>
+            <p style="font-size: 15px">{{data['employers_status']['no_payment_detail_employers']['sum'] | number:'1.2-2' }}</p>
+          </div>
+          <a style="color: #000000;" (click)="openInvoices('transaction_green_invoice')">צפייה</a>
+          <i  class="fa fa-angle-left"></i>
         </div>
-        <div style="width: 25%; float: right">
-          <p class="sumCount">סכום</p>
-          <p style="font-size: 15px">{{data['invoice_system']['only_tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
-        </div>
-        <a style="color: #000000;" (click)="openInvoices('only_tax_green_invoice')">צפייה</a>
-        <i  class="fa fa-angle-left"></i>
       </div>
-    </div>
-    <div class="dataCls">
-      <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/page.png" style="float: right">
-      <div class="mt-2 mr-2">
-        <p style="float: right; width: 30%;">חשבוניות מס קבלה </p>
-        <div style="width: 25%; float: right; padding-right: 30px">
-          <p class="sumCount">כמות</p>
-          <p>{{data['invoice_system']['tax_green_invoices']['count']}}</p>
+      <div class="dataCls">
+        <div class="dataRightCls"></div>
+        <img src="../../../assets/img/icons/user.png" style="float: right">
+        <div class="mt-2 mr-2 inner-div">
+          <p style="float: right; width: 30%;">מעסיקים עם חיוב 0</p>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">כמות</p>
+            <p>{{data['employers_status']['employers_0_charge']['count']}}</p>
+          </div>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">סה"כ ת.ז</p>
+            <p></p>
+          </div>
+          <div style="width: 25%; float: right; padding-right: 30px">
+            <p class="sumCount">סכום</p>
+            <p  style="font-size: 15px">{{data['employers_status']['employers_0_charge']['sum'] | number:'1.2-2' }}</p>
+          </div>
+          <a>צפייה</a>
+          <i  class="fa fa-angle-left"></i>
         </div>
-        <div style="width: 25%; float: right">
-          <p class="sumCount">סכום</p>
-          <p style="font-size: 15px">{{data['invoice_system']['tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
-        </div>
-        <a style="color: #000000;" (click)="openInvoices('tax_green_invoice')">צפייה</a>
-        <i  class="fa fa-angle-left"></i>
       </div>
-    </div>
-    <div class="dataCls">
-      <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/page.png" style="float: right">
-      <div class="mt-2 mr-2">
-        <p style="float: right; width: 30%;">חריגים תקולים</p>
-        <div style="width: 25%; float: right; padding-right: 30px">
-          <p class="sumCount">כמות</p>
-          <p>{{data['invoice_system']['green_invoices_error']['count']}}</p>
+      <div class="dataCls">
+        <div class="dataRightCls"></div>
+        <img src="../../../assets/img/icons/bill.png" style="float: right">
+        <div class="mt-2 mr-2 two-div">
+          <p style="float: right; width: 30%;">משולמים ע"י גורם אחר</p>
+          <div style="width: 30%; float: right; padding-right: 30px">
+            <p class="sumCount">כמות</p>
+            <p>{{data['employers_status']['payed_by_other']['count']}}</p>
+          </div>
+          <div style="width: 33%; float: right; padding-right: 30px">
+            <p class="sumCount">סה"כ ת.ז</p>
+            <p></p>
+          </div>
+          <a style="color: #000000;" (click)="openInvoices('only_tax_green_invoice')">צפייה</a>
+          <i  class="fa fa-angle-left"></i>
         </div>
-        <div style="width: 25%; float: right">
-          <p class="sumCount">סכום</p>
-          <p  style="font-size: 15px">{{data['invoice_system']['green_invoices_error']['sum'] | number:'1.2-2' }}</p>
-        </div>
-        <a style="color: #000000;" (click)="openInvoices('green_invoice_error')">צפייה</a>
-        <i  class="fa fa-angle-left"></i>
       </div>
     </div>
   </div>
-
-  <div class="h-auto mb-4 mt-2 mr-2">
-    <h4> שונות </h4>
-    <p class="sumCount"> סה"כ הכנסות-   <span style="color: #00ADEE;"> {{sum_incomes  | number:'1.2-2' }}</span></p>
-    <div class="dataCls">
-      <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/circles.png" style="float: right">
-      <div class="mt-2 mr-2">
-        <p style="float: right; width: 35%;">הכנסות ממעסיקים חדשים</p>
-        <div style="width: 22%; float: right; padding-right: 10px">
-          <p class="sumCount">כמות</p>
-          <p>{{data['incomes']['incomes_from_new_employers']['count']}}</p>
+  <div class="col-6 h-auto pr-4" style="float: left">
+    <div class="h-auto mb-5 mt-2">
+      <h4> מערכת חשבוניות</h4>
+      <p class="sumCount"> סה"כ מעסיקים-<span style="color: #00ADEE;"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
+      <div class="dataCls">
+        <div class="dataRightCls"></div>
+        <img src="../../../assets/img/icons/page.png" style="float: right">
+        <div class="mt-2 mr-2 two-div">
+          <p style="float: right; width: 30%;">סה"כ חשבוניות ששודרו</p>
+          <div style="width: 30%; float: right; padding-right: 30px">
+            <p class="sumCount">כמות</p>
+            <p>{{data['invoice_system']['green_invoices']['count']}}</p>
+          </div>
+          <div style="width: 33%; float: right">
+            <p class="sumCount">סכום</p>
+            <p style="font-size: 15px">{{data['invoice_system']['green_invoices']['sum'] | number:'1.2-2'}}</p>
+          </div>
+          <a style="color: #000000" (click)="openInvoices('transaction_green_invoice,only_tax_green_invoice,tax_green_invoice')">צפייה</a>
+          <i  class="fa fa-angle-left"></i>
         </div>
-        <div style="width: 23%; float: right">
-          <p class="sumCount">סכום</p>
-          <p style="font-size: 15px">{{data['incomes']['incomes_from_new_employers']['sum'] | number:'1.2-2'}}</p>
+      </div>
+      <div class="dataCls">
+        <div class="dataRightCls"></div>
+        <img src="../../../assets/img/icons/page.png" style="float: right">
+        <div class="mt-2 mr-2 two-div">
+          <p style="float: right; width: 30%;">חשבוניות עסקה</p>
+          <div style="width: 30%; float: right; padding-right: 30px">
+            <p class="sumCount">כמות</p>
+            <p>{{data['invoice_system']['transaction_invoices']['count']}}</p>
+          </div>
+          <div style="width: 33%; float: right">
+            <p class="sumCount">סכום</p>
+            <p style="font-size: 15px">{{data['invoice_system']['transaction_invoices']['sum'] | number:'1.2-2' }}</p>
+          </div>
+          <a style="color: #000000" (click)="openInvoices('transaction_green_invoice')">צפייה</a>
+          <i  class="fa fa-angle-left"></i>
         </div>
-        <a>צפייה</a>
-        <i  class="fa fa-angle-left"></i>
+      </div>
+      <div class="dataCls">
+        <div class="dataRightCls"></div>
+        <img src="../../../assets/img/icons/page.png" style="float: right">
+        <div class="mt-2 mr-2 two-div">
+          <p style="float: right; width: 30%;">חשבוניות מס</p>
+          <div style="width: 30%; float: right; padding-right: 30px">
+            <p class="sumCount">כמות</p>
+            <p>{{data['invoice_system']['only_tax_green_invoices']['count']}}</p>
+          </div>
+          <div style="width: 33%; float: right">
+            <p class="sumCount">סכום</p>
+            <p style="font-size: 15px">{{data['invoice_system']['only_tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
+          </div>
+          <a style="color: #000000" (click)="openInvoices('only_tax_green_invoice')">צפייה</a>
+          <i  class="fa fa-angle-left"></i>
+        </div>
+      </div>
+      <div class="dataCls">
+        <div class="dataRightCls"></div>
+        <img src="../../../assets/img/icons/page.png" style="float: right">
+        <div class="mt-2 mr-2 two-div">
+          <p style="float: right; width: 30%;">חשבוניות מס קבלה </p>
+          <div style="width: 30%; float: right; padding-right: 30px">
+            <p class="sumCount">כמות</p>
+            <p>{{data['invoice_system']['tax_green_invoices']['count']}}</p>
+          </div>
+          <div style="width: 33%; float: right">
+            <p class="sumCount">סכום</p>
+            <p style="font-size: 15px">{{data['invoice_system']['only_tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
+          </div>
+          <a style="color: #000000" (click)="openInvoices('tax_green_invoice')">צפייה</a>
+          <i  class="fa fa-angle-left"></i>
+        </div>
+      </div>
+      <div class="dataCls">
+        <div class="dataRightCls"></div>
+        <img src="../../../assets/img/icons/page.png" style="float: right">
+        <div class="mt-2 mr-2 two-div">
+          <p style="float: right; width: 30%;">חריגים תקולים</p>
+          <div style="width: 30%; float: right; padding-right: 30px">
+            <p class="sumCount">כמות</p>
+            <p>{{data['invoice_system']['green_invoices_error']['count']}}</p>
+          </div>
+          <div style="width: 33%; float: right">
+            <p class="sumCount">סכום</p>
+            <p  style="font-size: 15px">{{data['invoice_system']['green_invoices_error']['sum'] | number:'1.2-2' }}</p>
+          </div>
+          <a style="color: #000000" (click)="openInvoices('green_invoice_error')">צפייה</a>
+          <i  class="fa fa-angle-left"></i>
+        </div>
       </div>
     </div>
-    <div class="dataCls">
-      <div class="dataRightCls"></div>
-      <img src="../../../assets/img/icons/circles.png" style="float: right">
-      <div class="mt-2 mr-2">
-        <p style="float: right; width: 35%;">הכנסות מתשלום הקמה </p>
-        <div style="width: 22%; float: right; padding-right: 10px">
-          <p class="sumCount">כמות</p>
-          <p>{{data['incomes']['incomes_est_payment_amount']['count']}}</p>
-        </div>
-        <div style="width: 23%; float: right">
-          <p class="sumCount">סכום</p>
-          <p style="font-size: 15px">{{data['incomes']['incomes_est_payment_amount']['sum'] | number:'1.2-2' }}</p>
-        </div>
-        <a>צפייה</a>
-        <i  class="fa fa-angle-left"></i>
-      </div>
-    </div>
-
   </div>
+</div>
+    <div class="row shadow-none p-3 mb-5 bg-light rounded">
+      <div class="col-6 h-auto pr-4" style="float: right">
+       <div class="h-auto mb-5 mt-2">
+         <h4> אמצעי תשלום </h4>
+         <div class="dataCls">
+           <div class="dataRightCls"></div>
+           <img src="../../../assets/img/icons/bill.png" style="float: right">
+           <div class="mt-2 mr-2 one-div">
+             <p style="float: right; width: 45%;">משלמים בהוראת קבע</p>
+             <div style="width: 45%; float: right; padding-right: 10px">
+               <p class="sumCount">כמות</p>
+               <p>{{data['payment_methods']['is_debit']['count']}}</p>
+             </div>
+             <a>צפייה</a>
+             <i  class="fa fa-angle-left"></i>
+           </div>
+         </div>
+         <div class="dataCls">
+           <div class="dataRightCls"></div>
+           <img src="../../../assets/img/icons/bill.png" style="float: right">
+           <div class="mt-2 mr-2 one-div">
+             <p style="float: right; width: 45%;">העברה בנקאית\צ'ק </p>
+             <div style="width: 45%; float: right; padding-right: 10px">
+               <p class="sumCount">כמות</p>
+               <p>{{data['payment_methods']['is_bank_check']['count']}}</p>
+             </div>
+             <a>צפייה</a>
+             <i  class="fa fa-angle-left"></i>
+           </div>
+         </div>
+         <div class="dataCls">
+           <div class="dataRightCls"></div>
+           <img src="../../../assets/img/icons/bill.png" style="float: right">
+           <div class="mt-2 mr-2 one-div">
+             <p style="float: right; width: 45%;">משלמים באשראי</p>
+             <div style="width: 45%; float: right; padding-right: 10px">
+               <p class="sumCount">כמות</p>
+               <p>{{data['payment_methods']['is_credit']['count']}}</p>
+             </div>
+             <a>צפייה</a>
+             <i  class="fa fa-angle-left"></i>
+           </div>
+         </div>
+         <div class="dataCls">
+           <div class="dataRightCls"></div>
+           <img src="../../../assets/img/icons/bill.png" style="float: right">
+           <div class="mt-2 mr-2 one-div">
+             <p style="float: right; width: 45%;">משלמים במס"ב </p>
+             <div style="width: 45%; float: right; padding-right: 10px">
+               <p class="sumCount">כמות</p>
+               <p>{{data['payment_methods']['is_masav']['count']}}</p>
+             </div>
+             <a>צפייה</a>
+             <i  class="fa fa-angle-left"></i>
+           </div>
+         </div>
+       </div>
+       </div>
+      <div class="col-6 h-auto pr-4" style="float: left">
+        <div class="h-auto mb-5 mt-2">
+          <h4> תהליכי חישוב </h4>
+          <div class="dataCls">
+            <div class="dataRightCls"></div>
+            <img src="../../../assets/img/icons/recycle.png" style="float: right">
+            <div class="mt-2 mr-2 inner-div">
+              <p style="float: right; width: 30%;">תהליך חישוב א'</p>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סה"כ מעסיקים</p>
+                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
+              </div>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סה"כ ת.ז</p>
+                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
+              </div>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סכום</p>
+                <!--<p style="font-size: 15px">{{data['status_system']['charged_employers']['sum'] | number:'1.2-2'}}</p>-->
+              </div>
+            </div>
+          </div>
+          <div class="dataCls">
+            <div class="dataRightCls"></div>
+            <img src="../../../assets/img/icons/recycle.png" style="float: right">
+            <div class="mt-2 mr-2 inner-div">
+              <p style="float: right; width: 30%;">תהליך חישוב ב'</p>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סה"כ מעסיקים</p>
+                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
+              </div>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סה"כ ת.ז</p>
+                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
+              </div>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סכום</p>
+                <!--<p style="font-size: 15px">{{data['status_system']['charged_employers']['sum'] | number:'1.2-2'}}</p>-->
+              </div>
+            </div>
+          </div>
+          <div class="dataCls">
+            <div class="dataRightCls"></div>
+            <img src="../../../assets/img/icons/recycle.png" style="float: right">
+            <div class="mt-2 mr-2 inner-div">
+              <p style="float: right; width: 30%;">תהליך חישוב ג'</p>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סה"כ מעסיקים</p>
+                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
+              </div>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סה"כ ת.ז</p>
+                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
+              </div>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סכום</p>
+                <!--<p style="font-size: 15px">{{data['status_system']['charged_employers']['sum'] | number:'1.2-2'}}</p>-->
+              </div>
+            </div>
+          </div>
+          <div class="dataCls">
+            <div class="dataRightCls"></div>
+            <img src="../../../assets/img/icons/recycle.png" style="float: right">
+            <div class="mt-2 mr-2 inner-div">
+              <p style="float: right; width: 30%;">תהליך חישוב ד'</p>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סה"כ מעסיקים</p>
+                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
+              </div>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סה"כ ת.ז</p>
+                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
+              </div>
+              <div style="width: 25%; float: right; padding-right: 30px">
+                <p class="sumCount">סכום</p>
+                <!--<p style="font-size: 15px">{{data['status_system']['charged_employers']['sum'] | number:'1.2-2'}}</p>-->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        </div>
+
+    </div>
+      <div class="row">
+        <div class="col-6 h-auto pr-4" style="float: right">
+          <div class="h-auto mb-5 mt-2">
+            <h4>סטטוס תעודות זהות</h4>
+            <p class="sumCount"> סה"כ ת"ז-<span style="color: #00ADEE;"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
+            <div class="dataCls">
+              <div class="dataRightCls"></div>
+              <img src="../../../assets/img/icons/group.png" style="float: right">
+              <div class="mt-2 mr-2 one-div">
+                <p style="float: right; width: 45%;">ת"ז אפסים שלא חויבו</p>
+                <div style="width: 45%; float: right; padding-right: 10px">
+                  <p class="sumCount">כמות</p>
+                  <p>{{data['payment_methods']['is_debit']['count']}}</p>
+                </div>
+                <a>צפייה</a>
+                <i  class="fa fa-angle-left"></i>
+              </div>
+            </div>
+            <div class="dataCls">
+              <div class="dataRightCls"></div>
+              <img src="../../../assets/img/icons/group.png" style="float: right">
+              <div class="mt-2 mr-2 one-div">
+                <p style="float: right; width: 45%;">ת"ז עם חיוב רטרו</p>
+                <div style="width: 45%; float: right; padding-right: 10px">
+                  <p class="sumCount">כמות</p>
+                  <p>{{data['payment_methods']['is_bank_check']['count']}}</p>
+                </div>
+                <a>צפייה</a>
+                <i  class="fa fa-angle-left"></i>
+              </div>
+            </div>
+          </div>
+
+          </div>
+        <div class="col-6 h-auto pr-4" style="float: left">
+          <div class="h-auto mb-5 mt-2">
+            <h4> שונות </h4>
+            <p class="sumCount"><span style="color: #00ADEE;"> {{sum_incomes  | number:'1.2-2' }}</span></p>
+            <div class="dataCls">
+              <div class="dataRightCls"></div>
+              <img src="../../../assets/img/icons/circles.png" style="float: right">
+              <div class="mt-2 mr-2 two-div">
+                <p style="float: right; width: 35%;">הכנסות ממעסיקים חדשים</p>
+                <div style="width: 30%; float: right; padding-right: 10px">
+                  <p class="sumCount">כמות</p>
+                  <p>{{data['incomes']['incomes_from_new_employers']['count']}}</p>
+                </div>
+                <div style="width: 33%; float: right">
+                  <p class="sumCount">סכום</p>
+                  <p style="font-size: 15px">{{data['incomes']['incomes_from_new_employers']['sum'] | number:'1.2-2'}}</p>
+                </div>
+                <a>צפייה</a>
+                <i  class="fa fa-angle-left"></i>
+              </div>
+            </div>
+            <div class="dataCls">
+              <div class="dataRightCls"></div>
+              <img src="../../../assets/img/icons/circles.png" style="float: right">
+              <div class="mt-2 mr-2 two-div">
+                <p style="float: right; width: 35%;">הכנסות מתשלום הקמה </p>
+                <div style="width: 30%; float: right; padding-right: 10px">
+                  <p class="sumCount">כמות</p>
+                  <p>{{data['incomes']['incomes_est_payment_amount']['count']}}</p>
+                </div>
+                <div style="width: 33%; float: right">
+                  <p class="sumCount">סכום</p>
+                  <p style="font-size: 15px">{{data['incomes']['incomes_est_payment_amount']['sum'] | number:'1.2-2' }}</p>
+                </div>
+                <a>צפייה</a>
+                <i  class="fa fa-angle-left"></i>
+              </div>
+            </div>
+          </div>
+        </div>
 
 </div>
+
+
 </div>
 <router-outlet></router-outlet>
+
+
+
+
+
