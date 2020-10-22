@@ -20,6 +20,7 @@ import {NotificationService} from '../shared/_services/notification.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {DashboardModule} from '../../app/platform/dashboard/dashboard.module';
 import { CalcProcessesComponent } from './finance/calc-processes/calc-processes.component';
+import {CalcProcessesModule} from './finance/calc-processes/calc-processes.module';
 
 const routes: Routes = [
   {
@@ -27,7 +28,7 @@ const routes: Routes = [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', loadChildren:'../../app/platform/dashboard/dashboard.module#DashboardModule'},
       {path: 'employers', loadChildren:'../../app/platform/employers/employers.module#EmployersModule'},
-      {path: 'finance/calc-processes', loadChildren: '../../app/platform/finance/calc-processes.module#CalcProcessesModule'},
+      {path: 'finance/calc-processes', loadChildren: '../../app/platform/finance/calc-processes/calc-processes.module#CalcProcessesModule'},
       {path: 'finance/invoices', loadChildren: '../../app/platform/finance/invoices/invoices.module#InvoicesModule'},
       {path: 'users', loadChildren: '../../app/platform/users/users.module#UsersModule'}
     ]
@@ -51,7 +52,8 @@ const routes: Routes = [
     MatDatepickerModule,
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatButtonModule,BdSelectModule,
-    MatMenuModule
+    MatMenuModule,
+    CalcProcessesModule
   ],
   providers: [HelpersService,UserSessionService,NotificationService],
   exports: [RouterModule]
