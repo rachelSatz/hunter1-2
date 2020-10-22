@@ -24,6 +24,7 @@ import { InvoiceService } from '../../../shared/_services/http/invoice.service';
 import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-details-form.component';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 import {SideFiltersComponent} from '../../../shared/data-table/side-filters/side-filters.component';
+import {PlatformComponent} from '../../platform.component';
 
 
 const routes: Routes = [
@@ -73,7 +74,7 @@ const routes: Routes = [
       RemarksFormComponent
   ],
   providers: [
-    InvoiceService, SideFiltersComponent
+    InvoiceService, SideFiltersComponent, PlatformComponent
   ]
 })
 export class InvoicesModule { }

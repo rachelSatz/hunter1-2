@@ -80,3 +80,18 @@ h4{
   font-size: 15px;
 
 }
+.noCalcProcess{
+  border-radius: 26px;
+  color: #ADADAD;
+  padding-top: 4px;
+  height: 55px;
+  width: 750px;
+  display: flex;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 15px #00000012;
+  font-size: 20px;
+  margin-top: 20px;
+}
+/*.noCalcProcess p{*/
+  /*margin: auto;*/
+/*}*/

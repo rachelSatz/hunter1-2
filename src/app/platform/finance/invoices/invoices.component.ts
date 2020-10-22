@@ -22,6 +22,7 @@ import {Project} from '../../../shared/_models/project.model';
 import {InvoiceDetailsFormComponent} from './invoice-details-form/invoice-details-form.component';
 import * as FileSaver from 'file-saver';
 import {RemarksFormComponent} from './remarks-form/remarks-form.component';
+import {PlatformComponent} from '../../platform.component';
 
 @Component({
   selector: 'app-invoices',
@@ -70,7 +71,8 @@ export class InvoicesComponent implements OnInit {
               private helpers:HelpersService,
               private invoiceService: InvoiceService,
               private GeneralService: GeneralService,
-              private SelectUnitService: SelectUnitService) {
+              private SelectUnitService: SelectUnitService,
+              private PlatformComponent: PlatformComponent) {
 
 
   }
@@ -84,6 +86,8 @@ export class InvoicesComponent implements OnInit {
       this.filters['created_at[to]'] = v['to_date'];
     }
     })
+    this.PlatformComponent.activeUrl = 'finance';
+
     // this.fetchItems();
 
     this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
@@ -135,6 +139,7 @@ export class InvoicesComponent implements OnInit {
     }
     this.invoiceService.getInvoices(this.dataTable.criteria)
       .then(response => {
+        console.log(response);
         this.dataTable.setItems(response);
         this.helpers.setPageSpinner(false);
       })

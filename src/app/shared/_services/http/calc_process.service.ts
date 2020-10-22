@@ -4,12 +4,11 @@ import {HttpClient} from '@angular/common/http';
 import {BaseHttpService} from './base-http.service';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
-import {Invoice, InvoiceStatus, ManualInvoice} from '../../_models/invoice.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InvoiceService extends BaseHttpService {
+export class calcProcessService extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/calc_processes';
 
@@ -17,7 +16,7 @@ export class InvoiceService extends BaseHttpService {
     super(userSession);
   }
 
-  getInvoices(criteria?: DataTableCriteria, noLimit?: boolean) : Promise<DataTableResponse> {
+  getCalcProcesses(criteria?: DataTableCriteria, noLimit?: boolean) : Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);

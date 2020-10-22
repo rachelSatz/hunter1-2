@@ -4,6 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CalcProcessesComponent} from './calc-processes.component';
 import {DataTableModule} from '../../../shared/data-table/data-table.module';
 import {SelectUnitService} from '../../../shared/_services/select-unit.service';
+import {PlatformComponent} from '../../platform.component';
 
 const routes: Routes = [
   { path: '', component: CalcProcessesComponent }
@@ -11,14 +12,14 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [],
+  declarations: [CalcProcessesComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     DataTableModule
   ],
   providers:[
-    SelectUnitService
+    SelectUnitService, PlatformComponent
   ]
 })
 export class CalcProcessesModule { }

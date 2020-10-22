@@ -328,7 +328,7 @@
         <div class="h-auto mb-5 mt-2" >
           <h4> תהליכי חישוב </h4>
           <p class="sumCount"> סה"כ תהליכים-<span style="color: #00ADEE;"> {{data['calc_processes']['count']}}</span></p>
-          <a *ngIf="data['calc_processes']['count']>0" style="margin-right: 530px; border-bottom: 1px #00ADEE solid; color: #00ADEE;">הצג תהליכים</a>
+          <a (click)="openCalcProcesses()" *ngIf="data['calc_processes']['count']>0" style="margin-right: 530px; border-bottom: 1px #00ADEE solid; color: #00ADEE;">הצג תהליכים</a>
           <div *ngFor="let calc_process of data['calc_processes']['data']">
           <div class="dataCls">
             <div class="dataRightCls"></div>
@@ -356,7 +356,12 @@
             </div>
           </div>
           </div>
-
+        <div *ngIf="data['calc_processes']['count']==0" class="noCalcProcess"  >
+          <span style="margin: auto">
+          <img src="../../../assets/img/icons/recycle-regular.png">
+          <p>לא קיימים תהליכים החודש</p>
+            </span>
+        </div>
         </div>
 
         </div>

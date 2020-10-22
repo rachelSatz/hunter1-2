@@ -52,9 +52,7 @@ const routes: Routes = [
     MatDatepickerModule,
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatButtonModule,BdSelectModule,
-    MatMenuModule,
-    CalcProcessesModule
-  ],
+    MatMenuModule],
   providers: [HelpersService,UserSessionService,NotificationService],
   exports: [RouterModule]
 

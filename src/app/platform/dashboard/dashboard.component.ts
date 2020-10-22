@@ -70,14 +70,14 @@ export class DashboardComponent implements OnInit {
   }
 
   changeTimeRange(): void{
-    // this.fromDate = null;
-    // this.toDate = null;
-    this.fromDateFormControl = new FormControl('', [
-      Validators.required
-    ]);
-    this.toDateFormControl = new FormControl('', [
-      Validators.required
-    ]);
+    this.fromDate = null;
+    this.toDate = null;
+    // this.fromDateFormControl = new FormControl('', [
+    //   Validators.required
+    // ]);
+    // this.toDateFormControl = new FormControl('', [
+    //   Validators.required
+    // ]);
     this.month = new Date()
   }
   filterData(): void {
@@ -96,12 +96,6 @@ export class DashboardComponent implements OnInit {
       this.GeneralService.get_financial_data(this.projectId, this.ifByMonth, this.monthStr, this.fromDateStr, this.toDateStr)
         .then(response =>{ this.data = response['data'];
           console.log(this.data);
-          console.log(this.data['calc_processes']['data']);
-          console.log(this.data['calc_processes']['count']);
-          console.log(this.data['calc_processes']['data'][0].count_employers);
-          this.newDate = new Date(this.data['calc_processes']['data'][0].created_at);
-          console.log(this.newDate);
-          console.log(this.newDate.getDay());
           this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum'] + this.data['invoice_system']['green_invoices_error']['sum'];
           this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] + this.data['incomes']['incomes_est_payment_amount']['sum'];
         } )
@@ -111,12 +105,24 @@ export class DashboardComponent implements OnInit {
     if(this.currentFromDate && this.currentToDate){
       this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/invoices', {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}])
+      this.router.navigate(['../../platform/finance/invoices', {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}])
     } else {
       this.toDate= new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth()+1,0);
       this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(),this.currentMonth.getMonth(),1), 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/invoices', {status: status, from_date:this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}])
+      this.router.navigate(['../../platform/finance/invoices', {status: status, from_date:this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}])
+    }
+  }
+  openCalcProcesses(): void{
+    if(this.currentFromDate && this.currentToDate){
+      this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
+      this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
+      this.router.navigate(['../../platform/finance/calc-processes', { from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}])
+    } else {
+      this.toDate= new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth()+1,0);
+      this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(),this.currentMonth.getMonth(),1), 'yyyy-MM-dd');
+      this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
+      this.router.navigate(['../../platform/finance/calc-processes', { from_date:this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}])
     }
   }
   openEmployers(status: string): void {
