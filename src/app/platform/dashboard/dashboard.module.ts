@@ -8,13 +8,17 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDatepickerModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 import {DatePickerModule} from '../../shared/app-date-picker/app-date-picker.module';
 import {PipesModule} from '../../shared/_pipes/pipes.module';
+import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent }
   ];
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [
+    DashboardComponent,
+    OtherPayerPopupComponent
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -27,6 +31,9 @@ const routes: Routes = [
     PipesModule,
     ReactiveFormsModule,
 
+  ],
+  entryComponents:[
+    OtherPayerPopupComponent
   ],
   providers: [GeneralService]
 })

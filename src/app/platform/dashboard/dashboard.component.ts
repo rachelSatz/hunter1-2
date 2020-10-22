@@ -5,6 +5,9 @@ import {split} from 'ts-node/dist';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material';
 import {Router} from '@angular/router';
+import { MatDialog } from '@angular/material';
+import {ManualInvoiceFormComponent} from "../finance/invoices/manual-invoice-form/manual-invoice-form.component";
+import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -50,6 +53,7 @@ export class DashboardComponent implements OnInit {
   d: any;
   newDate: Date;
   constructor(private GeneralService: GeneralService,
+              private dialog: MatDialog,
               public datepipe: DatePipe,
               private router: Router) {
   }
@@ -141,5 +145,11 @@ export class DashboardComponent implements OnInit {
     this.newDate = new Date(date);
     return this.days[this.newDate.getDay()];
     // 'א'+ this.newDate.getDay();
+  }
+
+  openDialogPopUp(): void {
+    const dialog = this.dialog.open(OtherPayerPopupComponent, {
+      width: '1100px'
+    });
   }
 }
