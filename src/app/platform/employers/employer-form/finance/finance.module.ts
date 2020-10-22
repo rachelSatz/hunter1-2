@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InvoicesComponent } from '../../../invoices/invoices.component';
 import {FinanceComponent} from './finance.component';
 import {BdSelectModule} from '../../../../../assets/js/bd-select/bd-select.module';
 import {FormsModule} from '@angular/forms';

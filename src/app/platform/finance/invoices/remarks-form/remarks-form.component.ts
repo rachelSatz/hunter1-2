@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { DataTableComponent } from '../../../../app/shared/data-table/data-table.component';
-import {Invoice} from '../../../shared/_models/invoice.model';
-import {InvoiceService} from '../../../shared/_services/http/invoice.service';
-import {fade} from '../../../shared/_animations/animation';
-import {NotificationService} from '../../../shared/_services/notification.service';
+import { DataTableComponent } from '../../../../../app/shared/data-table/data-table.component';
+import {Invoice} from '../../../../shared/_models/invoice.model';
+import {InvoiceService} from '../../../../shared/_services/http/invoice.service';
+import {fade} from '../../../../shared/_animations/animation';
+import {NotificationService} from '../../../../shared/_services/notification.service';
 
 
 @Component({

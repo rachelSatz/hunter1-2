@@ -15,12 +15,12 @@ import {InvoiceDetailsFormComponent} from './invoice-details-form/invoice-detail
 import * as FileSaver from 'file-saver';
 import {GeneralService} from '../../../../shared/_services/http/general.service';
 import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
-import {EmployersFinanceExcelComponent} from '../../../invoices/employers-finance-excel/employers-finance-excel.component';
-import {ManualInvoiceFormComponent} from '../../../invoices/manual-invoice-form/manual-invoice-form.component';
-import {TaxInvoiceFormComponent} from '../../../invoices/tax-invoice-form/tax-invoice-form.component';
-import {TransactionInvoiceFormComponent} from '../../../invoices/transaction-invoice-form/transaction-invoice-form.component';
-import {TaxOnlyInvoiceFormComponent} from '../../../invoices/tax-only-invoice-form/tax-only-invoice-form.component';
-import {ReportsFormComponent} from '../../../invoices/reports-form/reports-form.component';
+import {EmployersFinanceExcelComponent} from '../../../finance/invoices/employers-finance-excel/employers-finance-excel.component';
+import {ManualInvoiceFormComponent} from '../../../finance/invoices/manual-invoice-form/manual-invoice-form.component';
+import {TaxInvoiceFormComponent} from '../../../finance/invoices/tax-invoice-form/tax-invoice-form.component';
+import {TransactionInvoiceFormComponent} from '../../../finance/invoices/transaction-invoice-form/transaction-invoice-form.component';
+import {TaxOnlyInvoiceFormComponent} from '../../../finance/invoices/tax-only-invoice-form/tax-only-invoice-form.component';
+import {ReportsFormComponent} from '../../../finance/invoices/reports-form/reports-form.component';
 
 
 @Component({

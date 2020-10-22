@@ -12,13 +12,14 @@ import {
   MatInputModule,
   MatSelectModule,
   MatIconModule,
-  MatAutocompleteModule
+  MatAutocompleteModule, MatMenuModule
 } from '@angular/material';
 import {HelpersService} from '../shared/_services/helpers.service';
 import {UserSessionService} from '../shared/_services/http/user-session.service';
 import {NotificationService} from '../shared/_services/notification.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {DashboardModule} from '../../app/platform/dashboard/dashboard.module';
+import { CalcProcessesComponent } from './finance/calc-processes/calc-processes.component';
 
 const routes: Routes = [
   {
@@ -26,10 +27,8 @@ const routes: Routes = [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', loadChildren:'../../app/platform/dashboard/dashboard.module#DashboardModule'},
       {path: 'employers', loadChildren:'../../app/platform/employers/employers.module#EmployersModule'},
-      //{path: '', loadChildren: '../../app/platform/finance/finance.module#FinanceModule'},
-      {path: 'finance', loadChildren: '../../app/platform/finance/finance.module#FinanceModule'},
-      {path: 'invoices', loadChildren: '../../app/platform/invoices/invoices.module#InvoicesModule'},
-      {path: 'invoices', loadChildren: '../../app/platform/invoices/invoices.module#InvoicesModule'},
+      {path: 'finance/calc-processes', loadChildren: '../../app/platform/finance/calc-processes.module#CalcProcessesModule'},
+      {path: 'finance/invoices', loadChildren: '../../app/platform/finance/invoices/invoices.module#InvoicesModule'},
       {path: 'users', loadChildren: '../../app/platform/users/users.module#UsersModule'}
     ]
   }
@@ -51,7 +50,8 @@ const routes: Routes = [
     MatAutocompleteModule,
     MatDatepickerModule,
     RouterModule.forChild(routes),
-    MatFormFieldModule, MatInputModule, MatButtonModule,BdSelectModule
+    MatFormFieldModule, MatInputModule, MatButtonModule,BdSelectModule,
+    MatMenuModule
   ],
   providers: [HelpersService,UserSessionService,NotificationService],
   exports: [RouterModule]

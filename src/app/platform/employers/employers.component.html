@@ -1,26 +1,13 @@
 
 <app-data-table tableName="לקוחות " [hasActionsSearch]="false" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
                 [hasActionsHeader]="false">
-
   <div class="table-header">
     <div class="row mt-4 mr-1">
       <div class="float-left">
         <p>במסך זה ניתן לראות את רשימת הלקוחות/ להוסיף לקוחות חדשים ולערוך חיובים של לקוחות קיימים.</p>
-        <!--<button class="btn blue-btn mr-2" (click)="openProactiveInvoice()">חשבון יזום</button>-->
       </div>
       <div class="ml-3 d-flex mr-auto">
-        <!--<button class="btn blue-btn" style="margin-left: 20px">הוספת לקוח</button>-->
         <button  class="btn blue-btn bold">פעולות</button>
-        <!--<mat-menu #menu="matMenu">-->
-          <!--<button mat-menu-item (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>-->
-          <!--<button mat-menu-item (click)="openManualInvoice()">חשבון ידני</button>-->
-          <!--<button mat-menu-item (click)="openTaxInvoice()">חשבונית מס/קבלה</button>-->
-          <!--<button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>-->
-          <!--<button mat-menu-item (click)="openOnlyTaxInvoice()">חשבונית מס</button>-->
-          <!--<button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>-->
-          <!--<button mat-menu-item (click)="deleteInvoices(true)">מחיקת חשבונית ואיפוס עובדים</button>-->
-          <!--<button mat-menu-item (click)="openReports()">דו"חות</button>-->
-        <!--</mat-menu>-->
       </div>
     </div>
   </div>
@@ -28,37 +15,9 @@
     <td class="check-column" [ngClass]="{'white': i%2 === 0}">
       <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
     </td>
-
-    <!--<td [title]="item.error !== null ? error_status[item.error] : ''">{{item.employer_financial_details === null ? 'no_name' : item.employer_financial_details.employer.name}}</td>-->
-    <!--matTooltip={{item.errorDescription}}-->
     <td [ngClass]="{'white': i%2 === 0}">{{ item.identifier}}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.name }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.isActive? 'מעסיק לא פעיל': 'מעסיק  פעיל' }}</td>
-    <!--<td>{{ item.ids_count }}</td>-->
-    <!--<td>{{ item.for_month  | date: 'MM/yy' }}</td>-->
-    <!--<td>{{ item.created_at  | date: 'dd/MM/yy' }}</td>-->
-    <!--<td>{{ item.last_payment_date  | date: 'dd/MM/yy'  }}</td>-->
-    <!--<td>{{ types[item.type] }}</td>-->
-    <!--<td [matTooltip]="item.green_invoice_document !== null &&  item.green_invoice_document.errorDescription !== '' ? item.green_invoice_document.errorDescription : ''">-->
-    <!--{{ invoice_all_status[item.status] }}-->
-    <!--</td>-->
-    <!--<td class="select-status">-->
-      <!--<mat-select [title]="setItemTitle(item)" name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>-->
-        <!--<mat-option *ngFor="let st of status" [value]="st.id">{{ st.name }}</mat-option>-->
-      <!--</mat-select>-->
-      <!--&lt;!&ndash;<bd-select [items]="status" placeholder="" #statusSelect="ngModel" name="status"&ndash;&gt;-->
-      <!--&lt;!&ndash;[(ngModel)]="item.status" (onselect)="setInvoiceStatus(item.id, item.status)"&ndash;&gt;-->
-      <!--&lt;!&ndash;required></bd-select>&ndash;&gt;-->
-    <!--</td>-->
-    <!--<td>-->
-      <!--<i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" title="הערות" ></i>-->
-    <!--</td>-->
-    <!--<td *ngIf="item.description != ''">-->
-      <!--<i class="fa fa-download fa-lg ml-2" title="פירוט עובדים בחשבונית" (click)="downloadEmployeesExcel(item.id, item)" ></i>-->
-    <!--</td>-->
-    <!--<td>-->
-      <!--<i class="fa fa-exclamation-circle" (click)="showInvoiceDetails(item)" title="פירוט רשומות" ></i>-->
-    <!--</td>-->
   </tr>
 </app-data-table>
 <router-outlet></router-outlet>

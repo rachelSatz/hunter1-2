@@ -1,10 +1,10 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
-import { DataTableComponent } from '../../shared/data-table/data-table.component';
+import { DataTableComponent } from '../../../shared/data-table/data-table.component';
 import { ActivatedRoute } from '@angular/router';
-import {ERROR_STATUS, Invoice, STATUS, TYPES} from '../../shared/_models/invoice.model';
-import { PAYMENT_METHOD } from '../../shared/_models/employer-financial-details.model';
-import { UserSessionService } from '../../shared/_services/http/user-session.service';
-import { DataTableResponse } from '../../shared/data-table/classes/data-table-response';
+import {ERROR_STATUS, Invoice, STATUS, TYPES} from '../../../shared/_models/invoice.model';
+import { PAYMENT_METHOD } from '../../../shared/_models/employer-financial-details.model';
+import { UserSessionService } from '../../../shared/_services/http/user-session.service';
+import { DataTableResponse } from '../../../shared/data-table/classes/data-table-response';
 import { MatDialog } from '@angular/material';
 import { EmployersFinanceExcelComponent } from './employers-finance-excel/employers-finance-excel.component';
 import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
@@ -12,31 +12,27 @@ import { Subscription } from 'rxjs';
 import { TaxInvoiceFormComponent } from './tax-invoice-form/tax-invoice-form.component';
 import { TransactionInvoiceFormComponent } from './transaction-invoice-form/transaction-invoice-form.component';
 import { TaxOnlyInvoiceFormComponent } from './tax-only-invoice-form/tax-only-invoice-form.component';
-import { NotificationService } from '../../shared/_services/notification.service';
-import { HelpersService } from '../../shared/_services/helpers.service';
+import { NotificationService } from '../../../shared/_services/notification.service';
+import { HelpersService } from '../../../shared/_services/helpers.service';
 import { ReportsFormComponent } from './reports-form/reports-form.component';
-import { InvoiceService } from '../../shared/_services/http/invoice.service';
-import {GeneralService} from '../../shared/_services/http/general.service';
-import {SelectUnitService} from '../../shared/_services/select-unit.service';
-import {Project} from '../../shared/_models/project.model';
+import { InvoiceService } from '../../../shared/_services/http/invoice.service';
+import {GeneralService} from '../../../shared/_services/http/general.service';
+import {SelectUnitService} from '../../../shared/_services/select-unit.service';
+import {Project} from '../../../shared/_models/project.model';
 import {InvoiceDetailsFormComponent} from './invoice-details-form/invoice-details-form.component';
 import * as FileSaver from 'file-saver';
 import {RemarksFormComponent} from './remarks-form/remarks-form.component';
-import {SideFiltersComponent} from '../../shared/data-table/side-filters/side-filters.component';
-import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
-  styleUrls: ['./invoices.component.css','../../shared/data-table/data-table.component.css']
+  styleUrls: ['./invoices.component.css','../../../shared/data-table/data-table.component.css']
 })
 export class InvoicesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
-  nameProjectName = 'project_id';
   items: any;
   sub = new Subscription;
-  myDataTableResponse: DataTableResponse;
   types = TYPES;
   projects: Project[]=[];
   status = Object.keys(STATUS).map(function(e) {
@@ -74,8 +70,7 @@ export class InvoicesComponent implements OnInit {
               private helpers:HelpersService,
               private invoiceService: InvoiceService,
               private GeneralService: GeneralService,
-              private SelectUnitService: SelectUnitService,
-              private SideFiltersComponent: SideFiltersComponent) {
+              private SelectUnitService: SelectUnitService) {
 
 
   }
@@ -88,19 +83,6 @@ export class InvoicesComponent implements OnInit {
       this.filters['created_at[from]'] = v['from_date'];
       this.filters['created_at[to]'] = v['to_date'];
     }
-
-      // this.SideFiltersComponent.searchCriteria['project_id'] = +v['project_id'];
-      // this.SideFiltersComponent.searchCriteria['status'] = 1;
-      // this.SideFiltersComponent.searchCriteria['created_at[from]'] = new Date(2020,4,1);
-      // this.SideFiltersComponent.searchCriteria['created_at[to]'] = new Date(2020,8,29);
-      // this.SideFiltersComponent.form = new NgForm([],[]);
-      // console.log(this.SideFiltersComponent.form);
-      // this.SideFiltersComponent.form.value['project_id'] = +v['project_id'];
-      // this.SideFiltersComponent.form.value['status'] = 1;
-      // this.SideFiltersComponent.form.value['created_at[from]'] = new Date(2020,4,1);
-      // this.SideFiltersComponent.form.value['created_at[to]'] = new Date(2020,4,1);
-      // console.log(this.SideFiltersComponent.searchCriteria);
-      // this.SideFiltersComponent.search();
     })
     // this.fetchItems();
 

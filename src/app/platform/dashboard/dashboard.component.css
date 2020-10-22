@@ -14,7 +14,7 @@ button{
   color: #FFFFFF ;
 }
 .dataCls{
-  padding-top: 5px;
+  padding-top: 4px;
   /*padding-right: 15px;*/
   margin-top: 10px;
   height: 55px;
@@ -71,4 +71,12 @@ h4{
 .one-div{
   display: flex;
   width: 100%;
+}
+.hour{
+  color: #C9C9C9;
+  font-size: 13px;
+}
+.smallSize{
+  font-size: 15px;
+
 }

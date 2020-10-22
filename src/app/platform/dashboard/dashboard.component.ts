@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit {
   projects = [];
   projectId: number;
   timeRange = [{id: 1, name: 'לפי חודש'}, {id: 2, name: 'לפי תקופה'}];
+  days = {0: 'א',1: 'ב', 2:'ג', 3: 'ד',4:'ה', 5:'ו',6:'ז' }
   timeRangeId: number;
   month: Date;
   currentMonth: Date;
@@ -47,6 +48,7 @@ export class DashboardComponent implements OnInit {
   sum_invoices_system: any;
   data: any;
   d: any;
+  newDate: Date;
   constructor(private GeneralService: GeneralService,
               public datepipe: DatePipe,
               private router: Router) {
@@ -94,6 +96,12 @@ export class DashboardComponent implements OnInit {
       this.GeneralService.get_financial_data(this.projectId, this.ifByMonth, this.monthStr, this.fromDateStr, this.toDateStr)
         .then(response =>{ this.data = response['data'];
           console.log(this.data);
+          console.log(this.data['calc_processes']['data']);
+          console.log(this.data['calc_processes']['count']);
+          console.log(this.data['calc_processes']['data'][0].count_employers);
+          this.newDate = new Date(this.data['calc_processes']['data'][0].created_at);
+          console.log(this.newDate);
+          console.log(this.newDate.getDay());
           this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum'] + this.data['invoice_system']['green_invoices_error']['sum'];
           this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] + this.data['incomes']['incomes_est_payment_amount']['sum'];
         } )
@@ -110,5 +118,22 @@ export class DashboardComponent implements OnInit {
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/invoices', {status: status, from_date:this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}])
     }
+  }
+  openEmployers(status: string): void {
+    if(this.currentFromDate && this.currentToDate){
+      this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
+      this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
+      this.router.navigate(['../../platform/invoices', {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}])
+    } else {
+      this.toDate= new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth()+1,0);
+      this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(),this.currentMonth.getMonth(),1), 'yyyy-MM-dd');
+      this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
+      this.router.navigate(['../../platform/invoices', {status: status, from_date:this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}])
+    }
+  }
+  getDayHe(date: string){
+    this.newDate = new Date(date);
+    return this.days[this.newDate.getDay()];
+    // 'א'+ this.newDate.getDay();
   }
 }

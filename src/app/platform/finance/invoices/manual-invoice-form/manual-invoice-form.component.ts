@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { fade } from '../../../shared/_animations/animation';
-import {ManualInvoice, ManualInvoiceDetails} from '../../../shared/_models/invoice.model';
-import { PRODUCT_TYPES } from '../../../shared/_models/employer-financial-details.model';
-import { EmployerService } from '../../../shared/_services/http/employer.service';
+import { fade } from '../../../../shared/_animations/animation';
+import {ManualInvoice, ManualInvoiceDetails} from '../../../../shared/_models/invoice.model';
+import { PRODUCT_TYPES } from '../../../../shared/_models/employer-financial-details.model';
+import { EmployerService } from '../../../../shared/_services/http/employer.service';
 import {NgForm} from '@angular/forms';
-import {InvoiceService} from '../../../shared/_services/http/invoice.service';
+import {InvoiceService} from '../../../../shared/_services/http/invoice.service';
 import {MatDialogRef} from '@angular/material';
-import {NotificationService} from '../../../shared/_services/notification.service';
+import {NotificationService} from '../../../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-manual-invoice-form',

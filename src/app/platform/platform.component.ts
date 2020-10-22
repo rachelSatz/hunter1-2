@@ -17,8 +17,10 @@ export class PlatformComponent implements OnInit {
   readonly menuLinks = [
     { url: 'dashboard' , label: 'נתונים פיננסים'},
     { url: 'employers' , label: 'לקוחות'},
-    { url: 'finance',  label: 'הגדרות'},
-    { url: 'invoices' , label: 'פיננסים'},
+    { url: 'finance' , label: 'פיננסים',  subMenuLinks:[
+        { url: 'invoices', label: 'חשבונות חייבים' },
+        { url: 'calc-process', label: 'תהליכי חישוב' }
+      ]},
     { url: 'users' , label: 'משתמשים'},
   ];
   organizationId: any;
@@ -65,5 +67,9 @@ export class PlatformComponent implements OnInit {
     else {
       this.employers = [];
     }
+  }
+  navigate(link, subLink) {
+        this.router.navigate(['/platform', link, subLink]);
+        this.activeUrl = link;
   }
 }

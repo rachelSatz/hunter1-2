@@ -325,84 +325,38 @@
        </div>
        </div>
       <div class="col-6 h-auto pr-4" style="float: left">
-        <div class="h-auto mb-5 mt-2">
+        <div class="h-auto mb-5 mt-2" >
           <h4> תהליכי חישוב </h4>
+          <p class="sumCount"> סה"כ תהליכים-<span style="color: #00ADEE;"> {{data['calc_processes']['count']}}</span></p>
+          <a *ngIf="data['calc_processes']['count']>0" style="margin-right: 530px; border-bottom: 1px #00ADEE solid; color: #00ADEE;">הצג תהליכים</a>
+          <div *ngFor="let calc_process of data['calc_processes']['data']">
           <div class="dataCls">
             <div class="dataRightCls"></div>
             <img src="../../../assets/img/icons/recycle.png" style="float: right">
             <div class="mt-2 mr-2 inner-div">
-              <p style="float: right; width: 30%;">תהליך חישוב א'</p>
-              <div style="width: 25%; float: right; padding-right: 30px">
+              <div style="float: right; width: 24%;" >
+              <p>  {{calc_process.created_at | date: 'dd/MM/yyyy'}}</p>
+                <p>  -יום  {{ getDayHe(calc_process.created_at)}}'</p>
+                <br>
+                <!--| date:'EEE'-->
+              <p class="hour">{{calc_process.created_at | date: "HH:mm"}}</p>
+              </div>
+              <div style="width: 28%; float: right; padding-right: 30px">
                 <p class="sumCount">סה"כ מעסיקים</p>
-                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
+                <p [ngClass]="{'smallSize': calc_process.count_employers > 99}  ">{{calc_process.count_employers}}</p>
               </div>
-              <div style="width: 25%; float: right; padding-right: 30px">
+              <div style="width: 26%; float: right; padding-right: 30px">
                 <p class="sumCount">סה"כ ת.ז</p>
-                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
+                <p [ngClass]="{'smallSize': calc_process.count_employees>99999}">{{calc_process.count_employees}}</p>
               </div>
-              <div style="width: 25%; float: right; padding-right: 30px">
+              <div style="width: 27%; float: right; padding-right: 30px">
                 <p class="sumCount">סכום</p>
-                <!--<p style="font-size: 15px">{{data['status_system']['charged_employers']['sum'] | number:'1.2-2'}}</p>-->
+                <p style="font-size: 15px"  >{{calc_process.amount_invoices | number:'1.2-2'}}</p>
               </div>
             </div>
           </div>
-          <div class="dataCls">
-            <div class="dataRightCls"></div>
-            <img src="../../../assets/img/icons/recycle.png" style="float: right">
-            <div class="mt-2 mr-2 inner-div">
-              <p style="float: right; width: 30%;">תהליך חישוב ב'</p>
-              <div style="width: 25%; float: right; padding-right: 30px">
-                <p class="sumCount">סה"כ מעסיקים</p>
-                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
-              </div>
-              <div style="width: 25%; float: right; padding-right: 30px">
-                <p class="sumCount">סה"כ ת.ז</p>
-                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
-              </div>
-              <div style="width: 25%; float: right; padding-right: 30px">
-                <p class="sumCount">סכום</p>
-                <!--<p style="font-size: 15px">{{data['status_system']['charged_employers']['sum'] | number:'1.2-2'}}</p>-->
-              </div>
-            </div>
           </div>
-          <div class="dataCls">
-            <div class="dataRightCls"></div>
-            <img src="../../../assets/img/icons/recycle.png" style="float: right">
-            <div class="mt-2 mr-2 inner-div">
-              <p style="float: right; width: 30%;">תהליך חישוב ג'</p>
-              <div style="width: 25%; float: right; padding-right: 30px">
-                <p class="sumCount">סה"כ מעסיקים</p>
-                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
-              </div>
-              <div style="width: 25%; float: right; padding-right: 30px">
-                <p class="sumCount">סה"כ ת.ז</p>
-                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
-              </div>
-              <div style="width: 25%; float: right; padding-right: 30px">
-                <p class="sumCount">סכום</p>
-                <!--<p style="font-size: 15px">{{data['status_system']['charged_employers']['sum'] | number:'1.2-2'}}</p>-->
-              </div>
-            </div>
-          </div>
-          <div class="dataCls">
-            <div class="dataRightCls"></div>
-            <img src="../../../assets/img/icons/recycle.png" style="float: right">
-            <div class="mt-2 mr-2 inner-div">
-              <p style="float: right; width: 30%;">תהליך חישוב ד'</p>
-              <div style="width: 25%; float: right; padding-right: 30px">
-                <p class="sumCount">סה"כ מעסיקים</p>
-                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
-              </div>
-              <div style="width: 25%; float: right; padding-right: 30px">
-                <p class="sumCount">סה"כ ת.ז</p>
-                <!--<p>{{data['status_system']['charged_employers']['count']}}</p>-->
-              </div>
-              <div style="width: 25%; float: right; padding-right: 30px">
-                <p class="sumCount">סכום</p>
-                <!--<p style="font-size: 15px">{{data['status_system']['charged_employers']['sum'] | number:'1.2-2'}}</p>-->
-              </div>
-            </div>
-          </div>
+
         </div>
 
         </div>
@@ -445,7 +399,7 @@
         <div class="col-6 h-auto pr-4" style="float: left">
           <div class="h-auto mb-5 mt-2">
             <h4> שונות </h4>
-            <p class="sumCount"><span style="color: #00ADEE;"> {{sum_incomes  | number:'1.2-2' }}</span></p>
+            <p class="sumCount"> סה"כ הכנסות-<span style="color: #00ADEE;"> {{sum_incomes  | number:'1.2-2' }}</span></p>
             <div class="dataCls">
               <div class="dataRightCls"></div>
               <img src="../../../assets/img/icons/circles.png" style="float: right">
@@ -488,8 +442,3 @@
 
 </div>
 <router-outlet></router-outlet>
-
-
-
-
-
