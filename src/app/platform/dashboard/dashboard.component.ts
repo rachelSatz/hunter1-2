@@ -6,6 +6,9 @@ import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/form
 import {ErrorStateMatcher, MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {EstPaymentFormComponent} from './est-payment-form/est-payment-form.component';
+import {ManualInvoiceFormComponent} from "../finance/invoices/manual-invoice-form/manual-invoice-form.component";
+import {NewEmployersFormComponent} from './new-employers-form/new-employers-form.component';
+// import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -51,15 +54,14 @@ export class DashboardComponent implements OnInit {
   d: any;
   newDate: Date;
   constructor(private GeneralService: GeneralService,
+              private dialog: MatDialog,
               public datepipe: DatePipe,
-              private router: Router,
-              private dialog: MatDialog) {
+              private router: Router) {
   }
 
   ngOnInit() {
     this.fetchItems();
     // this.data['invoice_system']['green_invoices']['count']=5
-
   }
 
   fetchItems(): void {
@@ -74,12 +76,12 @@ export class DashboardComponent implements OnInit {
   changeTimeRange(): void{
     this.fromDate = null;
     this.toDate = null;
-    // this.fromDateFormControl = new FormControl('', [
-    //   Validators.required
-    // ]);
-    // this.toDateFormControl = new FormControl('', [
-    //   Validators.required
-    // ]);
+    this.fromDateFormControl = new FormControl('', [
+      Validators.required
+    ]);
+    this.toDateFormControl = new FormControl('', [
+      Validators.required
+    ]);
     this.month = new Date()
   }
   filterData(): void {
@@ -139,9 +141,27 @@ export class DashboardComponent implements OnInit {
       minHeight: '500px'
     });
   }
+  openNewEmployersForm(): void{
+    this.dialog.open(NewEmployersFormComponent, {
+      data: {
+        'from_date': this.currentFromDate,
+        'to_date': this.currentToDate,
+        'month': this.month,
+        'project_id': this.projectId
+      },
+      width: '1000px',
+      minHeight: '500px'
+    });
+  }
   getDayHe(date: string){
     this.newDate = new Date(date);
     return this.days[this.newDate.getDay()];
     // 'א'+ this.newDate.getDay();
   }
+
+  // openDialogPopUp(): void {
+  //   const dialog = this.dialog.open(OtherPayerPopupComponent, {
+  //     width: '1100px'
+  //   });
+  // }
 }

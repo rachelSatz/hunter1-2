@@ -21,6 +21,7 @@ import {UserSessionService} from './shared/_services/http/user-session.service';
 import {BdSelectModule} from '../assets/js/bd-select/bd-select.module';
 import {DatePickerModule} from './shared/app-date-picker/app-date-picker.module';
 import {DatePipe} from '@angular/common';
+// import {OtherPayerPopupComponent} from "./platform/dashboard/other-payer-popup/other-payer-popup.component";
 
 const routes: Routes = [
   { path: '' , loadChildren: './public/public.module#PublicModule' },
@@ -50,7 +51,8 @@ const routes: Routes = [
     MatDatepickerModule,
     DatePickerModule,
     MatCheckboxModule,
-    MatDividerModule
+    MatDividerModule,
+    MatDialogModule
   ],
   // providers: [HttpClientModule,HelpersService,NotificationService,UserSessionService,AppHttpService,EmployerService],
   providers: [HelpersService,UserSessionService,DatePipe],

@@ -42,7 +42,7 @@ export class CalcProcessesComponent implements OnInit {
         console.log(this.filters);
       }
     })
-    this.PlatformComponent.activeUrl = 'finance';
+    // this.PlatformComponent.activeUrl = 'finance';
     if(this.SelectUnitService.getOrganization()===1){
       this.GeneralService.getProjects(1).then(response =>
       this.columns[0]['searchOptions'].labels = response[('1')]

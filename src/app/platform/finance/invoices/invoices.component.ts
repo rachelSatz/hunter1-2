@@ -86,7 +86,7 @@ export class InvoicesComponent implements OnInit {
       this.filters['created_at[to]'] = v['to_date'];
     }
     })
-    this.PlatformComponent.activeUrl = 'finance';
+    // this.PlatformComponent.activeUrl = 'finance';
 
     // this.fetchItems();
 

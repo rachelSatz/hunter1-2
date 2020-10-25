@@ -10,13 +10,16 @@ import {DatePickerModule} from '../../shared/app-date-picker/app-date-picker.mod
 import {PipesModule} from '../../shared/_pipes/pipes.module';
 import { EstPaymentFormComponent } from './est-payment-form/est-payment-form.component';
 import {DataTableModule} from '../../shared/data-table/data-table.module';
+import { NewEmployersFormComponent } from './new-employers-form/new-employers-form.component';
+// import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent }
   ];
 
 @NgModule({
-  declarations: [DashboardComponent, EstPaymentFormComponent],
+  declarations: [DashboardComponent, EstPaymentFormComponent, NewEmployersFormComponent],
+
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -33,6 +36,6 @@ const routes: Routes = [
 
   ],
   providers: [GeneralService],
-  entryComponents: [EstPaymentFormComponent]
+  entryComponents: [EstPaymentFormComponent, NewEmployersFormComponent],
 })
 export class DashboardModule { }

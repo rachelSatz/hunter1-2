@@ -168,7 +168,7 @@
             <p class="sumCount">סה"כ ת.ז</p>
             <p></p>
           </div>
-          <a style="color: #000000;" (click)="openInvoices('only_tax_green_invoice')">צפייה</a>
+          <a style="color: #000000;" (click)="openDialogPopUp()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
         </div>
       </div>
@@ -418,7 +418,7 @@
                   <p class="sumCount">סכום</p>
                   <p style="font-size: 15px">{{data['incomes']['incomes_from_new_employers']['sum'] | number:'1.2-2'}}</p>
                 </div>
-                <a>צפייה</a>
+                <a (click)="openNewEmployersForm()">צפייה</a>
                 <i  class="fa fa-angle-left"></i>
               </div>
             </div>

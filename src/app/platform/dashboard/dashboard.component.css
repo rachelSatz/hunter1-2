@@ -95,3 +95,6 @@ h4{
 /*.noCalcProcess p{*/
   /*margin: auto;*/
 /*}*/
+::ng-deep i.fa-angle-left:before{
+  margin-top: 3px !important;
+}

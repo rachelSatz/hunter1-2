@@ -14,5 +14,5 @@
   background: #c3c7cc; /* medium-grey */
 }
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
-  margin-bottom: 20px!important;
+  /*margin-bottom: 20px!important;*/
 }

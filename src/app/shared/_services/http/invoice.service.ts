@@ -36,6 +36,19 @@ export class InvoiceService extends BaseHttpService{
       .catch(() => null);
   };
 
+  getNewEmployersIncomes(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+    return this.http.get(this.endPoint +'/getNewEmployersIncomes', request)
+      .toPromise()
+      .then(response=> response as DataTableResponse)
+      .catch(() => null);
+  };
   // setEmployersOperator(planId: number, plan: PlanEmployers[]): Promise<any> {
   //   return this.http.post(this.endPoint + '/' + planId + '/setEmployersOperator', { planEmployers: plan },
   //     this.getTokenHeader()).toPromise()
