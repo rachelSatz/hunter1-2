@@ -3,8 +3,9 @@ import {GeneralService} from '../../shared/_services/http/general.service';
 import { DatePipe } from '@angular/common'
 import {split} from 'ts-node/dist';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
+import {EstPaymentFormComponent} from './est-payment-form/est-payment-form.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -51,7 +52,8 @@ export class DashboardComponent implements OnInit {
   newDate: Date;
   constructor(private GeneralService: GeneralService,
               public datepipe: DatePipe,
-              private router: Router) {
+              private router: Router,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -125,17 +127,17 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['../../platform/finance/calc-processes', { from_date:this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}])
     }
   }
-  openEmployers(status: string): void {
-    if(this.currentFromDate && this.currentToDate){
-      this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
-      this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/invoices', {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}])
-    } else {
-      this.toDate= new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth()+1,0);
-      this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(),this.currentMonth.getMonth(),1), 'yyyy-MM-dd');
-      this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/invoices', {status: status, from_date:this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}])
-    }
+  openEstPaymentForm(): void{
+    this.dialog.open(EstPaymentFormComponent, {
+      data: {
+        'from_date': this.currentFromDate,
+        'to_date': this.currentToDate,
+        'month': this.month,
+        'project_id': this.projectId
+      },
+      width: '1000px',
+      minHeight: '500px'
+    });
   }
   getDayHe(date: string){
     this.newDate = new Date(date);

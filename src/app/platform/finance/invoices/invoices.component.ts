@@ -136,6 +136,8 @@ export class InvoicesComponent implements OnInit {
     this.helpers.setPageSpinner(true);
     if(this.filters['project_id']){
       this.dataTable.criteria.filters = this.filters;
+      console.log(this.dataTable);
+      console.log(this.dataTable.criteria);
     }
     this.invoiceService.getInvoices(this.dataTable.criteria)
       .then(response => {
