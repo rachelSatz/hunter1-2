@@ -8,7 +8,8 @@ import {Router} from '@angular/router';
 import {EstPaymentFormComponent} from './est-payment-form/est-payment-form.component';
 import {ManualInvoiceFormComponent} from "../finance/invoices/manual-invoice-form/manual-invoice-form.component";
 import {NewEmployersFormComponent} from './new-employers-form/new-employers-form.component';
-import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
+import {EmployersFormComponent} from './employers-form/employers-form.component';
+import {Subscription} from 'rxjs';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -53,6 +54,7 @@ export class DashboardComponent implements OnInit {
   data: any;
   d: any;
   newDate: Date;
+  sub = new Subscription;
   constructor(private GeneralService: GeneralService,
               private dialog: MatDialog,
               public datepipe: DatePipe,
@@ -153,22 +155,24 @@ export class DashboardComponent implements OnInit {
       minHeight: '500px'
     });
   }
-  openOtherPayerPopup(): void{
-    this.dialog.open(OtherPayerPopupComponent, {
+
+  getDayHe(date: string){
+    this.newDate = new Date(date);
+    return this.days[this.newDate.getDay()];
+    // 'א'+ this.newDate.getDay();
+  }
+  openEmployersForm(payment_method: string): void{
+    const dialog = this.dialog.open(EmployersFormComponent, {
       data: {
-        'from_date': this.currentFromDate,
-        'to_date': this.currentToDate,
-        'month': this.month,
+        'payment_method': payment_method,
         'project_id': this.projectId
       },
       width: '1000px',
       minHeight: '500px'
     });
-  }
-  getDayHe(date: string){
-    this.newDate = new Date(date);
-    return this.days[this.newDate.getDay()];
-    // 'א'+ this.newDate.getDay();
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+console.log('hello');
+    }));
   }
 
   // openDialogPopUp(): void {

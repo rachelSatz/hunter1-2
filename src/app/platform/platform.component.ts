@@ -40,6 +40,8 @@ export class PlatformComponent implements OnInit {
     this.employerId = this.selectUnit.getEmployerID();
     if(!this.organizationId){
       this.selectUnit.setOrganization(1);
+      this.organizationId =this.selectUnit.getOrganization();
+      this.employerId =1;
       this.loadEmployers(1);
     }
     this.activeUrl = 'dashboard';

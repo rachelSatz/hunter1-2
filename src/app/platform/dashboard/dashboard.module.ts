@@ -11,14 +11,14 @@ import {PipesModule} from '../../shared/_pipes/pipes.module';
 import { EstPaymentFormComponent } from './est-payment-form/est-payment-form.component';
 import {DataTableModule} from '../../shared/data-table/data-table.module';
 import { NewEmployersFormComponent } from './new-employers-form/new-employers-form.component';
-import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
+import { EmployersFormComponent } from './employers-form/employers-form.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent }
   ];
 
 @NgModule({
-  declarations: [DashboardComponent, EstPaymentFormComponent, NewEmployersFormComponent, OtherPayerPopupComponent],
+  declarations: [DashboardComponent, EstPaymentFormComponent, NewEmployersFormComponent, EmployersFormComponent],
 
   imports: [
     CommonModule,
@@ -36,6 +36,6 @@ const routes: Routes = [
 
   ],
   providers: [GeneralService],
-  entryComponents: [EstPaymentFormComponent, NewEmployersFormComponent, OtherPayerPopupComponent],
+  entryComponents: [EstPaymentFormComponent, NewEmployersFormComponent, EmployersFormComponent],
 })
 export class DashboardModule { }

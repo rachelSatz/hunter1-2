@@ -82,7 +82,6 @@ export class EmployerService extends BaseHttpService {
       .catch(() => null);
   };
 
-
   getPayedByOtherEmployers(criteria?: DataTableCriteria, noLimit?: boolean) : Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
@@ -93,6 +92,21 @@ export class EmployerService extends BaseHttpService {
       request['params'] = {no_limit : noLimit};
     }
     return this.http.get(this.endPoint +'/getPayedByOtherEmployers', request)
+      .toPromise()
+      .then(response=> response as DataTableResponse)
+      .catch(() => null);
+  };
+
+  getEmployersByPayment(criteria?: DataTableCriteria, noLimit?: boolean) : Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+    return this.http.get(this.endPoint +'/getEmployersByPayment', request)
       .toPromise()
       .then(response=> response as DataTableResponse)
       .catch(() => null);

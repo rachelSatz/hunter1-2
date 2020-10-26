@@ -146,12 +146,7 @@ export class InvoicesComponent implements OnInit {
         this.helpers.setPageSpinner(false);
       })
   }
-  openFinanceExcelDialog(): void {
-    this.dialog.open(EmployersFinanceExcelComponent, {
-      width: '450px',
-      panelClass: 'employers-finance-excel'
-    });
-  }
+
   openManualInvoice(): void {
     const dialog = this.dialog.open(ManualInvoiceFormComponent, {
       width: '1100px'
