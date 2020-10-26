@@ -57,26 +57,18 @@ export class ManualInvoiceFormComponent implements OnInit {
   saveInvoiceDetail(invoiceDetail: ManualInvoiceDetails, index: number): void {
     if (invoiceDetail !== null) {
       if (invoiceDetail.ids_count > 0 && invoiceDetail.payment_amount > 0) {
-
-        if (invoiceDetail.tax === 'before') {
-          invoiceDetail.total_payment_amount = +((invoiceDetail.ids_count * invoiceDetail.payment_amount).toFixed(2));
-          if (this.manualInvoice.tax_type === 'before') {
+        invoiceDetail.total_payment_amount = +((invoiceDetail.ids_count * invoiceDetail.payment_amount).toFixed(2));
+          if (invoiceDetail.tax === 'included'&&this.manualInvoice.tax_type === 'before') {
             invoiceDetail.tax_amount = +((invoiceDetail.total_payment_amount * 0.17).toFixed(2));
           } else {
             invoiceDetail.tax_amount = 0;
           }
-        } else {
-          invoiceDetail.total_payment_amount =  +(((invoiceDetail.ids_count * invoiceDetail.payment_amount) / 1.17).toFixed(2));
-          invoiceDetail.tax_amount = 0;
-        }
         invoiceDetail.is_saved = true;
         this.totalBeforeTax += +((invoiceDetail.total_payment_amount).toFixed(2));
         if (this.manualInvoice.tax_type === 'before') {
           this.tax += +((invoiceDetail.tax_amount).toFixed(2));
-        } else {
-          this.tax = 0;
         }
-        this.totalIncludeTax += +((invoiceDetail.total_payment_amount + this.tax).toFixed(2));
+        this.totalIncludeTax += +((invoiceDetail.total_payment_amount +invoiceDetail.tax_amount).toFixed(2));
         this.isEdit = false;
       }
     }

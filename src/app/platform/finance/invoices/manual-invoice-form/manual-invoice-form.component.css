@@ -12,6 +12,7 @@
 }
 .totalAmount {
   width: 9%;
+  width: 9%;
 }
 .save {
   width: 3%;
@@ -40,7 +41,9 @@
   width: 3%;
   text-align: right!important;
 }
-
+::ng-deep.mat-form-field-flex{
+  margin-top: 10px !important;
+}
 /*::ng-deep .mat-form-field-wrapper, textarea.form-control {*/
   /*text-align: right;*/
 /*}*/
