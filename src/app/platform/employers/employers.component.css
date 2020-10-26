@@ -4,3 +4,6 @@
   color: #E82D5C;
 
 }
+::ng-deep .table-bordered th, .table-bordered td{
+  cursor: pointer!important;
+}

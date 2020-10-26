@@ -192,7 +192,9 @@ export class FinanceComponent implements OnInit{
   }
 
   submit(form: NgForm) {
+    console.log('maa')
     this.hasServerError = false;
+    this.financialDetails.pay_employer_relation.id = this.employerId2;
     console.log(this.financialDetails);
     if(form.valid) {
        if(this.selectUnit.getEmployerID() === 0) {
