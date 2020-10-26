@@ -60,7 +60,7 @@
           </div>
           <div style="width: 25%; float: right; padding-right: 30px">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p></p>
+            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
           </div>
           <div style="width: 25%; float: right; padding-right: 30px">
             <p class="sumCount">סכום</p>
@@ -81,7 +81,7 @@
           </div>
           <div style="width: 25%; float: right; padding-right: 30px">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p></p>
+            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
           </div>
           <div style="width: 25%; float: right; padding-right: 30px">
             <p class="sumCount">סכום</p>
@@ -103,7 +103,7 @@
           </div>
           <div style="width: 25%; float: right; padding-right: 30px">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p></p>
+            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
           </div>
           <div style="width: 25%; float: right; padding-right: 30px">
             <p class="sumCount">סכום</p>
@@ -124,7 +124,7 @@
           </div>
           <div style="width: 25%; float: right; padding-right: 30px">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p></p>
+            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
           </div>
           <div style="width: 25%; float: right; padding-right: 30px">
             <p class="sumCount">סכום</p>
@@ -145,11 +145,11 @@
           </div>
           <div style="width: 25%; float: right; padding-right: 30px">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p></p>
+            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
           </div>
           <div style="width: 25%; float: right; padding-right: 30px">
             <p class="sumCount">סכום</p>
-            <p  style="font-size: 15px">{{data['employers_status']['employers_0_charge']['sum'] | number:'1.2-2' }}</p>
+            <p  style="font-size: 15px">-</p>
           </div>
           <a>צפייה</a>
           <i  class="fa fa-angle-left"></i>
@@ -162,13 +162,13 @@
           <p style="float: right; width: 30%;">משולמים ע"י גורם אחר</p>
           <div style="width: 30%; float: right; padding-right: 30px">
             <p class="sumCount">כמות</p>
-            <p>{{data['employers_status']['payed_by_other']['count']}}</p>
+            <p>{{data['employers_status']['payed_by_other']['sum']}}</p>
           </div>
           <div style="width: 33%; float: right; padding-right: 30px">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p></p>
+            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
           </div>
-          <a style="color: #000000;" (click)="openDialogPopUp()">צפייה</a>
+          <a (click)="openOtherPayerPopup()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
         </div>
       </div>
