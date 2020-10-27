@@ -247,5 +247,7 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['../../platform/dashboard'])
     }));
   }
-
+  showInvoices(): void{
+    this.router.navigate(['../../platform/finance/invoices'])
+  }
 }

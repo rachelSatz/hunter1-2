@@ -171,12 +171,13 @@
           <i  class="fa fa-angle-left"></i>
         </div>
       </div>
+      <a (click)="showInvoices()"  style="margin-right: 665px; border-bottom: 1px #00ADEE solid; color: #00ADEE;">הצג חשבוניות</a>
     </div>
   </div>
   <div class="col-6 h-auto pr-4" style="float: left">
     <div class="h-auto mb-5 mt-2">
       <h4> מערכת חשבוניות</h4>
-      <p class="sumCount"> סה"כ מעסיקים-<span style="color: #00ADEE;"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
+      <p class="sumCount"> סה"כ הכנסות-<span style="color: #00ADEE;"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
       <div class="dataCls">
         <div class="dataRightCls"></div>
         <img src="../../../assets/img/icons/page.png" style="float: right">
