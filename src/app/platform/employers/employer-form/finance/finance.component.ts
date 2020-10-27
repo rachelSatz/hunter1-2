@@ -101,7 +101,7 @@ export class FinanceComponent implements OnInit{
             if(res.id){
               this.financialDetails = res;
               this.EmployerService.getEmployerByEmployerRelationId(this.financialDetails.pay_employer_relation.id)
-                .then(res2=>{ this.employerId2 = res2['1']['0'].id; console.log(res2); console.log(this.employerId2)});
+                .then(res2=>{ this.employerId2 = res2['1']['0'].id;});
               console.log(this.financialDetails);
               if (this.financialDetails.employer_relation.id === this.financialDetails.pay_employer_relation.id){
                 this.displayMasav = true;
@@ -129,16 +129,12 @@ export class FinanceComponent implements OnInit{
     productTemp.financial_payments=new Array<EmployerFinancialPayments>(1);
     productTemp.financial_payments[0]=new EmployerFinancialPayments();
     this.financialDetails.financial_product.push(productTemp);
-    console.log(this.financialDetails.financial_product);
-    console.log(this.financialDetails.financial_product);
     this.arrShow.push(false);
     console.log(this.arrShow);
   }
   deleteProductRow(index: number) {
     this.financialDetails.financial_product.splice(index, 1);
     this.arrShow.splice(index,1);
-    console.log(this.arrShow)
-    console.log(this.financialDetails.financial_product)
   }
   addPaymentRow(index: number) {
     this.financialDetails.financial_product[index].financial_payments.push(new EmployerFinancialPayments());
@@ -195,7 +191,6 @@ export class FinanceComponent implements OnInit{
     console.log('maa')
     this.hasServerError = false;
     this.financialDetails.pay_employer_relation.id = this.employerId2;
-    console.log(this.financialDetails);
     if(form.valid) {
        if(this.selectUnit.getEmployerID() === 0) {
         this.notificationService.error('לא נבחר מעסיק.');

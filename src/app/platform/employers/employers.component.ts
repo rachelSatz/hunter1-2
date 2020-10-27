@@ -37,7 +37,6 @@ export class EmployersComponent implements OnInit {
   fetchItems(): void{
     this.EmployerService.getAllEmployers(this.dataTable.criteria)
       .then(response => {
-        console.log(response);
         this.dataTable.setItems(response['1']);
       })
   }

@@ -86,7 +86,6 @@ export class DocumentsComponent implements OnInit {
   {
     this.invoiceService.getEmployerInvoices(this.dataTable.criteria,this.SelectUnitService.currentEmployerID)
       .then(response => {
-        console.log(response);
         this.dataTable.setItems(response);
       })
   }

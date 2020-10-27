@@ -25,7 +25,6 @@ export class EmployersFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data);
     if(this.data['payment_method']=='direct_debit')
       this.payment_method = 'הוראת קבע';
     if(this.data['payment_method']=='bank_transfer')
@@ -53,5 +52,7 @@ export class EmployersFormComponent implements OnInit {
   }
   openEmployerForm(employer_id: number): void{
     console.log(employer_id)
+    this.dialogRef.close(employer_id);
+
   }
 }

@@ -25,7 +25,6 @@ export class EstPaymentFormComponent implements OnInit {
               private EmployerService: EmployerService) { }
 
   ngOnInit() {
-    console.log(this.data);
     if(this.data['from_date']){
       this.data['from_date'] = this.datepipe.transform(this.data['from_date'], 'yyyy-MM-dd');
       this.data['to_date'] = this.datepipe.transform(this.data['to_date'], 'yyyy-MM-dd');
@@ -42,7 +41,7 @@ export class EstPaymentFormComponent implements OnInit {
       this.dataTable.criteria.limit = 8;
       console.log(this.dataTable);
       this.EmployerService.getEmployersWithEstPayment(this.dataTable.criteria)
-        .then(response =>{ console.log(response);
+        .then(response =>{
           this.dataTable.setItems(response);})
     }
 

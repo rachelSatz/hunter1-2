@@ -34,7 +34,7 @@ export class CalcProcessesComponent implements OnInit {
               private PlatformComponent: PlatformComponent) { }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(v => { console.log(v);
+    this.sub = this.route.params.subscribe(v => {
       if(v['project_id']){
         this.filters['project_id'] = +v['project_id'];
         this.filters['created_at[from]'] = v['from_date'];
@@ -55,7 +55,6 @@ export class CalcProcessesComponent implements OnInit {
     }
     this.calcProcessService.getCalcProcesses(this.dataTable.criteria)
       .then(response =>{
-        console.log(response)
         this.dataTable.setItems(response);
       })
   }

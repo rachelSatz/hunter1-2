@@ -132,7 +132,6 @@ export class UserFormComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
-    console.log(this.user);
     this.user.project_group_id = 1;
     this.user.units = [];
     this.hasServerError = false;

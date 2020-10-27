@@ -24,7 +24,6 @@ export class AppHttpService extends BaseHttpService {
 
   register( password: string, token: string): Promise<any> {
     const headers = new HttpHeaders({ 'token': token });
-    console.log(headers);
     return this.http.post(this.apiUrl + '/register',  { password: password }, { headers: headers})
       .toPromise()
       .then(response => response)

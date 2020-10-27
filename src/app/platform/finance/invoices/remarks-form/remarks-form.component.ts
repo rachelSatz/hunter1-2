@@ -42,8 +42,7 @@ export class RemarksFormComponent implements OnInit {
 
   ngOnInit() {
     this.invoiceService.getInvoiceRemarks(this.invoice.id).then(response => {
-      this.remarks = response;
-      console.log(response);});
+      this.remarks = response;});
   }
 
   submit(): void {

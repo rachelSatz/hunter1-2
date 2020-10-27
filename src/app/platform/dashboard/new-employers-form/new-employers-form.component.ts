@@ -24,7 +24,6 @@ export class NewEmployersFormComponent implements OnInit {
               private InvoiceService: InvoiceService) { }
 
   ngOnInit() {
-    console.log(this.data);
     if(this.data['from_date']){
       this.data['from_date'] = this.datepipe.transform(this.data['from_date'], 'yyyy-MM-dd');
       this.data['to_date'] = this.datepipe.transform(this.data['to_date'], 'yyyy-MM-dd');
@@ -40,7 +39,7 @@ export class NewEmployersFormComponent implements OnInit {
       this.dataTable.criteria.limit = 8;
       console.log(this.dataTable);
       this.InvoiceService.getNewEmployersIncomes(this.dataTable.criteria)
-        .then(response =>{ console.log(response);
+        .then(response =>{
           this.dataTable.setItems(response);})
     }
 }

@@ -22,19 +22,12 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
 
   employerForm: FormGroup;
   employer: Employer = new Employer();
-  operators = [];
-  operator: string;
-  operatorId;
   projects = [];
-  cities = [];
   project = {id: 0, name: ''};
-  city = {id: 0, name: ''};
   status: object;
   saveChanges = false;
   activeUrl: string;
   editClose = true;
-  sub = new Subscription;
-  planId: number;
   types = TYPES;
   showDetails = 'inactive';
   currencyItems = Object.keys(CURRENCY).map(function(e) {
@@ -72,7 +65,9 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
 
   ngOnInit() {
     // this.planId = this.route.snapshot.queryParams['planId'];
+    debugger;
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
+    this.selectUnit.setEmployerID(this.selectUnit.currentEmployerID);
      if (this.route.snapshot.data.employer) {
       this.activeUrl = 'finance';
        this.employer = this.route.snapshot.data.employer['1']['0'];

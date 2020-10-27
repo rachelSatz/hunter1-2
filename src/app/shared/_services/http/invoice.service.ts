@@ -21,7 +21,6 @@ export class InvoiceService extends BaseHttpService{
     const request = this.getTokenHeader();
     if (criteria) {
       if(criteria.filters['status']){
-        console.log(criteria.filters['status']);
         criteria.filters['status'] = criteria.filters['status'].toString();
       }
       request['params'] = this.setDataTableParams(criteria);

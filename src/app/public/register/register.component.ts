@@ -32,7 +32,6 @@ export class RegisterComponent implements OnInit {
         this.isSubmitting = true;
         this.appHttp.register(form.value.password, this.route.snapshot.queryParams.token).then(response => {
           if (response.token) {
-             console.log(response);
              this.userSession.login({username: '', token: response['token']});
              this.userSession.setRole(response['role']);
              this.userSession.setUserModules(response['module']);

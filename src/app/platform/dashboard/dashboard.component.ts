@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {GeneralService} from '../../shared/_services/http/general.service';
 import { DatePipe } from '@angular/common'
-import {split} from 'ts-node/dist';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher, MatDialog} from '@angular/material';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {EstPaymentFormComponent} from './est-payment-form/est-payment-form.component';
-import {ManualInvoiceFormComponent} from "../finance/invoices/manual-invoice-form/manual-invoice-form.component";
 import {NewEmployersFormComponent} from './new-employers-form/new-employers-form.component';
 import {EmployersFormComponent} from './employers-form/employers-form.component';
 import {Subscription} from 'rxjs';
@@ -47,8 +45,6 @@ export class DashboardComponent implements OnInit {
   monthStr: string;
   fromDateStr: string;
   toDateStr: string;
-  arrSumInvoicesSystem: []
-  arrSumIncomes: []
   sum_incomes: any
   sum_invoices_system: any;
   data: any;
@@ -58,7 +54,8 @@ export class DashboardComponent implements OnInit {
   constructor(private GeneralService: GeneralService,
               private dialog: MatDialog,
               public datepipe: DatePipe,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -170,8 +167,11 @@ export class DashboardComponent implements OnInit {
       width: '1000px',
       minHeight: '500px'
     });
-    this.sub.add(dialog.afterClosed().subscribe(() => {
-console.log('hello');
+    this.sub.add(dialog.afterClosed().subscribe(result => {
+    console.log(result);
+    if(result){
+      this.router.navigate(['../../platform/employers/form/'+ result])
+    }
     }));
   }
 
