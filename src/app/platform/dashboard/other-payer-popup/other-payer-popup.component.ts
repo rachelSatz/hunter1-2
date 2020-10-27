@@ -12,7 +12,7 @@ import {EmployerService} from '../../../shared/_services/http/employer.service';
 
 })
 export class OtherPayerPopupComponent implements OnInit {
-  @ViewChild(DataTableComponent) dataTable: DataTableComponent;getPayedByOtherEmployers
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   readonly columns  = [
     { name: 'name', label: 'שם מעסיק משלם'},
