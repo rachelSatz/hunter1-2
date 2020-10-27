@@ -16,6 +16,7 @@ import {
 import {BdSelectModule} from '../../../../assets/js/bd-select/bd-select.module';
 import { DocumentsComponent } from './documents/documents.component';
 import {PlatformComponent} from '../../platform.component';
+import { RemarksComponent } from './remarks/remarks.component';
 
 const routes: Routes = [
   { path: '', component: EmployerFormComponent},
@@ -28,7 +29,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [EmployerFormComponent],
+  declarations: [EmployerFormComponent, RemarksComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
