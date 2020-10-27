@@ -8,6 +8,11 @@ import {EstPaymentFormComponent} from './est-payment-form/est-payment-form.compo
 import {NewEmployersFormComponent} from './new-employers-form/new-employers-form.component';
 import {EmployersFormComponent} from './employers-form/employers-form.component';
 import {Subscription} from 'rxjs';
+import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
+import {ChargedEmployersFormComponent} from "./charged-employers-form/charged-employers-form.component";
+import {ManuallyChargedEmployersComponent} from "./manually-charged-employers/manually-charged-employers.component";
+import {EmployersWithNoPaymentComponent} from "./employers-with-no-payment/employers-with-no-payment.component";
+import {EmployersPaymentZeroComponent} from "./employers-payment-zero/employers-payment-zero.component";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -174,6 +179,55 @@ export class DashboardComponent implements OnInit {
     }
     }));
   }
+  openChargedEmployerPopUp(): void{
+    this.dialog.open(ChargedEmployersFormComponent, {
+      data: {
+        'from_date': this.currentFromDate,
+        'to_date': this.currentToDate,
+        'month': this.month,
+        'project_id': this.projectId
+      },
+      width: '1000px',
+      minHeight: '500px'
+    });
+  }
+  openManuallyChargedPopUp(): void{
+    this.dialog.open(ManuallyChargedEmployersComponent, {
+      data: {
+        'from_date': this.currentFromDate,
+        'to_date': this.currentToDate,
+        'month': this.month,
+        'project_id': this.projectId
+      },
+      width: '1000px',
+      minHeight: '500px'
+    });
+  }
+  openEmployersWithNoPaymentPopUp(): void{
+    this.dialog.open(EmployersWithNoPaymentComponent, {
+      data: {
+        'from_date': this.currentFromDate,
+        'to_date': this.currentToDate,
+        'month': this.month,
+        'project_id': this.projectId
+      },
+      width: '1000px',
+      minHeight: '500px'
+    });
+  }
+  openEmployersPaymentZeroPopUp(): void{
+    this.dialog.open(EmployersPaymentZeroComponent, {
+      data: {
+        'from_date': this.currentFromDate,
+        'to_date': this.currentToDate,
+        'month': this.month,
+        'project_id': this.projectId
+      },
+      width: '1000px',
+      minHeight: '500px'
+    });
+  }
+
 
   // openDialogPopUp(): void {
   //   const dialog = this.dialog.open(OtherPayerPopupComponent, {

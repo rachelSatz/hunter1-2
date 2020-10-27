@@ -1,0 +1,15 @@
+<button mat-dialog-close>
+  <i class="fa fa-close"></i>
+</button>
+<h2 style="text-align: center">מעסיקים שחויבו</h2>
+<br>
+<app-data-table [hasActionsSearch]="false" [columns]="columns" (fetchItems)="fetchItems()"
+                [hasActionsHeader]="false" [hasCheckColumn]="false" [hasExtendedSearch]="false" [limit]="8" dir="rtl">
+
+  <tr *ngFor="let item of dataTable.items; let i=index;" class="pointer" [ngClass]="{'highlight': item.error !== null}">
+    <td [ngClass]="{'white': i%2 === 0}">{{ item.name }}</td>
+    <td [ngClass]="{'white': i%2 === 0}">{{ item.identifier}}</td>
+    <td [ngClass]="{'white': i%2 === 0}">{{ item.ids_count}}</td>
+    <td [ngClass]="{'white': i%2 === 0}">{{ item.sumn}}</td>
+  </tr>
+</app-data-table>

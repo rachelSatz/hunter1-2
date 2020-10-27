@@ -48,6 +48,58 @@ export class InvoiceService extends BaseHttpService{
       .then(response=> response as DataTableResponse)
       .catch(() => null);
   };
+  getChargedEmployers(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+    return this.http.get(this.endPoint +'/getChargedEmployersTable', request)
+      .toPromise()
+      .then(response=> response as DataTableResponse)
+      .catch(() => null);
+  };
+  getZeroPaymentEmployers(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+    return this.http.get(this.endPoint +'/getZeroPaymentEmployersTable', request)
+      .toPromise()
+      .then(response=> response as DataTableResponse)
+      .catch(() => null);
+  };
+  getNoPaymentEmployers(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+    return this.http.get(this.endPoint +'/getNoPaymentEmployersTable', request)
+      .toPromise()
+      .then(response=> response as DataTableResponse)
+      .catch(() => null);
+  };
+  getManuallyChargedEmployers(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+    return this.http.get(this.endPoint +'/getNoPaymentEmployersTable', request)
+      .toPromise()
+      .then(response=> response as DataTableResponse)
+      .catch(() => null);
+  };
   // setEmployersOperator(planId: number, plan: PlanEmployers[]): Promise<any> {
   //   return this.http.post(this.endPoint + '/' + planId + '/setEmployersOperator', { planEmployers: plan },
   //     this.getTokenHeader()).toPromise()

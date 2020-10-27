@@ -12,13 +12,20 @@ import { EstPaymentFormComponent } from './est-payment-form/est-payment-form.com
 import {DataTableModule} from '../../shared/data-table/data-table.module';
 import { NewEmployersFormComponent } from './new-employers-form/new-employers-form.component';
 import { EmployersFormComponent } from './employers-form/employers-form.component';
+import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
+import { ChargedEmployersFormComponent } from './charged-employers-form/charged-employers-form.component';
+import { ManuallyChargedEmployersComponent } from './manually-charged-employers/manually-charged-employers.component';
+import { EmployersWithNoPaymentComponent } from './employers-with-no-payment/employers-with-no-payment.component';
+import { EmployersPaymentZeroComponent } from './employers-payment-zero/employers-payment-zero.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent }
   ];
 
 @NgModule({
-  declarations: [DashboardComponent, EstPaymentFormComponent, NewEmployersFormComponent, EmployersFormComponent],
+  declarations: [DashboardComponent, EstPaymentFormComponent,EmployersFormComponent,
+    NewEmployersFormComponent, OtherPayerPopupComponent, ChargedEmployersFormComponent,
+    ManuallyChargedEmployersComponent, EmployersWithNoPaymentComponent, EmployersPaymentZeroComponent],
 
   imports: [
     CommonModule,
@@ -36,6 +43,7 @@ const routes: Routes = [
 
   ],
   providers: [GeneralService],
-  entryComponents: [EstPaymentFormComponent, NewEmployersFormComponent, EmployersFormComponent],
+  entryComponents: [EstPaymentFormComponent, NewEmployersFormComponent, EmployersFormComponent, ChargedEmployersFormComponent
+  , EmployersPaymentZeroComponent, ManuallyChargedEmployersComponent, OtherPayerPopupComponent, EmployersWithNoPaymentComponent],
 })
 export class DashboardModule { }
