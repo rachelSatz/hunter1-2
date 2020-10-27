@@ -12,13 +12,13 @@ import {EmployerService} from '../../../shared/_services/http/employer.service';
 
 })
 export class OtherPayerPopupComponent implements OnInit {
-  @ViewChild(DataTableComponent) dataTable: DataTableComponent;getPayedByOtherEmployers
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   readonly columns  = [
-    { name: 'name', label: 'שם מעסיק משלם'},
-    { name: 'identifier', label: 'ח.פ. מעסיק משלם'},
-    { name: 'name', label: 'שם מעסיק'},
-    { name: 'identifier', label: 'ח.פ. מעסיק'}
+    { name: 'name_payer', label: 'מעסיק משלם'},
+    { name: 'identifier_payer', label: 'ח.פ. מעסיק משלם'},
+    { name: 'name_get', label: 'מעסיק מקבל'},
+    { name: 'identifier_get', label: 'ח.פ. מעסיק מקבל'}
 
   ];
 
@@ -45,7 +45,7 @@ export class OtherPayerPopupComponent implements OnInit {
       this.dataTable.criteria.filters = this.data;
       this.dataTable.criteria.limit = 8;
       console.log(this.dataTable);
-      this.EmployerService.getEmployersWithEstPayment(this.dataTable.criteria)
+      this.EmployerService.getEmployersPayedByOther(this.dataTable.criteria)
         .then(response =>{ console.log(response);
           this.dataTable.setItems(response);})
     }

@@ -250,4 +250,19 @@ export class DashboardComponent implements OnInit {
   showInvoices(): void{
     this.router.navigate(['../../platform/finance/invoices'])
   }
+  openOtherPayerPopup(): void{
+    const dialog = this.dialog.open(OtherPayerPopupComponent, {
+      data: {
+        'from_date': this.currentFromDate,
+        'to_date': this.currentToDate,
+        'month': this.month,
+        'project_id': this.projectId
+      },
+      width: '1000px',
+      minHeight: '500px'
+    });
+    this.sub.add(dialog.afterClosed().subscribe(result => {
+      this.router.navigate(['../../platform/dashboard'])
+    }));
+  }
 }
