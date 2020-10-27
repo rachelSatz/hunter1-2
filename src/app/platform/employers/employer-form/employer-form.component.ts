@@ -11,6 +11,7 @@ import { EmployerService } from '../../../shared/_services/http/employer.service
 import { Location } from '@angular/common';
 import {CURRENCY, EmployerFinancialDetails, LANGUAGE, PAYMENT_TIME} from '../../../shared/_models/employer-financial-details.model';
 import { TYPES } from '../../../shared/_models/invoice.model';
+import {PlatformComponent} from '../../platform.component';
 
 @Component({
   selector: 'app-employer-form',
@@ -61,14 +62,16 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
               private notificationService: NotificationService,
               private employerService: EmployerService,
               private _location: Location,
-              private EmployerService: EmployerService) { }
+              private EmployerService: EmployerService,
+              private PlatformComponent: PlatformComponent) { }
 
   ngOnInit() {
     // this.planId = this.route.snapshot.queryParams['planId'];
     debugger;
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
     this.selectUnit.setEmployerID(this.selectUnit.currentEmployerID);
-     if (this.route.snapshot.data.employer) {
+    this.PlatformComponent.employerId = this.selectUnit.currentEmployerID;
+    if (this.route.snapshot.data.employer) {
       this.activeUrl = 'finance';
        this.employer = this.route.snapshot.data.employer['1']['0'];
      }

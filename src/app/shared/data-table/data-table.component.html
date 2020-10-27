@@ -35,4 +35,4 @@
 	<ng-content></ng-content>
 </table>
 <p *ngIf="items.length === 0 && hasLoadingItem" class="text-center bold">{{ isLoading ? 'בטעינה...' : 'אין פריטים לתצוגה.' }}</p>
-<app-pagination [data]="({paginationData: paginationData, limit: criteria.limit})" *ngIf="items.length > 0"></app-pagination>
+<app-pagination [data]="({paginationData: paginationData, limit: criteria.limit})" *ngIf="items.length > 0" [routeNavigate]="routePage"></app-pagination>

@@ -4,7 +4,7 @@
 <h2 style="text-align: center">מעסיקים שחויבו ידני</h2>
 <br>
 <app-data-table [hasActionsSearch]="false" [columns]="columns" (fetchItems)="fetchItems()"
-                [hasActionsHeader]="false" [hasCheckColumn]="false" [hasExtendedSearch]="false" [limit]="8" dir="rtl">
+                [hasActionsHeader]="false" [hasCheckColumn]="false" [hasExtendedSearch]="false" [limit]="8" dir="rtl" [routePage]="'platform/dashboard'">
 
   <tr *ngFor="let item of dataTable.items; let i=index;" class="pointer" [ngClass]="{'highlight': item.error !== null}">
     <td [ngClass]="{'white': i%2 === 0}">{{ item.name }}</td>

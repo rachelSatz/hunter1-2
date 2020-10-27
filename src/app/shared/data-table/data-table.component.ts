@@ -33,7 +33,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   @Input() placeHolderSearch = 'חפש';
   @Input() innerHTML = '';
 	@Input() limit = 15;
-
+  @Input() routePage = ''
 	@Output() fetchItems = new EventEmitter<boolean>();
 
 	items = [];

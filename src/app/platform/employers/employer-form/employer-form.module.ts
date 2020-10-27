@@ -15,6 +15,7 @@ import {
 } from '@angular/material';
 import {BdSelectModule} from '../../../../assets/js/bd-select/bd-select.module';
 import { DocumentsComponent } from './documents/documents.component';
+import {PlatformComponent} from '../../platform.component';
 
 const routes: Routes = [
   { path: '', component: EmployerFormComponent},
@@ -46,6 +47,6 @@ const routes: Routes = [
     MatDividerModule,
     MatDatepickerModule
   ],
-  providers: [EmployersResolve]
+  providers: [EmployersResolve, PlatformComponent]
 })
 export class EmployerFormModule { }

@@ -134,7 +134,7 @@ export class DashboardComponent implements OnInit {
     }
   }
   openEstPaymentForm(): void{
-    this.dialog.open(EstPaymentFormComponent, {
+    const dialog = this.dialog.open(EstPaymentFormComponent, {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
@@ -144,9 +144,12 @@ export class DashboardComponent implements OnInit {
       width: '1000px',
       minHeight: '500px'
     });
+    this.sub.add(dialog.afterClosed().subscribe(result => {
+      this.router.navigate(['../../platform/dashboard'])
+    }));
   }
   openNewEmployersForm(): void{
-    this.dialog.open(NewEmployersFormComponent, {
+    const dialog = this.dialog.open(NewEmployersFormComponent, {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
@@ -156,6 +159,9 @@ export class DashboardComponent implements OnInit {
       width: '1000px',
       minHeight: '500px'
     });
+    this.sub.add(dialog.afterClosed().subscribe(result => {
+      this.router.navigate(['../../platform/dashboard'])
+    }));
   }
 
   getDayHe(date: string){
@@ -173,14 +179,16 @@ export class DashboardComponent implements OnInit {
       minHeight: '500px'
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
-    console.log(result);
     if(result){
       this.router.navigate(['../../platform/employers/form/'+ result])
+    }
+    else {
+      this.router.navigate(['../../platform/dashboard'])
     }
     }));
   }
   openChargedEmployerPopUp(): void{
-    this.dialog.open(ChargedEmployersFormComponent, {
+    const dialog = this.dialog.open(ChargedEmployersFormComponent, {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
@@ -190,9 +198,12 @@ export class DashboardComponent implements OnInit {
       width: '1000px',
       minHeight: '500px'
     });
+    this.sub.add(dialog.afterClosed().subscribe(result => {
+        this.router.navigate(['../../platform/dashboard'])
+    }));
   }
   openManuallyChargedPopUp(): void{
-    this.dialog.open(ManuallyChargedEmployersComponent, {
+    const dialog = this.dialog.open(ManuallyChargedEmployersComponent, {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
@@ -202,9 +213,12 @@ export class DashboardComponent implements OnInit {
       width: '1000px',
       minHeight: '500px'
     });
+    this.sub.add(dialog.afterClosed().subscribe(result => {
+      this.router.navigate(['../../platform/dashboard'])
+    }));
   }
   openEmployersWithNoPaymentPopUp(): void{
-    this.dialog.open(EmployersWithNoPaymentComponent, {
+    const dialog = this.dialog.open(EmployersWithNoPaymentComponent, {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
@@ -214,9 +228,12 @@ export class DashboardComponent implements OnInit {
       width: '1000px',
       minHeight: '500px'
     });
+    this.sub.add(dialog.afterClosed().subscribe(result => {
+      this.router.navigate(['../../platform/dashboard'])
+    }));
   }
   openEmployersPaymentZeroPopUp(): void{
-    this.dialog.open(EmployersPaymentZeroComponent, {
+    const dialog = this.dialog.open(EmployersPaymentZeroComponent, {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
@@ -226,12 +243,9 @@ export class DashboardComponent implements OnInit {
       width: '1000px',
       minHeight: '500px'
     });
+    this.sub.add(dialog.afterClosed().subscribe(result => {
+      this.router.navigate(['../../platform/dashboard'])
+    }));
   }
 
-
-  // openDialogPopUp(): void {
-  //   const dialog = this.dialog.open(OtherPayerPopupComponent, {
-  //     width: '1100px'
-  //   });
-  // }
 }
