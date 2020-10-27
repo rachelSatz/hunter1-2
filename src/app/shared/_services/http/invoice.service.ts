@@ -95,7 +95,7 @@ export class InvoiceService extends BaseHttpService{
     if (noLimit) {
       request['params'] = {no_limit : noLimit};
     }
-    return this.http.get(this.endPoint +'/getNoPaymentEmployersTable', request)
+    return this.http.get(this.endPoint +'/getManuallyEmployersTable', request)
       .toPromise()
       .then(response=> response as DataTableResponse)
       .catch(() => null);
