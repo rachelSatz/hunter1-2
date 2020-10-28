@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-remarks',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./remarks.component.css']
 })
 export class RemarksComponent implements OnInit {
+  @ViewChild(RemarksComponent) doughnut: RemarksComponent;
 
   constructor() { }
 

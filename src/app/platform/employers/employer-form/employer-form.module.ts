@@ -17,6 +17,7 @@ import {BdSelectModule} from '../../../../assets/js/bd-select/bd-select.module';
 import { DocumentsComponent } from './documents/documents.component';
 import {PlatformComponent} from '../../platform.component';
 import { RemarksComponent } from './remarks/remarks.component';
+import { ContactsComponent } from './contacts/contacts.component';
 
 const routes: Routes = [
   { path: '', component: EmployerFormComponent},
@@ -24,12 +25,13 @@ const routes: Routes = [
       { path: '' , redirectTo: 'finance', pathMatch: 'full'},
       { path: 'finance', loadChildren: '../../../../app/platform/employers/employer-form/finance/finance.module#FinanceModule' },
       { path: 'documents', loadChildren: '../../../../app/platform/employers/employer-form/documents/documents.module#DocumentsModule' },
+      { path: 'remarks', loadChildren: '../../../../app/platform/employers/employer-form/remarks/remarks.module#RemarksModule' },
 ] }
 ];
 
-
+// {label: 'הערות', url: 'remarks'  , subUrl: 'no_permissions' },
 @NgModule({
-  declarations: [EmployerFormComponent, RemarksComponent],
+  declarations: [EmployerFormComponent, ContactsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
