@@ -10,6 +10,7 @@ export class PaginationComponent {
 	@Input() data:  any;
 	@Input() theme: 'blue' | 'green' = 'blue';
 	@Input() routeNavigate = ''
+  @Input() ifPagination = true;
 
 	getCurrentItems(): number {
 		const current = ((this.data.paginationData.currentPage - 1) * this.data.limit) + 1;

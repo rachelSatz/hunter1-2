@@ -53,6 +53,7 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
   employerId: number;
   formDetails: boolean = false;
   financialDetails: EmployerFinancialDetails;
+  sub = new Subscription;
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -66,20 +67,26 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
               private PlatformComponent: PlatformComponent) { }
 
   ngOnInit() {
-    // this.planId = this.route.snapshot.queryParams['planId'];
-    debugger;
     this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
     this.selectUnit.setEmployerID(this.selectUnit.currentEmployerID);
-    this.PlatformComponent.employerId = this.selectUnit.currentEmployerID;
+     this.PlatformComponent.employerId = this.route.snapshot.params.id;
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+        this.initForm();
+      }
+    ));
     if (this.route.snapshot.data.employer) {
-      this.activeUrl = 'finance';
        this.employer = this.route.snapshot.data.employer['1']['0'];
      }
       this.setStatus();
       this.initForm();
   }
 
+
   initForm(): void {
+    this.EmployerService.getEmployer(this.selectUnit.getEmployerID()).then(response => {
+      this.employer = response['1']['0'];
+    })
+
     this.employerForm = this.fb.group({
       'name': [null , Validators.required],
       'identifier': [null , [Validators.pattern('^\\d{9}$'), Validators.required]]
@@ -88,6 +95,7 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
       .then(response => {
         this.financialDetails = response;
       })
+
   }
   setStatus() {
     for (let i = 0; i < this.statuses.length; i++) {

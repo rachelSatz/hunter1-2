@@ -256,17 +256,15 @@ font-Heebo{
   color: #c4c4c4;
 }
 
-.blue-background {
+.pink-background {
   background-color: #E82D5C;
 }
-
-.blue-btn {
-  background-color: #E82D5C;
-  color: #fff;
+.pink {
+  color: #E82D5C;
 }
 
-.grey-btn {
-  background-color: #adadaf;
+.pink-btn {
+  background-color: #E82D5C;
   color: #fff;
 }
 
@@ -284,7 +282,7 @@ font-Heebo{
 }
 
 .page-spinner-wrapper {
-  background: rgba(150,150,150,0.5);
+  background-color: #E82D5C;
   position: fixed;
   top: 0;
   right: 0;
@@ -406,10 +404,6 @@ font-Heebo{
   font-size: 36px !important;
 }
 
-.box-shadow {
-  box-shadow: 0 3px 11px 4px #999;
-}
-
 /*--- Bootstrap RTL ---*/
 
 .input-group .form-control:not(:last-child) {
@@ -437,7 +431,7 @@ font-Heebo{
   color: #fff;
 }
 
-.blue-circle{
+.pink-circle{
   position: absolute;
   display: inline-flex;
   align-items: center;
@@ -597,4 +591,28 @@ button:focus, button.focus {
 }
 ::ng-deep.mat-form-field-label {
   font-size: 1.1em!important;
+}
+.white-btn{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 2px solid #E2E2E2;
+  color: #E82D5C;
+  cursor: pointer !important;
+}
+.swal2-icon-text{
+  margin-top: 30px;
+  color: #E82D5C !important;
+}
+.swal2-icon,.swal2-icon.swal2-success .swal2-success-ring, .swal2-success-line-tip {
+  border-color: #E82D5C !important;
+  color: #E82D5C !important;
+}
+span.swal2-success-line-tip, span.swal2-success-line-long{
+  background-color: #E82D5C !important;
+}
+.invalid{
+  /*background-color: red !important;*/
+  border: red 1px solid !important;
+}
+.red-color{
+  color: red!important;
 }

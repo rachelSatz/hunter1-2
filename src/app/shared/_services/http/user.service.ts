@@ -31,10 +31,11 @@ export class UserService extends BaseHttpService{
       .then(response => response)
       .catch(response => response);
   }
-  getUsers(criteria?: DataTableCriteria): Promise<DataTableResponse> {
+  getUsers(criteria?: DataTableCriteria, is_active?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
+      request['params']['is_active'] = is_active;
     }
     return this.http.get(this.endPoint, request)
       .toPromise()

@@ -51,9 +51,9 @@ export class LoginComponent implements OnInit {
       this.hasServerError = false;
       this.helpers.setPageSpinner(true);
       this.isSubmitting = true;
-      this.appHttp.login(form.value.username, form.value.password).then(response => {
+      this.appHttp.login(form.value.email, form.value.password).then(response => {
         if (response.token) {
-          this.userSession.login({username: form.value.username, token: response['token']});
+          this.userSession.login({username: form.value.email, token: response['token']});
           this.userSession.setRole(response['role']);
           this.userSession.setUserModules(response['module']);
           if (response['role'] !== 'employer') {

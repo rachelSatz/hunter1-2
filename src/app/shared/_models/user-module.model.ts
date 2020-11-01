@@ -1,6 +1,6 @@
 export class UserModule {
   name: string;
-  permission_type: 'read' | 'write' | 'all';
+  permission_type: 'read' | 'all';
   isEnabled: boolean;
 
   constructor(name: string, permission_type: any, isEnabled: boolean) {
@@ -12,7 +12,6 @@ export class UserModule {
 
 export enum ModuleTypes {
   user_management = 'משתמשים',
-  finance = 'פיננסי',
-  settings = 'הגדרות',
+  finance = 'פיננסים',
   clients = 'לקוחות'
 }

@@ -8,7 +8,7 @@
         <button class="btn blue-btn mr-2" (click)="openProactiveInvoice()">חשבון יזום</button>
       </div>-->
       <div class="ml-3 d-flex mr-auto">
-        <button [matMenuTriggerFor]="menu" class="btn blue-btn">פעולות</button>
+        <button [matMenuTriggerFor]="menu" class="btn pink-btn">פעולות</button>
         <mat-menu #menu="matMenu">
           <!--<button mat-menu-item (click)="deleteInvoices(false)">מחיקת חשבונית</button>-->
           <!--<button mat-menu-item (click)="openFinanceExcelDialog()">אקסל מעסיקים</button>-->
@@ -24,7 +24,7 @@
       </div>
     </div>
   </div>
-  <tr *ngFor="let item of dataTable.items; let i=index;" class="pointer" [ngClass]="{'highlight': item.error !== null}" style="height: 75px;">
+  <tr *ngFor="let item of dataTable.items; let i=index;"  [ngClass]="{'highlight': item.error !== null}" style="height: 75px;">
     <td class="check-column"  [ngClass]="{'white': i%2 === 0}">
       <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
     </td>
@@ -45,18 +45,18 @@
     <!--{{getVal(item.status)}}-->
     <!--</td>-->
     <td class="select-status" [ngClass]="{'white': i%2 === 0}">
-      <mat-select [title]="setItemTitle(item)" name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
+      <mat-select [title]="setItemTitle(item)" class="pointer" name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
         <mat-option *ngFor="let st of status" [value]="st.id">{{ st.name }}</mat-option>
       </mat-select>
     </td>
     <td [ngClass]="{'white': i%2 === 0}">
-      <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" title="הערות" ></i>
+      <i class="fa fa-eye fa-lg pointer" (click)="ShowRemarks(item)" title="הערות" ></i>
     </td>
     <td *ngIf="item.description != ''" [ngClass]="{'white': i%2 === 0}">
-      <i class="fa fa-download fa-lg ml-2" title="פירוט עובדים בחשבונית" (click)="downloadEmployeesExcel(item.id, item)" ></i>
+      <i class="fa fa-download fa-lg ml-2 pointer" title="פירוט עובדים בחשבונית" (click)="downloadEmployeesExcel(item.id, item)" ></i>
     </td>
     <td [ngClass]="{'white': i%2 === 0}">
-      <i class="fa fa-exclamation-circle" (click)="showInvoiceDetails(item)" title="פירוט רשומות" ></i>
+      <i class="fa fa-exclamation-circle pointer" (click)="showInvoiceDetails(item)" title="פירוט רשומות" ></i>
     </td>
   </tr>
 </app-data-table>

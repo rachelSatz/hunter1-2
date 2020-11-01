@@ -87,6 +87,7 @@ export class FinanceComponent implements OnInit{
     ));
     this.EmployerService.getEmployers()
       .then(res=> { this.payEmployers = res['1'];
+        console.log(this.payEmployers);
         this.fetchItems();});
 
 
