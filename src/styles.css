@@ -93,7 +93,7 @@ label {
 
 a:hover {
   text-decoration: none;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 /*--- Custom ---*/
@@ -115,7 +115,7 @@ font-Heebo{
 }
 
 .btn, .pointer {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .h-25 {
@@ -213,9 +213,6 @@ font-Heebo{
   background-color: #E82D5C;
 }
 
-.blue-color {
-  color: #E82D5C;
-}
 
 .white-color {
   color: #FFFFFF;
@@ -259,15 +256,14 @@ font-Heebo{
 .pink-background {
   background-color: #E82D5C;
 }
-.pink {
-  color: #E82D5C;
-}
-
 .pink-btn {
   background-color: #E82D5C;
   color: #fff;
+  cursor: pointer !important;
 }
-
+.border-radius-28{
+  border-radius: 28px;
+}
 .ellipse{
   border: 2px solid ;
   border-radius: 18px;
@@ -282,7 +278,7 @@ font-Heebo{
 }
 
 .page-spinner-wrapper {
-  background-color: #E82D5C;
+  background-color: white;
   position: fixed;
   top: 0;
   right: 0;
@@ -316,7 +312,7 @@ font-Heebo{
   padding: 8px 4px;
   border: 1px solid #b3b3b3;
   font-size: 14px;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .file-label-text {
@@ -479,7 +475,7 @@ button[mat-dialog-close] {
   background: #fff;
   border: none;
   outline: 0;
-  cursor: pointer;
+  cursor: pointer !important;
   text-align: right;
   border-radius: 27px !important;
 }
@@ -615,4 +611,25 @@ span.swal2-success-line-tip, span.swal2-success-line-long{
 }
 .red-color{
   color: red!important;
+}
+.pink-color{
+  color: #E82D5C;
+}
+.blue-color{
+  color: #00ADEE !important;
+}
+::ng-deep.w-20{
+  width: 20% !important;
+}
+.padding-right-30{
+  padding-right: 30px !important;
+}
+.padding-right-10{
+  padding-right: 10px !important;
+}
+.font-size-15{
+  font-size: 15px !important;
+}
+.display-block{
+  display: block!important;
 }

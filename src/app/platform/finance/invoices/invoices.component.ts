@@ -48,6 +48,7 @@ export class InvoicesComponent implements OnInit {
     return { id: e, name: ERROR_STATUS[e] };
   });
   filters = {}
+  permissionsType = this.userSession.getPermissionsType('finance');
   readonly columns  = [
     { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name', label: 'שם מעסיק', searchable: false},
     { name: 'project_name', sortName:'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
@@ -78,6 +79,7 @@ export class InvoicesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.SelectUnitService.setActiveUrl('finance');
     this.sub = this.route.params.subscribe(v => {
     if(v['project_id']){
       this.filters['project_id'] = +v['project_id'];
@@ -86,10 +88,6 @@ export class InvoicesComponent implements OnInit {
       this.filters['created_at[to]'] = v['to_date'];
     }
     })
-    // this.PlatformComponent.activeUrl = 'finance';
-
-    // this.fetchItems();
-
     this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
       .then(response=> { this.GeneralService.projects = response[('1')];
         this.columns[1]['searchOptions'].labels = response[('1')];});
@@ -151,7 +149,6 @@ export class InvoicesComponent implements OnInit {
     });
   }
   openTaxInvoice(): void {
-    debugger;
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
@@ -233,42 +230,6 @@ export class InvoicesComponent implements OnInit {
         FileSaver.saveAs(blob, fileName);
         this.spin = false;
         this.notificationService.success('הקובץ הופק בהצלחה');
-      }
-    });
-  }
-  deleteInvoices(updateEmployee: boolean): void {
-    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
-      this.dataTable.setNoneCheckedWarning();
-      return;
-    }
-    const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
-    const totalCheckedIds = this.dataTable.criteria.isCheckAll ? this.dataTable.criteria.checkedItems.length > 0 ?
-      this.dataTable.paginationData.totalItems - this.dataTable.criteria.checkedItems.length : this.dataTable.paginationData.totalItems :
-      this.dataTable.criteria.checkedItems.length;
-
-    const text = '  האם ברצונך לבצע מחיקה? נבחרו - ' + totalCheckedIds + ' רשומות';
-
-    this.notificationService.warning(text, '', buttons).then(confirmation => {
-      if (confirmation.value) {
-        this.invoiceService.deleteInvoices(this.dataTable.criteria.checkedItems.map(
-          item => item['id']), this.dataTable.criteria, updateEmployee).then(response => {
-          this.helpers.setPageSpinner(false);
-          if (response) {
-            if (response['message'] === 'success') {
-              this.notificationService.success('הרשומות נמחקו בהצלחה.');
-              this.dataTable.criteria.checkedItems = [];
-              this.dataTable.criteria.isCheckAll = false;
-              this.fetchItems();
-            } else if (response['message'] === 'no_rows_selected') {
-              this.notificationService.info('לא נמצאו רשומות מתאימות לשליחה');
-              this.dataTable.criteria.checkedItems = [];
-              this.dataTable.criteria.isCheckAll = false;
-              this.fetchItems();
-            } else {
-              this.notificationService.error('ארעה שגיאה.');
-            }
-          }
-        });
       }
     });
   }

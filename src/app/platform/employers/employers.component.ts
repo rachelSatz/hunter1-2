@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SelectUnitService} from '../../shared/_services/select-unit.service';
 import {PlatformComponent} from '../platform.component';
 import {HelpersService} from '../../shared/_services/helpers.service';
+import {UserSessionService} from '../../shared/_services/http/user-session.service';
 
 @Component({
   selector: 'app-employers',
@@ -25,25 +26,26 @@ export class EmployersComponent implements OnInit {
               public route: ActivatedRoute,
               private SelectUnitService: SelectUnitService,
               private PlatformComponent: PlatformComponent,
-              private helpers: HelpersService) { }
+              private helpers: HelpersService,
+              private userSession: UserSessionService) { }
 
   items: any[] = [{id: 1, identifier: '111', name: 'עמותת עטלף'},{id: 2, identifier:'222', name: 'מכבי ביתי'}];
+  permissionsType = this.userSession.getPermissionsType('employers');
   ngOnInit() {
-    // this.dataTable.criteria = new DataTableCriteria(4);
-    // this.dataTable.criteria.isCheckAll = true;
-    // this.dataTable.setItems(new DataTableResponse(this.items,2,2));
-    // //this.fetchItems();
+    this.SelectUnitService.setActiveUrl('employers');
+    this.fetchItems();
   }
   fetchItems(): void{
+    this.helpers.setPageSpinner(true);
     this.EmployerService.getAllEmployers(this.dataTable.criteria)
       .then(response => {
         this.dataTable.setItems(response['1']);
+        this.helpers.setPageSpinner(false);
       })
   }
   openEmployerFinanceDetails(employer: Employer){
-    this.helpers.setPageSpinner(true);
-    this.SelectUnitService.setEmployerID(employer.id);
-    this.PlatformComponent.employerId = employer.id;
-    this.router.navigate(['./','form' , employer.id],  {relativeTo: this.route});
+      this.helpers.setPageSpinner(true);
+      this.SelectUnitService.setEmployerID(employer.id);
+      this.router.navigate(['./','form' , employer.id],  {relativeTo: this.route});
   }
 }

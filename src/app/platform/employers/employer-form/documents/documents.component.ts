@@ -21,6 +21,7 @@ import {TaxInvoiceFormComponent} from '../../../finance/invoices/tax-invoice-for
 import {TransactionInvoiceFormComponent} from '../../../finance/invoices/transaction-invoice-form/transaction-invoice-form.component';
 import {TaxOnlyInvoiceFormComponent} from '../../../finance/invoices/tax-only-invoice-form/tax-only-invoice-form.component';
 import {ReportsFormComponent} from '../../../finance/invoices/reports-form/reports-form.component';
+import {RemarksFormComponent} from './remarks-form/remarks-form.component';
 
 
 @Component({
@@ -48,6 +49,7 @@ export class DocumentsComponent implements OnInit {
   });
   fileName = '';
   spin: boolean;
+  permissionsType = this.userSession.getPermissionsType('employers');
   readonly columns  = [
     { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name', label: 'שם מעסיק', searchable: false},
     { name: 'project_name' , sortName:'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects } },
@@ -76,6 +78,7 @@ export class DocumentsComponent implements OnInit {
               private SelectUnitService: SelectUnitService) { }
 
   ngOnInit() {
+    this.helpers.setPageSpinner(true);
     this.fetchItems();
     this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
       .then(response=>
@@ -87,6 +90,7 @@ export class DocumentsComponent implements OnInit {
     this.invoiceService.getEmployerInvoices(this.dataTable.criteria,this.SelectUnitService.currentEmployerID)
       .then(response => {
         this.dataTable.setItems(response);
+        this.helpers.setPageSpinner(false);
       })
   }
   showInvoiceDetails(item: Object): void {
@@ -95,34 +99,7 @@ export class DocumentsComponent implements OnInit {
       width: '750px'
     });
   }
-  // downloadEmployeesExcel(invoiceId, item): void {
-  //   this.invoiceService.downloadInvoicesToExcel(invoiceId).then(response => {
-  //     if (response['message'] === 'no_employees') {
-  //       this.notificationService.info('לא חויבו עובדים בחשבונית');
-  //     } else if (response['message'] === 'error') {
-  //       this.notificationService.error('ארעה שגיאה');
-  //     } else if (response['message'] === 'establishing_invoice') {
-  //       this.notificationService.info('חשבונית הקמה');
-  //     } else {
-  //       const byteCharacters = atob(response['message']['data']);
-  //       const byteNumbers = new Array(byteCharacters.length);
-  //       for (let i = 0; i < byteCharacters.length; i++) {
-  //         byteNumbers[i] = byteCharacters.charCodeAt(i);
-  //       }
-  //       const byteArray = new Uint8Array(byteNumbers);
-  //       const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-  //       if (item.green_invoice_document !== null && item.green_invoice_document.number !== null
-  //         && item.green_invoice_document.number !== '') {
-  //         this.fileName = 'פירוט עובדים בחשבונית מספר - '  + item.green_invoice_document.number + '.xlsx';
-  //       } else {
-  //         this.fileName =  'פירוט עובדים בחשבונית'  + '.xlsx';
-  //       }
-  //       FileSaver.saveAs(blob, this.fileName);
-  //       this.spin = false;
-  //       this.notificationService.success('הקובץ הופק בהצלחה');
-  //     }
-  //   });
-  // }
+
   setInvoiceStatus(invoiceId: number, status: string): void {
     this.invoiceService.setInvoiceStatus(invoiceId, status).then(response => {
       this.helpers.setPageSpinner(false);
@@ -160,7 +137,6 @@ export class DocumentsComponent implements OnInit {
     });
   }
   openTaxInvoice(): void {
-    debugger;
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
@@ -245,43 +221,6 @@ export class DocumentsComponent implements OnInit {
       }
     });
   }
-  deleteInvoices(updateEmployee: boolean): void {
-    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
-      this.dataTable.setNoneCheckedWarning();
-      return;
-    }
-    const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
-    const totalCheckedIds = this.dataTable.criteria.isCheckAll ? this.dataTable.criteria.checkedItems.length > 0 ?
-      this.dataTable.paginationData.totalItems - this.dataTable.criteria.checkedItems.length : this.dataTable.paginationData.totalItems :
-      this.dataTable.criteria.checkedItems.length;
-
-    const text = '  האם ברצונך לבצע מחיקה? נבחרו - ' + totalCheckedIds + ' רשומות';
-
-    this.notificationService.warning(text, '', buttons).then(confirmation => {
-      if (confirmation.value) {
-        this.invoiceService.deleteInvoices(this.dataTable.criteria.checkedItems.map(
-          item => item['id']), this.dataTable.criteria, updateEmployee).then(response => {
-          this.helpers.setPageSpinner(false);
-          if (response) {
-            if (response['message'] === 'success') {
-              this.notificationService.success('הרשומות נמחקו בהצלחה.');
-              this.dataTable.criteria.checkedItems = [];
-              this.dataTable.criteria.isCheckAll = false;
-              this.fetchItems();
-            } else if (response['message'] === 'no_rows_selected') {
-              this.notificationService.info('לא נמצאו רשומות מתאימות לשליחה');
-              this.dataTable.criteria.checkedItems = [];
-              this.dataTable.criteria.isCheckAll = false;
-              this.fetchItems();
-            } else {
-              this.notificationService.error('ארעה שגיאה.');
-            }
-          }
-        });
-      }
-    });
-  }
-
   openReports(): void {
     const dialog = this.dialog.open(ReportsFormComponent, {
       width: '450px'
@@ -317,6 +256,12 @@ export class DocumentsComponent implements OnInit {
         this.spin = false;
         this.notificationService.success('הקובץ הופק בהצלחה');
       }
+    });
+  }
+  ShowRemarks(item: Object): void {
+    this.dialog.open(RemarksFormComponent, {
+      data: item,
+      width: '750px'
     });
   }
 }

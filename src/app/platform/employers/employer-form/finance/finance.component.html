@@ -1,5 +1,5 @@
 
-<form #form="ngForm" *ngIf="financialDetails">
+<form #form="ngForm" *ngIf="financialDetails" [ngClass]="{ 'disabledDiv': !userSession.getPermissionsType('finance') }">
  <div>
  <input  type="hidden" name="id">
   <input  type="hidden" name="pay_employer_id">
@@ -113,7 +113,7 @@
        <bd-select [items]="productTypesItems" placeholder="שם מוצר" #productTypeSelect="ngModel" [(ngModel)]="product.product_type" [name]="'product_type' + index1"  required></bd-select>
     <p class="alert alert-danger"  [@fade]="form.submitted && productTypeSelect.errors ? 'active' : 'inactive'" >יש לבחור שם מוצר.</p>
   </div>
-    <i class="fa fa-close fa-2x pointer blue-color" title="מחיקת מוצר" (click)="deleteProductRow(index1)"></i>
+    <i class="fa fa-close fa-2x pointer pink-color" title="מחיקת מוצר" (click)="deleteProductRow(index1)"></i>
  </div>
   <div class="d-flex align-items-center" *ngFor="let payments of product.financial_payments;  let last = last; let index = index">
    <div hidden>
@@ -129,8 +129,8 @@
    <mat-form-field class="mr-3 mt-4">
      <input matInput type="text" [name]="'ids_count' + index1 + index" [(ngModel)]="payments.ids_count" placeholder="כמות ת.ז.">
   </mat-form-field>
-   <i class="fa fa-plus-circle fa-2x pointer blue-color" title="הוספה" (click)="addPaymentRow(index1)" *ngIf="last && index < 4"></i>
-    <i class="fa fa-close fa-2x pointer blue-color" title="מחיקה" (click)="deletePaymentRow(index1, index)" *ngIf="index != 0"></i>
+   <i class="fa fa-plus-circle fa-2x pointer pink-color" title="הוספה" (click)="addPaymentRow(index1)" *ngIf="last && index < 4"></i>
+    <i class="fa fa-close fa-2x pointer pink-color" title="מחיקה" (click)="deletePaymentRow(index1, index)" *ngIf="index != 0"></i>
   </div>
  <div class="row">
    <mat-checkbox  [checked]="product.is_zero" (change)="changeIsZero(product,$event.checked)" >הצג אפסים</mat-checkbox>

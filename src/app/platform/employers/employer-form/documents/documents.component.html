@@ -2,9 +2,8 @@
 <app-data-table tableName=" " [columns]="columns" [hasActionsSearch]="false" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
                 [hasActionsHeader]="false">
 
-  <div class="table-header">
-    <div class="row mt-4 mr-1">
-
+  <div class="table-header" *ngIf="permissionsType">
+    <div class="row mr-1">
       <div class="ml-3 d-flex mr-auto">
         <button [matMenuTriggerFor]="menu" class="btn pink-btn">פעולות</button>
         <mat-menu #menu="matMenu">
@@ -14,7 +13,6 @@
           <button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>
           <button mat-menu-item (click)="openOnlyTaxInvoice()">חשבונית מס</button>
           <button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>
-          <button mat-menu-item (click)="deleteInvoices(true)">מחיקת חשבונית ואיפוס עובדים</button>
           <button mat-menu-item (click)="openReports()">דו"חות</button>
         </mat-menu>
       </div>
@@ -37,7 +35,7 @@
     <td [ngClass]="{'white': i%2 === 0}">{{ item.last_payment_date  | date: 'dd/MM/yy'  }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ types[item.type] }}</td>
     <td class="select-status" [ngClass]="{'white': i%2 === 0}">
-      <mat-select [title]="setItemTitle(item)" class="pointer" name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
+      <mat-select [title]="setItemTitle(item)" class="pointer" [disabled]="!permissionsType" name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
         <mat-option *ngFor="let st of status" [value]="st.id">{{ st.name }}</mat-option>
       </mat-select>
     </td>

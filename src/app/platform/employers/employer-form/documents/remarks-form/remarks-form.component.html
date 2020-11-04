@@ -1,0 +1,48 @@
+<div class="dialog-header" dir="rtl">
+  <button mat-dialog-close>
+    <i class="fa fa-close"></i>
+  </button>
+  <span>הערות</span>
+</div>
+<table class="table table-bordered" dir="rtl">
+  <thead>
+  <tr>
+    <td>   </td>
+    <td>כמות ת"ז</td>
+    <td>תעריף</td>
+    <td>סוג תעריף</td>
+    <td>סה"כ</td>
+  </tr>
+  </thead>
+  <tbody *ngIf="remarks">
+  <tr class="pointer">
+    <td class="w-25">סכום בחשבונית</td>
+    <td class="w-25">{{remarks['ids_count']}}</td>
+    <td class="w-25">{{remarks['payment_amount']}}</td>
+    <td class="w-25">{{remarks['payment_type']}}</td>
+    <td class="w-25">{{remarks['total_payment_amount']}}</td>
+  </tr>
+  <tr class="pointer">
+    <td class="w-25">סכום לפי הגדרת מעסיק</td>
+    <td class="w-25">{{remarks['finance_ids_count']}}</td>
+    <td class="w-25">{{remarks['finance_payment_amount']}}</td>
+    <td class="w-25">{{remarks['payment_type']}}</td>
+    <td class="w-25">{{remarks['finance_payment_amount']}}</td>
+  </tr>
+  </tbody>
+</table>
+
+
+<!--<ul id="commentsTable" class="pt-4" dir="rtl">-->
+  <!--<li *ngFor="let comment of comments" class="d-flex">-->
+    <!--<span>{{ comment.updated_at | date: 'HH:mm dd/MM/yy' }}</span>-->
+    <!--<span class="mr-3 ml-1 bold">{{ comment.user_name + ':'}}</span>-->
+    <!--<span [title]=comment.content>{{ comment.content | truncate: 10 }}</span>-->
+  <!--</li>-->
+<!--</ul>-->
+
+  <input class="form-control form-control-lg" *ngIf="remarks" type="text"  placeholder="הערות" [(ngModel)]="remarks['content']" dir="rtl">
+<!--<p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'" dir="rtl">{{ message }}</p>-->
+<div mat-dialog-actions class="justify-content-center" dir="rtl">
+  <button class="btn pink-btn" (click)="submit()">שמור</button>
+</div>

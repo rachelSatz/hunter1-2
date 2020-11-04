@@ -4,7 +4,7 @@ export class Employer {
   identifier: string;
   is_active: boolean;
   status: string;
-
+  phone: string;
   constructor() {
 
   }

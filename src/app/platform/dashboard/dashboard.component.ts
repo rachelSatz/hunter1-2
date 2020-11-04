@@ -13,6 +13,9 @@ import {ChargedEmployersFormComponent} from "./charged-employers-form/charged-em
 import {ManuallyChargedEmployersComponent} from "./manually-charged-employers/manually-charged-employers.component";
 import {EmployersWithNoPaymentComponent} from "./employers-with-no-payment/employers-with-no-payment.component";
 import {EmployersPaymentZeroComponent} from "./employers-payment-zero/employers-payment-zero.component";
+import {HelpersService} from '../../shared/_services/helpers.service';
+import {SelectUnitService} from '../../shared/_services/select-unit.service';
+import {UserSessionService} from '../../shared/_services/http/user-session.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -56,15 +59,23 @@ export class DashboardComponent implements OnInit {
   d: any;
   newDate: Date;
   sub = new Subscription;
+  isPermissionsFinance = this.userSession.isPermissions('finance');
+
   constructor(private GeneralService: GeneralService,
               private dialog: MatDialog,
               public datepipe: DatePipe,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private helpers: HelpersService,
+              private SelectUnitService: SelectUnitService,
+              private userSession: UserSessionService) {
   }
 
   ngOnInit() {
+    this.SelectUnitService.setActiveUrl('dashboard');
+    this.helpers.setPageSpinner(true);
     this.fetchItems();
+    console.log(this.isPermissionsFinance);
     // this.data['invoice_system']['green_invoices']['count']=5
   }
 
@@ -91,10 +102,10 @@ export class DashboardComponent implements OnInit {
   filterData(): void {
     // this.toDateFormControl.markAsTouched();
     // this.fromDateFormControl.markAsTouched();
+    this.helpers.setPageSpinner(true);
     this.currentFromDate = this.fromDate;
     this.currentToDate = this.toDate;
     this.currentMonth = this.month;
-    debugger;
     if((this.timeRangeId==2 && this.fromDate && this.toDate)||(this.timeRangeId==1 && this.month)){
       this.monthStr = this.datepipe.transform(this.month, 'yyyy-MM-dd');
       this.fromDateStr = this.datepipe.transform(this.fromDate, 'yyyy-MM-dd');
@@ -106,6 +117,7 @@ export class DashboardComponent implements OnInit {
           console.log(this.data);
           this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum'] + this.data['invoice_system']['green_invoices_error']['sum'];
           this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] + this.data['incomes']['incomes_est_payment_amount']['sum'];
+          this.helpers.setPageSpinner(false);
         } )
     }
   }
@@ -180,6 +192,7 @@ export class DashboardComponent implements OnInit {
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
     if(result){
+      this.SelectUnitService.setActiveUrl('employers');
       this.router.navigate(['../../platform/employers/form/'+ result])
     }
     else {

@@ -12,6 +12,8 @@ import { Location } from '@angular/common';
 import {CURRENCY, EmployerFinancialDetails, LANGUAGE, PAYMENT_TIME} from '../../../shared/_models/employer-financial-details.model';
 import { TYPES } from '../../../shared/_models/invoice.model';
 import {PlatformComponent} from '../../platform.component';
+import {HelpersService} from '../../../shared/_services/helpers.service';
+import {UserSessionService} from '../../../shared/_services/http/user-session.service';
 
 @Component({
   selector: 'app-employer-form',
@@ -54,6 +56,7 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
   formDetails: boolean = false;
   financialDetails: EmployerFinancialDetails;
   sub = new Subscription;
+  permissionsType = this.userSession.getPermissionsType('employers');
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -64,18 +67,20 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
               private employerService: EmployerService,
               private _location: Location,
               private EmployerService: EmployerService,
-              private PlatformComponent: PlatformComponent) { }
+              private PlatformComponent: PlatformComponent,
+              private helpers: HelpersService,
+              private userSession: UserSessionService) { }
 
   ngOnInit() {
-    this.selectUnit.currentEmployerID = this.route.snapshot.params.id;
-    this.selectUnit.setEmployerID(this.selectUnit.currentEmployerID);
-     this.PlatformComponent.employerId = this.route.snapshot.params.id;
+    this.helpers.setPageSpinner(true);
+    this.selectUnit.setEmployerID(this.route.snapshot.params.id);
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
         this.initForm();
       }
     ));
     if (this.route.snapshot.data.employer) {
-       this.employer = this.route.snapshot.data.employer['1']['0'];
+       this.employer = this.route.snapshot.data.employer;
+       console.log(this.employer);
      }
       this.setStatus();
       this.initForm();
@@ -84,18 +89,18 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
 
   initForm(): void {
     this.EmployerService.getEmployer(this.selectUnit.getEmployerID()).then(response => {
-      this.employer = response['1']['0'];
+      this.employer = response;
     })
 
     this.employerForm = this.fb.group({
       'name': [null , Validators.required],
       'identifier': [null , [Validators.pattern('^\\d{9}$'), Validators.required]]
     });
-    this.EmployerService.getEmployerFinance(this.employer.id)
+    this.EmployerService.getEmployerFinance(this.employer['id_emp'])
       .then(response => {
         this.financialDetails = response;
       })
-
+    this.helpers.setPageSpinner(false);
   }
   setStatus() {
     for (let i = 0; i < this.statuses.length; i++) {

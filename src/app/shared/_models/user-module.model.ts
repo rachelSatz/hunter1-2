@@ -11,7 +11,7 @@ export class UserModule {
 }
 
 export enum ModuleTypes {
-  user_management = 'משתמשים',
+  users = 'משתמשים',
   finance = 'פיננסים',
-  clients = 'לקוחות'
+  employers = 'לקוחות'
 }

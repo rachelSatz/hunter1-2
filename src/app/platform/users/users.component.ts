@@ -7,6 +7,7 @@ import {UserSessionService} from '../../shared/_services/http/user-session.servi
 import {NotificationService} from '../../shared/_services/notification.service';
 import {UserService} from '../../shared/_services/http/user.service';
 import {HelpersService} from '../../shared/_services/helpers.service';
+import {SelectUnitService} from '../../shared/_services/select-unit.service';
 
 
 @Component({
@@ -21,8 +22,7 @@ export class UsersComponent implements OnInit {
   role =  Object.keys(EntityRoles).map(function(e) {
     return { id: e, name: EntityRoles[e] };
   });
-  isDisplay = true;
-  //isDisplay = this.userSession.getPermissionsType('user_management', true);
+  isDisplay = this.userSession.getPermissionsType('users');
 
   readonly columns =  [
     { name: 'created_at', label: 'תאריך', searchOptions: { isDate: true }},
@@ -39,17 +39,21 @@ export class UsersComponent implements OnInit {
               private userSession: UserSessionService,
               protected notificationService: NotificationService,
               private userService: UserService,
-              private helpers: HelpersService) { }
+              private helpers: HelpersService,
+              private SelectUnitService: SelectUnitService) { }
 
   ngOnInit() {
+    this.SelectUnitService.setActiveUrl('users');
     this.fetchItems();
     this.dataTable.placeHolderSearch = 'שם משתמש';
   }
 
   fetchItems() {
+    this.helpers.setPageSpinner(true);
     this.userService.getUsers(this.dataTable.criteria,this.dataTable.isActive).then(response => {
       this.dataTable.setItems(response);
       this.user = response;
+      this.helpers.setPageSpinner(false);
     });
   }
   restoreUser(user: User):void{

@@ -15,6 +15,7 @@ import {
 import { Employer } from '../../../../shared/_models/employer.model';
 import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
 import { Subscription } from 'rxjs';
+import {UserSessionService} from '../../../../shared/_services/http/user-session.service';
 
 
 
@@ -70,14 +71,15 @@ export class FinanceComponent implements OnInit{
   payEmployers: Employer[];
   hasServerError: boolean;
   sub = new Subscription;
-  employerId2: number;
+  permissionsType = this.userSession.getPermissionsType('employers');
 
 
   constructor(private route: ActivatedRoute,
               public router:Router,
               private EmployerService:EmployerService,
               private notificationService:NotificationService,
-              private selectUnit:SelectUnitService) {
+              private selectUnit:SelectUnitService,
+              private userSession: UserSessionService) {
   }
 
   ngOnInit() {
@@ -101,8 +103,6 @@ export class FinanceComponent implements OnInit{
           .then(res=>{
             if(res.id){
               this.financialDetails = res;
-              this.EmployerService.getEmployerByEmployerRelationId(this.financialDetails.pay_employer_relation.id)
-                .then(res2=>{ this.employerId2 = res2['1']['0'].id;});
               console.log(this.financialDetails);
               if (this.financialDetails.employer_relation.id === this.financialDetails.pay_employer_relation.id){
                 this.displayMasav = true;
@@ -191,7 +191,6 @@ export class FinanceComponent implements OnInit{
   submit(form: NgForm) {
     console.log('maa')
     this.hasServerError = false;
-    this.financialDetails.pay_employer_relation.id = this.employerId2;
     if(form.valid) {
        if(this.selectUnit.getEmployerID() === 0) {
         this.notificationService.error('לא נבחר מעסיק.');

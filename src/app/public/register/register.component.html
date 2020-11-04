@@ -1,4 +1,4 @@
-<div style="width: 35%; margin: auto; margin-top: 100px;">
+<!--<div style="width: 35%; margin: auto; margin-top: 100px;">
 <p class="mb-0 f-14 bold">כניסה למערכת</p>
 <form #form="ngForm" (ngSubmit)="register(form)" novalidate>
   <mat-form-field class="w-100">
@@ -19,4 +19,35 @@
     <button type="submit" class="btn pink-btn btn-lg f-18 bold" [disabled]="isSubmitting">התחברות</button>
   </div>
 </form>
+</div>-->
+
+
+
+<div class="background">
+  <h1>מערכת פיננסית <span class="orange">EMX</span></h1>
+  <div class="center">
+    <p class="header">כניסה למערכת</p>
+    <form #form="ngForm" class="align-content-center" (ngSubmit)="register(form)" novalidate>
+      <div class="w-100">
+        <p>הזן סיסמא</p>
+        <input class="form-control" type="password" name="password" #password="ngModel" ngModel required>
+        <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">יש להזין סיסמא.</mat-error>
+      </div>
+      <div class="w-100 mt-4">
+        <p>אימות סיסמא </p>
+        <div id="input_container">
+          <input class="form-control" [type]="hideConfirmPassword ? 'password' : 'text'" id="input" name="confirmPassword" #confirmPassword="ngModel" ngModel required>
+          <i class="fa fa-eye fa-1x" id="input_img" (click)="togglemyConfirmPasswordFieldType()"></i>
+        </div>
+        <mat-error *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">יש להזין אימות סיסמא.</mat-error>
+      </div>
+      <p class="alert alert-danger my-3" [@fade]="hasServerError ? 'active' : 'inactive'">
+        <i class="fa fa-exclamation-circle ml-2"></i>
+        <span>הסיסמאות לא זהות.</span>
+      </p>
+      <div class="text-center mt-4">
+        <button type="submit" class="btn pink-btn btn-lg f-18 bold border-radius-28 mt-3"  [disabled]="isSubmitting">התחברות</button>
+      </div>
+    </form>
+  </div>
 </div>

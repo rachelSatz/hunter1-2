@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
-import {FinanceComponent} from '../finance/finance.component';
 import {DocumentsComponent} from './documents.component';
 import {BdSelectModule} from '../../../../../assets/js/bd-select/bd-select.module';
 import {FormsModule} from '@angular/forms';
@@ -23,6 +22,7 @@ import {TransactionInvoiceFormComponent} from './transaction-invoice-form/transa
 import {TaxOnlyInvoiceFormComponent} from './tax-only-invoice-form/tax-only-invoice-form.component';
 import {ReportsFormComponent} from './reports-form/reports-form.component';
 import {DataTableComponent} from '../../../../shared/data-table/data-table.component';
+import {RemarksFormComponent} from './remarks-form/remarks-form.component';
 
 
 
@@ -37,7 +37,8 @@ const routes: Routes = [
     TransactionInvoiceFormComponent,
     TaxOnlyInvoiceFormComponent,
     ReportsFormComponent,
-    InvoiceDetailsFormComponent],
+    InvoiceDetailsFormComponent,
+    RemarksFormComponent],
   imports: [
     CommonModule,
     BdSelectModule,
@@ -62,7 +63,8 @@ const routes: Routes = [
      TaxInvoiceFormComponent,
      TransactionInvoiceFormComponent,
      TaxOnlyInvoiceFormComponent,
-     ReportsFormComponent],
+     ReportsFormComponent,
+      RemarksFormComponent],
     providers: [DataTableComponent]
 })
 export class DocumentsModule { }

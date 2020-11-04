@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DataTableResponse} from '../../../shared/data-table/classes/data-table-response';
 import {NotificationService} from '../../../shared/_services/notification.service';
+import {HelpersService} from '../../../shared/_services/helpers.service';
 
 @Component({
   selector: 'app-user-form',
@@ -57,14 +58,18 @@ export class UserFormComponent implements OnInit {
               private userService:UserService,
               private _location: Location,
               private route: ActivatedRoute,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              private helpers: HelpersService) { }
 
   ngOnInit() {
     if (this.route.snapshot.data.user) {
+      this.helpers.setPageSpinner(true);
       this.update = true;
       this.user = new User(this.route.snapshot.data.user);
+      console.log(this.units);
       this.units = this.user.units;
-      console.log(this.user.modules)
+      this.helpers.setPageSpinner(false);
+
     }
     // this.htmlstring = '<div class="custom-control custom-switch">\n' +
     //   '            <input type="checkbox" class="custom-control-input" id="{{ \'switch4-\' + i }}">\n' +
@@ -72,6 +77,7 @@ export class UserFormComponent implements OnInit {
     //   '          </div>'
   }
   private handleResponse(isSaved: any): void {
+    this.helpers.setPageSpinner(false);
     this.message = isSaved['message'];
     if (this.message === 'username_exist') {
       //this.hasServerError = true;
@@ -120,14 +126,14 @@ export class UserFormComponent implements OnInit {
     this.user.units = [];
     this.hasServerError = false;
      if (form.valid) {
-       if (this.user.modules.some(m => m.isEnabled) && (( this.user.units.length>0 && this.user.units[0].project_group_id)|| this.user.role === 'admin' || this.user.id === undefined)) {
-         if (this.user.id) {
+       this.helpers.setPageSpinner(true);
+       if (this.user.id) {
            this.userService.updateUser(this.user, this.user.id).then(response => this.handleResponse(response));
          } else {
            this.userService.saveNewUser(this.user).then(response => this.handleResponse(response));
          }
        }
-     }
+
      else {
        this.not_valid = true;
      }

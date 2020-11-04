@@ -6,14 +6,17 @@
       <div class="collapse navbar-collapse align-items-end"  >
         <ul class="navbar-nav">
           <ng-container *ngFor="let link of menuLinks">
-            <li class="nav-item mb-5" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="!link.subMenuLinks">
+            <li class="nav-item mb-5"
+                [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="!link.subMenuLinks"
+                [hidden]="UserSessionService.isPermissions(link.url) && link.url!='dashboard'">
               <a class="menu-link" [routerLink]="['/platform', link.url]"  routerLinkActive="active" (click)="setActiveUrl(link.url)">
                 <p class="mb-half" >{{ link.label }}</p>
               </a>
             </li>
+            <!--[hidden]="UserSessionService.isPermissions(link.url)"-->
             <li [matMenuTriggerFor]="subMenu" class="nav-item pointer"
                 [ngClass]="{ 'active': link.url === activeUrl }"
-                *ngIf="link.subMenuLinks">
+                *ngIf="link.subMenuLinks" [hidden]="UserSessionService.isPermissions(link.url)">
               <p class="mb-half" >{{ link.label }}</p>
               <!--<span>{{ link.label }}</span>-->
               <mat-menu #subMenu yPosition="above" [overlapTrigger]="false" >

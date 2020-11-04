@@ -39,7 +39,7 @@ export class ReportsFormComponent implements OnInit {
     this.hasServerError = false;
     form.value['for_month'] = this.datePipe.transform(form.value['for_month'], 'yyyy-MM-dd');
     this.invoiceService.getInvoiceReport(form.value, this.selectedReport).then(response => {
-      if (response['message'] !== 'error' && response['message'] !== 'no_data') {
+      if (response['message']['data']) {
         const byteCharacters = atob(response['message']['data']);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {

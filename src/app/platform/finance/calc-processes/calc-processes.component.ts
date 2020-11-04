@@ -7,6 +7,7 @@ import {calcProcessService} from '../../../shared/_services/http/calc_process.se
 import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {PlatformComponent} from '../../platform.component';
+import {HelpersService} from '../../../shared/_services/helpers.service';
 
 @Component({
   selector: 'app-calc-processes',
@@ -31,9 +32,11 @@ export class CalcProcessesComponent implements OnInit {
               public route:ActivatedRoute,
               private GeneralService: GeneralService,
               private calcProcessService: calcProcessService,
-              private PlatformComponent: PlatformComponent) { }
+              private PlatformComponent: PlatformComponent,
+              private helpers: HelpersService) { }
 
   ngOnInit() {
+    this.SelectUnitService.setActiveUrl('finance');
     this.sub = this.route.params.subscribe(v => {
       if(v['project_id']){
         this.filters['project_id'] = +v['project_id'];
@@ -42,7 +45,6 @@ export class CalcProcessesComponent implements OnInit {
         console.log(this.filters);
       }
     })
-    // this.PlatformComponent.activeUrl = 'finance';
     if(this.SelectUnitService.getOrganization()===1){
       this.GeneralService.getProjects(1).then(response =>
       this.columns[0]['searchOptions'].labels = response[('1')]
@@ -50,12 +52,14 @@ export class CalcProcessesComponent implements OnInit {
     }
   }
   fetchItems(): void{
+    this.helpers.setPageSpinner(true);
     if(this.filters['project_id']){
       this.dataTable.criteria.filters = this.filters;
     }
     this.calcProcessService.getCalcProcesses(this.dataTable.criteria)
       .then(response =>{
         this.dataTable.setItems(response);
+        this.helpers.setPageSpinner(true);
       })
   }
 }
