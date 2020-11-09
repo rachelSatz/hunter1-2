@@ -52,7 +52,6 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
     return { id: e, name: EmployerStatus[e] };
   });
 
-  employerId: number;
   formDetails: boolean = false;
   financialDetails: EmployerFinancialDetails;
   sub = new Subscription;
@@ -90,16 +89,17 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
   initForm(): void {
     this.EmployerService.getEmployer(this.selectUnit.getEmployerID()).then(response => {
       this.employer = response;
+      this.EmployerService.getEmployerFinance(this.employer['id_emp'])
+        .then(response => {
+          this.financialDetails = response;
+        })
     })
 
     this.employerForm = this.fb.group({
       'name': [null , Validators.required],
       'identifier': [null , [Validators.pattern('^\\d{9}$'), Validators.required]]
     });
-    this.EmployerService.getEmployerFinance(this.employer['id_emp'])
-      .then(response => {
-        this.financialDetails = response;
-      })
+
     this.helpers.setPageSpinner(false);
   }
   setStatus() {

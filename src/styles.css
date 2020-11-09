@@ -259,7 +259,6 @@ font-Heebo{
 .pink-btn {
   background-color: #E82D5C;
   color: #fff;
-  cursor: pointer !important;
 }
 .border-radius-28{
   border-radius: 28px;
@@ -542,7 +541,9 @@ button[mat-dialog-close] {
 .w-40 {
   width: 40% !important;
 }
-
+.w-45{
+  width: 45% !important;
+}
 .w-70 {
   width: 70% !important;
 }
@@ -580,10 +581,10 @@ button:focus, button.focus {
   display: none;
 }
 ::ng-deep .mat-form-field-infix{
-  border-top: none;
+  border-top: none !important;
   background: #F6F6F6 0% 0% no-repeat padding-box;
   border-radius: 11px;
-  width: 250px !important;
+  /*width: 250px !important;*/
 }
 ::ng-deep.mat-form-field-label {
   font-size: 1.1em!important;

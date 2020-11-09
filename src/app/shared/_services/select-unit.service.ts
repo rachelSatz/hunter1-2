@@ -14,6 +14,9 @@ export class SelectUnitService {
 
   setActiveUrl(activeUrl: any): void {
     sessionStorage.setItem('activeUrl', JSON.stringify(activeUrl));
+
+     this.unitSubject.next(activeUrl)
+
     // this.currentOrganizationID = organizations;
     //this.unitSubject.next(organizations);
   }
@@ -25,7 +28,7 @@ export class SelectUnitService {
   setOrganization(organizations: any): void {
     sessionStorage.setItem('organizations', JSON.stringify(organizations));
     this.currentOrganizationID = organizations;
-    //this.unitSubject.next(organizations);
+    this.unitSubject.next(organizations)
   }
 
   getOrganization(): any {

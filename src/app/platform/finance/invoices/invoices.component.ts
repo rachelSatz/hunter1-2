@@ -23,6 +23,7 @@ import {InvoiceDetailsFormComponent} from './invoice-details-form/invoice-detail
 import * as FileSaver from 'file-saver';
 import {RemarksFormComponent} from './remarks-form/remarks-form.component';
 import {PlatformComponent} from '../../platform.component';
+import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
 
 @Component({
   selector: 'app-invoices',
@@ -91,19 +92,6 @@ export class InvoicesComponent implements OnInit {
     this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
       .then(response=> { this.GeneralService.projects = response[('1')];
         this.columns[1]['searchOptions'].labels = response[('1')];});
-
-    // this.employerService.getAllPayEmployers().then(
-    //   response => {
-    //     this.employers = response;
-    //     this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
-    //     this.employers.sort((a, b) => a.id - b.id);
-    //   });
-    // this.employerService.getProjects().then(response => {
-    //   const column = this.dataTable.searchColumn(this.nameProjectName);
-    //   this.projects = response;
-    //   column['searchOptions'].labels = response;
-    // });
-
   }
   setItemTitle(item: Invoice): string {
     if (item.green_invoice_document !== null ) {
@@ -281,5 +269,17 @@ export class InvoicesComponent implements OnInit {
       data: item,
       width: '750px'
     });
+  }
+  openProactiveInvoice(): void{
+    const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
+      width: '500px',
+      height: '500px'
+
+    });
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+      this.fetchItems();
+    }));
+    // this.invoiceService.createProactiveInvoice()
+    //   .then(res => console.log(res))
   }
 }

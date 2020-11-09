@@ -133,3 +133,6 @@ h4{
 .margin-right-530{
   margin-right: 530px !important;
 }
+::ng-deep.mat-form-field-infix{
+  border-top: none !important;
+}

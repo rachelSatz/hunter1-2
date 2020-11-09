@@ -27,7 +27,6 @@ export class PaginationComponent {
 		if (this.data.paginationData.totalItems < max) {
 			return this.data.paginationData.totalItems;
 		}
-
 	 	return max;
 	}
 }

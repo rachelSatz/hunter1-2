@@ -71,15 +71,13 @@ export class FinanceComponent implements OnInit{
   payEmployers: Employer[];
   hasServerError: boolean;
   sub = new Subscription;
-  permissionsType = this.userSession.getPermissionsType('employers');
-
 
   constructor(private route: ActivatedRoute,
               public router:Router,
               private EmployerService:EmployerService,
               private notificationService:NotificationService,
               private selectUnit:SelectUnitService,
-              private userSession: UserSessionService) {
+              public userSession: UserSessionService) {
   }
 
   ngOnInit() {
@@ -200,7 +198,6 @@ export class FinanceComponent implements OnInit{
               if(response['message'] !== 'success'){
                 this.hasServerError = true;
               } else{
-
                 this.notificationService.success('נשמר בהצלחה');
                 this.fetchItems();
               }

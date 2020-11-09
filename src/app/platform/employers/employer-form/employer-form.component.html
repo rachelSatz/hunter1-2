@@ -45,35 +45,41 @@
   <hr>
   <div class="d-flex mt-5"  *ngIf="formDetails" [@slideToggle]="showFilters">
     <!--[@rotate]="showDetails"-->
-<div class="container">
+<div class="container pr-5">
     <div class="row" >
-      <div class="col-3">
-      <p> <span class="gray">ח.פ. משלם </span>  {{financialDetails.employer_relation.name}} </p>
+      <div class="col-3 w-25">
+      <p> <span class="gray w-35 float-right display-block">ח.פ. משלם </span>  {{financialDetails.employer_relation.name}} </p>
       </div>
-      <div class="col-3">
-      <p> <span class="gray">ספרות אחרונות בכרטיס </span>  {{financialDetails.credit_card_last_digits}} </p>
+      <div class="col-3 w-20" >
+      <p> <span class="gray w-45 display-block float-right">ספרות אחרונות בכרטיס </span>  {{financialDetails.credit_card_last_digits}} </p>
       </div>
-      <div class="col-2">
-      <p> <span class="gray">שפה</span>  {{ getLanguage(financialDetails.language) }} </p>
+      <div class="col-2 w-20">
+      <p> <span class="gray w-35 display-block float-right">שפה</span>  {{ getLanguage(financialDetails.language) }} </p>
       </div>
-      <div class="col-4">
-      <p> <span class="gray"> מייל בחשבונית ירוקה</span>  {{financialDetails.green_invoice_email}} </p>
+      <div class="col-4 w-35" *ngIf="financialDetails.green_invoice_email">
+       <p> <span class="gray w-35 display-block float-right"> מייל בחשבונית ירוקה</span>
+         <span *ngIf="financialDetails.green_invoice_email.length>38">  {{ '...'+financialDetails.green_invoice_email.substring(0, 30)}}</span>
+         <span *ngIf="financialDetails.green_invoice_email.length<39">{{ financialDetails.green_invoice_email}}</span>
+        </p>
       </div>
     </div>
 
 
     <div class="row">
-      <div class="col-3">
-        <p > <span class="gray" >מטבע </span> {{getCurrency(financialDetails.currency)}}</p>
+      <div class="col-3 w-25">
+        <p> <span class="gray w-35 float-right display-block" >מטבע </span> {{getCurrency(financialDetails.currency)}}</p>
       </div>
-      <div class="col-3">
-        <p> <span class="gray">סכום מינימום לתשלום</span>   </p>
+      <div class="col-3 w-20">
+        <p> <span class="gray w-45 float-right display-block">סכום מינימום לתשלום</span>   </p>
       </div>
-      <div class="col-2">
-        <p> <span class="gray">זמן חיוב</span>  {{getPaymentTime(financialDetails.payment_time)}} </p>
+      <div class="col-2 w-20">
+        <p> <span class="gray w-35 float-right display-block">זמן חיוב</span>  {{getPaymentTime(financialDetails.payment_time)}} </p>
       </div>
-      <div class="col-4">
-        <p> <span class="gray">מספר בחשבונית ירוקה</span><span class="green_invoice_id">{{financialDetails.green_invoice_id}} </span>  </p>
+      <div class="col-4 w-35" *ngIf="financialDetails.green_invoice_id">
+        <p> <span class="gray w-35 float-right display-block">מספר בחשבונית ירוקה</span>
+          <span *ngIf="financialDetails.green_invoice_id.length>31">{{ '...'+ financialDetails.green_invoice_id.substring(0,28)}}</span>
+          <span *ngIf="financialDetails.green_invoice_id.length<32">{{ financialDetails.green_invoice_id}}</span>
+        </p>
       </div>
     </div>
 

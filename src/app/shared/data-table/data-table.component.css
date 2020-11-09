@@ -14,7 +14,7 @@ app-side-filters ::ng-deep .bdSelectable {
 }
 
 app-side-filters ::ng-deep .input .mat-form-field-wrapper {
-  padding-top: 19px;
+  /*padding-top: 19px;*/
 }
 
 .displayNone{

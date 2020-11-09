@@ -32,11 +32,8 @@ import {RemarksFormComponent} from './remarks-form/remarks-form.component';
 export class DocumentsComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
-  nameProjectName = 'project_id';
   items: any;
   sub = new Subscription;
-  dtr:DataTableResponse;
-  myDataTableResponse: DataTableResponse;
   types = TYPES;
   status = Object.keys(STATUS).map(function(e) {
     return { id: e, name: STATUS[e] };
@@ -124,13 +121,6 @@ export class DocumentsComponent implements OnInit {
       return '';
     }
   }
-
-  openFinanceExcelDialog(): void {
-    this.dialog.open(EmployersFinanceExcelComponent, {
-      width: '450px',
-      panelClass: 'employers-finance-excel'
-    });
-  }
   openManualInvoice(): void {
     const dialog = this.dialog.open(ManualInvoiceFormComponent, {
       width: '1100px'
@@ -186,7 +176,6 @@ export class DocumentsComponent implements OnInit {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    // const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
     const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
 
     const dialog = this.dialog.open(TaxOnlyInvoiceFormComponent, {

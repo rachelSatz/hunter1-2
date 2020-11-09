@@ -74,18 +74,25 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.SelectUnitService.setActiveUrl('dashboard');
     this.helpers.setPageSpinner(true);
+    this.sub.add(this.SelectUnitService.unitSubject.subscribe(() => {
+      this.fetchItems();
+      }
+    ));
     this.fetchItems();
-    console.log(this.isPermissionsFinance);
-    // this.data['invoice_system']['green_invoices']['count']=5
   }
 
   fetchItems(): void {
-    this.GeneralService.getProjects(1)
-      .then(response => {  this.projects = response[('1')];
-                                      this.month = new Date();
-                                      this.projectId = 1;
-                                      this.timeRangeId = 1;
-                                      this.filterData(); });
+    if (this.SelectUnitService.getOrganization() === 1) {
+      this.GeneralService.getProjects(1)
+        .then(response => {  this.projects = response[('1')];
+          this.month = new Date();
+          this.projectId = 1;
+          this.timeRangeId = 1;
+          this.filterData(); });
+    } else {
+      this.data = null;
+    }
+
   }
 
   changeTimeRange(): void{
@@ -100,8 +107,6 @@ export class DashboardComponent implements OnInit {
     this.month = new Date()
   }
   filterData(): void {
-    // this.toDateFormControl.markAsTouched();
-    // this.fromDateFormControl.markAsTouched();
     this.helpers.setPageSpinner(true);
     this.currentFromDate = this.fromDate;
     this.currentToDate = this.toDate;
@@ -179,7 +184,6 @@ export class DashboardComponent implements OnInit {
   getDayHe(date: string){
     this.newDate = new Date(date);
     return this.days[this.newDate.getDay()];
-    // 'א'+ this.newDate.getDay();
   }
   openEmployersForm(payment_method: string): void{
     const dialog = this.dialog.open(EmployersFormComponent, {

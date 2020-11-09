@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import { Employer } from '../shared/_models/employer.model';
 import { HelpersService } from '../shared/_services/helpers.service';
@@ -35,10 +35,11 @@ export class PlatformComponent implements OnInit {
   constructor(private EmployerService:EmployerService,
               private router:Router,
               private route: ActivatedRoute,
-              private selectUnit:SelectUnitService,
+              public selectUnit:SelectUnitService,
               public helpers: HelpersService,
               private GeneralService: GeneralService,
-              private UserSessionService: UserSessionService) { }
+              private UserSessionService: UserSessionService,
+              private ref:ChangeDetectorRef) { }
 
   ngOnInit() {
     this.helpers.setPageSpinner(true);
@@ -51,26 +52,27 @@ export class PlatformComponent implements OnInit {
     this.loadEmployers(this.selectUnit.getOrganization());
     this.EmployerService.getEmployers().then(res => {
       this.employers = res['1'];
-      this.employerId = this.selectUnit.getEmployerID() ?this.selectUnit.getEmployerID(): 1 ;
-      this.activeUrl =this.selectUnit.getActiveUrl()? this.selectUnit.getActiveUrl(): 'dashboard';
+      // this.employerId = this.selectUnit.getEmployerID() ? this.selectUnit.getEmployerID(): 1 ;
+      // this.activeUrl =this.selectUnit.getActiveUrl() ? this.selectUnit.getActiveUrl(): 'dashboard';
     });
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-      this.activeUrl =this.selectUnit.getActiveUrl()? this.selectUnit.getActiveUrl(): 'dashboard';
-      this.employerId = this.selectUnit.getEmployerID() ?this.selectUnit.getEmployerID(): 1 ;
+       this.employerId = this.selectUnit.getEmployerID() ?this.selectUnit.getEmployerID(): 1 ;
+        this.ref.detectChanges();
       }
     ));
-    this.router.events.forEach((event) => {
-      if (event instanceof NavigationStart) {
-        this.setActiveUrl(event.url);
-      }
-    });
+    // this.router.events.forEach((event) => {
+    //   if (event instanceof NavigationStart) {
+    //     this.setActiveUrl(event.url);
+    //   }
+    // });
 
     this.helpers.setPageSpinner(false);
 
   }
 
   setActiveUrl(url: string): void {
-    this.activeUrl =url;
+    debugger;
+    this.selectUnit.setActiveUrl(url);
   }
   selectEmployer(employerId: number): void{
     this.selectUnit.setEmployerID(employerId);

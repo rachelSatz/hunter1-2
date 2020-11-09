@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {DataTableComponent} from '../../shared/data-table/data-table.component';
 import {EmployerService} from '../../shared/_services/http/employer.service';
 import {Employer} from '../../shared/_models/employer.model';
@@ -21,6 +21,9 @@ export class EmployersComponent implements OnInit {
     { name: 'name', label: 'שם מעסיק'},
     { name: 'is_active', label: ' סטטוס'},
   ];
+  items: any[] = [{id: 1, identifier: '111', name: 'עמותת עטלף'},{id: 2, identifier:'222', name: 'מכבי ביתי'}];
+  permissionsType = this.userSession.getPermissionsType('employers');
+
   constructor(private EmployerService: EmployerService,
               private router: Router,
               public route: ActivatedRoute,
@@ -29,14 +32,14 @@ export class EmployersComponent implements OnInit {
               private helpers: HelpersService,
               private userSession: UserSessionService) { }
 
-  items: any[] = [{id: 1, identifier: '111', name: 'עמותת עטלף'},{id: 2, identifier:'222', name: 'מכבי ביתי'}];
-  permissionsType = this.userSession.getPermissionsType('employers');
+
   ngOnInit() {
     this.SelectUnitService.setActiveUrl('employers');
     this.fetchItems();
   }
   fetchItems(): void{
     this.helpers.setPageSpinner(true);
+    // this.SelectUnitService.setEmployerID(this.SelectUnitService.getEmployerID());
     this.EmployerService.getAllEmployers(this.dataTable.criteria)
       .then(response => {
         this.dataTable.setItems(response['1']);
