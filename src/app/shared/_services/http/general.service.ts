@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
 import {DataTableResponse} from '../../data-table/classes/data-table-response';
 import {Project} from '../../_models/project.model';
+import {User} from "../../_models/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,6 @@ import {Project} from '../../_models/project.model';
 export class GeneralService  extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/generals';
-  currentEmployerID: number;
   projects: Project[] = [];
   constructor(userSession: UserSessionService, private http: HttpClient) {
     super(userSession);
@@ -35,4 +35,24 @@ export class GeneralService  extends BaseHttpService {
       .then(response=> response as any)
       .catch(() => null);
   }
+  getEmployerComments(objectID: any, employerID: any): Promise<Object[]> {
+    return this.http.post(this.apiUrl + '/generals' + '/getComments', {'username': objectID,'employer':employerID},
+      this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Object[])
+      .catch(() => []);
+  }
+  newEmployerComment(objectID: any, content: string, employer:any): Promise<boolean> {
+    return this.http.post(this.apiUrl + '/generals' + '/comment', {'ids': objectID, 'content': content, 'content_type': 'comments','employer': employer}, this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
+  deleteComment(objectID: any): Promise<boolean> {
+    return this.http.delete(this.apiUrl + '/generals/remove' + objectID ,this.getTokenHeader())
+      .toPromise()
+      .then(() => true)
+      .catch(() => false);
+  }
+
 }

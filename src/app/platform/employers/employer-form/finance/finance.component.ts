@@ -28,7 +28,7 @@ import { Subscription } from 'rxjs';
 export class FinanceComponent implements OnInit{
   @ViewChild(FinanceComponent) doughnut: FinanceComponent;
 
-  paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function (e) {
+   paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function (e) {
     return {id: e, name: PAYMENT_TERMS[e]};
   });
   paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function(e) {

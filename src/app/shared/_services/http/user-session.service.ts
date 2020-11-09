@@ -2,7 +2,7 @@ import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class UserSessionService {
+export class  UserSessionService {
 
   admin = 'admin';
   superUser = 'superUser';
@@ -52,7 +52,6 @@ export class UserSessionService {
       return JSON.parse(sessionStorage.getItem('user'));
     }
 
-    return null;
   }
 
   isPermissions(module): boolean {

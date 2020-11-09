@@ -126,4 +126,7 @@ export class EmployerService extends BaseHttpService {
       .then(response=> response as DataTableResponse)
       .catch(() => null);
   };
+
+
+
 }

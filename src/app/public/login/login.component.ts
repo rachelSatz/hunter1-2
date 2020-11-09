@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
  //
  //    }
  //  }
+  private current_user: any;
 
   login(form: NgForm): void {
     if (form.valid) {

@@ -49,6 +49,7 @@ const routes: Routes = [
     MatSelectModule,
     MatIconModule,
     MatAutocompleteModule,
+    MatDialogModule,
     MatDatepickerModule,
     RouterModule.forChild(routes),
     MatFormFieldModule, MatInputModule, MatButtonModule,BdSelectModule,
