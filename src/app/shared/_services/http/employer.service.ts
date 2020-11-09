@@ -26,6 +26,12 @@ export class EmployerService extends BaseHttpService {
       .catch(() => null);
   };
 
+  getEmployerExternalByEmployerId(employer_id: number): Promise<number>{
+    return this.http.get(this.endPoint+'/getEmployerExternalByEmployerId?employer_id='+ employer_id,this.getTokenHeader())
+      .toPromise()
+      .then(response=> response as any)
+      .catch(() => null);
+  };
   getAllEmployers(criteria?: DataTableCriteria, noLimit?: boolean) : Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
@@ -52,20 +58,12 @@ export class EmployerService extends BaseHttpService {
       .toPromise()
       .then(response =>  response as boolean);
   }
-  getEmployer(employerId: number): Promise<Employer>{
-    debugger;
+  getEmployer(employerId: number): Promise<any>{
     return this.http.get(this.endPoint+'/getEmployer?id='+employerId, this.getTokenHeader())
       .toPromise()
-      .then(response => response as Employer)
+      .then(response => response as any)
       .catch(() => null);
   }
-  getEmployerByEmployerRelationId(employerRelationId): Promise<Employer>{
-    return this.http.get(this.endPoint+'/getEmployerByEmployerRelationId?id='+employerRelationId, this.getTokenHeader())
-      .toPromise()
-      .then(response => response as Employer)
-      .catch(() => null);
-  }
-
 
   getEmployersWithEstPayment(criteria?: DataTableCriteria, noLimit?: boolean) : Promise<DataTableResponse> {
     const request = this.getTokenHeader();

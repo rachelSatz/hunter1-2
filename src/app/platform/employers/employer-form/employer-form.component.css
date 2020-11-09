@@ -1,11 +1,6 @@
-.pl-4, .px-4{
-  padding-right: 50px;
+.emp-form{
   box-shadow: 0px 3px 6px #00000029;
   background: #FFFFFF 0% 0% no-repeat padding-box;
-}
-.row{
-  /*border-bottom: 2px solid #ADADAD;*/
-  opacity: 1;
 }
 
 .container-fluid {
@@ -62,16 +57,15 @@
   pointer-events: none; opacity: 0.4;
 }
 
-
+.w-35{
+  width: 35% !important;
+}
 .bd-de {
   margin-bottom: 2px;
   vertical-align: middle;
   width: 183px !important;
   min-width: 5px !important;
 
-}
-p{
-  font-size: 20px;
 }
 .container2{
   padding-right: 40px !important;
@@ -95,22 +89,16 @@ p{
   margin-right: 30px;
   padding: 10px 10px 10px 10px !important;
   direction: ltr !important;
-  /*font-family: Rubik;*/
 }
-.h5 .bold .py-3{
-  color: black;
-}
-::ng-deep.h5{
-opacity: 1 !important;
-}
+
 .edit{
   background: #F6F6F6 0% 0% no-repeat padding-box;
   border-radius: 27px;
   opacity: 1;
   top: 146px;
   left: 112px;
-  width: 70px;
-  height: 40px;
+  width: 90px;
+  height: 50px;
   margin-left: 25px;
   letter-spacing: 0px;
   color: #C5C5C5;
@@ -177,12 +165,25 @@ p[_ngcontent-c3]{
 ::ng-deep .mat-form-field-underline {
   display: none;
 }
-::ng-deep .mat-form-field-infix{
-  border-top: none;
-  background: #F6F6F6 0% 0% no-repeat padding-box;
-  border-radius: 11px;
-  width: 250px !important;
+/*::ng-deep.mat-form-field-label {*/
+  /*font-size: 1.1em!important;*/
+/*}*/
+.dot {
+  margin-left: 15px;
+  height: 60px;
+  width: 60px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 10px #00000029;  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  padding-top:9px;
+  padding-left: 5px;
+  padding-right: 2px;
+  margin-top: 15px;
+  box-sizing: border-box;
+  cursor: pointer !important;
 }
-::ng-deep.mat-form-field-label {
-  font-size: 1.1em!important;
+.fa-angle-right:before{
+  color: #E82D5C;
+  font-weight: bold;
 }

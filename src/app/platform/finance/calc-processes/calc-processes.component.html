@@ -7,7 +7,7 @@
       </div>
     </div>
   </div>
-  <tr *ngFor="let item of dataTable.items; let i=index;" class="pointer" [ngClass]="{'highlight': item.error !== null}" >
+  <tr *ngFor="let item of dataTable.items; let i=index;" [ngClass]="{'highlight': item.error !== null}" >
 
     <td [ngClass]="{'white': i%2 === 0}">{{ item.project_name}}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.created_at | date: 'dd/MM/yy'}}</td>

@@ -33,7 +33,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
   @Input() placeHolderSearch = 'חפש';
   @Input() innerHTML = '';
 	@Input() limit = 15;
-  @Input() routePage = ''
+  @Input() routePage = '';
+  @Input() ifDisplayPagination = true;
 	@Output() fetchItems = new EventEmitter<boolean>();
 
 	items = [];
@@ -169,6 +170,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	}
 
 	toggleActiveStatus(isActive: boolean): void {
+	  console.log(isActive);
 		this.isActive = isActive;
 		this.loadItems();
 	}

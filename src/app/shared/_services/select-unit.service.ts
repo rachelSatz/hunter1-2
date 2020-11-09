@@ -10,12 +10,25 @@ export class SelectUnitService {
   currentOrganizationID: number;
   currentEmployerID: number;
   unitSubject: Subject<number> = new Subject();
+  activeUrl: string;
 
+  setActiveUrl(activeUrl: any): void {
+    sessionStorage.setItem('activeUrl', JSON.stringify(activeUrl));
+
+     this.unitSubject.next(activeUrl)
+
+    // this.currentOrganizationID = organizations;
+    //this.unitSubject.next(organizations);
+  }
+
+  getActiveUrl(): any {
+    return this.getSessionStorage('activeUrl');
+  }
 
   setOrganization(organizations: any): void {
     sessionStorage.setItem('organizations', JSON.stringify(organizations));
     this.currentOrganizationID = organizations;
-    //this.unitSubject.next(organizations);
+    this.unitSubject.next(organizations)
   }
 
   getOrganization(): any {
@@ -51,7 +64,9 @@ export class SelectUnitService {
     this.unitSubject.next(organizationId);
   }
 
-
+  getTaskTimer(): any {
+    return this.getSessionStorage('task');
+  }
   getAgentBarActive(): boolean {
     if (sessionStorage.getItem('agentBarActive')) {
       return this.getSessionStorage('agentBarActive');

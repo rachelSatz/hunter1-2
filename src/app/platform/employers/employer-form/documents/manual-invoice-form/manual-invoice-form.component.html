@@ -52,10 +52,10 @@
       <!--[value]="invoice_detail.total_payment_amount != undefined? invoice_detail.total_payment_amount : 0" readonly>-->
       <!--</mat-form-field>-->
       <div class="row mr-3 save">
-        <i class="fa fa-save pointer blue-color" (click)="saveInvoiceDetail(invoice_detail, index)" *ngIf="invoice_detail.is_saved === false"></i>
-        <i class="fa fa-plus-circle pointer blue-color" title="הוספה" (click)="addInvoiceDetailRow()" *ngIf="last"></i>
-        <i class="fa fa-edit pointer blue-color" title="עריכה" (click)="editInvoiceDetailRow(invoice_detail)" *ngIf="invoice_detail.is_saved === true"></i>
-        <i class="fa fa-close pointer blue-color mr-1" title="מחיקה" (click)="deleteInvoiceDetailRow(invoice_detail, index, invoice_detail.is_saved)"></i>
+        <i class="fa fa-save pointer pink-color" (click)="saveInvoiceDetail(invoice_detail, index)" *ngIf="invoice_detail.is_saved === false"></i>
+        <i class="fa fa-plus-circle pointer pink-color" title="הוספה" (click)="addInvoiceDetailRow()" *ngIf="last"></i>
+        <i class="fa fa-edit pointer pink-color" title="עריכה" (click)="editInvoiceDetailRow(invoice_detail)" *ngIf="invoice_detail.is_saved === true"></i>
+        <i class="fa fa-close pointer pink-color mr-1" title="מחיקה" (click)="deleteInvoiceDetailRow(invoice_detail, index, invoice_detail.is_saved)"></i>
       </div>
     </div>
 
@@ -74,6 +74,6 @@
   </div>
   <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">{{message}}</p>
   <div mat-dialog-actions class="justify-content-center" style="text-align: center">
-    <button class="btn blue-btn" (click)="submit(form)">צור</button>
+    <button class="btn pink-btn" (click)="submit(form)">צור</button>
   </div>
 </form>

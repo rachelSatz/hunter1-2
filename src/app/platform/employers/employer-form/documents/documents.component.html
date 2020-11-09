@@ -2,11 +2,10 @@
 <app-data-table tableName=" " [columns]="columns" [hasActionsSearch]="false" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
                 [hasActionsHeader]="false">
 
-  <div class="table-header">
-    <div class="row mt-4 mr-1">
-
+  <div class="table-header" *ngIf="permissionsType">
+    <div class="row mr-1">
       <div class="ml-3 d-flex mr-auto">
-        <button [matMenuTriggerFor]="menu" class="btn blue-btn">פעולות</button>
+        <button [matMenuTriggerFor]="menu" class="btn pink-btn">פעולות</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="openProactiveInvoice()">חשבון יזום </button>
           <button mat-menu-item (click)="openManualInvoice()">חשבון ידני</button>
@@ -14,13 +13,12 @@
           <button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>
           <button mat-menu-item (click)="openOnlyTaxInvoice()">חשבונית מס</button>
           <button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>
-          <button mat-menu-item (click)="deleteInvoices(true)">מחיקת חשבונית ואיפוס עובדים</button>
           <button mat-menu-item (click)="openReports()">דו"חות</button>
         </mat-menu>
       </div>
     </div>
   </div>
-  <tr *ngFor="let item of dataTable.items; let i=index" class="pointer" [ngClass]="{'highlight': item.error !== null}">
+  <tr *ngFor="let item of dataTable.items; let i=index" [ngClass]="{'highlight': item.error !== null}">
     <td class="check-column" [ngClass]="{'white': i%2 === 0}">
       <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
     </td>
@@ -37,18 +35,18 @@
     <td [ngClass]="{'white': i%2 === 0}">{{ item.last_payment_date  | date: 'dd/MM/yy'  }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ types[item.type] }}</td>
     <td class="select-status" [ngClass]="{'white': i%2 === 0}">
-      <mat-select [title]="setItemTitle(item)" name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
+      <mat-select [title]="setItemTitle(item)" class="pointer" [disabled]="!permissionsType" name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
         <mat-option *ngFor="let st of status" [value]="st.id">{{ st.name }}</mat-option>
       </mat-select>
     </td>
     <td [ngClass]="{'white': i%2 === 0}">
-      <i class="fa fa-eye fa-lg" (click)="ShowRemarks(item)" title="הערות" ></i>
+      <i class="fa fa-eye fa-lg pointer" (click)="ShowRemarks(item)" title="הערות" ></i>
     </td>
     <td *ngIf="item.description != ''" [ngClass]="{'white': i%2 === 0}">
-      <i class="fa fa-download fa-lg ml-2" title="פירוט עובדים בחשבונית" (click)="downloadEmployeesExcel(item.id, item)" ></i>
+      <i class="fa fa-download fa-lg ml-2 pointer" title="פירוט עובדים בחשבונית" (click)="downloadEmployeesExcel(item.id, item)" ></i>
     </td>
     <td [ngClass]="{'white': i%2 === 0}">
-      <i class="fa fa-exclamation-circle" (click)="showInvoiceDetails(item)" title="פירוט רשומות" ></i>
+      <i class="fa fa-exclamation-circle pointer" (click)="showInvoiceDetails(item)" title="פירוט רשומות" ></i>
     </td>
   </tr>
 </app-data-table>

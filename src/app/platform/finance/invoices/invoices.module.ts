@@ -25,6 +25,7 @@ import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-deta
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 import {SideFiltersComponent} from '../../../shared/data-table/side-filters/side-filters.component';
 import {PlatformComponent} from '../../platform.component';
+import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
 
 
 const routes: Routes = [
@@ -44,7 +45,8 @@ const routes: Routes = [
     TaxOnlyInvoiceFormComponent,
     ReportsFormComponent,
     InvoiceDetailsFormComponent,
-    RemarksFormComponent
+    RemarksFormComponent,
+    ProactiveInvoiceFormComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +73,8 @@ const routes: Routes = [
      TaxOnlyInvoiceFormComponent,
      ReportsFormComponent,
      InvoiceDetailsFormComponent,
-      RemarksFormComponent
+      RemarksFormComponent,
+     ProactiveInvoiceFormComponent
   ],
   providers: [
     InvoiceService, SideFiltersComponent, PlatformComponent

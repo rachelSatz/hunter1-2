@@ -6,7 +6,7 @@
 <app-data-table [hasActionsSearch]="false" [columns]="columns" (fetchItems)="fetchItems()"
                 [hasActionsHeader]="false" [hasCheckColumn]="false" [hasExtendedSearch]="false" [limit]="8" dir="rtl" [routePage]="'platform/dashboard'">
 
-  <tr *ngFor="let item of dataTable.items; let i=index;" class="pointer" [ngClass]="{'highlight': item.error !== null}">
+  <tr *ngFor="let item of dataTable.items; let i=index;" [ngClass]="{'highlight': item.error !== null}">
     <td [ngClass]="{'white': i%2 === 0}">{{ item.name }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.identifier}}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.total_amount}}</td>

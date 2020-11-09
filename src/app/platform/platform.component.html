@@ -1,43 +1,40 @@
 <header class="platform">
   <div class="container-fluid">
-  <div id="mainMenu">
-    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-
-      <div class="collapse navbar-collapse align-items-end"  >
-        <ul class="navbar-nav">
-          <ng-container *ngFor="let link of menuLinks">
-            <li class="nav-item mb-5" [ngClass]="{ 'active': link.url === activeUrl }" *ngIf="!link.subMenuLinks">
-              <a class="menu-link" [routerLink]="['/platform', link.url]"  routerLinkActive="active" (click)="setActiveUrl(link.url)">
+    <div id="mainMenu">
+      <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+        <div class="collapse navbar-collapse align-items-end"  >
+          <ul class="navbar-nav">
+            <ng-container *ngFor="let link of menuLinks">
+              <li class="nav-item mb-5"
+                [ngClass]="{ 'active': link.url === selectUnit.getActiveUrl()}" *ngIf="!link.subMenuLinks"
+                [hidden]="UserSessionService.isPermissions(link.url) && link.url!='dashboard'">
+                <a class="menu-link" [routerLink]="['/platform', link.url]"  routerLinkActive="active">
                 <p class="mb-half" >{{ link.label }}</p>
-              </a>
-            </li>
-            <li [matMenuTriggerFor]="subMenu" class="nav-item pointer"
-                [ngClass]="{ 'active': link.url === activeUrl }"
-                *ngIf="link.subMenuLinks">
-              <p class="mb-half" >{{ link.label }}</p>
-              <!--<span>{{ link.label }}</span>-->
-              <mat-menu #subMenu yPosition="above" [overlapTrigger]="false" >
-                <button mat-menu-item class="dropdown-item btn" *ngFor="let subLink of link.subMenuLinks"
+                </a>
+              </li>
+              <li [matMenuTriggerFor]="subMenu" class="nav-item pointer"
+                [ngClass]="{ 'active': link.url === selectUnit.getActiveUrl() }"
+                *ngIf="link.subMenuLinks" [hidden]="UserSessionService.isPermissions(link.url)">
+                <p class="mb-half" >{{ link.label }}</p>
+                <mat-menu #subMenu yPosition="above" [overlapTrigger]="false" >
+                  <button mat-menu-item class="dropdown-item btn" *ngFor="let subLink of link.subMenuLinks"
                         (click)="navigate(link.url, subLink.url)">{{ subLink.label }}</button>
-              </mat-menu>
-            </li>
-          </ng-container>
-        </ul>
-      </div>
-      <div class="d-flex align-items-center">
-        <bd-select [items]="organizations" class="ml-3" [(ngModel)]="organizationId" placeholder="ארגון על"
+                </mat-menu>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+        <div class="d-flex align-items-center">
+          <bd-select [items]="organizations" class="ml-3 mb-3" [(ngModel)]="organizationId" placeholder="ארגון על"
                    (onSelect)="loadEmployers($event)" ></bd-select>
-
-        <bd-select  [items]="employers" class="ml-3" [(ngModel)]="employerId" placeholder="מעסיק"
+          <bd-select  [items]="employers" class="ml-3 mb-3" [(ngModel)]="employerId" placeholder="מעסיק"
                     (onSelect)="selectEmployer($event)"></bd-select>
-      </div>
-    </nav>
-
-  </div>
+        </div>
+      </nav>
+    </div>
   </div>
 </header>
 <div class="container-fluid">
-
   <div id="content">
     <router-outlet></router-outlet>
   </div>

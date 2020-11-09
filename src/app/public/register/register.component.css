@@ -1,0 +1,90 @@
+.background{
+  width: 100%;
+  height: 900px;
+  background: #FBFBFB 0% 0% no-repeat padding-box;
+  opacity: 1;
+  padding-top: 120px;
+}
+.center{
+  background-color: white;
+  padding-bottom: 70px;
+  width: 500px;
+}
+h1{
+  text-align: center;
+  margin-bottom: 80px;
+  font: normal normal bold 46px/55px Rubik;
+  letter-spacing: 0px;
+  color: #E82D5C;
+  opacity: 1;
+}
+.orange{
+  top: 97px;
+  left: 760px;
+  width: 82px;
+  height: 60px;
+  text-align: left;
+  font: normal normal normal 46px/60px ScriptoramaMarkdownJF;
+  letter-spacing: 0px;
+  color: #FF7C31;
+  opacity: 1;
+}
+input[type="text"]{
+  top: 459px;
+  left: 813px;
+  width: 292px;
+  height: 50px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 2px solid #DBDBDB;
+  opacity: 1;
+  /*text-align: center;*/
+  margin: auto;
+}
+p{
+  text-align: right;
+  font: normal normal medium Rubik;
+  letter-spacing: 0px;
+  color: #222222;
+  opacity: 1;
+}
+::ng-deep.w-100{
+  margin: auto;
+  width: 292px!important;
+  /*margin-bottom: 10px;*/
+}
+.header{
+  text-align: center;
+  font: normal normal normal 30px/36px Rubik;
+  letter-spacing: 0px;
+  color: #202027;
+  opacity: 1;
+}
+#input_container {
+  position:relative;
+  direction: rtl;
+  /*margin-bottom: 30px;*/
+  margin-top: 15px;
+}
+#input {
+  margin:0;
+  /*width: 100%;*/
+
+}
+#input_img {
+  position:absolute;
+  bottom:5px;
+  right:260px;
+  width:24px;
+  height:30px;
+  background: transparent 0% 0% no-repeat padding-box;
+  color:#E2E2E2 ;
+}
+.bottom-20{
+  bottom: 20px !important;
+}
+.underline {
+  text-decoration: underline !important;
+}
+.center{
+  width: 30%; margin: auto; padding-top: 100px;
+}

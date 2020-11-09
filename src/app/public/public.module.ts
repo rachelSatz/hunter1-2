@@ -13,6 +13,8 @@ import {
 import {UserSessionService} from '../shared/_services/http/user-session.service';
 import {AppHttpService} from '../shared/_services/http/app-http.service';
 import { RegisterComponent } from './register/register.component';
+import {IconsModule} from 'angular-bootstrap-md';
+import {NotificationService} from '../shared/_services/notification.service';
 
 const routes: Routes = [
   {
@@ -32,8 +34,6 @@ const routes: Routes = [
     ReactiveFormsModule,
     MatDialogModule,
     RouterModule.forChild(routes),
-    MatFormFieldModule, MatInputModule, MatButtonModule
-  ],
-  providers: [UserSessionService, AppHttpService]
-})
+    MatFormFieldModule, MatInputModule, MatButtonModule],
+  providers: [UserSessionService, AppHttpService, NotificationService]})
 export class PublicModule { }

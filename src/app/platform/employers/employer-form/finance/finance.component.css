@@ -7,3 +7,6 @@
   text-align: right!important;
   direction: rtl!important;
 }
+.disabledDiv {
+  pointer-events: none; opacity: 0.8;
+}

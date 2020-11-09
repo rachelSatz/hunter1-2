@@ -1,3 +1,4 @@
+
 declare const swal: any;
 
 export class NotificationService {
@@ -8,7 +9,9 @@ export class NotificationService {
       type: 'success',
       title: title,
       text: text ? text : '',
-      confirmButtonText: 'אישור'
+      confirmButtonText: 'אישור',
+      confirmButtonColor: '#E82D5C',
+      cancelButtonColor: '#E82D5C',
     };
 
     if (extraOptions) {
@@ -23,7 +26,9 @@ export class NotificationService {
       type: 'error',
       title: title ? title : 'אירעה שגיאה',
       text: text,
-      confirmButtonText: 'סגור'
+      confirmButtonText: 'סגור',
+      confirmButtonColor: '#E82D5C',
+      cancelButtonColor: '#E82D5C',
     };
 
     if (extraOptions) {
@@ -40,7 +45,9 @@ export class NotificationService {
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'אישור',
-      cancelButtonText: 'ביטול'
+      cancelButtonText: 'ביטול',
+      confirmButtonColor: '#E82D5C',
+      cancelButtonColor: '#E82D5C',
     };
 
     if (extraOptions) {
@@ -57,13 +64,14 @@ export class NotificationService {
       type: 'info',
       showCancelButton: true,
       confirmButtonText: 'אישור',
-      cancelButtonText: 'ביטול'
+      cancelButtonText: 'ביטול',
+      confirmButtonColor: '#E82D5C',
+      cancelButtonColor: '#E82D5C',
     };
 
     if (extraOptions) {
       options = Object.assign(options, extraOptions);
     }
-
     return swal(options);
   }
 }

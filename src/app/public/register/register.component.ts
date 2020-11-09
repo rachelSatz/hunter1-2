@@ -9,12 +9,16 @@ import {NgForm} from '@angular/forms';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
+  styleUrls:['./register.component.css'],
   animations: [  fade ]
 })
 export class RegisterComponent implements OnInit {
 
   hasServerError: boolean;
   isSubmitting: boolean;
+  hideConfirmPassword : boolean = true;
+  pas: string ='';
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private appHttp: AppHttpService,
@@ -24,6 +28,9 @@ export class RegisterComponent implements OnInit {
     if (!this.route.snapshot.queryParams.token) {
       return;
     }
+  }
+  togglemyConfirmPasswordFieldType(){
+    this.hideConfirmPassword = !this.hideConfirmPassword;
   }
   register(form: NgForm): void {
     if (form.valid) {

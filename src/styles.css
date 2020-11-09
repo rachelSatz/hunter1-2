@@ -93,7 +93,7 @@ label {
 
 a:hover {
   text-decoration: none;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 /*--- Custom ---*/
@@ -115,7 +115,7 @@ font-Heebo{
 }
 
 .btn, .pointer {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .h-25 {
@@ -213,9 +213,6 @@ font-Heebo{
   background-color: #E82D5C;
 }
 
-.blue-color {
-  color: #E82D5C;
-}
 
 .white-color {
   color: #FFFFFF;
@@ -256,20 +253,16 @@ font-Heebo{
   color: #c4c4c4;
 }
 
-.blue-background {
+.pink-background {
   background-color: #E82D5C;
 }
-
-.blue-btn {
+.pink-btn {
   background-color: #E82D5C;
   color: #fff;
 }
-
-.grey-btn {
-  background-color: #adadaf;
-  color: #fff;
+.border-radius-28{
+  border-radius: 28px;
 }
-
 .ellipse{
   border: 2px solid ;
   border-radius: 18px;
@@ -284,7 +277,7 @@ font-Heebo{
 }
 
 .page-spinner-wrapper {
-  background: rgba(150,150,150,0.5);
+  background-color: white;
   position: fixed;
   top: 0;
   right: 0;
@@ -318,7 +311,7 @@ font-Heebo{
   padding: 8px 4px;
   border: 1px solid #b3b3b3;
   font-size: 14px;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .file-label-text {
@@ -406,10 +399,6 @@ font-Heebo{
   font-size: 36px !important;
 }
 
-.box-shadow {
-  box-shadow: 0 3px 11px 4px #999;
-}
-
 /*--- Bootstrap RTL ---*/
 
 .input-group .form-control:not(:last-child) {
@@ -437,7 +426,7 @@ font-Heebo{
   color: #fff;
 }
 
-.blue-circle{
+.pink-circle{
   position: absolute;
   display: inline-flex;
   align-items: center;
@@ -485,7 +474,7 @@ button[mat-dialog-close] {
   background: #fff;
   border: none;
   outline: 0;
-  cursor: pointer;
+  cursor: pointer !important;
   text-align: right;
   border-radius: 27px !important;
 }
@@ -552,7 +541,9 @@ button[mat-dialog-close] {
 .w-40 {
   width: 40% !important;
 }
-
+.w-45{
+  width: 45% !important;
+}
 .w-70 {
   width: 70% !important;
 }
@@ -590,11 +581,56 @@ button:focus, button.focus {
   display: none;
 }
 ::ng-deep .mat-form-field-infix{
-  border-top: none;
+  border-top: none !important;
   background: #F6F6F6 0% 0% no-repeat padding-box;
   border-radius: 11px;
-  width: 250px !important;
+  /*width: 250px !important;*/
 }
 ::ng-deep.mat-form-field-label {
   font-size: 1.1em!important;
+}
+.white-btn{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 2px solid #E2E2E2;
+  color: #E82D5C;
+  cursor: pointer !important;
+}
+.swal2-icon-text{
+  margin-top: 30px;
+  color: #E82D5C !important;
+}
+.swal2-icon,.swal2-icon.swal2-success .swal2-success-ring, .swal2-success-line-tip {
+  border-color: #E82D5C !important;
+  color: #E82D5C !important;
+}
+span.swal2-success-line-tip, span.swal2-success-line-long{
+  background-color: #E82D5C !important;
+}
+.invalid{
+  /*background-color: red !important;*/
+  border: red 1px solid !important;
+}
+.red-color{
+  color: red!important;
+}
+.pink-color{
+  color: #E82D5C;
+}
+.blue-color{
+  color: #00ADEE !important;
+}
+::ng-deep.w-20{
+  width: 20% !important;
+}
+.padding-right-30{
+  padding-right: 30px !important;
+}
+.padding-right-10{
+  padding-right: 10px !important;
+}
+.font-size-15{
+  font-size: 15px !important;
+}
+.display-block{
+  display: block!important;
 }

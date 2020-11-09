@@ -1,156 +1,109 @@
-<div class="mr-5 px-4">
-  <form #form="ngForm" >
+<div class="float-right w-20 mt-4">
+<span class="dot pointer" (click)="previous()"><i class="fa fa-angle-right fa-2x"></i></span>
+</div>
+<div class="mr-3 px-4 float-right w-75">
+  <form #form="ngForm">
     <div class="row">
+
       <div [ngClass]="{'displayNone': update}">
-        <span class="h4 mb-4" >יצירת משתמש חדש</span>
+        <span class="h3" >יצירת משתמש חדש</span>
       </div>
       <div [ngClass]="{'displayNone': !update}">
-        <span class="h4 mb-4" >עדכון משתמש חדש</span>
-        <!--<a class="mr-2 align-middle" (click)="changeProjectManager()">-->
-          <!--<i class="material-icons " title="העברת ישות בין מתפעילים">-->
-            <!--swap_horizontal_circle-->
-          <!--</i>-->
-        <!--</a>-->
+        <span class="h3" >עדכון משתמש קיים</span>
+      </div>
 
-      </div>
-      <div class="d-flex mr-auto">
-        <a (click)="previous()" dir="rtl">
-          <p class="f-14 blue-color">
-            <i class="fa fa-angle-right ml-1 ml-lg-2"></i>
-            <span>חזור</span>
-          </p>
-        </a>
-      </div>
     </div>
     <br>
-    <div class="row">
-
-      <div class="col-6 col-lg-3">
-        <p>שם משתמש</p>
-        <input class="form-control" type="text" name="username" #username="ngModel" [(ngModel)]="user.username" required>
-        <mat-error *ngIf="username.errors">יש להזין שם משתמש.</mat-error>
-      </div>
-    </div>
-    <div class="row">
+    <h5 class="bold">פרטים כלליים</h5>
+    <div class="row mb-4">
       <div class="col-6 col-lg-3">
         <!--<input matInput type="text" [(ngModel)]="user.first_name" placeholder="שם פרטי" name="first_name" required>-->
-        <p>שם פרטי</p>
-        <input class="form-control" type="text" name="first_name" #first_name="ngModel" [(ngModel)]="user.first_name" required>
-        <mat-error *ngIf="first_name.errors">יש להזין שם פרטי.</mat-error>
+        <p class="grayColor">שם פרטי</p>
+        <input class="form-control" type="text" name="first_name" #first_name="ngModel" [ngClass]="first_name.invalid && (first_name.dirty || first_name.touched ||not_valid)? 'invalid':''" [(ngModel)]="user.first_name"
+               required pattern="^[a-zA-Zא-ת \-\']+">
+        <div *ngIf="first_name.invalid && (first_name.dirty || first_name.touched ||not_valid)" class="red-color">
+          <div *ngIf="first_name.errors.required">
+            שדה חובה
+          </div>
+          <div *ngIf="first_name.errors.pattern">
+            יש להזין אותיות בלבד
+          </div>
+        </div>
+        <!--<mat-error *ngIf="control && control.invalid && (control.dirty || control.touched)">יש להזין שם פרטי.</mat-error>-->
       </div>
       <div class="col-6 col-lg-3">
         <!--<input matInput type="text" [(ngModel)]="user.last_name" placeholder="שם משפחה" name="last_name" required>-->
-        <p>שם משפחה</p>
-        <input class="form-control" type="text" name="last_name" #last_name="ngModel" [(ngModel)]="user.last_name" required>
-        <mat-error *ngIf="last_name.errors">יש להזין שם משפחה.</mat-error>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6 col-lg-3">
-        <!--<input matInput placeholder="כתובת מייל" [(ngModel)]="user.email" name="email" type="email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>-->
-        <p>כתובת אמייל</p>
-        <input class="form-control" type="email" name="email" #email="ngModel" [(ngModel)]="user.email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
-        <mat-error *ngIf="last_name.errors">יש להזין כתובת אמייל.</mat-error>
-      </div>
-      <div class="col-6 col-lg-3">
-        <!--<input matInput type="text" [(ngModel)]="user.email_password" placeholder="סיסמה" name="email_password">-->
-        <p>סיסמא</p>
-        <input class="form-control" type="text" name="email_password" #email_password="ngModel" [(ngModel)]="user.email_password" required>
-        <mat-error *ngIf="last_name.errors">יש להזין סיסמא.</mat-error>
-      </div>
-    </div>
-    <br>
-    <div class="row mb-4">
-      <div class="col-6 col-lg-3">
-        <bd-select [items]="roles" placeholder="סוג משתמש" #roleSelect="ngModel" name="role"
-                   [(ngModel)]="user.role" required></bd-select>
-      </div>
-    </div>
-    <!--<div class="row mb-4">-->
-      <!--<div class="col-6 col-lg-3">-->
-        <!--<bd-select [items]="teamLeaders" placeholder="קבוצה" #groupSelect="ngModel" name="group"-->
-                   <!--[(ngModel)]="user.team_leader" required></bd-select>-->
-      <!--</div>-->
-    <!--</div>-->
-    <p class="bold h6">הוספת חתימה למיילים</p>
-    <div class="w-25">
-      <ckeditor  id="editor" [editor]="Editor" data=""
-                 (ready)="onReady($event)" [(ngModel)]="user.signature_html" name="html"></ckeditor>
-    </div>
-    <div>
-      <p class="bold h6">בחר מודולים</p>
-      <div *ngFor="let module of user.modules; let i = index" class="d-flex mb-2">
-        <mat-checkbox class="check-module" [(ngModel)]="module.isEnabled" [name]="'module_' + i" (click)="setPermission(i)">{{ moduleTypes[module.name] }}</mat-checkbox>
-        <mat-radio-group *ngIf="moduleTypes[module.name] !== 'הקמת מעסיק'" [disabled]="hasDisabled(i)"  [(ngModel)]="module.permission_type" [name]="'permission_type_' + i"
-                         [@fade]="module.isEnabled ? 'active' : 'inactive'" >
-          <mat-radio-button class="ml-4" value="read">צפייה בלבד</mat-radio-button>
-          <mat-radio-button class="ml-4" value="write">צפייה ועריכה</mat-radio-button>
-          <mat-radio-button value="all">כל ההרשאות</mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </div>
-
-   <!--<div class="w-50">
-      <app-data-table tableName="" [columns]="columns" [hasExtendedSearch]="false" [hasActionsSearch]="true"
-                      [hasCheckColumn]="true" (fetchItems)="fetchItems()"
-                      [@fade]="user.role !== 'admin' && user.id !== undefined ? 'active' : 'inactive'   ">
-        <div class="table-header">
-          <p class="bold h6">בחר ישויות</p>
-          <div class="w-50 d-flex align-items-center mb-2" [@fade]="add ? 'active' : 'inactive'">
-            <bd-select class="ml-4" name="organization" [items]="projects" placeholder="פרויקט על" [(ngModel)]="permission.project_group_id"  ></bd-select>
-            <bd-select class="ml-4" name="employer" [items]="selectedEmployer()" placeholder="מעסיק"  [(ngModel)]="permission.employer_id"></bd-select>
-            <button class="btn blue-btn mr-2" (click)="addUnitPermissionRow(); add = false" >הוסף</button>
+        <p class="grayColor">שם משפחה</p>
+        <input class="form-control" type="text" name="last_name" #last_name="ngModel" [(ngModel)]="user.last_name" required
+               [ngClass]="last_name.invalid && (last_name.dirty || last_name.touched ||not_valid)? 'invalid':''" pattern="^[a-zA-Zא-ת \-\']+">
+        <div *ngIf="last_name.invalid && (last_name.dirty || last_name.touched ||not_valid )" class="red-color">
+          <div *ngIf="last_name.errors.required">
+            שדה חובה
           </div>
-          <div class="row mt-4 mr-1">
-            <div class="ml-3 d-flex mr-auto">
-              <button  *ngIf="!add" class="btn blue-btn"  (click)="add = true">הוספת ישות</button>
-            </div>
+          <div *ngIf="last_name.errors.pattern">
+            יש להזין אותיות בלבד
           </div>
         </div>
-        <tr *ngFor="let item of dataTable.items" class="pointer">
-          <td  class="check-column">
-            <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-6 col-lg-3">
+        <p class="grayColor">טלפון נייד </p>
+        <input class="form-control" type="text" name="phone" #phone="ngModel" [(ngModel)]="user.phone"  pattern="^\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})$"
+               [ngClass]="phone.invalid && (phone.dirty || phone.touched||not_valid )? 'invalid':''">
+        <!--pattern="^\+?(972|0|\+972|00972)(\-)?(([23489]{1}\d{7})|[5]{1}\d{8})"-->
+        <div *ngIf="phone.invalid && (phone.dirty || phone.touched ||not_valid)" class="red-color">
+        מספר לא חוקי
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <p class="grayColor">כתובת אמייל</p>
+        <input class="form-control" type="email" name="email" [readonly]="update" #email="ngModel" [(ngModel)]="user.email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required
+               [ngClass]="email.invalid &&  (email.dirty || email.touched ||not_valid)? 'invalid':''">
+        <div *ngIf="email.invalid && (email.dirty || email.touched||not_valid)" class="red-color">
+          <div *ngIf="email.errors.pattern">
+          כתובת אימייל לא חוקית
+        </div>
+          <div *ngIf="email.errors.required">
+שדה חובה
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-6 col-lg-3 pl-4">
+        <bd-select [items]="roles" placeholder="סוג משתמש" #roleSelect="ngModel" name="role"
+                   [(ngModel)]="user.role" required ></bd-select>
+        <div *ngIf="roleSelect.invalid && (roleSelect.dirty || roleSelect.touched ||not_valid )" class="red-color mt-1">
+          שדה חובה
+        </div>
+      </div>
+    </div>
+    <h5 class="mt-5 bold">הרשאות</h5>
+    <div style="width: 52%">
+      <app-data-table tableName="" [ifDisplayPagination]="false" [columns]="columns" [hasActionsHeader]="isDisplay"
+                      [hasActionsSearch]="false" [hasExtendedSearch]="false" [hasLoadingItem]="false">
+        <tr *ngFor="let item of user.modules; let i=index;" class="pointer" >
+          <td [ngClass]="{'white': i%2 === 0}">{{ moduleTypes[item.name]}}</td>
+          <td [ngClass]="{'white': i%2 === 0}">
+            <mat-slide-toggle color="#E82D5C" (change)="changePermission($event,item,i)"
+                              [checked]="(item.permission_type=='read' || item.permission_type=='all')  && item.isEnabled" [disabled]="item.permission_type=='all' && item.isEnabled " aria-label="read" id="{{ 'read-' + i }}">
+              <span class="bold ml-1"></span>
+            </mat-slide-toggle>
           </td>
-          <td>{{ item.project_name }}</td>
-          <td>{{ item.project_name }}</td>
-          <td>
-            <img title="מחיקה" src="/assets/img/icons/delete.svg" (click)="removeUnitPermissionRow(item.permission_id)" class="row-image"/>
+          <td [ngClass]="{'white': i%2 === 0}">
+            <mat-slide-toggle color="#E82D5C" (change)="changePermission($event,item,i)" [ngClass]=""
+                              [checked]="item.permission_type=='all' && item.isEnabled" aria-label="all" id="{{ 'all-' + i }}">
+              <span class="bold ml-1"></span>
+            </mat-slide-toggle>
           </td>
         </tr>
       </app-data-table>
-    </div>-->
-    <p class="alert alert-danger"  [@fade]="hasServerError ? 'active' : 'inactive'">{{ message }}</p>
-    <div class="mt-3">
-      <button class="btn blue-btn" type="submit" (click)="submit(form)">שלח</button>
+    </div>
+    <p class="alert alert-danger "  [@fade]="hasServerError ? 'active' : 'inactive'">{{ message }}</p>
+    <div class="mt-4 text-center pl-5" >
+      <button class="btn pink-btn ml-5 pointer" type="submit" (click)="submit(form)">שמור</button>
     </div>
   </form>
-<div style="width: 70%">
-  <!--<div [innerHTML]="htmlstring" ></div>-->
-
-  <app-data-table tableName="" [columns]="columns" [hasActionsHeader]="isDisplay">
-      <tr *ngFor="let item of modules; let i=index;" class="pointer" >
-        <td [ngClass]="{'white': i%2 === 0}">{{item.name}}</td>
-        <td [ngClass]="{'white': i%2 === 0}">
-          <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="{{ 'switch-' + i }}">
-          <label class="custom-control-label" for="{{ 'switch-' + i }}"> </label>
-        </div>
-        </td>
-        <td [ngClass]="{'white': i%2 === 0}">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="{{ 'switch2-' + i }}">
-            <label class="custom-control-label" for="{{ 'switch2-' + i }}"> </label>
-          </div>
-        </td>
-        <td [ngClass]="{'white': i%2 === 0}">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="{{ 'switch3-' + i }}">
-            <label class="custom-control-label" for="{{ 'switch3-' + i }}"> </label>
-          </div>
-        </td>
-      </tr>
-    </app-data-table>
-</div>
-
 </div>
 

@@ -2,12 +2,12 @@
 <app-data-table tableName="לקוחות " [hasActionsSearch]="false" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false"
                 [hasActionsHeader]="false">
   <div class="table-header">
-    <div class="row mt-4 mr-1">
+    <div class="row mt-4">
       <div class="float-left">
         <p>במסך זה ניתן לראות את רשימת הלקוחות/ להוסיף לקוחות חדשים ולערוך חיובים של לקוחות קיימים.</p>
       </div>
-      <div class="ml-3 d-flex mr-auto">
-        <button  class="btn blue-btn bold">פעולות</button>
+      <div class="ml-3 d-flex mr-auto" *ngIf="permissionsType">
+        <button  class="btn bold white-btn">פעולות</button>
       </div>
     </div>
   </div>

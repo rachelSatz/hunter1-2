@@ -11,6 +11,8 @@ import {UserService} from '../../../shared/_services/http/user.service';
 import { Location } from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DataTableResponse} from '../../../shared/data-table/classes/data-table-response';
+import {NotificationService} from '../../../shared/_services/notification.service';
+import {HelpersService} from '../../../shared/_services/helpers.service';
 
 @Component({
   selector: 'app-user-form',
@@ -29,7 +31,6 @@ export class UserFormComponent implements OnInit {
   hasServerError: boolean;
   projects = [];
   employers = [];
-  employees = [];
   message: string;
   moduleTypes = ModuleTypes;
   update = false;
@@ -50,81 +51,70 @@ export class UserFormComponent implements OnInit {
     { name: 'module', label: 'מודול', searchable: false},
     { name: 'watching', label: "צפייה"},
     { name: 'actions', label: 'ביצוע פעולות'},
-    { name: 'Alerts', label: 'התראות' , searchable: false},
+    // { name: 'Alerts', label: 'התראות' , searchable: false},
   ];
+  not_valid: boolean =false;
   constructor(private userSeService: UserSessionService,
               private userService:UserService,
               private _location: Location,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private notificationService: NotificationService,
+              private helpers: HelpersService) { }
 
   ngOnInit() {
     if (this.route.snapshot.data.user) {
+      this.helpers.setPageSpinner(true);
       this.update = true;
       this.user = new User(this.route.snapshot.data.user);
+      console.log(this.units);
       this.units = this.user.units;
+      this.helpers.setPageSpinner(false);
+
     }
-    // console.log(this.items.length)
-    // for(var i=0;i<this.modules.length;i++)
-    // {
-    //   this.items[i]=new Array<any>(4);
-    //   this.items[i][0] = this.modules[i].name;
-    //   for(var j=1;j<4;j++){
-    //     this.items[i][j] = 'aaa';
-    //     this.items[i][j] = 'aaa';
-    //     this.items[i][j] = 'aaa';
-    //   }
-    //
-    // }
-    // console.log(this.items);
-    // this.dataTable.items
-    this.htmlstring = '<div class="custom-control custom-switch">\n' +
-      '            <input type="checkbox" class="custom-control-input" id="{{ \'switch4-\' + i }}">\n' +
-      '            <label class="custom-control-label" for="{{ \'switch4-\' + i }}"> </label>\n' +
-      '          </div>'
+    // this.htmlstring = '<div class="custom-control custom-switch">\n' +
+    //   '            <input type="checkbox" class="custom-control-input" id="{{ \'switch4-\' + i }}">\n' +
+    //   '            <label class="custom-control-label" for="{{ \'switch4-\' + i }}"> </label>\n' +
+    //   '          </div>'
   }
   private handleResponse(isSaved: any): void {
+    this.helpers.setPageSpinner(false);
     this.message = isSaved['message'];
     if (this.message === 'username_exist') {
-      this.hasServerError = true;
-      this.message = 'שם משתמש קיים';
+      //this.hasServerError = true;
+      this.notificationService.error('משתמש עם כתובת אימייל זו קיים במערכת') ;
+      this.user.email ="";
     } else {
       if (this.message === 'failed') {
         this.hasServerError = true;
         this.message = 'שגיאת שרת, נסה שנית או צור קשר.';
       } else {
-        if (this.user.id === undefined) {
-          this.user.id = isSaved['userId'];
-          console.log('העובד נוסף בהצלחה');
-        } else {
-          this.previous();
-        }
+        this.notificationService.success('משתמש נשמר בהצלחה');
+        this.previous();
       }
     }
   }
   fetchItems(){
-    // let un = this.units;
-    // if (this.units === undefined) {
-    //   this.user.units = [];
-    //   un = [];
-    // }else {
-    //   const keyword = this.dataTable.criteria.keyword;
-    //   if ( keyword !== '' && keyword !== undefined) {
-    //     un = this.units.filter( u =>
-    //       u['employer_name'].indexOf(keyword) !== -1 ||
-    //       u['department_name'].indexOf(keyword) !== -1 ||
-    //       u['organization_name'].indexOf(keyword) !== -1 );
-    //   } else {
-    //     un = this.units;
-    //   }
-    // }
-    // this.addToUnitUser(un);
   }
-  addToUnitUser(items): void {
-    this.user.units = items;
-    this.permission = new UserUnitPermission();
-    const d = new DataTableResponse(this.user.units, this.user.units.length, 1);
-    this.dataTable.criteria.limit = this.user.units.length;
-    this.dataTable.setItems(d, 'permission_id');
+  changePermission(event: any, module, index): void{
+    if(event.checked==true){
+      if(this.user.modules[index].isEnabled ==false) {
+        this.user.modules[index].isEnabled =true;
+        this.user.modules[index].permission_type =event.source['ariaLabel']
+      }
+      else {
+        if(this.user.modules[index].permission_type == 'read'){
+          this.user.modules[index].permission_type ='all'
+        }
+      }
+    }
+    else {
+      if(this.user.modules[index].permission_type == 'read'){
+        this.user.modules[index].isEnabled =false;
+        this.user.modules[index].permission_type = 'read'
+      } else {
+          this.user.modules[index].permission_type = 'read'
+      }
+    }
   }
 
   previous(): void {
@@ -136,13 +126,16 @@ export class UserFormComponent implements OnInit {
     this.user.units = [];
     this.hasServerError = false;
      if (form.valid) {
-       if (this.user.modules.some(m => m.isEnabled) && (( this.user.units.length>0 && this.user.units[0].project_group_id)|| this.user.role === 'admin' || this.user.id === undefined)) {
-         if (this.user.id) {
+       this.helpers.setPageSpinner(true);
+       if (this.user.id) {
            this.userService.updateUser(this.user, this.user.id).then(response => this.handleResponse(response));
          } else {
            this.userService.saveNewUser(this.user).then(response => this.handleResponse(response));
          }
        }
+
+     else {
+       this.not_valid = true;
      }
   }
 

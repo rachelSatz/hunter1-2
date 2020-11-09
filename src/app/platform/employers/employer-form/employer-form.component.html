@@ -1,30 +1,27 @@
-<div class="mr-5 px-4" *ngIf="employer">
-  <div class="formEmployer">
+<div class="emp-form" *ngIf="employer">
+  <!--<div class="formEmployer">-->
   <div class="row">
-    <p class="h5 bold py-3">לקוח<span class="h6 py-3">- {{employer.id }} </span></p>
-    <button class="archives fa fa-folder"><span class="rubik">ארכיון</span></button>
+    <span class="dot" (click)="previous()"><i class="fa fa-angle-right fa-2x"></i></span>
+    <p class="h5 bold py-3 pt-4">לקוח<span class="h6 py-3">- {{employer.id_emp }} </span></p>
     <!--<i class="fas fa-folder"></i>-->
     <div class="d-flex mr-auto">
-      <button class="edit" (click)="openOrCloseEditEmployerDetails()"> עריכה </button>
+      <button class="edit" (click)="openOrCloseEditEmployerDetails()" *ngIf="permissionsType"> עריכה </button>
 
-      <a (click)="previous()">
-        <p class="f-14 blue-color">
-          <i class="fa fa-angle-right ml-1 ml-lg-2"></i>
-          <span>חזור</span>
-        </p>
-      </a>
+
     </div>
 
   </div>
-    </div>
+    <!--</div>-->
 <hr>
-  <div class="d-flex mt-5" >
+  <div class="mt-5 pr-5" >
     <form #form="ngForm" (ngSubmit)="submit(form)" *ngIf="editClose" >
-      <div class="d-flex">
-        <div class="mb-3">
-          <p> <span class="gray">שם מעסיק</span> {{employer.name}}</p>
-          <p> <span class="gray">מספר ח.פ.</span> {{employer.identifier}}</p>
-        </div>
+      <div class="row w-80">
+      <p class="w-40 mr-4"> <span class="gray w-25 display-block float-right">שם מעסיק</span> {{employer.name}}</p>
+      <p class="w-40"> <span class="gray w-25 float-right display-block">פלאפון </span> {{employer.phone}}</p>
+    </div>
+      <div class="row w-80">
+        <p class="w-40 mr-4"> <span class="gray float-right display-block w-25">ח.פ.</span> {{employer.identifier}}</p>
+        <p class="w-40"> <span class="gray float-right display-block w-25">פרויקט</span> {{employer['project_name']}}</p>
       </div>
     </form>
     <form #form="ngForm" (ngSubmit)="submit(form)" *ngIf="!editClose" [formGroup]="employerForm">
@@ -48,35 +45,41 @@
   <hr>
   <div class="d-flex mt-5"  *ngIf="formDetails" [@slideToggle]="showFilters">
     <!--[@rotate]="showDetails"-->
-<div class="container">
+<div class="container pr-5">
     <div class="row" >
-      <div class="col-3">
-      <p> <span class="gray">ח.פ. משלם </span>  {{financialDetails.employer_relation.name}} </p>
+      <div class="col-3 w-25">
+      <p> <span class="gray w-35 float-right display-block">ח.פ. משלם </span>  {{financialDetails.employer_relation.name}} </p>
       </div>
-      <div class="col-3">
-      <p> <span class="gray">ספרות אחרונות בכרטיס </span>  {{financialDetails.credit_card_last_digits}} </p>
+      <div class="col-3 w-20" >
+      <p> <span class="gray w-45 display-block float-right">ספרות אחרונות בכרטיס </span>  {{financialDetails.credit_card_last_digits}} </p>
       </div>
-      <div class="col-2">
-      <p> <span class="gray">שפה</span>  {{ getLanguage(financialDetails.language) }} </p>
+      <div class="col-2 w-20">
+      <p> <span class="gray w-35 display-block float-right">שפה</span>  {{ getLanguage(financialDetails.language) }} </p>
       </div>
-      <div class="col-4">
-      <p> <span class="gray"> מייל בחשבונית ירוקה</span>  {{financialDetails.green_invoice_email}} </p>
+      <div class="col-4 w-35" *ngIf="financialDetails.green_invoice_email">
+       <p> <span class="gray w-35 display-block float-right"> מייל בחשבונית ירוקה</span>
+         <span *ngIf="financialDetails.green_invoice_email.length>38">  {{ '...'+financialDetails.green_invoice_email.substring(0, 30)}}</span>
+         <span *ngIf="financialDetails.green_invoice_email.length<39">{{ financialDetails.green_invoice_email}}</span>
+        </p>
       </div>
     </div>
 
 
     <div class="row">
-      <div class="col-3">
-        <p > <span class="gray" >מטבע </span> {{getCurrency(financialDetails.currency)}}</p>
+      <div class="col-3 w-25">
+        <p> <span class="gray w-35 float-right display-block" >מטבע </span> {{getCurrency(financialDetails.currency)}}</p>
       </div>
-      <div class="col-3">
-        <p> <span class="gray">סכום מינימום לתשלום</span>   </p>
+      <div class="col-3 w-20">
+        <p> <span class="gray w-45 float-right display-block">סכום מינימום לתשלום</span>   </p>
       </div>
-      <div class="col-2">
-        <p> <span class="gray">זמן חיוב</span>  {{getPaymentTime(financialDetails.payment_time)}} </p>
+      <div class="col-2 w-20">
+        <p> <span class="gray w-35 float-right display-block">זמן חיוב</span>  {{getPaymentTime(financialDetails.payment_time)}} </p>
       </div>
-      <div class="col-4">
-        <p> <span class="gray">מספר בחשבונית ירוקה</span><span class="green_invoice_id">{{financialDetails.green_invoice_id}} </span>  </p>
+      <div class="col-4 w-35" *ngIf="financialDetails.green_invoice_id">
+        <p> <span class="gray w-35 float-right display-block">מספר בחשבונית ירוקה</span>
+          <span *ngIf="financialDetails.green_invoice_id.length>31">{{ '...'+ financialDetails.green_invoice_id.substring(0,28)}}</span>
+          <span *ngIf="financialDetails.green_invoice_id.length<32">{{ financialDetails.green_invoice_id}}</span>
+        </p>
       </div>
     </div>
 
@@ -85,7 +88,7 @@
 </div>
 <button class="details"  [@rotate]="showFilters" (click)="showEmployerFinanceDetails()"> <span *ngIf="formDetails">הסתר</span>   <span *ngIf="!formDetails">הצג</span> פרטים נוספים<i class="fa fa-angle-down"></i> </button>
 
-  <div class="container-fluid">
+  <div class="container-fluid mb-3">
     <header>
         <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
           <div class="collapse navbar-collapse">
@@ -102,6 +105,6 @@
         </nav>
     </header>
   </div>
-    <div class="container2" id="content">
+    <div class="container2 mt-4" id="content">
       <router-outlet></router-outlet>
     </div>

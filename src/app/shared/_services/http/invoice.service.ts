@@ -205,6 +205,13 @@ export class InvoiceService extends BaseHttpService{
       .then(response => response as Object)
       .catch(() => []);
   }
+  createProactiveInvoice(conditions): Promise<any>{
+    return this.http.post(this.endPoint+ '/createProactiveInvoice', conditions, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as any)
+      .catch(() => false);
+
+  }
 }
 
 

@@ -30,8 +30,8 @@ export class AppHttpService extends BaseHttpService {
       .catch(response => response);
   }
 
-  forgotPassword( username: string, email: string): Promise<any> {
-    const request = {params: { username: username, email: email }};
+  forgotPassword(email: string): Promise<any> {
+    const request = {params: {email: email }};
 
     return this.http.get(this.apiUrl + '/forgotPassword', request)
       .toPromise()
