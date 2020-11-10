@@ -21,6 +21,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {DashboardModule} from '../../app/platform/dashboard/dashboard.module';
 import { CalcProcessesComponent } from './finance/calc-processes/calc-processes.component';
 import {CalcProcessesModule} from './finance/calc-processes/calc-processes.module';
+import { EmployersIdDisplayComponent } from './finance/employers-id-display/employers-id-display.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     PlatformComponent,
+    EmployersIdDisplayComponent,
   ],
   imports: [
     CommonModule,

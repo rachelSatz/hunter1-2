@@ -32,8 +32,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
-<<<<<<< HEAD
-
  //  login(form: NgForm): void {
  //    if (form.valid) {
  //      this.hasServerError = false;
@@ -51,11 +49,9 @@ export class LoginComponent implements OnInit {
  //    }
  //  }
   private current_user: any;
-=======
   togglemyPasswordFieldType(){
     this.hide = !this.hide;
   }
->>>>>>> b97d99e81568039ad3c9b941cbff06d141b840f2
 
   login(form: NgForm): void {
     if (form.valid) {
