@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {PlatformComponent} from '../../platform.component';
 
 @Component({
   selector: 'app-employers-id-display',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmployersIdDisplayComponent implements OnInit {
 
-  constructor() { }
+  constructor(private PlatformComponent: PlatformComponent) { }
 
   ngOnInit() {
   }
