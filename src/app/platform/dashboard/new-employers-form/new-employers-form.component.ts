@@ -1,8 +1,8 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {DataTableComponent} from '../../../shared/data-table/data-table.component';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {DatePipe} from '@angular/common';
-import {InvoiceService} from '../../../shared/_services/http/invoice.service';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { DataTableComponent } from '../../../shared/data-table/data-table.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { DatePipe } from '@angular/common';
+import { InvoiceService } from '../../../shared/_services/http/invoice.service';
 
 @Component({
   selector: 'app-new-employers-form',
@@ -24,7 +24,7 @@ export class NewEmployersFormComponent implements OnInit {
               private InvoiceService: InvoiceService) { }
 
   ngOnInit() {
-    if(this.data['from_date']){
+    if (this.data['from_date']) {
       this.data['from_date'] = this.datepipe.transform(this.data['from_date'], 'yyyy-MM-dd');
       this.data['to_date'] = this.datepipe.transform(this.data['to_date'], 'yyyy-MM-dd');
     } else{
@@ -39,8 +39,8 @@ export class NewEmployersFormComponent implements OnInit {
       this.dataTable.criteria.limit = 8;
       console.log(this.dataTable);
       this.InvoiceService.getNewEmployersIncomes(this.dataTable.criteria)
-        .then(response =>{
-          this.dataTable.setItems(response);})
+        .then(response => {
+          this.dataTable.setItems(response); });
     }
 }
 

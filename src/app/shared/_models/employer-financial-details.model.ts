@@ -1,5 +1,5 @@
-import {Employer} from './employer.model';
-import {EmployerRelation} from './employrRelation';
+import { Employer } from './employer.model';
+import { EmployerRelation } from './employrRelation';
 
 export class EmployerFinancialDetails {
    id: number;
@@ -21,7 +21,6 @@ export class EmployerFinancialDetails {
    est_payment_type: string;
    est_payment_amount: number;
    est_ids_count: number;
-   //est_invoice_id: string;
    credit_card_last_digits: string;
    min_payment: string;
    is_masav: number;
@@ -113,21 +112,3 @@ export enum NO_PAYMENT_TIME {
   no_due_date = 'לתמיד',
   month = 'בחירת חודש'
 }
-
-// export enum PROJECT_IDS {
-//   emx = 'emx',
-//   delta = 'דלתא',
-//   x_one = 'x-one',
-//   digitex = 'דיגיטקס',
-//   paycom = 'paycom',
-//   clickpay = 'clickpay',
-//   col_hamas = 'קול המס',
-//   pay4u = 'pay4u',
-//   doretnet = 'דורות-נט',
-//   resenblat = 'רוזנבלט דנה בעמ',
-//   telem = 'תלם',
-//   bereshit = 'בראשית ביטוח',
-//   misleket = 'מסלקת שכר',
-//   matnasim = 'החברה מתנסים',
-//   pension_IK = 'פנסיה IK'
-// }

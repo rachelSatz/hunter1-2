@@ -4,12 +4,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { BdSelectModule } from '../../../assets/js/bd-select/bd-select.module';
 import { GeneralService } from '../../shared/_services/http/general.service';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatInputModule} from '@angular/material';
-import {DatePickerModule} from '../../shared/app-date-picker/app-date-picker.module';
-import {PipesModule} from '../../shared/_pipes/pipes.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatDatepickerModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatInputModule,
+} from '@angular/material';
+import { DatePickerModule} from '../../shared/app-date-picker/app-date-picker.module';
+import { PipesModule} from '../../shared/_pipes/pipes.module';
 import { EstPaymentFormComponent } from './est-payment-form/est-payment-form.component';
-import {DataTableModule} from '../../shared/data-table/data-table.module';
+import { DataTableModule} from '../../shared/data-table/data-table.module';
 import { NewEmployersFormComponent } from './new-employers-form/new-employers-form.component';
 import { EmployersFormComponent } from './employers-form/employers-form.component';
 import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
@@ -18,12 +23,13 @@ import { ManuallyChargedEmployersComponent } from './manually-charged-employers/
 import { EmployersWithNoPaymentComponent } from './employers-with-no-payment/employers-with-no-payment.component';
 import { EmployersPaymentZeroComponent } from './employers-payment-zero/employers-payment-zero.component';
 
+
 const routes: Routes = [
   { path: '', component: DashboardComponent }
   ];
 
 @NgModule({
-  declarations: [DashboardComponent, EstPaymentFormComponent,EmployersFormComponent,
+  declarations: [DashboardComponent, EstPaymentFormComponent, EmployersFormComponent,
     NewEmployersFormComponent, OtherPayerPopupComponent, ChargedEmployersFormComponent,
     ManuallyChargedEmployersComponent, EmployersWithNoPaymentComponent, EmployersPaymentZeroComponent],
 
@@ -39,9 +45,8 @@ const routes: Routes = [
     PipesModule,
     ReactiveFormsModule,
     DataTableModule,
-    MatDialogModule
-
-  ],
+    MatDialogModule,
+     ],
   providers: [GeneralService],
   entryComponents: [EstPaymentFormComponent, NewEmployersFormComponent, EmployersFormComponent, ChargedEmployersFormComponent
   , EmployersPaymentZeroComponent, ManuallyChargedEmployersComponent, OtherPayerPopupComponent, EmployersWithNoPaymentComponent],

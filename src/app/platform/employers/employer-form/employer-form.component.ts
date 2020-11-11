@@ -1,27 +1,27 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {fade, rotate, slideToggle} from '../../../shared/_animations/animation';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { fade, rotate, slideToggle } from '../../../shared/_animations/animation';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Employer, EmployerStatus } from '../../../shared/_models/employer.model';
 import { Subscription } from 'rxjs';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SelectUnitService } from '../../../shared/_services/select-unit.service';
 import { EmployersResolve } from '../../../shared/_resolves/employers.resolve';
 import { NotificationService } from '../../../shared/_services/notification.service';
 import { EmployerService } from '../../../shared/_services/http/employer.service';
 import { Location } from '@angular/common';
-import {CURRENCY, EmployerFinancialDetails, LANGUAGE, PAYMENT_TIME} from '../../../shared/_models/employer-financial-details.model';
+import { CURRENCY, EmployerFinancialDetails, LANGUAGE, PAYMENT_TIME } from '../../../shared/_models/employer-financial-details.model';
 import { TYPES } from '../../../shared/_models/invoice.model';
-import {PlatformComponent} from '../../platform.component';
-import {HelpersService} from '../../../shared/_services/helpers.service';
-import {UserSessionService} from '../../../shared/_services/http/user-session.service';
+import { PlatformComponent } from '../../platform.component';
+import { HelpersService } from '../../../shared/_services/helpers.service';
+import { UserSessionService } from '../../../shared/_services/http/user-session.service';
 
 @Component({
   selector: 'app-employer-form',
   templateUrl: './employer-form.component.html',
   styleUrls: ['./employer-form.component.css'],
-  animations: [fade, rotate, slideToggle]
+  animations: [ fade, rotate, slideToggle ]
 })
-export class EmployerFormComponent implements OnInit ,OnDestroy{
+export class EmployerFormComponent implements OnInit, OnDestroy {
 
   employerForm: FormGroup;
   employer: Employer = new Employer();
@@ -33,6 +33,10 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
   editClose = true;
   types = TYPES;
   showDetails = 'inactive';
+  formDetails = false;
+  financialDetails: EmployerFinancialDetails;
+  sub = new Subscription;
+  permissionsType = this.userSession.getPermissionsType('employers');
   currencyItems = Object.keys(CURRENCY).map(function(e) {
     return { id: e, name: CURRENCY[e] };
   });
@@ -51,11 +55,6 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
   statuses = Object.keys(EmployerStatus).map(function(e) {
     return { id: e, name: EmployerStatus[e] };
   });
-
-  formDetails: boolean = false;
-  financialDetails: EmployerFinancialDetails;
-  sub = new Subscription;
-  permissionsType = this.userSession.getPermissionsType('employers');
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -90,16 +89,14 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
     this.EmployerService.getEmployer(this.selectUnit.getEmployerID()).then(response => {
       this.employer = response;
       this.EmployerService.getEmployerFinance(this.employer['id_emp'])
-        .then(response => {
-          this.financialDetails = response;
-        })
+        .then(res => {
+          this.financialDetails = res;
+        });
     })
-
     this.employerForm = this.fb.group({
       'name': [null , Validators.required],
       'identifier': [null , [Validators.pattern('^\\d{9}$'), Validators.required]]
     });
-
     this.helpers.setPageSpinner(false);
   }
   setStatus() {
@@ -110,9 +107,8 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
     }
   }
   setActiveUrl(url: string): void {
-    this.activeUrl =url;
+    this.activeUrl = url;
   }
-
   previous(): void {
     this._location.back();
   }
@@ -120,19 +116,17 @@ export class EmployerFormComponent implements OnInit ,OnDestroy{
     this.formDetails = !this.formDetails;
     this.showDetails = (this.showDetails === 'active') ? 'inactive' : 'active';
   }
-  getCurrency(currency: any)
-  {
-    return this.currencyItems.find(x=> x.id === currency).name;
+  getCurrency(currency: any) {
+    return this.currencyItems.find(x => x.id === currency).name;
   }
-  getLanguage(language: any)
-  {
-    return this.languageItems.find(x=> x.id === language).name;
+  getLanguage(language: any) {
+    return this.languageItems.find(x => x.id === language).name;
   }
-  getPaymentTime(paymentTime: any){
-    return this.paymentTimeItems.find(x=> x.id === paymentTime).name;
+  getPaymentTime(paymentTime: any) {
+    return this.paymentTimeItems.find(x => x.id === paymentTime).name;
   }
-  openOrCloseEditEmployerDetails(): void{
-    if(this.editClose){
+  openOrCloseEditEmployerDetails(): void {
+    if (this.editClose) {
       this.editClose = false;
     } else {
       this.editClose = true;

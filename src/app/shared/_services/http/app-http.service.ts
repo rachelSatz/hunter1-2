@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
-
 import { BaseHttpService } from './base-http.service';
-import {UserSessionService} from './user-session.service';
+import { UserSessionService } from './user-session.service';
 
 @Injectable()
 export class AppHttpService extends BaseHttpService {
+
   constructor(userSession: UserSessionService, private http: HttpClient) {
     super(userSession);
   }
 
-
   login(username: string, password: string): Promise<any> {
     const data = { username: username, password: password };
-
     return this.http.post(this.apiUrl + '/login', data)
     .toPromise()
     .then(response => response)
@@ -45,7 +42,5 @@ export class AppHttpService extends BaseHttpService {
       .then(response => true)
       .catch(() => false);
   }
-
-
 
 }

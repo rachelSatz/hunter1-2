@@ -6,7 +6,7 @@ import { AppHttpService } from '../../shared/_services/http/app-http.service';
 import { HelpersService } from '../../shared/_services/helpers.service';
 import { MatDialog } from '@angular/material';
 import { NgForm } from '@angular/forms';
-import {NotificationService} from '../../shared/_services/notification.service';
+import { NotificationService } from '../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +18,8 @@ export class LoginComponent implements OnInit {
 
   hasServerError: boolean;
   isSubmitting: boolean;
-  hide : boolean = true;
-  massage: boolean = false;
-  pas: string =''
+  hide  = true;
+  massage =  false;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -32,35 +31,14 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
-<<<<<<< HEAD
 
- //  login(form: NgForm): void {
- //    if (form.valid) {
- //      this.hasServerError = false;
- //      this.helpers.setPageSpinner(true);
- //      this.isSubmitting = true;
- // if(form.value.username=='admin' && form.value.password=='Ss123456')
- // {
- //   this.router.navigate(['/platform']);
- // }
- // else{
- //   this.hasServerError=true
- //   this.isSubmitting = false;
- // }
- //
- //    }
- //  }
-  private current_user: any;
-=======
-  togglemyPasswordFieldType(){
+  togglemyPasswordFieldType() {
     this.hide = !this.hide;
   }
->>>>>>> b97d99e81568039ad3c9b941cbff06d141b840f2
 
   login(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      this.helpers.setPageSpinner(true);
       this.isSubmitting = true;
       this.appHttp.login(form.value.email, form.value.password).then(response => {
         if (response.token) {

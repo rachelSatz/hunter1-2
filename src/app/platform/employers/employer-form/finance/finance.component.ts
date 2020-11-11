@@ -1,12 +1,15 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Form, NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { fade } from '../../../../shared/_animations/animation';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployerService } from '../../../../shared/_services/http/employer.service';
 import { NotificationService } from '../../../../shared/_services/notification.service';
 import {
   CURRENCY,
-  EmployerFinancialDetails, EmployerFinancialPayments, EmployerFinancialProduct, LANGUAGE,
+  EmployerFinancialDetails,
+  EmployerFinancialPayments,
+  EmployerFinancialProduct,
+  LANGUAGE,
   NO_PAYMENT_TIME,
   PAYMENT_METHOD,
   PAYMENT_TERMS,
@@ -15,7 +18,7 @@ import {
 import { Employer } from '../../../../shared/_models/employer.model';
 import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
 import { Subscription } from 'rxjs';
-import {UserSessionService} from '../../../../shared/_services/http/user-session.service';
+import { UserSessionService } from '../../../../shared/_services/http/user-session.service';
 
 
 
@@ -26,7 +29,7 @@ import {UserSessionService} from '../../../../shared/_services/http/user-session
   animations: [fade]
 })
 
-export class FinanceComponent implements OnInit{
+export class FinanceComponent implements OnInit {
   @ViewChild(FinanceComponent) doughnut: FinanceComponent;
 
    paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function (e) {
@@ -60,23 +63,24 @@ export class FinanceComponent implements OnInit{
   organizationId;
   employerId ;
   rowIndex: number;
-  isNoPaymentTime : boolean;
-  openDatePicker :boolean;
+  isNoPaymentTime: boolean;
+  openDatePicker: boolean;
   displayMasav: boolean;
   check: any;
-  arrShow:Array<boolean> = new Array<boolean>()
+  arrShow: Array<boolean> = new Array<boolean>();
   isEstablishingPayment: boolean;
   estPaymentAmount = 0;
   financialDetails: EmployerFinancialDetails = new EmployerFinancialDetails();
   payEmployers: Employer[];
   hasServerError: boolean;
   sub = new Subscription;
+  productTemp: EmployerFinancialProduct;
 
   constructor(private route: ActivatedRoute,
-              public router:Router,
-              private EmployerService:EmployerService,
-              private notificationService:NotificationService,
-              private selectUnit:SelectUnitService,
+              public router: Router,
+              private EmployerService: EmployerService,
+              private notificationService: NotificationService,
+              private selectUnit: SelectUnitService,
               public userSession: UserSessionService) {
   }
 
@@ -86,28 +90,26 @@ export class FinanceComponent implements OnInit{
       }
     ));
     this.EmployerService.getEmployers()
-      .then(res=> { this.payEmployers = res['1'];
+      .then(res => { this.payEmployers = res['1'];
         console.log(this.payEmployers);
-        this.fetchItems();});
-
-
+        this.fetchItems(); });
     }
 
     fetchItems() {
-       if(this.selectUnit.currentEmployerID > 0){
+      if (this.selectUnit.currentEmployerID > 0) {
       this.organizationId = this.selectUnit.getOrganization();
       this.employerId = this.selectUnit.getEmployerID();
       this.EmployerService.getEmployerFinance(this.employerId)
-          .then(res=>{
-            if(res.id){
+          .then(res => {
+            if (res.id) {
               this.financialDetails = res;
               console.log(this.financialDetails);
-              if (this.financialDetails.employer_relation.id === this.financialDetails.pay_employer_relation.id){
+              if (this.financialDetails.employer_relation.id === this.financialDetails.pay_employer_relation.id) {
                 this.displayMasav = true;
               }
-              if(this.financialDetails != null && this.financialDetails.payment_time === 'no_payment'){
+              if (this.financialDetails != null && this.financialDetails.payment_time === 'no_payment') {
                 this.isNoPaymentTime = true;
-                if(this.financialDetails.payment_time_validity === 'month'){
+                if (this.financialDetails.payment_time_validity === 'month'){
                   this.openDatePicker = true;
                 }
               }
@@ -115,25 +117,26 @@ export class FinanceComponent implements OnInit{
           });
 
      }
-    for(let i=0;i<this.financialDetails.financial_product.length;i++)
-    {
-      if(this.financialDetails.financial_product[i].additional_payment_amount>0)
-        this.arrShow.push(true)
-      else
-        this.arrShow.push(false)
+    for (let i = 0; i < this.financialDetails.financial_product.length; i++) {
+      if (this.financialDetails.financial_product[i].additional_payment_amount > 0) {
+        this.arrShow.push(true);
+
+      } else {
+        this.arrShow.push(false);
+      }
     }
   }
   addProductRow() {
-    let productTemp = new EmployerFinancialProduct();
-    productTemp.financial_payments=new Array<EmployerFinancialPayments>(1);
-    productTemp.financial_payments[0]=new EmployerFinancialPayments();
-    this.financialDetails.financial_product.push(productTemp);
+    this.productTemp = new EmployerFinancialProduct();
+    this.productTemp.financial_payments = new Array<EmployerFinancialPayments>(1);
+    this.productTemp.financial_payments[0] = new EmployerFinancialPayments();
+    this.financialDetails.financial_product.push(this.productTemp);
     this.arrShow.push(false);
     console.log(this.arrShow);
   }
   deleteProductRow(index: number) {
     this.financialDetails.financial_product.splice(index, 1);
-    this.arrShow.splice(index,1);
+    this.arrShow.splice(index, 1);
   }
   addPaymentRow(index: number) {
     this.financialDetails.financial_product[index].financial_payments.push(new EmployerFinancialPayments());
@@ -151,11 +154,11 @@ export class FinanceComponent implements OnInit{
   showAdditionalPayment(index: number, isChecked: boolean): void {
     if (isChecked) {
       this.rowIndex = index;
-      this.arrShow[index]=true;
+      this.arrShow[index] = true;
     } else {
-      this.arrShow[index]=false;
+      this.arrShow[index] = false;
       this.financialDetails.financial_product[index].additional_payment_amount = 0;
-      this.financialDetails.financial_product[index].additional_payment_desc = "";
+      this.financialDetails.financial_product[index].additional_payment_desc = '';
     }
   }
   showNoPaymentTime(): void {
@@ -179,25 +182,24 @@ export class FinanceComponent implements OnInit{
       this.isEstablishingPayment = false;
     }
   }
-  changeIsZero(product,check: boolean){
-    this.financialDetails.financial_product.find(x=>x.id==product.id).is_zero=check
+  changeIsZero(product, check: boolean){
+    this.financialDetails.financial_product.find(x => x.id === product.id).is_zero = check;
   }
-  changeShowDetails(product,check: boolean){
-    this.financialDetails.financial_product.find(x=>x.id==product.id).show_details=check
+  changeShowDetails(product, check: boolean){
+    this.financialDetails.financial_product.find(x => x.id === product.id).show_details = check;
   }
 
   submit(form: NgForm) {
-    console.log('maa')
     this.hasServerError = false;
-    if(form.valid) {
-       if(this.selectUnit.getEmployerID() === 0) {
+    if (form.valid) {
+       if (this.selectUnit.getEmployerID() === 0) {
         this.notificationService.error('לא נבחר מעסיק.');
       } else {
-          this.EmployerService.saveFinancialDetails(this.selectUnit.getEmployerID(),this.financialDetails)
+          this.EmployerService.saveFinancialDetails(this.selectUnit.getEmployerID(), this.financialDetails)
             .then(response => {
-              if(response['message'] !== 'success'){
+              if (response['message'] !== 'success') {
                 this.hasServerError = true;
-              } else{
+              } else {
                 this.notificationService.success('נשמר בהצלחה');
                 this.fetchItems();
               }

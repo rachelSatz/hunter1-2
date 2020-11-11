@@ -1,5 +1,5 @@
-import {EmployerFinancialDetails, EmployerFinancialProduct} from './employer-financial-details.model';
-import {GreenInvoiceDocument} from './GreenInvoiceDocument';
+import { EmployerFinancialDetails } from './employer-financial-details.model';
+import { GreenInvoiceDocument } from './GreenInvoiceDocument';
 
 
 export class Invoice {

@@ -1,10 +1,8 @@
 import { Component, Input, Output, OnDestroy, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-
 import { NotificationService } from '../_services/notification.service';
 import { HelpersService } from '../../shared/_services/helpers.service';
-
 import { PaginationData } from './classes/pagination-data';
 import { DataTableCriteria } from './classes/data-table-criteria';
 import { DataTableResponse } from './classes/data-table-response';

@@ -1,8 +1,8 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {DatePipe} from '@angular/common';
-import {EmployerService} from '../../../shared/_services/http/employer.service';
-import {DataTableComponent} from '../../../shared/data-table/data-table.component';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { DatePipe } from '@angular/common';
+import { EmployerService } from '../../../shared/_services/http/employer.service';
+import { DataTableComponent } from '../../../shared/data-table/data-table.component';
 
 @Component({
   selector: 'app-employers-form',
@@ -25,14 +25,18 @@ export class EmployersFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.data['payment_method']=='direct_debit')
+    if (this.data['payment_method'] === 'direct_debit') {
       this.payment_method = 'הוראת קבע';
-    if(this.data['payment_method']=='bank_transfer')
+    }
+    if (this.data['payment_method'] === 'bank_transfer') {
       this.payment_method = 'העברה בנקאית/ צק';
-    if(this.data['payment_method']=='credit_card')
+    }
+    if (this.data['payment_method'] === 'credit_card') {
       this.payment_method = 'כרטיס אשראי';
-    if(this.data['payment_method']=='masav_product')
+    }
+    if (this.data['payment_method'] === 'masav_product') {
       this.payment_method = 'מס"ב';
+    }
     this.fetchItems();
 
   }
@@ -46,13 +50,11 @@ export class EmployersFormComponent implements OnInit {
         .then(response => {
           console.log(response);
           this.dataTable.setItems(response);
-        })
+        });
     }
-
   }
   openEmployerForm(employer_id: number): void{
     console.log(employer_id)
     this.dialogRef.close(employer_id);
-
   }
 }

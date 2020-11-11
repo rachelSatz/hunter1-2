@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { fade } from '../../../../shared/_animations/animation';
-import {ManualInvoice, ManualInvoiceDetails} from '../../../../shared/_models/invoice.model';
+import { ManualInvoice, ManualInvoiceDetails } from '../../../../shared/_models/invoice.model';
 import { PRODUCT_TYPES } from '../../../../shared/_models/employer-financial-details.model';
 import { EmployerService } from '../../../../shared/_services/http/employer.service';
-import {NgForm} from '@angular/forms';
-import {InvoiceService} from '../../../../shared/_services/http/invoice.service';
-import {MatDialogRef} from '@angular/material';
-import {NotificationService} from '../../../../shared/_services/notification.service';
+import { NgForm } from '@angular/forms';
+import { InvoiceService } from '../../../../shared/_services/http/invoice.service';
+import { MatDialogRef } from '@angular/material';
+import { NotificationService } from '../../../../shared/_services/notification.service';
 
 @Component({
   selector: 'app-manual-invoice-form',
@@ -16,16 +16,8 @@ import {NotificationService} from '../../../../shared/_services/notification.ser
   animations: [ fade ]
 })
 export class ManualInvoiceFormComponent implements OnInit {
+
   employers: any;
-  readonly TAX = [
-    {'id': 'before', 'name': 'מסמך רגיל'},
-    {'id': 'included', 'name': 'מסמך ללא מע"מ (אילת וחו"ל)'}
-  ];
-  readonly TAXITEMS = [
-    {'id': 'before', 'name': 'לא כולל'},
-    {'id': 'included', 'name': 'כולל'}
-  ];
-  selected = 'before';
   manualInvoice: ManualInvoice = new ManualInvoice();
   totalBeforeTax = 0;
   tax = 0;
@@ -36,7 +28,14 @@ export class ManualInvoiceFormComponent implements OnInit {
   productTypes = Object.keys(PRODUCT_TYPES).map(function(e) {
     return { id: e, name: PRODUCT_TYPES[e] };
   });
-
+  readonly TAX = [
+    {'id': 'before', 'name': 'מסמך רגיל'},
+    {'id': 'included', 'name': 'מסמך ללא מע"מ (אילת וחו"ל)'}
+  ];
+  readonly TAXITEMS = [
+    {'id': 'before', 'name': 'לא כולל'},
+    {'id': 'included', 'name': 'כולל'}
+  ];
   readonly columns  = [
     { name: 'tax', label: 'מע"מ', searchable: false},
     { name: 'description', label: 'פירוט' , searchable: false},
@@ -58,7 +57,7 @@ export class ManualInvoiceFormComponent implements OnInit {
     if (invoiceDetail !== null) {
       if (invoiceDetail.ids_count > 0 && invoiceDetail.payment_amount > 0) {
         invoiceDetail.total_payment_amount = +((invoiceDetail.ids_count * invoiceDetail.payment_amount).toFixed(2));
-          if (invoiceDetail.tax === 'included'&&this.manualInvoice.tax_type === 'before') {
+          if (invoiceDetail.tax === 'included' && this.manualInvoice.tax_type === 'before') {
             invoiceDetail.tax_amount = +((invoiceDetail.total_payment_amount * 0.17).toFixed(2));
           } else {
             invoiceDetail.tax_amount = 0;
@@ -68,7 +67,7 @@ export class ManualInvoiceFormComponent implements OnInit {
         if (this.manualInvoice.tax_type === 'before') {
           this.tax += +((invoiceDetail.tax_amount).toFixed(2));
         }
-        this.totalIncludeTax += +((invoiceDetail.total_payment_amount +invoiceDetail.tax_amount).toFixed(2));
+        this.totalIncludeTax += +((invoiceDetail.total_payment_amount + invoiceDetail.tax_amount).toFixed(2));
         this.isEdit = false;
       }
     }
@@ -137,6 +136,5 @@ export class ManualInvoiceFormComponent implements OnInit {
         }
       });
     }
-
   }
 }

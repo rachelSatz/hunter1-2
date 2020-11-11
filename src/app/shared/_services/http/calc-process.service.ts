@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import {UserSessionService} from './user-session.service';
-import {HttpClient} from '@angular/common/http';
-import {BaseHttpService} from './base-http.service';
-import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
-import {DataTableResponse} from '../../data-table/classes/data-table-response';
+import { UserSessionService } from './user-session.service';
+import { HttpClient } from '@angular/common/http';
+import { BaseHttpService } from './base-http.service';
+import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
+import { DataTableResponse } from '../../data-table/classes/data-table-response';
 
 @Injectable({
   providedIn: 'root'
 })
-export class calcProcessService extends BaseHttpService {
+export class CalcProcessService extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/calc_processes';
 
@@ -27,7 +27,7 @@ export class calcProcessService extends BaseHttpService {
     }
     return this.http.get(this.endPoint, request)
       .toPromise()
-      .then(response=> response as DataTableResponse)
+      .then(response => response as DataTableResponse)
       .catch(() => null);
-  };
+  }
 }

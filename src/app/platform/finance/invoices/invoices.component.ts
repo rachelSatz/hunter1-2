@@ -1,12 +1,10 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableComponent } from '../../../shared/data-table/data-table.component';
 import { ActivatedRoute } from '@angular/router';
-import {ERROR_STATUS, Invoice, STATUS, TYPES} from '../../../shared/_models/invoice.model';
+import { ERROR_STATUS, Invoice, STATUS, TYPES } from '../../../shared/_models/invoice.model';
 import { PAYMENT_METHOD } from '../../../shared/_models/employer-financial-details.model';
 import { UserSessionService } from '../../../shared/_services/http/user-session.service';
-import { DataTableResponse } from '../../../shared/data-table/classes/data-table-response';
 import { MatDialog } from '@angular/material';
-import { EmployersFinanceExcelComponent } from './employers-finance-excel/employers-finance-excel.component';
 import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
 import { Subscription } from 'rxjs';
 import { TaxInvoiceFormComponent } from './tax-invoice-form/tax-invoice-form.component';
@@ -16,23 +14,21 @@ import { NotificationService } from '../../../shared/_services/notification.serv
 import { HelpersService } from '../../../shared/_services/helpers.service';
 import { ReportsFormComponent } from './reports-form/reports-form.component';
 import { InvoiceService } from '../../../shared/_services/http/invoice.service';
-import {GeneralService} from '../../../shared/_services/http/general.service';
-import {SelectUnitService} from '../../../shared/_services/select-unit.service';
-import {Project} from '../../../shared/_models/project.model';
-import {InvoiceDetailsFormComponent} from './invoice-details-form/invoice-details-form.component';
+import { GeneralService } from '../../../shared/_services/http/general.service';
+import { SelectUnitService } from '../../../shared/_services/select-unit.service';
+import { Project } from '../../../shared/_models/project.model';
+import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-details-form.component';
 import * as FileSaver from 'file-saver';
-import {RemarksFormComponent} from './remarks-form/remarks-form.component';
-import {PlatformComponent} from '../../platform.component';
-import {ProactiveInvoiceFormComponent} from './proactive-invoice-form/proactive-invoice-form.component';
+import { RemarksFormComponent } from './remarks-form/remarks-form.component';
+import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
 
 @Component({
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
-  styleUrls: ['./invoices.component.css','../../../shared/data-table/data-table.component.css']
+  styleUrls: ['./invoices.component.css', '../../../shared/data-table/data-table.component.css']
 })
 export class InvoicesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
-
   items: any;
   sub = new Subscription;
   types = TYPES;
@@ -51,9 +47,10 @@ export class InvoicesComponent implements OnInit {
   filters = {}
   permissionsType = this.userSession.getPermissionsType('finance');
   readonly columns  = [
-    { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name', label: 'שם מעסיק', searchable: false},
-    { name: 'project_name', sortName:'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
-    { name: 'green_invoice_number', sortName:'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
+    { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
+      label: 'שם מעסיק', searchable: false},
+    { name: 'project_name', sortName: 'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
+    { name: 'green_invoice_number', sortName: 'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
     { name: 'total_amount', label: 'סכום'},
     { name: 'ids_count', label: 'כמות ת"ז' , searchable: false},
     { name: 'for_month', label: 'בגין חודש' , searchOptions: { isDate: true }},
@@ -66,23 +63,19 @@ export class InvoicesComponent implements OnInit {
     { name: 'details', label: 'פירוט' , searchable: false},
     { name: 'payment_method', label: 'אופן תשלום', searchOptions: { labels: this.paymentMethodItems }, isDisplay: false},
   ];
-  constructor(public route:ActivatedRoute,
+  constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
               private dialog: MatDialog,
-              private notificationService:NotificationService,
-              private helpers:HelpersService,
+              private notificationService: NotificationService,
+              private helpers: HelpersService,
               private invoiceService: InvoiceService,
               private GeneralService: GeneralService,
-              private SelectUnitService: SelectUnitService,
-              private PlatformComponent: PlatformComponent) {
-
-
-  }
+              private SelectUnitService: SelectUnitService) {}
 
   ngOnInit() {
     this.SelectUnitService.setActiveUrl('finance');
     this.sub = this.route.params.subscribe(v => {
-    if(v['project_id']){
+    if (v['project_id']) {
       this.filters['project_id'] = +v['project_id'];
       this.filters['status'] = v['status'];
       this.filters['created_at[from]'] = v['from_date'];
@@ -90,8 +83,8 @@ export class InvoicesComponent implements OnInit {
     }
     })
     this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
-      .then(response=> { this.GeneralService.projects = response[('1')];
-        this.columns[1]['searchOptions'].labels = response[('1')];});
+      .then(response => { this.GeneralService.projects = response[('1')];
+        this.columns[1]['searchOptions'].labels = response[('1')]; });
   }
   setItemTitle(item: Invoice): string {
     if (item.green_invoice_document !== null ) {
@@ -117,22 +110,20 @@ export class InvoicesComponent implements OnInit {
       }
     });
   }
-  fetchItems()
-  {
+  fetchItems() {
     this.helpers.setPageSpinner(true);
-    if(this.filters['project_id']){
+    if (this.filters['project_id']){
       this.dataTable.criteria.filters = this.filters;
     }
     this.invoiceService.getInvoices(this.dataTable.criteria)
       .then(response => {
         console.log(response);
         this.dataTable.setItems(response);
-        this.helpers.setPageSpinner(false);
-      })
+        this.helpers.setPageSpinner(false); });
   }
 
   openManualInvoice(): void {
-    const dialog = this.dialog.open(ManualInvoiceFormComponent, {
+    this.dialog.open(ManualInvoiceFormComponent, {
       width: '1100px'
     });
   }
@@ -141,9 +132,7 @@ export class InvoicesComponent implements OnInit {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    // const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
     const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
-
     const dialog = this.dialog.open(TaxInvoiceFormComponent, {
       data: {
               'ids': items,
@@ -151,7 +140,6 @@ export class InvoicesComponent implements OnInit {
             },
       width: '450px'
     });
-
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
       this.dataTable.criteria.checkedItems = [];
@@ -186,16 +174,13 @@ export class InvoicesComponent implements OnInit {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    // const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
     const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
-
     const dialog = this.dialog.open(TaxOnlyInvoiceFormComponent, {
       data: { 'ids': items,
 
         'dataTable' : this.dataTable},
       width: '450px'
     });
-
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
       this.dataTable.criteria.checkedItems = [];
@@ -221,7 +206,6 @@ export class InvoicesComponent implements OnInit {
       }
     });
   }
-
   openReports(): void {
     const dialog = this.dialog.open(ReportsFormComponent, {
       width: '450px'
@@ -270,7 +254,7 @@ export class InvoicesComponent implements OnInit {
       width: '750px'
     });
   }
-  openProactiveInvoice(): void{
+  openProactiveInvoice(): void {
     const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
       width: '500px',
       height: '500px'
@@ -279,7 +263,5 @@ export class InvoicesComponent implements OnInit {
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
     }));
-    // this.invoiceService.createProactiveInvoice()
-    //   .then(res => console.log(res))
   }
 }

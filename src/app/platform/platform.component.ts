@@ -1,12 +1,11 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Employer } from '../shared/_models/employer.model';
-import { HelpersService } from '../shared/_services/helpers.service';
 import { SelectUnitService } from '../shared/_services/select-unit.service';
 import { EmployerService } from '../shared/_services/http/employer.service';
-import {GeneralService} from '../shared/_services/http/general.service';
-import {UserSessionService} from '../shared/_services/http/user-session.service';
-import {Subscription} from 'rxjs';
+import { GeneralService } from '../shared/_services/http/general.service';
+import { UserSessionService } from '../shared/_services/http/user-session.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-platform',
@@ -14,7 +13,6 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./platform.component.css']
 })
 export class PlatformComponent implements OnInit {
-
   activeUrl: string;
   readonly menuLinks = [
     { url: 'dashboard' , label: 'נתונים פיננסים'},
@@ -32,46 +30,33 @@ export class PlatformComponent implements OnInit {
   sub = new Subscription;
 
 
-  constructor(private EmployerService:EmployerService,
-              private router:Router,
+  constructor(private EmployerService: EmployerService,
+              private router: Router,
               private route: ActivatedRoute,
-              public selectUnit:SelectUnitService,
-              public helpers: HelpersService,
+              public selectUnit: SelectUnitService,
               private GeneralService: GeneralService,
               private UserSessionService: UserSessionService,
-              private ref:ChangeDetectorRef) { }
+              private ref: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.helpers.setPageSpinner(true);
-    if(this.selectUnit.getOrganization()){
-      this.organizationId =this.selectUnit.getOrganization();
+    if(this.selectUnit.getOrganization()) {
+      this.organizationId = this.selectUnit.getOrganization();
     } else {
       this.selectUnit.setOrganization(1);
-      this.organizationId =this.selectUnit.getOrganization();
+      this.organizationId = this.selectUnit.getOrganization();
     }
     this.loadEmployers(this.selectUnit.getOrganization());
     this.EmployerService.getEmployers().then(res => {
       this.employers = res['1'];
-      // this.employerId = this.selectUnit.getEmployerID() ? this.selectUnit.getEmployerID(): 1 ;
-      // this.activeUrl =this.selectUnit.getActiveUrl() ? this.selectUnit.getActiveUrl(): 'dashboard';
     });
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-       this.employerId = this.selectUnit.getEmployerID() ?this.selectUnit.getEmployerID(): 1 ;
+       this.employerId = this.selectUnit.getEmployerID() ? this.selectUnit.getEmployerID(): 1 ;
         this.ref.detectChanges();
       }
     ));
-    // this.router.events.forEach((event) => {
-    //   if (event instanceof NavigationStart) {
-    //     this.setActiveUrl(event.url);
-    //   }
-    // });
-
-    this.helpers.setPageSpinner(false);
-
   }
 
   setActiveUrl(url: string): void {
-    debugger;
     this.selectUnit.setActiveUrl(url);
   }
   selectEmployer(employerId: number): void{
@@ -80,14 +65,11 @@ export class PlatformComponent implements OnInit {
 
   loadEmployers(organizationId: number): void {
     this.selectUnit.setOrganization(organizationId);
-    if(organizationId == 1)
-    {
+    if(organizationId === 1) {
       this.EmployerService.getEmployers().then(res => {
         this.employers = res['1'];
-        this.helpers.setPageSpinner(false);
       });
-    }
-    else {
+    } else {
       this.employers = [];
     }
   }

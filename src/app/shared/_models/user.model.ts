@@ -1,5 +1,5 @@
 import { UserUnitPermission } from './user-unit-permission.model';
-import {ModuleTypes, UserModule} from './user-module.model';
+import { ModuleTypes, UserModule } from './user-module.model';
 
 export class User {
   id: number;

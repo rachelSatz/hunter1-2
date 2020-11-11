@@ -1,33 +1,31 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {DataTableComponent} from '../../../../shared/data-table/data-table.component';
-import {Subscription} from 'rxjs';
-import {DataTableResponse} from '../../../../shared/data-table/classes/data-table-response';
-import {ERROR_STATUS, Invoice, STATUS, TYPES} from '../../../../shared/_models/invoice.model';
-import {PAYMENT_METHOD} from '../../../../shared/_models/employer-financial-details.model';
-import {ActivatedRoute} from '@angular/router';
-import {UserSessionService} from '../../../../shared/_services/http/user-session.service';
-import {MatDialog} from '@angular/material';
-import {NotificationService} from '../../../../shared/_services/notification.service';
-import {HelpersService} from '../../../../shared/_services/helpers.service';
-import {InvoiceService} from '../../../../shared/_services/http/invoice.service';
-import {EmployerService} from '../../../../shared/_services/http/employer.service';
-import {InvoiceDetailsFormComponent} from './invoice-details-form/invoice-details-form.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DataTableComponent } from '../../../../shared/data-table/data-table.component';
+import { Subscription } from 'rxjs';
+import { ERROR_STATUS, Invoice, STATUS, TYPES } from '../../../../shared/_models/invoice.model';
+import { PAYMENT_METHOD } from '../../../../shared/_models/employer-financial-details.model';
+import { ActivatedRoute } from '@angular/router';
+import { UserSessionService } from '../../../../shared/_services/http/user-session.service';
+import { MatDialog } from '@angular/material';
+import { NotificationService } from '../../../../shared/_services/notification.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
+import { InvoiceService } from '../../../../shared/_services/http/invoice.service';
+import { EmployerService } from '../../../../shared/_services/http/employer.service';
+import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-details-form.component';
 import * as FileSaver from 'file-saver';
-import {GeneralService} from '../../../../shared/_services/http/general.service';
-import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
-import {EmployersFinanceExcelComponent} from '../../../finance/invoices/employers-finance-excel/employers-finance-excel.component';
-import {ManualInvoiceFormComponent} from '../../../finance/invoices/manual-invoice-form/manual-invoice-form.component';
-import {TaxInvoiceFormComponent} from '../../../finance/invoices/tax-invoice-form/tax-invoice-form.component';
-import {TransactionInvoiceFormComponent} from '../../../finance/invoices/transaction-invoice-form/transaction-invoice-form.component';
-import {TaxOnlyInvoiceFormComponent} from '../../../finance/invoices/tax-only-invoice-form/tax-only-invoice-form.component';
-import {ReportsFormComponent} from '../../../finance/invoices/reports-form/reports-form.component';
-import {RemarksFormComponent} from './remarks-form/remarks-form.component';
+import { GeneralService } from '../../../../shared/_services/http/general.service';
+import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
+import { ManualInvoiceFormComponent } from '../../../finance/invoices/manual-invoice-form/manual-invoice-form.component';
+import { TaxInvoiceFormComponent } from '../../../finance/invoices/tax-invoice-form/tax-invoice-form.component';
+import { TransactionInvoiceFormComponent } from '../../../finance/invoices/transaction-invoice-form/transaction-invoice-form.component';
+import { TaxOnlyInvoiceFormComponent } from '../../../finance/invoices/tax-only-invoice-form/tax-only-invoice-form.component';
+import { ReportsFormComponent } from '../../../finance/invoices/reports-form/reports-form.component';
+import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 
 
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.css','../../../../shared/data-table/data-table.component.css']
+  styleUrls: ['./documents.component.css', '../../../../shared/data-table/data-table.component.css']
 })
 export class DocumentsComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
@@ -48,9 +46,11 @@ export class DocumentsComponent implements OnInit {
   spin: boolean;
   permissionsType = this.userSession.getPermissionsType('employers');
   readonly columns  = [
-    { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name', label: 'שם מעסיק', searchable: false},
-    { name: 'project_name' , sortName:'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects } },
-    { name: 'green_invoice_number', sortName:'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
+    { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
+      label: 'שם מעסיק', searchable: false},
+    { name: 'project_name' , sortName: 'project__project_name', label: 'שם פרויקט',
+      searchOptions: { labels: this.GeneralService.projects } },
+    { name: 'green_invoice_number', sortName: 'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
     { name: 'total_amount', label: 'סכום'},
     { name: 'ids_count', label: 'כמות ת"ז' , searchable: false},
     { name: 'for_month', label: 'בגין חודש' , searchOptions: { isDate: true }},
@@ -64,11 +64,11 @@ export class DocumentsComponent implements OnInit {
     { name: 'payment_method', label: 'אופן תשלום', searchOptions: { labels: this.paymentMethodItems }, isDisplay: false},
   ];
 
-  constructor(public route:ActivatedRoute,
+  constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
               private dialog: MatDialog,
-              private notificationService:NotificationService,
-              private helpers:HelpersService,
+              private notificationService: NotificationService,
+              private helpers: HelpersService,
               private invoiceService: InvoiceService,
               private EmployerService: EmployerService,
               private GeneralService: GeneralService,
@@ -78,17 +78,16 @@ export class DocumentsComponent implements OnInit {
     this.helpers.setPageSpinner(true);
     this.fetchItems();
     this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
-      .then(response=>
-      {this.GeneralService.projects = response[('1')];
-        this.columns['1'].searchOptions['labels'] = response[('1')];});
+      .then(response => { this.GeneralService.projects = response[('1')];
+        this.columns['1'].searchOptions['labels'] = response[('1')]; });
   }
   fetchItems()
   {
-    this.invoiceService.getEmployerInvoices(this.dataTable.criteria,this.SelectUnitService.currentEmployerID)
+    this.invoiceService.getEmployerInvoices(this.dataTable.criteria, this.SelectUnitService.currentEmployerID)
       .then(response => {
         this.dataTable.setItems(response);
         this.helpers.setPageSpinner(false);
-      })
+      });
   }
   showInvoiceDetails(item: Object): void {
     this.dialog.open(InvoiceDetailsFormComponent, {
@@ -122,7 +121,7 @@ export class DocumentsComponent implements OnInit {
     }
   }
   openManualInvoice(): void {
-    const dialog = this.dialog.open(ManualInvoiceFormComponent, {
+    this.dialog.open(ManualInvoiceFormComponent, {
       width: '1100px'
     });
   }
@@ -131,7 +130,6 @@ export class DocumentsComponent implements OnInit {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    // const items = this.dataTable.criteria.isCheckAll ? this.dataTable.items : this.dataTable.criteria.checkedItems;
     const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
 
     const dialog = this.dialog.open(TaxInvoiceFormComponent, {

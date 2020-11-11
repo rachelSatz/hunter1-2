@@ -1,8 +1,8 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {DataTableComponent} from '../../../shared/data-table/data-table.component';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {DatePipe} from '@angular/common';
-import {InvoiceService} from '../../../shared/_services/http/invoice.service';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { DataTableComponent } from '../../../shared/data-table/data-table.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { DatePipe } from '@angular/common';
+import { InvoiceService } from '../../../shared/_services/http/invoice.service';
 
 @Component({
   selector: 'app-employers-payment-zero',
@@ -26,22 +26,22 @@ export class EmployersPaymentZeroComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.data);
-    if(this.data['from_date']){
+    if (this.data['from_date']) {
       this.data['from_date'] = this.datepipe.transform(this.data['from_date'], 'yyyy-MM-dd');
       this.data['to_date'] = this.datepipe.transform(this.data['to_date'], 'yyyy-MM-dd');
-    } else{
+    } else {
       this.data['month'] = this.datepipe.transform(this.data['month'], 'yyyy-MM-dd');
     }
     this.fetchItems();
   }
   fetchItems(): void {
-    if(this.dataTable){
+    if (this.dataTable) {
       this.dataTable.criteria.filters = this.data;
       this.dataTable.criteria.limit = 8;
       console.log(this.dataTable);
       this.InvoiceService.getZeroPaymentEmployers(this.dataTable.criteria)
-        .then(response =>{ console.log(response);
-          this.dataTable.setItems(response);})
+        .then(response => { console.log(response);
+          this.dataTable.setItems(response); });
     }
   }
 }

@@ -8,7 +8,7 @@ import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule,
 import { BdSelectModule } from '../../../../assets/js/bd-select/bd-select.module';
 import { DataTableModule } from '../../../shared/data-table/data-table.module';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { UserService } from '../../../../app/shared/_services/http/user.service'
+import { UserService } from '../../../../app/shared/_services/http/user.service';
 
 const routes: Routes = [
   { path: '', component: UserFormComponent },

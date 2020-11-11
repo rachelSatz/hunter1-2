@@ -1,6 +1,6 @@
-import {Project} from './project.model';
+import { Project } from './project.model';
 
-export class Employee {
+export class CalcProcess {
   id: number;
   count_employers: number;
   count_employees: number;

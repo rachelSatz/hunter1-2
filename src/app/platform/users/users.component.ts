@@ -1,13 +1,13 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {DataTableComponent} from '../../shared/data-table/data-table.component';
-import {EntityRoles, User} from '../../shared/_models/user.model';
-import {ActivatedRoute} from '@angular/router';
-import {AppHttpService} from '../../shared/_services/http/app-http.service';
-import {UserSessionService} from '../../shared/_services/http/user-session.service';
-import {NotificationService} from '../../shared/_services/notification.service';
-import {UserService} from '../../shared/_services/http/user.service';
-import {HelpersService} from '../../shared/_services/helpers.service';
-import {SelectUnitService} from '../../shared/_services/select-unit.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DataTableComponent } from '../../shared/data-table/data-table.component';
+import { EntityRoles, User } from '../../shared/_models/user.model';
+import { ActivatedRoute } from '@angular/router';
+import { AppHttpService } from '../../shared/_services/http/app-http.service';
+import { UserSessionService } from '../../shared/_services/http/user-session.service';
+import { NotificationService } from '../../shared/_services/notification.service';
+import { UserService } from '../../shared/_services/http/user.service';
+import { HelpersService } from 'app/shared/_services/helpers.service';
+import { SelectUnitService } from '../../shared/_services/select-unit.service';
 
 
 @Component({
@@ -33,7 +33,6 @@ export class UsersComponent implements OnInit {
     { name: 'role', label: 'סוג משתמש', searchOptions: { labels: this.role }}
   ];
 
-
   constructor(route: ActivatedRoute,
               private appHttp: AppHttpService,
               private userSession: UserSessionService,
@@ -56,16 +55,14 @@ export class UsersComponent implements OnInit {
       this.helpers.setPageSpinner(false);
     });
   }
-  restoreUser(user: User):void{
+  restoreUser(user: User): void{
     console.log(user);
     const buttons = {confirmButtonText: 'אישור', cancelButtonText: 'ביטול'};
-
-    const text = '  האם ברצונך לשחזר משתמש ' + user.first_name +' '+user.last_name + ' ?';
-
+    const text = '  האם ברצונך לשחזר משתמש ' + user.first_name + ' ' + user.last_name + ' ?';
     this.notificationService.warning(text, '', buttons).then(confirmation => {
       if (confirmation.value) {
         user.is_active = true;
-        this.userService.updateUser(user,user.id).then(response => {
+        this.userService.updateUser(user, user.id).then(response => {
           this.helpers.setPageSpinner(false);
           if (response) {
             if (response['message'] === 'User updated.') {
@@ -82,13 +79,11 @@ export class UsersComponent implements OnInit {
   deleteUser(user: User): void{
     console.log(user);
     const buttons = {confirmButtonText: 'אישור', cancelButtonText: 'ביטול'};
-
-    const text = '  האם ברצונך למחוק משתמש ' + user.first_name +' '+user.last_name + ' מהמערכת?';
-
+    const text = '  האם ברצונך למחוק משתמש ' + user.first_name + ' ' + user.last_name + ' מהמערכת?';
     this.notificationService.warning(text, '', buttons).then(confirmation => {
       if (confirmation.value) {
         user.is_active = false;
-        this.userService.updateUser(user,user.id).then(response => {
+        this.userService.updateUser(user, user.id).then(response => {
           this.helpers.setPageSpinner(false);
           if (response) {
             if (response['message'] === 'User updated.') {
@@ -111,7 +106,6 @@ export class UsersComponent implements OnInit {
               'השם משתמש או המייל שגוי' : 'קימת בעיה בשליחת המייל');
         } else {
           this.notificationService.success('מייל איפוס סיסמא נשלח בהצלחה');
-
         }
       });
   }

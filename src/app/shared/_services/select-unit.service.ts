@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-// import {Organization} from '../_models/organization.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +13,7 @@ export class SelectUnitService {
 
   setActiveUrl(activeUrl: any): void {
     sessionStorage.setItem('activeUrl', JSON.stringify(activeUrl));
-
-     this.unitSubject.next(activeUrl)
-
-    // this.currentOrganizationID = organizations;
-    //this.unitSubject.next(organizations);
+     this.unitSubject.next(activeUrl);
   }
 
   getActiveUrl(): any {
@@ -28,7 +23,7 @@ export class SelectUnitService {
   setOrganization(organizations: any): void {
     sessionStorage.setItem('organizations', JSON.stringify(organizations));
     this.currentOrganizationID = organizations;
-    this.unitSubject.next(organizations)
+    this.unitSubject.next(organizations);
   }
 
   getOrganization(): any {
@@ -43,7 +38,7 @@ export class SelectUnitService {
   setEmployerID(employerId: number): any {
     sessionStorage.setItem('employerID', employerId.toString());
     this.currentEmployerID = employerId;
-    this.unitSubject.next(employerId)
+    this.unitSubject.next(employerId);
   }
 
 
@@ -55,25 +50,6 @@ export class SelectUnitService {
   }
 
 
-  changeOrganizationEmployerDepartment(organizationId: number, employerId: number): void {
-    sessionStorage.setItem('organizationID', JSON.stringify(organizationId));
-    sessionStorage.setItem('employerID', JSON.stringify(employerId));
-
-    this.currentEmployerID = employerId;
-    this.currentOrganizationID = organizationId;
-    this.unitSubject.next(organizationId);
-  }
-
-  getTaskTimer(): any {
-    return this.getSessionStorage('task');
-  }
-  getAgentBarActive(): boolean {
-    if (sessionStorage.getItem('agentBarActive')) {
-      return this.getSessionStorage('agentBarActive');
-    } else {
-      return true;
-    }
-  }
 }
 
 

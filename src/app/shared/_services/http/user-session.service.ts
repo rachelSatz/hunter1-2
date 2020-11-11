@@ -9,8 +9,6 @@ export class  UserSessionService {
   operator = 'operator';
   feedback = 'feedback';
   modules;
-
-
   loginStatus: Subject<boolean> = new Subject;
   role: Subject<string> = new Subject;
 
@@ -51,7 +49,6 @@ export class  UserSessionService {
     if (sessionStorage.getItem('user')) {
       return JSON.parse(sessionStorage.getItem('user'));
     }
-
   }
 
   isPermissions(module): boolean {

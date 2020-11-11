@@ -2,12 +2,12 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { fade } from '../../../../shared/_animations/animation';
 import { DataTableComponent } from '../../../../shared/data-table/data-table.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { HelpersService } from '../../../../shared/_services/helpers.service';
-import { ActivatedRoute,Router } from '@angular/router';
+import { HelpersService } from 'app/shared/_services/helpers.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../../shared/_services/notification.service';
 import { DatePipe } from '@angular/common';
-import {NgForm} from '@angular/forms';
-import {InvoiceService} from '../../../../shared/_services/http/invoice.service';
+import { NgForm } from '@angular/forms';
+import { InvoiceService } from '../../../../shared/_services/http/invoice.service';
 
 @Component({
   selector: 'app-tax-only-invoice-form',
@@ -41,11 +41,8 @@ export class TaxOnlyInvoiceFormComponent implements OnInit {
         this.data.dataTable.paginationData.totalItems - this.data.ids.length : this.data.dataTable.paginationData.totalItems :
         this.data.ids.length;
       const text = '  האם ברצונך לשלוח חשבוניות מס? נבחרו - ' + totalCheckedIds + ' רשומות';
-
       this.hasServerError = false;
       form.value['document_date'] = this.datePipe.transform(form.value['document_date'], 'yyyy-MM-dd');
-
-
       this.notificationService.warning(text, '', buttons).then(confirmation => {
         if (confirmation.value) {
           this.helpers.setPageSpinner(true);

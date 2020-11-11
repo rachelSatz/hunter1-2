@@ -13,7 +13,7 @@ import {
   MatInputModule, MatRadioModule,
   MatRippleModule
 } from '@angular/material';
-import {DatePickerModule} from '../../../shared/app-date-picker/app-date-picker.module';
+import { DatePickerModule } from '../../../shared/app-date-picker/app-date-picker.module';
 import { EmployersFinanceExcelComponent } from './employers-finance-excel/employers-finance-excel.component';
 import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
 import { TaxInvoiceFormComponent } from './tax-invoice-form/tax-invoice-form.component';
@@ -23,15 +23,13 @@ import { ReportsFormComponent } from './reports-form/reports-form.component';
 import { InvoiceService } from '../../../shared/_services/http/invoice.service';
 import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-details-form.component';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
-import {SideFiltersComponent} from '../../../shared/data-table/side-filters/side-filters.component';
-import {PlatformComponent} from '../../platform.component';
+import { SideFiltersComponent } from '../../../shared/data-table/side-filters/side-filters.component';
+import { PlatformComponent } from '../../platform.component';
 import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
 
 
 const routes: Routes = [
   { path: '', component: InvoicesComponent }
-  // { path: '', component: InvoicesComponent ,data:{some_data: 'sss'} }
-
 ];
 
 

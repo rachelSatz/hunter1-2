@@ -1,24 +1,24 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {DataTableComponent} from '../../../shared/data-table/data-table.component';
-import {SelectUnitService} from '../../../shared/_services/select-unit.service';
-import {Project} from '../../../shared/_models/project.model';
-import {GeneralService} from '../../../shared/_services/http/general.service';
-import {calcProcessService} from '../../../shared/_services/http/calc_process.service';
-import {Subscription} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
-import {PlatformComponent} from '../../platform.component';
-import {HelpersService} from '../../../shared/_services/helpers.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DataTableComponent } from '../../../shared/data-table/data-table.component';
+import { SelectUnitService } from '../../../shared/_services/select-unit.service';
+import { Project } from '../../../shared/_models/project.model';
+import { GeneralService } from '../../../shared/_services/http/general.service';
+import { CalcProcessService } from '../../../shared/_services/http/calc-process.service';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { PlatformComponent } from '../../platform.component';
+import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-calc-processes',
   templateUrl: './calc-processes.component.html',
-  styleUrls: ['./calc-processes.component.css','../../../shared/data-table/data-table.component.css']
+  styleUrls: ['./calc-processes.component.css', '../../../shared/data-table/data-table.component.css']
 })
 export class CalcProcessesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   readonly columns  = [
-    { name: 'project_id', sortName:'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
+    { name: 'project_id', sortName: 'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
     { name: 'created_at', label: 'תאריך', searchOptions: { isDate: true }},
     { name: 'count_employers', label: 'סה"כ מעסיקים'},
     { name: 'count_employees', label: 'סה"כ ת.ז'},
@@ -29,37 +29,36 @@ export class CalcProcessesComponent implements OnInit {
   filters = {};
 
   constructor(private SelectUnitService: SelectUnitService,
-              public route:ActivatedRoute,
+              public route: ActivatedRoute,
               private GeneralService: GeneralService,
-              private calcProcessService: calcProcessService,
+              private CalcProcessService: CalcProcessService,
               private PlatformComponent: PlatformComponent,
               private helpers: HelpersService) { }
 
   ngOnInit() {
     this.SelectUnitService.setActiveUrl('finance');
     this.sub = this.route.params.subscribe(v => {
-      if(v['project_id']){
+      if (v['project_id']){
         this.filters['project_id'] = +v['project_id'];
         this.filters['created_at[from]'] = v['from_date'];
         this.filters['created_at[to]'] = v['to_date'];
         console.log(this.filters);
       }
     })
-    if(this.SelectUnitService.getOrganization()===1){
+    if (this.SelectUnitService.getOrganization() === 1) {
       this.GeneralService.getProjects(1).then(response =>
-      this.columns[0]['searchOptions'].labels = response[('1')]
-      )
+      this.columns[0]['searchOptions'].labels = response[('1')]);
     }
   }
   fetchItems(): void{
     this.helpers.setPageSpinner(true);
-    if(this.filters['project_id']){
+    if (this.filters['project_id']){
       this.dataTable.criteria.filters = this.filters;
     }
-    this.calcProcessService.getCalcProcesses(this.dataTable.criteria)
-      .then(response =>{
+    this.CalcProcessService.getCalcProcesses(this.dataTable.criteria)
+      .then(response => {
         this.dataTable.setItems(response);
         this.helpers.setPageSpinner(true);
-      })
+      });
   }
 }

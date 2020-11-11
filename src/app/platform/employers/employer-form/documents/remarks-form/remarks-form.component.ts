@@ -2,10 +2,10 @@ import { Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DataTableComponent } from '../../../../../../app/shared/data-table/data-table.component';
-import {Invoice} from '../../../../../shared/_models/invoice.model';
-import {InvoiceService} from '../../../../../shared/_services/http/invoice.service';
-import {fade} from '../../../../../shared/_animations/animation';
-import {NotificationService} from '../../../../../shared/_services/notification.service';
+import { Invoice } from '../../../../../shared/_models/invoice.model';
+import { InvoiceService } from '../../../../../shared/_services/http/invoice.service';
+import { fade } from '../../../../../shared/_animations/animation';
+import { NotificationService } from '../../../../../shared/_services/notification.service';
 
 
 @Component({
@@ -19,11 +19,9 @@ export class RemarksFormComponent implements OnInit {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
   comments = [];
-  comment: string;
   hasServerError = false;
   remarks = {};
   message = 'שגיאת שרת';
-
 
   readonly columns  =  [
     { name : 'empty_column', label: '' , searchable: false},
@@ -42,12 +40,12 @@ export class RemarksFormComponent implements OnInit {
 
   ngOnInit() {
     this.invoiceService.getInvoiceRemarks(this.invoice.id).then(response => {
-      this.remarks = response;});
+      this.remarks = response;
+    });
   }
 
   submit(): void {
     this.hasServerError = false;
-
     this.invoiceService.newComment(this.invoice.id, this.remarks['content']).then(response => {
       if (response === true) {
         this.hasServerError = false;

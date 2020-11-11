@@ -1,34 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import {GeneralService} from '../../shared/_services/http/general.service';
-import { DatePipe } from '@angular/common'
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher, MatDialog} from '@angular/material';
-import {ActivatedRoute, Router} from '@angular/router';
-import {EstPaymentFormComponent} from './est-payment-form/est-payment-form.component';
-import {NewEmployersFormComponent} from './new-employers-form/new-employers-form.component';
-import {EmployersFormComponent} from './employers-form/employers-form.component';
-import {Subscription} from 'rxjs';
+import { GeneralService } from '../../shared/_services/http/general.service';
+import { DatePipe } from '@angular/common';
+import { FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EstPaymentFormComponent } from './est-payment-form/est-payment-form.component';
+import { NewEmployersFormComponent } from './new-employers-form/new-employers-form.component';
+import { EmployersFormComponent } from './employers-form/employers-form.component';
+import { Subscription } from 'rxjs/Subscription';
 import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
-import {ChargedEmployersFormComponent} from "./charged-employers-form/charged-employers-form.component";
-import {ManuallyChargedEmployersComponent} from "./manually-charged-employers/manually-charged-employers.component";
-import {EmployersWithNoPaymentComponent} from "./employers-with-no-payment/employers-with-no-payment.component";
-import {EmployersPaymentZeroComponent} from "./employers-payment-zero/employers-payment-zero.component";
-import {HelpersService} from '../../shared/_services/helpers.service';
-import {SelectUnitService} from '../../shared/_services/select-unit.service';
-import {UserSessionService} from '../../shared/_services/http/user-session.service';
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+import { ChargedEmployersFormComponent } from './charged-employers-form/charged-employers-form.component';
+import { ManuallyChargedEmployersComponent } from './manually-charged-employers/manually-charged-employers.component';
+import { EmployersWithNoPaymentComponent } from './employers-with-no-payment/employers-with-no-payment.component';
+import { EmployersPaymentZeroComponent } from './employers-payment-zero/employers-payment-zero.component';
+import { HelpersService } from 'app/shared/_services/helpers.service';
+import { SelectUnitService } from '../../shared/_services/select-unit.service';
+import { UserSessionService } from '../../shared/_services/http/user-session.service';
+import { fade, slideInOut } from '../../shared/_animations/animation';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  animations: [ fade , slideInOut ]
+
 })
 export class DashboardComponent implements OnInit {
 
@@ -41,7 +36,7 @@ export class DashboardComponent implements OnInit {
   projects = [];
   projectId: number;
   timeRange = [{id: 1, name: 'לפי חודש'}, {id: 2, name: 'לפי תקופה'}];
-  days = {0: 'א',1: 'ב', 2:'ג', 3: 'ד',4:'ה', 5:'ו',6:'ז' }
+  days = {0: 'א', 1: 'ב',  2: 'ג',  3: 'ד', 4: 'ה', 5: 'ו', 6: 'ז' }
   timeRangeId: number;
   month: Date;
   currentMonth: Date;
@@ -49,11 +44,11 @@ export class DashboardComponent implements OnInit {
   currentFromDate: Date;
   toDate: Date;
   currentToDate: Date;
-  ifByMonth: boolean = true;
+  ifByMonth = true;
   monthStr: string;
   fromDateStr: string;
   toDateStr: string;
-  sum_incomes: any
+  sum_incomes: any;
   sum_invoices_system: any;
   data: any;
   d: any;
@@ -73,21 +68,18 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.SelectUnitService.setActiveUrl('dashboard');
-    this.helpers.setPageSpinner(true);
-    this.sub.add(this.SelectUnitService.unitSubject.subscribe(() => {
-      this.fetchItems();
-      }
-    ));
     this.fetchItems();
   }
 
   fetchItems(): void {
+
     if (this.SelectUnitService.getOrganization() === 1) {
       this.GeneralService.getProjects(1)
         .then(response => {  this.projects = response[('1')];
           this.month = new Date();
           this.projectId = 1;
           this.timeRangeId = 1;
+          // this.helpers.setPageSpinner(false);
           this.filterData(); });
     } else {
       this.data = null;
@@ -104,53 +96,61 @@ export class DashboardComponent implements OnInit {
     this.toDateFormControl = new FormControl('', [
       Validators.required
     ]);
-    this.month = new Date()
+    this.month = new Date();
   }
   filterData(): void {
     this.helpers.setPageSpinner(true);
     this.currentFromDate = this.fromDate;
     this.currentToDate = this.toDate;
     this.currentMonth = this.month;
-    if((this.timeRangeId==2 && this.fromDate && this.toDate)||(this.timeRangeId==1 && this.month)){
+    if ((this.timeRangeId === 2 && this.fromDate && this.toDate) || (this.timeRangeId === 1 && this.month)) {
       this.monthStr = this.datepipe.transform(this.month, 'yyyy-MM-dd');
       this.fromDateStr = this.datepipe.transform(this.fromDate, 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
-      if (this.timeRangeId === 2)
+      if (this.timeRangeId === 2) {
         this.ifByMonth = false;
+      }
       this.GeneralService.get_financial_data(this.projectId, this.ifByMonth, this.monthStr, this.fromDateStr, this.toDateStr)
-        .then(response =>{ this.data = response['data'];
+        .then(response =>{
+          this.data = response['data'];
           console.log(this.data);
-          this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum'] + this.data['invoice_system']['green_invoices_error']['sum'];
-          this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] + this.data['incomes']['incomes_est_payment_amount']['sum'];
+          this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum'] +
+            this.data['invoice_system']['green_invoices_error']['sum'];
+          this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] +
+            this.data['incomes']['incomes_est_payment_amount']['sum'];
           this.helpers.setPageSpinner(false);
-        } )
+        });
     }
   }
   openInvoices(status: string): void {
-    if(this.currentFromDate && this.currentToDate){
+    if (this.currentFromDate && this.currentToDate) {
       this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/finance/invoices', {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}])
+      this.router.navigate(['../../platform/finance/invoices',
+        {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}]);
     } else {
-      this.toDate= new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth()+1,0);
-      this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(),this.currentMonth.getMonth(),1), 'yyyy-MM-dd');
+      this.toDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
+      this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1), 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/finance/invoices', {status: status, from_date:this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}])
+      this.router.navigate(['../../platform/finance/invoices',
+        {status: status, from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}]);
     }
   }
-  openCalcProcesses(): void{
-    if(this.currentFromDate && this.currentToDate){
+  openCalcProcesses(): void {
+    if (this.currentFromDate && this.currentToDate) {
       this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/finance/calc-processes', { from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}])
+      this.router.navigate(['../../platform/finance/calc-processes',
+        { from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}]);
     } else {
-      this.toDate= new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth()+1,0);
-      this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(),this.currentMonth.getMonth(),1), 'yyyy-MM-dd');
+      this.toDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
+      this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(),1), 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/finance/calc-processes', { from_date:this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}])
+      this.router.navigate(['../../platform/finance/calc-processes',
+        { from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}]);
     }
   }
-  openEstPaymentForm(): void{
+  openEstPaymentForm(): void {
     const dialog = this.dialog.open(EstPaymentFormComponent, {
       data: {
         'from_date': this.currentFromDate,
@@ -165,7 +165,7 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['../../platform/dashboard'])
     }));
   }
-  openNewEmployersForm(): void{
+  openNewEmployersForm(): void {
     const dialog = this.dialog.open(NewEmployersFormComponent, {
       data: {
         'from_date': this.currentFromDate,
@@ -177,11 +177,11 @@ export class DashboardComponent implements OnInit {
       minHeight: '500px'
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
-      this.router.navigate(['../../platform/dashboard'])
+      this.router.navigate(['../../platform/dashboard']);
     }));
   }
 
-  getDayHe(date: string){
+  getDayHe(date: string) {
     this.newDate = new Date(date);
     return this.days[this.newDate.getDay()];
   }
@@ -195,12 +195,11 @@ export class DashboardComponent implements OnInit {
       minHeight: '500px'
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
-    if(result){
+    if (result) {
       this.SelectUnitService.setActiveUrl('employers');
-      this.router.navigate(['../../platform/employers/form/'+ result])
-    }
-    else {
-      this.router.navigate(['../../platform/dashboard'])
+      this.router.navigate(['../../platform/employers/form/' + result]);
+    } else {
+      this.router.navigate(['../../platform/dashboard']);
     }
     }));
   }
@@ -216,10 +215,10 @@ export class DashboardComponent implements OnInit {
       minHeight: '500px'
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
-        this.router.navigate(['../../platform/dashboard'])
+        this.router.navigate(['../../platform/dashboard']);
     }));
   }
-  openManuallyChargedPopUp(): void{
+  openManuallyChargedPopUp(): void {
     const dialog = this.dialog.open(ManuallyChargedEmployersComponent, {
       data: {
         'from_date': this.currentFromDate,
@@ -231,7 +230,7 @@ export class DashboardComponent implements OnInit {
       minHeight: '500px'
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
-      this.router.navigate(['../../platform/dashboard'])
+      this.router.navigate(['../../platform/dashboard']);
     }));
   }
   openEmployersWithNoPaymentPopUp(): void{
@@ -246,10 +245,10 @@ export class DashboardComponent implements OnInit {
       minHeight: '500px'
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
-      this.router.navigate(['../../platform/dashboard'])
+      this.router.navigate(['../../platform/dashboard']);
     }));
   }
-  openEmployersPaymentZeroPopUp(): void{
+  openEmployersPaymentZeroPopUp(): void {
     const dialog = this.dialog.open(EmployersPaymentZeroComponent, {
       data: {
         'from_date': this.currentFromDate,
@@ -261,13 +260,13 @@ export class DashboardComponent implements OnInit {
       minHeight: '500px'
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
-      this.router.navigate(['../../platform/dashboard'])
+      this.router.navigate(['../../platform/dashboard']);
     }));
   }
-  showInvoices(): void{
-    this.router.navigate(['../../platform/finance/invoices'])
+  showInvoices(): void {
+    this.router.navigate(['../../platform/finance/invoices']);
   }
-  openOtherPayerPopup(): void{
+  openOtherPayerPopup(): void {
     const dialog = this.dialog.open(OtherPayerPopupComponent, {
       data: {
         'from_date': this.currentFromDate,
@@ -279,7 +278,7 @@ export class DashboardComponent implements OnInit {
       minHeight: '500px'
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
-      this.router.navigate(['../../platform/dashboard'])
+      this.router.navigate(['../../platform/dashboard']);
     }));
   }
 }

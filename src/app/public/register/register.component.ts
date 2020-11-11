@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import {fade} from '../../shared/_animations/animation';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AppHttpService} from '../../shared/_services/http/app-http.service';
-import {UserSessionService} from '../../shared/_services/http/user-session.service';
-import {HelpersService} from '../../shared/_services/helpers.service';
-import {NgForm} from '@angular/forms';
+import { fade } from '../../shared/_animations/animation';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppHttpService } from '../../shared/_services/http/app-http.service';
+import { UserSessionService } from '../../shared/_services/http/user-session.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls:['./register.component.css'],
-  animations: [  fade ]
+  styleUrls: ['./register.component.css'],
+  animations: [ fade ]
 })
 export class RegisterComponent implements OnInit {
 
   hasServerError: boolean;
   isSubmitting: boolean;
-  hideConfirmPassword : boolean = true;
-  pas: string ='';
+  hideConfirmPassword = true;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -29,7 +27,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
   }
-  togglemyConfirmPasswordFieldType(){
+  togglemyConfirmPasswordFieldType() {
     this.hideConfirmPassword = !this.hideConfirmPassword;
   }
   register(form: NgForm): void {
