@@ -19,7 +19,8 @@ export class PlatformComponent implements OnInit {
     { url: 'employers' , label: 'לקוחות'},
     { url: 'finance' , label: 'פיננסים',  subMenuLinks:[
         { url: 'invoices', label: 'חשבונות חייבים' },
-        { url: 'calc-processes', label: 'תהליכי חישוב' }
+        { url: 'calc-processes', label: 'תהליכי חישוב' },
+        { url: 'employers-id-display', label: 'מצג מעסיקים' }
       ]},
     { url: 'users' , label: 'משתמשים'},
   ];

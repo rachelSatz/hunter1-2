@@ -11,7 +11,7 @@ import { NotificationService } from '../../shared/_services/notification.service
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls:['./login.component.css'],
+  styleUrls: ['./login.component.css'],
   animations: [fade],
 })
 export class LoginComponent implements OnInit {
