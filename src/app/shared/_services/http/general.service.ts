@@ -41,6 +41,19 @@ export class GeneralService  extends BaseHttpService {
       .then(response => response as any)
       .catch(() => null);
   }
+  // NeedToChargeEmployers(): Promise<any> {
+  //   const request = this.getTokenHeader();
+  //   if (criteria) {
+  //     request['params'] = this.setDataTableParams(criteria);
+  //   }
+  //   if (noLimit) {
+  //     request['params'] = {no_limit : noLimit};
+  //   }
+  //   return this.http.get(this.endPoint + '/NeedToChargeEmployers', request)
+  //     .toPromise()
+  //     .then(response => response as DataTableResponse)
+  //     .catch(() => null);
+  // }
 
   getEmployerComments(objectID: any, employerID: any): Promise<Object[]> {
     return this.http.post(this.apiUrl + '/generals' + '/getComments', {'username': objectID, 'employer':employerID},
