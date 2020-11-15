@@ -30,7 +30,6 @@ export class PlatformComponent implements OnInit {
   employers: Employer[] = [];
   sub = new Subscription;
 
-
   constructor(private EmployerService: EmployerService,
               private router: Router,
               private route: ActivatedRoute,

@@ -104,6 +104,7 @@ export class InvoiceService extends BaseHttpService{
       .catch(() => null);
   }
 
+
   getEmployerInvoices(criteria?: DataTableCriteria, idEmployer?: number, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
