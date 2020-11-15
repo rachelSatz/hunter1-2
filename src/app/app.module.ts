@@ -4,9 +4,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes} from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { HelpersService } from './shared/_services/helpers.service';
 import { UserSessionService } from './shared/_services/http/user-session.service';
 import { DatePipe } from '@angular/common';
+import {HelpersService} from './shared/_services/helpers.service';
 
 const routes: Routes = [
   { path: '' , loadChildren: './public/public.module#PublicModule' },
@@ -28,4 +28,6 @@ const routes: Routes = [
   providers: [ HelpersService, UserSessionService, DatePipe ],
   bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+
+}

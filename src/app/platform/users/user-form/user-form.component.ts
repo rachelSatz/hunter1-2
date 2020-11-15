@@ -53,16 +53,13 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit() {
     if (this.route.snapshot.data.user) {
-      this.helpers.setPageSpinner(true);
       this.update = true;
       this.user = new User(this.route.snapshot.data.user);
       console.log(this.units);
       this.units = this.user.units;
-      this.helpers.setPageSpinner(false);
-
     }
   }
-  private handleResponse(isSaved: any): void {
+  handleResponse(isSaved: any): void {
     this.helpers.setPageSpinner(false);
     this.message = isSaved['message'];
     if (this.message === 'username_exist') {
@@ -78,8 +75,7 @@ export class UserFormComponent implements OnInit {
       }
     }
   }
-  fetchItems() {
-  }
+
   changePermission(event: any, module, index): void{
     if (event.checked === true) {
       if (this.user.modules[index].isEnabled === false) {

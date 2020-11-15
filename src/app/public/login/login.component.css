@@ -29,7 +29,7 @@ h1{
   color: #FF7C31;
   opacity: 1;
 }
-input[type="text"]{
+input[type="text"], input[type="password"]{
   top: 459px;
   left: 813px;
   width: 292px;
@@ -47,10 +47,7 @@ p{
   color: #222222;
   opacity: 1;
 }
-::ng-deep.w-100{
-  margin: auto;
-  width: 292px!important;
-}
+
 .header{
   text-align: center;
   font: normal normal normal 30px/36px Rubik;

@@ -19,8 +19,8 @@ export class PlatformComponent implements OnInit {
     { url: 'employers' , label: 'לקוחות'},
     { url: 'finance' , label: 'פיננסים',  subMenuLinks:[
         { url: 'invoices', label: 'חשבונות חייבים' },
-        { url: 'calc-processes', label: 'תהליכי חישוב' },
-        { url: 'employers-id-display', label: 'מצג מעסיקים' }
+        { url: 'calc-processes', label: 'תהליכי חישוב' }
+        // { url: 'employers-id-display', label: 'מצג מעסיקים' }
       ]},
     { url: 'users' , label: 'משתמשים'},
   ];
@@ -40,7 +40,7 @@ export class PlatformComponent implements OnInit {
               private ref: ChangeDetectorRef) { }
 
   ngOnInit() {
-    if(this.selectUnit.getOrganization()) {
+    if (this.selectUnit.getOrganization()) {
       this.organizationId = this.selectUnit.getOrganization();
     } else {
       this.selectUnit.setOrganization(1);
@@ -51,7 +51,7 @@ export class PlatformComponent implements OnInit {
       this.employers = res['1'];
     });
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-       this.employerId = this.selectUnit.getEmployerID() ? this.selectUnit.getEmployerID(): 1 ;
+       this.employerId = this.selectUnit.getEmployerID() ? this.selectUnit.getEmployerID() : 1 ;
         this.ref.detectChanges();
       }
     ));
@@ -60,7 +60,7 @@ export class PlatformComponent implements OnInit {
   setActiveUrl(url: string): void {
     this.selectUnit.setActiveUrl(url);
   }
-  selectEmployer(employerId: number): void{
+  selectEmployer(employerId: number): void {
     this.selectUnit.setEmployerID(employerId);
   }
 

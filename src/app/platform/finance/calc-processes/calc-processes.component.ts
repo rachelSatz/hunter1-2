@@ -6,8 +6,6 @@ import { GeneralService } from '../../../shared/_services/http/general.service';
 import { CalcProcessService } from '../../../shared/_services/http/calc-process.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { PlatformComponent } from '../../platform.component';
-import { HelpersService } from 'app/shared/_services/helpers.service';
 
 @Component({
   selector: 'app-calc-processes',
@@ -31,15 +29,15 @@ export class CalcProcessesComponent implements OnInit {
   constructor(private SelectUnitService: SelectUnitService,
               public route: ActivatedRoute,
               private GeneralService: GeneralService,
-              private CalcProcessService: CalcProcessService,
-              private PlatformComponent: PlatformComponent,
-              private helpers: HelpersService) { }
+              private CalcProcessService: CalcProcessService) { }
 
   ngOnInit() {
     this.SelectUnitService.setActiveUrl('finance');
     this.sub = this.route.params.subscribe(v => {
-      if (v['project_id']){
-        this.filters['project_id'] = +v['project_id'];
+      if (v['from_date']) {
+        if (+v['project_id'] !== 0) {
+          this.filters['project_id'] = +v['project_id'];
+        }
         this.filters['created_at[from]'] = v['from_date'];
         this.filters['created_at[to]'] = v['to_date'];
         console.log(this.filters);
@@ -50,15 +48,13 @@ export class CalcProcessesComponent implements OnInit {
       this.columns[0]['searchOptions'].labels = response[('1')]);
     }
   }
-  fetchItems(): void{
-    this.helpers.setPageSpinner(true);
-    if (this.filters['project_id']){
+  fetchItems(): void {
+    if (this.filters['project_id']) {
       this.dataTable.criteria.filters = this.filters;
     }
     this.CalcProcessService.getCalcProcesses(this.dataTable.criteria)
       .then(response => {
         this.dataTable.setItems(response);
-        this.helpers.setPageSpinner(true);
       });
   }
 }

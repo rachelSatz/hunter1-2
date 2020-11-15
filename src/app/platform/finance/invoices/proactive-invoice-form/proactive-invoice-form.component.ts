@@ -60,12 +60,12 @@ export class ProactiveInvoiceFormComponent implements OnInit {
           .then(response => { console.log(response);
             this.conditions['employer_id'] = +response
             console.log(this.conditions);
-            this.invoiceService.createProactiveInvoice(this.conditions).then(response => {
-              console.log(response);
+            this.invoiceService.createProactiveInvoice(this.conditions).then(res => {
+              console.log(res);
             });
           });
       } else {
-        if (form.value['project_id'] && +form.value['project_id'] > 0){
+        if (form.value['project_id'] && +form.value['project_id'] > 0) {
           this.conditions['project_id'] = +form.value['project_id'];
         }
         if (form.value['payment_method']) {

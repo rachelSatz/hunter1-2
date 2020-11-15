@@ -47,11 +47,7 @@ p{
   color: #222222;
   opacity: 1;
 }
-::ng-deep.w-100{
-  margin: auto;
-  width: 292px!important;
-  /*margin-bottom: 10px;*/
-}
+
 .header{
   text-align: center;
   font: normal normal normal 30px/36px Rubik;

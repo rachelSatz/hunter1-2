@@ -92,7 +92,7 @@ export class EmployerService extends BaseHttpService {
       .toPromise()
       .then(response => response as DataTableResponse)
       .catch(() => null);
-  };
+  }
 
   getEmployersPayedByOther(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
@@ -107,6 +107,13 @@ export class EmployerService extends BaseHttpService {
       .toPromise()
       .then(response => response as DataTableResponse)
       .catch(() => null);
+  }
+
+  getEmployersDashboard(data: object): Promise<any> {
+    return this.http.post(this.endPoint + '/employersDashboard',
+      {data: data}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
   }
 
 }

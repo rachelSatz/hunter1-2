@@ -56,7 +56,7 @@ const routes: Routes = [
     MatButtonModule,
     BdSelectModule,
     MatMenuModule],
-  providers: [ HelpersService, UserSessionService, NotificationService ],
+  providers: [UserSessionService, NotificationService ],
   exports: [ RouterModule ]
 
 })

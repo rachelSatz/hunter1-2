@@ -23,12 +23,18 @@ export class GeneralService  extends BaseHttpService {
       .catch(() => null);
   }
 
-  get_financial_data(project_id, ifByMonth, month, fromDate, toDate): Promise<any> {
+  get_financial_data(project_id, ifByMonth, month, fromDate, toDate, productTypeId): Promise<any> {
     const request = this.getTokenHeader();
     if (ifByMonth) {
-      request['params'] = { project_id: project_id , if_by_month: ifByMonth, month: month };
+      request['params'] = { if_by_month: ifByMonth, month: month };
     } else {
-      request['params'] = { project_id: project_id , if_by_month: ifByMonth, from_date: fromDate , to_date: toDate};
+      request['params'] = { if_by_month: ifByMonth, from_date: fromDate , to_date: toDate};
+    }
+    if (productTypeId !== 'all') {
+      request['params']['product_type'] = productTypeId;
+    }
+    if (project_id !== 0 && project_id !== '0') {
+      request['params']['project_id'] = project_id;
     }
     return this.http.get(this.endPoint + '/dashboard', request)
       .toPromise()

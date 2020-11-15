@@ -16,8 +16,8 @@
                 [ngClass]="{ 'active': link.url === selectUnit.getActiveUrl() }"
                 *ngIf="link.subMenuLinks" [hidden]="UserSessionService.isPermissions(link.url)">
                 <p class="mb-half" >{{ link.label }}</p>
-                <mat-menu #subMenu yPosition="above" [overlapTrigger]="false" >
-                  <button mat-menu-item class="dropdown-item btn" *ngFor="let subLink of link.subMenuLinks"
+                <mat-menu #subMenu yPosition="above" [overlapTrigger]="false">
+                  <button mat-menu-item class="dropdown-item btn " *ngFor="let subLink of link.subMenuLinks"
                         (click)="navigate(link.url, subLink.url)">{{ subLink.label }}</button>
                 </mat-menu>
               </li>

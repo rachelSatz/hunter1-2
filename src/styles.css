@@ -69,7 +69,9 @@ input[type=file] {
 .w-70 {
   width: 70% !important;
 }
-
+.w-80 {
+  width: 20% !important;
+}
 .mr-n7,
 .mx-n7 {
   margin-right: -6rem !important;
@@ -114,7 +116,7 @@ font-Heebo{
   position: relative;
 }
 
-.btn, .pointer {
+.pointer {
   cursor: pointer !important;
 }
 
@@ -259,6 +261,8 @@ font-Heebo{
 .pink-btn {
   background-color: #E82D5C;
   color: #fff;
+  border-radius: 28px;
+
 }
 .border-radius-28{
   border-radius: 28px;
@@ -593,7 +597,7 @@ button:focus, button.focus {
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 2px solid #E2E2E2;
   color: #E82D5C;
-  cursor: pointer !important;
+  border-radius: 28px !important;
 }
 .swal2-icon-text{
   margin-top: 30px;
@@ -607,7 +611,6 @@ span.swal2-success-line-tip, span.swal2-success-line-long{
   background-color: #E82D5C !important;
 }
 .invalid{
-  /*background-color: red !important;*/
   border: red 1px solid !important;
 }
 .red-color{

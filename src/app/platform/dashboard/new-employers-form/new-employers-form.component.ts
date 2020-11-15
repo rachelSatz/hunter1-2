@@ -17,7 +17,7 @@ export class NewEmployersFormComponent implements OnInit {
     { name: 'identifier', label: 'ח.פ. מעסיק'},
     { name: 'total_amount', label: ' סכום'},
   ];
-
+  dataFilters = {};
   constructor(private dialogRef: MatDialogRef<NewEmployersFormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private datepipe: DatePipe,
@@ -25,17 +25,23 @@ export class NewEmployersFormComponent implements OnInit {
 
   ngOnInit() {
     if (this.data['from_date']) {
-      this.data['from_date'] = this.datepipe.transform(this.data['from_date'], 'yyyy-MM-dd');
-      this.data['to_date'] = this.datepipe.transform(this.data['to_date'], 'yyyy-MM-dd');
-    } else{
-      this.data['month'] = this.datepipe.transform(this.data['month'], 'yyyy-MM-dd');
+      this.dataFilters['from_date'] = this.datepipe.transform(this.data['from_date'], 'yyyy-MM-dd');
+      this.dataFilters['to_date'] = this.datepipe.transform(this.data['to_date'], 'yyyy-MM-dd');
+    } else {
+      this.dataFilters['month'] = this.datepipe.transform(this.data['month'], 'yyyy-MM-dd');
+    }
+    if (this.data['project_id'] !== '0') {
+      this.dataFilters['project_id'] = this.data['project_id'];
+    }
+    if (this.data['product_type'] !== 'all') {
+      this.dataFilters['product_type'] = this.data['product_type'];
     }
     this.fetchItems();
   }
 
   fetchItems(): void {
-    if(this.dataTable){
-      this.dataTable.criteria.filters = this.data;
+    if (this.dataTable) {
+      this.dataTable.criteria.filters = this.dataFilters;
       this.dataTable.criteria.limit = 8;
       console.log(this.dataTable);
       this.InvoiceService.getNewEmployersIncomes(this.dataTable.criteria)

@@ -7,7 +7,7 @@ import { DataTableCriteria } from '../../data-table/classes/data-table-criteria'
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 
 @Injectable()
-export class UserService extends BaseHttpService{
+export class UserService extends BaseHttpService {
 
   constructor(userSession: UserSessionService, private http: HttpClient) {
     super(userSession);

@@ -81,8 +81,7 @@ export class DocumentsComponent implements OnInit {
       .then(response => { this.GeneralService.projects = response[('1')];
         this.columns['1'].searchOptions['labels'] = response[('1')]; });
   }
-  fetchItems()
-  {
+  fetchItems() {
     this.invoiceService.getEmployerInvoices(this.dataTable.criteria, this.SelectUnitService.currentEmployerID)
       .then(response => {
         this.dataTable.setItems(response);

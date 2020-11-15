@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-  forgotPassword(form): void{
+  forgotPassword(form): void {
     this.appHttp.forgotPassword(form.value.email).then(
       response => {
         const message = response['message'];

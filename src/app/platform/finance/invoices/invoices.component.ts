@@ -32,7 +32,7 @@ export class InvoicesComponent implements OnInit {
   items: any;
   sub = new Subscription;
   types = TYPES;
-  projects: Project[]=[];
+  projects: Project[] = [];
   status = Object.keys(STATUS).map(function(e) {
     return { id: e, name: STATUS[e] };
   });
@@ -75,11 +75,17 @@ export class InvoicesComponent implements OnInit {
   ngOnInit() {
     this.SelectUnitService.setActiveUrl('finance');
     this.sub = this.route.params.subscribe(v => {
-    if (v['project_id']) {
-      this.filters['project_id'] = +v['project_id'];
+    if (v['from_date']) {
+      if (v['project_id'] !== '0') {
+        this.filters['project_id'] = +v['project_id'];
+      }
+      if (v['product_type'] !== 'all') {
+        this.filters['product_type'] = v['product_type'];
+      }
       this.filters['status'] = v['status'];
       this.filters['created_at[from]'] = v['from_date'];
       this.filters['created_at[to]'] = v['to_date'];
+      this.fetchItems();
     }
     })
     this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
@@ -112,7 +118,7 @@ export class InvoicesComponent implements OnInit {
   }
   fetchItems() {
     this.helpers.setPageSpinner(true);
-    if (this.filters['project_id']){
+    if (this.filters['created_at[from]']) {
       this.dataTable.criteria.filters = this.filters;
     }
     this.invoiceService.getInvoices(this.dataTable.criteria)

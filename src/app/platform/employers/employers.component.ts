@@ -38,6 +38,7 @@ export class EmployersComponent implements OnInit {
     this.fetchItems();
   }
   fetchItems(): void {
+
     this.helpers.setPageSpinner(true);
     this.EmployerService.getAllEmployers(this.dataTable.criteria)
       .then(response => {

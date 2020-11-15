@@ -67,9 +67,9 @@ header {
   width: 40%;
 }
 
-bd-select {
-  width: 200px !important;
-}
+/*bd-select {*/
+  /*width: 200px !important;*/
+/*}*/
 
 .disable{
   pointer-events:none;
@@ -191,9 +191,6 @@ bd-select {
   background-image: linear-gradient(360deg, #f5f5f5 75%, white 25%);
 }
 
-::ng-deep button{
-  border-radius: 27px !important;
-}
 ::ng-deep .mat-form-field-underline {
   display: none;
 }
@@ -201,10 +198,22 @@ bd-select {
 ::ng-deep.mat-form-field-label {
   font-size: 1.1em!important;
 }
-::ng-deep .mat-form-field-flex{
+::ng-deep .mat-form-field-flex {
   background: #F6F6F6 0% 0% no-repeat padding-box;
   border-radius: 11px;
 }
-::ng-deep .mat-form-field-infix{
+::ng-deep .mat-form-field-infix {
   border-top: none !important;
+}
+::ng-deep.mat-menu-panel {
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+  box-shadow: 0px 3px 15px #00000029 !important;
+  border-radius: 23px !important;
+}
+::ng-deep .dropdown-item {
+  text-align: center !important;
+  border-radius: 28px!important;
+}
+::ng-deep .dropdown-item:hover {
+  border: #E82D5C 1px solid!important;
 }
