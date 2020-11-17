@@ -37,6 +37,12 @@ export class EmployersFormComponent implements OnInit {
     if (this.data['payment_method'] === 'masav_product') {
       this.payment_method = 'מס"ב';
     }
+    if (this.data['project_id'] == '0') {
+      this.data['project_id'] = this.data['None'];
+    }
+    if (this.data['product_type'] == 'all') {
+      this.data['product_type'] = this.data['None'];
+    }
     this.fetchItems();
 
   }
@@ -47,8 +53,7 @@ export class EmployersFormComponent implements OnInit {
       this.dataTable.criteria.limit = 8;
       console.log(this.dataTable);
       this.EmployerService.getEmployersByPayment(this.dataTable.criteria)
-        .then(response => {
-          console.log(response);
+        .then(response => { console.log(response);
           this.dataTable.setItems(response);
         });
     }

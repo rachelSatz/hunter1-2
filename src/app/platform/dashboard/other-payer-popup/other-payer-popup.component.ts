@@ -34,6 +34,12 @@ export class OtherPayerPopupComponent implements OnInit {
     } else {
       this.data['month'] = this.datepipe.transform(this.data['month'], 'yyyy-MM-dd');
     }
+    if (this.data['project_id'] == '0') {
+      this.data['project_id'] = this.data['None'];
+    }
+    if (this.data['product_type'] == 'all') {
+      this.data['product_type'] = this.data['None'];
+    }
     this.fetchItems();
   }
 
