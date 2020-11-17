@@ -20,6 +20,15 @@ export class SelectUnitService {
     return this.getSessionStorage('activeUrl');
   }
 
+  setActiveEmployerUrl(activeEmployerUrl: any): void {
+    sessionStorage.setItem('activeEmployerUrl', JSON.stringify(activeEmployerUrl));
+    this.unitSubject.next(activeEmployerUrl);
+  }
+
+  getActiveEmployerUrl(): any {
+    return this.getSessionStorage('activeEmployerUrl');
+  }
+
   setOrganization(organizations: any): void {
     sessionStorage.setItem('organizations', JSON.stringify(organizations));
     this.currentOrganizationID = organizations;

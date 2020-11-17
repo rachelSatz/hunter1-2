@@ -85,6 +85,7 @@ export class FinanceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.selectUnit.setActiveEmployerUrl('finance');
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
         this.fetchItems();
       }
@@ -93,6 +94,7 @@ export class FinanceComponent implements OnInit {
       .then(res => { this.payEmployers = res['1'];
         console.log(this.payEmployers);
         this.fetchItems(); });
+
     }
 
     fetchItems() {

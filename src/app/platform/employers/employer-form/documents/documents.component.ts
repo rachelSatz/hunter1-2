@@ -20,6 +20,7 @@ import { TransactionInvoiceFormComponent } from '../../../finance/invoices/trans
 import { TaxOnlyInvoiceFormComponent } from '../../../finance/invoices/tax-only-invoice-form/tax-only-invoice-form.component';
 import { ReportsFormComponent } from '../../../finance/invoices/reports-form/reports-form.component';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
+import {DataTableResponse} from '../../../../shared/data-table/classes/data-table-response';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class DocumentsComponent implements OnInit {
   fileName = '';
   spin: boolean;
   permissionsType = this.userSession.getPermissionsType('employers');
+  arrInvoicesTmp: any[];
   readonly columns  = [
     { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
       label: 'שם מעסיק', searchable: false},
@@ -58,9 +60,6 @@ export class DocumentsComponent implements OnInit {
     { name: 'last_payment_date', label: 'לתשלום עד ' , searchable: false},
     { name: 'kind', label: 'סוג חשבונית' , searchable: false},
     { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } },
-    { name: 'remark', label: 'הערות' , searchable: false},
-    { name: 'options', label: 'אפשרויות' , searchable: false},
-    { name: 'details', label: 'פירוט' , searchable: false},
     { name: 'payment_method', label: 'אופן תשלום', searchOptions: { labels: this.paymentMethodItems }, isDisplay: false},
   ];
 
@@ -75,7 +74,7 @@ export class DocumentsComponent implements OnInit {
               private SelectUnitService: SelectUnitService) { }
 
   ngOnInit() {
-    this.helpers.setPageSpinner(true);
+    this.SelectUnitService.setActiveEmployerUrl('documents');
     this.fetchItems();
     this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
       .then(response => { this.GeneralService.projects = response[('1')];
@@ -85,6 +84,7 @@ export class DocumentsComponent implements OnInit {
     this.invoiceService.getEmployerInvoices(this.dataTable.criteria, this.SelectUnitService.currentEmployerID)
       .then(response => {
         this.dataTable.setItems(response);
+        this.arrInvoicesTmp = response.items;
         this.helpers.setPageSpinner(false);
       });
   }
@@ -95,19 +95,19 @@ export class DocumentsComponent implements OnInit {
     });
   }
 
-  setInvoiceStatus(invoiceId: number, status: string): void {
-    this.invoiceService.setInvoiceStatus(invoiceId, status).then(response => {
-      this.helpers.setPageSpinner(false);
-      if (response['message'] === 'success') {
-        this.notificationService.success('נשמר בהצלחה.');
-      } else if ('no_changes') {
-        this.notificationService.info('לא ניתן לשנות רשומה שנשלחה לחשבונית ירוקה');
-      } else {
-        this.notificationService.error(response['message']);
-
-      }
-    });
+  setInvoiceStatus(index: number, invoiceId: number, status: string): void {
+      this.invoiceService.setInvoiceStatus(invoiceId, status).then(response => {
+        if (response['message'] === 'success') {
+          this.arrInvoicesTmp[invoiceId].status = status;
+          this.notificationService.success('נשמר בהצלחה.');
+        } else if ('no_changes') {
+          this.notificationService.info('לא ניתן לשנות רשומה שנשלחה לחשבונית ירוקה');
+        } else {
+          this.notificationService.error(response['message']);
+        }
+      });
   }
+
   setItemTitle(item: Invoice): string {
     if (item.green_invoice_document !== null ) {
       if (item.green_invoice_document.errorDescription !== null && item.green_invoice_document.errorDescription !== '') {

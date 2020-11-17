@@ -143,15 +143,15 @@ export class DashboardComponent implements OnInit {
       this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/finance/invoices',
-        {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId,
-          product_type: this.productTypeId}]);
+        {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.currentProjectId,
+          product_type: this.currentProductTypeId}]);
     } else {
       this.toDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
       this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1), 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/finance/invoices',
-        {status: status, from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId,
-          product_type: this.productTypeId}]);
+        {status: status, from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.currentProjectId,
+          product_type: this.currentProductTypeId}]);
     }
   }
   openCalcProcesses(): void {
@@ -159,13 +159,13 @@ export class DashboardComponent implements OnInit {
       this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/finance/calc-processes',
-        { from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}]);
+        { from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.currentProjectId}]);
     } else {
       this.toDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
       this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(),1), 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/finance/calc-processes',
-        { from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}]);
+        { from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.currentProjectId}]);
     }
   }
   openEstPaymentForm(): void {
@@ -209,7 +209,7 @@ export class DashboardComponent implements OnInit {
     const dialog = this.dialog.open(EmployersFormComponent, {
       data: {
         'payment_method': payment_method,
-        'project_id': this.projectId
+        'project_id': this.currentProjectId
       },
       width: '1000px',
       minHeight: '500px'
@@ -228,8 +228,8 @@ export class DashboardComponent implements OnInit {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
-        'month': this.month,
-        'project_id': this.projectId
+        'month': this.currentMonth,
+        'project_id': this.currentProjectId
       },
       width: '1000px',
       minHeight: '500px'
@@ -243,8 +243,8 @@ export class DashboardComponent implements OnInit {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
-        'month': this.month,
-        'project_id': this.projectId
+        'month': this.currentMonth,
+        'project_id': this.currentProjectId
       },
       width: '1000px',
       minHeight: '500px'
@@ -258,8 +258,8 @@ export class DashboardComponent implements OnInit {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
-        'month': this.month,
-        'project_id': this.projectId
+        'month': this.currentMonth,
+        'project_id': this.currentProjectId
       },
       width: '1000px',
       minHeight: '500px'
@@ -273,8 +273,8 @@ export class DashboardComponent implements OnInit {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
-        'month': this.month,
-        'project_id': this.projectId
+        'month': this.currentMonth,
+        'project_id': this.currentProjectId
       },
       width: '1000px',
       minHeight: '500px'
@@ -291,8 +291,8 @@ export class DashboardComponent implements OnInit {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
-        'month': this.month,
-        'project_id': this.projectId
+        'month': this.currentMonth,
+        'project_id': this.currentProjectId
       },
       width: '1000px',
       minHeight: '500px'

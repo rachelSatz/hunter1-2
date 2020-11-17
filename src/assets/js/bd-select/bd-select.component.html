@@ -5,12 +5,12 @@
       <span *ngFor="let item of selectedItem; let last = last">{{ last ? getLabel(item) : getLabel(item) + ',' }}</span>
     </div>
     <span *ngIf="selectedItem && getLabel(selectedItem) && !multiple">{{ getLabel(selectedItem) }}</span>
-    <i class="fa fa-chevron-down"></i>
+    <i class="fa fa-chevron-down ml-2"></i>
   </div>
 </div>
 <p id="hasError" [@slideToggle]="error ? 'active' : 'inactive'">שדה חובה.</p>
 <div id="dropdown" [@slideToggle]="isSelectOpened ? 'active' : 'inactive'">
-  <div id="filterInput">
+  <div id="filterInput" *ngIf="filterSearch">
     <input (keyup)="filter()" [placeholder]="searchPlaceholder" [(ngModel)]="filterValue"  class="w-100" #filterValueEle>
     <i class="fa fa-search"></i>
   </div>

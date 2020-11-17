@@ -44,7 +44,8 @@ header {
 }
 
 .active.nav-item {
-  border-color: #E82D5C;
+  border-top: 5px #E82D5C solid;
+  border-radius: 8%;
 }
 
 .mb-half{

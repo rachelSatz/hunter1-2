@@ -139,3 +139,9 @@ h4{
 ::ng-deep.mat-form-field-infix{
   border-top: none !important;
 }
+/*::ng-deep #selectedItem:hover{*/
+  /*border: 1px #E82D5C solid !important;*/
+/*}*/
+::ng-deep.SelectOpened {
+  background-color: #ebc372 !important;
+}

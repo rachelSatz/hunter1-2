@@ -58,9 +58,6 @@ export class InvoicesComponent implements OnInit {
     { name: 'last_payment_date', label: 'לתשלום עד' , searchable: false},
     { name: 'type', label: 'סוג חשבונית' , searchable: false},
     { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } , multiple: true},
-    { name: 'remark', label: 'הערות' , searchable: false},
-    { name: 'options', label: 'אפשרויות' , searchable: false},
-    { name: 'details', label: 'פירוט' , searchable: false},
     { name: 'payment_method', label: 'אופן תשלום', searchOptions: { labels: this.paymentMethodItems }, isDisplay: false},
   ];
   constructor(public route: ActivatedRoute,
@@ -77,7 +74,7 @@ export class InvoicesComponent implements OnInit {
     this.sub = this.route.params.subscribe(v => {
     if (v['from_date']) {
       if (v['project_id'] !== '0') {
-        this.filters['project_id'] = +v['project_id'];
+        this.filters['project_name'] = +v['project_id'];
       }
       if (v['product_type'] !== 'all') {
         this.filters['product_type'] = v['product_type'];
@@ -85,12 +82,12 @@ export class InvoicesComponent implements OnInit {
       this.filters['status'] = v['status'];
       this.filters['created_at[from]'] = v['from_date'];
       this.filters['created_at[to]'] = v['to_date'];
-      this.fetchItems();
     }
     })
     this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
       .then(response => { this.GeneralService.projects = response[('1')];
         this.columns[1]['searchOptions'].labels = response[('1')]; });
+    this.fetchItems();
   }
   setItemTitle(item: Invoice): string {
     if (item.green_invoice_document !== null ) {

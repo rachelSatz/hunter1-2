@@ -48,7 +48,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.checkSavedItem('saved-item');
-
 		this.sub.add(this.route.queryParams.subscribe(() => this.init()));
 	}
 
@@ -62,7 +61,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
 		this.helpers.setPageSpinner(true);
 		this.isLoading = true;
 		this.fetchItems.emit(true);
-	}
+    this.helpers.setPageSpinner(false);
+  }
 
 	setItems(response: DataTableResponse, nameId: string = 'id'): void {
 		this.helpers.setPageSpinner(false);

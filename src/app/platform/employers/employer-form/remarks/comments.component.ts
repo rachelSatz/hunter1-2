@@ -19,6 +19,7 @@ export class CommentsComponent implements OnInit {
               private selectUnit: SelectUnitService) {}
 
   ngOnInit() {
+    this.selectUnit.setActiveEmployerUrl('remarks');
     this.employerService.getEmployerComments(this.employerSession.getUser().username, this.selectUnit.currentEmployerID )
       .then(response => this.comments_emp = response);
 
