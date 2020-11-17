@@ -209,7 +209,8 @@ export class DashboardComponent implements OnInit {
     const dialog = this.dialog.open(EmployersFormComponent, {
       data: {
         'payment_method': payment_method,
-        'project_id': this.currentProjectId
+        'project_id': this.currentProjectId,
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
@@ -229,7 +230,8 @@ export class DashboardComponent implements OnInit {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
         'month': this.currentMonth,
-        'project_id': this.currentProjectId
+        'project_id': this.currentProjectId,
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
@@ -244,7 +246,8 @@ export class DashboardComponent implements OnInit {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
         'month': this.currentMonth,
-        'project_id': this.currentProjectId
+        'project_id': this.currentProjectId,
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
@@ -259,7 +262,8 @@ export class DashboardComponent implements OnInit {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
         'month': this.currentMonth,
-        'project_id': this.currentProjectId
+        'project_id': this.currentProjectId,
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
@@ -274,7 +278,8 @@ export class DashboardComponent implements OnInit {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
         'month': this.currentMonth,
-        'project_id': this.currentProjectId
+        'project_id': this.currentProjectId,
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
@@ -292,7 +297,8 @@ export class DashboardComponent implements OnInit {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
         'month': this.currentMonth,
-        'project_id': this.currentProjectId
+        'project_id': this.currentProjectId,
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
