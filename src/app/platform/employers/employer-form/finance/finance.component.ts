@@ -60,7 +60,7 @@ export class FinanceComponent implements OnInit {
   paymentTypesItems = Object.keys(PAYMENT_TYPE).map(function(e) {
     return { id: e, name: PAYMENT_TYPE[e] };
   });
-  organizationId;
+  projectGroupId;
   employerId ;
   rowIndex: number;
   isNoPaymentTime: boolean;
@@ -91,7 +91,7 @@ export class FinanceComponent implements OnInit {
       }
     ));
     this.EmployerService.getEmployers()
-      .then(res => { this.payEmployers = res['1'];
+      .then(res => { this.payEmployers = res['data'];
         console.log(this.payEmployers);
         this.fetchItems(); });
 
@@ -99,7 +99,7 @@ export class FinanceComponent implements OnInit {
 
     fetchItems() {
       if (this.selectUnit.currentEmployerID > 0) {
-      this.organizationId = this.selectUnit.getOrganization();
+      this.projectGroupId = this.selectUnit.getProjectGroupId();
       this.employerId = this.selectUnit.getEmployerID();
       this.EmployerService.getEmployerFinance(this.employerId)
           .then(res => {

@@ -50,8 +50,7 @@ export class DocumentsComponent implements OnInit {
   readonly columns  = [
     { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
       label: 'שם מעסיק', searchable: false},
-    { name: 'project_name' , sortName: 'project__project_name', label: 'שם פרויקט',
-      searchOptions: { labels: this.GeneralService.projects } },
+    { name: 'project_name' , searchable: false, label: 'שם פרויקט'},
     { name: 'green_invoice_number', sortName: 'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
     { name: 'total_amount', label: 'סכום'},
     { name: 'ids_count', label: 'כמות ת"ז' , searchable: false},
@@ -76,9 +75,9 @@ export class DocumentsComponent implements OnInit {
   ngOnInit() {
     this.SelectUnitService.setActiveEmployerUrl('documents');
     this.fetchItems();
-    this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
-      .then(response => { this.GeneralService.projects = response[('1')];
-        this.columns['1'].searchOptions['labels'] = response[('1')]; });
+    this.GeneralService.getProjects(this.SelectUnitService.getProjectGroupId())
+      .then(response => { this.GeneralService.projects = response['data'];
+        this.columns['1'].searchOptions['labels'] = response['data']; });
   }
   fetchItems() {
     this.invoiceService.getEmployerInvoices(this.dataTable.criteria, this.SelectUnitService.currentEmployerID)
@@ -189,7 +188,9 @@ export class DocumentsComponent implements OnInit {
     }));
   }
   downloadInvoicesToExcel(): void {
+    this.helpers.setPageSpinner(true);
     this.invoiceService.downloadInvoicesToExcel(this.dataTable.criteria).then(response => {
+      this.helpers.setPageSpinner(false);
       if (response['message'] === 'error') {
         this.notificationService.error('לא ניתן להוריד את הקובץ');
       } else {

@@ -16,7 +16,7 @@ export class CalcProcessService extends BaseHttpService {
     super(userSession);
   }
 
-  getCalcProcesses(criteria?: DataTableCriteria, noLimit?: boolean) : Promise<DataTableResponse> {
+  getCalcProcesses(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);

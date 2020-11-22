@@ -29,7 +29,13 @@ export class BaseHttpService {
     if (criteria.isCheckAll) {
       formattedParams['isCheckAll'] = criteria.isCheckAll;
     }
-
+    if (criteria.checkedItems.length > 0) {
+      formattedParams['ids'] = [];
+      criteria.checkedItems.forEach(item => {
+        formattedParams['ids'].push(item['id']);
+      });
+      formattedParams['ids'] = formattedParams['ids'].toString();
+    }
     if (criteria.page) {
       formattedParams['page'] = criteria.page;
     }

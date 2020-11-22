@@ -3,27 +3,41 @@
 במסך זה ניתן לצפות בנתונים הפיננסים הכוללים המוזנים במערכת, מה תרצה לעשות? </p>
 <form #form="ngForm" class="mb-4">
 <div class="row d-flex align-items-center mt-4">
-  <div class="ml-3 col-6 col-lg-2" >
-  <bd-select [ngClass]="{'SelectOpened': isSelectOpened === true }" [items]="projects"[(ngModel)]="projectId" placeholder="פרויקט" name="project"></bd-select>
+
+  <div class="col">
+    <bd-select  [items]="projectGroups" name="projectGroup" class="min-width-170 max-width-220"  [ngClass]="{'SelectOpened': isSelectOpened === true }"
+                [(ngModel)]="projectGroupId" placeholder="פרויקט על" (onSelect)="loadOrganizationAndEmployers()"></bd-select>
   </div>
-  <div class="ml-3 col-6 col-lg-2" >
-    <bd-select  [items]="productTypesItems" name="productType" [ngClass]="{'SelectOpened': isSelectOpened === true }"
+  <div class="col">
+    <bd-select [ngClass]="{'SelectOpened': isSelectOpened === true }" class="min-width-170 max-width-220"
+               (onSelect)="loadOrganizationAndEmployers()" [items]="projects"[(ngModel)]="projectId" placeholder="פרויקט" name="project"></bd-select>
+  </div>
+  <div class="col" >
+    <bd-select [items]="organizations" class="min-width-170 max-width-220" [(ngModel)]="organizationId" placeholder="ארגון"
+               (onSelect)="loadEmployers(organizationId)" name="organization" ></bd-select>
+  </div>
+  <div class="col">
+    <bd-select  [items]="employers" class="min-width-170 max-width-220" [(ngModel)]="employerId" placeholder="מעסיק" name="employer"></bd-select>
+  </div>
+  <div class="col" >
+    <bd-select  [items]="productTypesItems" name="productType" class="min-width-170" [ngClass]="{'SelectOpened': isSelectOpened === true }"
                 [(ngModel)]="productTypeId" placeholder="בחר מוצר"></bd-select>
   </div>
-  <div class="ml-5 col-3 col-lg-1" >
-  <bd-select [items]="timeRange" [filterSearch]="false" (onSelect)="changeTimeRange()"
+  <div class="col max-width-220" >
+  <bd-select [items]="timeRange"  class="min-width-170"  [filterSearch]="false" (onSelect)="changeTimeRange()"
              [ngClass]="{'SelectOpened': isSelectOpened === true }" name="timeRange" [(ngModel)]="timeRangeId" placeholder="טווח זמן"></bd-select>
   </div>
-  <div  class="ml-3 col-6 col-lg-2 mr-4" *ngIf="timeRangeId === 1">
-    <mat-form-field class="date-input">
-      <input matInput class="pointer" (click)="datePicker.open()" [(ngModel)]="month" [matDatepicker]="datePicker" placeholder="בחירת חודש" name="payment_due_date"   required>
+  <div  class="col pr-0 pl-0 w-70" *ngIf="timeRangeId === 1">
+    <mat-form-field class="date-input w-80">
+      <input matInput class="pointer"  (click)="datePicker.open()" [(ngModel)]="month" [matDatepicker]="datePicker" placeholder="בחירת חודש" name="payment_due_date"   required>
       <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
       <mat-datepicker #datePicker></mat-datepicker>
       <mat-error>שדה חובה.</mat-error>
     </mat-form-field>
   </div>
-  <div  class="col-6 col-lg-4 mr-3" *ngIf="timeRangeId === 2">
-      <mat-form-field class="ml-5 date-input">
+  <div  *ngIf="timeRangeId === 2">
+    <div class="col pr-0 pl-0 w-70">
+      <mat-form-field class="ml-3 date-input mb-3">
         <input matInput [name]="from" [id]="from" class="pointer"
                [max]="toDate" required [formControl]="fromDateFormControl"
                (click)="datePickerFrom.open()" [matDatepicker]="datePickerFrom"
@@ -32,7 +46,8 @@
         <mat-datepicker #datePickerFrom></mat-datepicker>
         <mat-error *ngIf="fromDateFormControl.hasError('required')">שדה חובה</mat-error>
       </mat-form-field>
-
+    </div>
+    <div class="col pr-0 pl-0 w-70">
       <mat-form-field class="date-input">
         <input matInput [name]="to_date" [id]="to_date"
                [min]="fromDate" class="pointer" [formControl]="toDateFormControl"
@@ -41,10 +56,10 @@
         <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
         <mat-datepicker #datePickerTo></mat-datepicker>
         <mat-error *ngIf="toDateFormControl.hasError('required')">שדה חובה</mat-error>
-
       </mat-form-field>
+    </div>
 </div>
-  <button class="btn pink-btn"  (click)="filterData()">סנן</button>
+  <button class="col-lg-1 btn pink-btn"  (click)="filterData()">סנן</button>
 </div>
   </form>
   <div *ngIf="data" >
@@ -244,7 +259,7 @@
           </div>
           <div class="float-right w-35">
             <p class="sumCount">סכום</p>
-            <p class="font-size-15">{{data['invoice_system']['only_tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data['invoice_system']['tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
           </div>
           <a (click)="openInvoices('tax_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
           <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
@@ -375,7 +390,7 @@
         <div class="col-6 h-auto pr-4" class="float-right">
           <div class="h-auto mb-5 mt-2">
             <h4>סטטוס תעודות זהות</h4>
-            <p class="sumCount"> סה"כ ת"ז-<span class="blue-color"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
+            <p class="sumCount"> סה"כ ת"ז-<span class="blue-color"> {{data['ids_status']['ids_zero'] + data['ids_status']['ids_not_zero']}}</span></p>
             <div class="dataCls">
               <div class="dataRightCls"></div>
               <img src="../../../assets/img/icons/group.png" class="float-right">

@@ -16,13 +16,43 @@ export class EmployerService extends BaseHttpService {
     super(userSession);
 }
 
-  getEmployers(): Promise<any> {
-    return this.http.get(this.endPoint + '/employer_list',this.getTokenHeader())
+  getEmployersByOrganizationId(organizationId: number): Promise<any> {
+    const request = this.getTokenHeader();
+    request['params'] = {};
+    request['params']['organization_id'] = organizationId;
+    return this.http.get(this.endPoint + '/employer_list', request)
       .toPromise()
       .then(response => response as any)
       .catch(() => null);
   }
 
+  getEmployers(): Promise<any> {
+    const request = this.getTokenHeader();
+    return this.http.get(this.endPoint + '/employer_list', request)
+      .toPromise()
+      .then(response => response as any)
+      .catch(() => null);
+  }
+
+  getEmployersByProjectGroupId(projectGroupId: number): Promise<any> {
+    const request = this.getTokenHeader();
+    request['params'] = {};
+    request['params']['project_group_id'] = projectGroupId;
+    return this.http.get(this.endPoint + '/employer_list', request)
+      .toPromise()
+      .then(response => response as any)
+      .catch(() => null);
+  }
+
+  getEmployersByProjectId(projectId: number): Promise<any> {
+    const request = this.getTokenHeader();
+    request['params'] = {};
+    request['params']['project_id'] = projectId;
+    return this.http.get(this.endPoint + '/employer_list', request)
+      .toPromise()
+      .then(response => response as any)
+      .catch(() => null);
+  }
   getEmployerExternalByEmployerId(employer_id: number): Promise<number>{
     return this.http.get(this.endPoint + '/getEmployerExternalByEmployerId?employer_id=' + employer_id, this.getTokenHeader())
       .toPromise()
@@ -30,15 +60,13 @@ export class EmployerService extends BaseHttpService {
       .catch(() => null);
   }
 
-  getAllEmployers(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
+  getAllEmployers(criteria?: DataTableCriteria, is_active?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
+      request['params']['is_active'] = is_active;
     }
 
-    if (noLimit) {
-      request['params'] = {no_limit : noLimit};
-    }
     return this.http.get(this.endPoint, request)
       .toPromise()
       .then(response => response as DataTableResponse)

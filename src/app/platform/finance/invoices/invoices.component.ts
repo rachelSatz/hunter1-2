@@ -59,6 +59,9 @@ export class InvoicesComponent implements OnInit {
     { name: 'type', label: 'סוג חשבונית' , searchable: false},
     { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } , multiple: true},
     { name: 'payment_method', label: 'אופן תשלום', searchOptions: { labels: this.paymentMethodItems }, isDisplay: false},
+    { name: 'project_group_id', label: 'פרויקט על', isDisplay: false, searchable: false},
+    { name: 'organization_id', label: 'ארגון', isDisplay: false, searchable: false},
+    { name: 'employer_id', label: 'מעסיק', isDisplay: false, searchable: false}
   ];
   constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
@@ -71,22 +74,10 @@ export class InvoicesComponent implements OnInit {
 
   ngOnInit() {
     this.SelectUnitService.setActiveUrl('finance');
-    this.sub = this.route.params.subscribe(v => {
-    if (v['from_date']) {
-      if (v['project_id'] !== '0') {
-        this.filters['project_name'] = +v['project_id'];
-      }
-      if (v['product_type'] !== 'all') {
-        this.filters['product_type'] = v['product_type'];
-      }
-      this.filters['status'] = v['status'];
-      this.filters['created_at[from]'] = v['from_date'];
-      this.filters['created_at[to]'] = v['to_date'];
-    }
-    })
-    this.GeneralService.getProjects(this.SelectUnitService.getOrganization())
-      .then(response => { this.GeneralService.projects = response[('1')];
-        this.columns[1]['searchOptions'].labels = response[('1')]; });
+
+    this.GeneralService.getProjects(this.SelectUnitService.getProjectGroupId())
+      .then(response => { this.GeneralService.projects = response['data'];
+        this.columns[1]['searchOptions'].labels = response['data']; });
     this.fetchItems();
   }
   setItemTitle(item: Invoice): string {
@@ -114,6 +105,9 @@ export class InvoicesComponent implements OnInit {
     });
   }
   fetchItems() {
+    this.sub = this.route.params.subscribe(v => {
+      this.setFilters(v);
+    })
     this.helpers.setPageSpinner(true);
     if (this.filters['created_at[from]']) {
       this.dataTable.criteria.filters = this.filters;
@@ -125,6 +119,29 @@ export class InvoicesComponent implements OnInit {
         this.helpers.setPageSpinner(false); });
   }
 
+  setFilters(conditions): void {
+    if (conditions['from_date']) {
+      if (conditions['project_id'] !== '0') {
+        this.filters['project_name'] = +conditions['project_id'];
+      }
+      if (conditions['product_type'] !== 'all') {
+        this.filters['product_type'] = conditions['product_type'];
+      }
+      if (conditions['project_group_id']) {
+        this.filters['project_group_id'] = +conditions['project_group_id'];
+      }
+      if (conditions['organization_id'] !== 0 && conditions['organization_id'] !== '0' && conditions['organization_id']) {
+        this.filters['organization_id'] = +conditions['organization_id'];
+      }
+      if (conditions['employer_id'] !== 0 && conditions['employer_id'] !== '0' && conditions['employer_id']) {
+        this.filters['employer_id'] = +conditions['employer_id'];
+      }
+
+      this.filters['status'] = conditions['status'];
+      this.filters['created_at[from]'] = conditions['from_date'];
+      this.filters['created_at[to]'] = conditions['to_date'];
+    }
+  }
   openManualInvoice(): void {
     this.dialog.open(ManualInvoiceFormComponent, {
       width: '1100px'
@@ -191,7 +208,14 @@ export class InvoicesComponent implements OnInit {
     }));
   }
   downloadInvoicesToExcel(): void {
+    if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
+      const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
+    }
+    console.log(this.items);
+    console.log(this.dataTable.criteria);
+    this.helpers.setPageSpinner(true);
     this.invoiceService.downloadInvoicesToExcel(this.dataTable.criteria).then(response => {
+      this.helpers.setPageSpinner(false);
       if (response['message'] === 'error') {
         this.notificationService.error('לא ניתן להוריד את הקובץ');
       } else {
