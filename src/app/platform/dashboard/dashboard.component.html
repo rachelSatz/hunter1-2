@@ -79,17 +79,17 @@
           <p class="float-right w-30">מעסיקים שצריך לחייב</p>
           <div class="float-right w-20 padding-right-30">
             <p class="sumCount">כמות</p>
-            <!--<p>{{data['employers_status']['charged_employers_manually']['count']}}</p>-->
+            <p>{{data['employers_status']['need_to_charge_employers']['count']}}({{data['employers_status']['need_to_charge_employers']['compared']}})</p>
           </div>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
-            <!--<>p>{{data['employers_status']['charged_employers']['ids_count']}}</p>-->
+            <p>{{data['employers_status']['need_to_charge_employers']['ids_count']}}</p>
           </div>
           <div class="float-right w-25 padding-right-30">
             <p class="sumCount">סכום</p>
-            <!--<p style="font-size: 15px">{{data['employers_status']['charged_employers_manually']['sum'] | number:'1.2-2' }}</p>-->
+            <p style="font-size: 15px">{{data['employers_status']['need_to_charge_employers']['sum'] | number:'1.2-2' }}</p>
           </div>
-          <a (click)="openInvoices('tax_green_invoice,transaction_green_invoice,only_tax_green_invoice')" >צפייה</a>
+          <a (click)="openNeedToChargeEmployersPopUp()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
         </div>
       </div>

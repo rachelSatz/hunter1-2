@@ -103,6 +103,19 @@ export class InvoiceService extends BaseHttpService{
       .then(response => response as DataTableResponse)
       .catch(() => null);
   }
+  getNeedToChargeEmployersTable(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+    return this.http.get(this.endPoint + '/getNeedToChargeEmployersTable', request)
+      .toPromise()
+      .then(response => response as DataTableResponse)
+      .catch(() => null);
+  }
 
 
   getEmployerInvoices(criteria?: DataTableCriteria, idEmployer?: number, noLimit?: boolean): Promise<DataTableResponse> {
