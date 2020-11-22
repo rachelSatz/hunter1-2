@@ -19,6 +19,9 @@ import { UserSessionService } from '../../shared/_services/http/user-session.ser
 import { fade, slideInOut } from '../../shared/_animations/animation';
 import { PRODUCT_TYPES } from '../../shared/_models/employer-financial-details.model';
 import {NeedToChargeEmployersComponent} from "./need-to-charge-employers/need-to-charge-employers.component";
+import { NotificationService } from '../../shared/_services/notification.service';
+import { OrganizationService } from '../../shared/_services/http/organization.service';
+import { EmployerService } from '../../shared/_services/http/employer.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,7 +41,13 @@ export class DashboardComponent implements OnInit {
   projects = [];
   projectId: string;
   timeRange = [{id: 1, name: 'לפי חודש'}, {id: 2, name: 'לפי תקופה'}];
-  days = {0: 'א', 1: 'ב',  2: 'ג',  3: 'ד', 4: 'ה', 5: 'ו', 6: 'ז' }
+  days = {0: 'א', 1: 'ב',  2: 'ג',  3: 'ד', 4: 'ה', 5: 'ו', 6: 'ז' };
+  projectGroups = [{id: 1, name: 'smarti'}, { id: 2, name: 'myHr'}];
+  projectGroupId: any;
+  organizations = [];
+  organizationId: any;
+  employers = [];
+  employerId: any;
   timeRangeId: number;
   month: Date;
   currentMonth: Date;
@@ -60,10 +69,14 @@ export class DashboardComponent implements OnInit {
   productTypeId: string;
   currentProductTypeId: string;
   currentProjectId: string;
+  currentProjectGroupId: string;
+  currentOrganizationId: string;
+  currentEmployerId: string;
+
   productTypesItems = Object.keys(PRODUCT_TYPES).map(function(e) {
     return { id: e, name: PRODUCT_TYPES[e] };
   });
-  currentProduct: string;
+
   constructor(private GeneralService: GeneralService,
               private dialog: MatDialog,
               public datepipe: DatePipe,
@@ -71,7 +84,10 @@ export class DashboardComponent implements OnInit {
               private route: ActivatedRoute,
               private helpers: HelpersService,
               private SelectUnitService: SelectUnitService,
-              private userSession: UserSessionService) {
+              private userSession: UserSessionService,
+              private NotificationService: NotificationService,
+              private OrganizationService: OrganizationService,
+              private EmployerService: EmployerService) {
   }
 
   ngOnInit() {
@@ -80,25 +96,111 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchItems(): void {
-    if (this.SelectUnitService.getOrganization() === 1) {
-      this.GeneralService.getProjects(1)
+    this.projectId = '0';
+    this.projectGroupId = 1;
+      this.GeneralService.getProjects(this.projectGroupId)
         .then(response => {
-          this.projects = response[('1')];
+          this.projects = response['data'];
           this.projects.push({'id': '0', 'name': 'כלל הפרויקטים'});
           this.projects.sort((a, b) => a.id - b.id);
-          console.log(this.projects);
           this.productTypesItems.push({'id': 'all', 'name': 'כלל המוצרים'});
           this.productTypesItems.sort((a, b) => a.id.localeCompare(b.id));
           this.productTypeId = 'all';
           this.month = new Date();
-          this.projectId = '0';
           this.timeRangeId = 1;
-          // this.helpers.setPageSpinner(false);
-          this.filterData(); });
-    } else {
-      this.data = null;
-    }
+          this.filterData();
+        });
 
+  }
+  loadOrganizationAndEmployers(): void {
+    if (this.projectGroupId === 1 && this.projectId !== '0') {
+      this.OrganizationService.getOrganizationByProjectId(+this.projectId)
+        .then(response => {
+          console.log(response);
+          this.organizations = response['data'];
+          if (this.organizations.length > 0) {
+            this.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
+            this.organizations.sort((a, b) => a.id - b.id);
+            this.organizationId =  this.organizations ? this.organizations[0].id : 0;
+          } else {
+            this.organizations = [];
+            this.organizationId = null;
+            this.employers = [];
+            this.employerId = null;
+          }
+        });
+      this.EmployerService.getEmployersByProjectId(+this.projectId).then(res =>{
+        this.employers = res['data'];
+        if (this.employers.length > 1) {
+          this.employers.push({ id: '0', name: 'כלל המעסיקים' });
+          this.employers.sort((a, b) => a.id - b.id);
+          console.log(this.employers);
+          this.employerId = this.employers[0].id;
+          console.log(this.employerId);
+        } else {
+          this.employerId = this.employers[0] ? this.employers[0].id : 0;
+        }
+      });
+    } else {
+      this.OrganizationService.getOrganizationByProjectGroupId(this.projectGroupId)
+        .then(response => {
+          console.log(response);
+          this.organizations = response['data'];
+          if (this.organizations.length > 0) {
+            this.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
+            this.organizations.sort((a, b) => a.id - b.id);
+            this.organizationId =  this.organizations ? this.organizations[0].id : 0;
+          } else {
+            this.organizations = [];
+            this.organizationId = null;
+            this.employers = [];
+            this.employerId = 0;
+          }
+        });
+    }
+  }
+  loadEmployers(organizationId): void {
+    if (this.organizationId !== '0') {
+      this.EmployerService.getEmployersByOrganizationId(organizationId).then(res => {
+        this.employers = res['data'];
+        if (this.employers.length > 1) {
+          this.employers.push({ id: '0', name: 'כלל המעסיקים' });
+          this.employers.sort((a, b) => a.id - b.id);
+          console.log(this.employers);
+          this.employerId = this.employers[0].id;
+          console.log(this.employerId);
+        } else {
+          this.employerId = this.employers[0] ? this.employers[0].id : 0;
+        }
+      });
+    } else if (this.projectGroupId !== 1 || this.projectId === '0') {
+      this.EmployerService.getEmployersByProjectGroupId(this.projectGroupId).then(res => {
+        this.employers = res['data'];
+        if (this.employers.length > 1) {
+          this.employers.push({ id: '0', name: 'כלל המעסיקים' });
+          this.employers.sort((a, b) => a.id - b.id);
+          console.log(this.employers);
+          this.employerId = this.employers[0].id;
+          console.log(this.employerId);
+        } else {
+          this.employerId = this.employers[0] ? this.employers[0].id : 0;
+        }
+      });
+    } else {
+      this.EmployerService.getEmployersByProjectId(+this.projectId).then(res => {
+        this.employers = res['data'];
+        if (this.employers.length > 1) {
+          this.employers.push({ id: '0', name: 'כלל המעסיקים' });
+          this.employers.sort((a, b) => a.id - b.id);
+          console.log(this.employers);
+          this.employerId = this.employers[0].id;
+          console.log(this.employerId);
+        } else {
+          this.employerId = this.employers[0] ? this.employers[0].id : 0;
+        }
+
+      });
+    }
   }
 
   changeTimeRange(): void {
@@ -119,6 +221,9 @@ export class DashboardComponent implements OnInit {
     this.currentMonth = this.month;
     this.currentProductTypeId = this.productTypeId;
     this.currentProjectId = this.projectId;
+    this.currentProjectGroupId = this.projectGroupId;
+    this.currentOrganizationId = this.organizationId;
+    this.currentEmployerId = this.employerId;
     if ((this.timeRangeId === 2 && this.fromDate && this.toDate) || (this.timeRangeId === 1 && this.month)) {
       this.monthStr = this.datepipe.transform(this.month, 'yyyy-MM-dd');
       this.fromDateStr = this.datepipe.transform(this.fromDate, 'yyyy-MM-dd');
@@ -127,14 +232,18 @@ export class DashboardComponent implements OnInit {
         this.ifByMonth = false;
       }
       this.GeneralService.get_financial_data(this.projectId, this.ifByMonth, this.monthStr,
-        this.fromDateStr, this.toDateStr, this.productTypeId)
+        this.fromDateStr, this.toDateStr, this.productTypeId, this.projectGroupId, this.organizationId, this.employerId)
         .then(response => {
-          this.data = response['data'];
-          console.log(this.data);
-          this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum'] +
-            this.data['invoice_system']['green_invoices_error']['sum'];
-          this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] +
-            this.data['incomes']['incomes_est_payment_amount']['sum'];
+          if (response['message'] === 'success') {
+            this.data = response['data'];
+            console.log(this.data);
+            this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum'] +
+              this.data['invoice_system']['green_invoices_error']['sum'];
+            this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] +
+              this.data['incomes']['incomes_est_payment_amount']['sum'];
+          } else {
+            this.NotificationService.error('ארעה שגיאה');
+          }
           this.helpers.setPageSpinner(false);
         });
     }
@@ -144,15 +253,16 @@ export class DashboardComponent implements OnInit {
       this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/finance/invoices',
-        {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId,
-          product_type: this.productTypeId}]);
+        {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.currentProjectId,
+          product_type: this.currentProductTypeId}]);
     } else {
       this.toDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
       this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1), 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/finance/invoices',
-        {status: status, from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId,
-          product_type: this.productTypeId}]);
+        {status: status, from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.currentProjectId,
+          product_type: this.currentProductTypeId, project_group_id: this.currentProjectGroupId,
+          organization_id: this.organizationId, employer_id: this.employerId }]);
     }
   }
   openCalcProcesses(): void {
@@ -160,13 +270,14 @@ export class DashboardComponent implements OnInit {
       this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/finance/calc-processes',
-        { from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.projectId}]);
+        { from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.currentProjectId}]);
     } else {
       this.toDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
       this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(),1), 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/finance/calc-processes',
-        { from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.projectId}]);
+        { from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.currentProjectId,
+          project_group_id: this.currentProjectGroupId }]);
     }
   }
   openEstPaymentForm(): void {
@@ -176,7 +287,10 @@ export class DashboardComponent implements OnInit {
         'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
         'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId
+        'product_type': this.currentProductTypeId,
+        'project_group_id': this.currentProjectGroupId,
+        'organization_id': this.currentOrganizationId,
+        'employer_id': this.currentEmployerId
       },
       width: '1000px',
       minHeight: '500px'
@@ -192,7 +306,10 @@ export class DashboardComponent implements OnInit {
         'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
         'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId
+        'product_type': this.currentProductTypeId,
+        'project_group_id': this.currentProjectGroupId,
+        'organization_id': this.currentOrganizationId,
+        'employer_id': this.currentEmployerId
       },
       width: '1000px',
       minHeight: '500px'
@@ -230,7 +347,7 @@ export class DashboardComponent implements OnInit {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
-        'month': this.month,
+        'month': this.currentMonth,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId
       },
@@ -246,7 +363,7 @@ export class DashboardComponent implements OnInit {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
-        'month': this.month,
+        'month': this.currentMonth,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId
       },
@@ -278,7 +395,7 @@ export class DashboardComponent implements OnInit {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
-        'month': this.month,
+        'month': this.currentMonth,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId
       },
@@ -294,7 +411,7 @@ export class DashboardComponent implements OnInit {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
-        'month': this.month,
+        'month': this.currentMonth,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId
       },
@@ -313,7 +430,7 @@ export class DashboardComponent implements OnInit {
       data: {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
-        'month': this.month,
+        'month': this.currentMonth,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId
       },

@@ -1,14 +1,13 @@
 
 <app-data-table tableName="חשבונות חייבים" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
-                [hasActionsHeader]="false">
-
+                [hasActionsHeader]="true">
   <div class="table-header" >
     <div class="row mr-1">
       <!--<div class="float-left">
         <button class="btn blue-btn mr-2" (click)="openProactiveInvoice()">חשבון יזום</button>
       </div>-->
       <div *ngIf="permissionsType" class="ml-3 d-flex mr-auto">
-        <button [matMenuTriggerFor]="menu" class="btn pink-btn">פעולות</button>
+        <button [matMenuTriggerFor]="menu" class="btn white-btn">פעולות</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="openProactiveInvoice()">חשבון יזום</button>
           <button mat-menu-item (click)="openManualInvoice()">חשבון ידני</button>
@@ -42,18 +41,14 @@
     <!--{{getVal(item.status)}}-->
     <!--</td>-->
     <td class="select-status" [ngClass]="{'white': i%2 === 0}">
-      <mat-select [title]="setItemTitle(item)" class="pointer" name="status" placeholder="" [disabled]="!permissionsType" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
+      <mat-select [title]="setItemTitle(item)" class="p-2 border-radius-11" [ngClass]="{'gray-background-color': i%2 === 0 , 'white-background-color': i%2 !== 0 }"  name="status" placeholder="" [disabled]="!permissionsType" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
         <mat-option *ngFor="let st of status" [value]="st.id">{{ st.name }}</mat-option>
       </mat-select>
     </td>
     <td [ngClass]="{'white': i%2 === 0}">
-      <i class="fa fa-eye fa-lg pointer" (click)="ShowRemarks(item)" title="הערות" ></i>
-    </td>
-    <td *ngIf="item.description != ''" [ngClass]="{'white': i%2 === 0}" >
-      <i class="fa fa-download fa-lg ml-2 pointer" title="פירוט עובדים בחשבונית" (click)="downloadEmployeesExcel(item.id, item)" ></i>
-    </td>
-    <td [ngClass]="{'white': i%2 === 0}">
-      <i class="fa fa-exclamation-circle pointer" (click)="showInvoiceDetails(item)" title="פירוט רשומות" ></i>
+      <i class="fa fa-eye fa-lg pointer ml-3 mr-3" (click)="ShowRemarks(item)" title="הערות" ></i>
+      <img src="../../../../assets/img/icons/download-regular.png" *ngIf="item.description != ''" title="פירוט עובדים בחשבונית" class="pointer ml-3" (click)="downloadEmployeesExcel(item.id, item)">
+      <i class="fa fa-exclamation-circle pointer ml-3" (click)="showInvoiceDetails(item)" title="פירוט רשומות" ></i>
     </td>
   </tr>
 </app-data-table>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-contacts',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
+    this.selectUnit.setActiveEmployerUrl('contacts');
   }
 
 }
