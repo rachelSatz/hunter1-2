@@ -48,9 +48,11 @@ export class UsersComponent implements OnInit {
   }
 
   fetchItems() {
-    this.userService.getUsers(this.dataTable.criteria, this.dataTable.isActive).then(response => {
+    this.helpers.setPageSpinner(true);
+    this.userService.getUsers(this.dataTable.criteria,this.dataTable.isActive).then(response => {
       this.dataTable.setItems(response);
       this.user = response;
+      this.helpers.setPageSpinner(false);
     });
   }
   restoreUser(user: User): void{

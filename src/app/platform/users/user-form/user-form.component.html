@@ -19,64 +19,64 @@
       <div class="col-6 col-lg-3">
         <!--<input matInput type="text" [(ngModel)]="user.first_name" placeholder="שם פרטי" name="first_name" required>-->
         <p class="grayColor">שם פרטי</p>
-        <input class="form-control" type="text" name="first_name" #first_name="ngModel"  [(ngModel)]="user.first_name"
+        <input class="form-control" type="text" name="first_name" #first_name="ngModel" [ngClass]="first_name.invalid && (first_name.dirty || first_name.touched ||not_valid)? 'invalid':''" [(ngModel)]="user.first_name"
                required pattern="^[a-zA-Zא-ת \-\']+">
-        <mat-error *ngIf="first_name.invalid && (first_name.dirty || first_name.touched ||not_valid)" >
+        <div *ngIf="first_name.invalid && (first_name.dirty || first_name.touched ||not_valid)" class="red-color">
           <div *ngIf="first_name.errors.required">
             שדה חובה
           </div>
           <div *ngIf="first_name.errors.pattern">
             יש להזין אותיות בלבד
           </div>
-        </mat-error>
+        </div>
         <!--<mat-error *ngIf="control && control.invalid && (control.dirty || control.touched)">יש להזין שם פרטי.</mat-error>-->
       </div>
       <div class="col-6 col-lg-3">
         <!--<input matInput type="text" [(ngModel)]="user.last_name" placeholder="שם משפחה" name="last_name" required>-->
         <p class="grayColor">שם משפחה</p>
         <input class="form-control" type="text" name="last_name" #last_name="ngModel" [(ngModel)]="user.last_name" required
-             pattern="^[a-zA-Zא-ת \-\']+">
-        <!--[ngClass]="last_name.invalid && (last_name.dirty || last_name.touched ||not_valid)? 'invalid':''"-->
-        <!--class="red-color"-->
-        <mat-error *ngIf="last_name.invalid && (last_name.dirty || last_name.touched ||not_valid )" >
+               [ngClass]="last_name.invalid && (last_name.dirty || last_name.touched ||not_valid)? 'invalid':''" pattern="^[a-zA-Zא-ת \-\']+">
+        <div *ngIf="last_name.invalid && (last_name.dirty || last_name.touched ||not_valid )" class="red-color">
           <div *ngIf="last_name.errors.required">
             שדה חובה
           </div>
           <div *ngIf="last_name.errors.pattern">
             יש להזין אותיות בלבד
           </div>
-        </mat-error>
+        </div>
       </div>
     </div>
     <div class="row mb-5">
       <div class="col-6 col-lg-3">
         <p class="grayColor">טלפון נייד </p>
-        <input class="form-control" type="text" name="phone" #phone="ngModel" [(ngModel)]="user.phone"  pattern="^\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})$">
+        <input class="form-control" type="text" name="phone" #phone="ngModel" [(ngModel)]="user.phone"  pattern="^\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})$"
+               [ngClass]="phone.invalid && (phone.dirty || phone.touched||not_valid )? 'invalid':''">
         <!--pattern="^\+?(972|0|\+972|00972)(\-)?(([23489]{1}\d{7})|[5]{1}\d{8})"-->
-        <mat-error *ngIf="phone.invalid && (phone.dirty || phone.touched ||not_valid)" class="red-color">
+        <div *ngIf="phone.invalid && (phone.dirty || phone.touched ||not_valid)" class="red-color">
         מספר לא חוקי
-        </mat-error>
+        </div>
       </div>
       <div class="col-6 col-lg-3">
         <p class="grayColor">כתובת אמייל</p>
-        <input class="form-control" type="email" name="email" [readonly]="update" #email="ngModel" [(ngModel)]="user.email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
-        <mat-error *ngIf="email.invalid && (email.dirty || email.touched||not_valid)" class="red-color">
+        <input class="form-control" type="email" name="email" [readonly]="update" #email="ngModel" [(ngModel)]="user.email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required
+               [ngClass]="email.invalid &&  (email.dirty || email.touched ||not_valid)? 'invalid':''">
+        <div *ngIf="email.invalid && (email.dirty || email.touched||not_valid)" class="red-color">
           <div *ngIf="email.errors.pattern">
           כתובת אימייל לא חוקית
         </div>
           <div *ngIf="email.errors.required">
 שדה חובה
           </div>
-        </mat-error>
+        </div>
       </div>
     </div>
     <div class="row mb-4">
       <div class="col-6 col-lg-3 pl-4">
         <bd-select [items]="roles" placeholder="סוג משתמש" #roleSelect="ngModel" name="role"
                    [(ngModel)]="user.role" required ></bd-select>
-        <mat-error *ngIf="roleSelect.invalid && (roleSelect.dirty || roleSelect.touched ||not_valid )" class="red-color mt-1">
+        <div *ngIf="roleSelect.invalid && (roleSelect.dirty || roleSelect.touched ||not_valid )" class="red-color mt-1">
           שדה חובה
-        </mat-error>
+        </div>
       </div>
     </div>
     <h5 class="mt-5 bold">הרשאות</h5>
@@ -102,7 +102,7 @@
     </div>
     <p class="alert alert-danger "  [@fade]="hasServerError ? 'active' : 'inactive'">{{ message }}</p>
     <div class="mt-4 text-center pl-5" >
-      <button class="btn pink-btn ml-5 mb-4 pointer" type="submit" (click)="submit(form)">שמור</button>
+      <button class="btn pink-btn ml-5 pointer" type="submit" (click)="submit(form)">שמור</button>
     </div>
   </form>
 </div>

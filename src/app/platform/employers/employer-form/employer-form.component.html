@@ -1,99 +1,92 @@
 <div class="emp-form" *ngIf="employer">
+  <!--<div class="formEmployer">-->
   <div class="row">
     <span class="dot" (click)="previous()"><i class="fa fa-angle-right fa-2x"></i></span>
     <p class="h5 bold py-3 pt-4">לקוח<span class="h6 py-3">- {{employer.id_emp }} </span></p>
+    <!--<i class="fas fa-folder"></i>-->
     <div class="d-flex mr-auto">
-      <button class="edit pointer" (click)="openOrCloseEditEmployerDetails()" *ngIf="permissionsType">
-        <span *ngIf="editClose">עריכה</span>
-        <span *ngIf="!editClose">שמור שינויים</span>
-      </button>
+      <button class="edit" (click)="openOrCloseEditEmployerDetails()" *ngIf="permissionsType"> עריכה </button>
+
+
     </div>
+
   </div>
+    <!--</div>-->
 <hr>
-  <div class="mt-3 mb-3">
-    <form #form="ngForm" (ngSubmit)="submit(form)">
-      <div class="row mr-5">
-        <div class="w-40">
-          <p class="gray w-25 display-block float-right">שם מעסיק</p>
-          <span *ngIf="editClose">{{employer.name}}</span>
-          <mat-form-field *ngIf="!editClose" class="mt-0">
-            <input matInput type="text" [(ngModel)]="employer.name"
-                   (change)="saveChanges = true" name="name">
-          </mat-form-field>
-        </div>
-        <div class="w-40">
-          <p class="gray w-25 display-block float-right">פלאפון</p>
-          <span *ngIf="editClose">{{employer.phone}}</span>
-          <mat-form-field *ngIf="!editClose" class="mt-0">
-            <input matInput type="text"  [(ngModel)]="employer.phone"  maxlength="9"
-                   (change)="saveChanges = true" name="phone">
-            <mat-error>יש להקיש 9 ספרות.</mat-error>
-          </mat-form-field>
-        </div>
+  <div class="mt-5 pr-5" >
+    <form #form="ngForm" (ngSubmit)="submit(form)" *ngIf="editClose" >
+      <div class="row w-80">
+      <p class="w-40 mr-4"> <span class="gray w-25 display-block float-right">שם מעסיק</span> {{employer.name}}</p>
+      <p class="w-40"> <span class="gray w-25 float-right display-block">פלאפון </span> {{employer.phone}}</p>
     </div>
-      <div class="row mr-5">
-        <div class="w-40">
-          <p class="gray w-25 display-block float-right">ח.פ.</p>
-          <span *ngIf="editClose">{{employer.identifier}}</span>
-          <mat-form-field *ngIf="!editClose">
-            <input matInput type="text"  [(ngModel)]="employer.identifier" maxlength="9"
-                   (change)="saveChanges = true" name="identifier">
-            <mat-error>יש להקיש 9 ספרות.</mat-error>
-          </mat-form-field>
-        </div>
-        <div class="w-40">
-          <p class="gray w-25 display-block float-right">פרויקט</p>
-          <span >{{employer['project_name']}}</span>
+      <div class="row w-80">
+        <p class="w-40 mr-4"> <span class="gray float-right display-block w-25">ח.פ.</span> {{employer.identifier}}</p>
+        <p class="w-40"> <span class="gray float-right display-block w-25">פרויקט</span> {{employer['project_name']}}</p>
+      </div>
+    </form>
+    <form #form="ngForm" (ngSubmit)="submit(form)" *ngIf="!editClose" [formGroup]="employerForm">
+      <div class="d-flex">
+        <div class="mb-3">
+            <mat-form-field>
+              <input matInput type="text" [(ngModel)]="employer.name" placeholder="שם מעסיק"
+                     (change)="saveChanges = true" formControlName="name">
+            </mat-form-field>
+          <br>
+            <mat-form-field>
+              <input matInput type="text"  [(ngModel)]="employer.identifier"  placeholder="מספר ח.פ"  maxlength="9"
+                     (change)="saveChanges = true" formControlName="identifier">
+              <mat-error>יש להקיש 9 ספרות.</mat-error>
+            </mat-form-field>
         </div>
       </div>
     </form>
+
   </div>
+  <hr>
+  <div class="d-flex mt-5"  *ngIf="formDetails" [@slideToggle]="showFilters">
+    <!--[@rotate]="showDetails"-->
+<div class="container pr-5">
+    <div class="row" >
+      <div class="col-3 w-25">
+      <p> <span class="gray w-35 float-right display-block">ח.פ. משלם </span>  {{financialDetails.employer_relation.name}} </p>
+      </div>
+      <div class="col-3 w-20" >
+      <p> <span class="gray w-45 display-block float-right">ספרות אחרונות בכרטיס </span>  {{financialDetails.credit_card_last_digits}} </p>
+      </div>
+      <div class="col-2 w-20">
+      <p> <span class="gray w-35 display-block float-right">שפה</span>  {{ getLanguage(financialDetails.language) }} </p>
+      </div>
+      <div class="col-4 w-35" *ngIf="financialDetails.green_invoice_email">
+       <p> <span class="gray w-35 display-block float-right"> מייל בחשבונית ירוקה</span>
+         <span *ngIf="financialDetails.green_invoice_email.length>38">  {{ '...'+financialDetails.green_invoice_email.substring(0, 30)}}</span>
+         <span *ngIf="financialDetails.green_invoice_email.length<39">{{ financialDetails.green_invoice_email}}</span>
+        </p>
+      </div>
+    </div>
 
-  <!--<hr>-->
-  <!--<div class="d-flex mt-5"  *ngIf="formDetails" [@slideToggle]="showFilters">-->
-    <!--&lt;!&ndash;[@rotate]="showDetails"&ndash;&gt;-->
-<!--<div class="container pr-5">-->
-    <!--<div class="row" >-->
-      <!--<div class="col-3 w-25">-->
-      <!--<p> <span class="gray w-35 float-right display-block">ח.פ. משלם </span>  {{financialDetails.employer_relation.name}} </p>-->
-      <!--</div>-->
-      <!--<div class="col-3 w-20" >-->
-      <!--<p> <span class="gray w-45 display-block float-right">ספרות אחרונות בכרטיס </span>  {{financialDetails.credit_card_last_digits}} </p>-->
-      <!--</div>-->
-      <!--<div class="col-2 w-20">-->
-      <!--<p> <span class="gray w-35 display-block float-right">שפה</span>  {{ getLanguage(financialDetails.language) }} </p>-->
-      <!--</div>-->
-      <!--<div class="col-4 w-35" *ngIf="financialDetails.green_invoice_email">-->
-       <!--<p> <span class="gray w-35 display-block float-right"> מייל בחשבונית ירוקה</span>-->
-         <!--<span *ngIf="financialDetails.green_invoice_email.length>38">  {{ '...'+financialDetails.green_invoice_email.substring(0, 30)}}</span>-->
-         <!--<span *ngIf="financialDetails.green_invoice_email.length<39">{{ financialDetails.green_invoice_email}}</span>-->
-        <!--</p>-->
-      <!--</div>-->
-    <!--</div>-->
 
+    <div class="row">
+      <div class="col-3 w-25">
+        <p> <span class="gray w-35 float-right display-block" >מטבע </span> {{getCurrency(financialDetails.currency)}}</p>
+      </div>
+      <div class="col-3 w-20">
+        <p> <span class="gray w-45 float-right display-block">סכום מינימום לתשלום</span>   </p>
+      </div>
+      <div class="col-2 w-20">
+        <p> <span class="gray w-35 float-right display-block">זמן חיוב</span>  {{getPaymentTime(financialDetails.payment_time)}} </p>
+      </div>
+      <div class="col-4 w-35" *ngIf="financialDetails.green_invoice_id">
+        <p> <span class="gray w-35 float-right display-block">מספר בחשבונית ירוקה</span>
+          <span *ngIf="financialDetails.green_invoice_id.length>31">{{ '...'+ financialDetails.green_invoice_id.substring(0,28)}}</span>
+          <span *ngIf="financialDetails.green_invoice_id.length<32">{{ financialDetails.green_invoice_id}}</span>
+        </p>
+      </div>
+    </div>
 
-    <!--<div class="row">-->
-      <!--<div class="col-3 w-25">-->
-        <!--<p> <span class="gray w-35 float-right display-block" >מטבע </span> {{getCurrency(financialDetails.currency)}}</p>-->
-      <!--</div>-->
-      <!--<div class="col-3 w-20">-->
-        <!--<p> <span class="gray w-45 float-right display-block">סכום מינימום לתשלום</span>   </p>-->
-      <!--</div>-->
-      <!--<div class="col-2 w-20">-->
-        <!--<p> <span class="gray w-35 float-right display-block">זמן חיוב</span>  {{getPaymentTime(financialDetails.payment_time)}} </p>-->
-      <!--</div>-->
-      <!--<div class="col-4 w-35" *ngIf="financialDetails.green_invoice_id">-->
-        <!--<p> <span class="gray w-35 float-right display-block">מספר בחשבונית ירוקה</span>-->
-          <!--<span *ngIf="financialDetails.green_invoice_id.length>31">{{ '...'+ financialDetails.green_invoice_id.substring(0,28)}}</span>-->
-          <!--<span *ngIf="financialDetails.green_invoice_id.length<32">{{ financialDetails.green_invoice_id}}</span>-->
-        <!--</p>-->
-      <!--</div>-->
-    <!--</div>-->
-
-<!--</div>-->
-  <!--</div>-->
 </div>
-<!--<button class="details"  [@rotate]="showFilters" (click)="showEmployerFinanceDetails()"> <span *ngIf="formDetails">הסתר</span>   <span *ngIf="!formDetails">הצג</span> פרטים נוספים<i class="fa fa-angle-down"></i> </button>-->
+  </div>
+</div>
+<button class="details"  [@rotate]="showFilters" (click)="showEmployerFinanceDetails()"> <span *ngIf="formDetails">הסתר</span>   <span *ngIf="!formDetails">הצג</span> פרטים נוספים<i class="fa fa-angle-down"></i> </button>
 
   <div class="container-fluid mb-3">
     <header>
@@ -101,7 +94,7 @@
           <div class="collapse navbar-collapse">
             <ul class="navbar-nav">
               <ng-container *ngFor="let link of headers">
-                <li class="nav-item"  [ngClass]="{ 'active': link.url === selectUnit.getActiveEmployerUrl() }">
+                <li class="nav-item"  [ngClass]="{ 'active': link.url === activeUrl }">
                   <a class="menu-link" [routerLink]="[link.url]"  (click)="setActiveUrl(link.url)">
                     <p class="bold">{{ link.label }}</p>
                   </a>

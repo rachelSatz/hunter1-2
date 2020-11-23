@@ -2,13 +2,13 @@
   <h1>מערכת פיננסית <span class="orange">EMX</span></h1>
   <div class="center">
     <p class="header">כניסה למערכת</p>
-    <form #form="ngForm" class="align-content-center form-entrance" (ngSubmit)="login(form)" novalidate>
-      <div class="w-53 margin-auto mb-5" >
+    <form #form="ngForm" class="align-content-center" (ngSubmit)="login(form)" novalidate>
+      <div class="w-50 margin-auto mb-5" >
         <p>הזן אמייל</p>
         <input class="form-control" type="text" name="email" #email="ngModel" ngModel required>
         <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">יש להזין אימייל.</mat-error>
       </div>
-      <div class="w-53 margin-auto">
+      <div class="w-50 margin-auto">
         <p class=" mt-4">הזן סיסמא </p>
         <div id="input_container">
           <input class="form-control" [type]="hide ? 'password' : 'text'" id="input" name="password" #password="ngModel" ngModel required>

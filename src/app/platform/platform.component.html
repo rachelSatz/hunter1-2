@@ -25,12 +25,9 @@
           </ul>
         </div>
         <div class="d-flex align-items-center">
-          <bd-select [items]="projectGroups" class="ml-3 mb-3" [(ngModel)]="projectGroupId" placeholder="פרויקט על"
-                   (onSelect)="loadOrganization($event)" ></bd-select>
-          <bd-select [items]="organizations" class="ml-3 mb-3" [(ngModel)]="organizationId" placeholder="ארגון"
-                     (onSelect)="loadEmployers(organizationId)" ></bd-select>
-          <bd-select  [items]="employers" class="ml-3 mb-3" [(ngModel)]="
-          employerId" placeholder="מעסיק"
+          <bd-select [items]="organizations" class="ml-3 mb-3" [(ngModel)]="organizationId" placeholder="ארגון על"
+                   (onSelect)="loadEmployers($event)" ></bd-select>
+          <bd-select  [items]="employers" class="ml-3 mb-3" [(ngModel)]="employerId" placeholder="מעסיק"
                     (onSelect)="selectEmployer($event)"></bd-select>
         </div>
       </nav>

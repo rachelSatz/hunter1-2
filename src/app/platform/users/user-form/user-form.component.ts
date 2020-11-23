@@ -53,12 +53,10 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit() {
     if (this.route.snapshot.data.user) {
-      this.helpers.setPageSpinner(true);
       this.update = true;
       this.user = new User(this.route.snapshot.data.user);
       console.log(this.units);
       this.units = this.user.units;
-      this.helpers.setPageSpinner(false);
     }
   }
   handleResponse(isSaved: any): void {

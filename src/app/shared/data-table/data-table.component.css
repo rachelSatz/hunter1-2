@@ -34,7 +34,7 @@ app-side-filters ::ng-deep .input .mat-form-field-wrapper {
 }
 
 .table-header {
-	/*padding: 5px !important;*/
+	padding: 5px !important;
   vertical-align: middle;
   text-align: center !important;
   border-top: none;
@@ -150,7 +150,4 @@ app-side-filters ::ng-deep .input .mat-form-field-wrapper {
 }
 ::ng-deep .mat-slide-toggle.mat-checked.mat-disabled .mat-slide-toggle-thumb {
   background-color: #ff4081; /*replace with your color*/
-}
-::ng-deep .mat-checkbox-frame, ::ng-deep .mat-checkbox-background{
-  border-radius: 5px !important;
 }
