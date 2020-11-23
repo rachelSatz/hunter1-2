@@ -6,9 +6,8 @@ import { Subject } from 'rxjs/Subject';
 })
 export class SelectUnitService {
 
-  currentProjectGroupId: number;
-  currentEmployerID: any;
   currentOrganizationID: number;
+  currentEmployerID: number;
   unitSubject: Subject<number> = new Subject();
   activeUrl: string;
 
@@ -21,23 +20,14 @@ export class SelectUnitService {
     return this.getSessionStorage('activeUrl');
   }
 
-  setActiveEmployerUrl(activeEmployerUrl: any): void {
-    sessionStorage.setItem('activeEmployerUrl', JSON.stringify(activeEmployerUrl));
-    this.unitSubject.next(activeEmployerUrl);
+  setOrganization(organizations: any): void {
+    sessionStorage.setItem('organizations', JSON.stringify(organizations));
+    this.currentOrganizationID = organizations;
+    this.unitSubject.next(organizations);
   }
 
-  getActiveEmployerUrl(): any {
-    return this.getSessionStorage('activeEmployerUrl');
-  }
-
-  setProjectGroupId(projectGroupId: any): void {
-    sessionStorage.setItem('projectGroupId', JSON.stringify(projectGroupId));
-    this.currentProjectGroupId = projectGroupId;
-    this.unitSubject.next(projectGroupId);
-  }
-
-  getProjectGroupId(): any {
-    return this.getSessionStorage('projectGroupId');
+  getOrganization(): any {
+    return this.getSessionStorage('organizations');
   }
 
 
@@ -45,27 +35,21 @@ export class SelectUnitService {
     return this.getSessionStorage('employerID');
   }
 
-  setEmployerID(employerId: any): any {
-    sessionStorage.setItem('employerID', JSON.stringify(employerId));
+  setEmployerID(employerId: number): any {
+    sessionStorage.setItem('employerID', employerId.toString());
     this.currentEmployerID = employerId;
     this.unitSubject.next(employerId);
   }
 
-  getOrganizationID(): any {
-    return this.getSessionStorage('organizationID');
-  }
 
-  setOrganizationID(organizationID: number): any {
-    sessionStorage.setItem('organizationID', organizationID.toString());
-    this.currentOrganizationID = organizationID;
-    this.unitSubject.next(organizationID);
-  }
   getSessionStorage(val: string): any {
     if (sessionStorage.getItem(val)) {
       return JSON.parse(sessionStorage.getItem(val));
     }
     return 0;
   }
+
+
 }
 
 

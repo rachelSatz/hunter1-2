@@ -9,7 +9,7 @@
 		<i matSuffix class="fa fa-search" id="input_img"></i>
   </div>
   <!--<div *ngIf="hasActiveSwitch" class="w-15  h-auto blue-background">-->
-    <mat-slide-toggle class="mb-3" color="#E82D5C" *ngIf="hasActiveSwitch"  (change)="toggleActiveStatus($event.checked)" labelPosition="before" [checked]="isActive" >
+    <mat-slide-toggle color="#E82D5C" *ngIf="hasActiveSwitch"  (change)="toggleActiveStatus($event.checked)" labelPosition="before" [checked]="isActive" >
       <span class="bold ml-1">הצג פעילים</span>
     </mat-slide-toggle>
 </div>
@@ -20,11 +20,12 @@
 </div>
 <app-side-filters  *ngIf="hasExtendedSearch" [columns]="columns" (searchSubmitted)="extendedSearch($event)"></app-side-filters>
 <p class="alert alert-success mb-3" *ngIf="savedItem">{{ savedItem }} נשמר בהצלחה.</p>
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover mt-4">
 	<thead>
 	<tr class="title_table">
 		<th *ngIf="hasCheckColumn" class="pointer table-header">
 			<mat-checkbox (change)="checkAll($event.checked)" [ngModel]="criteria.isCheckAll" *ngIf="items.length > 0 && !disableCheckAll"></mat-checkbox>
+
 		</th>
 		<th *ngFor="let column of columns" (click)="sort(column)" class="pointer table-header"
         [ngClass]="{ 'displayNone': column.isDisplay === false }">

@@ -36,15 +36,6 @@ export class NewEmployersFormComponent implements OnInit {
     if (this.data['product_type'] !== 'all') {
       this.dataFilters['product_type'] = this.data['product_type'];
     }
-    if (this.data['project_group_id']) {
-      this.dataFilters['project_group_id'] = +this.data['project_group_id'];
-    }
-    if (this.data['organization_id'] !== 0 && this.data['organization_id'] !== '0' && this.data['organization_id']) {
-      this.dataFilters['organization_id'] = +this.data['organization_id'];
-    }
-    if (this.data['employer_id'] !== 0 && this.data['employer_id'] !== '0' && this.data['employer_id']) {
-      this.dataFilters['employer_id'] = +this.data['employer_id'];
-    }
     this.fetchItems();
   }
 

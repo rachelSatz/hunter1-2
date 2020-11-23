@@ -19,7 +19,7 @@ export class EmployersComponent implements OnInit {
   readonly columns  = [
     { name: 'identifier', label: 'ח.פ. מעסיק'},
     { name: 'name', label: 'שם מעסיק'},
-    { name: 'is_active', label: ' סטטוס' , searchable: false},
+    { name: 'is_active', label: ' סטטוס'},
   ];
   items: any[] = [{id: 1, identifier: '111', name: 'עמותת עטלף'}, {id: 2, identifier: '222', name: 'מכבי ביתי'}];
   permissionsType = this.userSession.getPermissionsType('employers');
@@ -38,17 +38,17 @@ export class EmployersComponent implements OnInit {
     this.fetchItems();
   }
   fetchItems(): void {
-    this.EmployerService.getAllEmployers(this.dataTable.criteria, this.dataTable.isActive)
+
+    this.helpers.setPageSpinner(true);
+    this.EmployerService.getAllEmployers(this.dataTable.criteria)
       .then(response => {
-        console.log(response);
-        this.dataTable.setItems(response);
+        this.dataTable.setItems(response['1']);
+        this.helpers.setPageSpinner(false);
       });
   }
   openEmployerFinanceDetails(employer: Employer): void {
-    if (employer.is_active) {
       this.helpers.setPageSpinner(true);
       this.SelectUnitService.setEmployerID(employer.id);
       this.router.navigate(['./', 'form' , employer.id],  {relativeTo: this.route});
-    }
   }
 }

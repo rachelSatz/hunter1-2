@@ -33,7 +33,6 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
   @Input() clientSideSearch = true;
   @Input() searchableProperties = false;
   @Input() error = false;
-  @Input() filterSearch = true;
   // @Input() filterValue = '';
   filterValue: string;
   @Output() onSelect: EventEmitter<Object | Object[]> = new EventEmitter();
@@ -173,9 +172,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
 
   openDropdown(): void {
     this.isSelectOpened = !this.isSelectOpened;
-    if (this.filterSearch) {
-      setTimeout(() => this.filterElement.nativeElement.focus(), 0);
-    }
+    setTimeout(() => this.filterElement.nativeElement.focus(), 0);
   }
 
   checkIsSelected(item: any): boolean {
@@ -232,7 +229,7 @@ export class BdSelectComponent implements ControlValueAccessor, OnChanges {
     // }
 
     return labels.slice(0, -3);
-    return '';
+    return ''
   }
 
   private setSelectedItem(value: any): boolean {

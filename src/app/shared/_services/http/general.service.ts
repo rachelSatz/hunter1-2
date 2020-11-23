@@ -25,8 +25,7 @@ export class GeneralService  extends BaseHttpService {
       .catch(() => null);
   }
 
-  get_financial_data(project_id, ifByMonth, month, fromDate, toDate, productTypeId,
-                     project_group_id, organization_id, employer_id): Promise<any> {
+  get_financial_data(project_id, ifByMonth, month, fromDate, toDate, productTypeId, productGroupId, organizationId, employerId): Promise<any> {
     const request = this.getTokenHeader();
     if (ifByMonth) {
       request['params'] = { if_by_month: ifByMonth, month: month };
@@ -36,16 +35,9 @@ export class GeneralService  extends BaseHttpService {
     if (productTypeId !== 'all') {
       request['params']['product_type'] = productTypeId;
     }
-    if (project_id !== 0 && project_id !== '0' && project_id) {
+    if (project_id !== 0 && project_id !== '0') {
       request['params']['project_id'] = project_id;
     }
-    if (organization_id !== 0 && organization_id !== '0' && organization_id) {
-      request['params']['organization_id'] = organization_id;
-    }
-    if (employer_id !== 0 && employer_id !== '0' && employer_id) {
-      request['params']['employer_id'] = employer_id;
-    }
-    request['params']['project_group_id'] = project_group_id;
     return this.http.get(this.endPoint + '/dashboard', request)
       .toPromise()
       .then(response => response as any)

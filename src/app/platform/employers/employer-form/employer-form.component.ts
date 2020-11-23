@@ -48,7 +48,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   });
   headers = [
     {label: 'פירוט הסכם', url: 'finance' , subUrl: 'no_permissions' },
-    {label: 'חשבוניות',   url: 'documents' , subUrl: 'no_permissions' },
+    {label: 'מסמכים',   url: 'documents' , subUrl: 'no_permissions' },
     {label: 'אנשי קשר',   url: 'contacts' , subUrl: 'no_permissions' },
     {label: 'הערות', url: 'remarks'  , subUrl: 'no_permissions' },
   ];
@@ -59,7 +59,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private fb: FormBuilder,
               private route: ActivatedRoute,
-              public selectUnit: SelectUnitService,
+              private selectUnit: SelectUnitService,
               private employersResolve: EmployersResolve,
               private notificationService: NotificationService,
               private employerService: EmployerService,
@@ -80,11 +80,8 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
        this.employer = this.route.snapshot.data.employer;
        console.log(this.employer);
      }
-     if (!this.selectUnit.getActiveEmployerUrl()) {
-       this.selectUnit.setActiveEmployerUrl('finance');
-     }
-    this.setStatus();
-    this.initForm();
+      this.setStatus();
+      this.initForm();
   }
 
 

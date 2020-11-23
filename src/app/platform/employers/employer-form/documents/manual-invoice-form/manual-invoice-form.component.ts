@@ -51,7 +51,7 @@ export class ManualInvoiceFormComponent implements OnInit {
 
   ngOnInit() {
     this.employerService.getEmployers().then(
-      response => this.employers = response['data']);
+      response => this.employers = response['1']);
   }
   saveInvoiceDetail(invoiceDetail: ManualInvoiceDetails, index: number): void {
     if (invoiceDetail !== null) {

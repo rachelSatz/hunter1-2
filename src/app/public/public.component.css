@@ -10,7 +10,7 @@ header {
   margin: 50px auto;
 }
 
-::ng-deep .form-entrance {
+::ng-deep form {
   padding: 20px 14px;
   /*box-shadow: #e1e1e1 3px 3px;*/
 }

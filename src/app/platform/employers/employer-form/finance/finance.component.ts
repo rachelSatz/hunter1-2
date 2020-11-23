@@ -60,7 +60,7 @@ export class FinanceComponent implements OnInit {
   paymentTypesItems = Object.keys(PAYMENT_TYPE).map(function(e) {
     return { id: e, name: PAYMENT_TYPE[e] };
   });
-  projectGroupId;
+  organizationId;
   employerId ;
   rowIndex: number;
   isNoPaymentTime: boolean;
@@ -85,21 +85,19 @@ export class FinanceComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectUnit.setActiveEmployerUrl('finance');
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
         this.fetchItems();
       }
     ));
     this.EmployerService.getEmployers()
-      .then(res => { this.payEmployers = res['data'];
+      .then(res => { this.payEmployers = res['1'];
         console.log(this.payEmployers);
         this.fetchItems(); });
-
     }
 
     fetchItems() {
       if (this.selectUnit.currentEmployerID > 0) {
-      this.projectGroupId = this.selectUnit.getProjectGroupId();
+      this.organizationId = this.selectUnit.getOrganization();
       this.employerId = this.selectUnit.getEmployerID();
       this.EmployerService.getEmployerFinance(this.employerId)
           .then(res => {
