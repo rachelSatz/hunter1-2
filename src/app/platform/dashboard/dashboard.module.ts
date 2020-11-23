@@ -49,7 +49,8 @@ const routes: Routes = [
     MatDialogModule,
      ],
   providers: [GeneralService],
-  entryComponents: [EstPaymentFormComponent, NewEmployersFormComponent, EmployersFormComponent, ChargedEmployersFormComponent
-  , EmployersPaymentZeroComponent, ManuallyChargedEmployersComponent, OtherPayerPopupComponent, EmployersWithNoPaymentComponent,NeedToChargeEmployersComponent],
+  entryComponents: [EstPaymentFormComponent, NewEmployersFormComponent, EmployersFormComponent, ChargedEmployersFormComponent,
+    EmployersPaymentZeroComponent, ManuallyChargedEmployersComponent, OtherPayerPopupComponent,
+    EmployersWithNoPaymentComponent, NeedToChargeEmployersComponent],
 })
 export class DashboardModule { }

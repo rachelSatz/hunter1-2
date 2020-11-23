@@ -328,10 +328,7 @@ export class DashboardComponent implements OnInit {
       data: {
         'payment_method': payment_method,
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
-        'organization_id': this.currentOrganizationId,
-        'employer_id': this.currentEmployerId
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
@@ -352,10 +349,7 @@ export class DashboardComponent implements OnInit {
         'to_date': this.currentToDate,
         'month': this.currentMonth,
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
-        'organization_id': this.currentOrganizationId,
-        'employer_id': this.currentEmployerId
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
@@ -371,10 +365,7 @@ export class DashboardComponent implements OnInit {
         'to_date': this.currentToDate,
         'month': this.currentMonth,
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
-        'organization_id': this.currentOrganizationId,
-        'employer_id': this.currentEmployerId
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
@@ -390,10 +381,7 @@ export class DashboardComponent implements OnInit {
         'to_date': this.currentToDate,
         'month': this.month,
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
-        'organization_id': this.currentOrganizationId,
-        'employer_id': this.currentEmployerId
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
@@ -409,10 +397,7 @@ export class DashboardComponent implements OnInit {
         'to_date': this.currentToDate,
         'month': this.currentMonth,
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
-        'organization_id': this.currentOrganizationId,
-        'employer_id': this.currentEmployerId
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
@@ -428,10 +413,7 @@ export class DashboardComponent implements OnInit {
         'to_date': this.currentToDate,
         'month': this.currentMonth,
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
-        'organization_id': this.currentOrganizationId,
-        'employer_id': this.currentEmployerId
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'
@@ -450,10 +432,7 @@ export class DashboardComponent implements OnInit {
         'to_date': this.currentToDate,
         'month': this.currentMonth,
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
-        'organization_id': this.currentOrganizationId,
-        'employer_id': this.currentEmployerId
+        'product_type': this.currentProductTypeId
       },
       width: '1000px',
       minHeight: '500px'

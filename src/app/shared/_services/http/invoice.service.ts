@@ -9,7 +9,7 @@ import { InvoiceStatus, ManualInvoice } from '../../_models/invoice.model';
 @Injectable({
   providedIn: 'root'
 })
-export class InvoiceService extends BaseHttpService{
+export class InvoiceService extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/invoices';
 

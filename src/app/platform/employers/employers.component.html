@@ -1,6 +1,6 @@
 
 <app-data-table tableName="לקוחות " [hasActionsSearch]="false" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false"
-                [hasActionsHeader]="false">
+                [hasActionsHeader]="false"  [hasActiveSwitch]="true">
   <div class="table-header">
     <div class="row mt-4">
       <div class="float-left">
@@ -11,10 +11,11 @@
       </div>
     </div>
   </div>
-  <tr *ngFor="let item of dataTable.items; let i=index;" class="pointer" [ngClass]="{'highlight': item.error !== null}" (click)="openEmployerFinanceDetails(item)">
+
+  <tr *ngFor="let item of dataTable.items; let i=index;" [ngClass]="{'pointer': item.is_active}" class="pointer" [ngClass]="{'highlight': item.error !== null}" (click)="openEmployerFinanceDetails(item)">
     <td [ngClass]="{'white': i%2 === 0}">{{ item.identifier}}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.name }}</td>
-    <td [ngClass]="{'white': i%2 === 0}">{{ item.isActive? 'מעסיק לא פעיל': 'מעסיק  פעיל' }}</td>
+    <td [ngClass]="{'white': i%2 === 0}">{{ item.is_active ? 'מעסיק פעיל': 'מעסיק לא פעיל' }}</td>
   </tr>
 </app-data-table>
 <router-outlet></router-outlet>

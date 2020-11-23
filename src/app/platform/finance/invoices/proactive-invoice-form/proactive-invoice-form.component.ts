@@ -44,11 +44,11 @@ export class ProactiveInvoiceFormComponent implements OnInit {
   ngOnInit() {
     this.employerService.getEmployers().then(
       response =>  {
-        this.employers = response['1'];
+        this.employers = response['data'];
         this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
         this.employers.sort((a, b) => a.id - b.id);
       });
-    this.GeneralService.getProjects(this.selectUnit.getOrganization()).then(response => this.projects = response[('1')]);
+    this.GeneralService.getProjects(this.selectUnit.getProjectGroupId()).then(response => this.projects = response['data']);
   }
   submit(form: NgForm): void {
     if (form.valid) {
