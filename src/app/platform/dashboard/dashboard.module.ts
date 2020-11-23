@@ -22,6 +22,7 @@ import { ChargedEmployersFormComponent } from './charged-employers-form/charged-
 import { ManuallyChargedEmployersComponent } from './manually-charged-employers/manually-charged-employers.component';
 import { EmployersWithNoPaymentComponent } from './employers-with-no-payment/employers-with-no-payment.component';
 import { EmployersPaymentZeroComponent } from './employers-payment-zero/employers-payment-zero.component';
+import { NeedToChargeEmployersComponent } from './need-to-charge-employers/need-to-charge-employers.component';
 
 
 const routes: Routes = [
@@ -31,7 +32,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [DashboardComponent, EstPaymentFormComponent, EmployersFormComponent,
     NewEmployersFormComponent, OtherPayerPopupComponent, ChargedEmployersFormComponent,
-    ManuallyChargedEmployersComponent, EmployersWithNoPaymentComponent, EmployersPaymentZeroComponent],
+    ManuallyChargedEmployersComponent, EmployersWithNoPaymentComponent, EmployersPaymentZeroComponent, NeedToChargeEmployersComponent],
 
   imports: [
     CommonModule,
@@ -49,6 +50,6 @@ const routes: Routes = [
      ],
   providers: [GeneralService],
   entryComponents: [EstPaymentFormComponent, NewEmployersFormComponent, EmployersFormComponent, ChargedEmployersFormComponent
-  , EmployersPaymentZeroComponent, ManuallyChargedEmployersComponent, OtherPayerPopupComponent, EmployersWithNoPaymentComponent],
+  , EmployersPaymentZeroComponent, ManuallyChargedEmployersComponent, OtherPayerPopupComponent, EmployersWithNoPaymentComponent,NeedToChargeEmployersComponent],
 })
 export class DashboardModule { }

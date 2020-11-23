@@ -3,6 +3,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from './user-session.service';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '../../_models/project.model';
+import {DataTableCriteria} from "../../data-table/classes/data-table-criteria";
+import {DataTableResponse} from "../../data-table/classes/data-table-response";
 
 @Injectable({
   providedIn: 'root'
@@ -83,5 +85,18 @@ export class GeneralService  extends BaseHttpService {
       .toPromise()
       .then(() => true)
       .catch(() => false);
+  }
+  getNeedToChargeEmployersTable(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
+    const request = this.getTokenHeader();
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria);
+    }
+    if (noLimit) {
+      request['params'] = {no_limit : noLimit};
+    }
+    return this.http.get(this.endPoint + '/getNeedToChargeEmployersTable', request)
+      .toPromise()
+      .then(response => response as DataTableResponse)
+      .catch(() => null);
   }
 }

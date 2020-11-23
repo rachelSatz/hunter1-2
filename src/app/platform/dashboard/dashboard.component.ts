@@ -18,6 +18,7 @@ import { SelectUnitService } from '../../shared/_services/select-unit.service';
 import { UserSessionService } from '../../shared/_services/http/user-session.service';
 import { fade, slideInOut } from '../../shared/_animations/animation';
 import { PRODUCT_TYPES } from '../../shared/_models/employer-financial-details.model';
+import {NeedToChargeEmployersComponent} from "./need-to-charge-employers/need-to-charge-employers.component";
 import { NotificationService } from '../../shared/_services/notification.service';
 import { OrganizationService } from '../../shared/_services/http/organization.service';
 import { EmployerService } from '../../shared/_services/http/employer.service';
@@ -201,6 +202,7 @@ export class DashboardComponent implements OnInit {
       });
     }
   }
+
   changeTimeRange(): void {
     this.fromDate = null;
     this.toDate = null;
@@ -362,6 +364,22 @@ export class DashboardComponent implements OnInit {
         'from_date': this.currentFromDate,
         'to_date': this.currentToDate,
         'month': this.currentMonth,
+        'project_id': this.currentProjectId,
+        'product_type': this.currentProductTypeId
+      },
+      width: '1000px',
+      minHeight: '500px'
+    });
+    this.sub.add(dialog.afterClosed().subscribe(result => {
+      this.router.navigate(['../../platform/dashboard']);
+    }));
+  }
+  openNeedToChargeEmployersPopUp(): void {
+    const dialog = this.dialog.open(NeedToChargeEmployersComponent, {
+      data: {
+        'from_date': this.currentFromDate,
+        'to_date': this.currentToDate,
+        'month': this.month,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId
       },
