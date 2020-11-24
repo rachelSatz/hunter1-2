@@ -284,7 +284,7 @@ export class InvoicesComponent implements OnInit {
   openProactiveInvoice(): void {
     const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
       width: '500px',
-      height: '500px'
+      height: '600px'
 
     });
     this.sub.add(dialog.afterClosed().subscribe(() => {

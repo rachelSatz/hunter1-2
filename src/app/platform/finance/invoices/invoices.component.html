@@ -40,7 +40,7 @@
     <!--<td [matTooltip]="item.green_invoice_document !== null &&  item.green_invoice_document.errorDescription !== '' ? item.green_invoice_document.errorDescription : ''">-->
     <!--{{getVal(item.status)}}-->
     <!--</td>-->
-    <td class="select-status" [ngClass]="{'white': i%2 === 0}">
+    <td class="select-status"  [ngClass]="{'white': i%2 === 0}">
       <mat-select [title]="setItemTitle(item)" class="p-2 border-radius-11" [ngClass]="{'gray-background-color': i%2 === 0 , 'white-background-color': i%2 !== 0 }"  name="status" placeholder="" [disabled]="!permissionsType" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
         <mat-option *ngFor="let st of status" [value]="st.id">{{ st.name }}</mat-option>
       </mat-select>
