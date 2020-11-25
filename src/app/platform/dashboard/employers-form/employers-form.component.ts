@@ -18,6 +18,7 @@ export class EmployersFormComponent implements OnInit {
     {name: 'edit', label: 'עריכה'},
   ];
   payment_method: string;
+  dataFilters: any;
   constructor(private dialogRef: MatDialogRef<EmployersFormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private datepipe: DatePipe,
@@ -37,11 +38,20 @@ export class EmployersFormComponent implements OnInit {
     if (this.data['payment_method'] === 'masav_product') {
       this.payment_method = 'מס"ב';
     }
-    if (this.data['project_id'] == '0') {
-      this.data['project_id'] = this.data['None'];
+    if (this.data['project_id'] !== '0') {
+      this.dataFilters['project_id'] = this.data['project_id'];
     }
-    if (this.data['product_type'] == 'all') {
-      this.data['product_type'] = this.data['None'];
+    if (this.data['product_type'] !== 'all') {
+      this.dataFilters['product_type'] = this.data['product_type'];
+    }
+    if (this.data['project_group_id']) {
+      this.dataFilters['project_group_id'] = +this.data['project_group_id'];
+    }
+    if (this.data['organization_id'] !== 0 && this.data['organization_id'] !== '0' && this.data['organization_id']) {
+      this.dataFilters['organization_id'] = +this.data['organization_id'];
+    }
+    if (this.data['employer_id'] !== 0 && this.data['employer_id'] !== '0' && this.data['employer_id']) {
+      this.dataFilters['employer_id'] = +this.data['employer_id'];
     }
     this.fetchItems();
 
