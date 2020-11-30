@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
 import {EstPaymentFormComponent} from './est-payment-form/est-payment-form.component';
 import {ManualInvoiceFormComponent} from "../finance/invoices/manual-invoice-form/manual-invoice-form.component";
 import {NewEmployersFormComponent} from './new-employers-form/new-employers-form.component';
-import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
+// import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -154,16 +154,16 @@ export class DashboardComponent implements OnInit {
     });
   }
   openOtherPayerPopup(): void{
-    this.dialog.open(OtherPayerPopupComponent, {
-      data: {
-        'from_date': this.currentFromDate,
-        'to_date': this.currentToDate,
-        'month': this.month,
-        'project_id': this.projectId
-      },
-      width: '1000px',
-      minHeight: '500px'
-    });
+    // this.dialog.open(OtherPayerPopupComponent, {
+    //   data: {
+    //     'from_date': this.currentFromDate,
+    //     'to_date': this.currentToDate,
+    //     'month': this.month,
+    //     'project_id': this.projectId
+    //   },
+    //   width: '1000px',
+    //   minHeight: '500px'
+    // });
   }
   getDayHe(date: string){
     this.newDate = new Date(date);

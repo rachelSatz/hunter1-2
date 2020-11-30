@@ -16,7 +16,7 @@ export class UserSessionService {
 
   setRole(role: string): void {
     sessionStorage.setItem('role', JSON.stringify(role));
-    this.role.next( role);
+    this.role.next(role);
   }
 
   setUserModules(module): void {
