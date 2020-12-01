@@ -1,25 +1,43 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-// import {Organization} from '../_models/organization.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SelectUnitService {
 
+  currentProjectGroupId: number;
+  currentEmployerID: any;
   currentOrganizationID: number;
-  currentEmployerID: number;
   unitSubject: Subject<number> = new Subject();
+  activeUrl: string;
 
-
-  setOrganization(organizations: any): void {
-    sessionStorage.setItem('organizations', JSON.stringify(organizations));
-    this.currentOrganizationID = organizations;
-    //this.unitSubject.next(organizations);
+  setActiveUrl(activeUrl: any): void {
+    sessionStorage.setItem('activeUrl', JSON.stringify(activeUrl));
+     this.unitSubject.next(activeUrl);
   }
 
-  getOrganization(): any {
-    return this.getSessionStorage('organizations');
+  getActiveUrl(): any {
+    return this.getSessionStorage('activeUrl');
+  }
+
+  setActiveEmployerUrl(activeEmployerUrl: any): void {
+    sessionStorage.setItem('activeEmployerUrl', JSON.stringify(activeEmployerUrl));
+    this.unitSubject.next(activeEmployerUrl);
+  }
+
+  getActiveEmployerUrl(): any {
+    return this.getSessionStorage('activeEmployerUrl');
+  }
+
+  setProjectGroupId(projectGroupId: any): void {
+    sessionStorage.setItem('projectGroupId', JSON.stringify(projectGroupId));
+    this.currentProjectGroupId = projectGroupId;
+    this.unitSubject.next(projectGroupId);
+  }
+
+  getProjectGroupId(): any {
+    return this.getSessionStorage('projectGroupId');
   }
 
 
@@ -27,37 +45,26 @@ export class SelectUnitService {
     return this.getSessionStorage('employerID');
   }
 
-  setEmployerID(employerId: number): any {
-    sessionStorage.setItem('employerID', employerId.toString());
+  setEmployerID(employerId: any): any {
+    sessionStorage.setItem('employerID', JSON.stringify(employerId));
     this.currentEmployerID = employerId;
-    this.unitSubject.next(employerId)
+    this.unitSubject.next(employerId);
   }
 
+  getOrganizationID(): any {
+    return this.getSessionStorage('organizationID');
+  }
 
+  setOrganizationID(organizationID: number): any {
+    sessionStorage.setItem('organizationID', organizationID.toString());
+    this.currentOrganizationID = organizationID;
+    this.unitSubject.next(organizationID);
+  }
   getSessionStorage(val: string): any {
     if (sessionStorage.getItem(val)) {
       return JSON.parse(sessionStorage.getItem(val));
     }
     return 0;
-  }
-
-
-  changeOrganizationEmployerDepartment(organizationId: number, employerId: number): void {
-    sessionStorage.setItem('organizationID', JSON.stringify(organizationId));
-    sessionStorage.setItem('employerID', JSON.stringify(employerId));
-
-    this.currentEmployerID = employerId;
-    this.currentOrganizationID = organizationId;
-    this.unitSubject.next(organizationId);
-  }
-
-
-  getAgentBarActive(): boolean {
-    if (sessionStorage.getItem('agentBarActive')) {
-      return this.getSessionStorage('agentBarActive');
-    } else {
-      return true;
-    }
   }
 }
 

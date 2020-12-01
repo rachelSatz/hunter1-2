@@ -2,11 +2,11 @@
   <button mat-dialog-close>
     <i class="fa fa-close"></i>
   </button>
-  <span>חשבון ידני</span>
+  <span style="color: #E82D5C;">חשבון ידני</span>
 </div>
 <form #form="ngForm" dir="rtl">
   <div class="d-flex mr-3 row mt-5 mb-3">
-    <div class="w-auto">
+    <div class="w-auto" *ngIf="employers">
       <bd-select [items]="employers" placeholder="בחר מעסיק" name="employers" #employersModel="ngModel" [(ngModel)]="manualInvoice.employer_financial_details" required></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && employersModel.errors ? 'active' : 'inactive'">יש לבחור מעסיק.</p>
     </div>
@@ -32,21 +32,9 @@
     </div>
   </div>
   <div>
-    <table class="table table-bordered">
-      <thead>
-      <tr>
-        <td class="tax-td">מע"מ</td>
-        <td class="description-td">פירוט</td>
-        <td class="idsCount-td">כמות</td>
-        <td class="paymentAmount-td">מחיר ליח'</td>
-        <td class="totalAmount-td">סה"כ</td>
-        <td class="save-td">   </td>
-      </tr>
-      </thead>
-    </table>
     <div [ngClass]="{'disabledInput' : !isEdit}" class="d-flex align-items-center" *ngFor="let invoice_detail of manualInvoice.invoice_details;  let last = last; let index = index">
-      <mat-form-field class="tax">
-        <mat-select [ngClass]="{'disabledInput' : !isEdit}"  name="tax" placeholder=""  [value]="selected" [(ngModel)]="invoice_detail.tax" onchange="calcRowPayment(invoice_detail)">
+      <mat-form-field class="tax" *ngIf="manualInvoice.tax_type=='before'">
+        <mat-select [ngClass]="{'disabledInput' : !isEdit}"  name="tax" placeholder="" [value]="invoice_detail.tax" [(ngModel)]="invoice_detail.tax">
           <mat-option *ngFor="let tax of TAXITEMS" [value]="tax.id">{{ tax.name }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -59,23 +47,23 @@
       <mat-form-field class="mr-3 paymentAmount">
         <input matInput type="text" [name]="'payment_amount' + index" [(ngModel)]="invoice_detail.payment_amount" placeholder="מחיר ליח'" required>
       </mat-form-field>
-      <mat-form-field class="mr-3 totalAmount">
-        <input [name]="'total_payment_amount' + index" type="text" matInput placeholder="" [(ngModel)]="invoice_detail.total_payment_amount"
-               [value]="invoice_detail.total_payment_amount != undefined? invoice_detail.total_payment_amount : 0" readonly>
-      </mat-form-field>
+      <!--<mat-form-field class="mr-3 totalAmount">-->
+      <!--<input [name]="'total_payment_amount' + index" type="text" matInput placeholder="" [(ngModel)]="invoice_detail.total_payment_amount"-->
+      <!--[value]="invoice_detail.total_payment_amount != undefined? invoice_detail.total_payment_amount : 0" readonly>-->
+      <!--</mat-form-field>-->
       <div class="row mr-3 save">
-        <i class="fa fa-save pointer blue-color" (click)="saveInvoiceDetail(invoice_detail, index)" *ngIf="invoice_detail.is_saved === false"></i>
-        <i class="fa fa-plus-circle pointer blue-color" title="הוספה" (click)="addInvoiceDetailRow()" *ngIf="last"></i>
-        <i class="fa fa-edit pointer blue-color" title="עריכה" (click)="editInvoiceDetailRow(invoice_detail)" *ngIf="invoice_detail.is_saved === true"></i>
-        <i class="fa fa-close pointer blue-color mr-1" title="מחיקה" (click)="deleteInvoiceDetailRow(invoice_detail, index, invoice_detail.is_saved)"></i>
+        <i class="fa fa-save pointer pink-color" (click)="saveInvoiceDetail(invoice_detail, index)" *ngIf="invoice_detail.is_saved === false"></i>
+        <i class="fa fa-plus-circle pointer pink-color" title="הוספה" (click)="addInvoiceDetailRow()" *ngIf="last"></i>
+        <i class="fa fa-edit pointer pink-color" title="עריכה" (click)="editInvoiceDetailRow(invoice_detail)" *ngIf="invoice_detail.is_saved === true"></i>
+        <i class="fa fa-close pointer pink-color mr-1" title="מחיקה" (click)="deleteInvoiceDetailRow(invoice_detail, index, invoice_detail.is_saved)"></i>
       </div>
     </div>
 
-    <div class="row align-content-end">
-      <div>סה"כ</div>
+    <div class="row align-content-end"  *ngIf="manualInvoice.tax_type=='before'">
+      <div >סה"כ</div>
       <div class="mr-3">{{ totalBeforeTax | number : '1.2-2'}}</div>
     </div>
-    <div class="row align-content-end">
+    <div class="row align-content-end"  *ngIf="manualInvoice.tax_type=='before'">
       <div>מע"מ</div>
       <div class="mr-3">{{ tax | number : '1.2-2'}}</div>
     </div>
@@ -86,6 +74,6 @@
   </div>
   <p class="alert alert-danger" [@fade]="hasServerError ? 'active' : 'inactive'">{{message}}</p>
   <div mat-dialog-actions class="justify-content-center" style="text-align: center">
-    <button class="btn blue-btn" (click)="submit(form)">צור</button>
+    <button class="btn pink-btn" (click)="submit(form)">צור</button>
   </div>
 </form>

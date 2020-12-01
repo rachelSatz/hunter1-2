@@ -1,20 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import {fade} from '../../shared/_animations/animation';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AppHttpService} from '../../shared/_services/http/app-http.service';
-import {UserSessionService} from '../../shared/_services/http/user-session.service';
-import {HelpersService} from '../../shared/_services/helpers.service';
-import {NgForm} from '@angular/forms';
+import { fade } from '../../shared/_animations/animation';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppHttpService } from '../../shared/_services/http/app-http.service';
+import { UserSessionService } from '../../shared/_services/http/user-session.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  animations: [  fade ]
+  styleUrls: ['./register.component.css'],
+  animations: [ fade ]
 })
 export class RegisterComponent implements OnInit {
 
   hasServerError: boolean;
   isSubmitting: boolean;
+  hideConfirmPassword = true;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private appHttp: AppHttpService,
@@ -25,6 +27,9 @@ export class RegisterComponent implements OnInit {
       return;
     }
   }
+  togglemyConfirmPasswordFieldType() {
+    this.hideConfirmPassword = !this.hideConfirmPassword;
+  }
   register(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
@@ -32,7 +37,6 @@ export class RegisterComponent implements OnInit {
         this.isSubmitting = true;
         this.appHttp.register(form.value.password, this.route.snapshot.queryParams.token).then(response => {
           if (response.token) {
-             console.log(response);
              this.userSession.login({username: '', token: response['token']});
              this.userSession.setRole(response['role']);
              this.userSession.setUserModules(response['module']);

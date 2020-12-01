@@ -1,11 +1,11 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {DataTableComponent} from '../../../../../shared/data-table/data-table.component';
-import {Invoice, InvoiceDetails} from '../../../../../shared/_models/invoice.model';
-import {ActivatedRoute} from '@angular/router';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {InvoiceService} from '../../../../../shared/_services/http/invoice.service';
-import {NotificationService} from '../../../../../shared/_services/notification.service';
-import {fade} from '../../../../../shared/_animations/animation';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { DataTableComponent } from '../../../../../shared/data-table/data-table.component';
+import { Invoice, InvoiceDetails } from '../../../../../shared/_models/invoice.model';
+import { ActivatedRoute } from '@angular/router';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { InvoiceService } from '../../../../../shared/_services/http/invoice.service';
+import { NotificationService } from '../../../../../shared/_services/notification.service';
+import { fade } from '../../../../../shared/_animations/animation';
 
 @Component({
   selector: 'app-invoice-details-form',
@@ -20,8 +20,7 @@ export class InvoiceDetailsFormComponent implements OnInit {
   constructor(protected route: ActivatedRoute,
               @Inject(MAT_DIALOG_DATA) public invoice: Invoice,
               private dialogRef: MatDialogRef<InvoiceDetailsFormComponent>,
-              private invoiceService: InvoiceService,
-              private notificationService: NotificationService) { }
+              private invoiceService: InvoiceService) { }
 
   ngOnInit() {
     this.invoiceService.getInvoiceDetails(this.invoice.id).then(response => {

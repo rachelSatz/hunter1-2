@@ -1,7 +1,7 @@
 :host {
   display: block;
   position: relative;
-  min-width: 200px;
+  min-width:200px;
   height: 39px;
 }
 
@@ -115,4 +115,11 @@
   color: red;
   font-size: 12px;
   margin-top: 0.25rem !important;
+}
+::ng-deep #placeholder{
+  color: #ADADAD  !important;
+  font-size: 18px !important;
+}
+::ng-deep.selectedItemActive{
+  top: -22px !important;
 }

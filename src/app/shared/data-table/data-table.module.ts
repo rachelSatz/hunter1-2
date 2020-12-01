@@ -2,15 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatMenuModule, MatSelectModule,
-			MatSlideToggleModule, MatTooltipModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule,
+         MatFormFieldModule, MatInputModule,
+         MatMenuModule, MatSelectModule,
+			   MatSlideToggleModule, MatTooltipModule } from '@angular/material';
 import { PipesModule } from '../_pipes/pipes.module';
 import { BdSelectModule } from '../../../assets/js/bd-select/bd-select.module';
-
 import { DataTableComponent } from './data-table.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { SideFiltersComponent } from './side-filters/side-filters.component';
-import {DatePickerModule} from '../app-date-picker/app-date-picker.module';
+import { DatePickerModule } from '../app-date-picker/app-date-picker.module';
 
 @NgModule({
 	imports: [

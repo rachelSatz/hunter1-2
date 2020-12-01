@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FinanceComponent} from './finance.component';
-import {BdSelectModule} from '../../../../../assets/js/bd-select/bd-select.module';
-import {FormsModule} from '@angular/forms';
+import { FinanceComponent } from './finance.component';
+import { BdSelectModule } from '../../../../../assets/js/bd-select/bd-select.module';
+import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -11,16 +11,12 @@ import {
   MatInputModule,
   MatRippleModule
 } from '@angular/material';
-import {DatePickerModule} from '../../../../shared/app-date-picker/app-date-picker.module';
-import {RouterModule, Routes} from '@angular/router';
-// import {FinanceComponent} from './finance.component';
-// import { RouterModule, Routes } from '@angular/router';
-
+import { DatePickerModule } from '../../../../shared/app-date-picker/app-date-picker.module';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', component: FinanceComponent }
 ];
-
 
 @NgModule({
 

@@ -8,5 +8,6 @@ export class HelpersService {
   setPageSpinner(isShown: boolean): void {
     setTimeout(() => this.pageSpinnerSubject.next(isShown), 0);
   }
+
 }
 

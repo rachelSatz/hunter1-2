@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../app/../environments/environment';
-
 import { UserSessionService } from './user-session.service';
-import {DataTableCriteria} from '../../data-table/classes/data-table-criteria';
+import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 
 @Injectable()
 export class BaseHttpService {
@@ -16,25 +15,9 @@ export class BaseHttpService {
     return { headers: this.getTokenHeaders() };
   }
 
-  getHeader(): { headers: HttpHeaders } {
-    return { headers: this.getTokenTest() };
-  }
-  getTokenTest(): HttpHeaders {
-    return new HttpHeaders({ 'token': '' });
-  }
-
-
   getTokenHeaders(): HttpHeaders {
     return new HttpHeaders({ 'token': this.userSession.getToken() });
   }
-
-  getBlobOptions(): { headers: HttpHeaders, responseType: 'blob' } {
-    return {
-      headers: new HttpHeaders({ 'token': this.userSession.getToken() }),
-      responseType: 'blob'
-    };
-  }
-
 
   setDataTableParams(criteria: DataTableCriteria, params?: Object): Object {
     const formattedParams = { ...criteria.filters, ...criteria.sort, ...params };
@@ -46,7 +29,13 @@ export class BaseHttpService {
     if (criteria.isCheckAll) {
       formattedParams['isCheckAll'] = criteria.isCheckAll;
     }
-
+    if (criteria.checkedItems.length > 0) {
+      formattedParams['ids'] = [];
+      criteria.checkedItems.forEach(item => {
+        formattedParams['ids'].push(item['id']);
+      });
+      formattedParams['ids'] = formattedParams['ids'].toString();
+    }
     if (criteria.page) {
       formattedParams['page'] = criteria.page;
     }

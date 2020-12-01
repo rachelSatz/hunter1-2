@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit, ViewChild} from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DataTableComponent } from '../../../../../app/shared/data-table/data-table.component';
-import {Invoice} from '../../../../shared/_models/invoice.model';
-import {InvoiceService} from '../../../../shared/_services/http/invoice.service';
-import {fade} from '../../../../shared/_animations/animation';
-import {NotificationService} from '../../../../shared/_services/notification.service';
+import { Invoice } from '../../../../shared/_models/invoice.model';
+import { InvoiceService } from '../../../../shared/_services/http/invoice.service';
+import { fade } from '../../../../shared/_animations/animation';
+import { NotificationService } from '../../../../shared/_services/notification.service';
 
 
 @Component({
@@ -13,17 +13,14 @@ import {NotificationService} from '../../../../shared/_services/notification.ser
   templateUrl: './remarks-form.component.html',
   styles: ['#styleFormat { height: 200px; padding-top: 20px }'],
   animations: [ fade ]
-
 })
 export class RemarksFormComponent implements OnInit {
 
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
   comments = [];
-  comment: string;
   hasServerError = false;
   remarks = {};
   message = 'שגיאת שרת';
-
 
   readonly columns  =  [
     { name : 'empty_column', label: '' , searchable: false},
@@ -33,7 +30,6 @@ export class RemarksFormComponent implements OnInit {
     { name : 'total_amount', label: 'סה"כ' , searchable: false}
   ];
 
-
   constructor(protected route: ActivatedRoute, @Inject(MAT_DIALOG_DATA) public invoice: Invoice,
               private dialogRef: MatDialogRef<RemarksFormComponent>,
               private invoiceService: InvoiceService,
@@ -42,13 +38,11 @@ export class RemarksFormComponent implements OnInit {
 
   ngOnInit() {
     this.invoiceService.getInvoiceRemarks(this.invoice.id).then(response => {
-      this.remarks = response;
-      console.log(response);});
+      this.remarks = response;});
   }
 
   submit(): void {
     this.hasServerError = false;
-
     this.invoiceService.newComment(this.invoice.id, this.remarks['content']).then(response => {
       if (response === true) {
         this.hasServerError = false;

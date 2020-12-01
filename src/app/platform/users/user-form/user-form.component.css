@@ -8,7 +8,6 @@
 ::ng-deep .row p{
   margin-bottom: 4px!important;
   letter-spacing: 0px;
-  color: #ADADAD;
   opacity: 1;
 }
 input[type="text"]:focus{
@@ -19,4 +18,26 @@ input[type="text"]:focus{
 }
 .row{
   margin-top: 25px;
+}
+.grayColor{
+  color: #ADADAD;
+
+}
+::ng-deep .custom-control-input:checked ~ .custom-control-label::before{
+  background-color: #E82D5C;
+  border-color: #E82D5C;
+}
+.dot {
+  margin-left: 15px;
+  height: 50px;
+  width: 50px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 10px #00000029;  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  padding-top:5px;
+  padding-left: 3px;
+}
+.fa-angle-right:before{
+  color: #E82D5C;
 }

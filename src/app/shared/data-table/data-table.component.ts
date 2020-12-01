@@ -1,10 +1,8 @@
 import { Component, Input, Output, OnDestroy, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-
 import { NotificationService } from '../_services/notification.service';
 import { HelpersService } from '../../shared/_services/helpers.service';
-
 import { PaginationData } from './classes/pagination-data';
 import { DataTableCriteria } from './classes/data-table-criteria';
 import { DataTableResponse } from './classes/data-table-response';
@@ -33,7 +31,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
   @Input() placeHolderSearch = 'חפש';
   @Input() innerHTML = '';
 	@Input() limit = 15;
-
+  @Input() routePage = '';
+  @Input() ifDisplayPagination = true;
 	@Output() fetchItems = new EventEmitter<boolean>();
 
 	items = [];
@@ -49,7 +48,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.checkSavedItem('saved-item');
-
 		this.sub.add(this.route.queryParams.subscribe(() => this.init()));
 	}
 
@@ -63,7 +61,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
 		this.helpers.setPageSpinner(true);
 		this.isLoading = true;
 		this.fetchItems.emit(true);
-	}
+    this.helpers.setPageSpinner(false);
+  }
 
 	setItems(response: DataTableResponse, nameId: string = 'id'): void {
 		this.helpers.setPageSpinner(false);
@@ -99,7 +98,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	}
 
 	extendedSearch(values: Object): void {
-	  console.log('hello');
 		this.criteria.filters = values;
     if (this.criteria.page  > 1) {
       this.criteria.page = 1;
@@ -170,6 +168,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	}
 
 	toggleActiveStatus(isActive: boolean): void {
+	  console.log(isActive);
 		this.isActive = isActive;
 		this.loadItems();
 	}

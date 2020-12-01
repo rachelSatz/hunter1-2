@@ -1,36 +1,32 @@
 import { UserUnitPermission } from './user-unit-permission.model';
-import {ModuleTypes, UserModule} from './user-module.model';
+import { ModuleTypes, UserModule } from './user-module.model';
 
 export class User {
   id: number;
-  username: string;
   password: string;
-  name: string;
   first_name: string;
   last_name: string;
   token: string;
   role: string;
   email: string;
-  email_password: string;
-  signature_html: string;
+  phone: string;
   units: UserUnitPermission[] = [];
   modules: UserModule[] = [];
   is_registered: boolean;
+  is_active: boolean;
   project_group_id: number;
+
   constructor(user: User) {
     this.units.push(new UserUnitPermission());
-    this.signature_html = '';
     if (user) {
       this.id = user.id;
-      this.username = user.username;
       this.password = user.password;
       this.first_name = user.first_name;
       this.last_name = user.last_name;
       this.token = user.token;
       this.role = user.role;
-      this.signature_html = user.signature_html;
       this.email = user.email;
-      this.email_password = user.email_password;
+      this.phone = user.phone;
       this.units = user.units;
       const modules = user.modules;
       this.modules = Object.keys(ModuleTypes).map(function(e) {
@@ -51,18 +47,6 @@ export class User {
 
 export enum EntityRoles {
   admin =  'מנהל',
-  operator = 'מתפעל',
   employer =  'מעסיק',
-  service_manager = 'מנהל שרות',
 }
 
-export enum TeamLeader {
-  general =  'כללי',
-  small_employer_manager = 'רעות',
-  big_employer_manager =  'סזי',
-}
-
-export enum TeamLeaderTask {
-  small_employer_manager = 'רעות',
-  big_employer_manager =  'סזי',
-}

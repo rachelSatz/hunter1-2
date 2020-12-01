@@ -41,9 +41,11 @@ span {
   /*margin: auto !important;*/
 /*}*/
 .sss {
+  width: 100%;
+  height: auto;
   margin: auto;
   text-align: center;
-  padding-right:790px;
+  /*padding-right:790px;*/
   padding-bottom: 10px;
 }
 .bold{

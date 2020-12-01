@@ -1,35 +1,32 @@
 <div class="background">
   <h1>מערכת פיננסית <span class="orange">EMX</span></h1>
   <div class="center">
-<p class="header">כניסה למערכת</p>
-<form #form="ngForm" class="align-content-center" (ngSubmit)="login(form)" novalidate>
-  <div class="w-100">
-
-    <p>הזן אמייל/ שם משתמש</p>
-    <input class="form-control" type="text" name="username" #username="ngModel" ngModel required>
-    <mat-error *ngIf="username.errors">יש להזין שם משתמש.</mat-error>
-  </div>
-  <div class="w-100">
-    <p>הזן סיסמא </p>
-    <!--<i matPrefix class="fa fa-lock"></i>-->
-    <div id="input_container">
-    <input class="form-control" type="password" id="input" name="password" #password="ngModel" ngModel required>
-    <i class="fa fa-eye" id="input_img" ></i>
-      <mat-error *ngIf="password.errors">יש להזין סיסמה.</mat-error>
-
-    </div>
-    <a class="underline f-12 float-left" style="color: #E82D5C;" (click)="forgotPassword(form)">שכחתי סיסמה</a><br>
-  </div>
-
-  <p class="alert alert-danger my-3" [@fade]="hasServerError ? 'active' : 'inactive'">
-    <i class="fa fa-exclamation-circle ml-2"></i>
-    <span>שם משתמש או סיסמה לא נכונים.</span>
-  </p>
-  <div class="text-center mt-4">
-
-    <button type="submit" class="btn blue-btn btn-lg f-18 bold" style="border-radius: 28px;
-opacity: 1;" [disabled]="isSubmitting">התחברות</button>
-  </div>
-</form>
+    <p class="header">כניסה למערכת</p>
+    <form #form="ngForm" class="align-content-center form-entrance" (ngSubmit)="login(form)" novalidate>
+      <div class="w-53 margin-auto mb-5" >
+        <p>הזן אמייל</p>
+        <input class="form-control" type="text" name="email" #email="ngModel" ngModel required>
+        <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">יש להזין אימייל.</mat-error>
+      </div>
+      <div class="w-53 margin-auto">
+        <p class=" mt-4">הזן סיסמא </p>
+        <div id="input_container">
+          <input class="form-control" [type]="hide ? 'password' : 'text'" id="input" name="password" #password="ngModel" ngModel required>
+          <i class="fa fa-eye fa-1x" id="input_img" (click)="togglemyPasswordFieldType()"></i>
+        </div>
+        <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">יש להזין סיסמה.</mat-error>
+        <a class="underline f-12 float-left pink-color mt-3" (click)="forgotPassword(form)">שכחתי סיסמה</a><br>
+      </div>
+      <p class="alert alert-danger my-3" [@fade]="hasServerError ? 'active' : 'inactive'">
+        <i class="fa fa-exclamation-circle ml-2" ></i>
+        <span>אימייל או סיסמה לא נכונים.</span>
+      </p>
+      <p class="alert alert-warning my-3" [@fade]="massage ? 'active' : 'inactive'">
+        <span>נשלח מיייל לאיפוס סיסמא</span>
+      </p>
+      <div class="text-center mt-4">
+        <button type="submit" class="btn pink-btn btn-lg f-18 bold border-radius-28 mt-3"  [disabled]="isSubmitting">התחברות</button>
+      </div>
+    </form>
   </div>
 </div>

@@ -11,15 +11,23 @@ import { PipesModule} from '../../shared/_pipes/pipes.module';
 import { EstPaymentFormComponent } from './est-payment-form/est-payment-form.component';
 import { DataTableModule} from '../../shared/data-table/data-table.module';
 import { NewEmployersFormComponent } from './new-employers-form/new-employers-form.component';
-// import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
+import { EmployersFormComponent } from './employers-form/employers-form.component';
+import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
+import { ChargedEmployersFormComponent } from './charged-employers-form/charged-employers-form.component';
+import { ManuallyChargedEmployersComponent } from './manually-charged-employers/manually-charged-employers.component';
+import { EmployersWithNoPaymentComponent } from './employers-with-no-payment/employers-with-no-payment.component';
+import { EmployersPaymentZeroComponent } from './employers-payment-zero/employers-payment-zero.component';
+import { NeedToChargeEmployersComponent } from './need-to-charge-employers/need-to-charge-employers.component';
+
 
 const routes: Routes = [
   { path: '', component: DashboardComponent }
   ];
 
 @NgModule({
-  declarations: [DashboardComponent, EstPaymentFormComponent, NewEmployersFormComponent],
-
+  declarations: [DashboardComponent, EstPaymentFormComponent, EmployersFormComponent,
+    NewEmployersFormComponent, OtherPayerPopupComponent, ChargedEmployersFormComponent,
+    ManuallyChargedEmployersComponent, EmployersWithNoPaymentComponent, EmployersPaymentZeroComponent, NeedToChargeEmployersComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -32,10 +40,11 @@ const routes: Routes = [
     PipesModule,
     ReactiveFormsModule,
     DataTableModule,
-    MatDialogModule
-
-  ],
+    MatDialogModule,
+     ],
   providers: [GeneralService],
-  entryComponents: [EstPaymentFormComponent, NewEmployersFormComponent],
+  entryComponents: [EstPaymentFormComponent, NewEmployersFormComponent, EmployersFormComponent, ChargedEmployersFormComponent,
+    EmployersPaymentZeroComponent, ManuallyChargedEmployersComponent, OtherPayerPopupComponent,
+    EmployersWithNoPaymentComponent, NeedToChargeEmployersComponent],
 })
 export class DashboardModule { }

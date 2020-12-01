@@ -2,15 +2,13 @@ import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class UserSessionService {
+export class  UserSessionService {
 
   admin = 'admin';
   superUser = 'superUser';
   operator = 'operator';
   feedback = 'feedback';
   modules;
-
-
   loginStatus: Subject<boolean> = new Subject;
   role: Subject<string> = new Subject;
 
@@ -51,27 +49,21 @@ export class UserSessionService {
     if (sessionStorage.getItem('user')) {
       return JSON.parse(sessionStorage.getItem('user'));
     }
-
-    return null;
   }
 
   isPermissions(module): boolean {
-    const role = this.getRole();
-    if (role !== this.superUser && module !== 'no_permissions') {
-       const mod = this.getUserModules();
+    const mod = this.getUserModules();
        this.modules = mod.filter(m => m.name ===  module);
-       if (this.modules.length > 0 ||  (module === 'tasks' && role !== 'employer') ) {
+       if (this.modules.length > 0) {
          return false;
        }
        return true;
-    }
-    return false;
   }
 
-  getPermissionsType(module, is_delete = false): any {
+  getPermissionsType(module): any {
     if (!this.isPermissions(module)) {
       const permission_type = this.modules[0].permission_type;
-      if (permission_type === 'all' || (permission_type === 'write' && !is_delete)) {
+      if (permission_type === 'all') {
         return true;
       }
       return false;

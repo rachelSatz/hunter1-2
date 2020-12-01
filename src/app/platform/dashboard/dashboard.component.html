@@ -1,24 +1,43 @@
 <h2>נתונים פיננסים</h2>
 <p>
 במסך זה ניתן לצפות בנתונים הפיננסים הכוללים המוזנים במערכת, מה תרצה לעשות? </p>
-<form #form="ngForm">
+<form #form="ngForm" class="mb-4">
 <div class="row d-flex align-items-center mt-4">
-  <div class="ml-3 col-6 col-lg-2" >
-  <bd-select [items]="projects"[(ngModel)]="projectId" placeholder="פרויקט" name="project"></bd-select>
+
+  <div class="col">
+    <bd-select  [items]="projectGroups" name="projectGroup" class="min-width-170 max-width-220"  [ngClass]="{'SelectOpened': isSelectOpened === true }"
+                [(ngModel)]="projectGroupId" placeholder="פרויקט על" (onSelect)="loadOrganizationAndEmployers()"></bd-select>
   </div>
-  <div class="ml-3 col-6 col-lg-2" >
-  <bd-select [items]="timeRange" (onSelect)="changeTimeRange()" name="timeRange" [(ngModel)]="timeRangeId" placeholder="טווח זמן"></bd-select>
+  <div class="col">
+    <bd-select [ngClass]="{'SelectOpened': isSelectOpened === true }" class="min-width-170 max-width-220"
+               (onSelect)="loadOrganizationAndEmployers()" [items]="projects"[(ngModel)]="projectId" placeholder="פרויקט" name="project"></bd-select>
   </div>
-  <div  class="ml-3 col-6 col-lg-2" *ngIf="timeRangeId === 1">
-    <mat-form-field >
-      <input matInput class="pointer" (click)="datePicker.open()" [(ngModel)]="month" [matDatepicker]="datePicker" placeholder="בחירת חודש" name="payment_due_date"   required>
+  <div class="col" >
+    <bd-select [items]="organizations" class="min-width-170 max-width-220" [(ngModel)]="organizationId" placeholder="ארגון"
+               (onSelect)="loadEmployers(organizationId)" name="organization" ></bd-select>
+  </div>
+  <div class="col">
+    <bd-select  [items]="employers" class="min-width-170 max-width-220" [(ngModel)]="employerId" placeholder="מעסיק" name="employer"></bd-select>
+  </div>
+  <div class="col" >
+    <bd-select  [items]="productTypesItems" name="productType" class="min-width-170" [ngClass]="{'SelectOpened': isSelectOpened === true }"
+                [(ngModel)]="productTypeId" placeholder="בחר מוצר"></bd-select>
+  </div>
+  <div class="col max-width-220" >
+  <bd-select [items]="timeRange"  class="min-width-170"  [filterSearch]="false" (onSelect)="changeTimeRange()"
+             [ngClass]="{'SelectOpened': isSelectOpened === true }" name="timeRange" [(ngModel)]="timeRangeId" placeholder="טווח זמן"></bd-select>
+  </div>
+  <div  class="col pr-0 pl-0 w-70" *ngIf="timeRangeId === 1">
+    <mat-form-field class="date-input w-80">
+      <input matInput class="pointer"  (click)="datePicker.open()" [(ngModel)]="month" [matDatepicker]="datePicker" placeholder="בחירת חודש" name="payment_due_date"   required>
       <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
       <mat-datepicker #datePicker></mat-datepicker>
       <mat-error>שדה חובה.</mat-error>
     </mat-form-field>
   </div>
-  <div  class="col-6 col-lg-5" *ngIf="timeRangeId === 2">
-      <mat-form-field class="ml-5">
+  <div  *ngIf="timeRangeId === 2">
+    <div class="col pr-0 pl-0 w-70">
+      <mat-form-field class="ml-3 date-input mb-3">
         <input matInput [name]="from" [id]="from" class="pointer"
                [max]="toDate" required [formControl]="fromDateFormControl"
                (click)="datePickerFrom.open()" [matDatepicker]="datePickerFrom"
@@ -27,8 +46,9 @@
         <mat-datepicker #datePickerFrom></mat-datepicker>
         <mat-error *ngIf="fromDateFormControl.hasError('required')">שדה חובה</mat-error>
       </mat-form-field>
-
-      <mat-form-field>
+    </div>
+    <div class="col pr-0 pl-0 w-70">
+      <mat-form-field class="date-input">
         <input matInput [name]="to_date" [id]="to_date"
                [min]="fromDate" class="pointer" [formControl]="toDateFormControl"
                (click)="datePickerTo.open()" [matDatepicker]="datePickerTo"
@@ -36,328 +56,327 @@
         <mat-datepicker-toggle matSuffix [for]="datePickerTo"></mat-datepicker-toggle>
         <mat-datepicker #datePickerTo></mat-datepicker>
         <mat-error *ngIf="toDateFormControl.hasError('required')">שדה חובה</mat-error>
-
       </mat-form-field>
+    </div>
 </div>
-  <button class="btn blue-btn mr-2"  (click)="filterData()">סנן</button>
+  <button class="col-lg-1 btn pink-btn"  (click)="filterData()">סנן</button>
 </div>
   </form>
-
-  <div *ngIf="data">
+  <div *ngIf="data" >
 <div class="row">
-  <div class="col-6 h-auto pr-4" style="float: right">
+  <div class="col-6 h-auto pr-4 float-right" class="">
     <div class="h-auto mb-5 mt-2">
       <h4>סטטוס מעסיקים</h4>
-      <p class="sumCount"> סה"כ מעסיקים-<span style="color: #00ADEE;"></span></p>
+      <p class="sumCount"> סה"כ מעסיקים-<span class="blue-color"></span></p>
       <div class="dataCls">
         <div class="dataRightCls"></div>
-        <img src="../../../assets/img/icons/user.png" style="float: right">
+        <img src="../../../assets/img/icons/user.png" class="float-right">
         <div class="mt-2 mr-2 inner-div">
-          <p style="float: right; width: 30%;">מעסיקים שחויבו</p>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <p class="float-right w-30" >מעסיקים שחויבו</p>
+          <div class="float-right w-20 padding-right-30">
             <p class="sumCount">כמות</p>
             <p>{{data['employers_status']['charged_employers']['count']}}</p>
           </div>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
             <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
           </div>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <div class="float-right w-25 padding-right-30">
             <p class="sumCount">סכום</p>
-            <p style="font-size: 15px">{{data['employers_status']['charged_employers']['sum'] | number:'1.2-2'}}</p>
+            <p class="font-size-15">{{data['employers_status']['charged_employers']['sum'] | number:'1.2-2'}}</p>
           </div>
-          <a>צפייה</a>
+          <a (click)="openChargedEmployerPopUp()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
         </div>
       </div>
       <div class="dataCls">
         <div class="dataRightCls"></div>
-        <img src="../../../assets/img/icons/user.png" style="float: right">
+        <img src="../../../assets/img/icons/user.png" class="float-right">
         <div class="mt-2 mr-2 inner-div">
-          <p style="float: right; width: 30%;">מעסיקים שצריך לחייב</p>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <p class="float-right w-30">מעסיקים שצריך לחייב</p>
+          <div class="float-right w-20 padding-right-30">
             <p class="sumCount">כמות</p>
-            <!--<p>{{data['employers_status']['charged_employers_manually']['count']}}</p>-->
+            <p>{{data['employers_status']['need_to_charge_employers']['count']}}({{data['employers_status']['need_to_charge_employers']['compared']}})</p>
           </div>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
+            <p>{{data['employers_status']['need_to_charge_employers']['ids_count']}}</p>
           </div>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <div class="float-right w-25 padding-right-30">
             <p class="sumCount">סכום</p>
-            <!--<p style="font-size: 15px">{{data['employers_status']['charged_employers_manually']['sum'] | number:'1.2-2' }}</p>-->
+            <p style="font-size: 15px">{{data['employers_status']['need_to_charge_employers']['sum'] | number:'1.2-2' }}</p>
           </div>
-          <a style="color: #000000;" (click)="openInvoices('tax_green_invoice,transaction_green_invoice,only_tax_green_invoice')" >צפייה</a>
+          <a (click)="openNeedToChargeEmployersPopUp()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
         </div>
-
       </div>
       <div class="dataCls">
         <div class="dataRightCls"></div>
-        <img src="../../../assets/img/icons/user.png" style="float: right">
+        <img src="../../../assets/img/icons/user.png" class="float-right">
         <div class="mt-2 mr-2 inner-div">
-          <p style="float: right; width: 30%;"> מעסיקים שחויבו ידני</p>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <p class="float-right w-30"> מעסיקים שחויבו ידני</p>
+          <div class="float-right w-20 padding-right-30">
             <p class="sumCount">כמות</p>
             <p>{{data['employers_status']['charged_employers_manually']['count']}}</p>
           </div>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
+            <p>{{data['employers_status']['charged_employers_manually']['ids_count']}}</p>
           </div>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <div class="float-right w-25 padding-right-30">
             <p class="sumCount">סכום</p>
-            <p style="font-size: 15px">{{data['employers_status']['charged_employers_manually']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data['employers_status']['charged_employers_manually']['sum'] | number:'1.2-2' }}</p>
           </div>
-          <a>צפייה</a>
+          <a (click)="openManuallyChargedPopUp()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
         </div>
       </div>
       <div class="dataCls">
         <div class="dataRightCls"></div>
-        <img src="../../../assets/img/icons/user.png" style="float: right">
+        <img src="../../../assets/img/icons/user.png" class="float-right">
         <div class="mt-2 mr-2 inner-div">
-          <p style="float: right; width: 30%;">מעסיקים ללא פרטי חיוב</p>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <p class="float-right w-30">מעסיקים ללא פרטי חיוב</p>
+          <div class="float-right w-20 padding-right-30">
             <p class="sumCount">כמות</p>
             <p>{{data['employers_status']['no_payment_detail_employers']['count']}}</p>
           </div>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
+            <p>{{data['employers_status']['no_payment_detail_employers']['ids_count']}}</p>
           </div>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <div class="float-right w-25 padding-right-30">
             <p class="sumCount">סכום</p>
-            <p style="font-size: 15px">{{data['employers_status']['no_payment_detail_employers']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data['employers_status']['no_payment_detail_employers']['sum'] | number:'1.2-2' }}</p>
           </div>
-          <a style="color: #000000;" (click)="openInvoices('transaction_green_invoice')">צפייה</a>
+          <a (click)="openEmployersWithNoPaymentPopUp()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
         </div>
       </div>
       <div class="dataCls">
         <div class="dataRightCls"></div>
-        <img src="../../../assets/img/icons/user.png" style="float: right">
+        <img src="../../../assets/img/icons/user.png" class="float-right">
         <div class="mt-2 mr-2 inner-div">
-          <p style="float: right; width: 30%;">מעסיקים עם חיוב 0</p>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <p class="float-right w-30">מעסיקים עם חיוב 0</p>
+          <div class="float-right w-20 padding-right-30">
             <p class="sumCount">כמות</p>
             <p>{{data['employers_status']['employers_0_charge']['count']}}</p>
           </div>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
+            <p>{{data['employers_status']['employers_0_charge']['ids_count']}}</p>
           </div>
-          <div style="width: 25%; float: right; padding-right: 30px">
+          <div class="float-right w-25 padding-right-30">
             <p class="sumCount">סכום</p>
-            <p  style="font-size: 15px">-</p>
+            <p  class="font-size-15">-</p>
           </div>
-          <a>צפייה</a>
+          <a (click)="openEmployersPaymentZeroPopUp()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
         </div>
       </div>
       <div class="dataCls">
         <div class="dataRightCls"></div>
-        <img src="../../../assets/img/icons/bill.png" style="float: right">
+        <img src="../../../assets/img/icons/bill.png" class="float-right">
         <div class="mt-2 mr-2 two-div">
-          <p style="float: right; width: 30%;">משולמים ע"י גורם אחר</p>
-          <div style="width: 30%; float: right; padding-right: 30px">
+          <p class="float-right w-40">משולמים ע"י גורם אחר</p>
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
             <p>{{data['employers_status']['payed_by_other']['sum']}}</p>
           </div>
-          <div style="width: 33%; float: right; padding-right: 30px">
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
+            <p>{{data['employers_status']['payed_by_other']['ids_count']}}</p>
           </div>
           <a (click)="openOtherPayerPopup()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
         </div>
       </div>
+      <a (click)="showInvoices()" *ngIf="!isPermissionsFinance" class="blue-color border-bottom margin-right-665">הצג חשבוניות</a>
     </div>
   </div>
-  <div class="col-6 h-auto pr-4" style="float: left">
+  <div class="col-6 h-auto pr-5 mr-5 float-left">
     <div class="h-auto mb-5 mt-2">
       <h4> מערכת חשבוניות</h4>
-      <p class="sumCount"> סה"כ מעסיקים-<span style="color: #00ADEE;"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
+      <p class="sumCount"> סה"כ הכנסות-<span class="blue-color"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
       <div class="dataCls">
         <div class="dataRightCls"></div>
-        <img src="../../../assets/img/icons/page.png" style="float: right">
+        <img src="../../../assets/img/icons/page.png" class="float-right">
         <div class="mt-2 mr-2 two-div">
-          <p style="float: right; width: 30%;">סה"כ חשבוניות ששודרו</p>
-          <div style="width: 30%; float: right; padding-right: 30px">
+          <p class="float-right w-30">סה"כ חשבוניות ששודרו</p>
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
             <p>{{data['invoice_system']['green_invoices']['count']}}</p>
           </div>
-          <div style="width: 33%; float: right">
+          <div class="float-right w-35">
             <p class="sumCount">סכום</p>
-            <p style="font-size: 15px">{{data['invoice_system']['green_invoices']['sum'] | number:'1.2-2'}}</p>
+            <p class="font-size-15">{{data['invoice_system']['green_invoices']['sum'] | number:'1.2-2'}}</p>
           </div>
-          <a style="color: #000000" (click)="openInvoices('transaction_green_invoice,only_tax_green_invoice,tax_green_invoice')">צפייה</a>
-          <i  class="fa fa-angle-left"></i>
+          <a (click)="openInvoices('transaction_green_invoice,only_tax_green_invoice,tax_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
+          <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
         </div>
       </div>
       <div class="dataCls">
         <div class="dataRightCls"></div>
-        <img src="../../../assets/img/icons/page.png" style="float: right">
+        <img src="../../../assets/img/icons/page.png" class="float-right">
         <div class="mt-2 mr-2 two-div">
-          <p style="float: right; width: 30%;">חשבוניות עסקה</p>
-          <div style="width: 30%; float: right; padding-right: 30px">
+          <p class="float-right w-30">חשבוניות עסקה</p>
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
             <p>{{data['invoice_system']['transaction_invoices']['count']}}</p>
           </div>
-          <div style="width: 33%; float: right">
+          <div class="float-right w-35">
             <p class="sumCount">סכום</p>
-            <p style="font-size: 15px">{{data['invoice_system']['transaction_invoices']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data['invoice_system']['transaction_invoices']['sum'] | number:'1.2-2' }}</p>
           </div>
-          <a style="color: #000000" (click)="openInvoices('transaction_green_invoice')">צפייה</a>
-          <i  class="fa fa-angle-left"></i>
+          <a (click)="openInvoices('transaction_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
+          <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
         </div>
       </div>
       <div class="dataCls">
         <div class="dataRightCls"></div>
-        <img src="../../../assets/img/icons/page.png" style="float: right">
+        <img src="../../../assets/img/icons/page.png" class="float-right">
         <div class="mt-2 mr-2 two-div">
-          <p style="float: right; width: 30%;">חשבוניות מס</p>
-          <div style="width: 30%; float: right; padding-right: 30px">
+          <p class="float-right w-30">חשבוניות מס</p>
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
             <p>{{data['invoice_system']['only_tax_green_invoices']['count']}}</p>
           </div>
-          <div style="width: 33%; float: right">
+          <div class="float-right w-35">
             <p class="sumCount">סכום</p>
-            <p style="font-size: 15px">{{data['invoice_system']['only_tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data['invoice_system']['only_tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
           </div>
-          <a style="color: #000000" (click)="openInvoices('only_tax_green_invoice')">צפייה</a>
-          <i  class="fa fa-angle-left"></i>
+          <a (click)="openInvoices('only_tax_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
+          <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
         </div>
       </div>
       <div class="dataCls">
         <div class="dataRightCls"></div>
-        <img src="../../../assets/img/icons/page.png" style="float: right">
+        <img src="../../../assets/img/icons/page.png" class="float-right">
         <div class="mt-2 mr-2 two-div">
-          <p style="float: right; width: 30%;">חשבוניות מס קבלה </p>
-          <div style="width: 30%; float: right; padding-right: 30px">
+          <p class="float-right w-30">חשבוניות מס קבלה </p>
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
             <p>{{data['invoice_system']['tax_green_invoices']['count']}}</p>
           </div>
-          <div style="width: 33%; float: right">
+          <div class="float-right w-35">
             <p class="sumCount">סכום</p>
-            <p style="font-size: 15px">{{data['invoice_system']['only_tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data['invoice_system']['tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
           </div>
-          <a style="color: #000000" (click)="openInvoices('tax_green_invoice')">צפייה</a>
-          <i  class="fa fa-angle-left"></i>
+          <a (click)="openInvoices('tax_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
+          <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
         </div>
       </div>
       <div class="dataCls">
         <div class="dataRightCls"></div>
-        <img src="../../../assets/img/icons/page.png" style="float: right">
+        <img src="../../../assets/img/icons/page.png" class="float-right">
         <div class="mt-2 mr-2 two-div">
-          <p style="float: right; width: 30%;">חריגים תקולים</p>
-          <div style="width: 30%; float: right; padding-right: 30px">
+          <p class="float-right w-30">חריגים תקולים</p>
+          <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
             <p>{{data['invoice_system']['green_invoices_error']['count']}}</p>
           </div>
-          <div style="width: 33%; float: right">
+          <div class="float-right w-35">
             <p class="sumCount">סכום</p>
-            <p  style="font-size: 15px">{{data['invoice_system']['green_invoices_error']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data['invoice_system']['green_invoices_error']['sum'] | number:'1.2-2' }}</p>
           </div>
-          <a style="color: #000000" (click)="openInvoices('green_invoice_error')">צפייה</a>
-          <i  class="fa fa-angle-left"></i>
+          <a (click)="openInvoices('green_invoice_error')" *ngIf="!isPermissionsFinance">צפייה</a>
+          <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
         </div>
       </div>
     </div>
   </div>
 </div>
     <div class="row shadow-none p-3 mb-5 bg-light rounded">
-      <div class="col-6 h-auto pr-4" style="float: right">
+      <div class="col-6 h-auto pr-4"  class="float-right" *ngIf="data['payment_methods']">
        <div class="h-auto mb-5 mt-2">
-         <h4> אמצעי תשלום </h4>
+         <h4 class="h-auto mb-4"> אמצעי תשלום </h4>
          <div class="dataCls">
            <div class="dataRightCls"></div>
-           <img src="../../../assets/img/icons/bill.png" style="float: right">
+           <img src="../../../assets/img/icons/bill.png"class="float-right">
            <div class="mt-2 mr-2 one-div">
-             <p style="float: right; width: 45%;">משלמים בהוראת קבע</p>
-             <div style="width: 45%; float: right; padding-right: 10px">
+             <p class="float-right w-45">משלמים בהוראת קבע</p>
+             <div class="float-right w-45 padding-right-10">
                <p class="sumCount">כמות</p>
                <p>{{data['payment_methods']['is_debit']['count']}}</p>
              </div>
-             <a>צפייה</a>
+             <a (click)="openEmployersForm('direct_debit')">צפייה</a>
              <i  class="fa fa-angle-left"></i>
            </div>
          </div>
          <div class="dataCls">
            <div class="dataRightCls"></div>
-           <img src="../../../assets/img/icons/bill.png" style="float: right">
+           <img src="../../../assets/img/icons/bill.png"class="float-right">
            <div class="mt-2 mr-2 one-div">
-             <p style="float: right; width: 45%;">העברה בנקאית\צ'ק </p>
-             <div style="width: 45%; float: right; padding-right: 10px">
+             <p class="float-right w-45">העברה בנקאית\צ'ק </p>
+             <div class="float-right w-45 padding-right-10">
                <p class="sumCount">כמות</p>
                <p>{{data['payment_methods']['is_bank_check']['count']}}</p>
              </div>
-             <a>צפייה</a>
+             <a (click)="openEmployersForm('bank_transfer')">צפייה</a>
              <i  class="fa fa-angle-left"></i>
            </div>
          </div>
          <div class="dataCls">
            <div class="dataRightCls"></div>
-           <img src="../../../assets/img/icons/bill.png" style="float: right">
+           <img src="../../../assets/img/icons/bill.png" class="float-right">
            <div class="mt-2 mr-2 one-div">
-             <p style="float: right; width: 45%;">משלמים באשראי</p>
-             <div style="width: 45%; float: right; padding-right: 10px">
+             <p class="float-right w-45">משלמים באשראי</p>
+             <div class="float-right w-45 padding-right-10">
                <p class="sumCount">כמות</p>
                <p>{{data['payment_methods']['is_credit']['count']}}</p>
              </div>
-             <a>צפייה</a>
+             <a (click)="openEmployersForm('credit_card')">צפייה</a>
              <i  class="fa fa-angle-left"></i>
            </div>
          </div>
          <div class="dataCls">
            <div class="dataRightCls"></div>
-           <img src="../../../assets/img/icons/bill.png" style="float: right">
+           <img src="../../../assets/img/icons/bill.png" class="float-right">
            <div class="mt-2 mr-2 one-div">
-             <p style="float: right; width: 45%;">משלמים במס"ב </p>
-             <div style="width: 45%; float: right; padding-right: 10px">
+             <p  class="float-right w-45">משלמים במס"ב </p>
+             <div class="float-right w-45 padding-right-10">
                <p class="sumCount">כמות</p>
                <p>{{data['payment_methods']['is_masav']['count']}}</p>
              </div>
-             <a>צפייה</a>
+             <a (click)="openEmployersForm('masav_product')">צפייה</a>
              <i  class="fa fa-angle-left"></i>
            </div>
          </div>
        </div>
        </div>
-      <div class="col-6 h-auto pr-4" style="float: left">
-        <div class="h-auto mb-5 mt-2" >
+      <div class="col-6 h-auto pr-5 mr-5 float-left">
+        <div class="h-auto mb-5 mt-2" *ngIf="!isPermissionsFinance">
           <h4> תהליכי חישוב </h4>
-          <p class="sumCount"> סה"כ תהליכים-<span style="color: #00ADEE;"> {{data['calc_processes']['count']}}</span></p>
-          <a (click)="openCalcProcesses()" *ngIf="data['calc_processes']['count']>0" style="margin-right: 530px; border-bottom: 1px #00ADEE solid; color: #00ADEE;">הצג תהליכים</a>
+          <p class="sumCount"> סה"כ תהליכים-<span class="blue-color"> {{data['calc_processes']['count']}}</span></p>
+          <a (click)="openCalcProcesses()" *ngIf="data['calc_processes']['count']>0" class="blue-color border-bottom margin-right-530">הצג תהליכים</a>
           <div *ngFor="let calc_process of data['calc_processes']['data']">
           <div class="dataCls">
             <div class="dataRightCls"></div>
-            <img src="../../../assets/img/icons/recycle.png" style="float: right">
+            <img src="../../../assets/img/icons/recycle.png" class="float-right">
             <div class="mt-2 mr-2 inner-div">
-              <div style="float: right; width: 24%;" >
+              <div class="float-right w-24">
               <p>  {{calc_process.created_at | date: 'dd/MM/yyyy'}}</p>
                 <p>  -יום  {{ getDayHe(calc_process.created_at)}}'</p>
                 <br>
                 <!--| date:'EEE'-->
               <p class="hour">{{calc_process.created_at | date: "HH:mm"}}</p>
               </div>
-              <div style="width: 28%; float: right; padding-right: 30px">
+              <div class="float-right w-28 padding-right-30">
                 <p class="sumCount">סה"כ מעסיקים</p>
                 <p [ngClass]="{'smallSize': calc_process.count_employers > 99}  ">{{calc_process.count_employers}}</p>
               </div>
-              <div style="width: 26%; float: right; padding-right: 30px">
+              <div class="float-right w-26 padding-right-30">
                 <p class="sumCount">סה"כ ת.ז</p>
                 <p [ngClass]="{'smallSize': calc_process.count_employees>99999}">{{calc_process.count_employees}}</p>
               </div>
-              <div style="width: 27%; float: right; padding-right: 30px">
+              <div class="float-right w-27 padding-right-30">
                 <p class="sumCount">סכום</p>
-                <p style="font-size: 15px"  >{{calc_process.amount_invoices | number:'1.2-2'}}</p>
+                <p class="font-size-15">{{calc_process.amount_invoices | number:'1.2-2'}}</p>
               </div>
             </div>
           </div>
           </div>
         <div *ngIf="data['calc_processes']['count']==0" class="noCalcProcess"  >
-          <span style="margin: auto">
+          <span class="m-auto">
           <img src="../../../assets/img/icons/recycle-regular.png">
           <p>לא קיימים תהליכים החודש</p>
             </span>
@@ -368,55 +387,73 @@
 
     </div>
       <div class="row">
-        <div class="col-6 h-auto pr-4" style="float: right">
+        <div class="col-6 h-auto pr-4" class="float-right">
           <div class="h-auto mb-5 mt-2">
             <h4>סטטוס תעודות זהות</h4>
-            <p class="sumCount"> סה"כ ת"ז-<span style="color: #00ADEE;"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
+            <p class="sumCount"> סה"כ ת"ז-<span class="blue-color"> {{data['ids_status']['ids_zero'] + data['ids_status']['ids_not_zero']}}</span></p>
             <div class="dataCls">
               <div class="dataRightCls"></div>
-              <img src="../../../assets/img/icons/group.png" style="float: right">
+              <img src="../../../assets/img/icons/group.png" class="float-right">
               <div class="mt-2 mr-2 one-div">
-                <p style="float: right; width: 45%;">ת"ז אפסים שלא חויבו</p>
-                <div style="width: 45%; float: right; padding-right: 10px">
+                <p class="float-right w-80">ת"ז אפסים שלא חויבו</p>
+                <div class="float-right padding-right-10 w-20">
                   <p class="sumCount">כמות</p>
-                  <p>{{data['payment_methods']['is_debit']['count']}}</p>
+                  <p>{{data['ids_status']['ids_zero_not_charged']}}</p>
                 </div>
-                <a>צפייה</a>
-                <i  class="fa fa-angle-left"></i>
               </div>
             </div>
             <div class="dataCls">
               <div class="dataRightCls"></div>
-              <img src="../../../assets/img/icons/group.png" style="float: right">
+              <img src="../../../assets/img/icons/group.png"  class="float-right">
               <div class="mt-2 mr-2 one-div">
-                <p style="float: right; width: 45%;">ת"ז עם חיוב רטרו</p>
-                <div style="width: 45%; float: right; padding-right: 10px">
+                <p class="float-right w-80">ת"ז עם חיוב רטרו</p>
+                <div class="float-right padding-right-10 w-20">
                   <p class="sumCount">כמות</p>
-                  <p>{{data['payment_methods']['is_bank_check']['count']}}</p>
+                  <p>{{data['ids_status']['ids_retro_billing']}}</p>
                 </div>
-                <a>צפייה</a>
-                <i  class="fa fa-angle-left"></i>
+              </div>
+            </div>
+            <div class="dataCls">
+              <div class="dataRightCls"></div>
+              <img src="../../../assets/img/icons/group.png"  class="float-right">
+              <div class="mt-2 mr-2 one-div">
+                <p class="float-right w-80">ת"ז אפסים</p>
+                <div class="float-right padding-right-10 w-20">
+                  <p class="sumCount">כמות</p>
+                  <p>{{data['ids_status']['ids_zero']}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="dataCls">
+              <div class="dataRightCls"></div>
+              <img src="../../../assets/img/icons/group.png"  class="float-right">
+              <div class="mt-2 mr-2 one-div">
+                <p class="float-right w-80">ת"ז ללא אפסים</p>
+                <div class="float-right padding-right-10 w-20">
+                  <p class="sumCount">כמות</p>
+                  <p>{{data['ids_status']['ids_not_zero']}}</p>
+                </div>
               </div>
             </div>
           </div>
 
           </div>
-        <div class="col-6 h-auto pr-4" style="float: left">
+        <div class="col-6 h-auto pr-5 mr-5 float-left">
           <div class="h-auto mb-5 mt-2">
             <h4> שונות </h4>
-            <p class="sumCount"> סה"כ הכנסות-<span style="color: #00ADEE;"> {{sum_incomes  | number:'1.2-2' }}</span></p>
+            <p class="sumCount"> סה"כ הכנסות-<span class="blue-color"> {{sum_incomes  | number:'1.2-2' }}</span></p>
             <div class="dataCls">
               <div class="dataRightCls"></div>
-              <img src="../../../assets/img/icons/circles.png" style="float: right">
+              <img src="../../../assets/img/icons/circles.png" class="float-right">
               <div class="mt-2 mr-2 two-div">
-                <p style="float: right; width: 35%;">הכנסות ממעסיקים חדשים</p>
-                <div style="width: 30%; float: right; padding-right: 10px">
+                <p  class="float-right w-35">הכנסות ממעסיקים חדשים</p>
+                <div class="float-right w-30 padding-right-10">
                   <p class="sumCount">כמות</p>
                   <p>{{data['incomes']['incomes_from_new_employers']['count']}}</p>
                 </div>
-                <div style="width: 33%; float: right">
+                <div class="float-right w-33">
                   <p class="sumCount">סכום</p>
-                  <p style="font-size: 15px">{{data['incomes']['incomes_from_new_employers']['sum'] | number:'1.2-2'}}</p>
+                  <p class="font-size-15">{{data['incomes']['incomes_from_new_employers']['sum'] | number:'1.2-2'}}</p>
                 </div>
                 <a (click)="openNewEmployersForm()">צפייה</a>
                 <i  class="fa fa-angle-left"></i>
@@ -424,16 +461,16 @@
             </div>
             <div class="dataCls">
               <div class="dataRightCls"></div>
-              <img src="../../../assets/img/icons/circles.png" style="float: right">
+              <img src="../../../assets/img/icons/circles.png" class="float-right">
               <div class="mt-2 mr-2 two-div">
-                <p style="float: right; width: 35%;">הכנסות מתשלום הקמה </p>
-                <div style="width: 30%; float: right; padding-right: 10px">
+                <p  class="float-right w-35">הכנסות מתשלום הקמה </p>
+                <div class="float-right w-30 padding-right-10">
                   <p class="sumCount">כמות</p>
                   <p>{{data['incomes']['incomes_est_payment_amount']['count']}}</p>
                 </div>
-                <div style="width: 33%; float: right">
+                <div class="float-right w-33">
                   <p class="sumCount">סכום</p>
-                  <p style="font-size: 15px">{{data['incomes']['incomes_est_payment_amount']['sum'] | number:'1.2-2' }}</p>
+                  <p class="font-size-15">{{data['incomes']['incomes_est_payment_amount']['sum'] | number:'1.2-2' }}</p>
                 </div>
                 <a (click)="openEstPaymentForm()">צפייה</a>
                 <i  class="fa fa-angle-left"></i>
@@ -441,9 +478,6 @@
             </div>
           </div>
         </div>
-
 </div>
-
-
 </div>
 <router-outlet></router-outlet>
