@@ -26,6 +26,14 @@ export class EmployerService extends BaseHttpService {
       .catch(() => null);
   }
 
+  getPayEmployers(): Promise<any> {
+    const request = this.getTokenHeader();
+    return this.http.get(this.endPoint + '/pay_employer_list', request)
+      .toPromise()
+      .then(response => response as any)
+      .catch(() => null);
+  }
+
   getEmployers(): Promise<any> {
     const request = this.getTokenHeader();
     return this.http.get(this.endPoint + '/employer_list', request)
@@ -33,7 +41,6 @@ export class EmployerService extends BaseHttpService {
       .then(response => response as any)
       .catch(() => null);
   }
-
   getEmployersByProjectGroupId(projectGroupId: number): Promise<any> {
     const request = this.getTokenHeader();
     request['params'] = {};

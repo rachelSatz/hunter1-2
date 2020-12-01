@@ -90,7 +90,7 @@ export class FinanceComponent implements OnInit {
         this.fetchItems();
       }
     ));
-    this.EmployerService.getEmployers()
+    this.EmployerService.getPayEmployers()
       .then(res => { this.payEmployers = res['data'];
         console.log(this.payEmployers);
         this.fetchItems(); });

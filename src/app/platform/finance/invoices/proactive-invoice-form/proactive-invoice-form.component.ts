@@ -42,7 +42,7 @@ export class ProactiveInvoiceFormComponent implements OnInit {
                private GeneralService: GeneralService) { }
 
   ngOnInit() {
-    this.employerService.getEmployers().then(
+    this.employerService.getPayEmployers().then(
       response =>  {
         this.employers = response['data'];
         this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
@@ -69,9 +69,6 @@ export class ProactiveInvoiceFormComponent implements OnInit {
       this.invoiceService.createProactiveInvoice(this.conditions).then(response => {
         console.log(response);
       });
-
-
-
      }
   }
 
