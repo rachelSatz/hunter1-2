@@ -20,7 +20,7 @@ export class OtherPayerPopupComponent implements OnInit {
     { name: 'name_get', label: 'מעסיק מקבל'},
     { name: 'identifier_get', label: 'ח.פ. מעסיק מקבל'}
   ];
-
+  dataFilters: any;
   constructor(private dialogRef: MatDialogRef<OtherPayerPopupComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private datepipe: DatePipe,
@@ -29,16 +29,25 @@ export class OtherPayerPopupComponent implements OnInit {
   ngOnInit() {
     console.log(this.data);
     if (this.data['from_date']) {
-      this.data['from_date'] = this.datepipe.transform(this.data['from_date'], 'yyyy-MM-dd');
-      this.data['to_date'] = this.datepipe.transform(this.data['to_date'], 'yyyy-MM-dd');
+      this.dataFilters['from_date'] = this.data['from_date'];
+      this.dataFilters['to_date'] = this.data['to_date'];
     } else {
-      this.data['month'] = this.datepipe.transform(this.data['month'], 'yyyy-MM-dd');
+      this.dataFilters['month'] = this.datepipe.transform(this.data['month'], 'yyyy-MM-dd');
     }
-    if (this.data['project_id'] == '0') {
-      this.data['project_id'] = this.data['None'];
+    if (this.data['project_id'] !== '0') {
+      this.dataFilters['project_id'] = this.data['project_id'];
     }
-    if (this.data['product_type'] == 'all') {
-      this.data['product_type'] = this.data['None'];
+    if (this.data['product_type'] !== 'all') {
+      this.dataFilters['product_type'] = this.data['product_type'];
+    }
+    if (this.data['project_group_id']) {
+      this.dataFilters['project_group_id'] = +this.data['project_group_id'];
+    }
+    if (this.data['organization_id'] !== 0 && this.data['organization_id'] !== '0' && this.data['organization_id']) {
+      this.dataFilters['organization_id'] = +this.data['organization_id'];
+    }
+    if (this.data['employer_id'] !== 0 && this.data['employer_id'] !== '0' && this.data['employer_id']) {
+      this.dataFilters['employer_id'] = +this.data['employer_id'];
     }
     this.fetchItems();
   }

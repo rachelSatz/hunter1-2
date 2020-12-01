@@ -4,13 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { BdSelectModule } from '../../../assets/js/bd-select/bd-select.module';
 import { GeneralService } from '../../shared/_services/http/general.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatDatepickerModule,
-  MatDialogModule,
-  MatFormFieldModule,
-  MatInputModule,
-} from '@angular/material';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 import { DatePickerModule} from '../../shared/app-date-picker/app-date-picker.module';
 import { PipesModule} from '../../shared/_pipes/pipes.module';
 import { EstPaymentFormComponent } from './est-payment-form/est-payment-form.component';
@@ -33,7 +28,6 @@ const routes: Routes = [
   declarations: [DashboardComponent, EstPaymentFormComponent, EmployersFormComponent,
     NewEmployersFormComponent, OtherPayerPopupComponent, ChargedEmployersFormComponent,
     ManuallyChargedEmployersComponent, EmployersWithNoPaymentComponent, EmployersPaymentZeroComponent, NeedToChargeEmployersComponent],
-
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

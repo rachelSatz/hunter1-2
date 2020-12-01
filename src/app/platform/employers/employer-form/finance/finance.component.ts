@@ -68,6 +68,8 @@ export class FinanceComponent implements OnInit {
   displayMasav: boolean;
   check: any;
   arrShow: Array<boolean> = new Array<boolean>();
+  arrShow2: Array<boolean> = new Array<boolean>();
+
   isEstablishingPayment: boolean;
   estPaymentAmount = 0;
   financialDetails: EmployerFinancialDetails = new EmployerFinancialDetails();
@@ -134,7 +136,7 @@ export class FinanceComponent implements OnInit {
     this.productTemp.financial_payments[0] = new EmployerFinancialPayments();
     this.financialDetails.financial_product.push(this.productTemp);
     this.arrShow.push(false);
-    console.log(this.arrShow);
+    this.arrShow2.push(false);
   }
   deleteProductRow(index: number) {
     this.financialDetails.financial_product.splice(index, 1);
@@ -153,6 +155,13 @@ export class FinanceComponent implements OnInit {
       return false;
     }
   }
+  displayCheckedException(product: any): boolean {
+    if (product.exception_amount > 0 ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   showAdditionalPayment(index: number, isChecked: boolean): void {
     if (isChecked) {
       this.rowIndex = index;
@@ -161,6 +170,15 @@ export class FinanceComponent implements OnInit {
       this.arrShow[index] = false;
       this.financialDetails.financial_product[index].additional_payment_amount = 0;
       this.financialDetails.financial_product[index].additional_payment_desc = '';
+    }
+  }
+  showAdditionalException(index: number, isChecked: boolean): void {
+    if (isChecked) {
+      this.rowIndex = index;
+      this.arrShow2[index] = true;
+    } else {
+      this.arrShow2[index] = false;
+      this.financialDetails.financial_product[index].exception_amount = 0;
     }
   }
   showNoPaymentTime(): void {

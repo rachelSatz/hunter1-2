@@ -40,6 +40,7 @@ export class EmployerFinancialProduct {
   show_details: boolean;
   additional_payment_amount: number;
   additional_payment_desc: string;
+  exception_amount: number;
   created_at: Date;
   financial_details: number;
   product_relation: number;

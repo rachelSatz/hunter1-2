@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { GeneralService } from '../../shared/_services/http/general.service';
-import { DatePipe } from '@angular/common';
+import {GeneralService} from '../../shared/_services/http/general.service';
+import { DatePipe } from '@angular/common'
 import { FormControl, Validators } from '@angular/forms';
+import { EstPaymentFormComponent} from './est-payment-form/est-payment-form.component';
+import { NewEmployersFormComponent} from './new-employers-form/new-employers-form.component';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EstPaymentFormComponent } from './est-payment-form/est-payment-form.component';
-import { NewEmployersFormComponent } from './new-employers-form/new-employers-form.component';
 import { EmployersFormComponent } from './employers-form/employers-form.component';
 import { Subscription } from 'rxjs/Subscription';
 import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
@@ -18,7 +18,7 @@ import { SelectUnitService } from '../../shared/_services/select-unit.service';
 import { UserSessionService } from '../../shared/_services/http/user-session.service';
 import { fade, slideInOut } from '../../shared/_animations/animation';
 import { PRODUCT_TYPES } from '../../shared/_models/employer-financial-details.model';
-import {NeedToChargeEmployersComponent} from "./need-to-charge-employers/need-to-charge-employers.component";
+import { NeedToChargeEmployersComponent } from "./need-to-charge-employers/need-to-charge-employers.component";
 import { NotificationService } from '../../shared/_services/notification.service';
 import { OrganizationService } from '../../shared/_services/http/organization.service';
 import { EmployerService } from '../../shared/_services/http/employer.service';
@@ -323,12 +323,28 @@ export class DashboardComponent implements OnInit {
     this.newDate = new Date(date);
     return this.days[this.newDate.getDay()];
   }
+
+  // openOtherPayerPopup(): void{
+  //   // this.dialog.open(OtherPayerPopupComponent, {
+  //   //   data: {
+  //   //     'from_date': this.currentFromDate,
+  //   //     'to_date': this.currentToDate,
+  //   //     'month': this.month,
+  //   //     'project_id': this.projectId
+  //   //   },
+  //   //   width: '1000px',
+  //   //   minHeight: '500px'
+  //   // });
+
   openEmployersForm(payment_method: string): void{
     const dialog = this.dialog.open(EmployersFormComponent, {
       data: {
         'payment_method': payment_method,
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId
+        'product_type': this.currentProductTypeId,
+        'project_group_id': this.currentProjectGroupId,
+        'organization_id': this.currentOrganizationId,
+        'employer_id': this.currentEmployerId
       },
       width: '1000px',
       minHeight: '500px'
@@ -342,14 +358,18 @@ export class DashboardComponent implements OnInit {
     }
     }));
   }
+
   openChargedEmployerPopUp(): void{
     const dialog = this.dialog.open(ChargedEmployersFormComponent, {
       data: {
-        'from_date': this.currentFromDate,
-        'to_date': this.currentToDate,
-        'month': this.currentMonth,
+        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
+        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
+        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId
+        'product_type': this.currentProductTypeId,
+        'project_group_id': this.currentProjectGroupId,
+        'organization_id': this.currentOrganizationId,
+        'employer_id': this.currentEmployerId
       },
       width: '1000px',
       minHeight: '500px'
@@ -361,11 +381,14 @@ export class DashboardComponent implements OnInit {
   openManuallyChargedPopUp(): void {
     const dialog = this.dialog.open(ManuallyChargedEmployersComponent, {
       data: {
-        'from_date': this.currentFromDate,
-        'to_date': this.currentToDate,
-        'month': this.currentMonth,
+        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
+        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
+        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId
+        'product_type': this.currentProductTypeId,
+        'project_group_id': this.currentProjectGroupId,
+        'organization_id': this.currentOrganizationId,
+        'employer_id': this.currentEmployerId
       },
       width: '1000px',
       minHeight: '500px'
@@ -377,11 +400,14 @@ export class DashboardComponent implements OnInit {
   openNeedToChargeEmployersPopUp(): void {
     const dialog = this.dialog.open(NeedToChargeEmployersComponent, {
       data: {
-        'from_date': this.currentFromDate,
-        'to_date': this.currentToDate,
-        'month': this.month,
+        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
+        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
+        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId
+        'product_type': this.currentProductTypeId,
+        'project_group_id': this.currentProjectGroupId,
+        'organization_id': this.currentOrganizationId,
+        'employer_id': this.currentEmployerId
       },
       width: '1000px',
       minHeight: '500px'
@@ -393,11 +419,14 @@ export class DashboardComponent implements OnInit {
   openEmployersWithNoPaymentPopUp(): void{
     const dialog = this.dialog.open(EmployersWithNoPaymentComponent, {
       data: {
-        'from_date': this.currentFromDate,
-        'to_date': this.currentToDate,
-        'month': this.currentMonth,
+        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
+        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
+        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId
+        'product_type': this.currentProductTypeId,
+        'project_group_id': this.currentProjectGroupId,
+        'organization_id': this.currentOrganizationId,
+        'employer_id': this.currentEmployerId
       },
       width: '1000px',
       minHeight: '500px'
@@ -409,11 +438,14 @@ export class DashboardComponent implements OnInit {
   openEmployersPaymentZeroPopUp(): void {
     const dialog = this.dialog.open(EmployersPaymentZeroComponent, {
       data: {
-        'from_date': this.currentFromDate,
-        'to_date': this.currentToDate,
-        'month': this.currentMonth,
+        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
+        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
+        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId
+        'product_type': this.currentProductTypeId,
+        'project_group_id': this.currentProjectGroupId,
+        'organization_id': this.currentOrganizationId,
+        'employer_id': this.currentEmployerId
       },
       width: '1000px',
       minHeight: '500px'
@@ -428,11 +460,14 @@ export class DashboardComponent implements OnInit {
   openOtherPayerPopup(): void {
     const dialog = this.dialog.open(OtherPayerPopupComponent, {
       data: {
-        'from_date': this.currentFromDate,
-        'to_date': this.currentToDate,
-        'month': this.currentMonth,
+        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
+        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
+        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
         'project_id': this.currentProjectId,
-        'product_type': this.currentProductTypeId
+        'product_type': this.currentProductTypeId,
+        'project_group_id': this.currentProjectGroupId,
+        'organization_id': this.currentOrganizationId,
+        'employer_id': this.currentEmployerId
       },
       width: '1000px',
       minHeight: '500px'
