@@ -19,6 +19,7 @@ import { Employer } from '../../../../shared/_models/employer.model';
 import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
 import { Subscription } from 'rxjs';
 import { UserSessionService } from '../../../../shared/_services/http/user-session.service';
+import {GeneralService} from '../../../../shared/_services/http/general.service';
 
 
 
@@ -69,21 +70,22 @@ export class FinanceComponent implements OnInit {
   check: any;
   arrShow: Array<boolean> = new Array<boolean>();
   arrShow2: Array<boolean> = new Array<boolean>();
-
+  banks = [];
   isEstablishingPayment: boolean;
-  estPaymentAmount = 0;
   financialDetails: EmployerFinancialDetails = new EmployerFinancialDetails();
   payEmployers: Employer[];
   hasServerError: boolean;
   sub = new Subscription;
   productTemp: EmployerFinancialProduct;
+  bankBranchesDeposit = [];
 
   constructor(private route: ActivatedRoute,
               public router: Router,
               private EmployerService: EmployerService,
               private notificationService: NotificationService,
               private selectUnit: SelectUnitService,
-              public userSession: UserSessionService) {
+              public userSession: UserSessionService,
+              private generalService: GeneralService) {
   }
 
   ngOnInit() {
@@ -100,6 +102,7 @@ export class FinanceComponent implements OnInit {
     }
 
     fetchItems() {
+      this.loadBanks();
       if (this.selectUnit.currentEmployerID > 0) {
       this.projectGroupId = this.selectUnit.getProjectGroupId();
       this.employerId = this.selectUnit.getEmployerID();
@@ -113,7 +116,7 @@ export class FinanceComponent implements OnInit {
               }
               if (this.financialDetails != null && this.financialDetails.payment_time === 'no_payment') {
                 this.isNoPaymentTime = true;
-                if (this.financialDetails.payment_time_validity === 'month'){
+                if (this.financialDetails.payment_time_validity === 'month') {
                   this.openDatePicker = true;
                 }
               }
@@ -129,6 +132,25 @@ export class FinanceComponent implements OnInit {
         this.arrShow.push(false);
       }
     }
+  }
+  loadBanks(): void {
+    this.generalService.getBanks(true).then(banks => {
+      this.banks = banks;
+      console.log(this.banks);
+    });
+  }
+
+  selectedBankBranch(val?: string): void {
+    const  bankId = this.financialDetails['bank_id'];
+    const  branchId = this.financialDetails['branch_id'];
+    const selectedBank = this.banks.find(bank => {
+      return +bank.id === +bankId;
+    });
+    if (!selectedBank.bank_branches.find( b => {
+      return +b.id === +branchId; })) {
+        this.financialDetails['branch_id'] = 0;
+    }
+      this.bankBranchesDeposit = selectedBank ? selectedBank.bank_branches : [];
   }
   addProductRow() {
     this.productTemp = new EmployerFinancialProduct();
@@ -200,6 +222,9 @@ export class FinanceComponent implements OnInit {
       this.isEstablishingPayment = true;
     } else {
       this.isEstablishingPayment = false;
+      this.financialDetails.est_payment_type = this.paymentTypesItems[0].id;
+      this.financialDetails.est_payment_amount = 0;
+      this.financialDetails.est_ids_count = 0;
     }
   }
   changeIsZero(product, check: boolean){

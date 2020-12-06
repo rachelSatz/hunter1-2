@@ -25,6 +25,7 @@ export class EmployerFinancialDetails {
    min_payment: string;
    is_masav: number;
    no_payment_comment: string;
+   billing_number: string
 
   constructor() {
       this.id = 0;

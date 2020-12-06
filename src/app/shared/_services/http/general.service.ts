@@ -3,8 +3,9 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from './user-session.service';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '../../_models/project.model';
-import {DataTableCriteria} from "../../data-table/classes/data-table-criteria";
-import {DataTableResponse} from "../../data-table/classes/data-table-response";
+import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
+import { DataTableResponse } from '../../data-table/classes/data-table-response';
+import { Bank } from '../../_models/bank.model';
 
 @Injectable({
   providedIn: 'root'
@@ -51,19 +52,17 @@ export class GeneralService  extends BaseHttpService {
       .then(response => response as any)
       .catch(() => null);
   }
-  // NeedToChargeEmployers(): Promise<any> {
-  //   const request = this.getTokenHeader();
-  //   if (criteria) {
-  //     request['params'] = this.setDataTableParams(criteria);
-  //   }
-  //   if (noLimit) {
-  //     request['params'] = {no_limit : noLimit};
-  //   }
-  //   return this.http.get(this.endPoint + '/NeedToChargeEmployers', request)
-  //     .toPromise()
-  //     .then(response => response as DataTableResponse)
-  //     .catch(() => null);
-  // }
+
+  getBanks(withBranches?: boolean): Promise<Bank[]> {
+    const request = this.getTokenHeader();
+    if (withBranches) {
+      request['params'] = { withBranches: withBranches };
+    }
+    return this.http.get(this.endPoint + '/banks', request )
+      .toPromise()
+      .then(response => response as Bank[])
+      .catch(() => []);
+  }
 
   getEmployerComments(objectID: any, employerID: any): Promise<Object[]> {
     return this.http.post(this.apiUrl + '/generals' + '/getComments', {'username': objectID, 'employer':employerID},

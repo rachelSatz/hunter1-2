@@ -7,7 +7,7 @@
   <div class="row mb-4 mt-5">
     <div class="col-6 col-lg-3" *ngIf="financialDetails.pay_employer_relation.employer_id">
     <bd-select [items]="payEmployers" name="pay_employer"
-                placeholder="ח.פ משלם" [(ngModel)]="financialDetails['pay_employer_relation']['employer_id']" #payEmployerModel="ngModel" required ></bd-select>
+                placeholder="ח.פ משלם" [(ngModel)]="financialDetails.pay_employer_relation.employer_id" #payEmployerModel="ngModel" required ></bd-select>
    <p class="alert alert-danger" [@fade]="form.submitted && payEmployerModel.errors ? 'active' : 'inactive'">יש לבחור ח.פ משלם.</p>
     </div>
   </div>
@@ -26,10 +26,7 @@
   <bd-select [items]="paymentTermsItems" #paymentTermsSelect="ngModel" [(ngModel)]="financialDetails.payment_terms" placeholder="תנאי תשלום" name="payment_terms" required></bd-select>
      <p class="alert alert-danger" [@fade]="form.submitted && paymentTermsSelect.errors ? 'active' : 'inactive'">יש לבחור תנאי תשלום.</p>
   </div>
- <div class="col-6 col-lg-3">
- <bd-select [items]="paymentMethodItems" #paymentMethodSelect="ngModel" [(ngModel)]="financialDetails.payment_method" placeholder="אופן תשלום"  name="payment_method" required></bd-select>
-<p class="alert alert-danger" [@fade]="form.submitted && paymentMethodSelect.errors ? 'active' : 'inactive'" >יש לבחור אופן תשלום.</p>
-  </div>
+
 <div class="col-6 col-lg-3">
   <bd-select [items]="taxItems" #taxSelect="ngModel"  [(ngModel)]="financialDetails.tax" placeholder="תשלום מס"  name="tax" required></bd-select>
    <p class="alert alert-danger" [@fade]="form.submitted && taxSelect.errors ? 'active' : 'inactive'">יש לבחור תשלום מס.</p>
@@ -46,6 +43,28 @@
  <input matInput type="text" name="green_invoice_email" [(ngModel)]="financialDetails.green_invoice_email"  placeholder="מייל בחשבונית ירוקה">
  </mat-form-field>
  </div>
+  <div class="row mt-2">
+    <div class="col-6 col-lg-3  mb-4">
+      <bd-select [items]="paymentMethodItems" #paymentMethodSelect="ngModel" [(ngModel)]="financialDetails.payment_method" placeholder="אופן תשלום"  name="payment_method" required></bd-select>
+      <p class="alert alert-danger" [@fade]="form.submitted && paymentMethodSelect.errors ? 'active' : 'inactive'" >יש לבחור אופן תשלום.</p>
+    </div>
+    <mat-form-field class="col-6 col-lg-3" *ngIf="financialDetails.payment_method === paymentMethodItems[2].id">
+      <input matInput type="text" name="billing_number" [(ngModel)]="financialDetails.billing_number" placeholder="מס' חיוב" minlength="5" maxlength="5">
+      <mat-error>מס' חיוב צריך לכלול 5 תווים</mat-error>
+    </mat-form-field>
+    <div class="bd-select-container" *ngIf="financialDetails.payment_method === paymentMethodItems[3].id">
+      <bd-select name="bank_id"  [items]="banks" #bankIDSelect="ngModel" [(ngModel)]="financialDetails.bank_id" placeholder="בנק" (onSelect)="selectedBankBranch()" required></bd-select>
+      <mat-error [@fade]="bankIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+    </div>
+    <div class="mx-3 bd-select-container" *ngIf="financialDetails.payment_method === paymentMethodItems[3].id">
+      <bd-select name="branch_id"  [items]="bankBranchesDeposit" #branchIDSelect="ngModel" [(ngModel)]="financialDetails.branch_id"  placeholder="סניף" required></bd-select>
+      <mat-error [@fade]="branchIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
+    </div>
+    <mat-form-field *ngIf="financialDetails.payment_method === paymentMethodItems[3].id">
+      <input matInput type="text" name="number" placeholder="מס' חשבון" [(ngModel)]="financialDetails.number" maxlength="9" pattern="^\d{5,9}$" required>
+      <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
+    </mat-form-field>
+  </div>
  <div class="row">
  <mat-form-field class="col-6 col-lg-3">
    <input matInput type="text" name="credit_card_last_digits" [(ngModel)]="financialDetails.credit_card_last_digits" placeholder="ספרות אחרונות של כרטיס אשראי">
@@ -53,6 +72,8 @@
  <mat-form-field class="col-6 col-lg-3">
    <input matInput type="text" name="min_payment"  [(ngModel)]="financialDetails.min_payment" placeholder="סכום מינימום לתשלום">
  </mat-form-field>
+
+
 </div>
 
  <div class="row mb-3">
@@ -86,15 +107,15 @@
  <div class="row">
   <mat-checkbox [checked]="financialDetails.est_payment_amount> 0 ? true : false" name="establishing_payment" (change)="addEstablishing($event.checked)"  >תשלום הקמה</mat-checkbox>
  </div>
- <div class="row mt-2 mb-4" *ngIf="isEstablishingPayment || estPaymentAmount > 0">
+ <div class="row mt-2 mb-4" *ngIf="isEstablishingPayment || financialDetails.est_payment_amount> 0 ">
  <div class="d-flex align-items-center">
    <div class="bd-select-container">
  <bd-select [items]="paymentTypesItems" #paymentTypesSelect="ngModel" [(ngModel)]="financialDetails.est_payment_type" placeholder="שיטת חיוב"  name="est_payment_type"  required></bd-select>
    </div>
-   <mat-form-field class="mr-3">
+   <mat-form-field class="mr-3 mt-4">
      <input matInput type="text" name="est_payment_amount" [(ngModel)]="financialDetails.est_payment_amount" placeholder="סכום לתשלום" required>
   </mat-form-field>
-   <mat-form-field class="mr-3">
+   <mat-form-field class="mr-3 mt-4">
     <input matInput type="text" name="est_ids_count" [(ngModel)]="financialDetails.est_ids_count" placeholder="כמות ת.ז." required>
   </mat-form-field>
   </div>
@@ -141,18 +162,19 @@
   <div class="row">
    <mat-checkbox [checked]="displayCheckedAdditional(product, index1)" name="additional_payment" (change)="showAdditionalPayment(index1, $event.checked)">תוספת קבועה לתשלום</mat-checkbox>
   </div>
+  <div class="row mt-4" *ngIf="product.additional_payment_amount > 0 || arrShow[index1]" >
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput type="text" [name]="'additional_payment_amount' + index1" [(ngModel)]="product.additional_payment_amount" placeholder="סכום עמלה" required>
+    </mat-form-field>
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput type="text" [name]="'additional_payment_desc' + index1" [(ngModel)]="product.additional_payment_desc" placeholder="תיאור עמלה" required>
+    </mat-form-field>
+  </div>
   <div class="row">
       <mat-checkbox [checked]="product.exception_amount" name="exception_amount" (change)="showAdditionalException(index1, $event.checked)">חיוב חריגים</mat-checkbox>
 </div>
- <div class="row mt-2 mb-4" *ngIf="arrShow[index1]" >
-   <mat-form-field class="col-6 col-lg-3">
-    <input matInput type="text" [name]="'additional_payment_amount' + index1" [(ngModel)]="product.additional_payment_amount" placeholder="סכום עמלה" required>
-  </mat-form-field>
-     <mat-form-field class="col-6 col-lg-3">
-  <input matInput type="text" [name]="'additional_payment_desc' + index1" [(ngModel)]="product.additional_payment_desc" placeholder="תיאור עמלה" required>
-     </mat-form-field>
-</div>
-<div class="row mt-2 mb-4" *ngIf="arrShow2[index1]" >
+
+<div class="row mt-4 mb-4" *ngIf="product.exception_amount || arrShow2[index1]" >
   <mat-form-field class="col-6 col-lg-3">
     <input matInput type="text" [name]="'exception_amount' + index1" [(ngModel)]="product.exception_amount" placeholder="תעריף חריגים" required>
   </mat-form-field>
