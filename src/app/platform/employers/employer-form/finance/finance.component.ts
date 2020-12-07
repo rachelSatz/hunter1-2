@@ -19,6 +19,7 @@ import { Employer } from '../../../../shared/_models/employer.model';
 import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
 import { Subscription } from 'rxjs';
 import { UserSessionService } from '../../../../shared/_services/http/user-session.service';
+import {GeneralService} from '../../../../shared/_services/http/general.service';
 
 
 
@@ -68,20 +69,23 @@ export class FinanceComponent implements OnInit {
   displayMasav: boolean;
   check: any;
   arrShow: Array<boolean> = new Array<boolean>();
+  arrShow2: Array<boolean> = new Array<boolean>();
+  banks = [];
   isEstablishingPayment: boolean;
-  estPaymentAmount = 0;
   financialDetails: EmployerFinancialDetails = new EmployerFinancialDetails();
   payEmployers: Employer[];
   hasServerError: boolean;
   sub = new Subscription;
   productTemp: EmployerFinancialProduct;
+  bankBranchesDeposit = [];
 
   constructor(private route: ActivatedRoute,
               public router: Router,
               private EmployerService: EmployerService,
               private notificationService: NotificationService,
               private selectUnit: SelectUnitService,
-              public userSession: UserSessionService) {
+              public userSession: UserSessionService,
+              private generalService: GeneralService) {
   }
 
   ngOnInit() {
@@ -90,7 +94,7 @@ export class FinanceComponent implements OnInit {
         this.fetchItems();
       }
     ));
-    this.EmployerService.getEmployers()
+    this.EmployerService.getPayEmployers()
       .then(res => { this.payEmployers = res['data'];
         console.log(this.payEmployers);
         this.fetchItems(); });
@@ -98,6 +102,7 @@ export class FinanceComponent implements OnInit {
     }
 
     fetchItems() {
+      this.loadBanks();
       if (this.selectUnit.currentEmployerID > 0) {
       this.projectGroupId = this.selectUnit.getProjectGroupId();
       this.employerId = this.selectUnit.getEmployerID();
@@ -111,7 +116,7 @@ export class FinanceComponent implements OnInit {
               }
               if (this.financialDetails != null && this.financialDetails.payment_time === 'no_payment') {
                 this.isNoPaymentTime = true;
-                if (this.financialDetails.payment_time_validity === 'month'){
+                if (this.financialDetails.payment_time_validity === 'month') {
                   this.openDatePicker = true;
                 }
               }
@@ -128,13 +133,32 @@ export class FinanceComponent implements OnInit {
       }
     }
   }
+  loadBanks(): void {
+    this.generalService.getBanks(true).then(banks => {
+      this.banks = banks;
+      console.log(this.banks);
+    });
+  }
+
+  selectedBankBranch(val?: string): void {
+    const  bankId = this.financialDetails['bank_id'];
+    const  branchId = this.financialDetails['branch_id'];
+    const selectedBank = this.banks.find(bank => {
+      return +bank.id === +bankId;
+    });
+    if (!selectedBank.bank_branches.find( b => {
+      return +b.id === +branchId; })) {
+        this.financialDetails['branch_id'] = 0;
+    }
+      this.bankBranchesDeposit = selectedBank ? selectedBank.bank_branches : [];
+  }
   addProductRow() {
     this.productTemp = new EmployerFinancialProduct();
     this.productTemp.financial_payments = new Array<EmployerFinancialPayments>(1);
     this.productTemp.financial_payments[0] = new EmployerFinancialPayments();
     this.financialDetails.financial_product.push(this.productTemp);
     this.arrShow.push(false);
-    console.log(this.arrShow);
+    this.arrShow2.push(false);
   }
   deleteProductRow(index: number) {
     this.financialDetails.financial_product.splice(index, 1);
@@ -153,6 +177,13 @@ export class FinanceComponent implements OnInit {
       return false;
     }
   }
+  displayCheckedException(product: any): boolean {
+    if (product.exception_amount > 0 ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   showAdditionalPayment(index: number, isChecked: boolean): void {
     if (isChecked) {
       this.rowIndex = index;
@@ -161,6 +192,15 @@ export class FinanceComponent implements OnInit {
       this.arrShow[index] = false;
       this.financialDetails.financial_product[index].additional_payment_amount = 0;
       this.financialDetails.financial_product[index].additional_payment_desc = '';
+    }
+  }
+  showAdditionalException(index: number, isChecked: boolean): void {
+    if (isChecked) {
+      this.rowIndex = index;
+      this.arrShow2[index] = true;
+    } else {
+      this.arrShow2[index] = false;
+      this.financialDetails.financial_product[index].exception_amount = 0;
     }
   }
   showNoPaymentTime(): void {
@@ -182,6 +222,9 @@ export class FinanceComponent implements OnInit {
       this.isEstablishingPayment = true;
     } else {
       this.isEstablishingPayment = false;
+      this.financialDetails.est_payment_type = this.paymentTypesItems[0].id;
+      this.financialDetails.est_payment_amount = 0;
+      this.financialDetails.est_ids_count = 0;
     }
   }
   changeIsZero(product, check: boolean){

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { GeneralService } from '../../shared/_services/http/general.service';
-import { DatePipe } from '@angular/common';
+import {GeneralService} from '../../shared/_services/http/general.service';
+import { DatePipe } from '@angular/common'
 import { FormControl, Validators } from '@angular/forms';
+import { EstPaymentFormComponent} from './est-payment-form/est-payment-form.component';
+import { NewEmployersFormComponent} from './new-employers-form/new-employers-form.component';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EstPaymentFormComponent } from './est-payment-form/est-payment-form.component';
-import { NewEmployersFormComponent } from './new-employers-form/new-employers-form.component';
 import { EmployersFormComponent } from './employers-form/employers-form.component';
 import { Subscription } from 'rxjs/Subscription';
 import { OtherPayerPopupComponent } from './other-payer-popup/other-payer-popup.component';
@@ -18,7 +18,7 @@ import { SelectUnitService } from '../../shared/_services/select-unit.service';
 import { UserSessionService } from '../../shared/_services/http/user-session.service';
 import { fade, slideInOut } from '../../shared/_animations/animation';
 import { PRODUCT_TYPES } from '../../shared/_models/employer-financial-details.model';
-import {NeedToChargeEmployersComponent} from "./need-to-charge-employers/need-to-charge-employers.component";
+import { NeedToChargeEmployersComponent } from "./need-to-charge-employers/need-to-charge-employers.component";
 import { NotificationService } from '../../shared/_services/notification.service';
 import { OrganizationService } from '../../shared/_services/http/organization.service';
 import { EmployerService } from '../../shared/_services/http/employer.service';
@@ -129,7 +129,7 @@ export class DashboardComponent implements OnInit {
             this.employerId = null;
           }
         });
-      this.EmployerService.getEmployersByProjectId(+this.projectId).then(res => {
+      this.EmployerService.getEmployersByProjectId(+this.projectId).then(res =>{
         this.employers = res['data'];
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
@@ -345,6 +345,7 @@ export class DashboardComponent implements OnInit {
     }
     }));
   }
+
   openChargedEmployerPopUp(): void{
     const dialog = this.dialog.open(ChargedEmployersFormComponent, {
       data: {
