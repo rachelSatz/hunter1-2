@@ -129,7 +129,7 @@ export class DashboardComponent implements OnInit {
             this.employerId = null;
           }
         });
-      this.EmployerService.getEmployersByProjectId(+this.projectId).then(res =>{
+      this.EmployerService.getEmployersByProjectId(+this.projectId).then(res => {
         this.employers = res['data'];
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
@@ -323,7 +323,7 @@ export class DashboardComponent implements OnInit {
     this.newDate = new Date(date);
     return this.days[this.newDate.getDay()];
   }
-  openEmployersForm(payment_method: string): void{
+  openEmployersForm(payment_method: string): void {
     const dialog = this.dialog.open(EmployersFormComponent, {
       data: {
         'payment_method': payment_method,

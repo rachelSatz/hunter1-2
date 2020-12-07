@@ -134,7 +134,7 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => null);
   }
 
-  getInvoiceDetails(invoice_id: number): Promise<Object>{
+  getInvoiceDetails(invoice_id: number): Promise<Object> {
     return this.http.get(this.endPoint + '/getInvoiceDetails?id=' + invoice_id, this.getTokenHeader())
       .toPromise()
       .then(response => response as Object)
@@ -219,13 +219,24 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => []);
   }
 
-  createProactiveInvoice(conditions): Promise<any>{
-    return this.http.post(this.endPoint+ '/createProactiveInvoice', conditions, this.getTokenHeader())
+  createProactiveInvoice(conditions): Promise<any> {
+    return this.http.post(this.endPoint + '/createProactiveInvoice', conditions, this.getTokenHeader())
       .toPromise()
       .then(response => response as any)
       .catch(() => false);
 
   }
+  downloadCreditCardInvoicesToExcel(criteria: DataTableCriteria, tax: boolean): Promise<any> {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria, tax);
+    }
+    return this.http.get(this.endPoint + '/downloadCreditCardInvoicesToExcel', request).toPromise()
+      .then(response => response as string)
+      .catch(() => null);
+  }
 }
+
 
 

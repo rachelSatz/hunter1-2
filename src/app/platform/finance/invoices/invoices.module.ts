@@ -4,7 +4,7 @@ import { InvoicesComponent } from './invoices.component';
 import { RouterModule, Routes } from '@angular/router';
 import { DataTableModule } from '../../../shared/data-table/data-table.module';
 import { BdSelectModule } from '../../../../assets/js/bd-select/bd-select.module';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -26,6 +26,7 @@ import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 import { SideFiltersComponent } from '../../../shared/data-table/side-filters/side-filters.component';
 import { PlatformComponent } from '../../platform.component';
 import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
+import { CreditCardExelComponent } from './credit-card-exel/credit-card-exel.component';
 
 
 const routes: Routes = [
@@ -44,7 +45,8 @@ const routes: Routes = [
     ReportsFormComponent,
     InvoiceDetailsFormComponent,
     RemarksFormComponent,
-    ProactiveInvoiceFormComponent
+    ProactiveInvoiceFormComponent,
+    CreditCardExelComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +63,8 @@ const routes: Routes = [
     MatDividerModule,
     RouterModule.forChild(routes),
     MatRadioModule,
-    MatDialogModule
+    MatDialogModule,
+    ReactiveFormsModule
   ],
   entryComponents: [
      EmployersFinanceExcelComponent,
@@ -71,8 +74,9 @@ const routes: Routes = [
      TaxOnlyInvoiceFormComponent,
      ReportsFormComponent,
      InvoiceDetailsFormComponent,
-      RemarksFormComponent,
-     ProactiveInvoiceFormComponent
+     RemarksFormComponent,
+     ProactiveInvoiceFormComponent,
+     CreditCardExelComponent
   ],
   providers: [
     InvoiceService, SideFiltersComponent, PlatformComponent

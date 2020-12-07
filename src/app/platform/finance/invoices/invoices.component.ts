@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableComponent } from '../../../shared/data-table/data-table.component';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { ERROR_STATUS, Invoice, STATUS, TYPES } from '../../../shared/_models/invoice.model';
 import { PAYMENT_METHOD } from '../../../shared/_models/employer-financial-details.model';
 import { UserSessionService } from '../../../shared/_services/http/user-session.service';
@@ -21,6 +21,7 @@ import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-deta
 import * as FileSaver from 'file-saver';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
+import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.component';
 
 @Component({
   selector: 'app-invoices',
@@ -30,6 +31,7 @@ import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactiv
 export class InvoicesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
   items: any;
+  tax: boolean;
   sub = new Subscription;
   types = TYPES;
   projects: Project[] = [];
@@ -44,7 +46,7 @@ export class InvoicesComponent implements OnInit {
   error_status = Object.keys(ERROR_STATUS).map(function(e) {
     return { id: e, name: ERROR_STATUS[e] };
   });
-  filters = {}
+  filters = {};
   permissionsType = this.userSession.getPermissionsType('finance');
   readonly columns  = [
     { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
@@ -66,6 +68,7 @@ export class InvoicesComponent implements OnInit {
   constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
               private dialog: MatDialog,
+              private router: Router,
               private notificationService: NotificationService,
               private helpers: HelpersService,
               private invoiceService: InvoiceService,
@@ -107,7 +110,7 @@ export class InvoicesComponent implements OnInit {
   fetchItems() {
     this.sub = this.route.params.subscribe(v => {
       this.setFilters(v);
-    })
+    });
     this.helpers.setPageSpinner(true);
     if (this.filters['created_at[from]']) {
       this.dataTable.criteria.filters = this.filters;
@@ -291,4 +294,44 @@ export class InvoicesComponent implements OnInit {
       this.fetchItems();
     }));
   }
+
+  openCreditCardInvoices(): void {
+    const dialog = this.dialog.open(CreditCardExelComponent, {
+      width: '450px'
+    });
+    this.sub.add(dialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.SelectUnitService.setActiveUrl('tax');
+        console.log(result);
+        this.tax = result;
+        this.downloadCreditCardInvoices();
+      } else {
+        console.log(result);
+        this.notificationService.error('לא ניתן להוריד את הקובץ');
+      }
+    }));
+  }
+  downloadCreditCardInvoices(): void {
+    this.invoiceService.downloadCreditCardInvoicesToExcel(this.dataTable.criteria, this.tax).then(response => {
+      if (response['message'] === 'error') {
+        this.notificationService.error('לא ניתן להוריד את הקובץ');
+      } else {
+        const byteCharacters = atob(response['message']['data']);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+        const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
+        FileSaver.saveAs(blob, fileName);
+        this.spin = false;
+        this.notificationService.success('הקובץ הופק בהצלחה');
+      }
+    });
+  }
+
+
+
+
 }
