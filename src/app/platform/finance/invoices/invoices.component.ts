@@ -254,10 +254,6 @@ export class InvoicesComponent implements OnInit {
     this.invoiceService.downloadExcel(invoiceId).then(response => {
       if (response['message'] === 'no_employees') {
         this.notificationService.info('לא חויבו עובדים בחשבונית');
-      } else if (response['message'] === 'error') {
-        this.notificationService.error('ארעה שגיאה');
-      } else if (response['message'] === 'establishing_invoice') {
-        this.notificationService.info('חשבונית הקמה');
       } else {
         const byteCharacters = atob(response['message']['data']);
         const byteNumbers = new Array(byteCharacters.length);
@@ -266,13 +262,8 @@ export class InvoicesComponent implements OnInit {
         }
         const byteArray = new Uint8Array(byteNumbers);
         const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-        if (item.green_invoice_document !== null && item.green_invoice_document.number !== null
-          && item.green_invoice_document.number !== '') {
-          this.fileName = 'פירוט עובדים בחשבונית מספר - '  + item.green_invoice_document.number + '.xlsx';
-        } else {
-          this.fileName =  'פירוט עובדים בחשבונית'  + '.xlsx';
-        }
-        FileSaver.saveAs(blob, this.fileName);
+        const fileName = 'פירוט עובדים בחשבוניות-' + Date.now().toString() + '.xlsx';
+        FileSaver.saveAs(blob, fileName);
         this.spin = false;
         this.notificationService.success('הקובץ הופק בהצלחה');
       }

@@ -216,35 +216,36 @@ export class DocumentsComponent implements OnInit {
       this.fetchItems();
     }));
   }
+  //
+  // downloadEmployeesExcel(invoiceId, item): void {
+  //   this.invoiceService.downloadExcel(invoiceId).then(response => {
+  //     if (response['message'] === 'no_employees') {
+  //       this.notificationService.info('לא חויבו עובדים בחשבונית');
+  //     } else if (response['message'] === 'error') {
+  //       this.notificationService.error('ארעה שגיאה');
+  //     } else if (response['message'] === 'establishing_invoice') {
+  //       this.notificationService.info('חשבונית הקמה');
+  //     } else {
+  //       const byteCharacters = atob(response['message']['data']);
+  //       const byteNumbers = new Array(byteCharacters.length);
+  //       for (let i = 0; i < byteCharacters.length; i++) {
+  //         byteNumbers[i] = byteCharacters.charCodeAt(i);
+  //       }
+  //       const byteArray = new Uint8Array(byteNumbers);
+  //       const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+  //       if (item.green_invoice_document !== null && item.green_invoice_document.number !== null
+  //         && item.green_invoice_document.number !== '') {
+  //         this.fileName = 'פירוט עובדים בחשבונית מספר - '  + item.green_invoice_document.number + '.xlsx';
+  //       } else {
+  //         this.fileName =  'פירוט עובדים בחשבונית'  + '.xlsx';
+  //       }
+  //       FileSaver.saveAs(blob, this.fileName);
+  //       this.spin = false;
+  //       this.notificationService.success('הקובץ הופק בהצלחה');
+  //     }
+  //   });
+  // }
 
-  downloadEmployeesExcel(invoiceId, item): void {
-    this.invoiceService.downloadExcel(invoiceId).then(response => {
-      if (response['message'] === 'no_employees') {
-        this.notificationService.info('לא חויבו עובדים בחשבונית');
-      } else if (response['message'] === 'error') {
-        this.notificationService.error('ארעה שגיאה');
-      } else if (response['message'] === 'establishing_invoice') {
-        this.notificationService.info('חשבונית הקמה');
-      } else {
-        const byteCharacters = atob(response['message']['data']);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-        if (item.green_invoice_document !== null && item.green_invoice_document.number !== null
-          && item.green_invoice_document.number !== '') {
-          this.fileName = 'פירוט עובדים בחשבונית מספר - '  + item.green_invoice_document.number + '.xlsx';
-        } else {
-          this.fileName =  'פירוט עובדים בחשבונית'  + '.xlsx';
-        }
-        FileSaver.saveAs(blob, this.fileName);
-        this.spin = false;
-        this.notificationService.success('הקובץ הופק בהצלחה');
-      }
-    });
-  }
   ShowRemarks(item: Object): void {
     this.dialog.open(RemarksFormComponent, {
       data: item,
