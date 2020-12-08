@@ -71,20 +71,21 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.helpers.setPageSpinner(true);
-    this.selectUnit.setEmployerID(this.route.snapshot.params.id);
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        this.initForm();
-      }
-    ));
     if (this.route.snapshot.data.employer) {
        this.employer = this.route.snapshot.data.employer;
-       console.log(this.employer);
+       this.selectUnit.setOrganizationID(this.employer['org_id']);
+       this.selectUnit.setEmployerID(this.route.snapshot.params.id);
      }
      if (!this.selectUnit.getActiveEmployerUrl()) {
        this.selectUnit.setActiveEmployerUrl('finance');
      }
     this.setStatus();
     this.initForm();
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+        // this.initForm();
+       // this.router.navigate(['platform', 'employers']);
+      }
+    ));
   }
 
 

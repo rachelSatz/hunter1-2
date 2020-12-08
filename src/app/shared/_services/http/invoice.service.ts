@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseHttpService } from './base-http.service';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
-import { InvoiceStatus, ManualInvoice } from '../../_models/invoice.model';
+import { ManualInvoice } from '../../_models/invoice.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,9 @@ export class InvoiceService extends BaseHttpService {
     if (criteria) {
       if (criteria.filters['status']) {
         criteria.filters['status'] = criteria.filters['status'].toString();
+      }
+      if (criteria.filters['project_name']) {
+        criteria.filters['project_name'] = criteria.filters['project_name'].toString();
       }
       request['params'] = this.setDataTableParams(criteria);
     }
@@ -219,12 +222,19 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => []);
   }
 
-  createProactiveInvoice(conditions): Promise<any>{
-    return this.http.post(this.endPoint+ '/createProactiveInvoice', conditions, this.getTokenHeader())
+  createProactiveInvoice(conditions): Promise<any> {
+    return this.http.post(this.endPoint + '/createProactiveInvoice', conditions, this.getTokenHeader())
       .toPromise()
       .then(response => response as any)
       .catch(() => false);
 
+  }
+  createMasav(invoiceIds: number[], criteria: DataTableCriteria): Promise<any> {
+    return this.http.post(this.endPoint + '/createMasav',
+      { invoiceIds: invoiceIds, criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response)
+      .catch(() => null);
   }
 }
 

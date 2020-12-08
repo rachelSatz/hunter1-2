@@ -7,6 +7,8 @@ import { SelectUnitService } from '../../shared/_services/select-unit.service';
 import { PlatformComponent } from '../platform.component';
 import { HelpersService } from '../../shared/_services/helpers.service';
 import { UserSessionService } from '../../shared/_services/http/user-session.service';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-employers',
@@ -21,6 +23,7 @@ export class EmployersComponent implements OnInit {
     { name: 'name', label: 'שם מעסיק'},
     { name: 'is_active', label: ' סטטוס' , searchable: false},
   ];
+  sub = new Subscription;
   items: any[] = [{id: 1, identifier: '111', name: 'עמותת עטלף'}, {id: 2, identifier: '222', name: 'מכבי ביתי'}];
   permissionsType = this.userSession.getPermissionsType('employers');
 
@@ -36,7 +39,9 @@ export class EmployersComponent implements OnInit {
   ngOnInit() {
     this.SelectUnitService.setActiveUrl('employers');
     this.fetchItems();
+
   }
+
   fetchItems(): void {
     this.EmployerService.getAllEmployers(this.dataTable.criteria, this.dataTable.isActive)
       .then(response => {

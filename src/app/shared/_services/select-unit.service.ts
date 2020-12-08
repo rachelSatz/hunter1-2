@@ -23,7 +23,7 @@ export class SelectUnitService {
 
   setActiveEmployerUrl(activeEmployerUrl: any): void {
     sessionStorage.setItem('activeEmployerUrl', JSON.stringify(activeEmployerUrl));
-    this.unitSubject.next(activeEmployerUrl);
+    // this.unitSubject.next(activeEmployerUrl);
   }
 
   getActiveEmployerUrl(): any {

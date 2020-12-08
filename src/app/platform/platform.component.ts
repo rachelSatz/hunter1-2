@@ -55,8 +55,9 @@ export class PlatformComponent implements OnInit {
     }
 
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-       this.employerId = this.selectUnit.getEmployerID() ? this.selectUnit.getEmployerID() : 1 ;
-        this.ref.detectChanges();
+       this.organizationId = this.selectUnit.getEmployerID() ? this.selectUnit.getOrganizationID() : 1;
+       this.employerId = this.selectUnit.getEmployerID() ? this.selectUnit.getEmployerID() : 1;
+       this.ref.detectChanges();
       }
     ));
   }
@@ -121,8 +122,6 @@ export class PlatformComponent implements OnInit {
         }
       });
     }
-
-
   }
   navigate(link, subLink) {
         this.router.navigate(['/platform', link, subLink]);
