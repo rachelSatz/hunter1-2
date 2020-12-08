@@ -68,8 +68,8 @@ export class EmployersFormComponent implements OnInit {
         });
     }
   }
-  openEmployerForm(employer_id: number): void{
-    console.log(employer_id)
+  openEmployerForm(employer_id: number): void {
+    console.log(employer_id);
     this.dialogRef.close(employer_id);
 }
 }

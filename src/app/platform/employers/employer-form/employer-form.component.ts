@@ -36,6 +36,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   formDetails = false;
   financialDetails: EmployerFinancialDetails;
   sub = new Subscription;
+  flag: boolean;
   permissionsType = this.userSession.getPermissionsType('employers');
   currencyItems = Object.keys(CURRENCY).map(function(e) {
     return { id: e, name: CURRENCY[e] };
@@ -83,9 +84,11 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     this.initForm();
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
         // this.initForm();
-       // this.router.navigate(['platform', 'employers']);
+      // this.router.navigate(['platform', 'employers']);
+
       }
     ));
+    this.flag = true;
   }
 
 

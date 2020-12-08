@@ -13,10 +13,13 @@
           <button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>
           <button mat-menu-item (click)="openOnlyTaxInvoice()">חשבונית מס</button>
           <button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>
+          <button mat-menu-item (click)="openCreditCardInvoices()"> הורדה לאקסל כרטיסי אשראי</button>
           <button mat-menu-item (click)="openReports()">דו"חות</button>
         </mat-menu>
       </div>
     </div>
+  </div>
+  <div>
   </div>
   <tr *ngFor="let item of dataTable.items; let i=index;"  [ngClass]="{'highlight': item.error !== null}" style="height: 75px;">
     <td class="check-column"  [ngClass]="{'white': i%2 === 0}">

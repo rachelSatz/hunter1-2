@@ -323,20 +323,7 @@ export class DashboardComponent implements OnInit {
     this.newDate = new Date(date);
     return this.days[this.newDate.getDay()];
   }
-
-  // openOtherPayerPopup(): void{
-  //   // this.dialog.open(OtherPayerPopupComponent, {
-  //   //   data: {
-  //   //     'from_date': this.currentFromDate,
-  //   //     'to_date': this.currentToDate,
-  //   //     'month': this.month,
-  //   //     'project_id': this.projectId
-  //   //   },
-  //   //   width: '1000px',
-  //   //   minHeight: '500px'
-  //   // });
-
-  openEmployersForm(payment_method: string): void{
+  openEmployersForm(payment_method: string): void {
     const dialog = this.dialog.open(EmployersFormComponent, {
       data: {
         'payment_method': payment_method,

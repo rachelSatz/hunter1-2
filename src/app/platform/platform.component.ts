@@ -102,6 +102,7 @@ export class PlatformComponent implements OnInit {
           }
         });
     }
+
   }
   loadEmployers(organizationId): void {
     if (organizationId !== this.currOrganizationId) {
@@ -121,6 +122,9 @@ export class PlatformComponent implements OnInit {
           this.selectUnit.setEmployerID(this.employerId);
         }
       });
+    }
+    if (this.route['_routerState'].snapshot.url.includes('form')) {
+      this.router.navigate(['platform/employers']);
     }
   }
   navigate(link, subLink) {

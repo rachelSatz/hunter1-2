@@ -137,7 +137,7 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => null);
   }
 
-  getInvoiceDetails(invoice_id: number): Promise<Object>{
+  getInvoiceDetails(invoice_id: number): Promise<Object> {
     return this.http.get(this.endPoint + '/getInvoiceDetails?id=' + invoice_id, this.getTokenHeader())
       .toPromise()
       .then(response => response as Object)
@@ -204,7 +204,7 @@ export class InvoiceService extends BaseHttpService {
   downloadExcel(invoiceId: number): Promise<string> {
     return this.http.post(this.endPoint + '/downloadEmployeesDetails', {'invoiceId': invoiceId}, this.getTokenHeader())
       .toPromise()
-      .then(response => response)
+      .then(response => response as string)
       .catch(() => null);
   }
 
@@ -231,11 +231,22 @@ export class InvoiceService extends BaseHttpService {
   }
   createMasav(invoiceIds: number[], criteria: DataTableCriteria): Promise<any> {
     return this.http.post(this.endPoint + '/createMasav',
-      { invoiceIds: invoiceIds, criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
+      {invoiceIds: invoiceIds, criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
-      .then(response => response)
+      .then(response => response);
+  }
+
+  downloadCreditCardInvoicesToExcel(criteria: DataTableCriteria, tax: boolean): Promise<any> {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria, tax);
+    }
+    return this.http.get(this.endPoint + '/downloadCreditCardInvoicesToExcel', request).toPromise()
+      .then(response => response as string)
       .catch(() => null);
   }
 }
+
 
 
