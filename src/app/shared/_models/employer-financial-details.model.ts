@@ -25,7 +25,9 @@ export class EmployerFinancialDetails {
    min_payment: string;
    is_masav: number;
    no_payment_comment: string;
-   billing_number: string
+   billing_number: string;
+   agreement_start_date: Date;
+   automatic_billing: boolean;
 
   constructor() {
       this.id = 0;
@@ -59,6 +61,11 @@ export class EmployerFinancialPayments {
   payment_type: string;
   payment_amount: string;
   ids_count: string;
+
+  constructor() {
+    this.payment_amount = '1';
+    this.ids_count = '1';
+  }
 }
 
 export enum PAYMENT_TERMS {

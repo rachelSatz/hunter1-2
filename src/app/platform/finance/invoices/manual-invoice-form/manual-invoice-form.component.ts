@@ -43,6 +43,7 @@ export class ManualInvoiceFormComponent implements OnInit {
     { name: 'payment_amount', label: 'מחיר ליחידה' , searchable: false},
     { name: 'total_amount', label: 'סה"כ' , searchable: false},
   ];
+  update_employees = true;
 
   constructor(private employerService: EmployerService,
               private invoiceService: InvoiceService,
@@ -50,8 +51,7 @@ export class ManualInvoiceFormComponent implements OnInit {
               private notificationService: NotificationService) { }
 
   ngOnInit() {
-    this.employerService.getEmployers().then(
-      response => this.employers = response['data']);
+
   }
   saveInvoiceDetail(invoiceDetail: ManualInvoiceDetails, index: number): void {
     if (invoiceDetail !== null) {
@@ -125,7 +125,8 @@ export class ManualInvoiceFormComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      this.invoiceService.createManualInvoice(this.manualInvoice).then(response => {
+      console.log(this.update_employees);
+      this.invoiceService.createManualInvoice(this.manualInvoice, this.update_employees).then(response => {
         this.message = response['message'];
         if (response['message'] !== 'success') {
           this.hasServerError = true;

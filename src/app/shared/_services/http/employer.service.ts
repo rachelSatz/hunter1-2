@@ -5,6 +5,9 @@ import { UserSessionService } from './user-session.service';
 import { EmployerFinancialDetails } from '../../_models/employer-financial-details.model';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
+import { Observable } from 'rxjs';
+import { Employer } from '../../_models/employer.model';
+import 'rxjs/Rx';
 
 @Injectable({
   providedIn: 'root'
@@ -27,20 +30,17 @@ export class EmployerService extends BaseHttpService {
   }
 
   getPayEmployers(): Promise<any> {
-    const request = this.getTokenHeader();
-    return this.http.get(this.endPoint + '/pay_employer_list', request)
+    return this.http.get(this.endPoint + '/pay_employer_list',  this.getTokenHeader())
       .toPromise()
       .then(response => response as any)
       .catch(() => null);
   }
 
-  getEmployers(): Promise<any> {
-    const request = this.getTokenHeader();
-    return this.http.get(this.endPoint + '/employer_list', request)
-      .toPromise()
-      .then(response => response as any)
-      .catch(() => null);
+  getEmployers(): Observable<Employer[]> {
+    return this.http.get(this.endPoint + '/employer_list', this.getTokenHeader())
+      .map(response => response as Employer[] );
   }
+
   getEmployersByProjectGroupId(projectGroupId: number): Promise<any> {
     const request = this.getTokenHeader();
     request['params'] = {};

@@ -1,23 +1,23 @@
 
-<app-data-table tableName=" " [columns]="columns" [hasActionsSearch]="false" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
+<app-data-table tableName=" " [columns]="columns"  [hasActionsSearch]="false" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
                 [hasActionsHeader]="true">
 
-  <div class="table-header mb-4" *ngIf="permissionsType">
-    <div class="row mr-1">
-      <div class="ml-3 mb-4 d-flex mr-auto">
-        <button [matMenuTriggerFor]="menu" class="btn pink-btn">פעולות</button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="openProactiveInvoice()">חשבון יזום </button>
-          <button mat-menu-item (click)="openManualInvoice()">חשבון ידני</button>
-          <button mat-menu-item (click)="openTaxInvoice()">חשבונית מס/קבלה</button>
-          <button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>
-          <button mat-menu-item (click)="openOnlyTaxInvoice()">חשבונית מס</button>
-          <button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>
-          <button mat-menu-item (click)="openReports()">דו"חות</button>
-        </mat-menu>
-      </div>
-    </div>
-  </div>
+  <!--<div class="table-header mb-4" *ngIf="permissionsType">-->
+    <!--<div class="row mr-1">-->
+      <!--<div class="ml-3 mb-4 d-flex mr-auto">-->
+        <!--<button [matMenuTriggerFor]="menu" class="btn pink-btn">פעולות</button>-->
+        <!--<mat-menu #menu="matMenu">-->
+          <!--<button mat-menu-item (click)="openProactiveInvoice()">חשבון יזום </button>-->
+          <!--<button mat-menu-item (click)="openManualInvoice()">חשבון ידני</button>-->
+          <!--<button mat-menu-item (click)="openTaxInvoice()">חשבונית מס/קבלה</button>-->
+          <!--<button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>-->
+          <!--<button mat-menu-item (click)="openOnlyTaxInvoice()">חשבונית מס</button>-->
+          <!--<button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>-->
+          <!--<button mat-menu-item (click)="openReports()">דו"חות</button>-->
+        <!--</mat-menu>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
   <tr *ngFor="let item of dataTable.items; let i=index" [ngClass]="{'highlight': item.error !== null}">
     <td class="check-column" [ngClass]="{'white': i%2 === 0}">
       <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableComponent } from '../../../shared/data-table/data-table.component';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ERROR_STATUS, Invoice, STATUS, TYPES } from '../../../shared/_models/invoice.model';
 import { PAYMENT_METHOD } from '../../../shared/_models/employer-financial-details.model';
 import { UserSessionService } from '../../../shared/_services/http/user-session.service';
@@ -48,10 +48,18 @@ export class InvoicesComponent implements OnInit {
   });
   filters = {};
   permissionsType = this.userSession.getPermissionsType('finance');
+  invoices = [];
+  is_valid: boolean;
+  ids_projects_group1 = [1, 4, 5, 6, 14];
+  ids_projects_group2 = [2];
+  group1: boolean;
+  group2: boolean;
+  error_groups: boolean;
   readonly columns  = [
     { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
       label: 'שם מעסיק', searchable: false},
-    { name: 'project_name', sortName: 'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
+    { name: 'project_name', sortName: 'project__project_name', label: 'שם פרויקט',
+      searchOptions: { labels: this.GeneralService.projects}, multiple: true },
     { name: 'green_invoice_number', sortName: 'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
     { name: 'total_amount', label: 'סכום'},
     { name: 'ids_count', label: 'כמות ת"ז' , searchable: false},
@@ -285,8 +293,52 @@ export class InvoicesComponent implements OnInit {
       this.fetchItems();
     }));
   }
-
-  openCreditCardInvoices(): void {
+  createMasav(): void {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+    if (this.dataTable.criteria.checkedItems.length > 0) {
+      this.invoices = this.dataTable.criteria.checkedItems;
+    } else {
+      this.invoices = this.dataTable.items;
+    }
+    this.group1 = false;
+    this.group2 = false;
+    this.invoices.forEach(invoice => {
+      if (this.group1 && this.group2) {
+        this.notificationService.error('אין אפשרות להוריד מסב לפי הפרויקטים שנבחרו');
+        return;
+      }
+      if (invoice['employer_financial_details']['payment_method'] !== 'bank_transfer') {
+        this.notificationService.error('יש לבחור אופן תשלום העברה בנקאית');
+        return;
+      }
+      console.log(this.ids_projects_group1.find(x => x === invoice['project']));
+      if (this.ids_projects_group1.find(x => x === invoice['project'])) {
+        this.group1 = true;
+      } else if (this.ids_projects_group2.find(x => x === invoice['project'])) {
+        this.group2 = true;
+      } else {
+        this.notificationService.error('אין אפשרות להוריד מסב לפי הפרויקטים שנבחרו');
+        return;
+      }
+    });
+    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
+    this.invoiceService.createMasav(items, this.dataTable.criteria).then(response => {
+      console.log(response);
+      this.is_valid = true;
+      const byteCharacters = atob(response['data']);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], {type: 'application/' + response['ext']});
+      FileSaver.saveAs(blob, response['filename']);
+    });
+  }
+    openCreditCardInvoices(): void {
     const dialog = this.dialog.open(CreditCardExelComponent, {
       width: '450px'
     });
@@ -332,8 +384,4 @@ export class InvoicesComponent implements OnInit {
       }
     });
   }
-
-
-
-
 }

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseHttpService } from './base-http.service';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
-import { InvoiceStatus, ManualInvoice } from '../../_models/invoice.model';
+import { ManualInvoice } from '../../_models/invoice.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,9 @@ export class InvoiceService extends BaseHttpService {
     if (criteria) {
       if (criteria.filters['status']) {
         criteria.filters['status'] = criteria.filters['status'].toString();
+      }
+      if (criteria.filters['project_name']) {
+        criteria.filters['project_name'] = criteria.filters['project_name'].toString();
       }
       request['params'] = this.setDataTableParams(criteria);
     }
@@ -159,8 +162,9 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => null);
   }
 
-  createManualInvoice(manualInvoice: ManualInvoice): Promise<string> {
-    return this.http.post(this.endPoint + '/createManualInvoice', manualInvoice, this.getTokenHeader())
+  createManualInvoice(manualInvoice: ManualInvoice, updateEmployees: boolean): Promise<string> {
+    return this.http.post(this.endPoint + '/createManualInvoice',
+      { 'manual_invoice': manualInvoice, 'update_employees': updateEmployees },  this.getTokenHeader())
       .toPromise()
       .then(response => response as string)
       .catch(() => null);
@@ -226,6 +230,13 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => false);
 
   }
+  createMasav(invoiceIds: number[], criteria: DataTableCriteria): Promise<any> {
+    return this.http.post(this.endPoint + '/createMasav',
+      {invoiceIds: invoiceIds, criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+  }
+
   downloadCreditCardInvoicesToExcel(criteria: DataTableCriteria, tax: boolean): Promise<any> {
     const request = this.getTokenHeader();
 

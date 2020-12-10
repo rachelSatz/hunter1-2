@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { fade, rotate, slideToggle } from '../../../shared/_animations/animation';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Employer, EmployerStatus } from '../../../shared/_models/employer.model';
@@ -26,7 +26,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   employerForm: FormGroup;
   employer: Employer = new Employer();
   projects = [];
-  project = {id: 0, name: ''};
+  proect = {id: 0, name: ''};
   status: object;
   saveChanges = false;
   activeUrl: string;
@@ -36,6 +36,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   formDetails = false;
   financialDetails: EmployerFinancialDetails;
   sub = new Subscription;
+  flag: boolean;
   permissionsType = this.userSession.getPermissionsType('employers');
   currencyItems = Object.keys(CURRENCY).map(function(e) {
     return { id: e, name: CURRENCY[e] };
@@ -67,24 +68,27 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
               private EmployerService: EmployerService,
               private PlatformComponent: PlatformComponent,
               private helpers: HelpersService,
+              private ref: ChangeDetectorRef,
               private userSession: UserSessionService) { }
 
   ngOnInit() {
     this.helpers.setPageSpinner(true);
-    this.selectUnit.setEmployerID(this.route.snapshot.params.id);
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        this.initForm();
-      }
-    ));
     if (this.route.snapshot.data.employer) {
        this.employer = this.route.snapshot.data.employer;
-       console.log(this.employer);
      }
      if (!this.selectUnit.getActiveEmployerUrl()) {
        this.selectUnit.setActiveEmployerUrl('finance');
      }
     this.setStatus();
     this.initForm();
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+      if (this.selectUnit.getOrganizationID() !== this.employer['org_id']
+        || this.selectUnit.getEmployerID() !==  this.employer['id_emp']) {
+        this.router.navigate(['platform', 'employers']);
+      }
+      // this.ref.detectChanges();
+    }));
+    this.flag = true;
   }
 
 
