@@ -16,7 +16,6 @@ import {
   MatAutocompleteModule,
   MatMenuModule
 } from '@angular/material';
-import { HelpersService } from '../shared/_services/helpers.service';
 import { UserSessionService } from '../shared/_services/http/user-session.service';
 import { NotificationService } from '../shared/_services/notification.service';
 
@@ -56,8 +55,8 @@ const routes: Routes = [
     MatButtonModule,
     BdSelectModule,
     MatMenuModule],
-  providers: [UserSessionService, NotificationService ],
-  exports: [ RouterModule ]
+  providers: [UserSessionService, NotificationService],
+  exports: [RouterModule]
 
 })
 export class PlatformModule { }

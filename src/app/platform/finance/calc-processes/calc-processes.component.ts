@@ -44,7 +44,6 @@ export class CalcProcessesComponent implements OnInit {
         }
         this.filters['created_at[from]'] = v['from_date'];
         this.filters['created_at[to]'] = v['to_date'];
-        console.log(this.filters);
       }
     })
     if (this.SelectUnitService.getProjectGroupId() === 1) {
@@ -52,6 +51,7 @@ export class CalcProcessesComponent implements OnInit {
       this.columns[0]['searchOptions'].labels = response['data']);
     }
   }
+
   fetchItems(): void {
     if (this.filters['project_id']) {
       this.dataTable.criteria.filters = this.filters;
