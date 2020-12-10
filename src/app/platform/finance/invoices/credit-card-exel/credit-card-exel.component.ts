@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { fade } from '../../../../shared/_animations/animation';
 import { DataTableComponent } from '../../../../shared/data-table/data-table.component';
 import { DatePipe } from '@angular/common';
-import {ERROR_STATUS} from '../../../../shared/_models/invoice.model';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef} from '@angular/material/dialog';
+import { ERROR_STATUS } from '../../../../shared/_models/invoice.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 
 @Component({
@@ -37,10 +37,10 @@ export class CreditCardExelComponent implements OnInit {
       'tax': [null, [Validators.required]],
     });
   }
+
   onSubmit(tax: boolean): void {
     console.log(tax);
     this.dialogRef.close(tax);
-
   }
 
 }
