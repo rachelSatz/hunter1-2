@@ -31,20 +31,25 @@ export class PlatformComponent implements OnInit {
   employerId: any;
   currEmployerId: any;
   projectGroups = [{id: 1, name: 'smarti'}];
-// , { id: 2, name: 'myHr'}
   employers = [];
   organizations: Organization[] = [];
   sub = new Subscription;
   organizationId: any;
   currOrganizationId: any;
-  constructor(private EmployerService: EmployerService,
+
+  constructor(private employerService: EmployerService,
               private router: Router,
               private route: ActivatedRoute,
               public selectUnit: SelectUnitService,
-              private GeneralService: GeneralService,
-              private UserSessionService: UserSessionService,
+              private generalService: GeneralService,
+              private userSessionService: UserSessionService,
               private ref: ChangeDetectorRef,
-              private OrganizationService: OrganizationService) { }
+              private organizationService: OrganizationService) {
+    this.employerService.getEmployers()
+      .subscribe(res =>
+        this.selectUnit.setEmployers(res['data'])
+      );
+  }
 
   ngOnInit() {
     if (this.selectUnit.getProjectGroupId() && this.selectUnit.getEmployerID() && this.selectUnit.getOrganizationID()) {
@@ -66,10 +71,10 @@ export class PlatformComponent implements OnInit {
     this.projectGroupId = this.currProjectGroupId =  this.selectUnit.getProjectGroupId();
     this.organizationId = this.currOrganizationId =  this.selectUnit.getOrganizationID();
     this.employerId = this.currEmployerId = this.selectUnit.getEmployerID();
-    this.OrganizationService.getOrganizationByProjectGroupId(this.projectGroupId)
+    this.organizationService.getOrganizationByProjectGroupId(this.projectGroupId)
       .then(response => { this.organizations = response['data'];
 
-        this.EmployerService.getEmployersByOrganizationId(this.organizationId)
+        this.employerService.getEmployersByOrganizationId(this.organizationId)
           .then(res => { this.employers = res['data'];
           if (this.employers.length > 1) {
             this.employers.push({ id: '0', name: 'כלל המעסיקים' });
@@ -89,7 +94,7 @@ export class PlatformComponent implements OnInit {
     if (projectGroupId !== this.currProjectGroupId) {
       this.currProjectGroupId = projectGroupId;
       this.selectUnit.setProjectGroupId(projectGroupId);
-      this.OrganizationService.getOrganizationByProjectGroupId(projectGroupId)
+      this.organizationService.getOrganizationByProjectGroupId(projectGroupId)
         .then(response => {
           console.log(response);
           this.organizations = response['data'];
@@ -108,7 +113,7 @@ export class PlatformComponent implements OnInit {
     if (organizationId !== this.currOrganizationId) {
       this.currOrganizationId = organizationId;
       this.selectUnit.setOrganizationID(this.organizationId);
-      this.EmployerService.getEmployersByOrganizationId(organizationId).then(res => {
+      this.employerService.getEmployersByOrganizationId(organizationId).then(res => {
         this.employers = res['data'];
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
@@ -123,9 +128,7 @@ export class PlatformComponent implements OnInit {
         }
       });
     }
-    if (this.route['_routerState'].snapshot.url.includes('form')) {
-      this.router.navigate(['platform/employers']);
-    }
+
   }
   navigate(link, subLink) {
         this.router.navigate(['/platform', link, subLink]);

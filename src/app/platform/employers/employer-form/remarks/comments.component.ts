@@ -20,13 +20,13 @@ export class CommentsComponent implements OnInit {
 
   ngOnInit() {
     this.selectUnit.setActiveEmployerUrl('remarks');
-    this.employerService.getEmployerComments(this.employerSession.getUser().username, this.selectUnit.currentEmployerID )
+    this.employerService.getEmployerComments(this.employerSession.getUser().username, this.selectUnit.getEmployerID() )
       .then(response => this.comments_emp = response);
 
   }
   submit(): void {
     this.hasServerError = false;
-    this.employerService.newEmployerComment(this.employerSession.getUser().username, this.comment_emp, this.selectUnit.currentEmployerID)
+    this.employerService.newEmployerComment(this.employerSession.getUser().username, this.comment_emp, this.selectUnit.getEmployerID())
       .then(response => {
       if (response) {
         window.location.reload();

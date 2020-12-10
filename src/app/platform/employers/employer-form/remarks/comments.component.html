@@ -4,7 +4,7 @@
       <div id="commentsTable" class="row" >
         <div *ngFor="let comment_emp of comments_emp" class="col-xl-12 h-40" >
           <div class="d-flex" id='hover'>
-            <div id="name">{{ comment_emp.username + ' : '}} <br></div>
+            <div id="name">{{ comment_emp.username + ': ' + ' '}} <br></div>
             <div id="conten" class="w-75">{{ comment_emp.content }}</div>
             <div id="hour">{{ comment_emp.updated_at | date: 'HH:mm' }}</div>
             <button id="delbutton" (click)="deleteComment(comment_emp.id)"><img class="trash" src="../../../assets/img/icons/trash.png"></button>

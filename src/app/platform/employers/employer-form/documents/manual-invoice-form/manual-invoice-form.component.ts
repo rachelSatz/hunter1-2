@@ -50,9 +50,9 @@ export class ManualInvoiceFormComponent implements OnInit {
               private notificationService: NotificationService) { }
 
   ngOnInit() {
-    this.employerService.getEmployers().then(
-      response => this.employers = response['data']);
+    // this.employers =
   }
+
   saveInvoiceDetail(invoiceDetail: ManualInvoiceDetails, index: number): void {
     if (invoiceDetail !== null) {
       if (invoiceDetail.ids_count > 0 && invoiceDetail.payment_amount > 0) {
@@ -125,7 +125,7 @@ export class ManualInvoiceFormComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      this.invoiceService.createManualInvoice(this.manualInvoice).then(response => {
+      this.invoiceService.createManualInvoice(this.manualInvoice, true).then(response => {
         this.message = response['message'];
         if (response['message'] !== 'success') {
           this.hasServerError = true;

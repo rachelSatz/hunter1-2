@@ -81,7 +81,7 @@ export class FinanceComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               public router: Router,
-              private EmployerService: EmployerService,
+              private employerService: EmployerService,
               private notificationService: NotificationService,
               private selectUnit: SelectUnitService,
               public userSession: UserSessionService,
@@ -94,11 +94,7 @@ export class FinanceComponent implements OnInit {
         this.fetchItems();
       }
     ));
-    this.EmployerService.getPayEmployers()
-      .then(res => { this.payEmployers = res['data'];
-        console.log(this.payEmployers);
-        this.fetchItems(); });
-
+    this.payEmployers = this.selectUnit.getEmployers();
     }
 
     fetchItems() {
@@ -106,7 +102,7 @@ export class FinanceComponent implements OnInit {
       if (this.selectUnit.currentEmployerID > 0) {
       this.projectGroupId = this.selectUnit.getProjectGroupId();
       this.employerId = this.selectUnit.getEmployerID();
-      this.EmployerService.getEmployerFinance(this.employerId)
+      this.employerService.getEmployerFinance(this.employerId)
           .then(res => {
             if (res.id) {
               this.financialDetails = res;
@@ -227,9 +223,11 @@ export class FinanceComponent implements OnInit {
       this.financialDetails.est_ids_count = 0;
     }
   }
+
   changeIsZero(product, check: boolean){
     this.financialDetails.financial_product.find(x => x.id === product.id).is_zero = check;
   }
+
   changeShowDetails(product, check: boolean){
     this.financialDetails.financial_product.find(x => x.id === product.id).show_details = check;
   }
@@ -240,7 +238,7 @@ export class FinanceComponent implements OnInit {
        if (this.selectUnit.getEmployerID() === 0) {
         this.notificationService.error('לא נבחר מעסיק.');
       } else {
-          this.EmployerService.saveFinancialDetails(this.selectUnit.getEmployerID(), this.financialDetails)
+          this.employerService.saveFinancialDetails(this.selectUnit.getEmployerID(), this.financialDetails)
             .then(response => {
               if (response['message'] !== 'success') {
                 this.hasServerError = true;
@@ -252,4 +250,9 @@ export class FinanceComponent implements OnInit {
         }
       }
     }
+
+  changeExceptionAmount(product: EmployerFinancialProduct): void {
+    const payment = product.financial_payments[product.financial_payments.length - 1];
+    product.exception_amount = + payment.payment_amount / + payment.ids_count;
+  }
 }

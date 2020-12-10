@@ -75,16 +75,12 @@ export class DocumentsComponent implements OnInit {
   ngOnInit() {
     this.SelectUnitService.setActiveEmployerUrl('documents');
     this.fetchItems();
-    this.GeneralService.getProjects(this.SelectUnitService.getProjectGroupId())
-      .then(response => { this.GeneralService.projects = response['data'];
-        this.columns['1'].searchOptions['labels'] = response['data']; });
   }
   fetchItems() {
-    this.invoiceService.getEmployerInvoices(this.dataTable.criteria, this.SelectUnitService.currentEmployerID)
+    this.invoiceService.getEmployerInvoices(this.dataTable.criteria, this.SelectUnitService.getEmployerID())
       .then(response => {
         this.dataTable.setItems(response);
         this.arrInvoicesTmp = response.items;
-        this.helpers.setPageSpinner(false);
       });
   }
   showInvoiceDetails(item: Object): void {

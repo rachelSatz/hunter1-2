@@ -7,14 +7,14 @@
             <ng-container *ngFor="let link of menuLinks">
               <li class="nav-item mb-5"
                 [ngClass]="{ 'active': link.url === selectUnit.getActiveUrl()}" *ngIf="!link.subMenuLinks"
-                [hidden]="UserSessionService.isPermissions(link.url) && link.url!='dashboard'">
+                [hidden]="userSessionService.isPermissions(link.url) && link.url!='dashboard'">
                 <a class="menu-link" [routerLink]="['/platform', link.url]"  routerLinkActive="active">
                 <p class="mb-half" >{{ link.label }}</p>
                 </a>
               </li>
               <li [matMenuTriggerFor]="subMenu" class="nav-item pointer"
                 [ngClass]="{ 'active': link.url === selectUnit.getActiveUrl() }"
-                *ngIf="link.subMenuLinks" [hidden]="UserSessionService.isPermissions(link.url)">
+                *ngIf="link.subMenuLinks" [hidden]="userSessionService.isPermissions(link.url)">
                 <p class="mb-half" >{{ link.label }}</p>
                 <mat-menu #subMenu yPosition="above" [overlapTrigger]="false">
                   <button mat-menu-item class="dropdown-item btn " *ngFor="let subLink of link.subMenuLinks"
