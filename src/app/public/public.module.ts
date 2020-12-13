@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
-import {RouterModule, Routes} from '@angular/router';
-import {PublicComponent} from './public.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { PublicComponent } from './public.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
 } from '@angular/material';
-import {UserSessionService} from '../shared/_services/http/user-session.service';
-import {AppHttpService} from '../shared/_services/http/app-http.service';
+import { UserSessionService } from '../shared/_services/http/user-session.service';
+import { AppHttpService } from '../shared/_services/http/app-http.service';
 import { RegisterComponent } from './register/register.component';
-import {NotificationService} from '../shared/_services/notification.service';
+import { NotificationService } from '../shared/_services/notification.service';
 
 const routes: Routes = [
   {

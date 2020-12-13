@@ -39,10 +39,10 @@ export class UsersComponent implements OnInit {
               protected notificationService: NotificationService,
               private userService: UserService,
               private helpers: HelpersService,
-              private SelectUnitService: SelectUnitService) { }
+              private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
-    this.SelectUnitService.setActiveUrl('users');
+    this.selectUnit.setActiveUrl('users');
     this.fetchItems();
     this.dataTable.placeHolderSearch = 'שם משתמש';
   }

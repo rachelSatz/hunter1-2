@@ -37,7 +37,6 @@ input[type="text"]{
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 2px solid #DBDBDB;
   opacity: 1;
-  /*text-align: center;*/
   margin: auto;
 }
 p{
@@ -58,13 +57,10 @@ p{
 #input_container {
   position:relative;
   direction: rtl;
-  /*margin-bottom: 30px;*/
   margin-top: 15px;
 }
 #input {
   margin:0;
-  /*width: 100%;*/
-
 }
 #input_img {
   position:absolute;

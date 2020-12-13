@@ -30,6 +30,7 @@ import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.compo
 })
 export class InvoicesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+
   items: any;
   tax: boolean;
   sub = new Subscription;
@@ -41,7 +42,6 @@ export class InvoicesComponent implements OnInit {
   paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function(e) {
     return { id: e, name: PAYMENT_METHOD[e] };
   });
-  fileName = '';
   spin: boolean;
   error_status = Object.keys(ERROR_STATUS).map(function(e) {
     return { id: e, name: ERROR_STATUS[e] };
@@ -54,7 +54,6 @@ export class InvoicesComponent implements OnInit {
   ids_projects_group2 = [2];
   group1: boolean;
   group2: boolean;
-  error_groups: boolean;
   readonly columns  = [
     { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
       label: 'שם מעסיק', searchable: false},
@@ -73,6 +72,7 @@ export class InvoicesComponent implements OnInit {
     { name: 'organization_id', label: 'ארגון', isDisplay: false, searchable: false},
     { name: 'employer_id', label: 'מעסיק', isDisplay: false, searchable: false}
   ];
+
   constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
               private dialog: MatDialog,
@@ -81,11 +81,11 @@ export class InvoicesComponent implements OnInit {
               private helpers: HelpersService,
               private invoiceService: InvoiceService,
               private GeneralService: GeneralService,
-              private SelectUnitService: SelectUnitService) {}
+              private selectUnit: SelectUnitService) {}
 
   ngOnInit() {
-    this.SelectUnitService.setActiveUrl('finance');
-    this.GeneralService.getProjects(this.SelectUnitService.getProjectGroupId())
+    this.selectUnit.setActiveUrl('finance');
+    this.GeneralService.getProjects(this.selectUnit.getProjectGroupId())
       .then(response => { this.GeneralService.projects = response['data'];
         this.columns[1]['searchOptions'].labels = response['data']; });
     this.fetchItems();
@@ -102,6 +102,7 @@ export class InvoicesComponent implements OnInit {
       return '';
     }
   }
+
   setInvoiceStatus(invoiceId: number, status: string): void {
     this.invoiceService.setInvoiceStatus(invoiceId, status).then(response => {
       this.helpers.setPageSpinner(false);
@@ -115,6 +116,7 @@ export class InvoicesComponent implements OnInit {
       }
     });
   }
+
   fetchItems() {
     this.sub = this.route.params.subscribe(v => {
       this.setFilters(v);
@@ -355,7 +357,6 @@ export class InvoicesComponent implements OnInit {
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
       if (result) {
-        this.SelectUnitService.setActiveUrl('tax');
         console.log(result);
         this.tax = result;
         this.downloadCreditCardInvoices();

@@ -6,8 +6,7 @@ import { InvoiceService } from '../../../shared/_services/http/invoice.service';
 
 @Component({
   selector: 'app-charged-employers-form',
-  templateUrl: './charged-employers-form.component.html',
-  styleUrls: ['./charged-employers-form.component.css']
+  templateUrl: './charged-employers-form.component.html'
 })
 export class ChargedEmployersFormComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;

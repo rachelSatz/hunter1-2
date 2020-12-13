@@ -8,8 +8,7 @@ import { GeneralService } from '../../../shared/_services/http/general.service';
 
 @Component({
   selector: 'app-need-to-charge-employers',
-  templateUrl: './need-to-charge-employers.component.html',
-  styleUrls: ['./need-to-charge-employers.component.css']
+  templateUrl: './need-to-charge-employers.component.html'
 })
 export class NeedToChargeEmployersComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;

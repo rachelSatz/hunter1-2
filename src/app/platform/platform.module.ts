@@ -28,8 +28,6 @@ const routes: Routes = [
       {path: 'employers', loadChildren: '../../app/platform/employers/employers.module#EmployersModule'},
       {path: 'finance/calc-processes', loadChildren: '../../app/platform/finance/calc-processes/calc-processes.module#CalcProcessesModule'},
       {path: 'finance/invoices', loadChildren: '../../app/platform/finance/invoices/invoices.module#InvoicesModule'},
-      {path: 'finance/employers-id-display',
-        loadChildren: '../../app/platform/finance/employers-id-display/employers-id-display.module#EmployersIdDisplayModule'},
       {path: 'users', loadChildren: '../../app/platform/users/users.module#UsersModule'}
     ]
   }

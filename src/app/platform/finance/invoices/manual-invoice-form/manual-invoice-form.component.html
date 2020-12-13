@@ -52,10 +52,6 @@
       <mat-form-field class="mr-3 paymentAmount">
         <input matInput type="text" [name]="'payment_amount' + index" [(ngModel)]="invoice_detail.payment_amount" placeholder="מחיר ליח'" required>
       </mat-form-field>
-      <!--<mat-form-field class="mr-3 totalAmount">-->
-        <!--<input [name]="'total_payment_amount' + index" type="text" matInput placeholder="" [(ngModel)]="invoice_detail.total_payment_amount"-->
-               <!--[value]="invoice_detail.total_payment_amount != undefined? invoice_detail.total_payment_amount : 0" readonly>-->
-      <!--</mat-form-field>-->
       <div class="row mr-3 save">
         <i class="fa fa-save pointer pink-color" (click)="saveInvoiceDetail(invoice_detail, index)" *ngIf="invoice_detail.is_saved === false"></i>
         <i class="fa fa-plus-circle pointer pink-color" title="הוספה" (click)="addInvoiceDetailRow()" *ngIf="last"></i>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {GeneralService} from '../../shared/_services/http/general.service';
+import { GeneralService } from '../../shared/_services/http/general.service';
 import { DatePipe } from '@angular/common'
 import { FormControl, Validators } from '@angular/forms';
 import { EstPaymentFormComponent} from './est-payment-form/est-payment-form.component';
@@ -18,7 +18,7 @@ import { SelectUnitService } from '../../shared/_services/select-unit.service';
 import { UserSessionService } from '../../shared/_services/http/user-session.service';
 import { fade, slideInOut } from '../../shared/_animations/animation';
 import { PRODUCT_TYPES } from '../../shared/_models/employer-financial-details.model';
-import { NeedToChargeEmployersComponent } from "./need-to-charge-employers/need-to-charge-employers.component";
+import { NeedToChargeEmployersComponent } from './need-to-charge-employers/need-to-charge-employers.component';
 import { NotificationService } from '../../shared/_services/notification.service';
 import { OrganizationService } from '../../shared/_services/http/organization.service';
 import { EmployerService } from '../../shared/_services/http/employer.service';
@@ -40,9 +40,6 @@ export class DashboardComponent implements OnInit {
   ]);
   projects = [];
   projectId: string;
-  timeRange = [{id: 1, name: 'לפי חודש'}, {id: 2, name: 'לפי תקופה'}];
-  days = {0: 'א', 1: 'ב',  2: 'ג',  3: 'ד', 4: 'ה', 5: 'ו', 6: 'ז' };
-  projectGroups = [{id: 1, name: 'smarti'}, { id: 2, name: 'myHr'}];
   projectGroupId: any;
   organizations = [];
   organizationId: any;
@@ -65,17 +62,19 @@ export class DashboardComponent implements OnInit {
   d: any;
   newDate: Date;
   sub = new Subscription;
-  isPermissionsFinance = this.userSession.isPermissions('finance');
   productTypeId: string;
   currentProductTypeId: string;
   currentProjectId: string;
   currentProjectGroupId: string;
   currentOrganizationId: string;
   currentEmployerId: string;
-
+  isPermissionsFinance = this.userSession.isPermissions('finance');
   productTypesItems = Object.keys(PRODUCT_TYPES).map(function(e) {
     return { id: e, name: PRODUCT_TYPES[e] };
   });
+  timeRange = [{id: 1, name: 'לפי חודש'}, {id: 2, name: 'לפי תקופה'}];
+  days = {0: 'א', 1: 'ב',  2: 'ג',  3: 'ד', 4: 'ה', 5: 'ו', 6: 'ז' };
+  projectGroups = [{id: 1, name: 'smarti' }, { id: 2, name: 'myHr'}];
 
   constructor(private GeneralService: GeneralService,
               private dialog: MatDialog,
@@ -112,6 +111,7 @@ export class DashboardComponent implements OnInit {
         });
 
   }
+
   loadOrganizationAndEmployers(): void {
     if (this.projectGroupId === 1 && this.projectId !== '0') {
       this.OrganizationService.getOrganizationByProjectId(+this.projectId)
@@ -159,6 +159,7 @@ export class DashboardComponent implements OnInit {
         });
     }
   }
+
   loadEmployers(organizationId): void {
     if (this.organizationId !== '0') {
       this.EmployerService.getEmployersByOrganizationId(organizationId).then(res => {
@@ -214,6 +215,7 @@ export class DashboardComponent implements OnInit {
     ]);
     this.month = new Date();
   }
+
   filterData(): void {
     this.helpers.setPageSpinner(true);
     this.currentFromDate = this.fromDate;
@@ -248,6 +250,7 @@ export class DashboardComponent implements OnInit {
         });
     }
   }
+
   openInvoices(status: string): void {
     if (this.currentFromDate && this.currentToDate) {
       this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
@@ -265,6 +268,7 @@ export class DashboardComponent implements OnInit {
           organization_id: this.organizationId, employer_id: this.employerId }]);
     }
   }
+
   openCalcProcesses(): void {
     if (this.currentFromDate && this.currentToDate) {
       this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
@@ -280,6 +284,7 @@ export class DashboardComponent implements OnInit {
           project_group_id: this.currentProjectGroupId }]);
     }
   }
+
   openEstPaymentForm(): void {
     const dialog = this.dialog.open(EstPaymentFormComponent, {
       data: {
@@ -299,6 +304,7 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['../../platform/dashboard']);
     }));
   }
+
   openNewEmployersForm(): void {
     const dialog = this.dialog.open(NewEmployersFormComponent, {
       data: {
@@ -323,6 +329,7 @@ export class DashboardComponent implements OnInit {
     this.newDate = new Date(date);
     return this.days[this.newDate.getDay()];
   }
+
   openEmployersForm(payment_method: string): void {
     const dialog = this.dialog.open(EmployersFormComponent, {
       data: {
@@ -346,7 +353,7 @@ export class DashboardComponent implements OnInit {
     }));
   }
 
-  openChargedEmployerPopUp(): void{
+  openChargedEmployerPopUp(): void {
     const dialog = this.dialog.open(ChargedEmployersFormComponent, {
       data: {
         'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
@@ -365,6 +372,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigate(['../../platform/dashboard']);
     }));
   }
+
   openManuallyChargedPopUp(): void {
     const dialog = this.dialog.open(ManuallyChargedEmployersComponent, {
       data: {
@@ -384,6 +392,7 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['../../platform/dashboard']);
     }));
   }
+
   openNeedToChargeEmployersPopUp(): void {
     const dialog = this.dialog.open(NeedToChargeEmployersComponent, {
       data: {
@@ -403,6 +412,7 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['../../platform/dashboard']);
     }));
   }
+
   openEmployersWithNoPaymentPopUp(): void{
     const dialog = this.dialog.open(EmployersWithNoPaymentComponent, {
       data: {
@@ -422,6 +432,7 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['../../platform/dashboard']);
     }));
   }
+
   openEmployersPaymentZeroPopUp(): void {
     const dialog = this.dialog.open(EmployersPaymentZeroComponent, {
       data: {
@@ -441,9 +452,11 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['../../platform/dashboard']);
     }));
   }
+
   showInvoices(): void {
     this.router.navigate(['../../platform/finance/invoices']);
   }
+
   openOtherPayerPopup(): void {
     const dialog = this.dialog.open(OtherPayerPopupComponent, {
       data: {

@@ -6,8 +6,7 @@ import { InvoiceService } from '../../../shared/_services/http/invoice.service';
 
 @Component({
   selector: 'app-manually-charged-employers',
-  templateUrl: './manually-charged-employers.component.html',
-  styleUrls: ['./manually-charged-employers.component.css']
+  templateUrl: './manually-charged-employers.component.html'
 })
 export class ManuallyChargedEmployersComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;

@@ -7,7 +7,7 @@ import { DataTableComponent } from '../../../shared/data-table/data-table.compon
 @Component({
   selector: 'app-employers-form',
   templateUrl: './employers-form.component.html',
-  styleUrls: ['./employers-form.component.css', '../../../shared/data-table/data-table.component.css']
+  styleUrls: ['../../../shared/data-table/data-table.component.css']
 })
 export class EmployersFormComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
@@ -68,6 +68,7 @@ export class EmployersFormComponent implements OnInit {
         });
     }
   }
+
   openEmployerForm(employer_id: number): void {
     console.log(employer_id);
     this.dialogRef.close(employer_id);

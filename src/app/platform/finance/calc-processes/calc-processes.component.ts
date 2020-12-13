@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-calc-processes',
   templateUrl: './calc-processes.component.html',
-  styleUrls: ['./calc-processes.component.css', '../../../shared/data-table/data-table.component.css']
+  styleUrls: ['../../../shared/data-table/data-table.component.css']
 })
 export class CalcProcessesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;

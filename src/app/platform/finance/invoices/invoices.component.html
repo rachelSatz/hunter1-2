@@ -34,7 +34,8 @@
     <td [ngClass]="{'white': i%2 === 0}">{{ item.last_payment_date  | date: 'dd/MM/yy'  }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ types[item.type] }}</td>
     <td class="select-status"  [ngClass]="{'white': i%2 === 0}">
-      <mat-select [title]="setItemTitle(item)" class="p-2 border-radius-11" [ngClass]="{'gray-background-color': i%2 === 0 , 'white-background-color': i%2 !== 0 }"  name="status" placeholder="" [disabled]="!permissionsType" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
+      <mat-select [title]="setItemTitle(item)" class="p-2 border-radius-11" [ngClass]="{'gray-background-color': i%2 === 0 , 'white-background-color': i%2 !== 0 }"
+                  name="status" placeholder="" [disabled]="!permissionsType" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
         <mat-option *ngFor="let st of status" [value]="st.id">{{ st.name }}</mat-option>
       </mat-select>
     </td>

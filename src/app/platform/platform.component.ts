@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Employer } from '../shared/_models/employer.model';
 import { SelectUnitService } from '../shared/_services/select-unit.service';
 import { EmployerService } from '../shared/_services/http/employer.service';
 import { GeneralService } from '../shared/_services/http/general.service';
@@ -14,18 +13,8 @@ import {Organization} from '../shared/_models/organization';
   templateUrl: './platform.component.html',
   styleUrls: ['./platform.component.css']
 })
-export class PlatformComponent implements OnInit {
+export class PlatformComponent implements OnInit, OnDestroy {
   activeUrl: string;
-  readonly menuLinks = [
-    { url: 'dashboard' , label: 'נתונים פיננסים'},
-    { url: 'employers' , label: 'לקוחות'},
-    { url: 'finance' , label: 'פיננסים',  subMenuLinks:[
-        { url: 'invoices', label: 'חשבונות חייבים' },
-        { url: 'calc-processes', label: 'תהליכי חישוב' }
-        // { url: 'employers-id-display', label: 'מצג מעסיקים' }
-      ]},
-    { url: 'users' , label: 'משתמשים'},
-  ];
   projectGroupId: any;
   currProjectGroupId: any;
   employerId: any;
@@ -36,6 +25,16 @@ export class PlatformComponent implements OnInit {
   sub = new Subscription;
   organizationId: any;
   currOrganizationId: any;
+  readonly menuLinks = [
+    { url: 'dashboard' , label: 'נתונים פיננסים'},
+    { url: 'employers' , label: 'לקוחות'},
+    { url: 'finance' , label: 'פיננסים',  subMenuLinks:[
+        { url: 'invoices', label: 'חשבונות חייבים' },
+        { url: 'calc-processes', label: 'תהליכי חישוב' }
+      ]},
+    { url: 'users' , label: 'משתמשים'},
+  ];
+
 
   constructor(private employerService: EmployerService,
               private router: Router,
@@ -82,9 +81,11 @@ export class PlatformComponent implements OnInit {
           }});
       });
   }
+
   setActiveUrl(url: string): void {
     this.selectUnit.setActiveUrl(url);
   }
+
   selectEmployer(employerId: number): void {
     this.currEmployerId = employerId;
     this.selectUnit.setEmployerID(employerId);
@@ -109,6 +110,7 @@ export class PlatformComponent implements OnInit {
     }
 
   }
+
   loadEmployers(organizationId): void {
     if (organizationId !== this.currOrganizationId) {
       this.currOrganizationId = organizationId;
@@ -128,10 +130,14 @@ export class PlatformComponent implements OnInit {
         }
       });
     }
-
   }
+
   navigate(link, subLink) {
         this.router.navigate(['/platform', link, subLink]);
         this.activeUrl = link;
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 }

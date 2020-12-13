@@ -12,8 +12,7 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-transaction-invoice-form',
   templateUrl: './transaction-invoice-form.component.html',
-  styleUrls: ['./transaction-invoice-form.component.css'],
-  styles: ['#styleFormat { height: 200px; padding-top: 20px }'],
+  styles: ['#styleFormat { height: 200px; padding-top: 20px } .date { margin-right: 106px; }'],
   animations: [ fade ]
 })
 export class TransactionInvoiceFormComponent implements OnInit {

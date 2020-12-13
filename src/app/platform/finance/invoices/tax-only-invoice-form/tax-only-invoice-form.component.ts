@@ -12,8 +12,7 @@ import { InvoiceService } from '../../../../shared/_services/http/invoice.servic
 @Component({
   selector: 'app-tax-only-invoice-form',
   templateUrl: './tax-only-invoice-form.component.html',
-  styleUrls: ['./tax-only-invoice-form.component.css'],
-  styles: ['#styleFormat { height: 200px; padding-top: 20px }'],
+  styles: ['#styleFormat { height: 200px; padding-top: 20px } .date { margin-right: 106px; }'],
   animations: [ fade ]
 })
 export class TaxOnlyInvoiceFormComponent implements OnInit {

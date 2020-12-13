@@ -4,7 +4,6 @@ import { Invoice, InvoiceDetails } from '../../../../../shared/_models/invoice.m
 import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { InvoiceService } from '../../../../../shared/_services/http/invoice.service';
-import { NotificationService } from '../../../../../shared/_services/notification.service';
 import { fade } from '../../../../../shared/_animations/animation';
 
 @Component({

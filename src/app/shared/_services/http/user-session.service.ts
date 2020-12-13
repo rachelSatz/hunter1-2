@@ -4,10 +4,6 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class  UserSessionService {
 
-  admin = 'admin';
-  superUser = 'superUser';
-  operator = 'operator';
-  feedback = 'feedback';
   modules;
   loginStatus: Subject<boolean> = new Subject;
   role: Subject<string> = new Subject;

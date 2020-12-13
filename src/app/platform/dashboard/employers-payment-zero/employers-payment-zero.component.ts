@@ -6,8 +6,7 @@ import { InvoiceService } from '../../../shared/_services/http/invoice.service';
 
 @Component({
   selector: 'app-employers-payment-zero',
-  templateUrl: './employers-payment-zero.component.html',
-  styleUrls: ['./employers-payment-zero.component.css']
+  templateUrl: './employers-payment-zero.component.html'
 })
 export class EmployersPaymentZeroComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
@@ -49,6 +48,7 @@ export class EmployersPaymentZeroComponent implements OnInit {
     }
     this.fetchItems();
   }
+
   fetchItems(): void {
     if (this.dataTable) {
       this.dataTable.criteria.filters = this.data;

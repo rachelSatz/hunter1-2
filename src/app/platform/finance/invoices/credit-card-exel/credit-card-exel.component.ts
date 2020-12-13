@@ -10,7 +10,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-credit-card-exel',
   templateUrl: './credit-card-exel.component.html',
-  styleUrls: ['./credit-card-exel.component.css'],
   styles: ['#styleFormat { height: 200px; padding-top: 20px }', '::ng-deep .mat-dialog-container {overflow: visible;}'],
   animations: [ fade ]
 })
@@ -19,10 +18,10 @@ export class CreditCardExelComponent implements OnInit {
 
   fileName = '';
   spin: boolean;
+  creditCardForm: FormGroup;
   error_status = Object.keys(ERROR_STATUS).map(function(e) {
     return { id: e, name: ERROR_STATUS[e] };
   });
-  creditCardForm: FormGroup;
 
   constructor(private dialogRef: MatDialogRef<CreditCardExelComponent>,
               public datePipe: DatePipe,

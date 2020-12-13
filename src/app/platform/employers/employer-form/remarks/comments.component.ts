@@ -9,10 +9,10 @@ import { SelectUnitService } from '../../../../shared/_services/select-unit.serv
   styleUrls: ['./comments.component.css']
 })
 export class CommentsComponent implements OnInit {
+
+  hasServerError: boolean;
   comments_emp: any = [];
   comment_emp: string;
-  hasServerError: boolean;
-  employerID: any;
 
   constructor(private employerService: GeneralService,
               private employerSession: UserSessionService,
@@ -24,6 +24,7 @@ export class CommentsComponent implements OnInit {
       .then(response => this.comments_emp = response);
 
   }
+
   submit(): void {
     this.hasServerError = false;
     this.employerService.newEmployerComment(this.employerSession.getUser().username, this.comment_emp, this.selectUnit.getEmployerID())
@@ -35,6 +36,7 @@ export class CommentsComponent implements OnInit {
       }
     });
   }
+
   deleteComment(comment_id: any): void {
     this.employerService.deleteComment(comment_id).then(response => {
       if (response) {

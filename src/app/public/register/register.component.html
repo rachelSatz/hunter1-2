@@ -1,28 +1,3 @@
-<!--<div style="width: 35%; margin: auto; margin-top: 100px;">
-<p class="mb-0 f-14 bold">כניסה למערכת</p>
-<form #form="ngForm" (ngSubmit)="register(form)" novalidate>
-  <mat-form-field class="w-100">
-    <i matPrefix class="fa fa-user"></i>
-    <input matInput type="password" name="password" #password="ngModel" ngModel placeholder="סיסמה" pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,20}" maxlength="20" required>
-    <mat-error *ngIf="password.errors">יש להזין סיסמה באורך שמונה תווים (וכן שתכיל אות גדולה אות קטנה ומספר).</mat-error>
-  </mat-form-field>
-  <mat-form-field class="w-100">
-    <i matPrefix class="fa fa-lock"></i>
-    <input matInput type="password" name="confirmPassword" #confirmPassword="ngModel" ngModel placeholder="אימות סיסמה" required>
-    <mat-error *ngIf="confirmPassword.errors">יש להזין סיסמה.</mat-error>
-  </mat-form-field>
-  <p class="alert alert-danger my-3" [@fade]="hasServerError ? 'active' : 'inactive'">
-    <i class="fa fa-exclamation-circle ml-2"></i>
-    <span>הסיסמאות לא זהות.</span>
-  </p>
-  <div class="text-center">
-    <button type="submit" class="btn pink-btn btn-lg f-18 bold" [disabled]="isSubmitting">התחברות</button>
-  </div>
-</form>
-</div>-->
-
-
-
 <div class="background">
   <h1>מערכת פיננסית <span class="orange">EMX</span></h1>
   <div class="center">

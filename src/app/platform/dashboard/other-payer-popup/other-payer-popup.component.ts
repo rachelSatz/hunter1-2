@@ -8,8 +8,6 @@ import { EmployerService } from '../../../shared/_services/http/employer.service
 @Component({
   selector: 'app-other-payer-popup',
   templateUrl: './other-payer-popup.component.html',
-  styleUrls: ['./other-payer-popup.component.css'],
-
 })
 export class OtherPayerPopupComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;

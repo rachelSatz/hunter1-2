@@ -33,6 +33,6 @@ const routes: Routes = [
     DatePickerModule,
     MatCheckboxModule,
     MatDividerModule,
-    RouterModule.forChild(routes),]
+    RouterModule.forChild(routes)]
 })
 export class ContactsModule { }
