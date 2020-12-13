@@ -321,7 +321,7 @@ export class InvoicesComponent implements OnInit {
       if (this.group1 && this.group2) {
         this.notificationService.error('אין אפשרות להוריד מסב לפי הפרויקטים שנבחרו');
         return;
-      }
+      } 
       if (invoice['employer_financial_details']['payment_method'] !== 'bank_transfer') {
         this.notificationService.error('יש לבחור אופן תשלום העברה בנקאית');
         return;
