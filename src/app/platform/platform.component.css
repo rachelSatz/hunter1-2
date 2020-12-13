@@ -18,13 +18,7 @@ header {
   padding-bottom: 10px;
   height: 100px;
 }
-
-/*.mb-half[_ngcontent-c1]{*/
-  /*margin-top: 22px;*/
-/*}*/
-
 .navbar {
-  /*padding: 15px 0 0 0;*/
   padding: 0 0 0 0;
   align-items:unset !important;
 }
@@ -67,15 +61,9 @@ header {
 .navbar-nav img {
   width: 40%;
 }
-
-/*bd-select {*/
-  /*width: 200px !important;*/
-/*}*/
-
 .disable{
   pointer-events:none;
 }
-
 .agentBar {
   height: 100%;
   position: fixed;
@@ -100,7 +88,6 @@ header {
 }
 
 .closedAgentBar {
-  /*z-index: 9999;*/
   height: 100%;
   text-align: center;
   position: fixed;

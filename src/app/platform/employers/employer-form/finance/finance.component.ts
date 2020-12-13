@@ -20,6 +20,7 @@ import { SelectUnitService } from '../../../../shared/_services/select-unit.serv
 import { Subscription } from 'rxjs';
 import { UserSessionService } from '../../../../shared/_services/http/user-session.service';
 import {GeneralService} from '../../../../shared/_services/http/general.service';
+import {HelpersService} from '../../../../shared/_services/helpers.service';
 
 
 
@@ -85,25 +86,24 @@ export class FinanceComponent implements OnInit {
               private notificationService: NotificationService,
               private selectUnit: SelectUnitService,
               public userSession: UserSessionService,
-              private generalService: GeneralService) {
+              private generalService: GeneralService,
+              private helpers: HelpersService) {
   }
 
   ngOnInit() {
     this.selectUnit.setActiveEmployerUrl('finance');
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        this.fetchItems();
-      }
-    ));
     this.payEmployers = this.selectUnit.getEmployers();
+    this.fetchItems();
     }
 
     fetchItems() {
+      // this.helpers.setPageSpinner(true);
       this.loadBanks();
-      if (this.selectUnit.currentEmployerID > 0) {
       this.projectGroupId = this.selectUnit.getProjectGroupId();
       this.employerId = this.selectUnit.getEmployerID();
       this.employerService.getEmployerFinance(this.employerId)
           .then(res => {
+            // this.helpers.setPageSpinner(false);
             if (res.id) {
               this.financialDetails = res;
               console.log(this.financialDetails);
@@ -119,7 +119,6 @@ export class FinanceComponent implements OnInit {
             }
           });
 
-     }
     for (let i = 0; i < this.financialDetails.financial_product.length; i++) {
       if (this.financialDetails.financial_product[i].additional_payment_amount > 0) {
         this.arrShow.push(true);

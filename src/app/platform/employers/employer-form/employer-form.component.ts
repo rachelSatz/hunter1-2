@@ -82,15 +82,14 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     this.setStatus();
     this.initForm();
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-      if (this.selectUnit.getOrganizationID() !== this.employer['org_id']
-        || this.selectUnit.getEmployerID() !==  this.employer['id_emp']) {
+      if (this.selectUnit.currentOrganizationID !== this.employer['org_id']
+        || this.selectUnit.currentEmployerID !==  this.employer['id_emp']) {
+        this.helpers.setPageSpinner(false);
         this.router.navigate(['platform', 'employers']);
       }
-      // this.ref.detectChanges();
     }));
     this.flag = true;
   }
-
 
   initForm(): void {
     this.EmployerService.getEmployer(this.selectUnit.getEmployerID()).then(response => {

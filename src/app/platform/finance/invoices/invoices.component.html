@@ -1,4 +1,3 @@
-
 <app-data-table tableName="חשבונות חייבים" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
                 [hasActionsHeader]="true">
   <div class="table-header" >
@@ -42,8 +41,6 @@
     <td [ngClass]="{'white': i%2 === 0}">
       <i class="fa fa-eye fa-lg pointer ml-3 mr-3" (click)="ShowRemarks(item)" title="הערות" ></i>
       <i class="fa fa-download fa-lg pointer ml-3" *ngIf="item.description != ''" title="פירוט עובדים בחשבונית"  (click)="downloadEmployeesExcel(item.id, item)"></i>
-
-      <!--<img src="../../../../assets/img/icons/download-regular.png" *ngIf="item.description != ''" title="פירוט עובדים בחשבונית" class="pointer ml-3" (click)="downloadEmployeesExcel(item.id, item)">-->
       <i class="fa fa-exclamation-circle pointer ml-3" (click)="showInvoiceDetails(item)" title="פירוט רשומות" ></i>
     </td>
   </tr>

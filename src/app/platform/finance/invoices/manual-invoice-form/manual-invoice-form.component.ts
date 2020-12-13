@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import { InvoiceService } from '../../../../shared/_services/http/invoice.service';
 import { MatDialogRef } from '@angular/material';
 import { NotificationService } from '../../../../shared/_services/notification.service';
+import {SelectUnitService} from '../../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-manual-invoice-form',
@@ -48,10 +49,12 @@ export class ManualInvoiceFormComponent implements OnInit {
   constructor(private employerService: EmployerService,
               private invoiceService: InvoiceService,
               private dialogRef: MatDialogRef<ManualInvoiceFormComponent>,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              private selectunit: SelectUnitService) { }
 
   ngOnInit() {
-
+    this.employerService.getPayEmployers().then(
+      response => this.employers = response['data']);
   }
   saveInvoiceDetail(invoiceDetail: ManualInvoiceDetails, index: number): void {
     if (invoiceDetail !== null) {
