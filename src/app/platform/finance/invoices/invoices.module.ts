@@ -14,7 +14,6 @@ import {
   MatRippleModule
 } from '@angular/material';
 import { DatePickerModule } from '../../../shared/app-date-picker/app-date-picker.module';
-import { EmployersFinanceExcelComponent } from './employers-finance-excel/employers-finance-excel.component';
 import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
 import { TaxInvoiceFormComponent } from './tax-invoice-form/tax-invoice-form.component';
 import { TransactionInvoiceFormComponent } from './transaction-invoice-form/transaction-invoice-form.component';
@@ -37,7 +36,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     InvoicesComponent,
-    EmployersFinanceExcelComponent,
     ManualInvoiceFormComponent,
     TaxInvoiceFormComponent,
     TransactionInvoiceFormComponent,
@@ -67,7 +65,6 @@ const routes: Routes = [
     ReactiveFormsModule
   ],
   entryComponents: [
-     EmployersFinanceExcelComponent,
      ManualInvoiceFormComponent,
      TaxInvoiceFormComponent,
      TransactionInvoiceFormComponent,

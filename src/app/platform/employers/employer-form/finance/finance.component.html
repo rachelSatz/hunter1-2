@@ -51,20 +51,21 @@
       <input matInput type="text" name="billing_number" [(ngModel)]="financialDetails.billing_number" placeholder="מס' חיוב" minlength="5" maxlength="5">
       <mat-error>מס' חיוב צריך לכלול 5 תווים</mat-error>
     </mat-form-field>
-    <mat-form-field class="col-6 col-lg-3" *ngIf="financialDetails.payment_method === paymentMethodItems[1].id">
-      <input matInput type="text" name="max_direct_debit" [(ngModel)]="financialDetails.max_direct_debit" placeholder="תקרת הוראת קבע" >
-    </mat-form-field>
-    <div class="bd-select-container col-6 col-lg-2" *ngIf="financialDetails.payment_method === paymentMethodItems[3].id">
+
+    <div class="bd-select-container col-6 col-lg-2" *ngIf="financialDetails.payment_method === paymentMethodItems[1].id">
       <bd-select name="bank_id"  [items]="banks" #bankIDSelect="ngModel" [(ngModel)]="financialDetails.bank_id" placeholder="בנק" (onSelect)="selectedBankBranch()" required></bd-select>
       <mat-error [@fade]="bankIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
     </div>
-    <div class="bd-select-container col-6 col-lg-2" *ngIf="financialDetails.payment_method === paymentMethodItems[3].id">
+    <div class="bd-select-container col-6 col-lg-2" *ngIf="financialDetails.payment_method === paymentMethodItems[1].id">
       <bd-select name="branch_id"  [items]="bankBranchesDeposit" #branchIDSelect="ngModel" [(ngModel)]="financialDetails.branch_id"  placeholder="סניף" required></bd-select>
       <mat-error [@fade]="branchIDSelect.errors && form.submitted ? 'active' : 'inactive'">שדה חובה. </mat-error>
     </div>
-    <mat-form-field class="col-6 col-lg-2" *ngIf="financialDetails.payment_method === paymentMethodItems[3].id">
+    <mat-form-field class="col-6 col-lg-2" *ngIf="financialDetails.payment_method === paymentMethodItems[1].id">
       <input matInput type="text" name="number" placeholder="מס' חשבון" [(ngModel)]="financialDetails.number" maxlength="9" pattern="^\d{5,9}$" required>
       <mat-error>יש להקיש מעל 5 ספרות.</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-6 col-lg-1 mr-3" *ngIf="financialDetails.payment_method === paymentMethodItems[1].id">
+      <input matInput type="text" name="max_direct_debit" [(ngModel)]="financialDetails.max_direct_debit" placeholder="תקרת הוראת קבע" >
     </mat-form-field>
   </div>
  <div class="row">

@@ -305,37 +305,42 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
-  createMasav(): void {
+  createMasav(): boolean {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
-      return;
+      return false;
     }
+
     if (this.dataTable.criteria.checkedItems.length > 0) {
       this.invoices = this.dataTable.criteria.checkedItems;
     } else {
       this.invoices = this.dataTable.items;
     }
-    this.group1 = false;
-    this.group2 = false;
-    this.invoices.forEach(invoice => {
-      if (this.group1 && this.group2) {
-        this.notificationService.error('אין אפשרות להוריד מסב לפי הפרויקטים שנבחרו');
-        return;
-      } 
-      if (invoice['employer_financial_details']['payment_method'] !== 'bank_transfer') {
-        this.notificationService.error('יש לבחור אופן תשלום העברה בנקאית');
-        return;
-      }
-      console.log(this.ids_projects_group1.find(x => x === invoice['project']));
-      if (this.ids_projects_group1.find(x => x === invoice['project'])) {
-        this.group1 = true;
-      } else if (this.ids_projects_group2.find(x => x === invoice['project'])) {
-        this.group2 = true;
-      } else {
-        this.notificationService.error('אין אפשרות להוריד מסב לפי הפרויקטים שנבחרו');
-        return;
-      }
-    });
+
+    //
+    // this.group1 = false;
+    // this.group2 = false;
+    // this.invoices.forEach(invoice => {
+    //   if (this.group1 && this.group2) {
+    //     this.notificationService.error('אין אפשרות להוריד מסב לפי הפרויקטים שנבחרו');
+    //     return false;
+    //   }
+    //   if (invoice['status'] !== 'direct_debit') {
+    //     this.notificationService.error('יש לבחור סטטוס הוראת קבע');
+    //     return false;
+    //   }
+    //   console.log(this.ids_projects_group1.find(x => x === invoice['project']));
+    //   if (this.ids_projects_group1.find(x => x === invoice['project'])) {
+    //     this.group1 = true;
+    //   } else if (this.ids_projects_group2.find(x => x === invoice['project'])) {
+    //     this.group2 = true;
+    //   } else {
+    //     this.notificationService.error('אין אפשרות להוריד מסב לפי הפרויקטים שנבחרו');
+    //     return false;
+    //   }
+    // });
+
+
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     this.invoiceService.createMasav(items, this.dataTable.criteria).then(response => {
       console.log(response);
