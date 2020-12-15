@@ -2,12 +2,6 @@
   <div class="row">
     <span class="dot" (click)="previous()"><i class="fa fa-angle-right fa-2x"></i></span>
     <p class="h5 bold py-3 pt-4">לקוח<span class="h6 py-3">- {{employer.id_emp }} </span></p>
-    <div class="d-flex mr-auto">
-      <button class="edit pointer" *ngIf="permissionsType">
-        <span *ngIf="editClose">עריכה</span>
-        <span *ngIf="!editClose">שמור שינויים</span>
-      </button>
-    </div>
   </div>
 <hr>
   <div class="mt-3 mb-3">

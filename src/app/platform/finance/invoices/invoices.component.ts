@@ -345,14 +345,26 @@ export class InvoicesComponent implements OnInit {
     this.invoiceService.createMasav(items, this.dataTable.criteria).then(response => {
       console.log(response);
       this.is_valid = true;
-      const byteCharacters = atob(response['data']);
-      const byteNumbers = new Array(byteCharacters.length);
+      let byteCharacters = atob(response['file']['data']);
+      let byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], {type: 'application/' + response['ext']});
-      FileSaver.saveAs(blob, response['filename']);
+      let byteArray = new Uint8Array(byteNumbers);
+      let blob = new Blob([byteArray], {type: 'application/' + response['ext']});
+      let fileName = 'מסב-' + Date.now().toString();
+      FileSaver.saveAs(blob, fileName);
+      if (response['exceptional_message']) {
+        byteCharacters = atob(response['exceptional_message']['data']);
+        byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        byteArray = new Uint8Array(byteNumbers);
+        blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+        fileName = 'חשבוניות חריגים-' + Date.now().toString() + '.xlsx';
+        FileSaver.saveAs(blob, fileName);
+      }
     });
   }
 
@@ -377,26 +389,15 @@ export class InvoicesComponent implements OnInit {
       if (response['message'] === 'error') {
         this.notificationService.error('לא ניתן להוריד את הקובץ');
       } else {
-        let byteCharacters = atob(response['message']['data']);
-        let byteNumbers = new Array(byteCharacters.length);
+        const byteCharacters = atob(response['message']['data']);
+        const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
           byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
-        let byteArray = new Uint8Array(byteNumbers);
-        let blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-        let fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+        const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
         FileSaver.saveAs(blob, fileName);
-        if (response['exceptional_message']) {
-          byteCharacters = atob(response['exceptional_message']['data']);
-          byteNumbers = new Array(byteCharacters.length);
-          for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-          }
-          byteArray = new Uint8Array(byteNumbers);
-          blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-          fileName = 'חשבוניות חריגים-' + Date.now().toString() + '.xlsx';
-          FileSaver.saveAs(blob, fileName);
-        }
         this.spin = false;
         this.notificationService.success('הקובץ הופק בהצלחה');
       }
