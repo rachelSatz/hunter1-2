@@ -76,7 +76,7 @@
     <h5 class="mt-5 bold">הרשאות</h5>
     <div style="width: 52%">
       <app-data-table tableName="" [ifDisplayPagination]="false" [columns]="columns"
-                      [hasActionsSearch]="false" [hasExtendedSearch]="false" [hasLoadingItem]="false">
+                      [hasActionsSearch]="false" [hasExtendedSearch]="false" [hasLoadingItem]="false" >
         <tr *ngFor="let item of user.modules; let i=index;" class="pointer" >
           <td [ngClass]="{'white': i%2 === 0}">{{ moduleTypes[item.name]}}</td>
           <td [ngClass]="{'white': i%2 === 0}">

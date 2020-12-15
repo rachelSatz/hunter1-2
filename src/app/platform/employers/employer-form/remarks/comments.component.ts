@@ -20,9 +20,13 @@ export class CommentsComponent implements OnInit {
 
   ngOnInit() {
     this.selectUnit.setActiveEmployerUrl('remarks');
+    this.fetchItems();
+
+  }
+
+  fetchItems(): void {
     this.employerService.getEmployerComments(this.employerSession.getUser().username, this.selectUnit.getEmployerID() )
       .then(response => this.comments_emp = response);
-
   }
 
   submit(): void {
@@ -30,7 +34,7 @@ export class CommentsComponent implements OnInit {
     this.employerService.newEmployerComment(this.employerSession.getUser().username, this.comment_emp, this.selectUnit.getEmployerID())
       .then(response => {
       if (response) {
-        window.location.reload();
+        this.fetchItems();
       } else {
         this.hasServerError = true;
       }
@@ -40,7 +44,7 @@ export class CommentsComponent implements OnInit {
   deleteComment(comment_id: any): void {
     this.employerService.deleteComment(comment_id).then(response => {
       if (response) {
-        window.location.reload();
+        this.fetchItems();
       } else {
         this.hasServerError = true;
       }
