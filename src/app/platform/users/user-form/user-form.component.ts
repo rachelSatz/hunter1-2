@@ -37,9 +37,8 @@ export class UserFormComponent implements OnInit {
   });
   items: Array<any>= new Array<any>(this.modules.length)
   readonly columns  = [
-    { name: 'module', label: 'מודול', searchable: false},
-    { name: 'watching', label: 'צפיה'},
-    { name: 'actions', label: 'ביצוע פעולות'},
+    { name: 'module', label: 'מודול', searchable: false, isSort: false},
+    { name: 'watching', label: 'צפיה', isSort: false}
   ];
   constructor(private userSeService: UserSessionService,
               private userService: UserService,
