@@ -346,14 +346,14 @@ export class InvoicesComponent implements OnInit {
       console.log(response);
       this.is_valid = true;
       if (response['exceptional_message']) {
-        let byteCharacters = atob(response['data']['file']);
+        let byteCharacters = atob(response['file']['data']);
         let byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
           byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
         let byteArray = new Uint8Array(byteNumbers);
         let blob = new Blob([byteArray], {type: 'application/' + response['ext']});
-        let fileName = 'מסב-' + Date.now().toString();
+        let fileName = Date.now().toString() + '.txt';
         FileSaver.saveAs(blob, fileName);
         byteCharacters = atob(response['exceptional_message']['data']);
         byteNumbers = new Array(byteCharacters.length);
@@ -372,7 +372,7 @@ export class InvoicesComponent implements OnInit {
         }
         const byteArray = new Uint8Array(byteNumbers);
         const blob = new Blob([byteArray], {type: 'application/' + response['ext']});
-        const fileName = 'מסב-' + Date.now().toString();
+        const fileName = Date.now().toString() + '.txt';
         FileSaver.saveAs(blob, fileName);
       }
     });
