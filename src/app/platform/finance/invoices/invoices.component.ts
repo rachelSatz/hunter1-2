@@ -345,16 +345,16 @@ export class InvoicesComponent implements OnInit {
     this.invoiceService.createMasav(items, this.dataTable.criteria).then(response => {
       console.log(response);
       this.is_valid = true;
-      let byteCharacters = atob(response['file']['data']);
-      let byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      let byteArray = new Uint8Array(byteNumbers);
-      let blob = new Blob([byteArray], {type: 'application/' + response['ext']});
-      let fileName = 'מסב-' + Date.now().toString();
-      FileSaver.saveAs(blob, fileName);
       if (response['exceptional_message']) {
+        let byteCharacters = atob(response['data']['file']);
+        let byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        let byteArray = new Uint8Array(byteNumbers);
+        let blob = new Blob([byteArray], {type: 'application/' + response['ext']});
+        let fileName = 'מסב-' + Date.now().toString();
+        FileSaver.saveAs(blob, fileName);
         byteCharacters = atob(response['exceptional_message']['data']);
         byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
@@ -363,6 +363,16 @@ export class InvoicesComponent implements OnInit {
         byteArray = new Uint8Array(byteNumbers);
         blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
         fileName = 'חשבוניות חריגים-' + Date.now().toString() + '.xlsx';
+        FileSaver.saveAs(blob, fileName);
+      }else {
+        const byteCharacters = atob(response['data']);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/' + response['ext']});
+        const fileName = 'מסב-' + Date.now().toString();
         FileSaver.saveAs(blob, fileName);
       }
     });
