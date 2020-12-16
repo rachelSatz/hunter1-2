@@ -30,17 +30,19 @@ export class CommentsComponent implements OnInit {
     this.employerService.newEmployerComment(this.employerSession.getUser().username, this.comment_emp, this.selectUnit.getEmployerID())
       .then(response => {
       if (response) {
-        window.location.reload();
+        this.ngOnInit();
       } else {
         this.hasServerError = true;
       }
+      this.comment_emp = '';
     });
   }
 
   deleteComment(comment_id: any): void {
+    this.hasServerError = false;
     this.employerService.deleteComment(comment_id).then(response => {
       if (response) {
-        window.location.reload();
+        this.ngOnInit();
       } else {
         this.hasServerError = true;
       }
