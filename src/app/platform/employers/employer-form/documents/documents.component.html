@@ -16,13 +16,13 @@
     <td [ngClass]="{'white': i%2 === 0}">{{ types[item.type] }}</td>
     <td class="select-status" *ngIf="item.status" [ngClass]="{'white': i%2 === 0}">
       <mat-select [title]="setItemTitle(item)" class="p-2 border-radius-11" [ngClass]="{'gray-background-color': i%2 === 0 , 'white-background-color': i%2 !== 0 }"
-                  [disabled]="!permissionsType" name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(item.id, item.status)" required>
+                  [disabled]="!permissionsType" name="status" placeholder="" [(ngModel)]="item.status" (selectionChange)="setInvoiceStatus(items[item], item.id, item.status)" required>
         <mat-option *ngFor="let st of status" [value]="st.id">{{ st.name }}</mat-option>
       </mat-select>
     </td>
     <td [ngClass]="{'white': i%2 === 0}">
       <i class="fa fa-eye fa-lg pointer ml-3 mr-3" (click)="ShowRemarks(item)" title="הערות" ></i>
-      <i class="fa fa-download fa-lg pointer ml-3" *ngIf="item.description != ''" title="פירוט עובדים בחשבונית"  (click)="downloadEmployeesExcel(item.id, item)"></i>
+      <i class="fa fa-download fa-lg pointer ml-3" *ngIf="item.description != ''" title="פירוט עובדים בחשבונית"  (click)="submit(item.id, item)"></i>
       <i class="fa fa-exclamation-circle pointer ml-3" (click)="showInvoiceDetails(item)" title="פירוט רשומות" ></i>
     </td>
   </tr>
