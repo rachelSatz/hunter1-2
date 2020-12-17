@@ -66,7 +66,14 @@ export class ProactiveInvoiceFormComponent implements OnInit {
         this.conditions['payment_method'] = form.value['payment_method'];
       }
       this.invoiceService.createProactiveInvoice(this.conditions).then(response => {
-        console.log(response);
+        this.helpers.setPageSpinner(false);
+        if (response['message'] === 'no employers to charged') {
+          this.notificationService.info('לא בוצע חיוב');
+        } else if (response['message'] === 'success') {
+          this.notificationService.success('חיוב בוצע בהצלחה');
+        } else {
+          this.notificationService.error('ארעה שגיאה');
+        }
       });
      }
   }
