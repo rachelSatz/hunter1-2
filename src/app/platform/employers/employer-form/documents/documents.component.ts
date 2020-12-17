@@ -64,8 +64,7 @@ export class DocumentsComponent implements OnInit {
               private invoiceService: InvoiceService,
               private EmployerService: EmployerService,
               private GeneralService: GeneralService,
-              private SelectUnitService: SelectUnitService,
-              private invoicescomp: InvoicesComponent) { }
+              private SelectUnitService: SelectUnitService) { }
 
   ngOnInit() {
     this.SelectUnitService.setActiveEmployerUrl('documents');
