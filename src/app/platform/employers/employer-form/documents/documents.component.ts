@@ -13,6 +13,10 @@ import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-deta
 import { GeneralService } from '../../../../shared/_services/http/general.service';
 import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
+import {InvoicesComponent} from '../../../finance/invoices/invoices.component';
+import * as FileSaver from 'file-saver';
+import {CommentsComponent} from '../remarks/comments.component';
+
 
 
 @Component({
@@ -35,6 +39,7 @@ export class DocumentsComponent implements OnInit {
   permissionsType = this.userSession.getPermissionsType('employers');
   arrInvoicesTmp: any[];
   items: any;
+  spin: boolean;
   types = TYPES;
   readonly columns  = [
     { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
@@ -59,7 +64,8 @@ export class DocumentsComponent implements OnInit {
               private invoiceService: InvoiceService,
               private EmployerService: EmployerService,
               private GeneralService: GeneralService,
-              private SelectUnitService: SelectUnitService) { }
+              private SelectUnitService: SelectUnitService,
+              private invoicescomp: InvoicesComponent) { }
 
   ngOnInit() {
     this.SelectUnitService.setActiveEmployerUrl('documents');
@@ -107,9 +113,15 @@ export class DocumentsComponent implements OnInit {
   }
 
   ShowRemarks(item: Object): void {
-    this.dialog.open(RemarksFormComponent, {
+    this.dialog.open(CommentsComponent, {
       data: item,
       width: '750px'
     });
   }
+  // DownloadsEmployeesDeet(x: Object, y: Object): void {
+  //   InvoicesComponent.downloadEmployeesExcel(x, y);
+  //
+  //
+  // }
+
 }
