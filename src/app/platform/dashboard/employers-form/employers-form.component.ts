@@ -26,6 +26,7 @@ export class EmployersFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.data);
     if (this.data['payment_method'] === 'direct_debit') {
       this.payment_method = 'הוראת קבע';
     }
@@ -44,8 +45,8 @@ export class EmployersFormComponent implements OnInit {
     if (this.data['product_type'] !== 'all') {
       this.dataFilters['product_type'] = this.data['product_type'];
     }
-    if (this.data['project_group_id']) {
-      this.dataFilters['project_group_id'] = +this.data['project_group_id'];
+    if (this.data['project_group_id'] !== '0') {
+      this.dataFilters['project_group_id'] = this.data['project_group_id'];
     }
     if (this.data['organization_id'] !== 0 && this.data['organization_id'] !== '0' && this.data['organization_id']) {
       this.dataFilters['organization_id'] = +this.data['organization_id'];
@@ -68,6 +69,8 @@ export class EmployersFormComponent implements OnInit {
         });
     }
   }
+
+
 
   openEmployerForm(employer_id: number): void {
     console.log(employer_id);

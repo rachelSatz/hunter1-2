@@ -75,7 +75,8 @@ export class DashboardComponent implements OnInit {
   });
   timeRange = [{id: 1, name: 'לפי חודש'}, {id: 2, name: 'לפי תקופה'}];
   days = {0: 'א', 1: 'ב',  2: 'ג',  3: 'ד', 4: 'ה', 5: 'ו', 6: 'ז' };
-  projectGroups = [{id: 1, name: 'smarti' }];
+  projectGroups = [{id: 1, name: 'smarti'}];
+
 // { id: 2, name: 'myHr'}
 
   constructor(private GeneralService: GeneralService,
