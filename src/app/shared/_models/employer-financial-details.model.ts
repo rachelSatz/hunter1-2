@@ -59,8 +59,8 @@ export class EmployerFinancialProduct {
 export class EmployerFinancialPayments {
   id: number;
   payment_type: string;
-  payment_amount: string;
-  ids_count: string;
+  payment_amount: any;
+  ids_count: any;
 
   constructor() {
     this.payment_amount = '1';

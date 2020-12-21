@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GeneralService } from '../../shared/_services/http/general.service';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
 import { FormControl, Validators } from '@angular/forms';
 import { EstPaymentFormComponent} from './est-payment-form/est-payment-form.component';
 import { NewEmployersFormComponent} from './new-employers-form/new-employers-form.component';
@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit {
   toDateStr: string;
   sum_incomes: any;
   sum_invoices_system: any;
+  sum_employers: any;
   data: any;
   d: any;
   newDate: Date;
@@ -74,7 +75,9 @@ export class DashboardComponent implements OnInit {
   });
   timeRange = [{id: 1, name: 'לפי חודש'}, {id: 2, name: 'לפי תקופה'}];
   days = {0: 'א', 1: 'ב',  2: 'ג',  3: 'ד', 4: 'ה', 5: 'ו', 6: 'ז' };
-  projectGroups = [{id: 1, name: 'smarti' }, { id: 2, name: 'myHr'}];
+  projectGroups = [{id: 1, name: 'smarti'}];
+
+// { id: 2, name: 'myHr'}
 
   constructor(private GeneralService: GeneralService,
               private dialog: MatDialog,
@@ -129,7 +132,7 @@ export class DashboardComponent implements OnInit {
             this.employerId = null;
           }
         });
-      this.EmployerService.getEmployersByProjectId(+this.projectId).then(res =>{
+      this.EmployerService.getEmployersByProjectId(+this.projectId).then(res => {
         this.employers = res['data'];
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
@@ -243,6 +246,8 @@ export class DashboardComponent implements OnInit {
               this.data['invoice_system']['green_invoices_error']['sum'];
             this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] +
               this.data['incomes']['incomes_est_payment_amount']['sum'];
+            // tslint:disable-next-line:max-line-length
+            this.sum_employers = this.data['employers_status']['charged_employers']['count'] + this.data['employers_status']['need_to_charge_employers']['count'] + this.data['employers_status']['charged_employers_manually']['count'] + this.data['employers_status']['no_payment_detail_employers']['count'] + this.data['employers_status']['employers_0_charge']['count'];
           } else {
             this.NotificationService.error('ארעה שגיאה');
           }
@@ -277,7 +282,7 @@ export class DashboardComponent implements OnInit {
         { from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.currentProjectId}]);
     } else {
       this.toDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
-      this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(),1), 'yyyy-MM-dd');
+      this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1), 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/finance/calc-processes',
         { from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.currentProjectId,
@@ -413,7 +418,7 @@ export class DashboardComponent implements OnInit {
     }));
   }
 
-  openEmployersWithNoPaymentPopUp(): void{
+  openEmployersWithNoPaymentPopUp(): void {
     const dialog = this.dialog.open(EmployersWithNoPaymentComponent, {
       data: {
         'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),

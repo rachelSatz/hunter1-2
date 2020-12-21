@@ -67,7 +67,7 @@
   <div class="col-6 h-auto pr-4 float-right" class="">
     <div class="h-auto mb-5 mt-2">
       <h4>סטטוס מעסיקים</h4>
-      <p class="sumCount"> סה"כ מעסיקים-<span class="blue-color"></span></p>
+      <p class="sumCount"> סה"כ מעסיקים-<span class="blue-color">{{sum_employers | number:'1.2-2'}}</span></p>
       <div class="dataCls">
         <div class="dataRightCls"></div>
         <img src="../../../assets/img/icons/user.png" class="float-right">
@@ -104,7 +104,7 @@
           </div>
           <div class="float-right w-25 padding-right-30">
             <p class="sumCount">סכום</p>
-            <p style="font-size: 15px">{{data['employers_status']['need_to_charge_employers']['sum'] | number:'1.2-2' }}</p>
+            <p style="font-size: 15px">-</p>
           </div>
           <a (click)="openNeedToChargeEmployersPopUp()">צפייה</a>
           <i  class="fa fa-angle-left"></i>

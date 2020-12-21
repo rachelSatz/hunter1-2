@@ -241,6 +241,10 @@ export class FinanceComponent implements OnInit {
 
   changeExceptionAmount(product: EmployerFinancialProduct): void {
     const payment = product.financial_payments[product.financial_payments.length - 1];
-    product.exception_amount = + payment.payment_amount / + payment.ids_count;
+    if (isNaN(payment.payment_amount / + payment.ids_count)) {
+      product.exception_amount = 0;
+    } if (payment.ids_count === '0' || payment.ids_count === '') {
+      product.exception_amount = 0;
+    } else { product.exception_amount = + payment.payment_amount / + payment.ids_count; }
   }
 }

@@ -110,9 +110,9 @@ export class InvoicesComponent implements OnInit {
         this.notificationService.success('נשמר בהצלחה.');
       } else if ('no_changes') {
         this.notificationService.info('לא ניתן לשנות רשומה שנשלחה לחשבונית ירוקה');
+        this.ngOnInit();
       } else {
         this.notificationService.error(response['message']);
-
       }
     });
   }
