@@ -22,7 +22,7 @@
       <bd-select [items]="TAX" placeholder="סוג מסמך" name="tax_type" #taxTypeModel="ngModel" [(ngModel)]="manualInvoice.tax_type" (onSelect)="changeTaxType()"></bd-select>
     </div>
     <div class="w-auto mr-3">
-      <bd-select [items]="productTypes" placeholder="סוג מוצר" name="product_type" #productTypeModel="ngModel" [(ngModel)]="manualInvoice.product_type" required></bd-select>
+      <bd-select [items]="productTypes" placeholder="סוג מוצר" name="product_type" (onSelect)="changeEmployers()" #productTypeModel="ngModel" [(ngModel)]="manualInvoice.product_type" required></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && productTypeModel.errors ? 'active' : 'inactive'">יש לבחור סוג מוצר.</p>
     </div>
 
