@@ -291,4 +291,41 @@ export class InvoicesComponent implements OnInit {
       this.fetchItems();
     }));
   }
+
+  deleteInvoices(updateEmployee: boolean): void {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.dataTable.setNoneCheckedWarning();
+      return;
+    }
+    const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
+    const totalCheckedIds = this.dataTable.criteria.isCheckAll ? this.dataTable.criteria.checkedItems.length > 0 ?
+      this.dataTable.paginationData.totalItems - this.dataTable.criteria.checkedItems.length : this.dataTable.paginationData.totalItems :
+      this.dataTable.criteria.checkedItems.length;
+
+    const text = '  האם ברצונך לבצע מחיקה? נבחרו - ' + totalCheckedIds + ' רשומות';
+
+    this.notificationService.warning(text, '', buttons).then(confirmation => {
+      if (confirmation.value) {
+        this.invoiceService.deleteInvoices(this.dataTable.criteria.checkedItems.map(
+          item => item['id']), this.dataTable.criteria, updateEmployee).then(response => {
+          this.helpers.setPageSpinner(false);
+          if (response) {
+            if (response['message'] === 'success') {
+              this.notificationService.success('הרשומות נמחקו בהצלחה.');
+              this.dataTable.criteria.checkedItems = [];
+              this.dataTable.criteria.isCheckAll = false;
+              this.fetchItems();
+            } else if (response['message'] === 'no_rows_selected') {
+              this.notificationService.info('לא נמצאו רשומות מתאימות לשליחה');
+              this.dataTable.criteria.checkedItems = [];
+              this.dataTable.criteria.isCheckAll = false;
+              this.fetchItems();
+            } else {
+              this.notificationService.error('ארעה שגיאה.');
+            }
+          }
+        });
+      }
+    });
+  }
 }
