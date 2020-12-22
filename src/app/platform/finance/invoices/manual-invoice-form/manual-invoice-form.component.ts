@@ -19,6 +19,8 @@ import { SelectUnitService } from '../../../../shared/_services/select-unit.serv
 export class ManualInvoiceFormComponent implements OnInit {
 
   employers: any;
+  payEmployers: any;
+  allEmployers: any;
   manualInvoice: ManualInvoice = new ManualInvoice();
   totalBeforeTax = 0;
   tax = 0;
@@ -54,7 +56,9 @@ export class ManualInvoiceFormComponent implements OnInit {
 
   ngOnInit() {
     this.employerService.getPayEmployers().then(
-      response => this.employers = response['data']);
+      response => { this.payEmployers = response['data'];
+      this.employers = this.payEmployers; });
+    this.allEmployers = this.selectunit.getEmployers();
   }
 
   saveInvoiceDetail(invoiceDetail: ManualInvoiceDetails, index: number): void {
@@ -123,6 +127,14 @@ export class ManualInvoiceFormComponent implements OnInit {
           this.tax = 0;
           break;
       }
+    }
+  }
+
+  changeEmployers(): void {
+    if (this.manualInvoice.product_type === 'defrayal') {
+      this.employers = this.payEmployers;
+    } else {
+      this.employers = this.allEmployers;
     }
   }
 

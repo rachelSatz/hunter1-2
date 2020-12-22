@@ -20,13 +20,13 @@
   </thead>
   <tbody>
   <tr *ngFor="let detail of invoiceDetails">
-    <td class="w-20">{{ detail.ids_count}}</td>
-    <td class="w-20">{{ detail.payment_type}}</td>
-    <td class="w-20">{{ detail.payment_amount}}</td>
-    <td class="w-20">{{ detail.total_amount}}</td>
-    <td class="w-25">{{ detail.details}}</td>
-    <td class="w-20">{{ detail.is_exceptional}}</td>
-    <td class="w-25">{{ detail.for_month_process}}</td>
+    <td class="w-20">{{ detail.ids_count }}</td>
+    <td class="w-20">{{ detail.payment_type }}</td>
+    <td class="w-20">{{ detail.payment_amount | number:'1.2-2' }}</td>
+    <td class="w-20">{{ detail.total_amount | number:'1.2-2' }}</td>
+    <td class="w-25">{{ detail.details }}</td>
+    <td class="w-20">{{ detail.is_exceptional }}</td>
+    <td class="w-25">{{ detail.for_month_process }}</td>
   </tr>
   </tbody>
 </table>

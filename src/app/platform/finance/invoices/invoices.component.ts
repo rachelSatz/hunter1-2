@@ -22,7 +22,7 @@ import * as FileSaver from 'file-saver';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
 import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.component';
-
+​
 @Component({
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
@@ -30,21 +30,21 @@ import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.compo
 })
 export class InvoicesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
-
+​
   items: any;
   tax: boolean;
   sub = new Subscription;
   types = TYPES;
   projects: Project[] = [];
-  status = Object.keys(STATUS).map(function(e) {
-    return { id: e, name: STATUS[e] };
+  status = Object.keys(STATUS).map(function (e) {
+    return {id: e, name: STATUS[e]};
   });
-  paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function(e) {
-    return { id: e, name: PAYMENT_METHOD[e] };
+  paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function (e) {
+    return {id: e, name: PAYMENT_METHOD[e]};
   });
   spin: boolean;
-  error_status = Object.keys(ERROR_STATUS).map(function(e) {
-    return { id: e, name: ERROR_STATUS[e] };
+  error_status = Object.keys(ERROR_STATUS).map(function (e) {
+    return {id: e, name: ERROR_STATUS[e]};
   });
   filters = {};
   permissionsType = this.userSession.getPermissionsType('finance');
@@ -54,24 +54,29 @@ export class InvoicesComponent implements OnInit {
   ids_projects_group2 = [2];
   group1: boolean;
   group2: boolean;
-  readonly columns  = [
-    { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
-      label: 'שם מעסיק', searchable: false},
-    { name: 'project_name', sortName: 'project__project_name', label: 'שם פרויקט',
-      searchOptions: { labels: this.GeneralService.projects}, multiple: true },
-    { name: 'green_invoice_number', sortName: 'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
-    { name: 'total_amount', label: 'סכום'},
-    { name: 'ids_count', label: 'כמות ת"ז' , searchable: false},
-    { name: 'for_month', label: 'בגין חודש' , searchOptions: { isDate: true }},
-    { name: 'created_at', label: 'ת.יצירה' , searchOptions: { isDate: true }},
-    { name: 'last_payment_date', label: 'לתשלום עד' , searchable: false},
-    { name: 'type', label: 'סוג חשבונית' , searchable: false},
-    { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } , multiple: true},
-    { name: 'payment_method', label: 'אופן תשלום', searchOptions: { labels: this.paymentMethodItems }, isDisplay: false},
-    { name: 'project_group_id', label: 'פרויקט על', isDisplay: false, searchable: false},
-    { name: 'organization_id', label: 'ארגון', isDisplay: false, searchable: false},
-    { name: 'employer_id', label: 'מעסיק', isDisplay: false, searchable: false}
+  readonly columns = [
+    {
+      name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
+      label: 'שם מעסיק', searchable: false
+    },
+    {
+      name: 'project_name', sortName: 'project__project_name', label: 'שם פרויקט',
+      searchOptions: {labels: this.GeneralService.projects}, multiple: true
+    },
+    {name: 'green_invoice_number', sortName: 'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
+    {name: 'total_amount', label: 'סכום'},
+    {name: 'ids_count', label: 'כמות ת"ז', searchable: false},
+    {name: 'for_month', label: 'בגין חודש', searchOptions: {isDate: true}},
+    {name: 'created_at', label: 'ת.יצירה', searchOptions: {isDate: true}},
+    {name: 'last_payment_date', label: 'לתשלום עד', searchable: false},
+    {name: 'type', label: 'סוג חשבונית', searchable: false},
+    {name: 'status', label: 'סטטוס', searchOptions: {labels: this.status}, multiple: true},
+    {name: 'payment_method', label: 'אופן תשלום', searchOptions: {labels: this.paymentMethodItems}, isDisplay: false},
+    {name: 'project_group_id', label: 'פרויקט על', isDisplay: false, searchable: false},
+    {name: 'organization_id', label: 'ארגון', isDisplay: false, searchable: false},
+    {name: 'employer_id', label: 'מעסיק', isDisplay: false, searchable: false}
   ];
+​
 
   constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
@@ -81,18 +86,25 @@ export class InvoicesComponent implements OnInit {
               private helpers: HelpersService,
               private invoiceService: InvoiceService,
               private GeneralService: GeneralService,
-              private selectUnit: SelectUnitService) {}
+              private selectUnit: SelectUnitService) {
+  }
+
+​
 
   ngOnInit() {
     this.selectUnit.setActiveUrl('finance');
     this.GeneralService.getProjects(this.selectUnit.getProjectGroupId())
-      .then(response => { this.GeneralService.projects = response['data'];
-        this.columns[1]['searchOptions'].labels = response['data']; });
+      .then(response => {
+        this.GeneralService.projects = response['data'];
+        this.columns[1]['searchOptions'].labels = response['data'];
+      });
     this.fetchItems();
   }
 
+​
+
   setItemTitle(item: Invoice): string {
-    if (item.green_invoice_document !== null ) {
+    if (item.green_invoice_document !== null) {
       if (item.green_invoice_document.errorDescription !== null && item.green_invoice_document.errorDescription !== '') {
         return item.green_invoice_document.errorDescription;
       } else {
@@ -102,6 +114,8 @@ export class InvoicesComponent implements OnInit {
       return '';
     }
   }
+
+​
 
   setInvoiceStatus(invoiceId: number, status: string): void {
     this.invoiceService.setInvoiceStatus(invoiceId, status).then(response => {
@@ -117,6 +131,8 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
+​
+
   fetchItems() {
     this.sub = this.route.params.subscribe(v => {
       this.setFilters(v);
@@ -129,8 +145,11 @@ export class InvoicesComponent implements OnInit {
       .then(response => {
         console.log(response);
         this.dataTable.setItems(response);
-        this.helpers.setPageSpinner(false); });
+        this.helpers.setPageSpinner(false);
+      });
   }
+
+​
 
   setFilters(conditions): void {
     if (conditions['from_date']) {
@@ -149,12 +168,14 @@ export class InvoicesComponent implements OnInit {
       if (conditions['employer_id'] !== 0 && conditions['employer_id'] !== '0' && conditions['employer_id']) {
         this.filters['employer_id'] = +conditions['employer_id'];
       }
-
+​
       this.filters['status'] = conditions['status'];
       this.filters['created_at[from]'] = conditions['from_date'];
       this.filters['created_at[to]'] = conditions['to_date'];
     }
   }
+
+​
 
   openManualInvoice(): void {
     this.dialog.open(ManualInvoiceFormComponent, {
@@ -162,17 +183,19 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
+​
+
   openTaxInvoice(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
+    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     const dialog = this.dialog.open(TaxInvoiceFormComponent, {
       data: {
-              'ids': items,
-              'dataTable' : this.dataTable
-            },
+        'ids': items,
+        'dataTable': this.dataTable
+      },
       width: '450px'
     });
     this.sub.add(dialog.afterClosed().subscribe(() => {
@@ -182,20 +205,26 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
-  sendTransactionInvoice():  void {
+​
+
+  sendTransactionInvoice(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
-
+​
     const dialog = this.dialog.open(TransactionInvoiceFormComponent, {
-      data: { 'ids': items,
-
-        'dataTable' : this.dataTable},
-      width: '450px'
-    });
-
+      data: {'ids': items,
+​
+        'dataTable'
+  :
+    this.dataTable
+  },
+    width: '450px'
+  })
+    ;
+​
     this.sub.add(dialog.afterClosed().subscribe(res => {
       if (res) {
         this.dataTable.criteria.checkedItems = [];
@@ -205,18 +234,24 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
+​
+
   openOnlyTaxInvoice(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
+    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     const dialog = this.dialog.open(TaxOnlyInvoiceFormComponent, {
-      data: { 'ids': items,
-
-        'dataTable' : this.dataTable},
-      width: '450px'
-    });
+      data: {'ids': items,
+​
+        'dataTable'
+  :
+    this.dataTable
+  },
+    width: '450px'
+  })
+    ;
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
       this.dataTable.criteria.checkedItems = [];
@@ -224,9 +259,11 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
+​
+
   downloadInvoicesToExcel(): void {
     if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
-      const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
+      const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     }
     console.log(this.items);
     console.log(this.dataTable.criteria);
@@ -251,6 +288,8 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
+​
+
   openReports(): void {
     const dialog = this.dialog.open(ReportsFormComponent, {
       width: '450px'
@@ -260,12 +299,16 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
+​
+
   showInvoiceDetails(item: Object): void {
     this.dialog.open(InvoiceDetailsFormComponent, {
       data: item,
       width: '750px'
     });
   }
+
+​
 
   downloadEmployeesExcel(invoiceId, item): void {
     this.invoiceService.downloadExcel(invoiceId).then(response => {
@@ -287,6 +330,8 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
+​
+
   ShowRemarks(item: Object): void {
     this.dialog.open(RemarksFormComponent, {
       data: item,
@@ -294,123 +339,26 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
+​
+
   openProactiveInvoice(): void {
     const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
       width: '500px',
       height: '600px'
-
-    });
+​
+  })
+    ;
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
     }));
   }
+
+​
 
   createMasav(): boolean {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return false;
     }
-
-    if (this.dataTable.criteria.checkedItems.length > 0) {
-      this.invoices = this.dataTable.criteria.checkedItems;
-    } else {
-      this.invoices = this.dataTable.items;
-    }
-
-    //
-    // this.group1 = false;
-    // this.group2 = false;
-    // this.invoices.forEach(invoice => {
-    //   if (this.group1 && this.group2) {
-    //     this.notificationService.error('אין אפשרות להוריד מסב לפי הפרויקטים שנבחרו');
-    //     return false;
-    //   }
-    //   if (invoice['status'] !== 'direct_debit') {
-    //     this.notificationService.error('יש לבחור סטטוס הוראת קבע');
-    //     return false;
-    //   }
-    //   console.log(this.ids_projects_group1.find(x => x === invoice['project']));
-    //   if (this.ids_projects_group1.find(x => x === invoice['project'])) {
-    //     this.group1 = true;
-    //   } else if (this.ids_projects_group2.find(x => x === invoice['project'])) {
-    //     this.group2 = true;
-    //   } else {
-    //     this.notificationService.error('אין אפשרות להוריד מסב לפי הפרויקטים שנבחרו');
-    //     return false;
-    //   }
-    // });
-
-
-    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
-    this.invoiceService.createMasav(items, this.dataTable.criteria).then(response => {
-      console.log(response);
-      this.is_valid = true;
-      if (response['exceptional_message']) {
-        let byteCharacters = atob(response['file']['data']);
-        let byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        let byteArray = new Uint8Array(byteNumbers);
-        let blob = new Blob([byteArray], {type: 'application/' + response['ext']});
-        let fileName = Date.now().toString() + '.txt';
-        FileSaver.saveAs(blob, fileName);
-        byteCharacters = atob(response['exceptional_message']['data']);
-        byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        byteArray = new Uint8Array(byteNumbers);
-        blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-        fileName = 'חשבוניות חריגים-' + Date.now().toString() + '.xlsx';
-        FileSaver.saveAs(blob, fileName);
-      }else {
-        const byteCharacters = atob(response['data']);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'application/' + response['ext']});
-        const fileName = Date.now().toString() + '.txt';
-        FileSaver.saveAs(blob, fileName);
-      }
-    });
-  }
-
-    openCreditCardInvoices(): void {
-    const dialog = this.dialog.open(CreditCardExelComponent, {
-      width: '450px'
-    });
-    this.sub.add(dialog.afterClosed().subscribe(result => {
-      if (result) {
-        console.log(result);
-        this.tax = result;
-        this.downloadCreditCardInvoices();
-      } else {
-        console.log(result);
-        this.notificationService.error('לא ניתן להוריד את הקובץ');
-      }
-    }));
-  }
-
-  downloadCreditCardInvoices(): void {
-    this.invoiceService.downloadCreditCardInvoicesToExcel(this.dataTable.criteria, this.tax).then(response => {
-      if (response['message'] === 'error') {
-        this.notificationService.error('לא ניתן להוריד את הקובץ');
-      } else {
-        const byteCharacters = atob(response['message']['data']);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-        const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
-        FileSaver.saveAs(blob, fileName);
-        this.spin = false;
-        this.notificationService.success('הקובץ הופק בהצלחה');
-      }
-    });
   }
 }

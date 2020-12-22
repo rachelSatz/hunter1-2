@@ -54,7 +54,7 @@ export class TaxInvoiceFormComponent implements OnInit {
               this.hasServerError = false;
               this.notificationService.success('נשמר בהצלחה.');
               this.dialogRef.close(true);
-            } else if ('no_rows_selected') {
+            } else if (response['message'] === 'no_rows_selected') {
               this.hasServerError = false;
               this.notificationService.info('לא נמצאו רשומות מתאימות לשליחה');
               this.dialogRef.close(true);

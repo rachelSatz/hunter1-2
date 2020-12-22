@@ -168,7 +168,7 @@
   </div>
   <i class="fa fa-plus-circle fa-2x pointer pink-color" title="הוספה" (click)="addPaymentRow(index1)" *ngIf="product.financial_payments.length === 0"></i>
 
-  <div class="row mt-1 mr-1"  *ngIf="product.financial_payments.length > 0">
+  <div class="row mt-1 mr-1"  *ngIf="product.financial_payments.length === 1">
     <mat-form-field *ngIf="product.financial_payments[0].payment_type === 'fixed'" >
       <input matInput type="text" [name]="'exception_amount' + index1" [(ngModel)]="product.exception_amount" placeholder="תעריף חריגים" required>
     </mat-form-field>
