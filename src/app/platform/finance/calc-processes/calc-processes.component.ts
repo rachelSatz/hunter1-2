@@ -6,6 +6,7 @@ import { GeneralService } from '../../../shared/_services/http/general.service';
 import { CalcProcessService } from '../../../shared/_services/http/calc-process.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import {Organization} from '../../../shared/_models/organization';
 
 @Component({
   selector: 'app-calc-processes',
@@ -16,13 +17,15 @@ export class CalcProcessesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   readonly columns  = [
-    { name: 'project_id', sortName: 'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
+    // tslint:disable-next-line:max-line-length
+    { name: 'projector', sortName: 'project_group_name', label: 'שם פרויקט על'},
     { name: 'created_at', label: 'תאריך', searchOptions: { isDate: true }},
     { name: 'count_employers', label: 'סה"כ מעסיקים'},
     { name: 'count_employees', label: 'סה"כ ת.ז'},
-    { name: 'amount_invoices', label: 'סכום'},
-    { name: 'project_group_id', label: 'פרויקט על', isDisplay: false, searchable: false }
+    { name: 'amount_invoices', label: 'סכום'}
+    // { name: 'project_group_id', label: 'פרויקט על', isDisplay: false, searchable: false }
   ];
+  projector: Organization[];
   projects: Project[];
   sub = new Subscription;
   filters = {};
@@ -45,11 +48,11 @@ export class CalcProcessesComponent implements OnInit {
         this.filters['created_at[from]'] = v['from_date'];
         this.filters['created_at[to]'] = v['to_date'];
       }
-    })
-    if (this.SelectUnitService.getProjectGroupId() === 1) {
-      this.GeneralService.getProjects(1).then(response =>
-      this.columns[0]['searchOptions'].labels = response['data']);
-    }
+    });
+    // if (this.SelectUnitService.getProjectGroupId() === 1) {
+    //   this.GeneralService.getProjects(1).then(response =>
+    //   this.columns[0]['searchOptions'].labels = response['data']);
+    // }
   }
 
   fetchItems(): void {
