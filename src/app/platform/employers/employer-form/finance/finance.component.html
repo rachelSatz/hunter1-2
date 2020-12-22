@@ -170,7 +170,7 @@
 
   <div class="row mt-1 mr-1"  *ngIf="product.financial_payments.length === 1">
     <mat-form-field *ngIf="product.financial_payments[0].payment_type === 'fixed'" >
-      <input matInput type="text" [name]="'exception_amount' + index1" [(ngModel)]="product.exception_amount" placeholder="תעריף חריגים" required>
+      <input matInput type="text" [name]="'exception_amount' + index1" value="{{ product.exception_amount | number : '1.2-2' }}" step="0.01" placeholder="תעריף חריגים" required>
     </mat-form-field>
   </div>
  <div class="row">
