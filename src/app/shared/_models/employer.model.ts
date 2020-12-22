@@ -1,5 +1,6 @@
 export class Employer {
   id: number;
+  org_id: number;
   name: string;
   identifier: string;
   is_active: boolean;

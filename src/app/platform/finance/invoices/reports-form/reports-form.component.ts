@@ -21,7 +21,9 @@ export class ReportsFormComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   selectedReport: string;
-  reports: string[] = ['מעסיקים ללא הגדרות פיננסיות', 'מעסיקים ללא תשלום', 'מעסיקים שלא הופקה להם חשבונית עבור חודש'];
+  reports = ['מעסיקים ללא הגדרות פיננסיות',
+                       'מעסיקים ללא תשלום',
+                       'מעסיקים שלא הופקה להם חשבונית עבור חודש'];
   hasServerError = false;
   message: string;
   spin: boolean;
@@ -35,6 +37,7 @@ export class ReportsFormComponent implements OnInit {
 
   ngOnInit() {
   }
+
   submit(form: NgForm): void {
     this.hasServerError = false;
     form.value['for_month'] = this.datePipe.transform(form.value['for_month'], 'yyyy-MM-dd');

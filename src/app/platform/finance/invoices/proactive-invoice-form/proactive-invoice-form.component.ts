@@ -15,7 +15,6 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-proactive-invoice-form',
   templateUrl: './proactive-invoice-form.component.html',
-  styleUrls: ['./proactive-invoice-form.component.css'],
   styles: ['#styleFormat { height: 200px; padding-top: 20px; margin: auto; }'],
   animations: [ fade ]
 })
@@ -39,7 +38,7 @@ export class ProactiveInvoiceFormComponent implements OnInit {
                private employerService: EmployerService,  private selectUnit: SelectUnitService,
                private notificationService: NotificationService,
                private dialogRef: MatDialogRef<ProactiveInvoiceFormComponent>,
-               private GeneralService: GeneralService) { }
+               private generalService: GeneralService) { }
 
   ngOnInit() {
     this.employerService.getPayEmployers().then(
@@ -48,7 +47,7 @@ export class ProactiveInvoiceFormComponent implements OnInit {
         this.employers.push({'id': '0', 'name': 'כלל המעסיקים'});
         this.employers.sort((a, b) => a.id - b.id);
       });
-    this.GeneralService.getProjects(this.selectUnit.getProjectGroupId()).then(response => this.projects = response['data']);
+    this.generalService.getProjects(this.selectUnit.getProjectGroupId()).then(response => this.projects = response['data']);
   }
   submit(form: NgForm): void {
     if (form.valid) {
@@ -67,7 +66,14 @@ export class ProactiveInvoiceFormComponent implements OnInit {
         this.conditions['payment_method'] = form.value['payment_method'];
       }
       this.invoiceService.createProactiveInvoice(this.conditions).then(response => {
-        console.log(response);
+        this.helpers.setPageSpinner(false);
+        if (response['message'] === 'no employers to charged') {
+          this.notificationService.info('לא בוצע חיוב');
+        } else if (response['message'] === 'success') {
+          this.notificationService.success('חיוב בוצע בהצלחה');
+        } else {
+          this.notificationService.error('ארעה שגיאה');
+        }
       });
      }
   }

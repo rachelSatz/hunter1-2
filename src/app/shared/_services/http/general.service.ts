@@ -80,7 +80,7 @@ export class GeneralService  extends BaseHttpService {
       .catch(() => false);
   }
   deleteComment(objectID: any): Promise<boolean> {
-    return this.http.delete(this.apiUrl + '/generals/remove' + objectID , this.getTokenHeader())
+    return this.http.delete(this.apiUrl + '/generals/' + objectID , this.getTokenHeader())
       .toPromise()
       .then(() => true)
       .catch(() => false);

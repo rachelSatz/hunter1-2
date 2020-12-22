@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import { InvoiceService } from '../../../../shared/_services/http/invoice.service';
 import { MatDialogRef } from '@angular/material';
 import { NotificationService } from '../../../../shared/_services/notification.service';
+import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-manual-invoice-form',
@@ -18,6 +19,8 @@ import { NotificationService } from '../../../../shared/_services/notification.s
 export class ManualInvoiceFormComponent implements OnInit {
 
   employers: any;
+  payEmployers: any;
+  allEmployers: any;
   manualInvoice: ManualInvoice = new ManualInvoice();
   totalBeforeTax = 0;
   tax = 0;
@@ -43,16 +46,21 @@ export class ManualInvoiceFormComponent implements OnInit {
     { name: 'payment_amount', label: 'מחיר ליחידה' , searchable: false},
     { name: 'total_amount', label: 'סה"כ' , searchable: false},
   ];
+  update_employees = true;
 
   constructor(private employerService: EmployerService,
               private invoiceService: InvoiceService,
               private dialogRef: MatDialogRef<ManualInvoiceFormComponent>,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              private selectunit: SelectUnitService) { }
 
   ngOnInit() {
-    this.employerService.getEmployers().then(
-      response => this.employers = response['data']);
+    this.employerService.getPayEmployers().then(
+      response => { this.payEmployers = response['data'];
+      this.employers = this.payEmployers; });
+    this.allEmployers = this.selectunit.getEmployers();
   }
+
   saveInvoiceDetail(invoiceDetail: ManualInvoiceDetails, index: number): void {
     if (invoiceDetail !== null) {
       if (invoiceDetail.ids_count > 0 && invoiceDetail.payment_amount > 0) {
@@ -122,10 +130,19 @@ export class ManualInvoiceFormComponent implements OnInit {
     }
   }
 
+  changeEmployers(): void {
+    if (this.manualInvoice.product_type === 'defrayal') {
+      this.employers = this.payEmployers;
+    } else {
+      this.employers = this.allEmployers;
+    }
+  }
+
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      this.invoiceService.createManualInvoice(this.manualInvoice).then(response => {
+      console.log(this.update_employees);
+      this.invoiceService.createManualInvoice(this.manualInvoice, this.update_employees).then(response => {
         this.message = response['message'];
         if (response['message'] !== 'success') {
           this.hasServerError = true;

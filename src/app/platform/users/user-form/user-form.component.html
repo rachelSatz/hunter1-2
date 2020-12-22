@@ -17,7 +17,6 @@
     <h5 class="bold">פרטים כלליים</h5>
     <div class="row mb-4">
       <div class="col-6 col-lg-3">
-        <!--<input matInput type="text" [(ngModel)]="user.first_name" placeholder="שם פרטי" name="first_name" required>-->
         <p class="grayColor">שם פרטי</p>
         <input class="form-control" type="text" name="first_name" #first_name="ngModel"  [(ngModel)]="user.first_name"
                required pattern="^[a-zA-Zא-ת \-\']+">
@@ -29,15 +28,11 @@
             יש להזין אותיות בלבד
           </div>
         </mat-error>
-        <!--<mat-error *ngIf="control && control.invalid && (control.dirty || control.touched)">יש להזין שם פרטי.</mat-error>-->
       </div>
       <div class="col-6 col-lg-3">
-        <!--<input matInput type="text" [(ngModel)]="user.last_name" placeholder="שם משפחה" name="last_name" required>-->
         <p class="grayColor">שם משפחה</p>
         <input class="form-control" type="text" name="last_name" #last_name="ngModel" [(ngModel)]="user.last_name" required
              pattern="^[a-zA-Zא-ת \-\']+">
-        <!--[ngClass]="last_name.invalid && (last_name.dirty || last_name.touched ||not_valid)? 'invalid':''"-->
-        <!--class="red-color"-->
         <mat-error *ngIf="last_name.invalid && (last_name.dirty || last_name.touched ||not_valid )" >
           <div *ngIf="last_name.errors.required">
             שדה חובה
@@ -52,7 +47,6 @@
       <div class="col-6 col-lg-3">
         <p class="grayColor">טלפון נייד </p>
         <input class="form-control" type="text" name="phone" #phone="ngModel" [(ngModel)]="user.phone"  pattern="^\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})$">
-        <!--pattern="^\+?(972|0|\+972|00972)(\-)?(([23489]{1}\d{7})|[5]{1}\d{8})"-->
         <mat-error *ngIf="phone.invalid && (phone.dirty || phone.touched ||not_valid)" class="red-color">
         מספר לא חוקי
         </mat-error>
@@ -81,8 +75,8 @@
     </div>
     <h5 class="mt-5 bold">הרשאות</h5>
     <div style="width: 52%">
-      <app-data-table tableName="" [ifDisplayPagination]="false" [columns]="columns" [hasActionsHeader]="isDisplay"
-                      [hasActionsSearch]="false" [hasExtendedSearch]="false" [hasLoadingItem]="false">
+      <app-data-table tableName="" [ifDisplayPagination]="false" [columns]="columns"
+                      [hasActionsSearch]="false" [hasExtendedSearch]="false" [hasLoadingItem]="false" >
         <tr *ngFor="let item of user.modules; let i=index;" class="pointer" >
           <td [ngClass]="{'white': i%2 === 0}">{{ moduleTypes[item.name]}}</td>
           <td [ngClass]="{'white': i%2 === 0}">

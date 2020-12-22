@@ -12,8 +12,7 @@ import { InvoiceService } from '../../../../shared/_services/http/invoice.servic
 @Component({
   selector: 'app-tax-only-invoice-form',
   templateUrl: './tax-only-invoice-form.component.html',
-  styleUrls: ['./tax-only-invoice-form.component.css'],
-  styles: ['#styleFormat { height: 200px; padding-top: 20px }'],
+  styles: ['#styleFormat { height: 200px; padding-top: 20px } .date { margin-right: 106px; }'],
   animations: [ fade ]
 })
 export class TaxOnlyInvoiceFormComponent implements OnInit {
@@ -53,7 +52,7 @@ export class TaxOnlyInvoiceFormComponent implements OnInit {
               this.hasServerError = false;
               this.notificationService.success('נשמר בהצלחה.');
               this.dialogRef.close(true);
-            } else if ('no_rows_selected') {
+            } else if (response['message'] === 'no_rows_selected') {
               this.hasServerError = false;
               this.notificationService.info('לא נמצאו רשומות מתאימות לשליחה');
               this.dialogRef.close(true);

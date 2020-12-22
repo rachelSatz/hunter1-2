@@ -7,7 +7,7 @@ import { EmployerService } from '../../../shared/_services/http/employer.service
 @Component({
   selector: 'app-est-payment-form',
   templateUrl: './est-payment-form.component.html',
-  styleUrls: ['./est-payment-form.component.css', '../../../shared/data-table/data-table.component.css']
+  styleUrls: ['../../../shared/data-table/data-table.component.css']
 })
 export class EstPaymentFormComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;

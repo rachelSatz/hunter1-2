@@ -7,7 +7,7 @@ import { InvoiceService } from '../../../shared/_services/http/invoice.service';
 @Component({
   selector: 'app-new-employers-form',
   templateUrl: './new-employers-form.component.html',
-  styleUrls: ['./new-employers-form.component.css', '../../../shared/data-table/data-table.component.css']
+  styleUrls: ['../../../shared/data-table/data-table.component.css']
 })
 export class NewEmployersFormComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;

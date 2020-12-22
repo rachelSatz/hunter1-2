@@ -39,10 +39,10 @@ export class UsersComponent implements OnInit {
               protected notificationService: NotificationService,
               private userService: UserService,
               private helpers: HelpersService,
-              private SelectUnitService: SelectUnitService) { }
+              private selectUnit: SelectUnitService) { }
 
   ngOnInit() {
-    this.SelectUnitService.setActiveUrl('users');
+    this.selectUnit.setActiveUrl('users');
     this.fetchItems();
     this.dataTable.placeHolderSearch = 'שם משתמש';
   }
@@ -53,7 +53,8 @@ export class UsersComponent implements OnInit {
       this.user = response;
     });
   }
-  restoreUser(user: User): void{
+
+  restoreUser(user: User): void {
     console.log(user);
     const buttons = {confirmButtonText: 'אישור', cancelButtonText: 'ביטול'};
     const text = '  האם ברצונך לשחזר משתמש ' + user.first_name + ' ' + user.last_name + ' ?';
@@ -74,6 +75,7 @@ export class UsersComponent implements OnInit {
       }
     });
   }
+
   deleteUser(user: User): void{
     console.log(user);
     const buttons = {confirmButtonText: 'אישור', cancelButtonText: 'ביטול'};
@@ -95,6 +97,7 @@ export class UsersComponent implements OnInit {
       }
     });
   }
+
   register(item: any): void {
     this.appHttp.forgotPassword(item.email).then(
       response => {

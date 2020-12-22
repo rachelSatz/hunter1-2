@@ -5,11 +5,11 @@
 <div class="row d-flex align-items-center mt-4">
 
   <div class="col">
-    <bd-select  [items]="projectGroups" name="projectGroup" class="min-width-170 max-width-220"  [ngClass]="{'SelectOpened': isSelectOpened === true }"
+    <bd-select  [items]="projectGroups" name="projectGroup" class="min-width-170 max-width-220"
                 [(ngModel)]="projectGroupId" placeholder="פרויקט על" (onSelect)="loadOrganizationAndEmployers()"></bd-select>
   </div>
   <div class="col">
-    <bd-select [ngClass]="{'SelectOpened': isSelectOpened === true }" class="min-width-170 max-width-220"
+    <bd-select  class="min-width-170 max-width-220"
                (onSelect)="loadOrganizationAndEmployers()" [items]="projects"[(ngModel)]="projectId" placeholder="פרויקט" name="project"></bd-select>
   </div>
   <div class="col" >
@@ -20,12 +20,12 @@
     <bd-select  [items]="employers" class="min-width-170 max-width-220" [(ngModel)]="employerId" placeholder="מעסיק" name="employer"></bd-select>
   </div>
   <div class="col" >
-    <bd-select  [items]="productTypesItems" name="productType" class="min-width-170" [ngClass]="{'SelectOpened': isSelectOpened === true }"
+    <bd-select  [items]="productTypesItems" name="productType" class="min-width-170"
                 [(ngModel)]="productTypeId" placeholder="בחר מוצר"></bd-select>
   </div>
   <div class="col max-width-220" >
   <bd-select [items]="timeRange"  class="min-width-170"  [filterSearch]="false" (onSelect)="changeTimeRange()"
-             [ngClass]="{'SelectOpened': isSelectOpened === true }" name="timeRange" [(ngModel)]="timeRangeId" placeholder="טווח זמן"></bd-select>
+             name="timeRange" [(ngModel)]="timeRangeId" placeholder="טווח זמן"></bd-select>
   </div>
   <div  class="col pr-0 pl-0 w-70" *ngIf="timeRangeId === 1">
     <mat-form-field class="date-input w-80">
@@ -67,7 +67,7 @@
   <div class="col-6 h-auto pr-4 float-right" class="">
     <div class="h-auto mb-5 mt-2">
       <h4>סטטוס מעסיקים</h4>
-      <p class="sumCount"> סה"כ מעסיקים-<span class="blue-color"></span></p>
+      <p class="sumCount"> סה"כ מעסיקים-<span class="blue-color">{{sum_employers | number:'1.2-2'}}</span></p>
       <div class="dataCls">
         <div class="dataRightCls"></div>
         <img src="../../../assets/img/icons/user.png" class="float-right">
@@ -104,7 +104,7 @@
           </div>
           <div class="float-right w-25 padding-right-30">
             <p class="sumCount">סכום</p>
-            <p style="font-size: 15px">{{data['employers_status']['need_to_charge_employers']['sum'] | number:'1.2-2' }}</p>
+            <p style="font-size: 15px">-</p>
           </div>
           <a (click)="openNeedToChargeEmployersPopUp()">צפייה</a>
           <i  class="fa fa-angle-left"></i>

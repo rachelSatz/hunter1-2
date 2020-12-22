@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { fade } from '../../../../shared/_animations/animation';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,13 +13,16 @@ import {
   NO_PAYMENT_TIME,
   PAYMENT_METHOD,
   PAYMENT_TERMS,
-  PAYMENT_TIME, PAYMENT_TYPE, PRODUCT_TYPES, TAX
+  PAYMENT_TIME,
+  PAYMENT_TYPE,
+  PRODUCT_TYPES,
+  TAX
 } from '../../../../shared/_models/employer-financial-details.model';
 import { Employer } from '../../../../shared/_models/employer.model';
 import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
-import { Subscription } from 'rxjs';
 import { UserSessionService } from '../../../../shared/_services/http/user-session.service';
-import {GeneralService} from '../../../../shared/_services/http/general.service';
+import { GeneralService } from '../../../../shared/_services/http/general.service';
+import { HelpersService } from '../../../../shared/_services/helpers.service';
 
 
 
@@ -31,9 +34,11 @@ import {GeneralService} from '../../../../shared/_services/http/general.service'
 })
 
 export class FinanceComponent implements OnInit {
-  @ViewChild(FinanceComponent) doughnut: FinanceComponent;
 
-   paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function (e) {
+  paymentTypesItems = Object.keys(PAYMENT_TYPE).map(function(e) {
+    return { id: e, name: PAYMENT_TYPE[e] };
+  });
+  paymentTermsItems = Object.keys(PAYMENT_TERMS).map(function (e) {
     return {id: e, name: PAYMENT_TERMS[e]};
   });
   paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function(e) {
@@ -58,16 +63,11 @@ export class FinanceComponent implements OnInit {
   productTypesItems = Object.keys(PRODUCT_TYPES).map(function(e) {
     return { id: e, name: PRODUCT_TYPES[e] };
   });
-  paymentTypesItems = Object.keys(PAYMENT_TYPE).map(function(e) {
-    return { id: e, name: PAYMENT_TYPE[e] };
-  });
-  projectGroupId;
   employerId ;
   rowIndex: number;
   isNoPaymentTime: boolean;
   openDatePicker: boolean;
   displayMasav: boolean;
-  check: any;
   arrShow: Array<boolean> = new Array<boolean>();
   arrShow2: Array<boolean> = new Array<boolean>();
   banks = [];
@@ -75,38 +75,29 @@ export class FinanceComponent implements OnInit {
   financialDetails: EmployerFinancialDetails = new EmployerFinancialDetails();
   payEmployers: Employer[];
   hasServerError: boolean;
-  sub = new Subscription;
   productTemp: EmployerFinancialProduct;
   bankBranchesDeposit = [];
 
   constructor(private route: ActivatedRoute,
               public router: Router,
-              private EmployerService: EmployerService,
+              private employerService: EmployerService,
               private notificationService: NotificationService,
               private selectUnit: SelectUnitService,
               public userSession: UserSessionService,
-              private generalService: GeneralService) {
+              private generalService: GeneralService,
+              private helpers: HelpersService) {
   }
 
   ngOnInit() {
     this.selectUnit.setActiveEmployerUrl('finance');
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-        this.fetchItems();
-      }
-    ));
-    this.EmployerService.getPayEmployers()
-      .then(res => { this.payEmployers = res['data'];
-        console.log(this.payEmployers);
-        this.fetchItems(); });
-
+    this.payEmployers = this.selectUnit.getEmployers();
+    this.fetchItems();
     }
 
     fetchItems() {
       this.loadBanks();
-      if (this.selectUnit.currentEmployerID > 0) {
-      this.projectGroupId = this.selectUnit.getProjectGroupId();
       this.employerId = this.selectUnit.getEmployerID();
-      this.EmployerService.getEmployerFinance(this.employerId)
+      this.employerService.getEmployerFinance(this.employerId)
           .then(res => {
             if (res.id) {
               this.financialDetails = res;
@@ -123,7 +114,6 @@ export class FinanceComponent implements OnInit {
             }
           });
 
-     }
     for (let i = 0; i < this.financialDetails.financial_product.length; i++) {
       if (this.financialDetails.financial_product[i].additional_payment_amount > 0) {
         this.arrShow.push(true);
@@ -133,6 +123,7 @@ export class FinanceComponent implements OnInit {
       }
     }
   }
+
   loadBanks(): void {
     this.generalService.getBanks(true).then(banks => {
       this.banks = banks;
@@ -152,6 +143,7 @@ export class FinanceComponent implements OnInit {
     }
       this.bankBranchesDeposit = selectedBank ? selectedBank.bank_branches : [];
   }
+
   addProductRow() {
     this.productTemp = new EmployerFinancialProduct();
     this.productTemp.financial_payments = new Array<EmployerFinancialPayments>(1);
@@ -160,16 +152,20 @@ export class FinanceComponent implements OnInit {
     this.arrShow.push(false);
     this.arrShow2.push(false);
   }
+
   deleteProductRow(index: number) {
     this.financialDetails.financial_product.splice(index, 1);
     this.arrShow.splice(index, 1);
   }
+
   addPaymentRow(index: number) {
     this.financialDetails.financial_product[index].financial_payments.push(new EmployerFinancialPayments());
   }
+
   deletePaymentRow(index1: number, index2: number) {
     this.financialDetails.financial_product[index1].financial_payments.splice(index2, 1);
   }
+
   displayCheckedAdditional(product: any): boolean {
     if (product.additional_payment_amount > 0 && product.additional_payment_desc != null) {
       return true;
@@ -177,13 +173,7 @@ export class FinanceComponent implements OnInit {
       return false;
     }
   }
-  displayCheckedException(product: any): boolean {
-    if (product.exception_amount > 0 ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+
   showAdditionalPayment(index: number, isChecked: boolean): void {
     if (isChecked) {
       this.rowIndex = index;
@@ -194,15 +184,7 @@ export class FinanceComponent implements OnInit {
       this.financialDetails.financial_product[index].additional_payment_desc = '';
     }
   }
-  showAdditionalException(index: number, isChecked: boolean): void {
-    if (isChecked) {
-      this.rowIndex = index;
-      this.arrShow2[index] = true;
-    } else {
-      this.arrShow2[index] = false;
-      this.financialDetails.financial_product[index].exception_amount = 0;
-    }
-  }
+
   showNoPaymentTime(): void {
     if (this.financialDetails.payment_time !== undefined && this.financialDetails.payment_time === 'no_payment') {
       this.isNoPaymentTime = true;
@@ -210,6 +192,7 @@ export class FinanceComponent implements OnInit {
       this.isNoPaymentTime = false;
     }
   }
+
   selectDueDate(): void {
     if (this.financialDetails.payment_time_validity !== undefined && this.financialDetails.payment_time_validity === 'month') {
       this.openDatePicker = true;
@@ -217,6 +200,7 @@ export class FinanceComponent implements OnInit {
       this.openDatePicker = false;
     }
   }
+
   addEstablishing(isChecked: boolean): void {
     if (isChecked) {
       this.isEstablishingPayment = true;
@@ -227,10 +211,12 @@ export class FinanceComponent implements OnInit {
       this.financialDetails.est_ids_count = 0;
     }
   }
-  changeIsZero(product, check: boolean){
+
+  changeIsZero(product, check: boolean) {
     this.financialDetails.financial_product.find(x => x.id === product.id).is_zero = check;
   }
-  changeShowDetails(product, check: boolean){
+
+  changeShowDetails(product, check: boolean) {
     this.financialDetails.financial_product.find(x => x.id === product.id).show_details = check;
   }
 
@@ -240,7 +226,7 @@ export class FinanceComponent implements OnInit {
        if (this.selectUnit.getEmployerID() === 0) {
         this.notificationService.error('לא נבחר מעסיק.');
       } else {
-          this.EmployerService.saveFinancialDetails(this.selectUnit.getEmployerID(), this.financialDetails)
+          this.employerService.saveFinancialDetails(this.selectUnit.getEmployerID(), this.financialDetails)
             .then(response => {
               if (response['message'] !== 'success') {
                 this.hasServerError = true;
@@ -252,4 +238,13 @@ export class FinanceComponent implements OnInit {
         }
       }
     }
+
+  changeExceptionAmount(product: EmployerFinancialProduct): void {
+    const payment = product.financial_payments[product.financial_payments.length - 1];
+    if (isNaN(payment.payment_amount / + payment.ids_count)) {
+      product.exception_amount = 0;
+    } if (payment.ids_count === '0' || payment.ids_count === '') {
+      product.exception_amount = 0;
+    } else { product.exception_amount = + payment.payment_amount / + payment.ids_count; }
+  }
 }

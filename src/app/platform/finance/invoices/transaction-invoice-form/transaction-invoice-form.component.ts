@@ -12,8 +12,7 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-transaction-invoice-form',
   templateUrl: './transaction-invoice-form.component.html',
-  styleUrls: ['./transaction-invoice-form.component.css'],
-  styles: ['#styleFormat { height: 200px; padding-top: 20px }'],
+  styles: ['#styleFormat { height: 200px; padding-top: 20px } .date { margin-right: 106px; }'],
   animations: [ fade ]
 })
 export class TransactionInvoiceFormComponent implements OnInit {
@@ -42,10 +41,8 @@ export class TransactionInvoiceFormComponent implements OnInit {
         this.data.dataTable.paginationData.totalItems - this.data.ids.length : this.data.dataTable.paginationData.totalItems :
         this.data.ids.length;
       const text = '  האם ברצונך לשלוח חשבוניות עסקה? נבחרו - ' + totalCheckedIds + ' רשומות';
-
       this.hasServerError = false;
       form.value['document_date'] = this.datePipe.transform(form.value['document_date'], 'yyyy-MM-dd');
-
       this.notificationService.warning(text, '', buttons).then(confirmation => {
         if (confirmation.value) {
           this.helpers.setPageSpinner(true);
@@ -56,7 +53,7 @@ export class TransactionInvoiceFormComponent implements OnInit {
               this.hasServerError = false;
               this.notificationService.success('נשמר בהצלחה.');
               this.dialogRef.close(true);
-            } else if ('no_rows_selected') {
+            } else if (response['message'] === 'no_rows_selected') {
               this.hasServerError = false;
               this.notificationService.info('לא נמצאו רשומות מתאימות לשליחה');
               this.dialogRef.close(true);

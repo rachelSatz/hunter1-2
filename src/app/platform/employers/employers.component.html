@@ -1,4 +1,3 @@
-
 <app-data-table tableName="לקוחות "  [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="false"
                 [hasActionsHeader]="false"  [hasActiveSwitch]="true" [hasExtendedSearch]="false">
   <div class="table-header">
@@ -12,7 +11,8 @@
     </div>
   </div>
 
-  <tr *ngFor="let item of dataTable.items; let i=index;" [ngClass]="{'pointer': item.is_active}" class="pointer" [ngClass]="{'highlight': item.error !== null}" (click)="openEmployerFinanceDetails(item)">
+  <tr *ngFor="let item of dataTable.items; let i=index;" [ngClass]="{'pointer': item.is_active}" class="pointer"
+      [ngClass]="{'highlight': item.error !== null}" (click)="openEmployerFinanceDetails(item)">
     <td [ngClass]="{'white': i%2 === 0}">{{ item.identifier}}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.name }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.is_active ? 'מעסיק פעיל': 'מעסיק לא פעיל' }}</td>

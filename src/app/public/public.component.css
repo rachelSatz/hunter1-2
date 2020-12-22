@@ -12,7 +12,6 @@ header {
 
 ::ng-deep .form-entrance {
   padding: 20px 14px;
-  /*box-shadow: #e1e1e1 3px 3px;*/
 }
 
 .footer {
@@ -24,4 +23,3 @@ header {
 ::ng-deep.margin-auto{
   margin: auto!important;
 }
-

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableComponent } from '../../../shared/data-table/data-table.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ERROR_STATUS, Invoice, STATUS, TYPES } from '../../../shared/_models/invoice.model';
 import { PAYMENT_METHOD } from '../../../shared/_models/employer-financial-details.model';
 import { UserSessionService } from '../../../shared/_services/http/user-session.service';
@@ -21,7 +21,8 @@ import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-deta
 import * as FileSaver from 'file-saver';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
-
+import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.component';
+​
 @Component({
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
@@ -29,59 +30,81 @@ import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactiv
 })
 export class InvoicesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+​
   items: any;
+  tax: boolean;
   sub = new Subscription;
   types = TYPES;
   projects: Project[] = [];
-  status = Object.keys(STATUS).map(function(e) {
-    return { id: e, name: STATUS[e] };
+  status = Object.keys(STATUS).map(function (e) {
+    return {id: e, name: STATUS[e]};
   });
-  paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function(e) {
-    return { id: e, name: PAYMENT_METHOD[e] };
+  paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function (e) {
+    return {id: e, name: PAYMENT_METHOD[e]};
   });
-  fileName = '';
   spin: boolean;
-  error_status = Object.keys(ERROR_STATUS).map(function(e) {
-    return { id: e, name: ERROR_STATUS[e] };
+  error_status = Object.keys(ERROR_STATUS).map(function (e) {
+    return {id: e, name: ERROR_STATUS[e]};
   });
-  filters = {}
+  filters = {};
   permissionsType = this.userSession.getPermissionsType('finance');
-  readonly columns  = [
-    { name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
-      label: 'שם מעסיק', searchable: false},
-    { name: 'project_name', sortName: 'project__project_name', label: 'שם פרויקט', searchOptions: { labels: this.GeneralService.projects} },
-    { name: 'green_invoice_number', sortName: 'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
-    { name: 'total_amount', label: 'סכום'},
-    { name: 'ids_count', label: 'כמות ת"ז' , searchable: false},
-    { name: 'for_month', label: 'בגין חודש' , searchOptions: { isDate: true }},
-    { name: 'created_at', label: 'ת.יצירה' , searchOptions: { isDate: true }},
-    { name: 'last_payment_date', label: 'לתשלום עד' , searchable: false},
-    { name: 'type', label: 'סוג חשבונית' , searchable: false},
-    { name: 'status',  label: 'סטטוס', searchOptions: { labels: this.status } , multiple: true},
-    { name: 'payment_method', label: 'אופן תשלום', searchOptions: { labels: this.paymentMethodItems }, isDisplay: false},
-    { name: 'project_group_id', label: 'פרויקט על', isDisplay: false, searchable: false},
-    { name: 'organization_id', label: 'ארגון', isDisplay: false, searchable: false},
-    { name: 'employer_id', label: 'מעסיק', isDisplay: false, searchable: false}
+  invoices = [];
+  is_valid: boolean;
+  ids_projects_group1 = [1, 4, 5, 6, 14];
+  ids_projects_group2 = [2];
+  group1: boolean;
+  group2: boolean;
+  readonly columns = [
+    {
+      name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
+      label: 'שם מעסיק', searchable: false
+    },
+    {
+      name: 'project_name', sortName: 'project__project_name', label: 'שם פרויקט',
+      searchOptions: {labels: this.GeneralService.projects}, multiple: true
+    },
+    {name: 'green_invoice_number', sortName: 'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
+    {name: 'total_amount', label: 'סכום'},
+    {name: 'ids_count', label: 'כמות ת"ז', searchable: false},
+    {name: 'for_month', label: 'בגין חודש', searchOptions: {isDate: true}},
+    {name: 'created_at', label: 'ת.יצירה', searchOptions: {isDate: true}},
+    {name: 'last_payment_date', label: 'לתשלום עד', searchable: false},
+    {name: 'type', label: 'סוג חשבונית', searchable: false},
+    {name: 'status', label: 'סטטוס', searchOptions: {labels: this.status}, multiple: true},
+    {name: 'payment_method', label: 'אופן תשלום', searchOptions: {labels: this.paymentMethodItems}, isDisplay: false},
+    {name: 'project_group_id', label: 'פרויקט על', isDisplay: false, searchable: false},
+    {name: 'organization_id', label: 'ארגון', isDisplay: false, searchable: false},
+    {name: 'employer_id', label: 'מעסיק', isDisplay: false, searchable: false}
   ];
+​
+
   constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
               private dialog: MatDialog,
+              private router: Router,
               private notificationService: NotificationService,
               private helpers: HelpersService,
               private invoiceService: InvoiceService,
               private GeneralService: GeneralService,
-              private SelectUnitService: SelectUnitService) {}
+              private selectUnit: SelectUnitService) {
+  }
+
+​
 
   ngOnInit() {
-    this.SelectUnitService.setActiveUrl('finance');
-
-    this.GeneralService.getProjects(this.SelectUnitService.getProjectGroupId())
-      .then(response => { this.GeneralService.projects = response['data'];
-        this.columns[1]['searchOptions'].labels = response['data']; });
+    this.selectUnit.setActiveUrl('finance');
+    this.GeneralService.getProjects(this.selectUnit.getProjectGroupId())
+      .then(response => {
+        this.GeneralService.projects = response['data'];
+        this.columns[1]['searchOptions'].labels = response['data'];
+      });
     this.fetchItems();
   }
+
+​
+
   setItemTitle(item: Invoice): string {
-    if (item.green_invoice_document !== null ) {
+    if (item.green_invoice_document !== null) {
       if (item.green_invoice_document.errorDescription !== null && item.green_invoice_document.errorDescription !== '') {
         return item.green_invoice_document.errorDescription;
       } else {
@@ -91,6 +114,9 @@ export class InvoicesComponent implements OnInit {
       return '';
     }
   }
+
+​
+
   setInvoiceStatus(invoiceId: number, status: string): void {
     this.invoiceService.setInvoiceStatus(invoiceId, status).then(response => {
       this.helpers.setPageSpinner(false);
@@ -98,16 +124,19 @@ export class InvoicesComponent implements OnInit {
         this.notificationService.success('נשמר בהצלחה.');
       } else if ('no_changes') {
         this.notificationService.info('לא ניתן לשנות רשומה שנשלחה לחשבונית ירוקה');
+        this.ngOnInit();
       } else {
         this.notificationService.error(response['message']);
-
       }
     });
   }
+
+​
+
   fetchItems() {
     this.sub = this.route.params.subscribe(v => {
       this.setFilters(v);
-    })
+    });
     this.helpers.setPageSpinner(true);
     if (this.filters['created_at[from]']) {
       this.dataTable.criteria.filters = this.filters;
@@ -116,8 +145,11 @@ export class InvoicesComponent implements OnInit {
       .then(response => {
         console.log(response);
         this.dataTable.setItems(response);
-        this.helpers.setPageSpinner(false); });
+        this.helpers.setPageSpinner(false);
+      });
   }
+
+​
 
   setFilters(conditions): void {
     if (conditions['from_date']) {
@@ -136,28 +168,34 @@ export class InvoicesComponent implements OnInit {
       if (conditions['employer_id'] !== 0 && conditions['employer_id'] !== '0' && conditions['employer_id']) {
         this.filters['employer_id'] = +conditions['employer_id'];
       }
-
+​
       this.filters['status'] = conditions['status'];
       this.filters['created_at[from]'] = conditions['from_date'];
       this.filters['created_at[to]'] = conditions['to_date'];
     }
   }
+
+​
+
   openManualInvoice(): void {
     this.dialog.open(ManualInvoiceFormComponent, {
       width: '1100px'
     });
   }
+
+​
+
   openTaxInvoice(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
+    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     const dialog = this.dialog.open(TaxInvoiceFormComponent, {
       data: {
-              'ids': items,
-              'dataTable' : this.dataTable
-            },
+        'ids': items,
+        'dataTable': this.dataTable
+      },
       width: '450px'
     });
     this.sub.add(dialog.afterClosed().subscribe(() => {
@@ -167,20 +205,26 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
-  sendTransactionInvoice():  void {
+​
+
+  sendTransactionInvoice(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
-
+​
     const dialog = this.dialog.open(TransactionInvoiceFormComponent, {
-      data: { 'ids': items,
-
-        'dataTable' : this.dataTable},
-      width: '450px'
-    });
-
+      data: {'ids': items,
+​
+        'dataTable'
+  :
+    this.dataTable
+  },
+    width: '450px'
+  })
+    ;
+​
     this.sub.add(dialog.afterClosed().subscribe(res => {
       if (res) {
         this.dataTable.criteria.checkedItems = [];
@@ -189,27 +233,37 @@ export class InvoicesComponent implements OnInit {
       }
     }));
   }
+
+​
+
   openOnlyTaxInvoice(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
-    const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
+    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     const dialog = this.dialog.open(TaxOnlyInvoiceFormComponent, {
-      data: { 'ids': items,
-
-        'dataTable' : this.dataTable},
-      width: '450px'
-    });
+      data: {'ids': items,
+​
+        'dataTable'
+  :
+    this.dataTable
+  },
+    width: '450px'
+  })
+    ;
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
       this.dataTable.criteria.checkedItems = [];
       this.dataTable.criteria.isCheckAll = false;
     }));
   }
+
+​
+
   downloadInvoicesToExcel(): void {
     if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
-      const items =  this.dataTable.criteria.checkedItems.map(item => item['id']) ;
+      const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     }
     console.log(this.items);
     console.log(this.dataTable.criteria);
@@ -233,6 +287,9 @@ export class InvoicesComponent implements OnInit {
       }
     });
   }
+
+​
+
   openReports(): void {
     const dialog = this.dialog.open(ReportsFormComponent, {
       width: '450px'
@@ -241,20 +298,22 @@ export class InvoicesComponent implements OnInit {
       this.fetchItems();
     }));
   }
+
+​
+
   showInvoiceDetails(item: Object): void {
     this.dialog.open(InvoiceDetailsFormComponent, {
       data: item,
       width: '750px'
     });
   }
+
+​
+
   downloadEmployeesExcel(invoiceId, item): void {
     this.invoiceService.downloadExcel(invoiceId).then(response => {
       if (response['message'] === 'no_employees') {
         this.notificationService.info('לא חויבו עובדים בחשבונית');
-      } else if (response['message'] === 'error') {
-        this.notificationService.error('ארעה שגיאה');
-      } else if (response['message'] === 'establishing_invoice') {
-        this.notificationService.info('חשבונית הקמה');
       } else {
         const byteCharacters = atob(response['message']['data']);
         const byteNumbers = new Array(byteCharacters.length);
@@ -263,69 +322,43 @@ export class InvoicesComponent implements OnInit {
         }
         const byteArray = new Uint8Array(byteNumbers);
         const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-        if (item.green_invoice_document !== null && item.green_invoice_document.number !== null
-          && item.green_invoice_document.number !== '') {
-          this.fileName = 'פירוט עובדים בחשבונית מספר - '  + item.green_invoice_document.number + '.xlsx';
-        } else {
-          this.fileName =  'פירוט עובדים בחשבונית'  + '.xlsx';
-        }
-        FileSaver.saveAs(blob, this.fileName);
+        const fileName = 'פירוט עובדים בחשבוניות-' + Date.now().toString() + '.xlsx';
+        FileSaver.saveAs(blob, fileName);
         this.spin = false;
         this.notificationService.success('הקובץ הופק בהצלחה');
       }
     });
   }
+
+​
+
   ShowRemarks(item: Object): void {
     this.dialog.open(RemarksFormComponent, {
       data: item,
       width: '750px'
     });
   }
+
+​
+
   openProactiveInvoice(): void {
     const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
       width: '500px',
       height: '600px'
-
-    });
+​
+  })
+    ;
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
     }));
   }
 
-  deleteInvoices(updateEmployee: boolean): void {
+​
+
+  createMasav(): boolean {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
-      return;
+      return false;
     }
-    const buttons = {confirmButtonText: 'כן', cancelButtonText: 'לא'};
-    const totalCheckedIds = this.dataTable.criteria.isCheckAll ? this.dataTable.criteria.checkedItems.length > 0 ?
-      this.dataTable.paginationData.totalItems - this.dataTable.criteria.checkedItems.length : this.dataTable.paginationData.totalItems :
-      this.dataTable.criteria.checkedItems.length;
-
-    const text = '  האם ברצונך לבצע מחיקה? נבחרו - ' + totalCheckedIds + ' רשומות';
-
-    this.notificationService.warning(text, '', buttons).then(confirmation => {
-      if (confirmation.value) {
-        this.invoiceService.deleteInvoices(this.dataTable.criteria.checkedItems.map(
-          item => item['id']), this.dataTable.criteria, updateEmployee).then(response => {
-          this.helpers.setPageSpinner(false);
-          if (response) {
-            if (response['message'] === 'success') {
-              this.notificationService.success('הרשומות נמחקו בהצלחה.');
-              this.dataTable.criteria.checkedItems = [];
-              this.dataTable.criteria.isCheckAll = false;
-              this.fetchItems();
-            } else if (response['message'] === 'no_rows_selected') {
-              this.notificationService.info('לא נמצאו רשומות מתאימות לשליחה');
-              this.dataTable.criteria.checkedItems = [];
-              this.dataTable.criteria.isCheckAll = false;
-              this.fetchItems();
-            } else {
-              this.notificationService.error('ארעה שגיאה.');
-            }
-          }
-        });
-      }
-    });
   }
 }

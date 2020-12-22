@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseHttpService } from './base-http.service';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
-import { InvoiceStatus, ManualInvoice } from '../../_models/invoice.model';
+import { ManualInvoice } from '../../_models/invoice.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,9 @@ export class InvoiceService extends BaseHttpService {
     if (criteria) {
       if (criteria.filters['status']) {
         criteria.filters['status'] = criteria.filters['status'].toString();
+      }
+      if (criteria.filters['project_name']) {
+        criteria.filters['project_name'] = criteria.filters['project_name'].toString();
       }
       request['params'] = this.setDataTableParams(criteria);
     }
@@ -134,7 +137,7 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => null);
   }
 
-  getInvoiceDetails(invoice_id: number): Promise<Object>{
+  getInvoiceDetails(invoice_id: number): Promise<Object> {
     return this.http.get(this.endPoint + '/getInvoiceDetails?id=' + invoice_id, this.getTokenHeader())
       .toPromise()
       .then(response => response as Object)
@@ -159,8 +162,9 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => null);
   }
 
-  createManualInvoice(manualInvoice: ManualInvoice): Promise<string> {
-    return this.http.post(this.endPoint + '/createManualInvoice', manualInvoice, this.getTokenHeader())
+  createManualInvoice(manualInvoice: ManualInvoice, updateEmployees: boolean): Promise<string> {
+    return this.http.post(this.endPoint + '/createManualInvoice',
+      { 'manual_invoice': manualInvoice, 'update_employees': updateEmployees },  this.getTokenHeader())
       .toPromise()
       .then(response => response as string)
       .catch(() => null);
@@ -201,7 +205,7 @@ export class InvoiceService extends BaseHttpService {
   downloadExcel(invoiceId: number): Promise<string> {
     return this.http.post(this.endPoint + '/downloadEmployeesDetails', {'invoiceId': invoiceId}, this.getTokenHeader())
       .toPromise()
-      .then(response => response)
+      .then(response => response as string)
       .catch(() => null);
   }
 
@@ -219,8 +223,8 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => []);
   }
 
-  createProactiveInvoice(conditions): Promise<any>{
-    return this.http.post(this.endPoint+ '/createProactiveInvoice', conditions, this.getTokenHeader())
+  createProactiveInvoice(conditions): Promise<any> {
+    return this.http.post(this.endPoint + '/createProactiveInvoice', conditions, this.getTokenHeader())
       .toPromise()
       .then(response => response as any)
       .catch(() => false);
@@ -228,11 +232,33 @@ export class InvoiceService extends BaseHttpService {
   }
   deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<string> {
     return this.http.post(this.endPoint + '/deleteInvoices',
-      {'invoicesIds': invoicesIds, criteria: this.setDataTableParams(criteria), updateEmployees: updateEmployees}, this.getTokenHeader())
+      {
+        'invoicesIds': invoicesIds,
+        criteria: this.setDataTableParams(criteria),
+        updateEmployees: updateEmployees
+      }, this.getTokenHeader())
       .toPromise()
       .then(response => response)
+  }
+
+  createMasav(invoiceIds: number[], criteria: DataTableCriteria): Promise<any> {
+    return this.http.post(this.endPoint + '/createMasav',
+      {invoiceIds: invoiceIds, criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
+  }
+
+  downloadCreditCardInvoicesToExcel(criteria: DataTableCriteria, tax: boolean): Promise<any> {
+    const request = this.getTokenHeader();
+
+    if (criteria) {
+      request['params'] = this.setDataTableParams(criteria, tax);
+    }
+    return this.http.get(this.endPoint + '/downloadCreditCardInvoicesToExcel', request).toPromise()
+      .then(response => response as string)
       .catch(() => null);
   }
 }
+
 
 

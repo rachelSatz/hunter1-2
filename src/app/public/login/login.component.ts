@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  togglemyPasswordFieldType() {
+  togglemyPasswordFieldType(): void {
     this.hide = !this.hide;
   }
 
@@ -59,7 +59,8 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-  forgotPassword(form): void {
+
+  forgotPassword(form: NgForm): void {
     this.appHttp.forgotPassword(form.value.email).then(
       response => {
         const message = response['message'];

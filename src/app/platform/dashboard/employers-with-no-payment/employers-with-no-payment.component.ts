@@ -6,8 +6,7 @@ import { InvoiceService } from '../../../shared/_services/http/invoice.service';
 
 @Component({
   selector: 'app-employers-with-no-payment',
-  templateUrl: './employers-with-no-payment.component.html',
-  styleUrls: ['./employers-with-no-payment.component.css']
+  templateUrl: './employers-with-no-payment.component.html'
 })
 export class EmployersWithNoPaymentComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
@@ -49,8 +48,9 @@ export class EmployersWithNoPaymentComponent implements OnInit {
     }
     this.fetchItems();
   }
+
   fetchItems(): void {
-    if(this.dataTable) {
+    if (this.dataTable) {
       this.dataTable.criteria.filters = this.data;
       this.dataTable.criteria.limit = 8;
       console.log(this.dataTable);

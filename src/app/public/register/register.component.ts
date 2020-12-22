@@ -27,9 +27,11 @@ export class RegisterComponent implements OnInit {
       return;
     }
   }
+
   togglemyConfirmPasswordFieldType() {
     this.hideConfirmPassword = !this.hideConfirmPassword;
   }
+
   register(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
@@ -45,7 +47,6 @@ export class RegisterComponent implements OnInit {
             }else {
                console.log('I am employer');
             }
-
           } else if (response.status === 403) {
             this.router.navigate(['/', 'login']);
           } else {
@@ -56,7 +57,6 @@ export class RegisterComponent implements OnInit {
       } else {
         this.hasServerError = true;
       }
-
     }
   }
 

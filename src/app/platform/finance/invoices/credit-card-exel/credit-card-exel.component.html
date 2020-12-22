@@ -1,0 +1,15 @@
+<div class="segment" dir="rtl">
+  <label id="example-radio-group-label">יש לבחור את הדו"ח הרצוי:</label><br>
+  <form [formGroup]="creditCardForm" class="ui form">
+    <div class="field">
+      <mat-radio-group aria-label="Select an option" formControlName="tax">
+              <mat-radio-button name="taxs" value="true" >סכום כולל מע"מ</mat-radio-button>
+              <br>
+              <mat-radio-button name="taxs" value="false" >סכום ללא מע"מ</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div mat-dialog-actions class="justify-content-center" style="text-align: center">
+      <input (click)="onSubmit(creditCardForm.value)" type="submit" class="btn pink-btn"  value="שלח">
+    </div>
+  </form>
+</div>

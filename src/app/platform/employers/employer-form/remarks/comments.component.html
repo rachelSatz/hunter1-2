@@ -4,11 +4,10 @@
       <div id="commentsTable" class="row" >
         <div *ngFor="let comment_emp of comments_emp" class="col-xl-12 h-40" >
           <div class="d-flex" id='hover'>
-            <div id="name">{{ comment_emp.username + ' : '}} <br></div>
+            <div id="name">{{ comment_emp.username + ': ' + ' '}} <br></div>
             <div id="conten" class="w-75">{{ comment_emp.content }}</div>
             <div id="hour">{{ comment_emp.updated_at | date: 'HH:mm' }}</div>
             <button id="delbutton" (click)="deleteComment(comment_emp.id)"><img class="trash" src="../../../assets/img/icons/trash.png"></button>
-<!--            <div *ngIf="comment_emp.updated_at === comment_emp[comment_emp-1].updated_at;else 'date'"></div>-->
             <div id="date">{{ comment_emp.updated_at | date: 'dd/MM/yy' }}</div>
           </div>
           <hr>
@@ -17,10 +16,8 @@
   </mat-card-content>
 </mat-card>
 
-
-
 <form id="textbox" (ngSubmit)="submit()">
-  <div style="float: none" class="row mb-4 mt-5" [class.mat-elevation-z2]="!isActive">
+  <div style="float: none" class="row mb-4 mt-5">
     <mat-form-field style="width: 1769px; height: 70px">
       <mat-label>הקלד כאן</mat-label>
       <textarea type="text" name="content" [(ngModel)]="comment_emp"

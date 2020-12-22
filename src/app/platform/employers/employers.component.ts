@@ -8,6 +8,7 @@ import { PlatformComponent } from '../platform.component';
 import { HelpersService } from '../../shared/_services/helpers.service';
 import { UserSessionService } from '../../shared/_services/http/user-session.service';
 
+
 @Component({
   selector: 'app-employers',
   templateUrl: './employers.component.html',
@@ -27,16 +28,17 @@ export class EmployersComponent implements OnInit {
   constructor(private EmployerService: EmployerService,
               private router: Router,
               public route: ActivatedRoute,
-              private SelectUnitService: SelectUnitService,
-              private PlatformComponent: PlatformComponent,
+              private selectUnit: SelectUnitService,
+              private platformComponent: PlatformComponent,
               private helpers: HelpersService,
               private userSession: UserSessionService) { }
 
 
   ngOnInit() {
-    this.SelectUnitService.setActiveUrl('employers');
+    this.selectUnit.setActiveUrl('employers');
     this.fetchItems();
   }
+
   fetchItems(): void {
     this.EmployerService.getAllEmployers(this.dataTable.criteria, this.dataTable.isActive)
       .then(response => {
@@ -44,10 +46,11 @@ export class EmployersComponent implements OnInit {
         this.dataTable.setItems(response);
       });
   }
+
   openEmployerFinanceDetails(employer: Employer): void {
     if (employer.is_active) {
-      this.helpers.setPageSpinner(true);
-      this.SelectUnitService.setEmployerID(employer.id);
+      this.selectUnit.setOrganizationID(employer.org_id);
+      this.selectUnit.setEmployerID(employer.id);
       this.router.navigate(['./', 'form' , employer.id],  {relativeTo: this.route});
     }
   }
