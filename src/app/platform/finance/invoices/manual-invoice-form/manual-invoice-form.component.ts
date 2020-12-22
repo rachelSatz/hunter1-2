@@ -131,7 +131,6 @@ export class ManualInvoiceFormComponent implements OnInit {
   }
 
   changeEmployers(): void {
-    console.log(this.manualInvoice.product_type);
     if (this.manualInvoice.product_type === 'defrayal') {
       this.employers = this.payEmployers;
     } else {
