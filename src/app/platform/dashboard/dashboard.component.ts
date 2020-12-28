@@ -118,7 +118,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadOrganizationAndEmployers(): void {
-    if (this.projectGroupId === 1 && this.projectId !== '0') {
+    if (this.projectGroupId && this.projectId !== '0') {
       this.OrganizationService.getOrganizationByProjectId(+this.projectId)
         .then(response => {
           console.log(response);
@@ -180,7 +180,7 @@ export class DashboardComponent implements OnInit {
           this.employerId = this.employers[0] ? this.employers[0].id : 0;
         }
       });
-    } else if (this.projectGroupId !== 1 || this.projectId === '0') {
+    } else if (this.projectGroupId !== '0' || this.projectId === '0') {
       this.EmployerService.getEmployersByProjectGroupId(this.projectGroupId).then(res => {
         this.employers = res['data'];
         if (this.employers.length > 1) {
