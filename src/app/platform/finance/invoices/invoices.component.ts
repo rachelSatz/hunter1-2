@@ -91,12 +91,6 @@ export class InvoicesComponent implements OnInit {
 
   ngOnInit() {
     this.selectUnit.setActiveUrl('finance');
-    this.GeneralService.getProjects(this.selectUnit.getProjectGroupId())
-      .then(response => {
-        this.GeneralService.projects = response['data'];
-        this.columns[1]['searchOptions'].labels = response['data'];
-      });
-    this.fetchItems();
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
       this.fetchItems();
     }));
@@ -129,8 +123,12 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-
   fetchItems() {
+    this.GeneralService.getProjects(this.selectUnit.getProjectGroupId())
+      .then(response => {
+        this.GeneralService.projects = response['data'];
+        this.columns[1]['searchOptions'].labels = response['data'];
+      });
     this.sub = this.route.params.subscribe(v => {
       this.setFilters(v);
     });
@@ -244,17 +242,21 @@ export class InvoicesComponent implements OnInit {
       if (response['message'] === 'error') {
         this.notificationService.error('לא ניתן להוריד את הקובץ');
       } else {
-        const byteCharacters = atob(response['message']['data']);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        if (response['message'] === 'no_data') {
+          this.notificationService.warning('אין נתונים להורדה');
+        } else {
+          const byteCharacters = atob(response['message']['data']);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+          const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
+          FileSaver.saveAs(blob, fileName);
+          this.spin = false;
+          this.notificationService.success('הקובץ הופק בהצלחה');
         }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-        const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
-        FileSaver.saveAs(blob, fileName);
-        this.spin = false;
-        this.notificationService.success('הקובץ הופק בהצלחה');
       }
     });
   }
@@ -353,5 +355,46 @@ export class InvoicesComponent implements OnInit {
       this.dataTable.setNoneCheckedWarning();
       return false;
     }
+  }
+
+  openCreditCardInvoices(): void {
+    const dialog = this.dialog.open(CreditCardExelComponent, {
+      width: '450px'
+    });
+    this.sub.add(dialog.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        this.tax = result;
+        this.downloadCreditCardInvoices();
+      } else {
+        console.log(result);
+        this.notificationService.error('לא ניתן להוריד את הקובץ');
+      }
+    }));
+  }
+
+  downloadCreditCardInvoices(): void {
+    this.invoiceService.downloadCreditCardInvoicesToExcel(this.dataTable.criteria, this.tax).then(response => {
+      if (response['message'] === 'error') {
+        this.notificationService.error('לא ניתן להוריד את הקובץ');
+      } else {
+        if (response['message'] === 'no_data') {
+          this.notificationService.warning('אין נתונים להורדה');
+        } else {
+          const byteCharacters = atob(response['message']['data']);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+          const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
+          FileSaver.saveAs(blob, fileName);
+          this.spin = false;
+          this.notificationService.success('הקובץ הופק בהצלחה');
+        }
+
+      }
+    });
   }
 }
