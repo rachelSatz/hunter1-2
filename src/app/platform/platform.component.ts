@@ -52,10 +52,13 @@ export class PlatformComponent implements OnInit, OnDestroy {
 // && this.selectUnit.getEmployerID() && this.selectUnit.getOrganizationID()
   ngOnInit() {
     this.setActiveUrl('platform');
-    this.selectUnit.setProjectGroupId(1);
-    if (event === undefined) {
-      this.SendProjectGroup(1);
+    if (!this.selectUnit.getProjectGroupId()) {
+      this.selectUnit.setProjectGroupId(1);
     }
+    this.projectGroupId = this.selectUnit.getProjectGroupId();
+    // if (event === undefined) {
+    //   this.SendProjectGroup(1);
+    // }
     // this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
     //    this.organizationId = this.selectUnit.getEmployerID() ? this.selectUnit.getOrganizationID() : 1;
        // this.employerId = this.selectUnit.getEmployerID() ? this.selectUnit.getEmployerID() : 1;

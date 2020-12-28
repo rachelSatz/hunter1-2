@@ -89,8 +89,6 @@ export class InvoicesComponent implements OnInit {
               private selectUnit: SelectUnitService) {
   }
 
-
-
   ngOnInit() {
     this.selectUnit.setActiveUrl('finance');
     this.GeneralService.getProjects(this.selectUnit.getProjectGroupId())
@@ -99,9 +97,11 @@ export class InvoicesComponent implements OnInit {
         this.columns[1]['searchOptions'].labels = response['data'];
       });
     this.fetchItems();
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+      this.fetchItems();
+    }));
+    this.fetchItems();
   }
-
-
 
   setItemTitle(item: Invoice): string {
     if (item.green_invoice_document !== null) {
@@ -114,8 +114,6 @@ export class InvoicesComponent implements OnInit {
       return '';
     }
   }
-
-
 
   setInvoiceStatus(invoiceId: number, status: string): void {
     this.invoiceService.setInvoiceStatus(invoiceId, status).then(response => {
@@ -130,7 +128,6 @@ export class InvoicesComponent implements OnInit {
       }
     });
   }
-
 
 
   fetchItems() {
@@ -149,8 +146,6 @@ export class InvoicesComponent implements OnInit {
       });
   }
 
-
-
   setFilters(conditions): void {
     if (conditions['from_date']) {
       if (conditions['project_id'] !== '0') {
@@ -168,22 +163,17 @@ export class InvoicesComponent implements OnInit {
       if (conditions['employer_id'] !== 0 && conditions['employer_id'] !== '0' && conditions['employer_id']) {
         this.filters['employer_id'] = +conditions['employer_id'];
       }
-
       this.filters['status'] = conditions['status'];
       this.filters['created_at[from]'] = conditions['from_date'];
       this.filters['created_at[to]'] = conditions['to_date'];
     }
   }
 
-
-
   openManualInvoice(): void {
     this.dialog.open(ManualInvoiceFormComponent, {
       width: '1100px'
     });
   }
-
-
 
   openTaxInvoice(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
@@ -205,26 +195,16 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
-
-
   sendTransactionInvoice(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
-
     const dialog = this.dialog.open(TransactionInvoiceFormComponent, {
-      data: {'ids': items,
-
-        'dataTable'
-  :
-    this.dataTable
-  },
-    width: '450px'
-  })
-    ;
-
+      data: {'ids': items, 'dataTable': this.dataTable},
+      width: '450px'
+  });
     this.sub.add(dialog.afterClosed().subscribe(res => {
       if (res) {
         this.dataTable.criteria.checkedItems = [];
@@ -234,20 +214,15 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
-
-
   openOnlyTaxInvoice(): void {
-    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+    if (this.dataTable.criteria .checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
       this.dataTable.setNoneCheckedWarning();
       return;
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     const dialog = this.dialog.open(TaxOnlyInvoiceFormComponent, {
-      data: {'ids': items, 'dataTable'
-  :
-    this.dataTable
-  },
-    width: '450px'
+      data: {'ids': items, 'dataTable': this.dataTable},
+      width: '450px'
   })
     ;
     this.sub.add(dialog.afterClosed().subscribe(() => {
@@ -256,8 +231,6 @@ export class InvoicesComponent implements OnInit {
       this.dataTable.criteria.isCheckAll = false;
     }));
   }
-
-
 
   downloadInvoicesToExcel(): void {
     if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
@@ -286,8 +259,6 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-
-
   openReports(): void {
     const dialog = this.dialog.open(ReportsFormComponent, {
       width: '450px'
@@ -297,16 +268,12 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
-
-
   showInvoiceDetails(item: Object): void {
     this.dialog.open(InvoiceDetailsFormComponent, {
       data: item,
       width: '750px'
     });
   }
-
-
 
   downloadEmployeesExcel(invoiceId, item): void {
     this.invoiceService.downloadExcel(invoiceId).then(response => {
@@ -328,16 +295,12 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-
-
   ShowRemarks(item: Object): void {
     this.dialog.open(RemarksFormComponent, {
       data: item,
       width: '750px'
     });
   }
-
-
 
   openProactiveInvoice(): void {
     const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
@@ -349,7 +312,6 @@ export class InvoicesComponent implements OnInit {
       this.fetchItems();
     }));
   }
-
 
   createMasav(): boolean {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {

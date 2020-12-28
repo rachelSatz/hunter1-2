@@ -31,7 +31,6 @@ export class SelectUnitService {
   }
 
   setProjectGroupId(projectGroupId: any): void {
-    console.log(projectGroupId);
     this.currentProjectGroupId = projectGroupId;
     sessionStorage.setItem('projectGroupId', JSON.stringify(projectGroupId));
     this.unitSubject.next(this.currentProjectGroupId);

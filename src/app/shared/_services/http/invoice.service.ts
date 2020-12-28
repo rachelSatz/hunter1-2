@@ -5,6 +5,7 @@ import { BaseHttpService } from './base-http.service';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { ManualInvoice } from '../../_models/invoice.model';
+import {SelectUnitService} from '../select-unit.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,12 @@ export class InvoiceService extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/invoices';
 
-  constructor(userSession: UserSessionService, private http: HttpClient) {
+  constructor(userSession: UserSessionService, private http: HttpClient, private selectunit: SelectUnitService) {
     super(userSession);
   }
-
+  getProjectGroupId(): void {
+    return this.selectunit.getProjectGroupId();
+  }
   getInvoices(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
@@ -31,6 +34,7 @@ export class InvoiceService extends BaseHttpService {
     if (noLimit) {
       request['params'] = {no_limit : noLimit};
     }
+    request['project_group_id'] = this.getProjectGroupId();
     return this.http.get(this.endPoint, request)
       .toPromise()
       .then(response => response as DataTableResponse)
@@ -229,6 +233,16 @@ export class InvoiceService extends BaseHttpService {
       .then(response => response as any)
       .catch(() => false);
 
+  }
+  deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<any> {
+    return this.http.post(this.endPoint + '/deleteInvoices',
+      {
+        'invoicesIds': invoicesIds,
+        criteria: this.setDataTableParams(criteria),
+        updateEmployees: updateEmployees
+      }, this.getTokenHeader())
+      .toPromise()
+      .then(response => response);
   }
   // deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<string> {
   //   return this.http.post(this.endPoint + '/deleteInvoices',

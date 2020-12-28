@@ -25,8 +25,7 @@ export class EmployersComponent implements OnInit {
   ];
   items: any[] = [{id: 1, identifier: '111', name: 'עמותת עטלף'}, {id: 2, identifier: '222', name: 'מכבי ביתי'}];
   permissionsType = this.userSession.getPermissionsType('employers');
-
-  subscription: Subscription;
+  sub = new Subscription;
 
   constructor(private EmployerService: EmployerService,
               private router: Router,
@@ -37,28 +36,21 @@ export class EmployersComponent implements OnInit {
               private userSession: UserSessionService) {
   }
 
-  projectGroupId: any;
-
   ngOnInit() {
     this.selectUnit.setActiveUrl('employers');
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+      this.fetchItems();
+    }));
     this.fetchItems();
 
   }
 
   fetchItems(): void {
-    this.subscription = this.selectUnit.getProjectGroupIdObserve().subscribe( projectGroup => {
-      if (projectGroup) {
-        this.projectGroupId = this.selectUnit.currentProjectGroupId;
-      } else {
-        this.projectGroupId = 1;
-        }
-      console.log(this.projectGroupId);
-      this.EmployerService.getAllEmployers(this.dataTable.criteria, this.dataTable.isActive, this.projectGroupId)
+      this.EmployerService.getAllEmployers(this.dataTable.criteria, this.dataTable.isActive, this.selectUnit.getProjectGroupId())
       .then(response => {
         console.log(response);
         this.dataTable.setItems(response);
         });
-    });
   }
 
   openEmployerFinanceDetails(employer: Employer): void {
