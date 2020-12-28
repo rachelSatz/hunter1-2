@@ -8,6 +8,7 @@ import { DataTableResponse } from '../../data-table/classes/data-table-response'
 import { Observable } from 'rxjs';
 import { Employer } from '../../_models/employer.model';
 import 'rxjs/Rx';
+import {SelectUnitService} from '../select-unit.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,13 @@ import 'rxjs/Rx';
 export class EmployerService extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/employers';
-  constructor(userSession: UserSessionService, private http: HttpClient) {
+  constructor(userSession: UserSessionService, private http: HttpClient, private selectunit: SelectUnitService) {
     super(userSession);
 }
+
+  getProjectGroupId(): void {
+    return this.selectunit.getProjectGroupId();
+  }
 
   getEmployersByOrganizationId(organizationId: number): Promise<any> {
     const request = this.getTokenHeader();
@@ -30,7 +35,10 @@ export class EmployerService extends BaseHttpService {
   }
 
   getPayEmployers(): Promise<any> {
-    return this.http.get(this.endPoint + '/pay_employer_list',  this.getTokenHeader())
+    const request = this.getTokenHeader();
+    request['params'] = {};
+    request['params']['project_group_id'] = this.getProjectGroupId();
+    return this.http.get(this.endPoint + '/pay_employer_list',  request)
       .toPromise()
       .then(response => response as any)
       .catch(() => null);
