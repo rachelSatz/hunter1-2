@@ -85,7 +85,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
         .then(res => {
           this.financialDetails = res;
         });
-    })
+    });
     this.employerForm = this.fb.group({
       'name': [null , Validators.required],
       'identifier': [null , [Validators.pattern('^\\d{9}$'), Validators.required]]

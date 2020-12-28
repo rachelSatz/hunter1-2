@@ -22,7 +22,7 @@ import * as FileSaver from 'file-saver';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
 import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.component';
-​
+
 @Component({
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
@@ -30,7 +30,7 @@ import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.compo
 })
 export class InvoicesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
-​
+
   items: any;
   tax: boolean;
   sub = new Subscription;
@@ -76,7 +76,7 @@ export class InvoicesComponent implements OnInit {
     {name: 'organization_id', label: 'ארגון', isDisplay: false, searchable: false},
     {name: 'employer_id', label: 'מעסיק', isDisplay: false, searchable: false}
   ];
-​
+
 
   constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
@@ -89,7 +89,7 @@ export class InvoicesComponent implements OnInit {
               private selectUnit: SelectUnitService) {
   }
 
-​
+
 
   ngOnInit() {
     this.selectUnit.setActiveUrl('finance');
@@ -101,7 +101,7 @@ export class InvoicesComponent implements OnInit {
     this.fetchItems();
   }
 
-​
+
 
   setItemTitle(item: Invoice): string {
     if (item.green_invoice_document !== null) {
@@ -115,7 +115,7 @@ export class InvoicesComponent implements OnInit {
     }
   }
 
-​
+
 
   setInvoiceStatus(invoiceId: number, status: string): void {
     this.invoiceService.setInvoiceStatus(invoiceId, status).then(response => {
@@ -131,7 +131,7 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-​
+
 
   fetchItems() {
     this.sub = this.route.params.subscribe(v => {
@@ -149,7 +149,7 @@ export class InvoicesComponent implements OnInit {
       });
   }
 
-​
+
 
   setFilters(conditions): void {
     if (conditions['from_date']) {
@@ -168,14 +168,14 @@ export class InvoicesComponent implements OnInit {
       if (conditions['employer_id'] !== 0 && conditions['employer_id'] !== '0' && conditions['employer_id']) {
         this.filters['employer_id'] = +conditions['employer_id'];
       }
-​
+
       this.filters['status'] = conditions['status'];
       this.filters['created_at[from]'] = conditions['from_date'];
       this.filters['created_at[to]'] = conditions['to_date'];
     }
   }
 
-​
+
 
   openManualInvoice(): void {
     this.dialog.open(ManualInvoiceFormComponent, {
@@ -183,7 +183,7 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-​
+
 
   openTaxInvoice(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
@@ -205,7 +205,7 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
-​
+
 
   sendTransactionInvoice(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
@@ -213,10 +213,10 @@ export class InvoicesComponent implements OnInit {
       return;
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
-​
+
     const dialog = this.dialog.open(TransactionInvoiceFormComponent, {
       data: {'ids': items,
-​
+
         'dataTable'
   :
     this.dataTable
@@ -224,7 +224,7 @@ export class InvoicesComponent implements OnInit {
     width: '450px'
   })
     ;
-​
+
     this.sub.add(dialog.afterClosed().subscribe(res => {
       if (res) {
         this.dataTable.criteria.checkedItems = [];
@@ -234,7 +234,7 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
-​
+
 
   openOnlyTaxInvoice(): void {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
@@ -243,9 +243,7 @@ export class InvoicesComponent implements OnInit {
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     const dialog = this.dialog.open(TaxOnlyInvoiceFormComponent, {
-      data: {'ids': items,
-​
-        'dataTable'
+      data: {'ids': items, 'dataTable'
   :
     this.dataTable
   },
@@ -259,7 +257,7 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
-​
+
 
   downloadInvoicesToExcel(): void {
     if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
@@ -288,7 +286,7 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-​
+
 
   openReports(): void {
     const dialog = this.dialog.open(ReportsFormComponent, {
@@ -299,7 +297,7 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
-​
+
 
   showInvoiceDetails(item: Object): void {
     this.dialog.open(InvoiceDetailsFormComponent, {
@@ -308,7 +306,7 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-​
+
 
   downloadEmployeesExcel(invoiceId, item): void {
     this.invoiceService.downloadExcel(invoiceId).then(response => {
@@ -330,7 +328,7 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-​
+
 
   ShowRemarks(item: Object): void {
     this.dialog.open(RemarksFormComponent, {
@@ -339,13 +337,12 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-​
+
 
   openProactiveInvoice(): void {
     const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
       width: '500px',
       height: '600px'
-​
   })
     ;
     this.sub.add(dialog.afterClosed().subscribe(() => {
@@ -353,7 +350,6 @@ export class InvoicesComponent implements OnInit {
     }));
   }
 
-​
 
   createMasav(): boolean {
     if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {

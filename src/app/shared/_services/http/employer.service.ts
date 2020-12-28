@@ -60,18 +60,19 @@ export class EmployerService extends BaseHttpService {
       .then(response => response as any)
       .catch(() => null);
   }
-  getEmployerExternalByEmployerId(employer_id: number): Promise<number>{
+  getEmployerExternalByEmployerId(employer_id: number): Promise<number> {
     return this.http.get(this.endPoint + '/getEmployerExternalByEmployerId?employer_id=' + employer_id, this.getTokenHeader())
       .toPromise()
       .then(response => response as any)
       .catch(() => null);
   }
 
-  getAllEmployers(criteria?: DataTableCriteria, is_active?: boolean): Promise<DataTableResponse> {
+  getAllEmployers(criteria?: DataTableCriteria, is_active?: boolean, organization?: any): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
       request['params']['is_active'] = is_active;
+      request['params']['organization'] = organization;
     }
 
     return this.http.get(this.endPoint, request)
