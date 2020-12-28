@@ -22,6 +22,7 @@ import * as FileSaver from 'file-saver';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
 import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.component';
+
 @Component({
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
@@ -29,6 +30,7 @@ import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.compo
 })
 export class InvoicesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
+
   items: any;
   tax: boolean;
   sub = new Subscription;
@@ -75,6 +77,7 @@ export class InvoicesComponent implements OnInit {
     {name: 'employer_id', label: 'מעסיק', isDisplay: false, searchable: false}
   ];
 
+
   constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
               private dialog: MatDialog,
@@ -93,6 +96,10 @@ export class InvoicesComponent implements OnInit {
         this.GeneralService.projects = response['data'];
         this.columns[1]['searchOptions'].labels = response['data'];
       });
+    this.fetchItems();
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+      this.fetchItems();
+    }));
     this.fetchItems();
   }
 
@@ -121,6 +128,7 @@ export class InvoicesComponent implements OnInit {
       }
     });
   }
+
 
   fetchItems() {
     this.sub = this.route.params.subscribe(v => {
