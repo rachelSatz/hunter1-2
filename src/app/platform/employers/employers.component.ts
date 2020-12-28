@@ -48,6 +48,7 @@ export class EmployersComponent implements OnInit {
   }
 
   openEmployerFinanceDetails(employer: Employer): void {
+    debugger;
     if (employer.is_active) {
       this.selectUnit.setOrganizationID(employer.org_id);
       this.selectUnit.setEmployerID(employer.id);

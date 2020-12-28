@@ -230,7 +230,7 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => false);
 
   }
-  deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<string> {
+  deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<any> {
     return this.http.post(this.endPoint + '/deleteInvoices',
       {
         'invoicesIds': invoicesIds,
@@ -238,7 +238,7 @@ export class InvoiceService extends BaseHttpService {
         updateEmployees: updateEmployees
       }, this.getTokenHeader())
       .toPromise()
-      .then(response => response)
+      .then(response => response);
   }
 
   createMasav(invoiceIds: number[], criteria: DataTableCriteria): Promise<any> {
