@@ -77,7 +77,6 @@ export class DashboardComponent implements OnInit {
   days = {0: 'א', 1: 'ב',  2: 'ג',  3: 'ד', 4: 'ה', 5: 'ו', 6: 'ז' };
   projectGroups = [{id: 1, name: 'smarti'}, { id: 2, name: 'myHr'}];
 
-
   constructor(private GeneralService: GeneralService,
               private dialog: MatDialog,
               public datepipe: DatePipe,
@@ -86,6 +85,7 @@ export class DashboardComponent implements OnInit {
               private helpers: HelpersService,
               private SelectUnitService: SelectUnitService,
               private userSession: UserSessionService,
+              private selectUnit: SelectUnitService,
               private NotificationService: NotificationService,
               private OrganizationService: OrganizationService,
               private EmployerService: EmployerService) {
@@ -93,12 +93,15 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.SelectUnitService.setActiveUrl('dashboard');
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+      this.fetchItems();
+    }));
     this.fetchItems();
   }
 
   fetchItems(): void {
     this.projectId = '0';
-    this.projectGroupId = 1;
+    this.projectGroupId = this.selectUnit.getProjectGroupId();
       this.GeneralService.getProjects(this.projectGroupId)
         .then(response => {
           this.projects = response['data'];
@@ -131,6 +134,7 @@ export class DashboardComponent implements OnInit {
             this.employerId = null;
           }
         });
+
       this.EmployerService.getEmployersByProjectId(+this.projectId).then(res => {
         this.employers = res['data'];
         if (this.employers.length > 1) {
@@ -245,8 +249,11 @@ export class DashboardComponent implements OnInit {
               this.data['invoice_system']['green_invoices_error']['sum'];
             this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] +
               this.data['incomes']['incomes_est_payment_amount']['sum'];
-            // tslint:disable-next-line:max-line-length
-            this.sum_employers = this.data['employers_status']['charged_employers']['count'] + this.data['employers_status']['need_to_charge_employers']['count'] + this.data['employers_status']['charged_employers_manually']['count'] + this.data['employers_status']['no_payment_detail_employers']['count'] + this.data['employers_status']['employers_0_charge']['count'];
+            this.sum_employers = this.data['employers_status']['charged_employers']['count']
+              + this.data['employers_status']['need_to_charge_employers']['count']
+              + this.data['employers_status']['charged_employers_manually']['count']
+              + this.data['employers_status']['no_payment_detail_employers']['count']
+              + this.data['employers_status']['employers_0_charge']['count'];
           } else {
             this.NotificationService.error('ארעה שגיאה');
           }

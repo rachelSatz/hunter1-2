@@ -4,10 +4,10 @@
 <form #form="ngForm" class="mb-4">
 <div class="row d-flex align-items-center mt-4">
 
-  <div class="col">
-    <bd-select  [items]="projectGroups" name="projectGroup" class="min-width-170 max-width-220"
-                [(ngModel)]="projectGroupId" placeholder="פרויקט על" (onSelect)="loadOrganizationAndEmployers()"></bd-select>
-  </div>
+<!--  <div class="col">-->
+<!--    <bd-select  [items]="projectGroups" name="projectGroup" class="min-width-170 max-width-220"-->
+<!--                [(ngModel)]="projectGroupId" placeholder="פרויקט על" (onSelect)="loadOrganizationAndEmployers()"></bd-select>-->
+<!--  </div>-->
   <div class="col">
     <bd-select  class="min-width-170 max-width-220"
                (onSelect)="loadOrganizationAndEmployers()" [items]="projects"[(ngModel)]="projectId" placeholder="פרויקט" name="project"></bd-select>
