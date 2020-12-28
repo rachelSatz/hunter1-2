@@ -39,8 +39,6 @@ export class SelectUnitService {
 
   getProjectGroupIdObserve(): Observable<any> {
     return this.unitSubject.asObservable();
-
-
   }
 
   getProjectGroupId(): any {
