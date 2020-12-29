@@ -30,7 +30,6 @@ import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.compo
 })
 export class InvoicesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
-
   items: any;
   tax: boolean;
   sub = new Subscription;
@@ -76,7 +75,6 @@ export class InvoicesComponent implements OnInit {
     {name: 'organization_id', label: 'ארגון', isDisplay: false, searchable: false},
     {name: 'employer_id', label: 'מעסיק', isDisplay: false, searchable: false}
   ];
-
 
   constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
@@ -202,7 +200,7 @@ export class InvoicesComponent implements OnInit {
     const dialog = this.dialog.open(TransactionInvoiceFormComponent, {
       data: {'ids': items, 'dataTable': this.dataTable},
       width: '450px'
-  });
+    });
     this.sub.add(dialog.afterClosed().subscribe(res => {
       if (res) {
         this.dataTable.criteria.checkedItems = [];
@@ -219,9 +217,9 @@ export class InvoicesComponent implements OnInit {
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     const dialog = this.dialog.open(TaxOnlyInvoiceFormComponent, {
-      data: {'ids': items, 'dataTable': this.dataTable},
-      width: '450px'
-  })
+        data: {'ids': items, 'dataTable': this.dataTable},
+        width: '450px'
+      })
     ;
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
@@ -306,9 +304,9 @@ export class InvoicesComponent implements OnInit {
 
   openProactiveInvoice(): void {
     const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
-      width: '500px',
-      height: '600px'
-  })
+        width: '500px',
+        height: '600px'
+      })
     ;
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
@@ -358,7 +356,6 @@ export class InvoicesComponent implements OnInit {
           this.spin = false;
           this.notificationService.success('הקובץ הופק בהצלחה');
         }
-
       }
     });
   }

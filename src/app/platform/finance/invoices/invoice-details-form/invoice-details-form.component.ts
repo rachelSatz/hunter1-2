@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { fade } from '../../../../shared/_animations/animation';
 import { DataTableComponent } from '../../../../shared/data-table/data-table.component';
-import { Invoice, InvoiceDetails } from '../../../../shared/_models/invoice.model';
+import {Invoice, InvoiceDetails, PRODUCT_RELATION_ENUM} from '../../../../shared/_models/invoice.model';
 import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { InvoiceService } from '../../../../../app/shared/_services/http/invoice.service'
@@ -15,6 +15,7 @@ import { InvoiceService } from '../../../../../app/shared/_services/http/invoice
 export class InvoiceDetailsFormComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
+  product_relation_enum = PRODUCT_RELATION_ENUM;
   invoiceDetails: InvoiceDetails;
 
   constructor(protected route: ActivatedRoute,

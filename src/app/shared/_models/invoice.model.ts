@@ -68,6 +68,15 @@ export class InvoiceDetails {
   for_month_process: string;
   tax: string;
   description: string;
+  product_type: ProductRelation;
+}
+export class ProductRelation {
+  product_type:string;
+}
+export enum PRODUCT_RELATION_ENUM {
+  defrayal= 'סליקה',
+  compensation= 'יתרות לפיצויים',
+  compensation_9302= 'יתרות לפיצויים 9302'
 }
 
 export class InvoiceStatus {
