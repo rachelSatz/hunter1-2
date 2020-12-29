@@ -238,7 +238,7 @@ export class InvoiceService extends BaseHttpService {
         updateEmployees: updateEmployees
       }, this.getTokenHeader())
       .toPromise()
-      .then(response => response)
+      .then(response => response as string)
   }
 
   createMasav(invoiceIds: number[], criteria: DataTableCriteria): Promise<any> {
