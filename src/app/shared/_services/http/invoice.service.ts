@@ -5,6 +5,7 @@ import { BaseHttpService } from './base-http.service';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { ManualInvoice } from '../../_models/invoice.model';
+import {SelectUnitService} from '../select-unit.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,12 @@ export class InvoiceService extends BaseHttpService {
 
   readonly endPoint = this.apiUrl + '/invoices';
 
-  constructor(userSession: UserSessionService, private http: HttpClient) {
+  constructor(userSession: UserSessionService, private http: HttpClient, private selectunit: SelectUnitService) {
     super(userSession);
   }
-
+  getProjectGroupId(): void {
+    return this.selectunit.getProjectGroupId();
+  }
   getInvoices(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
@@ -31,6 +34,7 @@ export class InvoiceService extends BaseHttpService {
     if (noLimit) {
       request['params'] = {no_limit : noLimit};
     }
+    request['params']['project_group_id'] = this.getProjectGroupId();
     return this.http.get(this.endPoint, request)
       .toPromise()
       .then(response => response as DataTableResponse)
@@ -156,6 +160,7 @@ export class InvoiceService extends BaseHttpService {
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
     }
+    request['params']['project_group_id'] = this.getProjectGroupId();
     return this.http.get(this.endPoint + '/downloadInvoicesToExcel', request)
       .toPromise()
       .then(response => response as string)
@@ -195,8 +200,11 @@ export class InvoiceService extends BaseHttpService {
   }
 
   getInvoiceReport(date: any, selectedReport: string): Promise<string> {
+    const request = this.getTokenHeader();
+    request['params'] = {};
+    request['params']['project_group_id'] = this.getProjectGroupId();
     return this.http.post(this.endPoint + '/invoiceReports',
-      {data: date}, this.getTokenHeader())
+      {data: date}, request)
       .toPromise()
       .then(response => response)
       .catch(() => null);
@@ -224,13 +232,16 @@ export class InvoiceService extends BaseHttpService {
   }
 
   createProactiveInvoice(conditions): Promise<any> {
-    return this.http.post(this.endPoint + '/createProactiveInvoice', conditions, this.getTokenHeader())
+    const request = this.getTokenHeader()
+    request['params'] = {};
+    request['params']['project_group_id'] = this.getProjectGroupId();
+    return this.http.post(this.endPoint + '/createProactiveInvoice', conditions, request)
       .toPromise()
       .then(response => response as any)
       .catch(() => false);
 
   }
-  deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<string> {
+  deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<any> {
     return this.http.post(this.endPoint + '/deleteInvoices',
       {
         'invoicesIds': invoicesIds,
@@ -238,22 +249,37 @@ export class InvoiceService extends BaseHttpService {
         updateEmployees: updateEmployees
       }, this.getTokenHeader())
       .toPromise()
+<<<<<<< HEAD
       .then(response => response as string)
+=======
+      .then(response => response);
+>>>>>>> dad114655d87e4e357f421c00749e780872eaa99
   }
+  // deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<string> {
+  //   return this.http.post(this.endPoint + '/deleteInvoices',
+  //     {
+  //       'invoicesIds': invoicesIds,
+  //       criteria: this.setDataTableParams(criteria),
+  //       updateEmployees: updateEmployees
+  //     }, this.getTokenHeader())
+  //     .toPromise()
+  //     .then(response => response)
+  // }
 
   createMasav(invoiceIds: number[], criteria: DataTableCriteria): Promise<any> {
+    const request =  this.getTokenHeader();
     return this.http.post(this.endPoint + '/createMasav',
-      {invoiceIds: invoiceIds, criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
+      {invoiceIds: invoiceIds, criteria: this.setDataTableParams(criteria)}, request)
       .toPromise()
       .then(response => response);
   }
 
   downloadCreditCardInvoicesToExcel(criteria: DataTableCriteria, tax: boolean): Promise<any> {
     const request = this.getTokenHeader();
-
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria, tax);
     }
+    request['params']['project_group_id'] = this.getProjectGroupId();
     return this.http.get(this.endPoint + '/downloadCreditCardInvoicesToExcel', request).toPromise()
       .then(response => response as string)
       .catch(() => null);

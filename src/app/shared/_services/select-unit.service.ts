@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -31,15 +31,18 @@ export class SelectUnitService {
   }
 
   setProjectGroupId(projectGroupId: any): void {
-    sessionStorage.setItem('projectGroupId', JSON.stringify(projectGroupId));
     this.currentProjectGroupId = projectGroupId;
-    this.unitSubject.next(projectGroupId);
+    sessionStorage.setItem('projectGroupId', JSON.stringify(projectGroupId));
+    this.unitSubject.next(this.currentProjectGroupId);
+  }
+
+  getProjectGroupIdObserve(): Observable<any> {
+    return this.unitSubject.asObservable();
   }
 
   getProjectGroupId(): any {
     return this.getSessionStorage('projectGroupId');
   }
-
 
   getEmployerID(): any {
     return this.getSessionStorage('employerID');

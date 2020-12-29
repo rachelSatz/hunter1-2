@@ -19,7 +19,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
   currProjectGroupId: any;
   employerId: any;
   currEmployerId: any;
-  projectGroups = [{id: 1, name: 'smarti'}];
+  projectGroups = [{id: 1, name: 'smarti'}, { id: 2, name: 'myHr'}];
   employers = [];
   organizations: Organization[] = [];
   sub = new Subscription;
@@ -28,7 +28,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
   readonly menuLinks = [
     { url: 'dashboard' , label: 'נתונים פיננסים'},
     { url: 'employers' , label: 'לקוחות'},
-    { url: 'finance' , label: 'פיננסים',  subMenuLinks:[
+    { url: 'finance' , label: 'פיננסים',  subMenuLinks: [
         { url: 'invoices', label: 'חשבונות חייבים' },
         { url: 'calc-processes', label: 'תהליכי חישוב' }
       ]},
@@ -49,88 +49,93 @@ export class PlatformComponent implements OnInit, OnDestroy {
         this.selectUnit.setEmployers(res['data'])
       );
   }
-
+// && this.selectUnit.getEmployerID() && this.selectUnit.getOrganizationID()
   ngOnInit() {
-    if (this.selectUnit.getProjectGroupId() && this.selectUnit.getEmployerID() && this.selectUnit.getOrganizationID()) {
-      this.fetchItems();
-    } else {
+    this.setActiveUrl('platform');
+    if (!this.selectUnit.getProjectGroupId()) {
       this.selectUnit.setProjectGroupId(1);
-      this.projectGroupId = this.selectUnit.getProjectGroupId();
     }
-
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-       this.organizationId = this.selectUnit.getEmployerID() ? this.selectUnit.getOrganizationID() : 1;
-       this.employerId = this.selectUnit.getEmployerID() ? this.selectUnit.getEmployerID() : 1;
-       this.ref.detectChanges();
-      }
-    ));
+    this.projectGroupId = this.selectUnit.getProjectGroupId();
+    // if (event === undefined) {
+    //   this.SendProjectGroup(1);
+    // }
+    // this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+    //    this.organizationId = this.selectUnit.getEmployerID() ? this.selectUnit.getOrganizationID() : 1;
+       // this.employerId = this.selectUnit.getEmployerID() ? this.selectUnit.getEmployerID() : 1;
+       // this.ref.detectChanges();
+      // }
+    // ));
   }
 
-  fetchItems(): void {
-    this.projectGroupId = this.currProjectGroupId =  this.selectUnit.getProjectGroupId();
-    this.organizationId = this.currOrganizationId =  this.selectUnit.getOrganizationID();
-    this.employerId = this.currEmployerId = this.selectUnit.getEmployerID();
-    this.organizationService.getOrganizationByProjectGroupId(this.projectGroupId)
-      .then(response => { this.organizations = response['data'];
-
-        this.employerService.getEmployersByOrganizationId(this.organizationId)
-          .then(res => { this.employers = res['data'];
-          if (this.employers.length > 1) {
-            this.employers.push({ id: '0', name: 'כלל המעסיקים' });
-            this.employers.sort((a, b) => a.id - b.id);
-          }});
-      });
+  SendProjectGroup(event: any): void {
+    this.currProjectGroupId = event;
+    this.selectUnit.setProjectGroupId(this.currProjectGroupId);
   }
+
+  // fetchItems(): void {
+  //   this.projectGroupId = this.currProjectGroupId =  this.selectUnit.getProjectGroupId();
+  //   // this.organizationId = this.currOrganizationId =  this.selectUnit.getOrganizationID();
+  //   // this.employerId = this.currEmployerId = this.selectUnit.getEmployerID();
+  //   this.organizationService.getOrganizationByProjectGroupId(this.projectGroupId)
+  //     .then(response => { this.organizations = response['data'];
+  //       this.employerService.getEmployersByOrganizationId(this.organizationId)
+  //         .then(res => { this.employers = res['data'];
+  //         if (this.employers.length > 1) {
+  //           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
+  //           this.employers.sort((a, b) => a.id - b.id);
+  //         }});
+  //     });
+  // }
 
   setActiveUrl(url: string): void {
     this.selectUnit.setActiveUrl(url);
   }
 
-  selectEmployer(employerId: number): void {
-    this.currEmployerId = employerId;
-    this.selectUnit.setEmployerID(employerId);
-  }
+  // selectEmployer(employerId: number): void {
+  //   this.currEmployerId = employerId;
+  //   this.selectUnit.setEmployerID(employerId);
+  // }
 
-  loadOrganization(projectGroupId: number): void {
-    if (projectGroupId !== this.currProjectGroupId) {
-      this.currProjectGroupId = projectGroupId;
-      this.selectUnit.setProjectGroupId(projectGroupId);
-      this.organizationService.getOrganizationByProjectGroupId(projectGroupId)
-        .then(response => {
-          console.log(response);
-          this.organizations = response['data'];
-          this.organizationId =  this.organizations ? this.organizations[0].id : 0;
-          this.selectUnit.setOrganizationID(this.organizationId);
-          if (this.organizations.length === 0) {
-            this.employers = [];
-            this.employerId = 0;
-            this.selectUnit.setEmployerID(this.employerId);
-          }
-        });
-    }
+  // loadOrganization(projectGroupId: number): void {
+  //   if (projectGroupId !== this.currProjectGroupId) {
+  //     this.currProjectGroupId = projectGroupId;
+  //     this.selectUnit.setProjectGroupId(projectGroupId);
+  //     this.organizationService.getOrganizationByProjectGroupId(projectGroupId)
+  //       .then(response => {
+  //         console.log(response);
+  //         this.organizations = response['data'];
+  //         this.organizationId =  this.organizations ? this.organizations[0].id : 0;
+  //         this.selectUnit.setOrganizationID(this.organizationId);
+  //         if (this.organizations.length === 0) {
+  //           this.employers = [];
+  //           this.employerId = 0;
+  //           this.selectUnit.setEmployerID(this.employerId);
+  //         }
+  //       });
+  //   }
+  // }
 
-  }
 
-  loadEmployers(organizationId): void {
-    if (organizationId !== this.currOrganizationId) {
-      this.currOrganizationId = organizationId;
-      this.selectUnit.setOrganizationID(this.organizationId);
-      this.employerService.getEmployersByOrganizationId(organizationId).then(res => {
-        this.employers = res['data'];
-        if (this.employers.length > 1) {
-          this.employers.push({ id: '0', name: 'כלל המעסיקים' });
-          this.employers.sort((a, b) => a.id - b.id);
-          console.log(this.employers);
-          this.employerId = this.employers[0].id;
-          this.selectUnit.setEmployerID(this.employerId);
-          console.log(this.employerId);
-        } else {
-          this.employerId = this.employers[0] ? this.employers[0].id : 0;
-          this.selectUnit.setEmployerID(this.employerId);
-        }
-      });
-    }
-  }
+  // loadEmployers(organizationId): void {
+  //   if (organizationId !== this.currOrganizationId) {
+  //     this.currOrganizationId = organizationId;
+  //     this.selectUnit.setOrganizationID(this.organizationId);
+  //     this.employerService.getEmployersByOrganizationId(organizationId).then(res => {
+  //       this.employers = res['data'];
+  //       if (this.employers.length > 1) {
+  //         this.employers.push({ id: '0', name: 'כלל המעסיקים' });
+  //         this.employers.sort((a, b) => a.id - b.id);
+  //         console.log(this.employers);
+  //         this.employerId = this.employers[0].id;
+  //         this.selectUnit.setEmployerID(this.employerId);
+  //         console.log(this.employerId);
+  //       } else {
+  //         this.employerId = this.employers[0] ? this.employers[0].id : 0;
+  //         this.selectUnit.setEmployerID(this.employerId);
+  //       }
+  //     });
+  //   }
+  // }
 
   navigate(link, subLink) {
         this.router.navigate(['/platform', link, subLink]);

@@ -101,7 +101,8 @@ export enum STATUS {
   credit_card = 'כרטיס אשראי',
   tax_green_invoice = 'מס/קבלה - חשבונית ירוקה',
   only_tax_green_invoice = 'חשבונית מס - חשבונית ירוקה',
-  manual = 'ידני'
+  manual = 'ידני',
+  invoice_0 = 'חשבונית על 0'
 }
 
 export enum ERROR_STATUS {
