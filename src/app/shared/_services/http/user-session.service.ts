@@ -24,6 +24,17 @@ export class  UserSessionService {
     return null;
   }
 
+  setUserProjectGroups(projectGroups): void {
+    sessionStorage.setItem('projectGroups', JSON.stringify(projectGroups));
+  }
+
+  getUserProjectGroups(): any {
+    if (sessionStorage.getItem('projectGroups')) {
+      return JSON.parse(sessionStorage.getItem('projectGroups'));
+    }
+    return null;
+  }
+
   getRole(): any {
     if (sessionStorage.getItem('role')) {
       return JSON.parse(sessionStorage.getItem('role'));

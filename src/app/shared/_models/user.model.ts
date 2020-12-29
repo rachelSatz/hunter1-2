@@ -1,5 +1,6 @@
 import { UserUnitPermission } from './user-unit-permission.model';
 import { ModuleTypes, UserModule } from './user-module.model';
+import { ProjectGroup } from './project.model';
 
 export class User {
   id: number;
@@ -14,7 +15,8 @@ export class User {
   modules: UserModule[] = [];
   is_registered: boolean;
   is_active: boolean;
-  project_group_id: number;
+  project_groups: ProjectGroup[]
+
 
   constructor(user: User) {
     this.units.push(new UserUnitPermission());
@@ -28,6 +30,7 @@ export class User {
       this.email = user.email;
       this.phone = user.phone;
       this.units = user.units;
+      this.project_groups = user.project_groups;
       const modules = user.modules;
       this.modules = Object.keys(ModuleTypes).map(function(e) {
         const ext = modules.filter(m => m.name === e);

@@ -296,41 +296,6 @@ export class InvoicesComponent implements OnInit {
       }
     });
   }
-  openCreditCardInvoices(): void {
-    const dialog = this.dialog.open(CreditCardExelComponent, {
-      width: '450px'
-    });
-    this.sub.add(dialog.afterClosed().subscribe(result => {
-      if (result) {
-        console.log(result);
-        this.tax = result;
-        this.downloadCreditCardInvoices();
-      } else {
-        console.log(result);
-        this.notificationService.error('לא ניתן להוריד את הקובץ');
-      }
-    }));
-  }
-
-  downloadCreditCardInvoices(): void {
-    this.invoiceService.downloadCreditCardInvoicesToExcel(this.dataTable.criteria, this.tax).then(response => {
-      if (response['message'] === 'error') {
-        this.notificationService.error('לא ניתן להוריד את הקובץ');
-      } else {
-        const byteCharacters = atob(response['message']['data']);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-        const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
-        FileSaver.saveAs(blob, fileName);
-        this.spin = false;
-        this.notificationService.success('הקובץ הופק בהצלחה');
-      }
-    });
-  }
 
   ShowRemarks(item: Object): void {
     this.dialog.open(RemarksFormComponent, {

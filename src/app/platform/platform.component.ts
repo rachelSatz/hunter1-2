@@ -1,12 +1,11 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectUnitService } from '../shared/_services/select-unit.service';
 import { EmployerService } from '../shared/_services/http/employer.service';
 import { GeneralService } from '../shared/_services/http/general.service';
 import { UserSessionService } from '../shared/_services/http/user-session.service';
 import { Subscription } from 'rxjs';
-import {OrganizationService} from '../shared/_services/http/organization.service';
-import {Organization} from '../shared/_models/organization';
+import { OrganizationService } from '../shared/_services/http/organization.service';
 
 @Component({
   selector: 'app-platform',
@@ -17,14 +16,9 @@ export class PlatformComponent implements OnInit, OnDestroy {
   activeUrl: string;
   projectGroupId: any;
   currProjectGroupId: any;
-  employerId: any;
-  currEmployerId: any;
-  projectGroups = [{id: 1, name: 'smarti'}, { id: 2, name: 'myHr'}];
+  projectGroups: any;
   employers = [];
-  organizations: Organization[] = [];
   sub = new Subscription;
-  organizationId: any;
-  currOrganizationId: any;
   readonly menuLinks = [
     { url: 'dashboard' , label: 'נתונים פיננסים'},
     { url: 'employers' , label: 'לקוחות'},
@@ -49,22 +43,17 @@ export class PlatformComponent implements OnInit, OnDestroy {
         this.selectUnit.setEmployers(res['data'])
       );
   }
-// && this.selectUnit.getEmployerID() && this.selectUnit.getOrganizationID()
+
   ngOnInit() {
-    this.setActiveUrl('platform');
+    this.projectGroups = this.userSessionService.getUserProjectGroups();
     if (!this.selectUnit.getProjectGroupId()) {
-      this.selectUnit.setProjectGroupId(1);
+      this.selectUnit.setProjectGroupId(this.projectGroups[0].id);
     }
     this.projectGroupId = this.selectUnit.getProjectGroupId();
-    // if (event === undefined) {
-    //   this.SendProjectGroup(1);
-    // }
-    // this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-    //    this.organizationId = this.selectUnit.getEmployerID() ? this.selectUnit.getOrganizationID() : 1;
-       // this.employerId = this.selectUnit.getEmployerID() ? this.selectUnit.getEmployerID() : 1;
-       // this.ref.detectChanges();
-      // }
-    // ));
+    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+       this.ref.detectChanges();
+      }
+    ));
   }
 
   SendProjectGroup(event: any): void {
