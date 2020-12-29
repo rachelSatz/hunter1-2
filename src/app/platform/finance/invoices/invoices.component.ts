@@ -77,7 +77,6 @@ export class InvoicesComponent implements OnInit {
     {name: 'employer_id', label: 'מעסיק', isDisplay: false, searchable: false}
   ];
 ​
-​
   constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
               private dialog: MatDialog,
