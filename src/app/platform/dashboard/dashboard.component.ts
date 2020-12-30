@@ -17,7 +17,7 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { SelectUnitService } from '../../shared/_services/select-unit.service';
 import { UserSessionService } from '../../shared/_services/http/user-session.service';
 import { fade, slideInOut } from '../../shared/_animations/animation';
-import { PRODUCT_TYPES } from '../../shared/_models/employer-financial-details.model';
+import {PRODUCT_TYPES_MYHR, PRODUCT_TYPES_SMARTI} from '../../shared/_models/employer-financial-details.model';
 import { NeedToChargeEmployersComponent } from './need-to-charge-employers/need-to-charge-employers.component';
 import { NotificationService } from '../../shared/_services/notification.service';
 import { OrganizationService } from '../../shared/_services/http/organization.service';
@@ -70,9 +70,8 @@ export class DashboardComponent implements OnInit {
   currentOrganizationId: string;
   currentEmployerId: string;
   isPermissionsFinance = this.userSession.isPermissions('finance');
-  productTypesItems = Object.keys(PRODUCT_TYPES).map(function(e) {
-    return { id: e, name: PRODUCT_TYPES[e] };
-  });
+  productTypesItems = [];
+
   timeRange = [{id: 1, name: 'לפי חודש'}, {id: 2, name: 'לפי תקופה'}];
   days = {0: 'א', 1: 'ב',  2: 'ג',  3: 'ד', 4: 'ה', 5: 'ו', 6: 'ז' };
   projectGroups = [{id: 1, name: 'smarti'}, { id: 2, name: 'myHr'}];
@@ -102,11 +101,21 @@ export class DashboardComponent implements OnInit {
   fetchItems(): void {
     this.projectId = '0';
     this.projectGroupId = this.selectUnit.getProjectGroupId();
-      this.GeneralService.getProjects(this.projectGroupId)
+    this.currentProjectGroupId = this.selectUnit.getProjectGroupId();
+    this.GeneralService.getProjects(this.projectGroupId)
         .then(response => {
           this.projects = response['data'];
           this.projects.push({'id': '0', 'name': 'כלל הפרויקטים'});
           this.projects.sort((a, b) => a.id - b.id);
+          if (this.selectUnit.getProjectGroupId() === 1) {
+            this.productTypesItems = Object.keys(PRODUCT_TYPES_SMARTI).map(function (e) {
+              return { id: e, name: PRODUCT_TYPES_SMARTI[e] };
+            });
+          }if (this.selectUnit.getProjectGroupId() === 2) {
+            this.productTypesItems = Object.keys(PRODUCT_TYPES_MYHR).map(function (e) {
+              return { id: e, name: PRODUCT_TYPES_MYHR[e] };
+            });
+          }
           this.productTypesItems.push({'id': 'all', 'name': 'כלל המוצרים'});
           this.productTypesItems.sort((a, b) => a.id.localeCompare(b.id));
           this.productTypeId = 'all';
@@ -115,13 +124,15 @@ export class DashboardComponent implements OnInit {
           this.filterData();
         });
 
+
   }
 
   loadOrganizationAndEmployers(): void {
-    if (this.projectGroupId && this.projectId !== '0') {
+    if (this.projectGroupId  && this.projectId !== '0') {
       this.OrganizationService.getOrganizationByProjectId(+this.projectId)
         .then(response => {
           console.log(response);
+          console.log(11);
           this.organizations = response['data'];
           if (this.organizations.length > 0) {
             this.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
@@ -134,9 +145,9 @@ export class DashboardComponent implements OnInit {
             this.employerId = null;
           }
         });
-
       this.EmployerService.getEmployersByProjectId(+this.projectId).then(res => {
         this.employers = res['data'];
+        console.log(22);
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
@@ -148,9 +159,10 @@ export class DashboardComponent implements OnInit {
         }
       });
     } else {
-      this.OrganizationService.getOrganizationByProjectGroupId(this.projectGroupId)
+      this.OrganizationService.getOrganizationByProjectGroupId(this.selectUnit.getProjectGroupId())
         .then(response => {
           console.log(response);
+          console.log(33);
           this.organizations = response['data'];
           if (this.organizations.length > 0) {
             this.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
@@ -163,6 +175,19 @@ export class DashboardComponent implements OnInit {
             this.employerId = 0;
           }
         });
+      // this.EmployerService.getEmployersByProjectGroupId(this.projectGroupId).then(res => {
+      //   this.employers = res['data'];
+      //   console.log(55);
+      //   if (this.employers.length > 1) {
+      //     this.employers.push({ id: '0', name: 'כלל המעסיקים' });
+      //     this.employers.sort((a, b) => a.id - b.id);
+      //     console.log(this.employers);
+      //     this.employerId = this.employers[0].id;
+      //     console.log(this.employerId);
+      //   } else {
+      //     this.employerId = this.employers[0] ? this.employers[0].id : 0;
+      //   }
+      // });
     }
   }
 
@@ -170,6 +195,7 @@ export class DashboardComponent implements OnInit {
     if (this.organizationId !== '0') {
       this.EmployerService.getEmployersByOrganizationId(organizationId).then(res => {
         this.employers = res['data'];
+        console.log(44);
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
@@ -180,9 +206,10 @@ export class DashboardComponent implements OnInit {
           this.employerId = this.employers[0] ? this.employers[0].id : 0;
         }
       });
-    } else if (this.projectGroupId !== '0' || this.projectId === '0') {
+    } else if (this.projectGroupId || this.projectId === '0') {
       this.EmployerService.getEmployersByProjectGroupId(this.projectGroupId).then(res => {
         this.employers = res['data'];
+        console.log(55);
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
@@ -196,6 +223,7 @@ export class DashboardComponent implements OnInit {
     } else {
       this.EmployerService.getEmployersByProjectId(+this.projectId).then(res => {
         this.employers = res['data'];
+        console.log(22);
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);

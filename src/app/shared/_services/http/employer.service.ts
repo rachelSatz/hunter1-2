@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { Employer } from '../../_models/employer.model';
 import 'rxjs/Rx';
 import {SelectUnitService} from '../select-unit.service';
+import {optimizeGroupPlayer} from '@angular/animations/browser/src/render/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,7 @@ export class EmployerService extends BaseHttpService {
 
   getEmployersByProjectGroupId(projectGroupId: number): Promise<any> {
     const request = this.getTokenHeader();
+    console.log(projectGroupId);
     request['params'] = {};
     request['params']['project_group_id'] = projectGroupId;
     return this.http.get(this.endPoint + '/employer_list', request)
@@ -58,6 +60,16 @@ export class EmployerService extends BaseHttpService {
       .then(response => response as any)
       .catch(() => null);
   }
+  // getDashboardByProjectGroupId(projectGroupId: number): Promise<any> {
+  //   const request = this.getTokenHeader();
+  //   console.log(projectGroupId);
+  //   request['params'] = {};
+  //   request['params']['project_group_id'] = projectGroupId;
+  //   return this.http.get(this.endPoint + '/employer_list', request)
+  //     .toPromise()
+  //     .then(response => response as any)
+  //     .catch(() => null);
+  // }
 
   getEmployersByProjectId(projectId: number): Promise<any> {
     const request = this.getTokenHeader();

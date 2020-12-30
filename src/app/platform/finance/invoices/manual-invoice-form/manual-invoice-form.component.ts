@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { fade } from '../../../../shared/_animations/animation';
 import { ManualInvoice, ManualInvoiceDetails } from '../../../../shared/_models/invoice.model';
-import { PRODUCT_TYPES } from '../../../../shared/_models/employer-financial-details.model';
+import {PRODUCT_TYPES_MYHR, PRODUCT_TYPES_SMARTI} from '../../../../shared/_models/employer-financial-details.model';
 import { EmployerService } from '../../../../shared/_services/http/employer.service';
 import { NgForm } from '@angular/forms';
 import { InvoiceService } from '../../../../shared/_services/http/invoice.service';
@@ -28,9 +28,8 @@ export class ManualInvoiceFormComponent implements OnInit {
   isEdit = false;
   hasServerError = false;
   message: string;
-  productTypes = Object.keys(PRODUCT_TYPES).map(function(e) {
-    return { id: e, name: PRODUCT_TYPES[e] };
-  });
+  productTypes = [];
+
   readonly TAX = [
     {'id': 'before', 'name': 'מסמך רגיל'},
     {'id': 'included', 'name': 'מסמך ללא מע"מ (אילת וחו"ל)'}
@@ -59,6 +58,15 @@ export class ManualInvoiceFormComponent implements OnInit {
       response => { this.payEmployers = response['data'];
       this.employers = this.payEmployers; });
     this.allEmployers = this.selectunit.getEmployers();
+    if (this.selectunit.getProjectGroupId() === 1) {
+      this.productTypes = Object.keys(PRODUCT_TYPES_SMARTI).map(function (e) {
+        return { id: e, name: PRODUCT_TYPES_SMARTI[e] };
+      });
+    }if (this.selectunit.getProjectGroupId() === 2) {
+      this.productTypes = Object.keys(PRODUCT_TYPES_MYHR).map(function (e) {
+        return { id: e, name: PRODUCT_TYPES_MYHR[e] };
+      });
+    }
   }
 
   saveInvoiceDetail(invoiceDetail: ManualInvoiceDetails, index: number): void {
