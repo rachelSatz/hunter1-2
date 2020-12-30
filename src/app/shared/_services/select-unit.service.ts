@@ -76,6 +76,13 @@ export class SelectUnitService {
     return this.getSessionStorage('employers');
   }
 
+  setProjectGroups(projectGroups: any): void {
+    sessionStorage.setItem('projectGroups', JSON.stringify(projectGroups));
+  }
+
+  getProjectGroupss(): any {
+    return this.getSessionStorage('ProjectGroups');
+  }
 }
 
 

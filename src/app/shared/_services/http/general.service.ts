@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from './user-session.service';
 import { HttpClient } from '@angular/common/http';
-import { Project } from '../../_models/project.model';
+import { Project, ProjectGroup } from '../../_models/project.model';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { Bank } from '../../_models/bank.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,13 @@ export class GeneralService  extends BaseHttpService {
 
   getProjects(ProjectGroupID: number): Promise<Project[]> {
     return this.http.get(this.endPoint + '/projects?id=' + ProjectGroupID, this.getTokenHeader())
+      .toPromise()
+      .then(response => response as Project[])
+      .catch(() => null);
+  }
+
+  getProjectGroups(): Promise<Project[]> {
+    return this.http.get(this.endPoint + '/projectGroups', this.getTokenHeader())
       .toPromise()
       .then(response => response as Project[])
       .catch(() => null);
@@ -85,6 +93,7 @@ export class GeneralService  extends BaseHttpService {
       .then(() => true)
       .catch(() => false);
   }
+
   getNeedToChargeEmployersTable(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
@@ -98,4 +107,5 @@ export class GeneralService  extends BaseHttpService {
       .then(response => response as DataTableResponse)
       .catch(() => null);
   }
+
 }

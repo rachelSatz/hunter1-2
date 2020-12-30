@@ -34,7 +34,7 @@
 #multipleSelectedItems {
   height: 30px;
   overflow: hidden;
-  background-color: #ebc372;
+  /*background-color: #ebc372;*/
 }
 
 #multipleSelectedItems > span {

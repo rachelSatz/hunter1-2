@@ -16,6 +16,7 @@
     <td>תיאור</td>
     <td>האם חריג</td>
     <td>חודש</td>
+    <td>מוצר</td>
   </tr>
   </thead>
   <tbody>
@@ -27,6 +28,7 @@
     <td class="w-25">{{ detail.details }}</td>
     <td class="w-20">{{ detail.is_exceptional }}</td>
     <td class="w-25">{{ detail.for_month_process }}</td>
+    <td class="w-25">{{ product_relation_enum[detail.product_type.product_type] }}</td>
   </tr>
   </tbody>
 </table>

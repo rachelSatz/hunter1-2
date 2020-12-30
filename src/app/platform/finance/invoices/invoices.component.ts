@@ -30,7 +30,6 @@ import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.compo
 })
 export class InvoicesComponent implements OnInit {
   @ViewChild(DataTableComponent) dataTable: DataTableComponent;
-
   items: any;
   tax: boolean;
   sub = new Subscription;
@@ -77,7 +76,6 @@ export class InvoicesComponent implements OnInit {
     {name: 'employer_id', label: 'מעסיק', isDisplay: false, searchable: false}
   ];
 
-
   constructor(public route: ActivatedRoute,
               private userSession: UserSessionService,
               private dialog: MatDialog,
@@ -91,12 +89,6 @@ export class InvoicesComponent implements OnInit {
 
   ngOnInit() {
     this.selectUnit.setActiveUrl('finance');
-    this.GeneralService.getProjects(this.selectUnit.getProjectGroupId())
-      .then(response => {
-        this.GeneralService.projects = response['data'];
-        this.columns[1]['searchOptions'].labels = response['data'];
-      });
-    this.fetchItems();
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
       this.fetchItems();
     }));
@@ -129,8 +121,12 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-
   fetchItems() {
+    this.GeneralService.getProjects(this.selectUnit.getProjectGroupId())
+      .then(response => {
+        this.GeneralService.projects = response['data'];
+        this.columns[1]['searchOptions'].labels = response['data'];
+      });
     this.sub = this.route.params.subscribe(v => {
       this.setFilters(v);
     });
@@ -204,7 +200,7 @@ export class InvoicesComponent implements OnInit {
     const dialog = this.dialog.open(TransactionInvoiceFormComponent, {
       data: {'ids': items, 'dataTable': this.dataTable},
       width: '450px'
-  });
+    });
     this.sub.add(dialog.afterClosed().subscribe(res => {
       if (res) {
         this.dataTable.criteria.checkedItems = [];
@@ -221,9 +217,9 @@ export class InvoicesComponent implements OnInit {
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     const dialog = this.dialog.open(TaxOnlyInvoiceFormComponent, {
-      data: {'ids': items, 'dataTable': this.dataTable},
-      width: '450px'
-  })
+        data: {'ids': items, 'dataTable': this.dataTable},
+        width: '450px'
+      })
     ;
     this.sub.add(dialog.afterClosed().subscribe(() => {
       this.fetchItems();
@@ -244,17 +240,21 @@ export class InvoicesComponent implements OnInit {
       if (response['message'] === 'error') {
         this.notificationService.error('לא ניתן להוריד את הקובץ');
       } else {
-        const byteCharacters = atob(response['message']['data']);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        if (response['message'] === 'no_data') {
+          this.notificationService.warning('אין נתונים להורדה');
+        } else {
+          const byteCharacters = atob(response['message']['data']);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+          const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
+          FileSaver.saveAs(blob, fileName);
+          this.spin = false;
+          this.notificationService.success('הקובץ הופק בהצלחה');
         }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-        const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
-        FileSaver.saveAs(blob, fileName);
-        this.spin = false;
-        this.notificationService.success('הקובץ הופק בהצלחה');
       }
     });
   }
@@ -294,6 +294,32 @@ export class InvoicesComponent implements OnInit {
       }
     });
   }
+
+  ShowRemarks(item: Object): void {
+    this.dialog.open(RemarksFormComponent, {
+      data: item,
+      width: '750px'
+    });
+  }
+
+  openProactiveInvoice(): void {
+    const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
+        width: '500px',
+        height: '600px'
+      })
+    ;
+    this.sub.add(dialog.afterClosed().subscribe(() => {
+      this.fetchItems();
+    }));
+  }
+
+  createMasav(): boolean {
+    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
+      this.dataTable.setNoneCheckedWarning();
+      return false;
+    }
+  }
+
   openCreditCardInvoices(): void {
     const dialog = this.dialog.open(CreditCardExelComponent, {
       width: '450px'
@@ -315,43 +341,22 @@ export class InvoicesComponent implements OnInit {
       if (response['message'] === 'error') {
         this.notificationService.error('לא ניתן להוריד את הקובץ');
       } else {
-        const byteCharacters = atob(response['message']['data']);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        if (response['message'] === 'no_data') {
+          this.notificationService.warning('אין נתונים להורדה');
+        } else {
+          const byteCharacters = atob(response['message']['data']);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+          const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
+          FileSaver.saveAs(blob, fileName);
+          this.spin = false;
+          this.notificationService.success('הקובץ הופק בהצלחה');
         }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-        const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
-        FileSaver.saveAs(blob, fileName);
-        this.spin = false;
-        this.notificationService.success('הקובץ הופק בהצלחה');
       }
     });
-  }
-
-  ShowRemarks(item: Object): void {
-    this.dialog.open(RemarksFormComponent, {
-      data: item,
-      width: '750px'
-    });
-  }
-
-  openProactiveInvoice(): void {
-    const dialog = this.dialog.open(ProactiveInvoiceFormComponent, {
-      width: '500px',
-      height: '600px'
-  })
-    ;
-    this.sub.add(dialog.afterClosed().subscribe(() => {
-      this.fetchItems();
-    }));
-  }
-
-  createMasav(): boolean {
-    if (this.dataTable.criteria.checkedItems.length === 0 && !this.dataTable.criteria.isCheckAll) {
-      this.dataTable.setNoneCheckedWarning();
-      return false;
-    }
   }
 }

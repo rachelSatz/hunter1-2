@@ -179,7 +179,7 @@ export class InvoiceService extends BaseHttpService {
     return this.http.post(this.endPoint + '/createTaxInvoices',
       { invoiceIds: invoiceIds, data: date,  criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
-      .then(response => response)
+      .then(response => response as string)
       .catch(() => null);
   }
 
@@ -187,7 +187,7 @@ export class InvoiceService extends BaseHttpService {
     return this.http.post(this.endPoint + '/createTransactionInvoices',
       { invoiceIds: invoiceIds, data: date,  criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
-      .then(response => response)
+      .then(response => response as string)
       .catch(() => null);
   }
 
@@ -195,7 +195,7 @@ export class InvoiceService extends BaseHttpService {
     return this.http.post(this.endPoint + '/createTaxOnlyInvoices',
       { invoiceIds: invoiceIds, data: date,  criteria: this.setDataTableParams(criteria)}, this.getTokenHeader())
       .toPromise()
-      .then(response => response)
+      .then(response => response as string)
       .catch(() => null);
   }
 
@@ -206,7 +206,7 @@ export class InvoiceService extends BaseHttpService {
     return this.http.post(this.endPoint + '/invoiceReports',
       {data: date}, request)
       .toPromise()
-      .then(response => response)
+      .then(response => response as string)
       .catch(() => null);
   }
 
@@ -232,7 +232,7 @@ export class InvoiceService extends BaseHttpService {
   }
 
   createProactiveInvoice(conditions): Promise<any> {
-    const request = this.getTokenHeader()
+    const request = this.getTokenHeader();
     request['params'] = {};
     request['params']['project_group_id'] = this.getProjectGroupId();
     return this.http.post(this.endPoint + '/createProactiveInvoice', conditions, request)
@@ -249,7 +249,7 @@ export class InvoiceService extends BaseHttpService {
         updateEmployees: updateEmployees
       }, this.getTokenHeader())
       .toPromise()
-      .then(response => response);
+      .then(response => response as string)
   }
   // deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<string> {
   //   return this.http.post(this.endPoint + '/deleteInvoices',

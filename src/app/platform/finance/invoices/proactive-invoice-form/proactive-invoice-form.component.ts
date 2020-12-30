@@ -70,9 +70,10 @@ export class ProactiveInvoiceFormComponent implements OnInit {
         if (response['message'] === 'no employers to charged') {
           this.notificationService.info('לא בוצע חיוב');
         } else if (response['message'] === 'success') {
-          this.notificationService.success('חיוב בוצע בהצלחה');
+          this.notificationService.success('חיוב בוצע בהצלחה', 'הופקו ' + response['count_invoices'] + ' חשבוניות ');
         } else {
-          this.notificationService.error( 'ארעה שגיאה ' + response['message']);
+          this.notificationService.error( 'ארעה שגיאה ' + 'הופקו '  + response['count_invoices'] + ' חשבוניות ');
+          console.log(response['message']);
         }
       });
      }

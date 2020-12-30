@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
           this.userSession.login({username: form.value.email, token: response['token']});
           this.userSession.setRole(response['role']);
           this.userSession.setUserModules(response['module']);
+          this.userSession.setUserProjectGroups(response['project_groups']);
           console.log(response);
           console.log(response);
           if (response['role'] !== 'employer') {

@@ -72,6 +72,13 @@
           שדה חובה
         </mat-error>
       </div>
+      <div class="col-6 col-lg-3 pl-4">
+        <bd-select [items]="projectGroups" placeholder="פרויקט על" #projectGroupSelect="ngModel" name="project_group_id"
+                   [(ngModel)]="user.project_groups" required [multiple]=true ></bd-select>
+        <mat-error *ngIf="roleSelect.invalid && (roleSelect.dirty || roleSelect.touched ||not_valid )" class="red-color mt-1">
+          שדה חובה
+        </mat-error>
+      </div>
     </div>
     <h5 class="mt-5 bold">הרשאות</h5>
     <div style="width: 52%">

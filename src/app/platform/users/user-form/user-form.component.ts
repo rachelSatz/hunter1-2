@@ -10,6 +10,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from 'app/shared/_services/notification.service';
 import { HelpersService } from 'app/shared/_services/helpers.service';
+import {GeneralService} from '../../../shared/_services/http/general.service';
 
 @Component({
   selector: 'app-user-form',
@@ -27,7 +28,6 @@ export class UserFormComponent implements OnInit {
   moduleTypes = ModuleTypes;
   update = false;
   add = false;
-  units: any;
   not_valid = false;
   roles = Object.keys(EntityRoles).map(function (e) {
     return {id: e, name: EntityRoles[e]};
@@ -40,21 +40,27 @@ export class UserFormComponent implements OnInit {
     { name: 'module', label: 'מודול', searchable: false, isSort: false},
     { name: 'watching', label: 'צפיה', isSort: false}
   ];
+  projectGroups: any;
   constructor(private userSeService: UserSessionService,
               private userService: UserService,
               private _location: Location,
               private route: ActivatedRoute,
               private notificationService: NotificationService,
-              private helpers: HelpersService) { }
+              private helpers: HelpersService,
+              private generalService: GeneralService) { }
 
   ngOnInit() {
-    if (this.route.snapshot.data.user) {
-      this.helpers.setPageSpinner(true);
-      this.update = true;
-      this.user = new User(this.route.snapshot.data.user);
-      this.units = this.user.units;
-      this.helpers.setPageSpinner(false);
-    }
+
+    this.generalService.getProjectGroups().then(res => {
+      this.projectGroups = res['data'];
+      if (this.route.snapshot.data.user) {
+        this.helpers.setPageSpinner(true);
+        this.update = true;
+        this.user = new User(this.route.snapshot.data.user);
+        console.log(this.user);
+        this.helpers.setPageSpinner(false);
+      }
+    });
   }
 
   handleResponse(isSaved: any): void {
@@ -75,6 +81,7 @@ export class UserFormComponent implements OnInit {
   }
 
   changePermission(event: any, module, index): void {
+    console.log(this.user);
     if (event.checked === true) {
       if (this.user.modules[index].isEnabled === false) {
         this.user.modules[index].isEnabled = true;
@@ -99,7 +106,6 @@ export class UserFormComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
-    this.user.project_group_id = 1;
     this.user.units = [];
     this.hasServerError = false;
      if (form.valid) {
