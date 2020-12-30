@@ -15,7 +15,7 @@ import {
   PAYMENT_TERMS,
   PAYMENT_TIME,
   PAYMENT_TYPE,
-  PRODUCT_TYPES,
+  PRODUCT_TYPES_SMARTI, PRODUCT_TYPES_MYHR,
   TAX
 } from '../../../../shared/_models/employer-financial-details.model';
 import { Employer } from '../../../../shared/_models/employer.model';
@@ -60,9 +60,8 @@ export class FinanceComponent implements OnInit {
   languageItems = Object.keys(LANGUAGE).map(function(e) {
     return { id: e, name: LANGUAGE[e] };
   });
-  productTypesItems = Object.keys(PRODUCT_TYPES).map(function(e) {
-    return { id: e, name: PRODUCT_TYPES[e] };
-  });
+  productTypesItems = [];
+
   employerId ;
   rowIndex: number;
   isNoPaymentTime: boolean;
@@ -91,6 +90,15 @@ export class FinanceComponent implements OnInit {
   ngOnInit() {
     this.selectUnit.setActiveEmployerUrl('finance');
     this.payEmployers = this.selectUnit.getEmployers();
+    if (this.selectUnit.getProjectGroupId() === 1) {
+      this.productTypesItems = Object.keys(PRODUCT_TYPES_SMARTI).map(function (e) {
+        return { id: e, name: PRODUCT_TYPES_SMARTI[e] };
+      });
+    }if (this.selectUnit.getProjectGroupId() === 2) {
+      this.productTypesItems = Object.keys(PRODUCT_TYPES_MYHR).map(function (e) {
+        return { id: e, name: PRODUCT_TYPES_MYHR[e] };
+      });
+    }
     this.fetchItems();
     }
 
