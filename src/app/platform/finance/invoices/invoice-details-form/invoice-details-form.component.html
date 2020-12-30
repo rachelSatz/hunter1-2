@@ -20,14 +20,15 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let detail of invoiceDetails">
+  <tr *ngFor="let detail of invoiceDetails" class="pointer w-100" matTooltipPosition="above"
+      [matTooltip]="detail.step ?  ' תעריף: ' + detail.step.payment_type + ' כמות ת.ז: ' + detail.step.ids_count + ' סכום לתשלום: ' + detail.step.payment_amount: null" >
     <td class="w-20">{{ detail.ids_count }}</td>
     <td class="w-20">{{ detail.payment_type }}</td>
     <td class="w-20">{{ detail.payment_amount | number:'1.2-2' }}</td>
     <td class="w-20">{{ detail.total_amount | number:'1.2-2' }}</td>
     <td class="w-25">{{ detail.details }}</td>
     <td class="w-20">{{ detail.is_exceptional }}</td>
-    <td class="w-25">{{ detail.for_month_process }}</td>
+    <td class="w-50">{{ detail.for_month_process }}</td>
     <td class="w-25">{{ product_relation_enum[detail.product_type.product_type] }}</td>
   </tr>
   </tbody>

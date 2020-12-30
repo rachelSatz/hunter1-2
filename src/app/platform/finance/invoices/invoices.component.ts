@@ -21,7 +21,7 @@ import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-deta
 import * as FileSaver from 'file-saver';
 import { RemarksFormComponent } from './remarks-form/remarks-form.component';
 import { ProactiveInvoiceFormComponent } from './proactive-invoice-form/proactive-invoice-form.component';
-import {CreditCardExelComponent} from './credit-card-exel/credit-card-exel.component';
+import { CreditCardExelComponent } from './credit-card-exel/credit-card-exel.component';
 
 @Component({
   selector: 'app-invoices',
@@ -53,6 +53,7 @@ export class InvoicesComponent implements OnInit {
   ids_projects_group2 = [2];
   group1: boolean;
   group2: boolean;
+  masav_error: boolean;
   readonly columns = [
     {
       name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
@@ -237,7 +238,8 @@ export class InvoicesComponent implements OnInit {
     this.helpers.setPageSpinner(true);
     this.invoiceService.downloadInvoicesToExcel(this.dataTable.criteria).then(response => {
       this.helpers.setPageSpinner(false);
-      if (response['message'] === 'error') {
+      debugger;
+      if (response['message'] === 'error' || response['message'].contains('error')) {
         this.notificationService.error('לא ניתן להוריד את הקובץ');
       } else {
         if (response['message'] === 'no_data') {
@@ -318,6 +320,51 @@ export class InvoicesComponent implements OnInit {
       this.dataTable.setNoneCheckedWarning();
       return false;
     }
+
+    if (this.dataTable.criteria.checkedItems.length > 0) {
+      this.invoices = this.dataTable.criteria.checkedItems;
+    } else {
+      this.invoices = this.dataTable.items;
+    }
+
+    this.group1 = false;
+    this.group2 = false;
+    this.masav_error = false;
+    this.invoices.forEach(invoice => {
+      if (this.group1 && this.group2) {
+        this.notificationService.error('אין אפשרות להוריד מסב לפי הפרויקטים שנבחרו');
+        this.masav_error = true;
+      }
+      if (invoice['status'] !== 'direct_debit') {
+        this.notificationService.error('יש לבחור סטטוס הוראת קבע');
+        this.masav_error = true;
+      }
+      console.log(this.ids_projects_group1.find(x => x === invoice['project']));
+      if (this.ids_projects_group1.find(x => x === invoice['project'])) {
+        this.group1 = true;
+      } else if (this.ids_projects_group2.find(x => x === invoice['project'])) {
+        this.group2 = true;
+      } else {
+        this.notificationService.error('אין אפשרות להוריד מסב לפי הפרויקטים שנבחרו');
+        this.masav_error = true;
+      }
+    });
+    if (this.masav_error) {
+      return false;
+    }
+    const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
+    this.invoiceService.createMasav(items, this.dataTable.criteria).then(response => {
+      console.log(response);
+      this.is_valid = true;
+      const byteCharacters = atob(response['data']);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], {type: 'application/' + response['ext']});
+      FileSaver.saveAs(blob, response['filename']);
+    });
   }
 
   openCreditCardInvoices(): void {
