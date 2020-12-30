@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseHttpService } from './base-http.service';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
-import { ManualInvoice } from '../../_models/invoice.model';
+import {InvoiceDetailsRemarks, ManualInvoice} from '../../_models/invoice.model';
 import {SelectUnitService} from '../select-unit.service';
 
 @Injectable({
@@ -224,11 +224,11 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => false);
   }
 
-  getInvoiceRemarks(invoice_id: number): Promise<Object> {
+  getInvoiceRemarks(invoice_id: number): Promise<InvoiceDetailsRemarks> {
     return this.http.get(this.endPoint + '/' + invoice_id + '/getRemarks', this.getTokenHeader())
       .toPromise()
-      .then(response => response as Object)
-      .catch(() => []);
+      .then(response => response as InvoiceDetailsRemarks)
+      .catch(() => null);
   }
 
   createProactiveInvoice(conditions): Promise<any> {
