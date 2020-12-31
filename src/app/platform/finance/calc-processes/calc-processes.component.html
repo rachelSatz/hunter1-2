@@ -1,4 +1,4 @@
-<app-data-table tableName="תהליכי חישוב " [hasActionsSearch]="false" [columns]="columns" (fetchItems)="fetchItems()"
+<app-data-table tableName="תהליכי חישוב " [hasActionsSearch]="true" [columns]="columns" (fetchItems)="fetchItems()"
                 [hasActionsHeader]="false" [hasCheckColumn]="false">
   <div class="table-header">
     <div class="row mt-4 mr-1">
@@ -8,13 +8,10 @@
     </div>
   </div>
   <tr *ngFor="let item of dataTable.items; let i=index;" [ngClass]="{'highlight': item.error !== null}" >
-
-    <td [ngClass]="{'white': i%2 === 0}">{{ item.project_name}}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.created_at | date: 'dd/MM/yy'}}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.count_employers }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.count_employees }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.amount_invoices }}</td>
-
   </tr>
 </app-data-table>
 <router-outlet></router-outlet>
