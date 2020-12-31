@@ -211,7 +211,8 @@ export class InvoiceService extends BaseHttpService {
   }
 
   downloadExcel(invoiceId: number): Promise<string> {
-    return this.http.post(this.endPoint + '/downloadEmployeesDetails', {'invoiceId': invoiceId}, this.getTokenHeader())
+    return this.http.post(this.endPoint + '/downloadEmployeesDetails',
+      {'invoiceId': invoiceId, 'project_group_id': this.getProjectGroupId()}, this.getTokenHeader())
       .toPromise()
       .then(response => response as string)
       .catch(() => null);
@@ -249,7 +250,7 @@ export class InvoiceService extends BaseHttpService {
         updateEmployees: updateEmployees
       }, this.getTokenHeader())
       .toPromise()
-      .then(response => response as string)
+      .then(response => response as string);
   }
   // deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<string> {
   //   return this.http.post(this.endPoint + '/deleteInvoices',

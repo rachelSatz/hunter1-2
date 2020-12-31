@@ -90,11 +90,12 @@ export class FinanceComponent implements OnInit {
   ngOnInit() {
     this.selectUnit.setActiveEmployerUrl('finance');
     this.payEmployers = this.selectUnit.getEmployers();
-    if (this.selectUnit.getProjectGroupId() === 1) {
+    if (+this.selectUnit.getProjectGroupId() === 1) {
+      console.log('1')
       this.productTypesItems = Object.keys(PRODUCT_TYPES_SMARTI).map(function (e) {
         return { id: e, name: PRODUCT_TYPES_SMARTI[e] };
       });
-    }if (this.selectUnit.getProjectGroupId() === 2) {
+    }if (+this.selectUnit.getProjectGroupId() === 2) {
       this.productTypesItems = Object.keys(PRODUCT_TYPES_MYHR).map(function (e) {
         return { id: e, name: PRODUCT_TYPES_MYHR[e] };
       });

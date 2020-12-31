@@ -58,11 +58,11 @@ export class ManualInvoiceFormComponent implements OnInit {
       response => { this.payEmployers = response['data'];
       this.employers = this.payEmployers; });
     this.allEmployers = this.selectunit.getEmployers();
-    if (this.selectunit.getProjectGroupId() === 1) {
+    if (+this.selectunit.getProjectGroupId() === 1) {
       this.productTypes = Object.keys(PRODUCT_TYPES_SMARTI).map(function (e) {
         return { id: e, name: PRODUCT_TYPES_SMARTI[e] };
       });
-    }if (this.selectunit.getProjectGroupId() === 2) {
+    }if (+this.selectunit.getProjectGroupId() === 2) {
       this.productTypes = Object.keys(PRODUCT_TYPES_MYHR).map(function (e) {
         return { id: e, name: PRODUCT_TYPES_MYHR[e] };
       });
