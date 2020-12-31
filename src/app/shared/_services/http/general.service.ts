@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from './user-session.service';
 import { HttpClient } from '@angular/common/http';
-import { Project, ProjectGroup } from '../../_models/project.model';
+import { Project } from '../../_models/project.model';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { Bank } from '../../_models/bank.model';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

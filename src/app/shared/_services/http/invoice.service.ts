@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseHttpService } from './base-http.service';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
-import { ManualInvoice } from '../../_models/invoice.model';
+import {InvoiceDetailsRemarks, ManualInvoice} from '../../_models/invoice.model';
 import {SelectUnitService} from '../select-unit.service';
 
 @Injectable({
@@ -211,7 +211,8 @@ export class InvoiceService extends BaseHttpService {
   }
 
   downloadExcel(invoiceId: number): Promise<string> {
-    return this.http.post(this.endPoint + '/downloadEmployeesDetails', {'invoiceId': invoiceId}, this.getTokenHeader())
+    return this.http.post(this.endPoint + '/downloadEmployeesDetails',
+      {'invoiceId': invoiceId, 'project_group_id': this.getProjectGroupId()}, this.getTokenHeader())
       .toPromise()
       .then(response => response as string)
       .catch(() => null);
@@ -224,11 +225,11 @@ export class InvoiceService extends BaseHttpService {
       .catch(() => false);
   }
 
-  getInvoiceRemarks(invoice_id: number): Promise<Object> {
+  getInvoiceRemarks(invoice_id: number): Promise<InvoiceDetailsRemarks> {
     return this.http.get(this.endPoint + '/' + invoice_id + '/getRemarks', this.getTokenHeader())
       .toPromise()
-      .then(response => response as Object)
-      .catch(() => []);
+      .then(response => response as InvoiceDetailsRemarks)
+      .catch(() => null);
   }
 
   createProactiveInvoice(conditions): Promise<any> {
@@ -249,7 +250,7 @@ export class InvoiceService extends BaseHttpService {
         updateEmployees: updateEmployees
       }, this.getTokenHeader())
       .toPromise()
-      .then(response => response as string)
+      .then(response => response as string);
   }
   // deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<string> {
   //   return this.http.post(this.endPoint + '/deleteInvoices',

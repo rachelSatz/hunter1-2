@@ -126,6 +126,22 @@ export enum TYPES {
   auto= 'אוטומטית',
 }
 
+export class InvoiceDetailsRemarks {
+  ids_count: number;
+  total_payment_amount: number;
+  payment_type: string;
+  payment_amount: number;
+  remarks_finance_payment: RemarksFinancePayment[]
+}
+
+export class RemarksFinancePayment {
+  finance_ids_count: number;
+  finance_payment_amount: number;
+  payment_type: string;
+  product_type: string;
+
+}
+
 
 
 

@@ -4,14 +4,18 @@ import { InvoicesComponent } from './invoices.component';
 import { RouterModule, Routes } from '@angular/router';
 import { DataTableModule } from '../../../shared/data-table/data-table.module';
 import { BdSelectModule } from '../../../../assets/js/bd-select/bd-select.module';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatCheckboxModule,
-  MatDatepickerModule, MatDialogModule, MatDividerModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatDividerModule,
   MatFormFieldModule,
-  MatInputModule, MatRadioModule,
-  MatRippleModule
+  MatInputModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatTooltipModule
 } from '@angular/material';
 import { DatePickerModule } from '../../../shared/app-date-picker/app-date-picker.module';
 import { ManualInvoiceFormComponent } from './manual-invoice-form/manual-invoice-form.component';
@@ -62,7 +66,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatRadioModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTooltipModule
   ],
   entryComponents: [
      ManualInvoiceFormComponent,

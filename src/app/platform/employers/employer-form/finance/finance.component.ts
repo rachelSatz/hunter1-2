@@ -83,22 +83,22 @@ export class FinanceComponent implements OnInit {
               private notificationService: NotificationService,
               private selectUnit: SelectUnitService,
               public userSession: UserSessionService,
-              private generalService: GeneralService) {
+              private generalService: GeneralService,
+              private helpers: HelpersService) {
   }
 
   ngOnInit() {
     this.selectUnit.setActiveEmployerUrl('finance');
     this.payEmployers = this.selectUnit.getEmployers();
     if (+this.selectUnit.getProjectGroupId() === 1) {
+      console.log('1')
       this.productTypesItems = Object.keys(PRODUCT_TYPES_SMARTI).map(function (e) {
         return { id: e, name: PRODUCT_TYPES_SMARTI[e] };
       });
-      console.log(this.productTypesItems);
     }if (+this.selectUnit.getProjectGroupId() === 2) {
       this.productTypesItems = Object.keys(PRODUCT_TYPES_MYHR).map(function (e) {
         return { id: e, name: PRODUCT_TYPES_MYHR[e] };
       });
-      console.log(this.productTypesItems);
     }
     this.fetchItems();
     }

@@ -3,13 +3,13 @@
   <div class="center">
     <p class="header">כניסה למערכת</p>
     <form #form="ngForm" class="align-content-center" (ngSubmit)="register(form)" novalidate>
-      <div class="w-100">
+      <div class="w-53 margin-auto mb-5" >
         <p>הזן סיסמא</p>
         <input class="form-control" type="password" name="password" #password="ngModel" ngModel required>
         <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">יש להזין סיסמא.</mat-error>
       </div>
-      <div class="w-100 mt-4">
-        <p>אימות סיסמא </p>
+      <div class="w-53 margin-auto mb-5" >
+        <p class=" mt-4">אימות סיסמא </p>
         <div id="input_container">
           <input class="form-control" [type]="hideConfirmPassword ? 'password' : 'text'" id="input" name="confirmPassword" #confirmPassword="ngModel" ngModel required>
           <i class="fa fa-eye fa-1x" id="input_img" (click)="togglemyConfirmPasswordFieldType()"></i>

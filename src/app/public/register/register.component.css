@@ -29,7 +29,7 @@ h1{
   color: #FF7C31;
   opacity: 1;
 }
-input[type="text"]{
+input[type="text"], input[type="password"]{
   top: 459px;
   left: 813px;
   width: 292px;
@@ -64,7 +64,7 @@ p{
 }
 #input_img {
   position:absolute;
-  bottom:5px;
+  bottom:1px;
   right:260px;
   width:24px;
   height:30px;
@@ -79,4 +79,7 @@ p{
 }
 .center{
   width: 30%; margin: auto; padding-top: 100px;
+}
+.w-53{
+  width: 53% !important;
 }

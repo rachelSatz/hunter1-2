@@ -9,7 +9,7 @@ import { InvoiceService } from '../../../../../app/shared/_services/http/invoice
 @Component({
   selector: 'app-invoice-details-form',
   templateUrl: './invoice-details-form.component.html',
-  styles: ['#styleFormat { height: 200px; padding-top: 20px }'],
+  styles: ['#styleFormat { height: 200px; padding-top: 20px } .displayNone{ display: none;}'],
   animations: [ fade ]
 })
 export class InvoiceDetailsFormComponent implements OnInit {
