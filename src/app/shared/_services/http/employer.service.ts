@@ -87,12 +87,12 @@ export class EmployerService extends BaseHttpService {
       .catch(() => null);
   }
 
-  getAllEmployers(criteria?: DataTableCriteria, is_active?: boolean, organization?: any): Promise<DataTableResponse> {
+  getAllEmployers(criteria?: DataTableCriteria, is_active?: boolean, project_group?: any): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
       request['params']['is_active'] = is_active;
-      request['params']['organization'] = organization;
+      request['params']['project_group'] = project_group;
     }
 
     return this.http.get(this.endPoint, request)

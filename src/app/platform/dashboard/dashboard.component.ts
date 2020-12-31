@@ -107,11 +107,11 @@ export class DashboardComponent implements OnInit {
           this.projects = response['data'];
           this.projects.push({'id': '0', 'name': 'כלל הפרויקטים'});
           this.projects.sort((a, b) => a.id - b.id);
-          if (this.selectUnit.getProjectGroupId() === 1) {
+          if (+this.selectUnit.getProjectGroupId() === 1) {
             this.productTypesItems = Object.keys(PRODUCT_TYPES_SMARTI).map(function (e) {
               return { id: e, name: PRODUCT_TYPES_SMARTI[e] };
             });
-          }if (this.selectUnit.getProjectGroupId() === 2) {
+          }if (+this.selectUnit.getProjectGroupId() === 2) {
             this.productTypesItems = Object.keys(PRODUCT_TYPES_MYHR).map(function (e) {
               return { id: e, name: PRODUCT_TYPES_MYHR[e] };
             });
