@@ -19,19 +19,19 @@ export class CommentsComponent implements OnInit {
               private selectUnit: SelectUnitService) {}
 
   ngOnInit() {
-    this.selectUnit.setActiveEmployerUrl('remarks');
     this.fetchItems();
 
   }
 
   fetchItems(): void {
-    this.employerService.getEmployerComments(this.employerSession.getUser().username, this.selectUnit.getEmployerID() )
+    this.employerService.getEmployerComments(this.employerSession.getUser().username, this.selectUnit.getEmployerRelation() )
       .then(response => this.comments_emp = response);
   }
 
   submit(): void {
     this.hasServerError = false;
-    this.employerService.newEmployerComment(this.employerSession.getUser().username, this.comment_emp, this.selectUnit.getEmployerID())
+    this.employerService.newEmployerComment(this.employerSession.getUser().username,
+      this.comment_emp, this.selectUnit.getEmployerRelation())
       .then(response => {
       if (response) {
         this.fetchItems();

@@ -125,11 +125,11 @@ export class InvoiceService extends BaseHttpService {
   }
 
 
-  getEmployerInvoices(criteria?: DataTableCriteria, idEmployer?: number, noLimit?: boolean): Promise<DataTableResponse> {
+  getEmployerInvoices(criteria?: DataTableCriteria, employerRelationId?: number, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
-      request['params']['employer_id'] = idEmployer;
+      request['params']['employer_relation'] = employerRelationId;
     }
 
     if (noLimit) {

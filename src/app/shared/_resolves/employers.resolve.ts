@@ -10,6 +10,7 @@ export class EmployersResolve implements Resolve<Employer> {
   constructor(private employerService: EmployerService) {}
 
   resolve(snapshot: ActivatedRouteSnapshot) {
+    console.log(+snapshot.params.id);
     return this.employerService.getEmployer(+snapshot.params.id).then(response => response as any);
   }
 }

@@ -38,8 +38,10 @@ export class CalcProcessesComponent implements OnInit {
   fetchItems(): void {
     this.sub = this.route.params.subscribe(v => {
       if (v['from_date']) {
+        console.log(v);
         this.filters['created_at[from]'] = v['from_date'];
         this.filters['created_at[to]'] = v['to_date'];
+        this.dataTable.criteria.filters = this.filters;
       }
     });
     this.calcProcessService.getCalcProcesses(this.dataTable.criteria)

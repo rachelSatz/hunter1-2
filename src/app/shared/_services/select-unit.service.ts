@@ -7,7 +7,7 @@ import { Subject, Observable } from 'rxjs';
 export class SelectUnitService {
 
   currentProjectGroupId: number;
-  currentEmployerID: any;
+  currentEmployerRelationID: any;
   currentOrganizationID: number;
   unitSubject: Subject<number> = new Subject();
   activeUrl: string;
@@ -19,15 +19,6 @@ export class SelectUnitService {
 
   getActiveUrl(): any {
     return this.getSessionStorage('activeUrl');
-  }
-
-  setActiveEmployerUrl(activeEmployerUrl: any): void {
-    sessionStorage.setItem('activeEmployerUrl', JSON.stringify(activeEmployerUrl));
-    // this.unitSubject.next(activeEmployerUrl);
-  }
-
-  getActiveEmployerUrl(): any {
-    return this.getSessionStorage('activeEmployerUrl');
   }
 
   setProjectGroupId(projectGroupId: any): void {
@@ -44,14 +35,14 @@ export class SelectUnitService {
     return this.getSessionStorage('projectGroupId');
   }
 
-  getEmployerID(): any {
-    return this.getSessionStorage('employerID');
+  getEmployerRelation(): any {
+    return this.getSessionStorage('employerRelation');
   }
 
-  setEmployerID(employerId: any): any {
-    sessionStorage.setItem('employerID', JSON.stringify(employerId));
-    this.currentEmployerID = employerId;
-    this.unitSubject.next(employerId);
+  setEmployerRelation(employerRelation: any): any {
+    sessionStorage.setItem('employerRelation', JSON.stringify(employerRelation));
+    this.currentEmployerRelationID = employerRelation;
+    this.unitSubject.next(employerRelation);
   }
 
   getOrganizationID(): any {
@@ -72,6 +63,7 @@ export class SelectUnitService {
   setEmployers(employers: any): void {
     sessionStorage.setItem('employers', JSON.stringify(employers));
   }
+
   getEmployers(): any {
     return this.getSessionStorage('employers');
   }
@@ -80,7 +72,7 @@ export class SelectUnitService {
     sessionStorage.setItem('projectGroups', JSON.stringify(projectGroups));
   }
 
-  getProjectGroupss(): any {
+  getProjectGroups(): any {
     return this.getSessionStorage('ProjectGroups');
   }
 }

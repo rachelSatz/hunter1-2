@@ -71,8 +71,8 @@ export class GeneralService  extends BaseHttpService {
       .catch(() => []);
   }
 
-  getEmployerComments(objectID: any, employerID: any): Promise<Object[]> {
-    return this.http.post(this.apiUrl + '/generals' + '/getComments', {'username': objectID, 'employer':employerID},
+  getEmployerComments(objectID: any, employerRelationID: any): Promise<Object[]> {
+    return this.http.post(this.apiUrl + '/generals' + '/getComments', {'username': objectID, 'employer': employerRelationID},
       this.getTokenHeader())
       .toPromise()
       .then(response => response as Object[])

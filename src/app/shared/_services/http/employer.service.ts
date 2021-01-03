@@ -6,10 +6,8 @@ import { EmployerFinancialDetails } from '../../_models/employer-financial-detai
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { Observable } from 'rxjs';
-import { Employer } from '../../_models/employer.model';
 import 'rxjs/Rx';
-import {SelectUnitService} from '../select-unit.service';
-import {optimizeGroupPlayer} from '@angular/animations/browser/src/render/shared';
+import { SelectUnitService } from '../select-unit.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +27,7 @@ export class EmployerService extends BaseHttpService {
     const request = this.getTokenHeader();
     request['params'] = {};
     request['params']['organization_id'] = organizationId;
+    request['params']['project_group_id'] = this.getProjectGroupId();
     return this.http.get(this.endPoint + '/employer_list', request)
       .toPromise()
       .then(response => response as any)
@@ -45,9 +44,12 @@ export class EmployerService extends BaseHttpService {
       .catch(() => null);
   }
 
-  getEmployers(): Observable<Employer[]> {
-    return this.http.get(this.endPoint + '/employer_list', this.getTokenHeader())
-      .map(response => response as Employer[] );
+  getEmployers(): Observable<any> {
+    const request = this.getTokenHeader();
+    request['params'] = {};
+    request['params']['project_group_id'] = this.getProjectGroupId();
+    return this.http.get(this.endPoint + '/employer_list', request)
+      .map(response => response as any);
   }
 
   getEmployersByProjectGroupId(projectGroupId: number): Promise<any> {
@@ -75,6 +77,7 @@ export class EmployerService extends BaseHttpService {
     const request = this.getTokenHeader();
     request['params'] = {};
     request['params']['project_id'] = projectId;
+    request['params']['project_group_id'] = this.getProjectGroupId();
     return this.http.get(this.endPoint + '/employer_list', request)
       .toPromise()
       .then(response => response as any)
@@ -102,19 +105,28 @@ export class EmployerService extends BaseHttpService {
   }
 
   getEmployerFinance(id: number): Promise<any> {
-    return this.http.get(this.endPoint + '/employerFinance?employer_id=' + id, this.getTokenHeader())
+    console.log(id);
+    const request = this.getTokenHeader();
+    request['params'] = {};
+    request['params']['employer_relation'] = id;
+    return this.http.get(this.endPoint + '/employerFinance', request)
       .toPromise()
       .then(response => response as any)
       .catch(() => null);
   }
-  saveFinancialDetails(employerId: number, financialDetails: EmployerFinancialDetails): Promise<boolean> {
+  saveFinancialDetails(employerRelation: number, financialDetails: EmployerFinancialDetails): Promise<boolean> {
     return this.http.post(this.endPoint + '/saveFinanceDetails',
-      {financialDetails: financialDetails, employerId: employerId}, this.getTokenHeader())
+      {financialDetails: financialDetails, employer_relation: employerRelation, project_group_id: this.getProjectGroupId()},
+      this.getTokenHeader())
       .toPromise()
       .then(response =>  response as boolean);
   }
-  getEmployer(employerId: number): Promise<any> {
-    return this.http.get(this.endPoint + '/getEmployer?id=' + employerId, this.getTokenHeader())
+
+  getEmployer(employer_relation: number): Promise<any> {
+    const request = this.getTokenHeader();
+    request['params'] = {}
+    request['params']['employer_relation'] = employer_relation;
+    return this.http.get(this.endPoint + '/getEmployer' , request)
       .toPromise()
       .then(response => response as any)
       .catch(() => null);

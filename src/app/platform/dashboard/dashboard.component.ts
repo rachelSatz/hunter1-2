@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private helpers: HelpersService,
-              private SelectUnitService: SelectUnitService,
+              private selectUnitService: SelectUnitService,
               private userSession: UserSessionService,
               private selectUnit: SelectUnitService,
               private NotificationService: NotificationService,
@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.SelectUnitService.setActiveUrl('dashboard');
+    this.selectUnitService.setActiveUrl('dashboard');
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
       this.fetchItems();
     }));
@@ -313,14 +313,13 @@ export class DashboardComponent implements OnInit {
       this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/finance/calc-processes',
-        { from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.currentProjectId}]);
-    } else {
+        { from_date: this.fromDateStr, to_date: this.toDateStr }]);
+} else {
       this.toDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
       this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1), 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
       this.router.navigate(['../../platform/finance/calc-processes',
-        { from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.currentProjectId,
-          project_group_id: this.currentProjectGroupId }]);
+        { from_date: this.fromDateStr , to_date: this.toDateStr}]);
     }
   }
 
@@ -384,7 +383,7 @@ export class DashboardComponent implements OnInit {
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
     if (result) {
-      this.SelectUnitService.setActiveUrl('employers');
+      this.selectUnitService.setActiveUrl('employers');
       this.router.navigate(['../../platform/employers/form/' + result]);
     } else {
       this.router.navigate(['../../platform/dashboard']);

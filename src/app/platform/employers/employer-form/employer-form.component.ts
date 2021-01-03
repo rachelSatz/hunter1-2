@@ -33,7 +33,6 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   types = TYPES;
   financialDetails: EmployerFinancialDetails;
   sub = new Subscription;
-  flag: boolean;
   permissionsType = this.userSession.getPermissionsType('employers');
   statuses = Object.keys(EmployerStatus).map(function(e) {
     return { id: e, name: EmployerStatus[e] };
@@ -63,29 +62,19 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     if (this.route.snapshot.data.employer) {
        this.employer = this.route.snapshot.data.employer;
      }
-     if (!this.selectUnit.getActiveEmployerUrl()) {
-       this.selectUnit.setActiveEmployerUrl('finance');
-     }
-    this.setStatus();
-    this.initForm();
-    this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-      if (this.selectUnit.currentOrganizationID !== this.employer['org_id']
-        || this.selectUnit.currentEmployerID !==  this.employer['id_emp']) {
-        this.helpers.setPageSpinner(false);
-        this.router.navigate(['platform', 'employers']);
-      }
-    }));
-    this.flag = true;
+     this.setStatus();
+     this.initForm();
+     this.activeUrl = 'finance';
+     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
+       if (this.selectUnit.currentOrganizationID !== this.employer['org_id']
+         || this.selectUnit.currentEmployerRelationID !==  this.employer.id) {
+         this.helpers.setPageSpinner(false);
+         this.router.navigate(['platform', 'employers']);
+       }
+     }));
   }
 
   initForm(): void {
-    this.EmployerService.getEmployer(this.selectUnit.getEmployerID()).then(response => {
-      this.employer = response;
-      this.EmployerService.getEmployerFinance(this.employer['id_emp'])
-        .then(res => {
-          this.financialDetails = res;
-        });
-    });
     this.employerForm = this.fb.group({
       'name': [null , Validators.required],
       'identifier': [null , [Validators.pattern('^\\d{9}$'), Validators.required]]

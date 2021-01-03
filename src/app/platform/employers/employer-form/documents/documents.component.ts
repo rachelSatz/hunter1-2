@@ -12,10 +12,7 @@ import { EmployerService } from '../../../../shared/_services/http/employer.serv
 import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-details-form.component';
 import { GeneralService } from '../../../../shared/_services/http/general.service';
 import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
-import { RemarksFormComponent } from './remarks-form/remarks-form.component';
-import {InvoicesComponent} from '../../../finance/invoices/invoices.component';
-import * as FileSaver from 'file-saver';
-import {CommentsComponent} from '../remarks/comments.component';
+import { CommentsComponent } from '../remarks/comments.component';
 
 
 
@@ -67,12 +64,11 @@ export class DocumentsComponent implements OnInit {
               private SelectUnitService: SelectUnitService) { }
 
   ngOnInit() {
-    this.SelectUnitService.setActiveEmployerUrl('documents');
     this.fetchItems();
   }
 
   fetchItems() {
-    this.invoiceService.getEmployerInvoices(this.dataTable.criteria, this.SelectUnitService.getEmployerID())
+    this.invoiceService.getEmployerInvoices(this.dataTable.criteria, this.SelectUnitService.getEmployerRelation())
       .then(response => {
         this.dataTable.setItems(response);
         this.arrInvoicesTmp = response.items;

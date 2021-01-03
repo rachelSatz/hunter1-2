@@ -62,7 +62,7 @@ export class FinanceComponent implements OnInit {
   });
   productTypesItems = [];
 
-  employerId ;
+  employerRelationId: number;
   rowIndex: number;
   isNoPaymentTime: boolean;
   openDatePicker: boolean;
@@ -88,10 +88,7 @@ export class FinanceComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectUnit.setActiveEmployerUrl('finance');
-    this.payEmployers = this.selectUnit.getEmployers();
     if (+this.selectUnit.getProjectGroupId() === 1) {
-      console.log('1')
       this.productTypesItems = Object.keys(PRODUCT_TYPES_SMARTI).map(function (e) {
         return { id: e, name: PRODUCT_TYPES_SMARTI[e] };
       });
@@ -100,13 +97,20 @@ export class FinanceComponent implements OnInit {
         return { id: e, name: PRODUCT_TYPES_MYHR[e] };
       });
     }
-    this.fetchItems();
-    }
+    this.employerService.getEmployers()
+      .subscribe(res => {
+        this.payEmployers = res['data'];
+        console.log('fddd', this.payEmployers);
+        this.fetchItems();
+      }
+  );
+    // this.payEmployers = this.selectUnit.getEmployers();
+ }
 
     fetchItems() {
       this.loadBanks();
-      this.employerId = this.selectUnit.getEmployerID();
-      this.employerService.getEmployerFinance(this.employerId)
+      this.employerRelationId = this.selectUnit.getEmployerRelation();
+      this.employerService.getEmployerFinance(this.employerRelationId)
           .then(res => {
             if (res.id) {
               this.financialDetails = res;
@@ -232,10 +236,11 @@ export class FinanceComponent implements OnInit {
   submit(form: NgForm) {
     this.hasServerError = false;
     if (form.valid) {
-       if (this.selectUnit.getEmployerID() === 0) {
+       if (this.selectUnit.getEmployerRelation() === 0) {
         this.notificationService.error('לא נבחר מעסיק.');
       } else {
-          this.employerService.saveFinancialDetails(this.selectUnit.getEmployerID(), this.financialDetails)
+         console.log(this.financialDetails);
+          this.employerService.saveFinancialDetails(this.selectUnit.getEmployerRelation(), this.financialDetails)
             .then(response => {
               if (response['message'] !== 'success') {
                 this.hasServerError = true;

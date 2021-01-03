@@ -38,10 +38,6 @@ export class PlatformComponent implements OnInit, OnDestroy {
               private userSessionService: UserSessionService,
               private ref: ChangeDetectorRef,
               private organizationService: OrganizationService) {
-    this.employerService.getEmployers()
-      .subscribe(res =>
-        this.selectUnit.setEmployers(res['data'])
-      );
   }
 
   ngOnInit() {

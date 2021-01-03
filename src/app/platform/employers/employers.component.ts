@@ -55,7 +55,7 @@ export class EmployersComponent implements OnInit {
 
   openEmployerFinanceDetails(employer: Employer): void {
     if (employer.is_active) {
-      this.selectUnit.setEmployerID(employer.id);
+      this.selectUnit.setEmployerRelation(employer.id);
       this.router.navigate(['./', 'form' , employer.id],  {relativeTo: this.route});
     }
   }

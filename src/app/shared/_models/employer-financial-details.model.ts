@@ -4,7 +4,7 @@ import { SelectUnitService } from '../../shared/_services/select-unit.service';
 
 export class EmployerFinancialDetails {
    id: number;
-   employer_relation: Employer;
+   employer_relation: EmployerRelation;
    pay_employer_relation: EmployerRelation;
    financial_product: EmployerFinancialProduct[] = [];
    invoice_employer_name: string;
@@ -32,7 +32,7 @@ export class EmployerFinancialDetails {
 
   constructor() {
       this.id = 0;
-      this.employer_relation = new Employer();
+      this.employer_relation = new EmployerRelation();
       this.pay_employer_relation = new EmployerRelation();
       this.financial_product.push(new EmployerFinancialProduct());
   }

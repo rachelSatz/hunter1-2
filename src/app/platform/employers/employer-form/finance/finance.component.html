@@ -4,9 +4,9 @@
   <input  type="hidden" name="pay_employer_id">
  </div>
   <div class="row mb-4 mt-5">
-    <div class="col-6 col-lg-3" *ngIf="financialDetails.pay_employer_relation.employer_id">
+    <div class="col-6 col-lg-3">
     <bd-select [items]="payEmployers" name="pay_employer"
-                placeholder="ח.פ משלם" [(ngModel)]="financialDetails.pay_employer_relation.employer_id" #payEmployerModel="ngModel" required ></bd-select>
+                placeholder="ח.פ משלם" [(ngModel)]="financialDetails.pay_employer_relation.id" #payEmployerModel="ngModel" required ></bd-select>
     <p class="alert alert-danger" [@fade]="form.submitted && payEmployerModel.errors ? 'active' : 'inactive'">יש לבחור ח.פ משלם.</p>
     </div>
   </div>

@@ -50,7 +50,7 @@
           <div class="collapse navbar-collapse">
             <ul class="navbar-nav">
               <ng-container *ngFor="let link of headers">
-                <li class="nav-item"  [ngClass]="{ 'active': link.url === selectUnit.getActiveEmployerUrl() }">
+                <li class="nav-item"  [ngClass]="{ 'active': link.url === activeUrl }">
                   <a class="menu-link" [routerLink]="[link.url]"  (click)="setActiveUrl(link.url)">
                     <p class="bold">{{ link.label }}</p>
                   </a>
