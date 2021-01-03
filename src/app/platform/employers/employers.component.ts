@@ -24,7 +24,6 @@ export class EmployersComponent implements OnInit {
     {name: 'name', label: 'שם מעסיק'},
     {name: 'is_active', label: ' סטטוס', searchable: false},
   ];
-  items: any[] = [{id: 1, identifier: '111', name: 'עמותת עטלף'}, {id: 2, identifier: '222', name: 'מכבי ביתי'}];
   permissionsType = this.userSession.getPermissionsType('employers');
   sub = new Subscription;
 
@@ -56,7 +55,6 @@ export class EmployersComponent implements OnInit {
 
   openEmployerFinanceDetails(employer: Employer): void {
     if (employer.is_active) {
-      this.selectUnit.setOrganizationID(employer.org_id);
       this.selectUnit.setEmployerID(employer.id);
       this.router.navigate(['./', 'form' , employer.id],  {relativeTo: this.route});
     }
