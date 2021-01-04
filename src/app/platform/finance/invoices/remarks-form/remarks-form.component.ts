@@ -2,10 +2,12 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DataTableComponent } from '../../../../../app/shared/data-table/data-table.component';
-import {Invoice, InvoiceDetailsRemarks, PRODUCT_RELATION_ENUM} from '../../../../shared/_models/invoice.model';
+import { Invoice, InvoiceDetailsRemarks, PRODUCT_RELATION_ENUM } from '../../../../shared/_models/invoice.model';
 import { InvoiceService } from '../../../../shared/_services/http/invoice.service';
 import { fade } from '../../../../shared/_animations/animation';
 import { NotificationService } from '../../../../shared/_services/notification.service';
+import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
+import {PROJECT_GROUP} from '../../../../shared/_models/project.model';
 
 
 @Component({
@@ -33,15 +35,17 @@ export class RemarksFormComponent implements OnInit {
   constructor(protected route: ActivatedRoute, @Inject(MAT_DIALOG_DATA) public invoice: Invoice,
               private dialogRef: MatDialogRef<RemarksFormComponent>,
               private invoiceService: InvoiceService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private selectUnit: SelectUnitService) {
   }
 
   ngOnInit() {
     this.invoiceService.getInvoiceRemarks(this.invoice.id).then(response => {
-      this.remarks = response;});
+      this.remarks = response;
+    });
   }
   displayText(productType: string) {
-    return 'סכום לפי הגדרת מעסיק' + ' (' + this.product_relation_enum[productType] + ')';
+      return 'סכום לפי הגדרת מעסיק' + ' (' + this.product_relation_enum[productType] + ')';
   }
 
   submit(): void {

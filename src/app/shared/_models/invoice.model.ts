@@ -71,12 +71,15 @@ export class InvoiceDetails {
   product_type: ProductRelation;
 }
 export class ProductRelation {
-  product_type:string;
+  product_type: string;
 }
 export enum PRODUCT_RELATION_ENUM {
   defrayal= 'סליקה',
   compensation= 'יתרות לפיצויים',
-  compensation_9302= 'יתרות לפיצויים 9302'
+  compensation_9302= 'יתרות לפיצויים 9302',
+  form_101 = '101',
+  form_102 = '102',
+  form_103 = '103',
 }
 
 export class InvoiceStatus {
@@ -132,7 +135,7 @@ export class InvoiceDetailsRemarks {
   total_payment_amount: number;
   payment_type: string;
   payment_amount: number;
-  remarks_finance_payment: RemarksFinancePayment[]
+  remarks_finance_payment: RemarksFinancePayment[];
 }
 
 export class RemarksFinancePayment {
