@@ -17,11 +17,12 @@ import { HelpersService } from 'app/shared/_services/helpers.service';
 import { SelectUnitService } from '../../shared/_services/select-unit.service';
 import { UserSessionService } from '../../shared/_services/http/user-session.service';
 import { fade, slideInOut } from '../../shared/_animations/animation';
-import {PRODUCT_TYPES_MYHR, PRODUCT_TYPES_SMARTI} from '../../shared/_models/employer-financial-details.model';
+import { PRODUCT_TYPES_MYHR, PRODUCT_TYPES_SMARTI } from '../../shared/_models/employer-financial-details.model';
 import { NeedToChargeEmployersComponent } from './need-to-charge-employers/need-to-charge-employers.component';
 import { NotificationService } from '../../shared/_services/notification.service';
 import { OrganizationService } from '../../shared/_services/http/organization.service';
 import { EmployerService } from '../../shared/_services/http/employer.service';
+import { PROJECT_GROUP } from '../../shared/_models/project.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -71,7 +72,7 @@ export class DashboardComponent implements OnInit {
   currentEmployerId: string;
   isPermissionsFinance = this.userSession.isPermissions('finance');
   productTypesItems = [];
-
+  smarti: boolean;
   timeRange = [{id: 1, name: 'לפי חודש'}, {id: 2, name: 'לפי תקופה'}];
   days = {0: 'א', 1: 'ב',  2: 'ג',  3: 'ד', 4: 'ה', 5: 'ו', 6: 'ז' };
   projectGroups = [{id: 1, name: 'smarti'}, { id: 2, name: 'myHr'}];
@@ -82,16 +83,16 @@ export class DashboardComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private helpers: HelpersService,
-              private selectUnitService: SelectUnitService,
               private userSession: UserSessionService,
               private selectUnit: SelectUnitService,
               private NotificationService: NotificationService,
               private OrganizationService: OrganizationService,
               private EmployerService: EmployerService) {
+    console.log(PROJECT_GROUP.SMARTI);
   }
 
   ngOnInit() {
-    this.selectUnitService.setActiveUrl('dashboard');
+    this.selectUnit.setActiveUrl('dashboard');
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
       this.fetchItems();
     }));
@@ -252,27 +253,25 @@ export class DashboardComponent implements OnInit {
 
   filterData(): void {
     this.helpers.setPageSpinner(true);
-    this.currentFromDate = this.fromDate;
-    this.currentToDate = this.toDate;
-    this.currentMonth = this.month;
-    this.currentProductTypeId = this.productTypeId;
-    this.currentProjectId = this.projectId;
-    this.currentProjectGroupId = this.projectGroupId;
-    this.currentOrganizationId = this.organizationId;
-    this.currentEmployerId = this.employerId;
+    this.fetchData();
     if ((this.timeRangeId === 2 && this.fromDate && this.toDate) || (this.timeRangeId === 1 && this.month)) {
-      this.monthStr = this.datepipe.transform(this.month, 'yyyy-MM-dd');
-      this.fromDateStr = this.datepipe.transform(this.fromDate, 'yyyy-MM-dd');
-      this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
-      if (this.timeRangeId === 2) {
-        this.ifByMonth = false;
-      }
-      this.GeneralService.get_financial_data(this.projectId, this.ifByMonth, this.monthStr,
-        this.fromDateStr, this.toDateStr, this.productTypeId, this.projectGroupId, this.organizationId, this.employerId)
+      // this.monthStr = this.datepipe.transform(this.month, 'yyyy-MM-dd');
+      // this.fromDateStr = this.datepipe.transform(this.fromDate, 'yyyy-MM-dd');
+      // this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
+      // if (this.timeRangeId === 2) {
+      //   this.ifByMonth = false;
+      // }
+      this.GeneralService.get_financial_data(this.projectId, this.fromDateStr, this.toDateStr,
+        this.productTypeId, this.organizationId, this.employerId)
         .then(response => {
           if (response['message'] === 'success') {
             this.data = response['data'];
             console.log(this.data);
+            if (this.selectUnit.getProjectGroupId() === PROJECT_GROUP.SMARTI) {
+              this.smarti = true;
+            } else {
+              this.smarti = false;
+            }
             this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum'] +
               this.data['invoice_system']['green_invoices_error']['sum'];
             this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] +
@@ -290,48 +289,49 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  fetchData(): void {
+    this.currentFromDate = this.fromDate;
+    this.currentToDate = this.toDate;
+    this.currentMonth = this.month;
+    this.currentProductTypeId = this.productTypeId;
+    this.currentProjectId = this.projectId;
+    this.currentProjectGroupId = this.projectGroupId;
+    this.currentOrganizationId = this.organizationId;
+    this.currentEmployerId = this.employerId;
+    this.fetchDates();
+  }
   openInvoices(status: string): void {
+      this.fetchDates();
+      this.router.navigate(['../../platform/finance/invoices',
+        {status: status, from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.currentProjectId,
+          product_type: this.currentProductTypeId, organization_id: this.organizationId, employer_id: this.employerId }]);
+  }
+
+  openCalcProcesses(): void {
+    this.fetchDates();
+    this.router.navigate(['../../platform/finance/calc-processes',
+        { from_date: this.fromDateStr , to_date: this.toDateStr}]);
+
+  }
+
+  fetchDates(): void {
     if (this.currentFromDate && this.currentToDate) {
       this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/finance/invoices',
-        {status: status, from_date: this.fromDateStr, to_date: this.toDateStr, project_id: this.currentProjectId,
-          product_type: this.currentProductTypeId}]);
     } else {
       this.toDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
       this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1), 'yyyy-MM-dd');
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/finance/invoices',
-        {status: status, from_date: this.fromDateStr , to_date: this.toDateStr, project_id: this.currentProjectId,
-          product_type: this.currentProductTypeId, project_group_id: this.currentProjectGroupId,
-          organization_id: this.organizationId, employer_id: this.employerId }]);
     }
   }
-
-  openCalcProcesses(): void {
-    if (this.currentFromDate && this.currentToDate) {
-      this.fromDateStr = this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd');
-      this.toDateStr = this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/finance/calc-processes',
-        { from_date: this.fromDateStr, to_date: this.toDateStr }]);
-} else {
-      this.toDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
-      this.fromDateStr = this.datepipe.transform(new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1), 'yyyy-MM-dd');
-      this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
-      this.router.navigate(['../../platform/finance/calc-processes',
-        { from_date: this.fromDateStr , to_date: this.toDateStr}]);
-    }
-  }
-
   openEstPaymentForm(): void {
+    this.fetchDates();
     const dialog = this.dialog.open(EstPaymentFormComponent, {
       data: {
-        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
-        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
-        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
+        'from_date':  this.fromDateStr,
+        'to_date':  this.toDateStr,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
         'organization_id': this.currentOrganizationId,
         'employer_id': this.currentEmployerId
       },
@@ -344,14 +344,13 @@ export class DashboardComponent implements OnInit {
   }
 
   openNewEmployersForm(): void {
+    this.fetchDates();
     const dialog = this.dialog.open(NewEmployersFormComponent, {
       data: {
-        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
-        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
-        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
+        'from_date':  this.fromDateStr,
+        'to_date':  this.toDateStr,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
         'organization_id': this.currentOrganizationId,
         'employer_id': this.currentEmployerId
       },
@@ -374,7 +373,6 @@ export class DashboardComponent implements OnInit {
         'payment_method': payment_method,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
         'organization_id': this.currentOrganizationId,
         'employer_id': this.currentEmployerId
       },
@@ -383,7 +381,8 @@ export class DashboardComponent implements OnInit {
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
     if (result) {
-      this.selectUnitService.setActiveUrl('employers');
+      this.selectUnit.setActiveUrl('employers');
+      this.selectUnit.setEmployerRelation(result);
       this.router.navigate(['../../platform/employers/form/' + result]);
     } else {
       this.router.navigate(['../../platform/dashboard']);
@@ -392,14 +391,13 @@ export class DashboardComponent implements OnInit {
   }
 
   openChargedEmployerPopUp(): void {
+    this.fetchDates();
     const dialog = this.dialog.open(ChargedEmployersFormComponent, {
       data: {
-        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
-        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
-        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
+        'from_date':  this.fromDateStr,
+        'to_date':  this.toDateStr,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
         'organization_id': this.currentOrganizationId,
         'employer_id': this.currentEmployerId
       },
@@ -412,14 +410,13 @@ export class DashboardComponent implements OnInit {
   }
 
   openManuallyChargedPopUp(): void {
+    this.fetchDates();
     const dialog = this.dialog.open(ManuallyChargedEmployersComponent, {
       data: {
-        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
-        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
-        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
+        'from_date':  this.fromDateStr,
+        'to_date':  this.toDateStr,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
         'organization_id': this.currentOrganizationId,
         'employer_id': this.currentEmployerId
       },
@@ -432,14 +429,13 @@ export class DashboardComponent implements OnInit {
   }
 
   openNeedToChargeEmployersPopUp(): void {
+    this.fetchDates();
     const dialog = this.dialog.open(NeedToChargeEmployersComponent, {
       data: {
-        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
-        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
-        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
+        'from_date':  this.fromDateStr,
+        'to_date':  this.toDateStr,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
         'organization_id': this.currentOrganizationId,
         'employer_id': this.currentEmployerId
       },
@@ -452,14 +448,13 @@ export class DashboardComponent implements OnInit {
   }
 
   openEmployersWithNoPaymentPopUp(): void {
+    this.fetchDates();
     const dialog = this.dialog.open(EmployersWithNoPaymentComponent, {
       data: {
-        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
-        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
-        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
+        'from_date': this.fromDateStr,
+        'to_date': this.toDateStr,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
         'organization_id': this.currentOrganizationId,
         'employer_id': this.currentEmployerId
       },
@@ -472,14 +467,13 @@ export class DashboardComponent implements OnInit {
   }
 
   openEmployersPaymentZeroPopUp(): void {
+    this.fetchDates();
     const dialog = this.dialog.open(EmployersPaymentZeroComponent, {
       data: {
-        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
-        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
-        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
+        'from_date':  this.fromDateStr,
+        'to_date':  this.toDateStr,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
         'organization_id': this.currentOrganizationId,
         'employer_id': this.currentEmployerId
       },
@@ -496,14 +490,13 @@ export class DashboardComponent implements OnInit {
   }
 
   openOtherPayerPopup(): void {
+    this.fetchDates();
     const dialog = this.dialog.open(OtherPayerPopupComponent, {
       data: {
-        'from_date':  this.datepipe.transform(this.currentFromDate, 'yyyy-MM-dd'),
-        'to_date':  this.datepipe.transform(this.currentToDate, 'yyyy-MM-dd'),
-        'month':  this.datepipe.transform(this.currentMonth, 'yyyy-MM-dd'),
+        'from_date':  this.fromDateStr,
+        'to_date':  this.toDateStr,
         'project_id': this.currentProjectId,
         'product_type': this.currentProductTypeId,
-        'project_group_id': this.currentProjectGroupId,
         'organization_id': this.currentOrganizationId,
         'employer_id': this.currentEmployerId
       },

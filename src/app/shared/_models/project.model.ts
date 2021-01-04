@@ -13,7 +13,10 @@ export class ProjectGroup {
   name: string;
 
   constructor() {
-
   }
+}
 
+export enum PROJECT_GROUP {
+  SMARTI= 1,
+  MYHR = 2
 }

@@ -45,6 +45,7 @@ export class InvoiceService extends BaseHttpService {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
+      request['params']['project_group_id'] = this.getProjectGroupId();
     }
     if (noLimit) {
       request['params'] = {no_limit : noLimit};
@@ -59,6 +60,7 @@ export class InvoiceService extends BaseHttpService {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
+      request['params']['project_group_id'] = this.getProjectGroupId();
     }
     if (noLimit) {
       request['params'] = {no_limit : noLimit};
@@ -73,6 +75,7 @@ export class InvoiceService extends BaseHttpService {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
+      request['params']['project_group_id'] = this.getProjectGroupId();
     }
     if (noLimit) {
       request['params'] = {no_limit : noLimit};
@@ -87,6 +90,7 @@ export class InvoiceService extends BaseHttpService {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
+      request['params']['project_group_id'] = this.getProjectGroupId();
     }
     if (noLimit) {
       request['params'] = {no_limit : noLimit};
@@ -101,6 +105,7 @@ export class InvoiceService extends BaseHttpService {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
+      request['params']['project_group_id'] = this.getProjectGroupId();
     }
     if (noLimit) {
       request['params'] = {no_limit : noLimit};
@@ -114,6 +119,7 @@ export class InvoiceService extends BaseHttpService {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
+      request['params']['project_group_id'] = this.getProjectGroupId();
     }
     if (noLimit) {
       request['params'] = {no_limit : noLimit};

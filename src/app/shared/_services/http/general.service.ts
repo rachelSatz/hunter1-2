@@ -3,9 +3,8 @@ import { BaseHttpService } from './base-http.service';
 import { UserSessionService } from './user-session.service';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '../../_models/project.model';
-import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
-import { DataTableResponse } from '../../data-table/classes/data-table-response';
 import { Bank } from '../../_models/bank.model';
+import {SelectUnitService} from '../select-unit.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +14,12 @@ export class GeneralService  extends BaseHttpService {
   readonly endPoint = this.apiUrl + '/generals';
   projects: Project[] = [];
 
-  constructor(userSession: UserSessionService, private http: HttpClient) {
+  constructor(userSession: UserSessionService, private http: HttpClient, private selectUnit: SelectUnitService) {
     super(userSession);
+  }
+
+  getProjectGroupId() {
+    return this.selectUnit.getProjectGroupId();
   }
 
   getProjects(ProjectGroupID: number): Promise<Project[]> {
@@ -33,27 +36,22 @@ export class GeneralService  extends BaseHttpService {
       .catch(() => null);
   }
 
-  get_financial_data(project_id, ifByMonth, month, fromDate, toDate, productTypeId,
-                     project_group_id, organization_id, employer_id): Promise<any> {
+  get_financial_data(project_id, fromDate, toDate, productTypeId, organization_id, employer_id): Promise<any> {
     const request = this.getTokenHeader();
-    if (ifByMonth) {
-      request['params'] = { if_by_month: ifByMonth, month: month };
-    } else {
-      request['params'] = { if_by_month: ifByMonth, from_date: fromDate , to_date: toDate};
-    }
+    request['params'] = { from_date: fromDate , to_date: toDate};
     if (productTypeId !== 'all') {
       request['params']['product_type'] = productTypeId;
     }
-    if (project_id !== 0 && project_id !== '0' && project_id) {
+    if (+project_id !== 0 && project_id) {
       request['params']['project_id'] = project_id;
     }
-    if (organization_id !== 0 && organization_id !== '0' && organization_id) {
+    if (+organization_id !== 0 && organization_id) {
       request['params']['organization_id'] = organization_id;
     }
-    if (employer_id !== 0 && employer_id !== '0' && employer_id) {
+    if (+employer_id !== 0 && employer_id) {
       request['params']['employer_id'] = employer_id;
     }
-    request['params']['project_group_id'] = project_group_id;
+    request['params']['project_group_id'] = this.getProjectGroupId();
     return this.http.get(this.endPoint + '/dashboard', request)
       .toPromise()
       .then(response => response as any)
@@ -91,20 +89,6 @@ export class GeneralService  extends BaseHttpService {
       .toPromise()
       .then(() => true)
       .catch(() => false);
-  }
-
-  getNeedToChargeEmployersTable(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
-    const request = this.getTokenHeader();
-    if (criteria) {
-      request['params'] = this.setDataTableParams(criteria);
-    }
-    if (noLimit) {
-      request['params'] = {no_limit : noLimit};
-    }
-    return this.http.get(this.endPoint + '/getNeedToChargeEmployersTable', request)
-      .toPromise()
-      .then(response => response as DataTableResponse)
-      .catch(() => null);
   }
 
 }

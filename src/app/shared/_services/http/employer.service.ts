@@ -136,6 +136,7 @@ export class EmployerService extends BaseHttpService {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
+      request['params']['project_group_id'] = this.getProjectGroupId();
     }
 
     if (noLimit) {
@@ -151,6 +152,7 @@ export class EmployerService extends BaseHttpService {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
+      request['params']['project_group_id'] = this.getProjectGroupId();
     }
 
     if (noLimit) {
@@ -166,6 +168,7 @@ export class EmployerService extends BaseHttpService {
     const request = this.getTokenHeader();
     if (criteria) {
       request['params'] = this.setDataTableParams(criteria);
+      request['params']['project_group_id'] = this.getProjectGroupId();
     }
 
     if (noLimit) {

@@ -18,19 +18,37 @@ export class EmployersFormComponent implements OnInit {
     {name: 'edit', label: 'עריכה'},
   ];
   payment_method: string;
-  dataFilters: any;
+  dataFilters: {};
   constructor(private dialogRef: MatDialogRef<EmployersFormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private datepipe: DatePipe,
               private EmployerService: EmployerService) {
+    this.dataFilters = {};
   }
 
   ngOnInit() {
-    console.log(this.data);
+    this.fetchItems();
+  }
+
+  fetchItems(): void {
+    if (this.dataTable) {
+      this.setFilters();
+      this.dataTable.criteria.filters = this.dataFilters;
+      console.log(this.dataFilters);
+      this.dataTable.criteria.limit = 8;
+      this.EmployerService.getEmployersByPayment(this.dataTable.criteria)
+        .then(response => { console.log(response);
+          this.dataTable.setItems(response);
+        });
+    }
+  }
+
+  setFilters(): void {
+    console.log(this.data['payment_method']);
     if (this.data['payment_method'] === 'direct_debit') {
       this.payment_method = 'הוראת קבע';
     }
-    if (this.data['payment_method'] === 'bank_transfer') {
+    if (this.data['payment_method'] === 'bank_transfer,check') {
       this.payment_method = 'העברה בנקאית/ צק';
     }
     if (this.data['payment_method'] === 'credit_card') {
@@ -39,41 +57,24 @@ export class EmployersFormComponent implements OnInit {
     if (this.data['payment_method'] === 'masav_product') {
       this.payment_method = 'מס"ב';
     }
+    this.dataFilters['payment_method'] = this.data['payment_method'];
     if (this.data['project_id'] !== '0') {
       this.dataFilters['project_id'] = this.data['project_id'];
     }
     if (this.data['product_type'] !== 'all') {
       this.dataFilters['product_type'] = this.data['product_type'];
     }
-    if (this.data['project_group_id'] !== '0') {
-      this.dataFilters['project_group_id'] = this.data['project_group_id'];
-    }
-    if (this.data['organization_id'] !== 0 && this.data['organization_id'] !== '0' && this.data['organization_id']) {
+    if (+this.data['organization_id'] !== 0 && this.data['organization_id']) {
       this.dataFilters['organization_id'] = +this.data['organization_id'];
     }
-    if (this.data['employer_id'] !== 0 && this.data['employer_id'] !== '0' && this.data['employer_id']) {
+    if (+this.data['employer_id'] !== 0 && this.data['employer_id']) {
       this.dataFilters['employer_id'] = +this.data['employer_id'];
     }
-    this.fetchItems();
-
-  }
-
-  fetchItems(): void {
-    if (this.dataTable) {
-      this.dataTable.criteria.filters = this.data;
-      this.dataTable.criteria.limit = 8;
-      console.log(this.dataTable);
-      this.EmployerService.getEmployersByPayment(this.dataTable.criteria)
-        .then(response => { console.log(response);
-          this.dataTable.setItems(response);
-        });
-    }
   }
 
 
-
-  openEmployerForm(employer_id: number): void {
-    console.log(employer_id);
-    this.dialogRef.close(employer_id);
-}
+  openEmployerForm(emp_relation_id: number): void {
+    console.log('maayan', emp_relation_id);
+    this.dialogRef.close(emp_relation_id);
+  }
 }

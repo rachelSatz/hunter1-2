@@ -89,6 +89,7 @@ export enum INVOICE_TYPES {
     manual= 'ידני',
     retainer= 'ריטנייר',
 }
+
 export enum ALL_STATUS {
   waiting_for_payment = 'ממתין לתשלום',
   paid = 'שולם',

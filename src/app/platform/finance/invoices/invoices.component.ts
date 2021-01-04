@@ -280,6 +280,8 @@ export class InvoicesComponent implements OnInit {
     this.invoiceService.downloadExcel(invoiceId).then(response => {
       if (response['message'] === 'no_employees') {
         this.notificationService.info('לא חויבו עובדים בחשבונית');
+      } else { if (response['message'] === 'error') {
+        this.notificationService.error('שגיאה');
       } else {
         const byteCharacters = atob(response['message']['data']);
         const byteNumbers = new Array(byteCharacters.length);
@@ -292,6 +294,8 @@ export class InvoicesComponent implements OnInit {
         FileSaver.saveAs(blob, fileName);
         this.spin = false;
         this.notificationService.success('הקובץ הופק בהצלחה');
+      }
+
       }
     });
   }

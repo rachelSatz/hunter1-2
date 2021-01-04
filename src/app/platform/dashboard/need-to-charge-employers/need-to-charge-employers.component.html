@@ -9,7 +9,7 @@
   <tr *ngFor="let item of dataTable.items; let i=index;" [ngClass]="{'highlight': item.error !== null}">
     <td [ngClass]="{'white': i%2 === 0}">{{ item.name }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.identifier}}</td>
-    <td [ngClass]="{'white': i%2 === 0}">{{ item.ids_count}}</td>
-    <td [ngClass]="{'white': i%2 === 0}">{{ item.total_amount}}</td>
+    <td [ngClass]="{'white': i%2 === 0}" *ngIf="smarti">{{ item.ids_count}}</td>
+    <td [ngClass]="{'white': i%2 === 0}" *ngIf="smarti">{{ item.total_amount}}</td>
   </tr>
 </app-data-table>
