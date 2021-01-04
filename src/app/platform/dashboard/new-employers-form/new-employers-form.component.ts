@@ -21,7 +21,9 @@ export class NewEmployersFormComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<NewEmployersFormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private datepipe: DatePipe,
-              private InvoiceService: InvoiceService) { }
+              private InvoiceService: InvoiceService) {
+    this.dataFilters = {};
+  }
 
   ngOnInit() {
     this.fetchItems();

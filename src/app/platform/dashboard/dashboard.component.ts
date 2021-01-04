@@ -132,7 +132,6 @@ export class DashboardComponent implements OnInit {
       this.OrganizationService.getOrganizationByProjectId(+this.projectId)
         .then(response => {
           console.log(response);
-          console.log(11);
           this.organizations = response['data'];
           if (this.organizations.length > 0) {
             this.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
@@ -147,7 +146,6 @@ export class DashboardComponent implements OnInit {
         });
       this.EmployerService.getEmployersByProjectId(+this.projectId).then(res => {
         this.employers = res['data'];
-        console.log(22);
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
@@ -162,7 +160,6 @@ export class DashboardComponent implements OnInit {
       this.OrganizationService.getOrganizationByProjectGroupId(this.selectUnit.getProjectGroupId())
         .then(response => {
           console.log(response);
-          console.log(33);
           this.organizations = response['data'];
           if (this.organizations.length > 0) {
             this.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
@@ -264,6 +261,7 @@ export class DashboardComponent implements OnInit {
         this.productTypeId, this.organizationId, this.employerId)
         .then(response => {
           if (response['message'] === 'success') {
+            console.log('sss ' + response['message']);
             this.data = response['data'];
             console.log(this.data);
             if (this.selectUnit.getProjectGroupId() === PROJECT_GROUP.SMARTI) {
