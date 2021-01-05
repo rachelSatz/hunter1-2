@@ -14,8 +14,6 @@ export class EmployersWithNoPaymentComponent implements OnInit {
   readonly columns  = [
     { name: 'name', label: 'שם מעסיק'},
     { name: 'identifier', label: 'ח.פ. מעסיק'},
-    { name: 'ids_count', label: ' כמות ת.ז'},
-    { name: 'sumn', label: 'סכום'},
   ];
   dataFilters: {};
   constructor(private dialogRef: MatDialogRef<EmployersWithNoPaymentComponent>,
