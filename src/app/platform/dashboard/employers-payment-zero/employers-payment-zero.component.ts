@@ -14,8 +14,6 @@ export class EmployersPaymentZeroComponent implements OnInit {
   readonly columns  = [
     { name: 'name', label: 'שם מעסיק'},
     { name: 'identifier', label: 'ח.פ. מעסיק'},
-    { name: 'ids_count', label: ' כמות ת.ז'},
-    { name: 'sumn', label: 'סכום'},
   ];
   dataFilters: {};
   constructor(private dialogRef: MatDialogRef<EmployersPaymentZeroComponent>,
@@ -32,7 +30,7 @@ export class EmployersPaymentZeroComponent implements OnInit {
   fetchItems(): void {
     if (this.dataTable) {
       this.setFilters();
-      this.dataTable.criteria.filters = this.data;
+      this.dataTable.criteria.filters = this.dataFilters;
       this.dataTable.criteria.limit = 8;
       console.log(this.dataTable);
       this.InvoiceService.getZeroPaymentEmployers(this.dataTable.criteria)
