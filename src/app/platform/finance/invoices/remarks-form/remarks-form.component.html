@@ -18,16 +18,16 @@
   <tr>
     <td class="w-25">סכום בחשבונית</td>
     <td class="w-25">{{remarks.ids_count}}</td>
-    <td class="w-25">{{remarks.payment_amount}}</td>
+    <td class="w-25">{{remarks.payment_amount | number:'1.2-2'}}</td>
     <td class="w-25">{{remarks.payment_type}}</td>
-    <td class="w-25">{{remarks.total_payment_amount}}</td>
+    <td class="w-25">{{remarks.total_payment_amount | number:'1.2-2'}}</td>
   </tr>
   <tr *ngFor="let item of remarks.remarks_finance_payment">
     <td class="w-25">{{ displayText(item.product_type)}}</td>
     <td class="w-25">{{item.finance_ids_count}}</td>
-    <td class="w-25">{{item.finance_payment_amount}}</td>
+    <td class="w-25">{{item.finance_payment_amount | number:'1.2-2'}}</td>
     <td class="w-25">{{item.payment_type}}</td>
-    <td class="w-25">{{item.finance_payment_amount}}</td>
+    <td class="w-25">{{item.finance_payment_amount | number:'1.2-2'}}</td>
   </tr>
   </tbody>
 </table>

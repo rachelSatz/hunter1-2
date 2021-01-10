@@ -3,9 +3,12 @@
 }
 
 .select-status {
-  width: 15%!important;
+  width: 12%!important;
 }
 
 .highlight{
   background: #c3c7cc;
+}
+.w-11 {
+  width: 11%!important;
 }

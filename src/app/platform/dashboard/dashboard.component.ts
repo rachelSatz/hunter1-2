@@ -264,7 +264,7 @@ export class DashboardComponent implements OnInit {
             console.log('sss ' + response['message']);
             this.data = response['data'];
             console.log(this.data);
-            if (this.selectUnit.getProjectGroupId() === PROJECT_GROUP.SMARTI) {
+            if (+this.selectUnit.getProjectGroupId() === PROJECT_GROUP.SMARTI) {
               this.smarti = true;
             } else {
               this.smarti = false;

@@ -12,7 +12,7 @@
         <p class=" mt-4">הזן סיסמא </p>
         <div id="input_container">
           <input class="form-control" [type]="hide ? 'password' : 'text'" id="input" name="password" #password="ngModel" ngModel required>
-          <i class="fa fa-eye fa-1x" id="input_img" (click)="togglemyPasswordFieldType()"></i>
+          <i class="fa fa-eye fa-1x" id="input_img" (click)="hide = !hide"></i>
         </div>
         <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">יש להזין סיסמה.</mat-error>
         <a class="underline f-12 float-left pink-color mt-3" (click)="forgotPassword(form)">שכחתי סיסמה</a><br>

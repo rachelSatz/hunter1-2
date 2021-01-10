@@ -28,10 +28,6 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  togglemyConfirmPasswordFieldType() {
-    this.hideConfirmPassword = !this.hideConfirmPassword;
-  }
-
   register(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;

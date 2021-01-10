@@ -12,7 +12,7 @@
         <p class=" mt-4">אימות סיסמא </p>
         <div id="input_container">
           <input class="form-control" [type]="hideConfirmPassword ? 'password' : 'text'" id="input" name="confirmPassword" #confirmPassword="ngModel" ngModel required>
-          <i class="fa fa-eye fa-1x" id="input_img" (click)="togglemyConfirmPasswordFieldType()"></i>
+          <i class="fa fa-eye fa-1x" id="input_img" (click)="hideConfirmPassword = !hideConfirmPassword"></i>
         </div>
         <mat-error *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">יש להזין אימות סיסמא.</mat-error>
       </div>

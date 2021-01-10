@@ -32,10 +32,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  togglemyPasswordFieldType(): void {
-    this.hide = !this.hide;
-  }
-
   login(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;

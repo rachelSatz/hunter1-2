@@ -51,9 +51,10 @@ export class ProactiveInvoiceFormComponent implements OnInit {
   }
   submit(form: NgForm): void {
     if (form.valid) {
-      console.log(form);
+      console.log(form.value);
       this.hasServerError = false;
       this.helpers.setPageSpinner(true);
+      this.conditions = {};
       this.conditions['for_month'] = form.value.for_month;
       console.log(this.conditions['for_month']);
       if (form.value['employer_id'] && +form.value['employer_id'] > 0) {
