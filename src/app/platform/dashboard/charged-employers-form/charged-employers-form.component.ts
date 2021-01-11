@@ -33,15 +33,13 @@ export class ChargedEmployersFormComponent implements OnInit {
       this.setFilters();
       this.dataTable.criteria.filters = this.dataFilters;
       this.dataTable.criteria.limit = 8;
-      console.log(this.dataFilters);
       this.InvoiceService.getChargedEmployers(this.dataTable.criteria)
-        .then(response => { console.log(response);
+        .then(response => {
           this.dataTable.setItems(response); });
     }
   }
 
   setFilters(): void {
-    console.log(this.data);
     this.dataFilters['from_date'] = this.data['from_date'];
     this.dataFilters['to_date'] = this.data['to_date'];
     if (this.data['project_id'] !== '0') {

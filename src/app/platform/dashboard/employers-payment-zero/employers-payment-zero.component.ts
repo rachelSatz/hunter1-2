@@ -32,9 +32,8 @@ export class EmployersPaymentZeroComponent implements OnInit {
       this.setFilters();
       this.dataTable.criteria.filters = this.dataFilters;
       this.dataTable.criteria.limit = 8;
-      console.log(this.dataTable);
       this.InvoiceService.getZeroPaymentEmployers(this.dataTable.criteria)
-        .then(response => { console.log(response);
+        .then(response => {
           this.dataTable.setItems(response); });
     }
   }

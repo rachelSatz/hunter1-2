@@ -34,17 +34,15 @@ export class EmployersFormComponent implements OnInit {
     if (this.dataTable) {
       this.setFilters();
       this.dataTable.criteria.filters = this.dataFilters;
-      console.log(this.dataFilters);
       this.dataTable.criteria.limit = 8;
       this.EmployerService.getEmployersByPayment(this.dataTable.criteria)
-        .then(response => { console.log(response);
+        .then(response => {
           this.dataTable.setItems(response);
         });
     }
   }
 
   setFilters(): void {
-    console.log(this.data['payment_method']);
     if (this.data['payment_method'] === 'direct_debit') {
       this.payment_method = 'הוראת קבע';
     }
@@ -74,7 +72,6 @@ export class EmployersFormComponent implements OnInit {
 
 
   openEmployerForm(emp_relation_id: number): void {
-    console.log('maayan', emp_relation_id);
     this.dialogRef.close(emp_relation_id);
   }
 }

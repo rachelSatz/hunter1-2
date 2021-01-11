@@ -137,7 +137,6 @@ export class InvoicesComponent implements OnInit {
     }
     this.invoiceService.getInvoices(this.dataTable.criteria)
       .then(response => {
-        console.log(response);
         this.dataTable.setItems(response);
         this.helpers.setPageSpinner(false);
       });
@@ -233,8 +232,6 @@ export class InvoicesComponent implements OnInit {
     if (this.dataTable.criteria.checkedItems.length > 0 || this.dataTable.criteria.isCheckAll) {
       const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     }
-    console.log(this.items);
-    console.log(this.dataTable.criteria);
     this.helpers.setPageSpinner(true);
     this.invoiceService.downloadInvoicesToExcel(this.dataTable.criteria).then(response => {
       this.helpers.setPageSpinner(false);
@@ -342,7 +339,6 @@ export class InvoicesComponent implements OnInit {
         this.notificationService.error('יש לבחור סטטוס הוראת קבע');
         this.masav_error = true;
       }
-      console.log(this.ids_projects_group1.find(x => x === invoice['project']));
       if (this.ids_projects_group1.find(x => x === invoice['project'])) {
         this.group1 = true;
       } else if (this.ids_projects_group2.find(x => x === invoice['project'])) {
@@ -357,7 +353,6 @@ export class InvoicesComponent implements OnInit {
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     this.invoiceService.createMasav(items, this.dataTable.criteria).then(response => {
-      console.log(response);
       this.is_valid = true;
       const byteCharacters = atob(response['data']);
       const byteNumbers = new Array(byteCharacters.length);
@@ -376,11 +371,9 @@ export class InvoicesComponent implements OnInit {
     });
     this.sub.add(dialog.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
         this.tax = result;
         this.downloadCreditCardInvoices();
       } else {
-        console.log(result);
         this.notificationService.error('לא ניתן להוריד את הקובץ');
       }
     }));

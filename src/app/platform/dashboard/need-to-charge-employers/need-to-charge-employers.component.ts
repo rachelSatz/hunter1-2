@@ -41,9 +41,8 @@ export class NeedToChargeEmployersComponent implements OnInit {
       this.setFilters();
       this.dataTable.criteria.filters = this.dataFilters;
       this.dataTable.criteria.limit = 8;
-      console.log(this.dataTable);
       this.invoiceService.getNeedToChargeEmployersTable(this.dataTable.criteria)
-        .then(response => { console.log(response);
+        .then(response => {
           this.dataTable.setItems(response); });
     }
   }

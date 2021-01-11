@@ -131,7 +131,6 @@ export class DashboardComponent implements OnInit {
     if (this.projectGroupId  && this.projectId !== '0') {
       this.OrganizationService.getOrganizationByProjectId(+this.projectId)
         .then(response => {
-          console.log(response);
           this.organizations = response['data'];
           if (this.organizations.length > 0) {
             this.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
@@ -149,9 +148,7 @@ export class DashboardComponent implements OnInit {
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
-          console.log(this.employers);
           this.employerId = this.employers[0].id;
-          console.log(this.employerId);
         } else {
           this.employerId = this.employers[0] ? this.employers[0].id : 0;
         }
@@ -159,7 +156,6 @@ export class DashboardComponent implements OnInit {
     } else {
       this.OrganizationService.getOrganizationByProjectGroupId(this.selectUnit.getProjectGroupId())
         .then(response => {
-          console.log(response);
           this.organizations = response['data'];
           if (this.organizations.length > 0) {
             this.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
@@ -174,7 +170,6 @@ export class DashboardComponent implements OnInit {
         });
       // this.EmployerService.getEmployersByProjectGroupId(this.projectGroupId).then(res => {
       //   this.employers = res['data'];
-      //   console.log(55);
       //   if (this.employers.length > 1) {
       //     this.employers.push({ id: '0', name: 'כלל המעסיקים' });
       //     this.employers.sort((a, b) => a.id - b.id);
@@ -192,13 +187,10 @@ export class DashboardComponent implements OnInit {
     if (this.organizationId !== '0') {
       this.EmployerService.getEmployersByOrganizationId(organizationId).then(res => {
         this.employers = res['data'];
-        console.log(44);
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
-          console.log(this.employers);
           this.employerId = this.employers[0].id;
-          console.log(this.employerId);
         } else {
           this.employerId = this.employers[0] ? this.employers[0].id : 0;
         }
@@ -206,13 +198,10 @@ export class DashboardComponent implements OnInit {
     } else if (this.projectGroupId || this.projectId === '0') {
       this.EmployerService.getEmployersByProjectGroupId(this.projectGroupId).then(res => {
         this.employers = res['data'];
-        console.log(55);
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
-          console.log(this.employers);
           this.employerId = this.employers[0].id;
-          console.log(this.employerId);
         } else {
           this.employerId = this.employers[0] ? this.employers[0].id : 0;
         }
@@ -220,13 +209,10 @@ export class DashboardComponent implements OnInit {
     } else {
       this.EmployerService.getEmployersByProjectId(+this.projectId).then(res => {
         this.employers = res['data'];
-        console.log(22);
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
-          console.log(this.employers);
           this.employerId = this.employers[0].id;
-          console.log(this.employerId);
         } else {
           this.employerId = this.employers[0] ? this.employers[0].id : 0;
         }
@@ -261,9 +247,7 @@ export class DashboardComponent implements OnInit {
         this.productTypeId, this.organizationId, this.employerId)
         .then(response => {
           if (response['message'] === 'success') {
-            console.log('sss ' + response['message']);
             this.data = response['data'];
-            console.log(this.data);
             if (this.selectUnit.getProjectGroupId() === PROJECT_GROUP.SMARTI) {
               this.smarti = true;
             } else {

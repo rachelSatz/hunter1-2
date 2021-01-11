@@ -46,8 +46,6 @@ export class LoginComponent implements OnInit {
           this.userSession.setRole(response['role']);
           this.userSession.setUserModules(response['module']);
           this.userSession.setUserProjectGroups(response['project_groups']);
-          console.log(response);
-          console.log(response);
           if (response['role'] !== 'employer') {
             this.router.navigate(['/platform']);
           } else {

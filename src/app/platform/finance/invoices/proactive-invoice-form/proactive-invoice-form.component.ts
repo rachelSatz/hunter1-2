@@ -51,11 +51,9 @@ export class ProactiveInvoiceFormComponent implements OnInit {
   }
   submit(form: NgForm): void {
     if (form.valid) {
-      console.log(form);
       this.hasServerError = false;
       this.helpers.setPageSpinner(true);
       this.conditions['for_month'] = form.value.for_month;
-      console.log(this.conditions['for_month']);
       if (form.value['employer_id'] && +form.value['employer_id'] > 0) {
          this.conditions['employer_id'] = +form.value['employer_id'];
       }
@@ -73,7 +71,6 @@ export class ProactiveInvoiceFormComponent implements OnInit {
           this.notificationService.success('חיוב בוצע בהצלחה', 'הופקו ' + response['count_invoices'] + ' חשבוניות ');
         } else {
           this.notificationService.error( 'ארעה שגיאה ' + 'הופקו '  + response['count_invoices'] + ' חשבוניות ');
-          console.log(response['message']);
         }
       });
      }

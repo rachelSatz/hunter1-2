@@ -41,7 +41,6 @@ export class NewEmployersFormComponent implements OnInit {
 }
 
   setFilters(): void {
-    console.log(this.data);
     this.dataFilters['from_date'] = this.data['from_date'];
     this.dataFilters['to_date'] = this.data['to_date'];
     if (this.data['project_id'] !== '0') {

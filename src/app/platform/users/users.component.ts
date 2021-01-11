@@ -55,7 +55,6 @@ export class UsersComponent implements OnInit {
   }
 
   restoreUser(user: User): void {
-    console.log(user);
     const buttons = {confirmButtonText: 'אישור', cancelButtonText: 'ביטול'};
     const text = '  האם ברצונך לשחזר משתמש ' + user.first_name + ' ' + user.last_name + ' ?';
     this.notificationService.warning(text, '', buttons).then(confirmation => {
@@ -77,7 +76,6 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(user: User): void{
-    console.log(user);
     const buttons = {confirmButtonText: 'אישור', cancelButtonText: 'ביטול'};
     const text = '  האם ברצונך למחוק משתמש ' + user.first_name + ' ' + user.last_name + ' מהמערכת?';
     this.notificationService.warning(text, '', buttons).then(confirmation => {

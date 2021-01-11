@@ -149,7 +149,6 @@ export class ManualInvoiceFormComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;
-      console.log(this.update_employees);
       this.invoiceService.createManualInvoice(this.manualInvoice, this.update_employees).then(response => {
         this.message = response['message'];
         if (response['message'] !== 'success') {

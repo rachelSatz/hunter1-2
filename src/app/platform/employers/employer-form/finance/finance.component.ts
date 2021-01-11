@@ -101,7 +101,6 @@ export class FinanceComponent implements OnInit {
     this.employerService.getEmployers()
       .subscribe(res => {
         this.payEmployers = res['data'];
-        console.log(this.payEmployers);
         this.fetchItems();
       }
   );
@@ -115,7 +114,6 @@ export class FinanceComponent implements OnInit {
           .then(res => {
             if (res.id) {
               this.financialDetails = res;
-              console.log(this.financialDetails);
               if (this.financialDetails.employer_relation.id === this.financialDetails.pay_employer_relation.id) {
                 this.displayMasav = true;
               }
@@ -141,7 +139,6 @@ export class FinanceComponent implements OnInit {
   loadBanks(): void {
     this.generalService.getBanks(true).then(banks => {
       this.banks = banks;
-      console.log(this.banks);
     });
   }
 
@@ -240,7 +237,6 @@ export class FinanceComponent implements OnInit {
        if (this.selectUnit.getEmployerRelation() === 0) {
         this.notificationService.error('לא נבחר מעסיק.');
       } else {
-         console.log(this.financialDetails);
           this.employerService.saveFinancialDetails(this.selectUnit.getEmployerRelation(), this.financialDetails)
             .then(response => {
               if (response['message'] !== 'success') {

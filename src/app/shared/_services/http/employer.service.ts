@@ -54,7 +54,6 @@ export class EmployerService extends BaseHttpService {
 
   getEmployersByProjectGroupId(projectGroupId: number): Promise<any> {
     const request = this.getTokenHeader();
-    console.log(projectGroupId);
     request['params'] = {};
     request['params']['project_group_id'] = projectGroupId;
     return this.http.get(this.endPoint + '/employer_list', request)
@@ -105,7 +104,6 @@ export class EmployerService extends BaseHttpService {
   }
 
   getEmployerFinance(id: number): Promise<any> {
-    console.log(id);
     const request = this.getTokenHeader();
     request['params'] = {};
     request['params']['employer_relation'] = id;
