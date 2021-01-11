@@ -1,6 +1,4 @@
-import { Employer } from './employer.model';
 import { EmployerRelation } from './employrRelation';
-import { SelectUnitService } from '../../shared/_services/select-unit.service';
 
 export class EmployerFinancialDetails {
    id: number;
@@ -102,8 +100,6 @@ export enum LANGUAGE {
 
 export enum PRODUCT_TYPES_MYHR {
   form_101 = '101',
-  form_102 = '102',
-  form_103 = '103'
 }
 
 export enum PRODUCT_TYPES_SMARTI {

@@ -54,6 +54,18 @@ p{
   color: #202027;
   opacity: 1;
 }
+.bottom-20{
+  bottom: 20px !important;
+}
+.underline {
+  text-decoration: underline !important;
+}
+.center{
+  width: 30%; margin: auto; padding-top: 100px;
+}
+.w-53{
+  width: 53% !important;
+}
 #input_container {
   position:relative;
   direction: rtl;
@@ -69,17 +81,6 @@ p{
   width:24px;
   height:30px;
   background: transparent 0% 0% no-repeat padding-box;
-  color:#E2E2E2 ;
-}
-.bottom-20{
-  bottom: 20px !important;
-}
-.underline {
-  text-decoration: underline !important;
-}
-.center{
-  width: 30%; margin: auto; padding-top: 100px;
-}
-.w-53{
-  width: 53% !important;
+  color:#E2E2E2;
+  cursor: pointer;
 }

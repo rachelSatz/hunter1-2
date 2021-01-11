@@ -60,10 +60,14 @@ export class InvoicesComponent implements OnInit {
       label: 'שם מעסיק', searchable: false
     },
     {
-      name: 'project_name', sortName: 'project__project_name', label: 'שם פרויקט',
+      name: 'project_name', sortName: 'project__project_name', label: 'פרויקט',
       searchOptions: {labels: this.GeneralService.projects}, multiple: true
     },
-    {name: 'green_invoice_number', sortName: 'green_invoice_document__number', label: 'מספר חשבונית בירוקה'},
+    {
+      name: 'organization_name', sortName: 'organization_name', label: 'ארגון',
+      searchable: false,
+    },
+    {name: 'green_invoice_number', sortName: 'green_invoice_document__number', label: 'מספר ח. בירוקה'},
     {name: 'total_amount', label: 'סכום'},
     {name: 'ids_count', label: 'כמות ת"ז', searchable: false},
     {name: 'for_month', label: 'בגין חודש', searchOptions: {isDate: true}},
