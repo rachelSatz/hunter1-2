@@ -253,15 +253,11 @@ export class DashboardComponent implements OnInit {
             } else {
               this.smarti = false;
             }
-            this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum'] +
-              this.data['invoice_system']['green_invoices_error']['sum'];
-            this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] +
-              this.data['incomes']['incomes_est_payment_amount']['sum'];
-            this.sum_employers = this.data['employers_status']['charged_employers']['count']
-              + this.data['employers_status']['need_to_charge_employers']['count']
-              + this.data['employers_status']['charged_employers_manually']['count']
-              + this.data['employers_status']['no_payment_detail_employers']['count']
-              + this.data['employers_status']['employers_0_charge']['count'];
+            this.sum_invoices_system = this.data.invoice_system.green_invoices_sum + this.data.invoice_system.green_invoices_error_sum;
+            this.sum_incomes = this.data.incomes.new_employers_sum + this.data.incomes.est_payment_amount_sum;
+            this.sum_employers = this.data.status_system.charged_emp_count + this.data.status_system.need_to_charge_emp_count
+              + this.data.status_system.charged_emp_manually_count + this.data.status_system.no_payment_emp_count
+              + this.data.status_system.emp_0_charge_count;
           } else {
             this.NotificationService.error('ארעה שגיאה');
           }

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Project } from '../../_models/project.model';
 import { Bank } from '../../_models/bank.model';
 import {SelectUnitService} from '../select-unit.service';
+import {Dashboard} from "../../_models/dashboard.model";
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class GeneralService  extends BaseHttpService {
       .catch(() => null);
   }
 
-  get_financial_data(project_id, fromDate, toDate, productTypeId, organization_id, employer_id): Promise<any> {
+  get_financial_data(project_id, fromDate, toDate, productTypeId, organization_id, employer_id): Promise<Dashboard> {
     const request = this.getTokenHeader();
     request['params'] = { from_date: fromDate , to_date: toDate};
     if (productTypeId !== 'all') {
@@ -54,7 +55,7 @@ export class GeneralService  extends BaseHttpService {
     request['params']['project_group_id'] = this.getProjectGroupId();
     return this.http.get(this.endPoint + '/dashboard', request)
       .toPromise()
-      .then(response => response as any)
+      .then(response => response as Dashboard)
       .catch(() => null);
   }
 

@@ -75,15 +75,15 @@
           <p class="float-right w-30" >מעסיקים שחויבו</p>
           <div class="float-right w-20 padding-right-30">
             <p class="sumCount">כמות</p>
-            <p>{{data['employers_status']['charged_employers']['count']}}</p>
+            <p>{{data.status_system.charged_emp_count}}</p>
           </div>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p>{{data['employers_status']['charged_employers']['ids_count']}}</p>
+            <p>{{data.status_system.charged_emp_ids_count}}</p>
           </div>
           <div class="float-right w-25 padding-right-30">
             <p class="sumCount">סכום</p>
-            <p class="font-size-15">{{data['employers_status']['charged_employers']['sum'] | number:'1.2-2'}}</p>
+            <p class="font-size-15">{{data.status_system.charged_emp_sum | number:'1.2-2'}}</p>
           </div>
           <a (click)="openChargedEmployerPopUp()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
@@ -96,11 +96,11 @@
           <p class="float-right w-30">מעסיקים שצריך לחייב</p>
           <div class="float-right w-20 padding-right-30">
             <p class="sumCount">כמות</p>
-            <p>{{data['employers_status']['need_to_charge_employers']['count']}}({{data['employers_status']['need_to_charge_employers']['compared']}})</p>
+            <p>{{data.status_system.need_to_charge_emp_count}}({{data.status_system.need_to_charge_emp_compared}})</p>
           </div>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p>{{data['employers_status']['need_to_charge_employers']['ids_count']}}</p>
+            <p>{{data.status_system.need_to_charge_emp_ids_count}}</p>
           </div>
           <div class="float-right w-25 padding-right-30">
             <p class="sumCount">סכום</p>
@@ -117,15 +117,15 @@
           <p class="float-right w-30"> מעסיקים שחויבו ידני</p>
           <div class="float-right w-20 padding-right-30">
             <p class="sumCount">כמות</p>
-            <p>{{data['employers_status']['charged_employers_manually']['count']}}</p>
+            <p>{{data.status_system.charged_emp_manually_count}}</p>
           </div>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p>{{data['employers_status']['charged_employers_manually']['ids_count']}}</p>
+            <p>{{data.status_system.charged_emp_manually_ids_count}}</p>
           </div>
           <div class="float-right w-25 padding-right-30">
             <p class="sumCount">סכום</p>
-            <p class="font-size-15">{{data['employers_status']['charged_employers_manually']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data.status_system.charged_emp_manually_sum | number:'1.2-2' }}</p>
           </div>
           <a (click)="openManuallyChargedPopUp()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
@@ -138,7 +138,7 @@
           <p class="float-right w-30">מעסיקים ללא פרטי חיוב</p>
           <div class="float-right w-20 padding-right-30">
             <p class="sumCount">כמות</p>
-            <p>{{data['employers_status']['no_payment_detail_employers']['count']}}</p>
+            <p>{{data.status_system.no_payment_emp_count}}</p>
           </div>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
@@ -159,7 +159,7 @@
           <p class="float-right w-30">מעסיקים עם חיוב 0</p>
           <div class="float-right w-20 padding-right-30">
             <p class="sumCount">כמות</p>
-            <p>{{data['employers_status']['employers_0_charge']['count']}}</p>
+            <p>{{data.status_system.emp_0_charge_count}}</p>
           </div>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
@@ -180,11 +180,11 @@
           <p class="float-right w-40">משולמים ע"י גורם אחר</p>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
-            <p>{{data['employers_status']['payed_by_other']['sum']}}</p>
+            <p>{{data.status_system.payed_by_other_sum}}</p>
           </div>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">סה"כ ת.ז</p>
-            <p>{{data['employers_status']['payed_by_other']['ids_count']}}</p>
+            <p>{{data.status_system.payed_by_other_ids_count}}</p>
           </div>
           <a (click)="openOtherPayerPopup()">צפייה</a>
           <i  class="fa fa-angle-left"></i>
@@ -204,11 +204,11 @@
           <p class="float-right w-30">סה"כ חשבוניות ששודרו</p>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
-            <p>{{data['invoice_system']['green_invoices']['count']}}</p>
+            <p>{{data.invoice_system.green_invoices_count}}</p>
           </div>
           <div class="float-right w-35">
             <p class="sumCount">סכום</p>
-            <p class="font-size-15">{{data['invoice_system']['green_invoices']['sum'] | number:'1.2-2'}}</p>
+            <p class="font-size-15">{{data.invoice_system.green_invoices_sum | number:'1.2-2'}}</p>
           </div>
           <a (click)="openInvoices('transaction_green_invoice,only_tax_green_invoice,tax_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
           <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
@@ -221,11 +221,11 @@
           <p class="float-right w-30">חשבוניות עסקה</p>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
-            <p>{{data['invoice_system']['transaction_invoices']['count']}}</p>
+            <p>{{data.invoice_system .transaction_invoices_count}}</p>
           </div>
           <div class="float-right w-35">
             <p class="sumCount">סכום</p>
-            <p class="font-size-15">{{data['invoice_system']['transaction_invoices']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data.invoice_system.transaction_invoices_sum | number:'1.2-2' }}</p>
           </div>
           <a (click)="openInvoices('transaction_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
           <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
@@ -238,11 +238,11 @@
           <p class="float-right w-30">חשבוניות מס</p>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
-            <p>{{data['invoice_system']['only_tax_green_invoices']['count']}}</p>
+            <p>{{data.invoice_system .only_tax_green_invoices_count}}</p>
           </div>
           <div class="float-right w-35">
             <p class="sumCount">סכום</p>
-            <p class="font-size-15">{{data['invoice_system']['only_tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data.invoice_system.only_tax_green_invoices_sum | number:'1.2-2' }}</p>
           </div>
           <a (click)="openInvoices('only_tax_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
           <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
@@ -255,11 +255,11 @@
           <p class="float-right w-30">חשבוניות מס קבלה </p>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
-            <p>{{data['invoice_system']['tax_green_invoices']['count']}}</p>
+            <p>{{data.invoice_system.tax_green_invoices_count}}</p>
           </div>
           <div class="float-right w-35">
             <p class="sumCount">סכום</p>
-            <p class="font-size-15">{{data['invoice_system']['tax_green_invoices']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data.invoice_system.tax_green_invoices_sum | number:'1.2-2' }}</p>
           </div>
           <a (click)="openInvoices('tax_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
           <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
@@ -272,11 +272,11 @@
           <p class="float-right w-30">חריגים תקולים</p>
           <div class="float-right w-30 padding-right-30">
             <p class="sumCount">כמות</p>
-            <p>{{data['invoice_system']['green_invoices_error']['count']}}</p>
+            <p>{{data.invoice_system.green_invoices_error_count}}</p>
           </div>
           <div class="float-right w-35">
             <p class="sumCount">סכום</p>
-            <p class="font-size-15">{{data['invoice_system']['green_invoices_error']['sum'] | number:'1.2-2' }}</p>
+            <p class="font-size-15">{{data.invoice_system.green_invoices_error_sum | number:'1.2-2' }}</p>
           </div>
           <a (click)="openInvoices('green_invoice_error')" *ngIf="!isPermissionsFinance">צפייה</a>
           <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
@@ -297,7 +297,7 @@
              <p class="float-right w-45">משלמים בהוראת קבע</p>
              <div class="float-right w-45 padding-right-10">
                <p class="sumCount">כמות</p>
-               <p>{{data['payment_methods']['is_debit']['count']}}</p>
+               <p>{{data.payment_methods.is_debit_count }}</p>
              </div>
              <a (click)="openEmployersForm('direct_debit')">צפייה</a>
              <i  class="fa fa-angle-left"></i>
@@ -310,7 +310,7 @@
              <p class="float-right w-45">העברה בנקאית\צ'ק </p>
              <div class="float-right w-45 padding-right-10">
                <p class="sumCount">כמות</p>
-               <p>{{data['payment_methods']['is_bank_check']['count']}}</p>
+               <p>{{data.payment_methods.is_bank_check_count}}</p>
              </div>
              <a (click)="openEmployersForm('bank_transfer,check')">צפייה</a>
              <i  class="fa fa-angle-left"></i>
@@ -323,7 +323,7 @@
              <p class="float-right w-45">משלמים באשראי</p>
              <div class="float-right w-45 padding-right-10">
                <p class="sumCount">כמות</p>
-               <p>{{data['payment_methods']['is_credit']['count']}}</p>
+               <p>{{data.payment_methods.is_credit_count}}</p>
              </div>
              <a (click)="openEmployersForm('credit_card')">צפייה</a>
              <i  class="fa fa-angle-left"></i>
@@ -336,7 +336,7 @@
              <p  class="float-right w-45">משלמים במס"ב </p>
              <div class="float-right w-45 padding-right-10">
                <p class="sumCount">כמות</p>
-               <p>{{data['payment_methods']['is_masav']['count']}}</p>
+               <p>{{data.payment_methods.is_masav_count}}</p>
              </div>
              <a (click)="openEmployersForm('masav_product')">צפייה</a>
              <i  class="fa fa-angle-left"></i>
@@ -347,9 +347,9 @@
       <div class="col-6 h-auto float-left pr-5 ">
         <div class="h-auto mb-5 mt-2" *ngIf="!isPermissionsFinance">
           <h4> תהליכי חישוב </h4>
-          <p class="sumCount"> סה"כ תהליכים-<span class="blue-color"> {{data['calc_processes']['count']}}</span></p>
+          <p class="sumCount"> סה"כ תהליכים-<span class="blue-color"> {{data.calc_process.count}}</span></p>
           <a (click)="openCalcProcesses()" *ngIf="data['calc_processes']['count']>0" class="blue-color border-bottom margin-right-530">הצג תהליכים</a>
-          <div *ngFor="let calc_process of data['calc_processes']['data']">
+          <div *ngFor="let calc_process of data.calc_process.data">
           <div class="dataCls">
             <div class="dataRightCls"></div>
             <img src="../../../assets/img/icons/recycle.png" class="float-right">
@@ -376,7 +376,7 @@
             </div>
           </div>
           </div>
-        <div *ngIf="data['calc_processes']['count']==0" class="noCalcProcess"  >
+        <div *ngIf="data.calc_process.count ==0" class="noCalcProcess"  >
           <span class="m-auto">
           <img src="../../../assets/img/icons/recycle-regular.png">
           <p>לא קיימים תהליכים החודש</p>
@@ -391,7 +391,7 @@
         <div class="col-6 h-auto pr-4 float-right" *ngIf="smarti">
           <div class="h-auto mb-5 mt-2">
             <h4 >סטטוס תעודות זהות</h4>
-            <p class="sumCount"> סה"כ ת"ז-<span class="blue-color"> {{data['ids_status']['ids_zero'] + data['ids_status']['ids_not_zero']}}</span></p>
+            <p class="sumCount"> סה"כ ת"ז-<span class="blue-color"> {{data.ids_status.ids_zero + data.ids_status.ids_not_zero}}</span></p>
             <div class="dataCls">
               <div class="dataRightCls"></div>
               <img src="../../../assets/img/icons/group.png" class="float-right">
@@ -399,7 +399,7 @@
                 <p class="float-right w-80">ת"ז אפסים שלא חויבו</p>
                 <div class="float-right padding-right-10 w-20">
                   <p class="sumCount">כמות</p>
-                  <p>{{data['ids_status']['ids_zero_not_charged']}}</p>
+                  <p>{{data.ids_status.ids_zero_not_charged}}</p>
                 </div>
               </div>
             </div>
@@ -410,7 +410,7 @@
                 <p class="float-right w-80">ת"ז עם חיוב רטרו</p>
                 <div class="float-right padding-right-10 w-20">
                   <p class="sumCount">כמות</p>
-                  <p>{{data['ids_status']['ids_retro_billing']}}</p>
+                  <p>{{data.ids_status.ids_retro_billing}}</p>
                 </div>
               </div>
             </div>
@@ -421,7 +421,7 @@
                 <p class="float-right w-80">ת"ז אפסים</p>
                 <div class="float-right padding-right-10 w-20">
                   <p class="sumCount">כמות</p>
-                  <p>{{data['ids_status']['ids_zero']}}</p>
+                  <p>{{data.ids_status.ids_zero}}</p>
                 </div>
               </div>
             </div>
@@ -432,7 +432,7 @@
                 <p class="float-right w-80">ת"ז ללא אפסים</p>
                 <div class="float-right padding-right-10 w-20">
                   <p class="sumCount">כמות</p>
-                  <p>{{data['ids_status']['ids_not_zero']}}</p>
+                  <p>{{data.ids_status.ids_not_zero}}</p>
                 </div>
               </div>
             </div>
@@ -448,7 +448,7 @@
                 <p class="float-right w-80">ת"ז שחויבו</p>
                 <div class="float-right padding-right-10 w-20">
                   <p class="sumCount">כמות</p>
-                  <p>{{data['ids_status']['count_ids']}}</p>
+                  <p>{{data.ids_status.count_ids}}</p>
                 </div>
               </div>
             </div>
@@ -466,11 +466,11 @@
                 <p  class="float-right w-35">הכנסות ממעסיקים חדשים</p>
                 <div class="float-right w-30 padding-right-10">
                   <p class="sumCount">כמות</p>
-                  <p>{{data['incomes']['incomes_from_new_employers']['count']}}</p>
+                  <p>{{data.incomes.new_employers_count}}</p>
                 </div>
                 <div class="float-right w-33">
                   <p class="sumCount">סכום</p>
-                  <p class="font-size-15">{{data['incomes']['incomes_from_new_employers']['sum'] | number:'1.2-2'}}</p>
+                  <p class="font-size-15">{{data.incomes.new_employers_sum | number:'1.2-2'}}</p>
                 </div>
                 <a (click)="openNewEmployersForm()">צפייה</a>
                 <i  class="fa fa-angle-left"></i>
@@ -483,11 +483,11 @@
                 <p  class="float-right w-35">הכנסות מתשלום הקמה </p>
                 <div class="float-right w-30 padding-right-10">
                   <p class="sumCount">כמות</p>
-                  <p>{{data['incomes']['incomes_est_payment_amount']['count']}}</p>
+                  <p>{{data.incomes.est_payment_amount_count}}</p>
                 </div>
                 <div class="float-right w-33">
                   <p class="sumCount">סכום</p>
-                  <p class="font-size-15">{{data['incomes']['incomes_est_payment_amount']['sum'] | number:'1.2-2' }}</p>
+                  <p class="font-size-15">{{data.incomes.est_payment_amount_sum | number:'1.2-2' }}</p>
                 </div>
                 <a (click)="openEstPaymentForm()">צפייה</a>
                 <i  class="fa fa-angle-left"></i>
