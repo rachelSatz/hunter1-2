@@ -7,3 +7,4 @@ export class DataTableColumn {
   selected?: string;
   subLabel?: string;
 }
+
