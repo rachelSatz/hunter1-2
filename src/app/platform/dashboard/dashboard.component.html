@@ -348,7 +348,7 @@
         <div class="h-auto mb-5 mt-2" *ngIf="!isPermissionsFinance">
           <h4> תהליכי חישוב </h4>
           <p class="sumCount"> סה"כ תהליכים-<span class="blue-color"> {{data.calc_process.count}}</span></p>
-          <a (click)="openCalcProcesses()" *ngIf="data['calc_processes']['count']>0" class="blue-color border-bottom margin-right-530">הצג תהליכים</a>
+          <a (click)="openCalcProcesses()" *ngIf="data.calc_process.count>0" class="blue-color border-bottom margin-right-530">הצג תהליכים</a>
           <div *ngFor="let calc_process of data.calc_process.data">
           <div class="dataCls">
             <div class="dataRightCls"></div>
