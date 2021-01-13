@@ -14,7 +14,7 @@
 				<input matInput type="text" [placeholder]="column.subLabel ? column.subLabel : column.label" [name]="column.name" ngModel>
 			</mat-form-field>
 		</div>
-		<div *ngIf="column.searchOptions && column.searchOptions.isDate" class="width-200  ml-2">
+		<div *ngIf="column.searchOptions && column.searchOptions.isDate" class="width-200 ml-2">
 			<label class="bold f-12">{{ column.subLabel ? column.subLabel : column.label }}</label>
 			<div>
         <mat-form-field class="w-85">
