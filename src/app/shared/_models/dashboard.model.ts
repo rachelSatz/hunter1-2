@@ -1,4 +1,4 @@
-import {ProjectGroup} from "./project.model";
+import { ProjectGroup } from './project.model';
 
 export class Dashboard {
   invoice_system: InvoiceSystem = new InvoiceSystem();
@@ -33,32 +33,32 @@ export class PaymentMethodSystem {
   is_debit_count: number;
   is_bank_check_count: number;
   is_credit_count: number;
-  is_masav_count:number;
+  is_masav_count: number;
 }
 
 export class StatusSystem {
-  charged_emp_count:number;
-  charged_emp_ids_count:number;
-  charged_emp_sum:number;
-  need_to_charge_emp_count:number;
-  need_to_charge_emp_ids_count:number;
-  need_to_charge_emp_sum:number;
-  need_to_charge_emp_compared:number;
-  charged_emp_manually_count:number;
-  charged_emp_manually_ids_count:number;
-  charged_emp_manually_sum:number;
-  no_payment_emp_count:number;
-  no_payment_emp_ids_count:number;
-  no_payment_emp_sum:number;
-  emp_0_charge_count:number;
-  emp_0_charge_ids_count:number;
-  payed_by_other_sum:number;
-  payed_by_other_ids_count:number;
+  charged_emp_count: number;
+  charged_emp_ids_count: number;
+  charged_emp_sum: number;
+  need_to_charge_emp_count: number;
+  need_to_charge_emp_ids_count: number;
+  need_to_charge_emp_sum: number;
+  need_to_charge_emp_compared: number;
+  charged_emp_manually_count: number;
+  charged_emp_manually_ids_count: number;
+  charged_emp_manually_sum: number;
+  no_payment_emp_count: number;
+  no_payment_emp_ids_count: number;
+  no_payment_emp_sum: number;
+  emp_0_charge_count: number;
+  emp_0_charge_ids_count: number;
+  payed_by_other_sum: number;
+  payed_by_other_ids_count: number;
 }
 
 export class CalcProcess {
   data: CalcProcessData;
-  count:number;
+  count: number;
 }
 
 export class CalcProcessData {
