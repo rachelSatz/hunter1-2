@@ -35,7 +35,7 @@ export class ManuallyChargedEmployersComponent implements OnInit {
       this.dataTable.criteria.filters = this.dataFilters;
       this.dataTable.criteria.limit = 8;
       this.InvoiceService.getManuallyChargedEmployers(this.dataTable.criteria)
-        .then(response => { console.log(response);
+        .then(response => {
           this.dataTable.setItems(response); });
     }
   }

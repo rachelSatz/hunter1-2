@@ -57,7 +57,6 @@ export class UserFormComponent implements OnInit {
         this.helpers.setPageSpinner(true);
         this.update = true;
         this.user = new User(this.route.snapshot.data.user);
-        console.log(this.user);
         this.helpers.setPageSpinner(false);
       }
     });
@@ -81,7 +80,6 @@ export class UserFormComponent implements OnInit {
   }
 
   changePermission(event: any, module, index): void {
-    console.log(this.user);
     if (event.checked === true) {
       if (this.user.modules[index].isEnabled === false) {
         this.user.modules[index].isEnabled = true;

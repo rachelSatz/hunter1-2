@@ -35,7 +35,6 @@ export class EstPaymentFormComponent implements OnInit {
       this.setFilters();
       this.dataTable.criteria.filters = this.dataFilters;
       this.dataTable.criteria.limit = 8;
-      console.log(this.dataTable.criteria.filters);
       this.EmployerService.getEmployersWithEstPayment(this.dataTable.criteria)
         .then(response => {
           this.dataTable.setItems(response); });

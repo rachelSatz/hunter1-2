@@ -38,7 +38,6 @@ export class CreditCardExelComponent implements OnInit {
   }
 
   onSubmit(tax: boolean): void {
-    console.log(tax);
     this.dialogRef.close(tax);
   }
 

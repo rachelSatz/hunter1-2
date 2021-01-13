@@ -131,7 +131,6 @@ export class DashboardComponent implements OnInit {
     if (this.projectGroupId  && this.projectId !== '0') {
       this.OrganizationService.getOrganizationByProjectId(+this.projectId)
         .then(response => {
-          console.log(response);
           this.organizations = response['data'];
           if (this.organizations.length > 0) {
             this.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
@@ -149,9 +148,7 @@ export class DashboardComponent implements OnInit {
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
-          console.log(this.employers);
           this.employerId = this.employers[0].id;
-          console.log(this.employerId);
         } else {
           this.employerId = this.employers[0] ? this.employers[0].id : 0;
         }
@@ -159,7 +156,6 @@ export class DashboardComponent implements OnInit {
     } else {
       this.OrganizationService.getOrganizationByProjectGroupId(this.selectUnit.getProjectGroupId())
         .then(response => {
-          console.log(response);
           this.organizations = response['data'];
           if (this.organizations.length > 0) {
             this.organizations.push({'id': '0', 'name': 'כלל הארגונים'});
@@ -174,7 +170,6 @@ export class DashboardComponent implements OnInit {
         });
       // this.EmployerService.getEmployersByProjectGroupId(this.projectGroupId).then(res => {
       //   this.employers = res['data'];
-      //   console.log(55);
       //   if (this.employers.length > 1) {
       //     this.employers.push({ id: '0', name: 'כלל המעסיקים' });
       //     this.employers.sort((a, b) => a.id - b.id);
@@ -192,13 +187,10 @@ export class DashboardComponent implements OnInit {
     if (this.organizationId !== '0') {
       this.EmployerService.getEmployersByOrganizationId(organizationId).then(res => {
         this.employers = res['data'];
-        console.log(44);
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
-          console.log(this.employers);
           this.employerId = this.employers[0].id;
-          console.log(this.employerId);
         } else {
           this.employerId = this.employers[0] ? this.employers[0].id : 0;
         }
@@ -206,13 +198,10 @@ export class DashboardComponent implements OnInit {
     } else if (this.projectGroupId || this.projectId === '0') {
       this.EmployerService.getEmployersByProjectGroupId(this.projectGroupId).then(res => {
         this.employers = res['data'];
-        console.log(55);
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
-          console.log(this.employers);
           this.employerId = this.employers[0].id;
-          console.log(this.employerId);
         } else {
           this.employerId = this.employers[0] ? this.employers[0].id : 0;
         }
@@ -220,13 +209,10 @@ export class DashboardComponent implements OnInit {
     } else {
       this.EmployerService.getEmployersByProjectId(+this.projectId).then(res => {
         this.employers = res['data'];
-        console.log(22);
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
           this.employers.sort((a, b) => a.id - b.id);
-          console.log(this.employers);
           this.employerId = this.employers[0].id;
-          console.log(this.employerId);
         } else {
           this.employerId = this.employers[0] ? this.employers[0].id : 0;
         }
@@ -261,23 +247,17 @@ export class DashboardComponent implements OnInit {
         this.productTypeId, this.organizationId, this.employerId)
         .then(response => {
           if (response['message'] === 'success') {
-            console.log('sss ' + response['message']);
             this.data = response['data'];
-            console.log(this.data);
-            if (+this.selectUnit.getProjectGroupId() === PROJECT_GROUP.SMARTI) {
+            if (this.selectUnit.getProjectGroupId() === PROJECT_GROUP.SMARTI) {
               this.smarti = true;
             } else {
               this.smarti = false;
             }
-            this.sum_invoices_system = this.data['invoice_system']['green_invoices']['sum'] +
-              this.data['invoice_system']['green_invoices_error']['sum'];
-            this.sum_incomes = this.data['incomes']['incomes_from_new_employers']['sum'] +
-              this.data['incomes']['incomes_est_payment_amount']['sum'];
-            this.sum_employers = this.data['employers_status']['charged_employers']['count']
-              + this.data['employers_status']['need_to_charge_employers']['count']
-              + this.data['employers_status']['charged_employers_manually']['count']
-              + this.data['employers_status']['no_payment_detail_employers']['count']
-              + this.data['employers_status']['employers_0_charge']['count'];
+            this.sum_invoices_system = this.data.invoice_system.green_invoices_sum + this.data.invoice_system.green_invoices_error_sum;
+            this.sum_incomes = this.data.incomes.new_employers_sum + this.data.incomes.est_payment_amount_sum;
+            this.sum_employers = this.data.status_system.charged_emp_count + this.data.status_system.need_to_charge_emp_count
+              + this.data.status_system.charged_emp_manually_count + this.data.status_system.no_payment_emp_count
+              + this.data.status_system.emp_0_charge_count;
           } else {
             this.NotificationService.error('ארעה שגיאה');
           }

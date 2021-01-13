@@ -168,7 +168,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
 	}
 
 	toggleActiveStatus(isActive: boolean): void {
-	  console.log(isActive);
 		this.isActive = isActive;
 		this.loadItems();
 	}
