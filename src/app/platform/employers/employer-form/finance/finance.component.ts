@@ -62,7 +62,6 @@ export class FinanceComponent implements OnInit {
     return { id: e, name: LANGUAGE[e] };
   });
   productTypesItems = [];
-
   employerRelationId: number;
   rowIndex: number;
   isNoPaymentTime: boolean;
@@ -110,8 +109,10 @@ export class FinanceComponent implements OnInit {
     fetchItems() {
       this.loadBanks();
       this.employerRelationId = this.selectUnit.getEmployerRelation();
+      this.helpers.setPageSpinner(true);
       this.employerService.getEmployerFinance(this.employerRelationId)
           .then(res => {
+            this.helpers.setPageSpinner(false);
             if (res.id) {
               this.financialDetails = res;
               if (this.financialDetails.employer_relation.id === this.financialDetails.pay_employer_relation.id) {

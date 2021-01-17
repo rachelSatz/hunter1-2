@@ -13,6 +13,7 @@ import { InvoiceDetailsFormComponent } from './invoice-details-form/invoice-deta
 import { GeneralService } from '../../../../shared/_services/http/general.service';
 import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
 import { CommentsComponent } from '../remarks/comments.component';
+import * as FileSaver from 'file-saver';
 
 
 
@@ -68,6 +69,7 @@ export class DocumentsComponent implements OnInit {
   }
 
   fetchItems() {
+    this.dataTable.criteria.limit = 5;
     this.invoiceService.getEmployerInvoices(this.dataTable.criteria, this.SelectUnitService.getEmployerRelation())
       .then(response => {
         this.dataTable.setItems(response);
@@ -105,6 +107,30 @@ export class DocumentsComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  downloadEmployeesExcel(invoiceId, item): void {
+    this.invoiceService.downloadExcel(invoiceId).then(response => {
+      if (response['message'] === 'no_employees') {
+        this.notificationService.info('לא חויבו עובדים בחשבונית');
+      } else { if (response['message'] === 'error') {
+        this.notificationService.error('שגיאה');
+      } else {
+        const byteCharacters = atob(response['message']['data']);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+        const fileName = 'פירוט עובדים בחשבוניות-' + Date.now().toString() + '.xlsx';
+        FileSaver.saveAs(blob, fileName);
+        this.spin = false;
+        this.notificationService.success('הקובץ הופק בהצלחה');
+      }
+
+      }
+    });
   }
 
   ShowRemarks(item: Object): void {

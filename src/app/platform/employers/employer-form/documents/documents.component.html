@@ -1,22 +1,22 @@
 <app-data-table tableName=" " [columns]="columns"  [hasActionsSearch]="false" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
                 [hasActionsHeader]="true">
 
-  <div class="table-header mb-4" *ngIf="permissionsType">
-    <div class="row mr-1">
-      <div class="ml-3 mb-4 d-flex mr-auto">
-        <button [matMenuTriggerFor]="menu" class="btn pink-btn">פעולות</button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="openProactiveInvoice()">חשבון יזום</button>
-          <button mat-menu-item (click)="openManualInvoice()">חשבון ידני</button>
-          <button mat-menu-item (click)="openTaxInvoice()">חשבונית מס/קבלה</button>
-          <button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>
-          <button mat-menu-item (click)="openOnlyTaxInvoice()">חשבונית מס</button>
-          <button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>
-          <button mat-menu-item (click)="openReports()">דו"חות</button>
-        </mat-menu>
-      </div>
-    </div>
-  </div>
+  <!--<div class="table-header mb-4" *ngIf="permissionsType">-->
+    <!--<div class="row mr-1">-->
+      <!--<div class="ml-3 mb-4 d-flex mr-auto">-->
+        <!--<button [matMenuTriggerFor]="menu" class="btn pink-btn">פעולות</button>-->
+        <!--<mat-menu #menu="matMenu">-->
+          <!--<button mat-menu-item (click)="openProactiveInvoice()">חשבון יזום</button>-->
+          <!--<button mat-menu-item (click)="openManualInvoice()">חשבון ידני</button>-->
+          <!--<button mat-menu-item (click)="openTaxInvoice()">חשבונית מס/קבלה</button>-->
+          <!--<button mat-menu-item (click)="sendTransactionInvoice()">חשבונית עסקה</button>-->
+          <!--<button mat-menu-item (click)="openOnlyTaxInvoice()">חשבונית מס</button>-->
+          <!--<button mat-menu-item (click)="downloadInvoicesToExcel()">הורדה לאקסל</button>-->
+          <!--<button mat-menu-item (click)="openReports()">דו"חות</button>-->
+        <!--</mat-menu>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 
   <tr *ngFor="let item of dataTable.items; let i=index" [ngClass]="{'highlight': item.error !== null}">
     <td class="check-column" [ngClass]="{'white': i%2 === 0}">
@@ -40,7 +40,7 @@
     </td>
     <td [ngClass]="{'white': i%2 === 0}">
       <i class="fa fa-eye fa-lg pointer ml-3 mr-3" (click)="ShowRemarks(item)" title="הערות" ></i>
-      <i class="fa fa-download fa-lg pointer ml-3" *ngIf="item.description != ''" title="פירוט עובדים בחשבונית"  (click)="submit(item.id, item)"></i>
+      <i class="fa fa-download fa-lg pointer ml-3" *ngIf="item.description != ''" title="פירוט עובדים בחשבונית"   (click)="downloadEmployeesExcel(item.id, item)"></i>
       <i class="fa fa-exclamation-circle pointer ml-3" (click)="showInvoiceDetails(item)" title="פירוט רשומות" ></i>
     </td>
   </tr>

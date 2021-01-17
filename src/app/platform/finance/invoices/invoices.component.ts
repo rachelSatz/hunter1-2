@@ -239,7 +239,7 @@ export class InvoicesComponent implements OnInit {
     this.helpers.setPageSpinner(true);
     this.invoiceService.downloadInvoicesToExcel(this.dataTable.criteria).then(response => {
       this.helpers.setPageSpinner(false);
-      if (response['message'] === 'error' || response['message'].contains('error')) {
+      if (response['message'] === 'error') {
         this.notificationService.error('לא ניתן להוריד את הקובץ');
       } else {
         if (response['message'] === 'no_data') {

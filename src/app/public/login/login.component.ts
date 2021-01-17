@@ -7,6 +7,7 @@ import { HelpersService } from '../../shared/_services/helpers.service';
 import { MatDialog } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { NotificationService } from '../../shared/_services/notification.service';
+import {SelectUnitService} from '../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-login',
@@ -56,8 +57,10 @@ export class LoginComponent implements OnInit {
   }
 
   forgotPassword(form: NgForm): void {
+    this.helpers.setPageSpinner(true);
     this.appHttp.forgotPassword(form.value.email).then(
       response => {
+        this.helpers.setPageSpinner(false);
         const message = response['message'];
         if (message === 'No User Found' || message !== 'Message_Sent') {
           this.notificationService.error(

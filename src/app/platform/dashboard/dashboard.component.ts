@@ -237,18 +237,12 @@ export class DashboardComponent implements OnInit {
     this.helpers.setPageSpinner(true);
     this.fetchData();
     if ((this.timeRangeId === 2 && this.fromDate && this.toDate) || (this.timeRangeId === 1 && this.month)) {
-      // this.monthStr = this.datepipe.transform(this.month, 'yyyy-MM-dd');
-      // this.fromDateStr = this.datepipe.transform(this.fromDate, 'yyyy-MM-dd');
-      // this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
-      // if (this.timeRangeId === 2) {
-      //   this.ifByMonth = false;
-      // }
       this.GeneralService.get_financial_data(this.projectId, this.fromDateStr, this.toDateStr,
         this.productTypeId, this.organizationId, this.employerId)
         .then(response => {
           if (response['message'] === 'success') {
             this.data = response['data'];
-            if (this.selectUnit.getProjectGroupId() === PROJECT_GROUP.SMARTI) {
+            if (+this.selectUnit.getProjectGroupId() === PROJECT_GROUP.SMARTI) {
               this.smarti = true;
             } else {
               this.smarti = false;
@@ -277,6 +271,7 @@ export class DashboardComponent implements OnInit {
     this.currentEmployerId = this.employerId;
     this.fetchDates();
   }
+
   openInvoices(status: string): void {
       this.fetchDates();
       this.router.navigate(['../../platform/finance/invoices',
