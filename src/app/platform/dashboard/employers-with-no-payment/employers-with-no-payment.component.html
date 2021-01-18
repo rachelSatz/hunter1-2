@@ -1,7 +1,7 @@
 <button mat-dialog-close>
   <i class="fa fa-close"></i>
 </button>
-<h2 style="text-align: center">מעסיקים ללא פרטי חיוב </h2>
+<h2 class="text-center">מעסיקים ללא פרטי חיוב </h2>
 <br>
 <app-data-table [hasActionsSearch]="false" [columns]="columns" (fetchItems)="fetchItems()"
                 [hasActionsHeader]="false" [hasCheckColumn]="false" [hasExtendedSearch]="false" [limit]="8" dir="rtl" [routePage]="'platform/dashboard'">
@@ -9,7 +9,5 @@
   <tr *ngFor="let item of dataTable.items; let i=index;" [ngClass]="{'highlight': item.error !== null}">
     <td [ngClass]="{'white': i%2 === 0}">{{ item.name }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.identifier}}</td>
-<!--    <td [ngClass]="{'white': i%2 === 0}">{{ item.ids_count}}</td>-->
-<!--    <td [ngClass]="{'white': i%2 === 0}">{{ item.total_amount}}</td>-->
   </tr>
 </app-data-table>

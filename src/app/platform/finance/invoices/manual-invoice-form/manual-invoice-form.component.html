@@ -6,7 +6,7 @@
 </div>
 <form #form="ngForm" dir="rtl">
   <div class="d-flex mr-3 row mt-5 mb-3">
-    <div class="w-auto" *ngIf="employers">
+    <div class="w-auto">
       <bd-select [items]="employers" placeholder="בחר מעסיק" name="employers" #employersModel="ngModel" [(ngModel)]="manualInvoice.employer_financial_details" required></bd-select>
       <p class="alert alert-danger" [@fade]="form.submitted && employersModel.errors ? 'active' : 'inactive'">יש לבחור מעסיק.</p>
     </div>

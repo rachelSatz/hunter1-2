@@ -357,16 +357,36 @@ export class InvoicesComponent implements OnInit {
     }
     const items = this.dataTable.criteria.checkedItems.map(item => item['id']);
     this.invoiceService.createMasav(items, this.dataTable.criteria).then(response => {
-      this.is_valid = true;
-      const byteCharacters = atob(response['data']);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      if (response['message'] === 'success') {
+        this.is_valid = true;
+        const byteCharacters = atob(response['file']['data']);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/' + response['file']['ext']});
+        FileSaver.saveAs(blob, response['file']['filename']);
+        if ('exceptional_message' in response) {
+          this.downloadExceptionalMessage(response['exceptional_message']);
+        }
+      } else {
+        this.notificationService.error('ארעה שגיאה');
       }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], {type: 'application/' + response['ext']});
-      FileSaver.saveAs(blob, response['filename']);
     });
+  }
+
+  downloadExceptionalMessage(exceptional_message): void {
+        const byteCharacters = atob(exceptional_message['data']);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
+        const fileName = 'חריגים- מסב  -' + Date.now().toString() + '.xlsx';
+        FileSaver.saveAs(blob, fileName);
+        this.notificationService.success('הקובץ הופק בהצלחה');
   }
 
   openCreditCardInvoices(): void {

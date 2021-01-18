@@ -1,7 +1,7 @@
 <button mat-dialog-close>
   <i class="fa fa-close"></i>
 </button>
-<h2 style="text-align: center">מעסיקים המשלמים באמצעות {{payment_method}} </h2>
+<h2 class="text-center">מעסיקים המשלמים באמצעות {{payment_method}} </h2>
 <br>
 <app-data-table [hasActionsSearch]="false" [columns]="columns" (fetchItems)="fetchItems()"
                 [hasActionsHeader]="false" [hasCheckColumn]="false" [hasExtendedSearch]="false" [limit]="8" dir="rtl" [routePage]="'platform/dashboard'" >
