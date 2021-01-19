@@ -8,7 +8,6 @@ export class SelectUnitService {
 
   currentProjectGroupId: number;
   currentEmployerRelationID: any;
-  currentOrganizationID: number;
   unitSubject: Subject<number> = new Subject();
   activeUrl: string;
 
@@ -27,10 +26,6 @@ export class SelectUnitService {
     this.unitSubject.next(this.currentProjectGroupId);
   }
 
-  getProjectGroupIdObserve(): Observable<any> {
-    return this.unitSubject.asObservable();
-  }
-
   getProjectGroupId(): any {
     return this.getSessionStorage('projectGroupId');
   }
@@ -45,27 +40,12 @@ export class SelectUnitService {
     this.unitSubject.next(employerRelation);
   }
 
-  getOrganizationID(): any {
-    return this.getSessionStorage('organizationID');
-  }
 
-  setOrganizationID(organizationID: number): any {
-    sessionStorage.setItem('organizationID', organizationID.toString());
-    this.currentOrganizationID = organizationID;
-    this.unitSubject.next(organizationID);
-  }
   getSessionStorage(val: string): any {
     if (sessionStorage.getItem(val)) {
       return JSON.parse(sessionStorage.getItem(val));
     }
     return 0;
-  }
-  setEmployers(employers: any): void {
-    sessionStorage.setItem('employers', JSON.stringify(employers));
-  }
-
-  getEmployers(): any {
-    return this.getSessionStorage('employers');
   }
 
   setProjectGroups(projectGroups: any): void {

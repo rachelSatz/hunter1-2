@@ -6,25 +6,16 @@
 header {
   border-radius: 8px 8px 0 0;
   margin-bottom: 40px;
-  height: 90px;
-
-}
-.platform{
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 15px #00000029;
-  opacity: 1;
   margin-top: 0;
-  /*padding-top: 20px;*/
   padding-bottom: 10px;
   height: 100px;
 }
+
 .navbar {
   padding: 0 0 0 0;
   align-items:unset !important;
-}
-
-.mb-half {
-  margin-bottom: 0.5rem !important;
 }
 
 .nav-item {
@@ -42,35 +33,12 @@ header {
   border-radius: 8%;
 }
 
-.mb-half{
-  margin-top: 30px;
-}
 .menu-link {
   color: #000;
 }
 
 .active .menu-link {
   color: #E82D5C;
-}
-
-.navbar-nav figure {
-  height: 63px;
-  margin: 0;
-}
-
-.navbar-nav img {
-  width: 40%;
-}
-.disable{
-  pointer-events:none;
-}
-.agentBar {
-  height: 100%;
-  position: fixed;
-  background-color: #3D4252;
-  width: 110px;
-  color: #ffffff;
-  text-align: center;
 }
 
 .subMenu {
@@ -81,94 +49,6 @@ header {
   color: #ffffff;
   top: 330px;
   text-align: center;
-}
-
-.selectedMenu {
-  background-color: #3D4252;
-}
-
-.closedAgentBar {
-  height: 100%;
-  text-align: center;
-  position: fixed;
-  background-color: #3D4252;
-  width: 50px;
-  color: #ffffff;
-}
-
-
-.agentBar > div > div:hover {
-  background-color: #7C839C;
-}
-
-.closedAgentBar > div > div:hover {
-  background-color: #7C839C;
-}
-
-.selected {
-  background-color: #7C839C;
-}
-
-.home-page-color {
-  background-color: #E82D5C;
-}
-
-.details {
-  background-color: #ffffff;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-}
-
-.timer {
-  background-color: #E82D5C;
-  height: 50px;
-}
-
-.navbartest {
-  overflow: hidden;
-  position: fixed;
-  bottom: 0px;
-  left: 29px;
-  width: 15%;
-  border-radius: 0.25rem;
-}
-
-.navbartest p {
-  display: block;
-  padding-left: 20px;
-  padding-top: 23px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.skip:hover {
-  background: #f1f1f1;
-  color: black;
-}
-
-.stop:hover {
-  background: #E82D5C;
-  color: white;
-}
-
-.p-absolute {
-  position: absolute;
-}
-
-.skip{
-  background-color: #2a2e39;
-  height: 40px;
-  color: white;
-}
-
-.stop{
-  background-color: #2a2e39;
-  height: 40px;
-  color: white;
-}
-
-.z-index-150{
-  z-index: 150;
 }
 
 ::ng-deep .cdk-overlay-pane .mat-dialog-container {
@@ -204,4 +84,8 @@ header {
 }
 ::ng-deep .dropdown-item:hover {
   border: #E82D5C 1px solid!important;
+}
+::ng-deep.mat-form-field-wrapper,::ng-deep.mat-form-field {
+  text-align: right !important;
+  padding-right: 5px !important;
 }

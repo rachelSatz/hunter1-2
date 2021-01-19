@@ -49,6 +49,7 @@ export class ProactiveInvoiceFormComponent implements OnInit {
       });
     this.generalService.getProjects(this.selectUnit.getProjectGroupId()).then(response => this.projects = response['data']);
   }
+
   submit(form: NgForm): void {
     if (form.valid) {
       this.hasServerError = false;

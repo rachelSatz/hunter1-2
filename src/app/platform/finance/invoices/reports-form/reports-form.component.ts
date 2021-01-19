@@ -26,7 +26,7 @@ export class ReportsFormComponent implements OnInit {
                        'מעסיקים שלא הופקה להם חשבונית עבור חודש'];
   hasServerError = false;
   message: string;
-  spin: boolean;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private notificationService: NotificationService,
@@ -52,7 +52,6 @@ export class ReportsFormComponent implements OnInit {
         const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
         const fileName = response['date'] + '.xlsx';
         FileSaver.saveAs(blob, fileName);
-        this.spin = false;
         this.notificationService.success('הקובץ הופק בהצלחה');
       } else if (response['message'] === 'error') {
         this.notificationService.info('ארעה שגיאה');

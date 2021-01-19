@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { BaseHttpService } from './base-http.service';
 import { DataTableCriteria } from '../../data-table/classes/data-table-criteria';
 import { DataTableResponse } from '../../data-table/classes/data-table-response';
-import {InvoiceDetailsRemarks, ManualInvoice} from '../../_models/invoice.model';
-import {SelectUnitService} from '../select-unit.service';
+import { InvoiceDetailsRemarks, ManualInvoice } from '../../_models/invoice.model';
+import { SelectUnitService } from '../select-unit.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +17,11 @@ export class InvoiceService extends BaseHttpService {
   constructor(userSession: UserSessionService, private http: HttpClient, private selectunit: SelectUnitService) {
     super(userSession);
   }
+
   getProjectGroupId(): void {
     return this.selectunit.getProjectGroupId();
   }
+
   getInvoices(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
@@ -115,6 +117,7 @@ export class InvoiceService extends BaseHttpService {
       .then(response => response as DataTableResponse)
       .catch(() => null);
   }
+
   getNeedToChargeEmployersTable(criteria?: DataTableCriteria, noLimit?: boolean): Promise<DataTableResponse> {
     const request = this.getTokenHeader();
     if (criteria) {
@@ -258,16 +261,6 @@ export class InvoiceService extends BaseHttpService {
       .toPromise()
       .then(response => response as string);
   }
-  // deleteInvoices(invoicesIds: any[], criteria: DataTableCriteria, updateEmployees: boolean): Promise<string> {
-  //   return this.http.post(this.endPoint + '/deleteInvoices',
-  //     {
-  //       'invoicesIds': invoicesIds,
-  //       criteria: this.setDataTableParams(criteria),
-  //       updateEmployees: updateEmployees
-  //     }, this.getTokenHeader())
-  //     .toPromise()
-  //     .then(response => response)
-  // }
 
   createMasav(invoiceIds: number[], criteria: DataTableCriteria): Promise<any> {
     const request =  this.getTokenHeader();

@@ -44,33 +44,23 @@ export class EmployerService extends BaseHttpService {
       .catch(() => null);
   }
 
-  getEmployers(): Observable<any> {
+  // getEmployers(): Observable<any> {
+  //   const request = this.getTokenHeader();
+  //   request['params'] = {};
+  //   request['params']['project_group_id'] = this.getProjectGroupId();
+  //   return this.http.get(this.endPoint + '/employer_list', request)
+  //     .map(response => response as any);
+  // }
+
+  getEmployers(): Promise<any> {
     const request = this.getTokenHeader();
     request['params'] = {};
     request['params']['project_group_id'] = this.getProjectGroupId();
-    return this.http.get(this.endPoint + '/employer_list', request)
-      .map(response => response as any);
-  }
-
-  getEmployersByProjectGroupId(projectGroupId: number): Promise<any> {
-    const request = this.getTokenHeader();
-    request['params'] = {};
-    request['params']['project_group_id'] = projectGroupId;
     return this.http.get(this.endPoint + '/employer_list', request)
       .toPromise()
       .then(response => response as any)
       .catch(() => null);
   }
-  // getDashboardByProjectGroupId(projectGroupId: number): Promise<any> {
-  //   const request = this.getTokenHeader();
-  //   console.log(projectGroupId);
-  //   request['params'] = {};
-  //   request['params']['project_group_id'] = projectGroupId;
-  //   return this.http.get(this.endPoint + '/employer_list', request)
-  //     .toPromise()
-  //     .then(response => response as any)
-  //     .catch(() => null);
-  // }
 
   getEmployersByProjectId(projectId: number): Promise<any> {
     const request = this.getTokenHeader();
@@ -82,6 +72,7 @@ export class EmployerService extends BaseHttpService {
       .then(response => response as any)
       .catch(() => null);
   }
+
   getEmployerExternalByEmployerId(employer_id: number): Promise<number> {
     return this.http.get(this.endPoint + '/getEmployerExternalByEmployerId?employer_id=' + employer_id, this.getTokenHeader())
       .toPromise()
@@ -96,7 +87,6 @@ export class EmployerService extends BaseHttpService {
       request['params']['is_active'] = is_active;
       request['params']['project_group'] = project_group;
     }
-
     return this.http.get(this.endPoint, request)
       .toPromise()
       .then(response => response as DataTableResponse)
@@ -112,6 +102,7 @@ export class EmployerService extends BaseHttpService {
       .then(response => response as any)
       .catch(() => null);
   }
+
   saveFinancialDetails(employerRelation: number, financialDetails: EmployerFinancialDetails): Promise<boolean> {
     return this.http.post(this.endPoint + '/saveFinanceDetails',
       {financialDetails: financialDetails, employer_relation: employerRelation, project_group_id: this.getProjectGroupId()},
@@ -136,7 +127,6 @@ export class EmployerService extends BaseHttpService {
       request['params'] = this.setDataTableParams(criteria);
       request['params']['project_group_id'] = this.getProjectGroupId();
     }
-
     if (noLimit) {
       request['params'] = {no_limit : noLimit};
     }
@@ -152,7 +142,6 @@ export class EmployerService extends BaseHttpService {
       request['params'] = this.setDataTableParams(criteria);
       request['params']['project_group_id'] = this.getProjectGroupId();
     }
-
     if (noLimit) {
       request['params'] = {no_limit : noLimit};
     }
@@ -168,7 +157,6 @@ export class EmployerService extends BaseHttpService {
       request['params'] = this.setDataTableParams(criteria);
       request['params']['project_group_id'] = this.getProjectGroupId();
     }
-
     if (noLimit) {
       request['params'] = {no_limit : noLimit};
     }

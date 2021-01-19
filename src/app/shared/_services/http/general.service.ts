@@ -4,8 +4,8 @@ import { UserSessionService } from './user-session.service';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '../../_models/project.model';
 import { Bank } from '../../_models/bank.model';
-import {SelectUnitService} from '../select-unit.service';
-import {Dashboard} from "../../_models/dashboard.model";
+import { SelectUnitService } from '../select-unit.service';
+import { Dashboard } from '../../_models/dashboard.model';
 
 @Injectable({
   providedIn: 'root'
@@ -85,6 +85,7 @@ export class GeneralService  extends BaseHttpService {
       .then(() => true)
       .catch(() => false);
   }
+
   deleteComment(objectID: any): Promise<boolean> {
     return this.http.delete(this.apiUrl + '/generals/' + objectID , this.getTokenHeader())
       .toPromise()

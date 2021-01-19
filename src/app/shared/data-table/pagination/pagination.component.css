@@ -37,17 +37,3 @@ span {
 .green-theme .page-item.active .page-link {
 	background-color: #E82D5C;
 }
-/*.mb-3{*/
-  /*margin: auto !important;*/
-/*}*/
-.sss {
-  width: 100%;
-  height: auto;
-  margin: auto;
-  text-align: center;
-  /*padding-right:790px;*/
-  padding-bottom: 10px;
-}
-.bold{
-  color: #E82D5C;
-}

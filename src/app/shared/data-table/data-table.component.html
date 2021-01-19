@@ -4,7 +4,7 @@
 <button mat-button class="green-btn" [routerLink]="formUrl" *ngIf="formUrl">פריט חדש</button>
 <div class="d-flex  align-items-center ">
   <!--<div class="w-75 green-background-color">-->
-	<div *ngIf="hasActionsSearch" id="input_container" class="w-20 ml-3 b">
+	<div *ngIf="hasActionsSearch" id="input_container" class="ml-3 b">
 		<input class="form-control fa" placeholder="חפש" id="input" [(ngModel)]="criteria.keyword" (keyup)="search()">
 		<i matSuffix class="fa fa-search" id="input_img"></i>
   </div>

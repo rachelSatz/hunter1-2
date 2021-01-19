@@ -1,12 +1,6 @@
 .disabledDiv {
-  pointer-events: none; opacity: 0.4;
+  pointer-events: none;
   direction: rtl;
-}
-
-.container2 mat-form-field input{
-  text-align: right!important;
-  direction: rtl!important;
-}
-.disabledDiv {
-  pointer-events: none; opacity: 0.8;
+  pointer-events: none;
+  opacity: 0.8;
 }

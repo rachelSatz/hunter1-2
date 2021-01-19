@@ -368,7 +368,7 @@ export class InvoicesComponent implements OnInit {
         const blob = new Blob([byteArray], {type: 'application/' + response['file']['ext']});
         FileSaver.saveAs(blob, response['file']['filename']);
         if ('exceptional_message' in response) {
-          this.downloadExceptionalMessage(response['exceptional_message']);
+          this.downloadExceptionalMasav(response['exceptional_message']);
         }
       } else {
         this.notificationService.error('ארעה שגיאה');
@@ -376,7 +376,7 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-  downloadExceptionalMessage(exceptional_message): void {
+  downloadExceptionalMasav(exceptional_message): void {
         const byteCharacters = atob(exceptional_message['data']);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {

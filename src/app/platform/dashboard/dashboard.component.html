@@ -61,220 +61,220 @@
   <div class="row">
     <div class="col-6 h-auto pr-4 float-right" >
       <div class="h-auto mb-5 mt-2">
-        <h4>סטטוס מעסיקים</h4>
-        <p class="sumCount"> סה"כ מעסיקים-<span class="blue-color">{{sum_employers | number:'1.2-2'}}</span></p>
-        <div class="dataCls">
-          <div class="dataRightCls"></div>
-          <img src="../../../assets/img/icons/user.png" class="float-right">
+        <h4 class="mb-0 margin-top-20">סטטוס מעסיקים</h4>
+        <p class="sum-count"> סה"כ מעסיקים-<span class="blue-color">{{sum_employers | number:'1.2-2'}}</span></p>
+        <div class="data-row">
+          <div class="right-row-gray"></div>
+          <img src="../../../assets/img/icons/user.png" class="img-cls">
           <div class="mt-2 mr-2 inner-div">
             <p class="float-right w-30" >מעסיקים שחויבו</p>
-            <div class="float-right w-20 padding-right-30">
-              <p class="sumCount">כמות</p>
+            <div class="float-right w-20 pr-30p">
+              <p class="sum-count">כמות</p>
               <p>{{data.status_system.charged_emp_count}}</p>
             </div>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">סה"כ ת.ז</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">סה"כ ת.ז</p>
               <p>{{data.status_system.charged_emp_ids_count}}</p>
             </div>
-            <div class="float-right w-25 padding-right-30">
-              <p class="sumCount">סכום</p>
-              <p class="font-size-15">{{data.status_system.charged_emp_sum | number:'1.2-2'}}</p>
+            <div class="float-right w-25 pr-30p">
+              <p class="sum-count">סכום</p>
+              <p class="f-15">{{data.status_system.charged_emp_sum | number:'1.2-2'}}</p>
             </div>
-            <a (click)="openChargedEmployerPopUp()">צפייה</a>
-            <i class="fa fa-angle-left"></i>
+            <a (click)="openChargedEmployerPopUp()" class="a-link">צפייה</a>
+            <i class="fa fa-angle-left mt-2p"></i>
           </div>
         </div>
-        <div class="dataCls">
-          <div class="dataRightCls"></div>
-          <img src="../../../assets/img/icons/user.png" class="float-right">
+        <div class="data-row">
+          <div class="right-row-gray"></div>
+          <img src="../../../assets/img/icons/user.png" class="img-cls">
           <div class="mt-2 mr-2 inner-div">
             <p class="float-right w-30">מעסיקים שצריך לחייב</p>
-            <div class="float-right w-20 padding-right-30">
-              <p class="sumCount">כמות</p>
+            <div class="float-right w-20 pr-30p">
+              <p class="sum-count">כמות</p>
               <p>{{data.status_system.need_to_charge_emp_count}}({{data.status_system.need_to_charge_emp_compared}})</p>
             </div>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">סה"כ ת.ז</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">סה"כ ת.ז</p>
               <p>{{data.status_system.need_to_charge_emp_ids_count}}</p>
             </div>
-            <div class="float-right w-25 padding-right-30">
-              <p class="sumCount">סכום</p>
-              <p style="font-size: 15px">-</p>
+            <div class="float-right w-25 pr-30p">
+              <p class="sum-count">סכום</p>
+              <p class="f-15">-</p>
             </div>
-            <a (click)="openNeedToChargeEmployersPopUp()">צפייה</a>
-            <i  class="fa fa-angle-left"></i>
+            <a (click)="openNeedToChargeEmployersPopUp()" class="a-link">צפייה</a>
+            <i  class="fa fa-angle-left mt-2p"></i>
           </div>
         </div>
-        <div class="dataCls">
-          <div class="dataRightCls"></div>
-          <img src="../../../assets/img/icons/user.png" class="float-right">
+        <div class="data-row">
+          <div class="right-row-gray"></div>
+          <img src="../../../assets/img/icons/user.png" class="img-cls">
           <div class="mt-2 mr-2 inner-div">
             <p class="float-right w-30"> מעסיקים שחויבו ידני</p>
-            <div class="float-right w-20 padding-right-30">
-              <p class="sumCount">כמות</p>
+            <div class="float-right w-20 pr-30p">
+              <p class="sum-count">כמות</p>
               <p>{{data.status_system.charged_emp_manually_count}}</p>
             </div>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">סה"כ ת.ז</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">סה"כ ת.ז</p>
               <p>{{data.status_system.charged_emp_manually_ids_count}}</p>
             </div>
-            <div class="float-right w-25 padding-right-30">
-              <p class="sumCount">סכום</p>
-              <p class="font-size-15">{{data.status_system.charged_emp_manually_sum | number:'1.2-2' }}</p>
+            <div class="float-right w-25 pr-30p">
+              <p class="sum-count">סכום</p>
+              <p class="f-15">{{data.status_system.charged_emp_manually_sum | number:'1.2-2' }}</p>
             </div>
-            <a (click)="openManuallyChargedPopUp()">צפייה</a>
-            <i  class="fa fa-angle-left"></i>
+            <a (click)="openManuallyChargedPopUp()" class="a-link">צפייה</a>
+            <i  class="fa fa-angle-left mt-2p"></i>
           </div>
         </div>
-        <div class="dataCls">
-          <div class="dataRightCls"></div>
-          <img src="../../../assets/img/icons/user.png" class="float-right">
+        <div class="data-row">
+          <div class="right-row-gray"></div>
+          <img src="../../../assets/img/icons/user.png" class="img-cls">
           <div class="mt-2 mr-2 inner-div">
             <p class="float-right w-30">מעסיקים ללא פרטי חיוב</p>
-            <div class="float-right w-20 padding-right-30">
-              <p class="sumCount">כמות</p>
+            <div class="float-right w-20 pr-30p">
+              <p class="sum-count">כמות</p>
               <p>{{data.status_system.no_payment_emp_count}}</p>
             </div>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">סה"כ ת.ז</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">סה"כ ת.ז</p>
               <p>-</p>
             </div>
-            <div class="float-right w-25 padding-right-30">
-              <p class="sumCount">סכום</p>
-              <p class="font-size-15">-</p>
+            <div class="float-right w-25 pr-30p">
+              <p class="sum-count">סכום</p>
+              <p class="f-15">-</p>
             </div>
-            <a (click)="openEmployersWithNoPaymentPopUp()">צפייה</a>
-            <i  class="fa fa-angle-left"></i>
+            <a (click)="openEmployersWithNoPaymentPopUp()" class="a-link">צפייה</a>
+            <i  class="fa fa-angle-left mt-2p"></i>
           </div>
         </div>
-        <div class="dataCls">
-          <div class="dataRightCls"></div>
-          <img src="../../../assets/img/icons/user.png" class="float-right">
+        <div class="data-row">
+          <div class="right-row-gray"></div>
+          <img src="../../../assets/img/icons/user.png" class="img-cls">
           <div class="mt-2 mr-2 inner-div">
             <p class="float-right w-30">מעסיקים עם חיוב 0</p>
-            <div class="float-right w-20 padding-right-30">
-              <p class="sumCount">כמות</p>
+            <div class="float-right w-20 pr-30p">
+              <p class="sum-count">כמות</p>
               <p>{{data.status_system.emp_0_charge_count}}</p>
             </div>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">סה"כ ת.ז</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">סה"כ ת.ז</p>
               <p>-</p>
             </div>
-            <div class="float-right w-25 padding-right-30">
-              <p class="sumCount">סכום</p>
-              <p  class="font-size-15">-</p>
+            <div class="float-right w-25 pr-30p">
+              <p class="sum-count">סכום</p>
+              <p  class="f-15">-</p>
             </div>
-            <a (click)="openEmployersPaymentZeroPopUp()">צפייה</a>
-            <i  class="fa fa-angle-left"></i>
+            <a (click)="openEmployersPaymentZeroPopUp()" class="a-link">צפייה</a>
+            <i  class="fa fa-angle-left mt-2p"></i>
           </div>
         </div>
-        <div class="dataCls">
-          <div class="dataRightCls"></div>
-          <img src="../../../assets/img/icons/bill.png" class="float-right">
+        <div class="data-row">
+          <div class="right-row-gray"></div>
+          <img src="../../../assets/img/icons/bill.png" class="img-cls">
           <div class="mt-2 mr-2 two-div">
             <p class="float-right w-40">משולמים ע"י גורם אחר</p>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">כמות</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">כמות</p>
               <p>{{data.status_system.payed_by_other_sum}}</p>
             </div>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">סה"כ ת.ז</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">סה"כ ת.ז</p>
               <p>{{data.status_system.payed_by_other_ids_count}}</p>
             </div>
-            <a (click)="openOtherPayerPopup()">צפייה</a>
-            <i  class="fa fa-angle-left"></i>
+            <a (click)="openOtherPayerPopup()" class="a-link">צפייה</a>
+            <i  class="fa fa-angle-left mt-2p"></i>
           </div>
         </div>
-        <a (click)="showInvoices()" *ngIf="!isPermissionsFinance" class="blue-color border-bottom margin-right-665">הצג חשבוניות</a>
+        <a (click)="showInvoices()" *ngIf="!isPermissionsFinance" class="a-link blue-color border-bottom-blue mr-665p">הצג חשבוניות</a>
       </div>
     </div>
     <div class="col-6 h-auto pr-5 float-left">
       <div class="h-auto mb-5 mt-2">
-        <h4> מערכת חשבוניות</h4>
-        <p class="sumCount"> סה"כ הכנסות-<span class="blue-color"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
-        <div class="dataCls">
-          <div class="dataRightCls"></div>
-          <img src="../../../assets/img/icons/page.png" class="float-right">
+        <h4 class="mb-0 margin-top-20"> מערכת חשבוניות</h4>
+        <p class="sum-count"> סה"כ הכנסות-<span class="blue-color"> {{sum_invoices_system | number:'1.2-2'}}</span></p>
+        <div class="data-row">
+          <div class="right-row-gray"></div>
+          <img src="../../../assets/img/icons/page.png" class="img-cls">
           <div class="mt-2 mr-2 two-div">
             <p class="float-right w-30">סה"כ חשבוניות ששודרו</p>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">כמות</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">כמות</p>
               <p>{{data.invoice_system.green_invoices_count}}</p>
             </div>
             <div class="float-right w-35">
-              <p class="sumCount">סכום</p>
-              <p class="font-size-15">{{data.invoice_system.green_invoices_sum | number:'1.2-2'}}</p>
+              <p class="sum-count">סכום</p>
+              <p class="f-15">{{data.invoice_system.green_invoices_sum | number:'1.2-2'}}</p>
             </div>
-            <a (click)="openInvoices('transaction_green_invoice,only_tax_green_invoice,tax_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
-            <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
+            <a class="a-link" (click)="openInvoices('transaction_green_invoice,only_tax_green_invoice,tax_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
+            <i  class="fa fa-angle-left mt-2p" *ngIf="!isPermissionsFinance"></i>
           </div>
         </div>
-        <div class="dataCls">
-          <div class="dataRightCls"></div>
-          <img src="../../../assets/img/icons/page.png" class="float-right">
+        <div class="data-row">
+          <div class="right-row-gray"></div>
+          <img src="../../../assets/img/icons/page.png" class="img-cls">
           <div class="mt-2 mr-2 two-div">
             <p class="float-right w-30">חשבוניות עסקה</p>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">כמות</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">כמות</p>
               <p>{{data.invoice_system .transaction_invoices_count}}</p>
             </div>
             <div class="float-right w-35">
-              <p class="sumCount">סכום</p>
-              <p class="font-size-15">{{data.invoice_system.transaction_invoices_sum | number:'1.2-2' }}</p>
+              <p class="sum-count">סכום</p>
+              <p class="f-15">{{data.invoice_system.transaction_invoices_sum | number:'1.2-2' }}</p>
             </div>
-            <a (click)="openInvoices('transaction_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
-            <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
+            <a (click)="openInvoices('transaction_green_invoice')" class="a-link" *ngIf="!isPermissionsFinance">צפייה</a>
+            <i  class="fa fa-angle-left mt-2p" *ngIf="!isPermissionsFinance"></i>
           </div>
         </div>
-        <div class="dataCls">
-          <div class="dataRightCls"></div>
-          <img src="../../../assets/img/icons/page.png" class="float-right">
+        <div class="data-row">
+          <div class="right-row-gray"></div>
+          <img src="../../../assets/img/icons/page.png" class="img-cls">
           <div class="mt-2 mr-2 two-div">
             <p class="float-right w-30">חשבוניות מס</p>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">כמות</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">כמות</p>
               <p>{{data.invoice_system .only_tax_green_invoices_count}}</p>
             </div>
             <div class="float-right w-35">
-              <p class="sumCount">סכום</p>
-              <p class="font-size-15">{{data.invoice_system.only_tax_green_invoices_sum | number:'1.2-2' }}</p>
+              <p class="sum-count">סכום</p>
+              <p class="f-15">{{data.invoice_system.only_tax_green_invoices_sum | number:'1.2-2' }}</p>
             </div>
-            <a (click)="openInvoices('only_tax_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
-            <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
+            <a (click)="openInvoices('only_tax_green_invoice')" class="a-link" *ngIf="!isPermissionsFinance">צפייה</a>
+            <i  class="fa fa-angle-left mt-2p" *ngIf="!isPermissionsFinance"></i>
           </div>
         </div>
-        <div class="dataCls">
-          <div class="dataRightCls"></div>
-          <img src="../../../assets/img/icons/page.png" class="float-right">
+        <div class="data-row">
+          <div class="right-row-gray"></div>
+          <img src="../../../assets/img/icons/page.png" class="img-cls">
           <div class="mt-2 mr-2 two-div">
             <p class="float-right w-30">חשבוניות מס קבלה </p>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">כמות</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">כמות</p>
               <p>{{data.invoice_system.tax_green_invoices_count}}</p>
             </div>
             <div class="float-right w-35">
-              <p class="sumCount">סכום</p>
-              <p class="font-size-15">{{data.invoice_system.tax_green_invoices_sum | number:'1.2-2' }}</p>
+              <p class="sum-count">סכום</p>
+              <p class="f-15">{{data.invoice_system.tax_green_invoices_sum | number:'1.2-2' }}</p>
             </div>
-            <a (click)="openInvoices('tax_green_invoice')" *ngIf="!isPermissionsFinance">צפייה</a>
-            <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
+            <a (click)="openInvoices('tax_green_invoice')" class="a-link" *ngIf="!isPermissionsFinance">צפייה</a>
+            <i  class="fa fa-angle-left mt-2p" *ngIf="!isPermissionsFinance"></i>
           </div>
         </div>
-        <div class="dataCls">
-          <div class="dataRightCls"></div>
-          <img src="../../../assets/img/icons/page.png" class="float-right">
+        <div class="data-row">
+          <div class="right-row-gray"></div>
+          <img src="../../../assets/img/icons/page.png" class="img-cls">
           <div class="mt-2 mr-2 two-div">
             <p class="float-right w-30">חריגים תקולים</p>
-            <div class="float-right w-30 padding-right-30">
-              <p class="sumCount">כמות</p>
+            <div class="float-right w-30 pr-30p">
+              <p class="sum-count">כמות</p>
               <p>{{data.invoice_system.green_invoices_error_count}}</p>
             </div>
             <div class="float-right w-35">
-              <p class="sumCount">סכום</p>
-              <p class="font-size-15">{{data.invoice_system.green_invoices_error_sum | number:'1.2-2' }}</p>
+              <p class="sum-count">סכום</p>
+              <p class="f-15">{{data.invoice_system.green_invoices_error_sum | number:'1.2-2' }}</p>
             </div>
-            <a (click)="openInvoices('green_invoice_error')" *ngIf="!isPermissionsFinance">צפייה</a>
-            <i  class="fa fa-angle-left" *ngIf="!isPermissionsFinance"></i>
+            <a (click)="openInvoices('green_invoice_error')" class="a-link" *ngIf="!isPermissionsFinance">צפייה</a>
+            <i  class="fa fa-angle-left mt-2p" *ngIf="!isPermissionsFinance"></i>
           </div>
         </div>
       </div>
@@ -284,70 +284,70 @@
       <div class="row ">
         <div class="col-6 h-auto pr-4 float-right"  *ngIf="data.payment_methods">
          <div class="h-auto mb-5 mt-2">
-           <h4 class="h-auto mb-4"> אמצעי תשלום </h4>
-           <div class="dataCls">
-             <div class="dataRightCls"></div>
-             <img src="../../../assets/img/icons/bill.png" class="float-right">
+           <h4 class="h-auto mb-4 margin-top-20"> אמצעי תשלום </h4>
+           <div class="data-row">
+             <div class="right-row-gray"></div>
+             <img src="../../../assets/img/icons/bill.png" class="img-cls">
              <div class="mt-2 mr-2 one-div">
                <p class="float-right w-45">משלמים בהוראת קבע</p>
-               <div class="float-right w-45 padding-right-10">
-                 <p class="sumCount">כמות</p>
+               <div class="float-right w-45 pr-10p">
+                 <p class="sum-count">כמות</p>
                  <p>{{data.payment_methods.is_debit_count }}</p>
                </div>
-               <a (click)="openEmployersForm('direct_debit')">צפייה</a>
-               <i  class="fa fa-angle-left"></i>
+               <a (click)="openEmployersForm('direct_debit')" class="a-link">צפייה</a>
+               <i  class="fa fa-angle-left mt-2p"></i>
              </div>
            </div>
-           <div class="dataCls">
-             <div class="dataRightCls"></div>
-             <img src="../../../assets/img/icons/bill.png"class="float-right">
+           <div class="data-row">
+             <div class="right-row-gray"></div>
+             <img src="../../../assets/img/icons/bill.png"class="img-cls">
              <div class="mt-2 mr-2 one-div">
                <p class="float-right w-45">העברה בנקאית\צ'ק </p>
-               <div class="float-right w-45 padding-right-10">
-                 <p class="sumCount">כמות</p>
+               <div class="float-right w-45 pr-10p">
+                 <p class="sum-count">כמות</p>
                  <p>{{data.payment_methods.is_bank_check_count}}</p>
                </div>
-               <a (click)="openEmployersForm('bank_transfer,check')">צפייה</a>
-               <i  class="fa fa-angle-left"></i>
+               <a (click)="openEmployersForm('bank_transfer,check')" class="a-link">צפייה</a>
+               <i  class="fa fa-angle-left mt-2p"></i>
              </div>
            </div>
-           <div class="dataCls">
-             <div class="dataRightCls"></div>
-             <img src="../../../assets/img/icons/bill.png" class="float-right">
+           <div class="data-row">
+             <div class="right-row-gray"></div>
+             <img src="../../../assets/img/icons/bill.png" class="img-cls">
              <div class="mt-2 mr-2 one-div">
                <p class="float-right w-45">משלמים באשראי</p>
-               <div class="float-right w-45 padding-right-10">
-                 <p class="sumCount">כמות</p>
+               <div class="float-right w-45 pr-10p">
+                 <p class="sum-count">כמות</p>
                  <p>{{data.payment_methods.is_credit_count}}</p>
                </div>
-               <a (click)="openEmployersForm('credit_card')">צפייה</a>
-               <i  class="fa fa-angle-left"></i>
+               <a (click)="openEmployersForm('credit_card')" class="a-link">צפייה</a>
+               <i  class="fa fa-angle-left mt-2p"></i>
              </div>
            </div>
-         <div class="dataCls">
-           <div class="dataRightCls"></div>
-           <img src="../../../assets/img/icons/bill.png" class="float-right">
+         <div class="data-row">
+           <div class="right-row-gray"></div>
+           <img src="../../../assets/img/icons/bill.png" class="img-cls">
            <div class="mt-2 mr-2 one-div">
              <p  class="float-right w-45">משלמים במס"ב </p>
-             <div class="float-right w-45 padding-right-10">
-               <p class="sumCount">כמות</p>
+             <div class="float-right w-45 pr-10p">
+               <p class="sum-count">כמות</p>
                <p>{{data.payment_methods.is_masav_count}}</p>
              </div>
-             <a (click)="openEmployersForm('masav_product')">צפייה</a>
-             <i class="fa fa-angle-left"></i>
+             <a (click)="openEmployersForm('masav_product')" class="a-link">צפייה</a>
+             <i class="fa fa-angle-left mt-2p"></i>
            </div>
          </div>
       </div>
     </div>
     <div class="col-6 h-auto float-left pr-5">
       <div class="h-auto mb-5 mt-2" *ngIf="!isPermissionsFinance">
-         <h4> תהליכי חישוב </h4>
-         <p class="sumCount"> סה"כ תהליכים-<span class="blue-color"> {{data.calc_process.count}}</span></p>
-         <a (click)="openCalcProcesses()" *ngIf="data.calc_process.count>0" class="blue-color border-bottom margin-right-530">הצג תהליכים</a>
+         <h4 class="mb-0 margin-top-20"> תהליכי חישוב </h4>
+         <p class="sum-count"> סה"כ תהליכים-<span class="blue-color"> {{data.calc_process.count}}</span></p>
+         <a (click)="openCalcProcesses()" *ngIf="data.calc_process.count>0" class="a-link blue-color border-bottom-blue mr-530p">הצג תהליכים</a>
          <div *ngFor="let calc_process of data.calc_process.data">
-            <div class="dataCls">
-              <div class="dataRightCls"></div>
-              <img src="../../../assets/img/icons/recycle.png" class="float-right">
+            <div class="data-row">
+              <div class="right-row-gray"></div>
+              <img src="../../../assets/img/icons/recycle.png" class="img-cls">
               <div class="mt-2 mr-2 inner-div">
                 <div class="float-right w-24">
                   <p>  {{calc_process.created_at | date: 'dd/MM/yyyy'}}</p>
@@ -355,22 +355,22 @@
                   <br>
                   <p class="hour">{{calc_process.created_at | date: "HH:mm"}}</p>
                 </div>
-                <div class="float-right w-28 padding-right-30">
-                  <p class="sumCount">סה"כ מעסיקים</p>
-                  <p [ngClass]="{'smallSize': calc_process.count_employers > 99}" >{{calc_process.count_employers}}</p>
+                <div class="float-right w-28 pr-30p">
+                  <p class="sum-count">סה"כ מעסיקים</p>
+                  <p [ngClass]="{'f-15': calc_process.count_employers > 99}" >{{calc_process.count_employers}}</p>
                 </div>
-                <div class="float-right w-26 padding-right-30">
-                  <p class="sumCount">סה"כ ת.ז</p>
-                  <p [ngClass]="{'smallSize': calc_process.count_employees>99999}">{{calc_process.count_employees}}</p>
+                <div class="float-right w-26 pr-30p">
+                  <p class="sum-count">סה"כ ת.ז</p>
+                  <p [ngClass]="{'f-15': calc_process.count_employees>99999}">{{calc_process.count_employees}}</p>
                 </div>
-                <div class="float-right w-27 padding-right-30">
-                  <p class="sumCount">סכום</p>
-                  <p class="font-size-15">{{calc_process.amount_invoices | number:'1.2-2'}}</p>
+                <div class="float-right w-27 pr-30p">
+                  <p class="sum-count">סכום</p>
+                  <p class="f-15">{{calc_process.amount_invoices | number:'1.2-2'}}</p>
                 </div>
               </div>
             </div>
          </div>
-         <div *ngIf="data.calc_process.count ==0" class="noCalcProcess"  >
+         <div *ngIf="data.calc_process.count ==0" class="no-calc-process" >
            <span class="m-auto">
              <img src="../../../assets/img/icons/recycle-regular.png">
              <p>לא קיימים תהליכים החודש</p>
@@ -382,48 +382,48 @@
   <div class="row">
      <div class="col-6 h-auto pr-4 float-right" *ngIf="smarti">
         <div class="h-auto mb-5 mt-2">
-          <h4 >סטטוס תעודות זהות</h4>
-          <p class="sumCount"> סה"כ ת"ז-<span class="blue-color"> {{data.ids_status.ids_zero + data.ids_status.ids_not_zero}}</span></p>
-          <div class="dataCls">
-             <div class="dataRightCls"></div>
-             <img src="../../../assets/img/icons/group.png" class="float-right">
+          <h4 class="mb-0 margin-top-20">סטטוס תעודות זהות</h4>
+          <p class="sum-count"> סה"כ ת"ז-<span class="blue-color"> {{data.ids_status.ids_zero + data.ids_status.ids_not_zero}}</span></p>
+          <div class="data-row">
+             <div class="right-row-gray"></div>
+             <img src="../../../assets/img/icons/group.png" class="img-cls">
              <div class="mt-2 mr-2 one-div">
                <p class="float-right w-80">ת"ז אפסים שלא חויבו</p>
-               <div class="float-right padding-right-10 w-20">
-                 <p class="sumCount">כמות</p>
+               <div class="float-right pr-10p w-20">
+                 <p class="sum-count">כמות</p>
                  <p>{{data.ids_status.ids_zero_not_charged}}</p>
                </div>
              </div>
           </div>
-          <div class="dataCls">
-            <div class="dataRightCls"></div>
-            <img src="../../../assets/img/icons/group.png" class="float-right">
+          <div class="data-row">
+            <div class="right-row-gray"></div>
+            <img src="../../../assets/img/icons/group.png" class="img-cls-right">
             <div class="mt-2 mr-2 one-div">
               <p class="float-right w-80">ת"ז עם חיוב רטרו</p>
-              <div class="float-right padding-right-10 w-20">
-                <p class="sumCount">כמות</p>
+              <div class="float-right pr-10p w-20">
+                <p class="sum-count">כמות</p>
                 <p>{{data.ids_status.ids_retro_billing}}</p>
               </div>
             </div>
           </div>
-          <div class="dataCls">
-             <div class="dataRightCls"></div>
-             <img src="../../../assets/img/icons/group.png" class="float-right">
+          <div class="data-row">
+             <div class="right-row-gray"></div>
+             <img src="../../../assets/img/icons/group.png" class="img-cls">
              <div class="mt-2 mr-2 one-div">
                <p class="float-right w-80">ת"ז אפסים</p>
-               <div class="float-right padding-right-10 w-20">
-                  <p class="sumCount">כמות</p>
+               <div class="float-right pr-10p w-20">
+                  <p class="sum-count">כמות</p>
                   <p>{{data.ids_status.ids_zero}}</p>
                 </div>
              </div>
           </div>
-          <div class="dataCls">
-             <div class="dataRightCls"></div>
+          <div class="data-row">
+             <div class="right-row-gray"></div>
              <img src="../../../assets/img/icons/group.png"  class="float-right">
              <div class="mt-2 mr-2 one-div">
                <p class="float-right w-80">ת"ז ללא אפסים</p>
-               <div class="float-right padding-right-10 w-20">
-                 <p class="sumCount">כמות</p>
+               <div class="float-right pr-10p w-20">
+                 <p class="sum-count">כמות</p>
                  <p>{{data.ids_status.ids_not_zero}}</p>
                </div>
              </div>
@@ -432,14 +432,14 @@
      </div>
      <div class="col-6 h-auto pr-4 float-right" *ngIf="!smarti">
         <div class="h-auto mb-5 mt-2">
-           <h4 class="h-auto mb-4">סטטוס תעודות זהות</h4>
-           <div class="dataCls">
-              <div class="dataRightCls"></div>
-              <img src="../../../assets/img/icons/group.png" class="float-right">
+           <h4 class="h-auto mb-4 margin-top-20">סטטוס תעודות זהות</h4>
+           <div class="data-row">
+              <div class="right-row-gray"></div>
+              <img src="../../../assets/img/icons/group.png" class="img-cls">
               <div class="mt-2 mr-2 one-div">
                 <p class="float-right w-80">ת"ז שחויבו</p>
-                <div class="float-right padding-right-10 w-20">
-                 <p class="sumCount">כמות</p>
+                <div class="float-right pr-10p w-20">
+                 <p class="sum-count">כמות</p>
                  <p>{{data.ids_status.count_ids}}</p>
                </div>
               </div>
@@ -448,40 +448,40 @@
      </div>
      <div class="col-6 h-auto pr-5 float-left">
        <div class="h-auto mb-5 mt-2">
-          <h4> שונות </h4>
-          <p class="sumCount"> סה"כ הכנסות-<span class="blue-color"> {{sum_incomes  | number:'1.2-2' }}</span></p>
-          <div class="dataCls">
-            <div class="dataRightCls"></div>
-            <img src="../../../assets/img/icons/circles.png" class="float-right">
+          <h4 class="mb-0 margin-top-20"> שונות </h4>
+          <p class="sum-count"> סה"כ הכנסות-<span class="blue-color"> {{sum_incomes  | number:'1.2-2' }}</span></p>
+          <div class="data-row">
+            <div class="right-row-gray"></div>
+            <img src="../../../assets/img/icons/circles.png" class="img-cls">
             <div class="mt-2 mr-2 two-div">
               <p class="float-right w-35">הכנסות ממעסיקים חדשים</p>
-              <div class="float-right w-30 padding-right-10">
-                <p class="sumCount">כמות</p>
+              <div class="float-right w-30 pr-10p">
+                <p class="sum-count">כמות</p>
                 <p>{{data.incomes.new_employers_count}}</p>
               </div>
               <div class="float-right w-33">
-                <p class="sumCount">סכום</p>
-                <p class="font-size-15">{{data.incomes.new_employers_sum | number:'1.2-2'}}</p>
+                <p class="sum-count">סכום</p>
+                <p class="f-15">{{data.incomes.new_employers_sum | number:'1.2-2'}}</p>
               </div>
-              <a (click)="openNewEmployersForm()">צפייה</a>
-              <i  class="fa fa-angle-left"></i>
+              <a (click)="openNewEmployersForm()" class="a-link">צפייה</a>
+              <i  class="fa fa-angle-left mt-2p"></i>
             </div>
           </div>
-          <div class="dataCls">
-            <div class="dataRightCls"></div>
-              <img src="../../../assets/img/icons/circles.png" class="float-right">
+          <div class="data-row">
+            <div class="right-row-gray"></div>
+              <img src="../../../assets/img/icons/circles.png" class="img-cls">
               <div class="mt-2 mr-2 two-div">
                 <p class="float-right w-35">הכנסות מתשלום הקמה </p>
-                <div class="float-right w-30 padding-right-10">
-                  <p class="sumCount">כמות</p>
+                <div class="float-right w-30 pr-10p">
+                  <p class="sum-count">כמות</p>
                   <p>{{data.incomes.est_payment_amount_count}}</p>
                 </div>
                 <div class="float-right w-33">
-                  <p class="sumCount">סכום</p>
-                  <p class="font-size-15">{{data.incomes.est_payment_amount_sum | number:'1.2-2' }}</p>
+                  <p class="sum-count">סכום</p>
+                  <p class="f-15">{{data.incomes.est_payment_amount_sum | number:'1.2-2' }}</p>
                 </div>
-                <a (click)="openEstPaymentForm()">צפייה</a>
-                <i class="fa fa-angle-left"></i>
+                <a (click)="openEstPaymentForm()" class="a-link">צפייה</a>
+                <i class="fa fa-angle-left mt-2p"></i>
               </div>
           </div>
        </div>

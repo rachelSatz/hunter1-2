@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { fade } from '../../../../shared/_animations/animation';
 import { ManualInvoice, ManualInvoiceDetails } from '../../../../shared/_models/invoice.model';
-import {PRODUCT_TYPES_MYHR, PRODUCT_TYPES_SMARTI} from '../../../../shared/_models/employer-financial-details.model';
+import { PRODUCT_TYPES_MYHR, PRODUCT_TYPES_SMARTI } from '../../../../shared/_models/employer-financial-details.model';
 import { EmployerService } from '../../../../shared/_services/http/employer.service';
 import { NgForm } from '@angular/forms';
 import { InvoiceService } from '../../../../shared/_services/http/invoice.service';
@@ -12,7 +12,6 @@ import { SelectUnitService } from '../../../../shared/_services/select-unit.serv
 @Component({
   selector: 'app-manual-invoice-form',
   templateUrl: './manual-invoice-form.component.html',
-  styleUrls: ['./manual-invoice-form.component.css'],
   styles: ['#styleFormat { height: 400px; padding-top: 20px }'],
   animations: [ fade ]
 })
@@ -55,9 +54,14 @@ export class ManualInvoiceFormComponent implements OnInit {
 
   ngOnInit() {
     this.employerService.getPayEmployers().then(
-      response => { this.payEmployers = response['data'];
-      this.employers = this.payEmployers; });
-    this.allEmployers = this.selectunit.getEmployers();
+      response => {
+        this.payEmployers = response['data'];
+        this.employers = this.payEmployers;
+      });
+    this.employerService.getEmployers().then(
+      response => {
+        this.allEmployers = response['data'];
+      });
     if (+this.selectunit.getProjectGroupId() === 1) {
       this.productTypes = Object.keys(PRODUCT_TYPES_SMARTI).map(function (e) {
         return { id: e, name: PRODUCT_TYPES_SMARTI[e] };

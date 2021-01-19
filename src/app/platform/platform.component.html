@@ -1,4 +1,4 @@
-<header class="platform">
+<header>
   <div class="container-fluid">
     <div id="mainMenu">
       <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -9,13 +9,13 @@
                 [ngClass]="{ 'active': link.url === selectUnit.getActiveUrl()}" *ngIf="!link.subMenuLinks"
                 [hidden]="userSessionService.isPermissions(link.url) && link.url!='dashboard'">
                 <a class="menu-link" [routerLink]="['/platform', link.url]"  routerLinkActive="active">
-                <p class="mb-half" >{{ link.label }}</p>
+                <p class="mb-half mt-30p" >{{ link.label }}</p>
                 </a>
               </li>
               <li [matMenuTriggerFor]="subMenu" class="nav-item pointer"
                 [ngClass]="{ 'active': link.url === selectUnit.getActiveUrl() }"
                 *ngIf="link.subMenuLinks" [hidden]="userSessionService.isPermissions(link.url)">
-                <p class="mb-half" >{{ link.label }}</p>
+                <p class="mb-half mt-30p" >{{ link.label }}</p>
                 <mat-menu #subMenu yPosition="above" [overlapTrigger]="false">
                   <button mat-menu-item class="dropdown-item btn " *ngFor="let subLink of link.subMenuLinks"
                         (click)="navigate(link.url, subLink.url)">{{ subLink.label }}</button>

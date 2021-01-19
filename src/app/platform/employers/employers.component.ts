@@ -8,7 +8,6 @@ import { PlatformComponent } from '../platform.component';
 import { HelpersService } from '../../shared/_services/helpers.service';
 import { UserSessionService } from '../../shared/_services/http/user-session.service';
 import { Subscription } from 'rxjs';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-employers',
@@ -24,16 +23,13 @@ export class EmployersComponent implements OnInit {
     {name: 'name', label: 'שם מעסיק'},
     {name: 'is_active', label: ' סטטוס', searchable: false},
   ];
-  permissionsType = this.userSession.getPermissionsType('employers');
+  // permissionsType = this.userSession.getPermissionsType('employers');
   sub = new Subscription;
 
   constructor(private EmployerService: EmployerService,
               private router: Router,
               public route: ActivatedRoute,
-              private selectUnit: SelectUnitService,
-              private platformComponent: PlatformComponent,
-              private helpers: HelpersService,
-              private userSession: UserSessionService) {
+              private selectUnit: SelectUnitService) {
   }
 
   ngOnInit() {

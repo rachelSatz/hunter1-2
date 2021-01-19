@@ -21,9 +21,10 @@
       <td [ngClass]="{'white': i%2 === 0}">{{ item.email }}</td>
       <td [ngClass]="{'white': i%2 === 0}">{{ item.role }}</td>
       <td  *ngIf="isDisplay" [ngClass]="{'white': i%2 === 0}" >
-        <img title="עריכת משתמש" *ngIf="dataTable.isActive" src="../../../assets/img/icons/pencil-alt-regular.png" style="width:18px;height:18px; margin-left: 10px;" [routerLink]="['./', 'form', item.id]" class="row-image pointer">
+        <img title="עריכת משתמש" *ngIf="dataTable.isActive" src="../../../assets/img/icons/pencil-alt-regular.png"
+             [routerLink]="['./', 'form', item.id]" class="row-image pointer edit-image">
         <i class="fa fa-trash mr-1 ml-1 fa-1x pointer" title="הפוך ללא פעיל"  *ngIf="dataTable.isActive" (click)="deleteUser(item)"></i>
-        <span *ngIf="dataTable.isActive && !item.is_registered" class="ResetPassword pointer" aria-hidden="true"
+        <span *ngIf="dataTable.isActive && !item.is_registered" class="reset-password pointer" aria-hidden="true"
            (click)="register(item)">אפס סיסמא</span>
         <i aria-hidden="true" title="שחזור משתמש" class="fa fa-repeat ml-2 pointer" *ngIf="!dataTable.isActive" (click)="restoreUser(item)"></i>
       </td>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
 
 @Component({
   selector: 'app-contacts',
@@ -8,7 +7,7 @@ import { SelectUnitService } from '../../../../shared/_services/select-unit.serv
 })
 export class ContactsComponent implements OnInit {
 
-  constructor(private selectUnit: SelectUnitService) { }
+  constructor() { }
 
   ngOnInit() {
   }

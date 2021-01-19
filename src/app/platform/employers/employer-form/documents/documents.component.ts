@@ -139,10 +139,5 @@ export class DocumentsComponent implements OnInit {
       width: '750px'
     });
   }
-  // DownloadsEmployeesDeet(x: Object, y: Object): void {
-  //   InvoicesComponent.downloadEmployeesExcel(x, y);
-  //
-  //
-  // }
 
 }

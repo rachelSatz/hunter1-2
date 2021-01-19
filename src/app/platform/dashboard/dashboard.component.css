@@ -4,18 +4,12 @@
   margin-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
-  /*width: 400px;*/
   height: 45px;
   box-sizing: border-box;
 }
-button{
-  background: #E82D5C 0% 0% no-repeat padding-box;
-  border-radius: 21px;
-  color: #FFFFFF ;
-}
-.dataCls{
+
+.data-row{
   padding-top: 4px;
-  /*padding-right: 15px;*/
   margin-top: 10px;
   height: 55px;
   width: 750px;
@@ -26,7 +20,8 @@ button{
   opacity: 1;
   padding-left: 15px;
 }
-.dataRightCls{
+
+.right-row-gray{
   background: #F3F3F3 0% 0% no-repeat padding-box;
   border-radius: 9px;
   height: 85%;
@@ -35,53 +30,53 @@ button{
   margin-right: 5px;
   margin-left: 7px;
 }
-img{
+
+.img-cls{
   width: 32px;
   height: 32px;
   margin-top: 5px;
   margin-left: 10px;
+  float: right;
 }
+
 p{
   display: inline;
-  /*margin-left: 10px;*/
 }
-.sumCount{
+
+.sum-count{
   color: #ADADAD;
   font-size: 16px;
   margin-left: 15px;
 }
-a{
+
+.a-link{
   font-size: 15px;
   margin-left: 7px;
   margin-right: 10px;
   cursor: pointer;
-}
-h4{
-  margin-bottom: 0;
-  margin-top: 20px;
 }
 
 .inner-div{
   display: flex;
   width: 100%;
 }
+
 .two-div{
   display: flex;
   width: 100%;
 }
+
 .one-div{
   display: flex;
   width: 100%;
 }
+
 .hour{
   color: #C9C9C9;
   font-size: 13px;
 }
-.smallSize{
-  font-size: 15px;
 
-}
-.noCalcProcess{
+.no-calc-process{
   border-radius: 26px;
   color: #ADADAD;
   padding-top: 4px;
@@ -93,63 +88,9 @@ h4{
   font-size: 20px;
   margin-top: 20px;
 }
-/*.noCalcProcess p{*/
-  /*margin: auto;*/
-/*}*/
-::ng-deep i.fa-angle-left:before{
-  margin-top: 3px !important;
-}
-.w-35{
-  width: 35% !important;
-}
-.w-45{
-  width: 45% !important;
-}
-.w-80 {
-  width: 80% !important;
-}
-.w-24{
-  width: 24% !important;
-}
-.w-28{
-  width: 28% !important;
-}
-.w-26{
-  width: 26% !important;
-}
-.w-27{
-  width: 27% !important;
-}
-.w-85{
-  width: 85% !important;
-}
 
-.w-33{
-  width: 33% !important;
-}
-.border-bottom{
+.border-bottom-blue{
   border-bottom: 1px #00ADEE solid !important;
 }
-.margin-right-665{
-  margin-right: 665px !important;
-}
-.margin-right-530{
-  margin-right: 530px !important;
-}
-::ng-deep.mat-form-field-infix{
-  border-top: none !important;
-}
-/*::ng-deep #selectedItem:hover{*/
-  /*border: 1px #E82D5C solid !important;*/
-/*}*/
-::ng-deep.SelectOpened {
-  background-color: #ebc372 !important;
-}
 
-::ng-deep .min-width-170{
-  min-width: 170px !important;
-}
 
-::ng-deep .max-width-220{
-  max-width: 220px !important;
-}

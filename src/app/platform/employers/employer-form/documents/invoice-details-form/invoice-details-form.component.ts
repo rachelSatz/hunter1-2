@@ -9,7 +9,6 @@ import { fade } from '../../../../../shared/_animations/animation';
 @Component({
   selector: 'app-invoice-details-form',
   templateUrl: './invoice-details-form.component.html',
-  styleUrls: ['./invoice-details-form.component.css'],
   styles: ['#styleFormat { height: 200px; padding-top: 20px }'],
   animations: [ fade ]
 })

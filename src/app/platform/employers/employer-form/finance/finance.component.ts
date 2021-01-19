@@ -92,18 +92,18 @@ export class FinanceComponent implements OnInit {
       this.productTypesItems = Object.keys(PRODUCT_TYPES_SMARTI).map(function (e) {
         return { id: e, name: PRODUCT_TYPES_SMARTI[e] };
       });
-    }if (+this.selectUnit.getProjectGroupId() === PROJECT_GROUP.MYHR) {
+    }
+    if (+this.selectUnit.getProjectGroupId() === PROJECT_GROUP.MYHR) {
       this.productTypesItems = Object.keys(PRODUCT_TYPES_MYHR).map(function (e) {
         return { id: e, name: PRODUCT_TYPES_MYHR[e] };
       });
     }
     this.employerService.getEmployers()
-      .subscribe(res => {
+      .then(res => {
         this.payEmployers = res['data'];
         this.fetchItems();
       }
   );
-    // this.payEmployers = this.selectUnit.getEmployers();
  }
 
     fetchItems() {

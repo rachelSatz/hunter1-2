@@ -94,6 +94,8 @@ export class DashboardComponent implements OnInit {
     this.selectUnit.setActiveUrl('dashboard');
     this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
       this.fetchItems();
+      this.loadOrganizationAndEmployers();
+      this.loadEmployers('0');
     }));
     this.fetchItems();
   }
@@ -123,8 +125,6 @@ export class DashboardComponent implements OnInit {
           this.timeRangeId = 1;
           this.filterData();
         });
-
-
   }
 
   loadOrganizationAndEmployers(): void {
@@ -154,7 +154,7 @@ export class DashboardComponent implements OnInit {
         }
       });
     } else {
-      this.OrganizationService.getOrganizationByProjectGroupId(this.selectUnit.getProjectGroupId())
+      this.OrganizationService.getOrganization()
         .then(response => {
           this.organizations = response['data'];
           if (this.organizations.length > 0) {
@@ -168,18 +168,6 @@ export class DashboardComponent implements OnInit {
             this.employerId = 0;
           }
         });
-      // this.EmployerService.getEmployersByProjectGroupId(this.projectGroupId).then(res => {
-      //   this.employers = res['data'];
-      //   if (this.employers.length > 1) {
-      //     this.employers.push({ id: '0', name: 'כלל המעסיקים' });
-      //     this.employers.sort((a, b) => a.id - b.id);
-      //     console.log(this.employers);
-      //     this.employerId = this.employers[0].id;
-      //     console.log(this.employerId);
-      //   } else {
-      //     this.employerId = this.employers[0] ? this.employers[0].id : 0;
-      //   }
-      // });
     }
   }
 
@@ -196,7 +184,7 @@ export class DashboardComponent implements OnInit {
         }
       });
     } else if (this.projectGroupId || this.projectId === '0') {
-      this.EmployerService.getEmployersByProjectGroupId(this.projectGroupId).then(res => {
+      this.EmployerService.getEmployers().then(res => {
         this.employers = res['data'];
         if (this.employers.length > 1) {
           this.employers.push({ id: '0', name: 'כלל המעסיקים' });
@@ -283,7 +271,6 @@ export class DashboardComponent implements OnInit {
     this.fetchDates();
     this.router.navigate(['../../platform/finance/calc-processes',
         { from_date: this.fromDateStr , to_date: this.toDateStr}]);
-
   }
 
   fetchDates(): void {
@@ -296,6 +283,7 @@ export class DashboardComponent implements OnInit {
       this.toDateStr = this.datepipe.transform(this.toDate, 'yyyy-MM-dd');
     }
   }
+
   openEstPaymentForm(): void {
     this.fetchDates();
     const dialog = this.dialog.open(EstPaymentFormComponent, {

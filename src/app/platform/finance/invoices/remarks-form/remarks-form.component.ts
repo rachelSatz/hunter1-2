@@ -7,7 +7,6 @@ import { InvoiceService } from '../../../../shared/_services/http/invoice.servic
 import { fade } from '../../../../shared/_animations/animation';
 import { NotificationService } from '../../../../shared/_services/notification.service';
 import { SelectUnitService } from '../../../../shared/_services/select-unit.service';
-import {PROJECT_GROUP} from '../../../../shared/_models/project.model';
 
 
 @Component({
@@ -35,8 +34,7 @@ export class RemarksFormComponent implements OnInit {
   constructor(protected route: ActivatedRoute, @Inject(MAT_DIALOG_DATA) public invoice: Invoice,
               private dialogRef: MatDialogRef<RemarksFormComponent>,
               private invoiceService: InvoiceService,
-              private notificationService: NotificationService,
-              private selectUnit: SelectUnitService) {
+              private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -44,6 +42,7 @@ export class RemarksFormComponent implements OnInit {
       this.remarks = response;
     });
   }
+
   displayText(productType: string) {
       return 'סכום לפי הגדרת מעסיק' + ' (' + this.product_relation_enum[productType] + ')';
   }

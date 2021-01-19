@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableComponent } from '../../../shared/data-table/data-table.component';
 import { SelectUnitService } from '../../../shared/_services/select-unit.service';
-import { GeneralService } from '../../../shared/_services/http/general.service';
 import { CalcProcessService } from '../../../shared/_services/http/calc-process.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';

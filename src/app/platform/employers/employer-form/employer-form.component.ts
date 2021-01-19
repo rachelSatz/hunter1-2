@@ -43,6 +43,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
     {label: 'אנשי קשר',   url: 'contacts' , subUrl: 'no_permissions' },
     {label: 'הערות', url: 'remarks'  , subUrl: 'no_permissions' },
   ];
+
   constructor(private router: Router,
               private fb: FormBuilder,
               private route: ActivatedRoute,
@@ -66,8 +67,7 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
      this.initForm();
      this.activeUrl = 'finance';
      this.sub.add(this.selectUnit.unitSubject.subscribe(() => {
-       if (this.selectUnit.currentOrganizationID !== this.employer['org_id']
-         || this.selectUnit.currentEmployerRelationID !==  this.employer.id) {
+       if (this.selectUnit.currentEmployerRelationID !==  this.employer.id) {
          this.helpers.setPageSpinner(false);
          this.router.navigate(['platform', 'employers']);
        }
@@ -101,5 +101,4 @@ export class EmployerFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-
 }

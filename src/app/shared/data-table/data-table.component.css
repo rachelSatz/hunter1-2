@@ -128,7 +128,7 @@ app-side-filters ::ng-deep .input .mat-form-field-wrapper {
   opacity: 1;
   color:#E2E2E2 ;
 }
-::ng-deep .table-header[_ngcontent-c4] {
+::ng-deep .table-header {
   padding:18px 15px 18px 15px!important;
 }
 .title_table{

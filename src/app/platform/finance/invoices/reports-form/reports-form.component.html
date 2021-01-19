@@ -9,8 +9,8 @@
     </mat-radio-button>
   </mat-radio-group>
   <div *ngIf="selectedReport == reports[2]" class="w-100 h-75">
-    <div style="width: 200px; height: auto; margin: auto; " class="w-50 h-auto margin-auto">
-    <mat-form-field dir="rtl" class="margin-auto text-center">
+    <div class="w-50 h-auto m-auto">
+    <mat-form-field dir="rtl" class="m-auto text-center">
       <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="בגין חודש" name="for_month" ngModel readonly required>
       <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
       <mat-datepicker #datePicker></mat-datepicker>
