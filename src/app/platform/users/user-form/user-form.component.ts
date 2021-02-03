@@ -50,7 +50,6 @@ export class UserFormComponent implements OnInit {
               private generalService: GeneralService) { }
 
   ngOnInit() {
-
     this.generalService.getProjectGroups().then(res => {
       this.projectGroups = res['data'];
       if (this.route.snapshot.data.user) {
@@ -69,7 +68,7 @@ export class UserFormComponent implements OnInit {
       this.notificationService.error('משתמש עם כתובת אימייל זו קיים במערכת') ;
       this.user.email = '';
     } else {
-      if (this.message === 'failed') {
+      if (this.message === 'bad request') {
         this.hasServerError = true;
         this.message = 'שגיאת שרת, נסה שנית או צור קשר.';
       } else {

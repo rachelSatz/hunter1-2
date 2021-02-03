@@ -202,6 +202,8 @@ export class FinanceComponent implements OnInit {
       this.isNoPaymentTime = true;
     } else {
       this.isNoPaymentTime = false;
+      this.financialDetails.payment_time_validity = null;
+      this.financialDetails.payment_due_date = null;
     }
   }
 
@@ -210,6 +212,7 @@ export class FinanceComponent implements OnInit {
       this.openDatePicker = true;
     } else {
       this.openDatePicker = false;
+      this.financialDetails.payment_due_date = null;
     }
   }
 

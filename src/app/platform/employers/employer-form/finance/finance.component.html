@@ -92,9 +92,10 @@
   <div *ngIf="isNoPaymentTime" class="col-6 col-lg-3 mt-3">
  <bd-select [items]="noPaymentTimeItems" #paymentTimeValiditySelect="ngModel" [(ngModel)]="financialDetails.payment_time_validity"  placeholder="בתוקף עד"  name="payment_time_validity"  (onSelect)="selectDueDate()" required></bd-select>
 </div>
-  <div *ngIf="isNoPaymentTime && openDatePicker" class="d-flex mr-3">
+  <div *ngIf="isNoPaymentTime && openDatePicker" class="d-flex mr-3 mt-3">
   <mat-form-field>
-    <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="בחירת חודש" name="payment_due_date"  readonly required>
+    <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="בחירת חודש"
+           [(ngModel)]="financialDetails.payment_due_date" name="payment_due_date"  readonly required>
     <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
 <mat-datepicker #datePicker></mat-datepicker>
  <mat-error>שדה חובה.</mat-error>
