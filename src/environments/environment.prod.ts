@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.billing-x.com' +
+  apiUrl: 'https://api.finance-staging.com' +
     '' +
     '' +
     '/api'
