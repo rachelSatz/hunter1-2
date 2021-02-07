@@ -25,11 +25,15 @@ export class ProactiveInvoiceFormComponent implements OnInit {
   message: string;
   invoice: string;
   hasServerError = false;
+  employer_id: number;
   projects = [];
-  conditions = {}
+  projectIds = [];
+  conditions = {};
+  payment_method;
   paymentMethodItems = Object.keys(PAYMENT_METHOD).map(function(e) {
     return { id: e, name: PAYMENT_METHOD[e] };
   });
+  is_submitted = false;
 
   constructor( private helpers: HelpersService,
                private route: ActivatedRoute,
@@ -51,22 +55,25 @@ export class ProactiveInvoiceFormComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
+    console.log(form.submitted);
     if (form.valid) {
       this.hasServerError = false;
       this.helpers.setPageSpinner(true);
       this.conditions = {};
       this.conditions['for_month'] = form.value.for_month;
-      if (form.value['employer_id'] && +form.value['employer_id'] > 0) {
-         this.conditions['employer_id'] = +form.value['employer_id'];
+      if (this.employer_id && +this.employer_id > 0) {
+         this.conditions['employer_id'] = +this.employer_id;
       }
-      if (form.value['project_id'] && +form.value['project_id'] > 0) {
-        this.conditions['project_id'] = +form.value['project_id'];
+      if (this.projectIds.length > 0) {
+        this.conditions['project_ids'] = this.projectIds;
       }
-      if (form.value['payment_method']) {
-        this.conditions['payment_method'] = form.value['payment_method'];
+      if (this.payment_method) {
+        this.conditions['payment_method'] = this.payment_method;
       }
       this.invoiceService.createProactiveInvoice(this.conditions).then(response => {
         this.helpers.setPageSpinner(false);
+        this.employer_id = this.payment_method = null;
+        this.projectIds = [];
         if (response['message'] === 'no employers to charged') {
           this.notificationService.info('לא בוצע חיוב');
         } else if (response['message'] === 'success') {
@@ -75,7 +82,9 @@ export class ProactiveInvoiceFormComponent implements OnInit {
           this.notificationService.error( 'ארעה שגיאה ' + 'הופקו '  + response['count_invoices'] + ' חשבוניות ');
         }
       });
-     }
+     } else {
+      this.is_submitted = true;
+    }
   }
 
 }

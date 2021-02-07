@@ -709,3 +709,25 @@ element.style {
   border: #E82D5C 1px solid!important;
 }
 
+.scroll{
+  overflow: auto !important;;
+}
+
+* {
+  scrollbar-width: thin !important;
+  scrollbar-color: #ADADAD #F6F6F6 !important;
+}
+
+*::-webkit-scrollbar {
+  width: 10px !important;
+}
+
+*::-webkit-scrollbar-track {
+  background: #F6F6F6 !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #ADADAD !important;
+  border-radius: 20px !important;
+  border: 3px solid #F6F6F6  !important;
+}

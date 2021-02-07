@@ -8,25 +8,27 @@
   <div id="styleFormat">
     <div class="row mb-5 mt-4">
       <div class="m-auto">
-        <bd-select [items]="employers" placeholder="מעסיק" name="employer_id" #employerIdModel="ngModel" ngModel></bd-select>
+        <bd-select [items]="employers" placeholder="מעסיק" name="employer_id_n" #employerIdModel="ngModel" ngModel [(ngModel)]="employer_id"></bd-select>
       </div>
     </div>
 
       <div class="row mb-5">
         <div class="m-auto">
-          <bd-select [items]="projects" name="project_id" #project_idModel="ngModel" ngModel
-                     placeholder="פרוייקט" class="bd-min-width"></bd-select>
+          <bd-select [items]="projects" name="project_id" #project_idModel="ngModel" ngModel [error]="project_idModel.errors && is_submitted"
+                     placeholder="פרוייקט" class="bd-min-width" [multiple]="true" [required]="!employer_id || +employer_id == 0" [(ngModel)]="projectIds"></bd-select>
         </div>
       </div>
     <div class="row mb-5">
-    <div class=" m-auto">
-          <bd-select [items]="paymentMethodItems" placeholder="אופן תשלום" #paymentMethodSelect="ngModel" name="payment_method" ngModel></bd-select>
+    <div class="m-auto">
+          <bd-select [items]="paymentMethodItems" placeholder="אופן תשלום" #paymentMethodSelect="ngModel"
+                     name="payment_method_n" ngModel [(ngModel)]="payment_method" ></bd-select>
         </div>
     </div>
     <div class="row mb-5">
       <div class="m-auto">
       <mat-form-field style="margin-top: -10px;" >
-        <input matInput class="pointer" (click)="datePicker.open()"  [matDatepicker]="datePicker" placeholder="בגין חודש" name="for_month" ngModel readonly required>
+        <input matInput class="pointer" (click)="datePicker.open()" [matDatepicker]="datePicker"
+               placeholder="בגין חודש" name="for_month" ngModel required>
         <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
         <mat-datepicker #datePicker></mat-datepicker>
         <mat-error>שדה חובה.</mat-error>
