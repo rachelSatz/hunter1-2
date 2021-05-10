@@ -5,7 +5,6 @@ import { EmployerService } from '../shared/_services/http/employer.service';
 import { GeneralService } from '../shared/_services/http/general.service';
 import { UserSessionService } from '../shared/_services/http/user-session.service';
 import { Subscription } from 'rxjs';
-import { OrganizationService } from '../shared/_services/http/organization.service';
 
 @Component({
   selector: 'app-platform',
@@ -36,8 +35,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
               public selectUnit: SelectUnitService,
               private generalService: GeneralService,
               private userSessionService: UserSessionService,
-              private ref: ChangeDetectorRef,
-              private organizationService: OrganizationService) {
+              private ref: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -55,6 +53,10 @@ export class PlatformComponent implements OnInit, OnDestroy {
   SendProjectGroup(event: any): void {
     this.currProjectGroupId = event;
     this.selectUnit.setProjectGroupId(this.currProjectGroupId);
+    this.employerService.getEmployers()
+      .then(res => {
+        this.selectUnit.setEmployers(res['data']);
+      });
   }
 
   // fetchItems(): void {

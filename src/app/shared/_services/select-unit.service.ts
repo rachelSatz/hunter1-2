@@ -48,6 +48,14 @@ export class SelectUnitService {
     return 0;
   }
 
+  setEmployers(employers: any[]): void {
+    sessionStorage.setItem('employers', JSON.stringify(employers));
+  }
+
+  getEmployers(): any[] {
+    return this.getSessionStorage('employers');
+  }
+
   setProjectGroups(projectGroups: any): void {
     sessionStorage.setItem('projectGroups', JSON.stringify(projectGroups));
   }

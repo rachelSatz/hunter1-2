@@ -98,12 +98,8 @@ export class FinanceComponent implements OnInit {
         return { id: e, name: PRODUCT_TYPES_MYHR[e] };
       });
     }
-    this.employerService.getEmployers()
-      .then(res => {
-        this.payEmployers = res['data'];
-        this.fetchItems();
-      }
-  );
+    this.payEmployers = this.selectUnit.getEmployers();
+    this.fetchItems();
  }
 
     fetchItems() {
@@ -111,7 +107,7 @@ export class FinanceComponent implements OnInit {
       this.employerRelationId = this.selectUnit.getEmployerRelation();
       this.helpers.setPageSpinner(true);
       this.employerService.getEmployerFinance(this.employerRelationId)
-          .then(res => {
+        .then(res => {
             this.helpers.setPageSpinner(false);
             if (res.id) {
               this.financialDetails = res;
@@ -244,6 +240,7 @@ export class FinanceComponent implements OnInit {
           this.employerService.saveFinancialDetails(this.selectUnit.getEmployerRelation(), this.financialDetails)
             .then(response => {
               if (response['message'] !== 'success') {
+                this.notificationService.error(response['message']);
                 this.hasServerError = true;
               } else {
                 this.notificationService.success('נשמר בהצלחה');

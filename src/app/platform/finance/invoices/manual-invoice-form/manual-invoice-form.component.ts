@@ -58,10 +58,7 @@ export class ManualInvoiceFormComponent implements OnInit {
         this.payEmployers = response['data'];
         this.employers = this.payEmployers;
       });
-    this.employerService.getEmployers().then(
-      response => {
-        this.allEmployers = response['data'];
-      });
+    this.allEmployers = this.selectunit.getEmployers();
     if (+this.selectunit.getProjectGroupId() === 1) {
       this.productTypes = Object.keys(PRODUCT_TYPES_SMARTI).map(function (e) {
         return { id: e, name: PRODUCT_TYPES_SMARTI[e] };
