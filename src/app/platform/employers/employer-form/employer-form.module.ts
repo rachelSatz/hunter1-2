@@ -26,7 +26,8 @@ const routes: Routes = [
   { path: ':id', component: EmployerFormComponent, resolve: { employer: EmployersResolve }, children: [
       { path: '' , redirectTo: 'finance', pathMatch: 'full'},
       { path: 'finance', loadChildren: '../../../../app/platform/employers/employer-form/finance/finance.module#FinanceModule' },
-      { path: 'documents', loadChildren: '../../../../app/platform/employers/employer-form/documents/documents.module#DocumentsModule' },
+      { path: 'documents', loadChildren: '../../../../app/platform/finance/invoices/invoices.module#InvoicesModule' },
+      // { path: 'documents', loadChildren: '../../../../app/platform/employers/employer-form/documents/documents.module#DocumentsModule' },
       { path: 'remarks', loadChildren: '../../../../app/platform/employers/employer-form/remarks/comments.module#CommentsModule' },
       { path: 'contacts', loadChildren: '../../../../app/platform/employers/employer-form/contacts/contacts.module#ContactsModule' },
 ] }

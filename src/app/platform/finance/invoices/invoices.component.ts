@@ -57,15 +57,16 @@ export class InvoicesComponent implements OnInit {
   readonly columns = [
     {
       name: 'employer_name', sortName: 'employer_financial_details__employer_relation__employer__name',
-      label: 'שם מעסיק', searchable: false
+      label: 'שם מעסיק', searchable: false, isDisplay: !this.router.url.includes('documents')
     },
     {
       name: 'project_name', sortName: 'project__project_name', label: 'פרויקט',
-      searchOptions: {labels: this.GeneralService.projects}, multiple: true
+      searchOptions: {labels: this.GeneralService.projects}, multiple: true,
+      isDisplay: !this.router.url.includes('documents')
     },
     {
       name: 'organization_name', sortName: 'organization_name', label: 'ארגון',
-      searchable: false,
+      searchable: false, isDisplay: !this.router.url.includes('documents')
     },
     {name: 'green_invoice_number', sortName: 'green_invoice_document__number', label: 'מספר ח. בירוקה'},
     {name: 'total_amount', label: 'סכום'},

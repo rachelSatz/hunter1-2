@@ -1,6 +1,6 @@
 <app-data-table tableName="חשבונות חייבים" [columns]="columns" (fetchItems)="fetchItems()" [hasCheckColumn]="true"
                 [hasActionsHeader]="true" >
-  <div class="table-header" >
+  <div class="table-header" *ngIf="!this.router.url.includes('documents')" >
     <div class="row mr-1">
       <div *ngIf="permissionsType" class="ml-3 d-flex mr-auto">
         <button [matMenuTriggerFor]="menu" class="btn white-btn">פעולות</button>
@@ -25,9 +25,10 @@
     <td class="check-column"  [ngClass]="{'white': i%2 === 0}">
       <mat-checkbox (change)="dataTable.checkItem(item, $event.checked)" [checked]="item.checked"></mat-checkbox>
     </td>
-    <td [title]="item.error !== null ? error_status[item.error] : ''" class="w-11" [ngClass]="{'white': i%2 === 0}">{{item.employer_financial_details === null ? 'no_name' : item.employer_financial_details.employer_relation.name}}</td>
-    <td [ngClass]="{'white': i%2 === 0}" class="w-12">{{ item.project_name }}</td>
-    <td [ngClass]="{'white': i%2 === 0}">{{ item.organization_name }}</td>
+    <td [title]="item.error !== null ? error_status[item.error] : ''" class="w-11" [ngClass]="{'white': i%2 === 0}"
+        *ngIf="!this.router.url.includes('documents')">{{item.employer_financial_details === null ? 'no_name' : item.employer_financial_details.employer_relation.name}}</td>
+    <td [ngClass]="{'white': i%2 === 0}" *ngIf="!this.router.url.includes('documents')" class="w-12">{{ item.project_name }}</td>
+    <td [ngClass]="{'white': i%2 === 0}" *ngIf="!this.router.url.includes('documents')">{{ item.organization_name }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.green_invoice_document !== null ? item.green_invoice_document.number : ''}}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.total_amount }}</td>
     <td [ngClass]="{'white': i%2 === 0}">{{ item.ids_count }}</td>
