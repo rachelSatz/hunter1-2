@@ -419,7 +419,7 @@ export class InvoicesComponent implements OnInit {
           }
           const byteArray = new Uint8Array(byteNumbers);
           const blob = new Blob([byteArray], {type: 'application/' + 'xlsx'});
-          const fileName = 'חשבוניות-' + Date.now().toString() + '.xlsx';
+          const fileName = 'דוח כרטיסי אשראי-' + Date.now().toString() + '.xlsx';
           FileSaver.saveAs(blob, fileName);
           this.spin = false;
           this.notificationService.success('הקובץ הופק בהצלחה');
