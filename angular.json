@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "finance-client": {
+    "Hunter-Client": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -55,18 +55,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "finance-client:build"
+            "browserTarget": "Hunter-Client:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "finance-client:build:production"
+              "browserTarget": "Hunter-Client:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "finance-client:build"
+            "browserTarget": "Hunter-Client:build"
           }
         },
         "test": {
@@ -113,7 +113,7 @@
         }
       }
     },
-    "finance-client-e2e": {
+    "Hunter-Client-e2e": {
       "root": "",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -122,7 +122,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "finance-client:serve"
+            "devServerTarget": "Hunter-Client:serve"
           }
         },
         "lint": {
@@ -139,7 +139,7 @@
       }
     }
   },
-  "defaultProject": "finance-client",
+  "defaultProject": "Hunter-Client",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
