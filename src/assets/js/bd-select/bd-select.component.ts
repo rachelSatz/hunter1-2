@@ -11,13 +11,13 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isArray } from 'rxjs/util/isArray';
-import { placeholder, slideToggle } from '../../../../../p88-client/src/app/shared/_animations/animation';
+// import { placeholder, slideToggle } from '../../../../../p88-client/src/app/shared/_animations/animation';
 
 @Component({
   selector: 'bd-select' ,
   templateUrl: './bd-select.component.html',
   styleUrls: ['./bd-select.component.css'],
-  animations: [ slideToggle, placeholder],
+  // animations: [ slideToggle, placeholder],
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: BdSelectComponent, multi: true }
   ]

@@ -8,7 +8,8 @@ import { RegisterComponent } from './register/register.component';
 import { SuccessComponent } from './jobs/success/success.component';
 import { GetPasswordComponent } from 'app/get-password/get-password.component';
 import { MatFormFieldModule, MatInputModule, MatButtonModule, MatDialogModule } from '@angular/material';
-
+import { JobDetailesComponent } from './jobs/job-detailes/job-detailes.component';
+import { JobProcessComponent } from './jobs/job-process/job-process.component';
 const routes: Routes = [
   {
     path: '', component: StartComponent, children: [
@@ -18,6 +19,11 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent},
       { path: 'success', component: SuccessComponent},
       { path: 'get-password', component: GetPasswordComponent},
+      { path: 'jobDetail', component: JobDetailesComponent},
+      { path: 'jobProcess', component: JobProcessComponent},
+
+
+
 
 
     ]
@@ -25,7 +31,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [StartComponent, HomePageComponent, LetsStartComponent, RegisterComponent, SuccessComponent, GetPasswordComponent],
+  declarations: [StartComponent, HomePageComponent, LetsStartComponent, RegisterComponent, SuccessComponent, GetPasswordComponent, JobDetailesComponent, JobDetailesComponent, JobProcessComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
