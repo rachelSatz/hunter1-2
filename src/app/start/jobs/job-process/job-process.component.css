@@ -1,0 +1,46 @@
+.circle{
+  top:65%;
+  left: 10%;
+  width: 25%;
+  height: 50%;
+  opacity: 1;
+  position: absolute;
+}
+h1{
+  text-align: center;
+  font: normal normal bold 22px/27px Rubik;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+}
+h2{
+  text-align: center;
+  font: normal normal normal 16px/32px Rubik;
+  letter-spacing: 0px;
+  color: #707070;
+  opacity: 1;
+}
+.plus{
+  top: 87.59%;
+  left: 19%;
+  opacity: 1;
+  position:absolute;
+  color:white;
+  text-align: center;
+  z-index: 2;
+}
+.toAdd{
+  text-align: center;
+}
+.p1{
+  top:95%;
+  left: 10%;
+  width: 102px;
+  height: 17px;
+  text-align: center;
+  font: normal normal bold 14px/17px Rubik;
+  letter-spacing: 0px;
+  color: #2F2E41;
+  opacity: 1;
+  position: absolute;
+}
